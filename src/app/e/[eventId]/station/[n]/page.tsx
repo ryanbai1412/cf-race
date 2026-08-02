@@ -1,5 +1,6 @@
 import { authorizeEvent } from "@/lib/event-auth";
 import { notFound, redirect } from "next/navigation";
+import { StationClient } from "@/components/station/station-client";
 
 export default async function StationPage({
   params,
@@ -13,12 +14,9 @@ export default async function StationPage({
   if (!event) redirect("/invalid-link");
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-3">
-      <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-        Station {params.n}
-      </p>
-      <h1 className="text-3xl font-bold">{event.name}</h1>
-      <p className="text-muted-foreground">Check-in flow coming next.</p>
-    </main>
+    <StationClient
+      eventId={event.id}
+      station={params.n === "1" ? "station1" : "station2"}
+    />
   );
 }
