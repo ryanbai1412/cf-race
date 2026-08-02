@@ -5,9 +5,14 @@ export const config = {
   judgeToken: process.env.JUDGE_TOKEN ?? "",
   problemsDir: process.env.PROBLEMS_DIR ?? "/data/problems",
   cacheDir: process.env.CACHE_DIR ?? "/tmp/judge-cache",
-  // "isolate" (production, requires ioi/isolate) or "none" (dev fallback,
-  // plain subprocesses with rlimits — NOT safe for untrusted code).
-  sandbox: (process.env.JUDGE_SANDBOX ?? "isolate") as "isolate" | "none",
+  // "isolate" (cgroup v2), "isolate-nocg" (isolate with rlimits only, for
+  // hosts without cgroup v2 controllers; multi-process runs like compiles
+  // fall back to plain subprocesses), or "none" (dev fallback, plain
+  // subprocesses — NOT safe for untrusted code).
+  sandbox: (process.env.JUDGE_SANDBOX ?? "isolate") as
+    | "isolate"
+    | "isolate-nocg"
+    | "none",
   workers: Number(process.env.JUDGE_WORKERS ?? os.cpus().length),
   outputCapBytes: Number(process.env.OUTPUT_CAP_BYTES ?? 64 * 1024),
 };
