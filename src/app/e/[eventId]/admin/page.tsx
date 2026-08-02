@@ -1,6 +1,7 @@
 import { authorizeEvent } from "@/lib/event-auth";
 import { redirect } from "next/navigation";
 import { DeviceLinks } from "@/components/admin/device-links";
+import { RaceControl } from "@/components/admin/race-control";
 
 export default async function AdminPage({
   params,
@@ -20,10 +21,8 @@ export default async function AdminPage({
         </p>
         <h1 className="text-3xl font-bold">{event.name}</h1>
       </header>
+      <RaceControl eventId={event.id} />
       <DeviceLinks eventId={event.id} secret={event.secret} />
-      <section className="rounded-lg border border-dashed border-border p-6 text-muted-foreground">
-        Race controls coming next: problem queue, countdown, DQ/reset.
-      </section>
     </main>
   );
 }
