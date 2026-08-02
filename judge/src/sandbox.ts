@@ -17,6 +17,8 @@ export interface ExecSpec {
   procs?: number;
   /** extra size for fsize in KB */
   fsizeKb?: number;
+  /** skip the address-space rlimit in non-cg mode (needed for ASan binaries) */
+  noAddressSpaceLimit?: boolean;
   env?: Record<string, string>;
 }
 
@@ -144,11 +146,16 @@ function parseIsolateMeta(metaPath: string): Record<string, string> {
   return out;
 }
 
-async function runIsolate(spec: ExecSpec, opts: RunOptions): Promise<ExecResult> {
+async function runIsolate(
+  spec: ExecSpec,
+  opts: RunOptions,
+  cg: boolean
+): Promise<ExecResult> {
   const boxId = await boxPool.acquire();
   const metaPath = path.join(os.tmpdir(), `isolate-meta-${boxId}-${Date.now()}`);
+  const cgArgs = cg ? ["--cg"] : [];
   try {
-    const init = await spawnCollect("isolate", ["--cg", "-b", String(boxId), "--init"], {});
+    const init = await spawnCollect("isolate", [...cgArgs, "-b", String(boxId), "--init"], {});
     if (init.code !== 0) {
       throw new Error(`isolate --init failed: ${init.stderr.toString()}`);
     }
@@ -158,7 +165,7 @@ async function runIsolate(spec: ExecSpec, opts: RunOptions): Promise<ExecResult>
     const timeSec = spec.timeLimitMs / 1000;
     const wallSec = (spec.wallTimeMs ?? spec.timeLimitMs * 2 + 2000) / 1000;
     const args = [
-      "--cg",
+      ...cgArgs,
       "-b",
       String(boxId),
       "-M",
@@ -169,9 +176,6 @@ async function runIsolate(spec: ExecSpec, opts: RunOptions): Promise<ExecResult>
       wallSec.toFixed(3),
       "-x",
       "0.5", // extra time so we can distinguish TLE cleanly
-      "--cg-mem",
-      String(spec.memoryLimitMb * 1024),
-      "-p" + String(spec.procs ?? 1),
       "-f",
       String(spec.fsizeKb ?? 16384),
       "-E",
@@ -180,6 +184,12 @@ async function runIsolate(spec: ExecSpec, opts: RunOptions): Promise<ExecResult>
       "HOME=/box",
       "-s",
     ];
+    if (cg) {
+      args.push("--cg-mem", String(spec.memoryLimitMb * 1024));
+      args.push("-p" + String(spec.procs ?? 1));
+    } else if (!spec.noAddressSpaceLimit) {
+      args.push("-m", String(spec.memoryLimitMb * 1024));
+    }
     for (const [k, v] of Object.entries(spec.env ?? {})) args.push("-E", `${k}=${v}`);
     args.push("--run", "--", ...spec.argv);
 
@@ -212,7 +222,7 @@ async function runIsolate(spec: ExecSpec, opts: RunOptions): Promise<ExecResult>
       outFiles,
     };
   } finally {
-    spawnCollect("isolate", ["--cg", "-b", String(boxId), "--cleanup"], {}).finally(
+    spawnCollect("isolate", [...cgArgs, "-b", String(boxId), "--cleanup"], {}).finally(
       () => boxPool.release(boxId)
     );
     fs.promises.unlink(metaPath).catch(() => {});
@@ -256,5 +266,12 @@ async function runPlain(spec: ExecSpec, opts: RunOptions): Promise<ExecResult> {
 }
 
 export function sandboxRun(spec: ExecSpec, opts: RunOptions = {}): Promise<ExecResult> {
-  return config.sandbox === "isolate" ? runIsolate(spec, opts) : runPlain(spec, opts);
+  if (config.sandbox === "isolate") return runIsolate(spec, opts, true);
+  if (config.sandbox === "isolate-nocg") {
+    // Non-cg isolate can't host multi-process runs (compilers); those run as
+    // trusted-ish plain subprocesses instead.
+    if ((spec.procs ?? 1) > 1) return runPlain(spec, opts);
+    return runIsolate(spec, opts, false);
+  }
+  return runPlain(spec, opts);
 }

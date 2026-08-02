@@ -5,6 +5,11 @@ set -e
 # (systemd) provides it. Without systemd, set it up by hand: move all processes
 # out of the cgroup root, enable controllers, and point /run/isolate/cgroup at
 # a dedicated subtree.
+if [ "${JUDGE_SANDBOX:-isolate}" = "isolate" ] && ! grep -q memory /sys/fs/cgroup/cgroup.controllers 2>/dev/null; then
+  echo "cgroup v2 controllers unavailable; falling back to JUDGE_SANDBOX=isolate-nocg"
+  export JUDGE_SANDBOX=isolate-nocg
+fi
+
 if [ -f /sys/fs/cgroup/cgroup.controllers ]; then
   mkdir -p /sys/fs/cgroup/init /sys/fs/cgroup/isolate /run/isolate
   for pid in $(cat /sys/fs/cgroup/cgroup.procs 2>/dev/null); do

@@ -55,7 +55,8 @@ async function runOneTest(
   timeLimitMs: number,
   memoryLimitMb: number,
   floatEps: number | null | undefined,
-  specialJudge: boolean
+  specialJudge: boolean,
+  sanitized: boolean
 ): Promise<TestResult> {
   const spec: Pick<Parameters<typeof sandboxRun>[0], "argv" | "files" | "env"> =
     lang === "cpp"
@@ -77,6 +78,9 @@ async function runOneTest(
     stdin: test.input,
     timeLimitMs,
     memoryLimitMb,
+    // ASan reserves terabytes of address space; the rlimit-based fallback
+    // sandbox must not cap it for sanitized binaries.
+    noAddressSpaceLimit: sanitized,
   });
 
   const out = truncateText(res.stdout);
@@ -145,7 +149,8 @@ export async function handleRun(
           timeLimitMs,
           memoryLimitMb,
           meta?.floatEps,
-          meta?.specialJudge ?? false
+          meta?.specialJudge ?? false,
+          req.lang === "cpp"
         );
         results[i] = r;
         onUpdate?.({ runId: req.runId, compile: compileInfo, results: [r] });
@@ -191,6 +196,7 @@ export async function handleSubmit(
         meta.timeLimitMs,
         meta.memoryLimitMb,
         meta.floatEps,
+        false,
         false
       )
     );
