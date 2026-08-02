@@ -1,10 +1,20 @@
 #!/bin/bash
 set -e
 
-# isolate needs cgroup v2 delegation; Fly machines run with cgroup2 mounted.
+# isolate v2 needs a delegated cgroup v2 subtree; normally isolate-cg-keeper
+# (systemd) provides it. Without systemd, set it up by hand: move all processes
+# out of the cgroup root, enable controllers, and point /run/isolate/cgroup at
+# a dedicated subtree.
 if [ -f /sys/fs/cgroup/cgroup.controllers ]; then
-  mkdir -p /sys/fs/cgroup/isolate 2>/dev/null || true
-  echo "+cpuset +memory" > /sys/fs/cgroup/cgroup.subtree_control 2>/dev/null || true
+  mkdir -p /sys/fs/cgroup/init /sys/fs/cgroup/isolate /run/isolate
+  for pid in $(cat /sys/fs/cgroup/cgroup.procs 2>/dev/null); do
+    echo "$pid" > /sys/fs/cgroup/init/cgroup.procs 2>/dev/null || true
+  done
+  for ctrl in cpuset memory cpu; do
+    echo "+$ctrl" > /sys/fs/cgroup/cgroup.subtree_control 2>/dev/null || true
+    echo "+$ctrl" > /sys/fs/cgroup/isolate/cgroup.subtree_control 2>/dev/null || true
+  done
+  echo /sys/fs/cgroup/isolate > /run/isolate/cgroup
 fi
 
 mkdir -p "${CACHE_DIR:-/data/cache}" "${PROBLEMS_DIR:-/data/problems}"
