@@ -42,7 +42,9 @@ export async function compile(
   const binPath = path.join(dir, "prog");
   const errPath = path.join(dir, "compile.stderr");
   if (fs.existsSync(binPath)) {
-    return { ok: true, stderr: "", binPath };
+    const warnPath = path.join(dir, "compile.warnings");
+    const stderr = fs.existsSync(warnPath) ? fs.readFileSync(warnPath, "utf8") : "";
+    return { ok: true, stderr, binPath };
   }
   if (fs.existsSync(errPath)) {
     return { ok: false, stderr: fs.readFileSync(errPath, "utf8") };
@@ -68,6 +70,7 @@ export async function compile(
     await fs.promises.mkdir(dir, { recursive: true });
     const stderr = res.stderr.toString("utf8");
     if (res.status === "OK" && res.exitCode === 0 && res.outFiles?.["prog"]) {
+      if (stderr) await fs.promises.writeFile(path.join(dir, "compile.warnings"), stderr);
       await fs.promises.writeFile(binPath, res.outFiles["prog"], { mode: 0o755 });
       return { ok: true, stderr, binPath };
     }

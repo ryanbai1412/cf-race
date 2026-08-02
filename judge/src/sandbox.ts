@@ -178,8 +178,7 @@ async function runIsolate(spec: ExecSpec, opts: RunOptions): Promise<ExecResult>
       "PATH=/usr/local/bin:/usr/bin:/bin",
       "-E",
       "HOME=/box",
-      "--stderr-to-stdout=0",
-      "--dir=/etc:noexec",
+      "-s",
     ];
     for (const [k, v] of Object.entries(spec.env ?? {})) args.push("-E", `${k}=${v}`);
     args.push("--run", "--", ...spec.argv);
