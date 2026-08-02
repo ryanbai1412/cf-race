@@ -7,6 +7,7 @@ import { CheckinForm } from "./checkin-form";
 import { CountdownOverlay } from "./countdown-overlay";
 import { FinishScreen } from "./finish-screen";
 import { RaceScreen } from "@/components/race/race-screen";
+import { WebcamPublisher } from "@/components/monitor/webcam";
 import type { Lang, Problem, StationRole } from "@/lib/types";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 
@@ -67,6 +68,7 @@ export function StationClient({
     );
   }
 
+  const webcam = <WebcamPublisher eventId={eventId} identity={station} />;
   const contestant = state.contestants[station];
   const rivalRole: StationRole = station === "station1" ? "station2" : "station1";
   const rival = state.contestants[rivalRole];
@@ -74,13 +76,16 @@ export function StationClient({
 
   if (!contestant) {
     return (
-      <CheckinForm
+      <>
+        {webcam}
+        <CheckinForm
         eventId={eventId}
         eventName={state.event.name}
         station={station}
         rival={rival}
-        onCheckedIn={refetch}
-      />
+          onCheckedIn={refetch}
+        />
+      </>
     );
   }
 
@@ -128,6 +133,7 @@ export function StationClient({
     // Countdown or racing.
     return (
       <>
+        {webcam}
         {startMs !== null && now < startMs + 1200 && (
           <CountdownOverlay startAtMs={startMs} serverNow={serverNow} />
         )}
@@ -157,17 +163,20 @@ export function StationClient({
     );
   }
   return (
-    <RaceScreen
-      eventId={eventId}
-      problem={warmupProblem}
-      contestant={contestant}
-      raceId={null}
-      endAtMs={null}
-      serverNow={serverNow}
-      warmup
-      ready={ready}
-      onReady={markReady}
-      onEditorChange={broadcastEditor}
-    />
+    <>
+      {webcam}
+      <RaceScreen
+        eventId={eventId}
+        problem={warmupProblem}
+        contestant={contestant}
+        raceId={null}
+        endAtMs={null}
+        serverNow={serverNow}
+        warmup
+        ready={ready}
+        onReady={markReady}
+        onEditorChange={broadcastEditor}
+      />
+    </>
   );
 }
