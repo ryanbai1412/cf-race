@@ -5,7 +5,7 @@ HTTP+WS code-execution judge for Code Voices Racing. Implements the contract in
 `GET /healthz`, `WS /ws?token=...`, bearer-token auth via `JUDGE_TOKEN`.
 
 - Languages: `cpp` (g++ C++20; debug `-O1 -g -fsanitize=address,undefined`, submit `-O2`) and `py` (CPython 3).
-- Sandboxing: [ioi/isolate](https://github.com/ioi/isolate) (cgroup v2), no network, time/memory limits.
+- Sandboxing: [ioi/isolate](https://github.com/ioi/isolate) v1.10.1 (cgroup v1 when available, rlimit fallback otherwise), no network, time/memory limits.
 - Compile cache keyed by sha256(lang, flags, source); concurrent identical compiles are deduplicated.
 - Worker pool sized to CPU count (`JUDGE_WORKERS` to override); sample tests run in parallel, submissions run sequentially with CF-style short-circuit.
 - CF-style checker: token compare, trailing whitespace ignored, case-insensitive YES/NO, optional `floatEps` (abs/rel).
@@ -18,7 +18,7 @@ HTTP+WS code-execution judge for Code Voices Racing. Implements the contract in
 | `PORT` | 8080 | |
 | `PROBLEMS_DIR` | `/data/problems` | problem packages per contract |
 | `CACHE_DIR` | `/tmp/judge-cache` | compile cache |
-| `JUDGE_SANDBOX` | `isolate` | `none` = unsafe dev fallback (plain subprocess) |
+| `JUDGE_SANDBOX` | `isolate` | `isolate-nocg` = isolate without cgroups (rlimit-based, auto-selected when cgroup v1 is missing); `none` = unsafe dev fallback (plain subprocess) |
 | `JUDGE_WORKERS` | CPU count | max concurrent sandbox runs |
 | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | — | if set, problems synced from Storage bucket `problems` on boot |
 
