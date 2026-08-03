@@ -53,9 +53,9 @@ export function RaceScreen({
   onReady?: () => void;
   ready?: boolean;
   onEditorChange?: (code: string, lang: Lang, cursorLine: number) => void;
-  onRun?: () => void; // fired when "Run samples" is clicked (for replay markers)
-  onRunResult?: (result: RunResult, target: "samples" | "custom") => void;
-  onTabChange?: (tab: ConsoleTab) => void;
+  onRun?: (lang: Lang) => void; // fired when "Run samples" is clicked (for replay markers)
+  onRunResult?: (result: RunResult, target: "samples" | "custom", lang: Lang) => void;
+  onTabChange?: (tab: ConsoleTab, lang: Lang) => void;
   onStatementScroll?: (frac: number) => void; // throttled statement-pane scroll fraction
   onSubmitAccepted?: () => void;
   rivalName?: string;
@@ -131,9 +131,9 @@ export function RaceScreen({
   const changeTab = useCallback(
     (tab: ConsoleTab) => {
       setConsoleTab(tab);
-      onTabChange?.(tab);
+      onTabChange?.(tab, lang);
     },
-    [onTabChange]
+    [onTabChange, lang]
   );
 
   function persist(nextCodes: Record<Lang, string>, nextLang: Lang) {
@@ -164,7 +164,7 @@ export function RaceScreen({
     setRunError(null);
     setRunResult(null);
     changeTab("samples");
-    onRun?.();
+    onRun?.(lang);
     try {
       const res = await fetch(solo ? "/api/solo/run" : "/api/judge/run", {
         method: "POST",
@@ -174,7 +174,7 @@ export function RaceScreen({
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Run failed");
       setRunResult(data);
-      onRunResult?.(data, "samples");
+      onRunResult?.(data, "samples", lang);
     } catch (e) {
       setRunError(e instanceof Error ? e.message : "Run failed");
     } finally {
@@ -201,7 +201,7 @@ export function RaceScreen({
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Run failed");
       setCustomResult(data);
-      onRunResult?.(data, "custom");
+      onRunResult?.(data, "custom", lang);
     } catch (e) {
       setCustomResult({
         runId: "",

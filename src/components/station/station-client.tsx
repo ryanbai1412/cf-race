@@ -107,22 +107,22 @@ export function StationClient({
   }, [station]);
 
   // Record "ran samples" moments as replay timeline markers.
-  const recordRun = useCallback(() => {
+  const recordRun = useCallback((lang: Lang) => {
     const rec = recorderRef.current;
     if (!rec) return;
     const t = serverNowRef.current() - rec.startMs;
-    if (t >= 0) replayBuffer.current.push({ t, code: "", lang: "cpp", kind: "run" });
+    if (t >= 0) replayBuffer.current.push({ t, code: "", lang, kind: "run" });
   }, []);
 
   const recordRunResult = useCallback(
-    (result: RunResult, target: "samples" | "custom") => {
+    (result: RunResult, target: "samples" | "custom", lang: Lang) => {
       const rec = recorderRef.current;
       if (!rec) return;
       const t = Math.max(0, serverNowRef.current() - rec.startMs);
       replayBuffer.current.push({
         t,
         code: "",
-        lang: "cpp",
+        lang,
         kind: "run_result",
         payload: summarizeRun(result, target),
       });
@@ -130,11 +130,11 @@ export function StationClient({
     []
   );
 
-  const recordTab = useCallback((tab: string) => {
+  const recordTab = useCallback((tab: string, lang: Lang) => {
     const rec = recorderRef.current;
     if (!rec) return;
     const t = Math.max(0, serverNowRef.current() - rec.startMs);
-    replayBuffer.current.push({ t, code: "", lang: "cpp", kind: "tab", payload: { tab } });
+    replayBuffer.current.push({ t, code: "", lang, kind: "tab", payload: { tab } });
   }, []);
 
   const recordScroll = useCallback((frac: number) => {
