@@ -115,22 +115,22 @@ export function SoloClient({
     };
   }, []);
 
-  const recordRun = useCallback(() => {
+  const recordRun = useCallback((lang: Lang) => {
     const s = sessionRef.current;
     if (!s) return;
     const t = Math.max(0, Date.now() + clockOffset.current - s.startAtMs);
-    buffer.current.push({ t, code: "", lang: "cpp", kind: "run" });
+    buffer.current.push({ t, code: "", lang, kind: "run" });
   }, []);
 
   const recordRunResult = useCallback(
-    (result: RunResult, target: "samples" | "custom") => {
+    (result: RunResult, target: "samples" | "custom", lang: Lang) => {
       const s = sessionRef.current;
       if (!s) return;
       const t = Math.max(0, Date.now() + clockOffset.current - s.startAtMs);
       buffer.current.push({
         t,
         code: "",
-        lang: "cpp",
+        lang,
         kind: "run_result",
         payload: summarizeRun(result, target),
       });
@@ -138,11 +138,11 @@ export function SoloClient({
     []
   );
 
-  const recordTab = useCallback((tab: string) => {
+  const recordTab = useCallback((tab: string, lang: Lang) => {
     const s = sessionRef.current;
     if (!s) return;
     const t = Math.max(0, Date.now() + clockOffset.current - s.startAtMs);
-    buffer.current.push({ t, code: "", lang: "cpp", kind: "tab", payload: { tab } });
+    buffer.current.push({ t, code: "", lang, kind: "tab", payload: { tab } });
   }, []);
 
   const recordScroll = useCallback((frac: number) => {
