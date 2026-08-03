@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
   }
 
-  const kinds = new Set(["snapshot", "run", "run_result", "tab"]);
+  const kinds = new Set(["snapshot", "run", "run_result", "tab", "scroll"]);
   const rows = body.events.slice(0, 200).map((e) => ({
     race_id: body.raceId,
     station_role: body.station,
@@ -107,7 +107,14 @@ export async function GET(req: NextRequest) {
       events.push({ t: s.t_ms, type: "run_result", result: s.payload as RunSummary });
     else if (s.kind === "tab" && s.payload)
       events.push({ t: s.t_ms, type: "tab", tab: (s.payload as { tab: string }).tab });
-    else if (s.kind === "run_result" || s.kind === "tab") continue;
+    else if (s.kind === "scroll" && s.payload)
+      events.push({
+        t: s.t_ms,
+        type: "scroll",
+        frac: (s.payload as { frac: number }).frac,
+      });
+    else if (s.kind === "run_result" || s.kind === "tab" || s.kind === "scroll")
+      continue;
     else
       events.push({
         t: s.t_ms,
@@ -136,6 +143,13 @@ export async function GET(req: NextRequest) {
     ? new Date(participant.first_ac_at).getTime() - startMs
     : null;
 
+  // Full problem row so the replay can render the statement pane.
+  const { data: problemRow } = await db()
+    .from("problems")
+    .select("*")
+    .eq("id", race.problem_id)
+    .maybeSingle();
+
   // Webcam recording for this station, if one was uploaded.
   const { data: rec } = await db()
     .from("race_recordings")
@@ -160,6 +174,7 @@ export async function GET(req: NextRequest) {
       ? { name: participant.contestant.name, country: participant.contestant.country }
       : null,
     timerSec: race.timer_sec,
+    problem: problemRow ?? null,
     recordingUrl,
     recordingOffsetMs: rec?.offset_ms ?? 0,
   });

@@ -87,6 +87,7 @@ export function SoloReplay({
       log={log}
       videoUrl={log.recordingUrl}
       videoOffsetMs={log.recordingOffsetMs}
+      problem={log.problem}
       header={(clockMs, solved) => (
         <header
           className={cn(

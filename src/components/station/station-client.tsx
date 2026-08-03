@@ -76,8 +76,8 @@ export function StationClient({
       t: number;
       code: string;
       lang: Lang;
-      kind?: "run" | "run_result" | "tab";
-      payload?: RunSummary | { tab: string };
+      kind?: "run" | "run_result" | "tab" | "scroll";
+      payload?: RunSummary | { tab: string } | { frac: number };
     }[]
   >([]);
   const serverNowRef = useRef(serverNow);
@@ -135,6 +135,13 @@ export function StationClient({
     if (!rec) return;
     const t = Math.max(0, serverNowRef.current() - rec.startMs);
     replayBuffer.current.push({ t, code: "", lang: "cpp", kind: "tab", payload: { tab } });
+  }, []);
+
+  const recordScroll = useCallback((frac: number) => {
+    const rec = recorderRef.current;
+    if (!rec) return;
+    const t = Math.max(0, serverNowRef.current() - rec.startMs);
+    replayBuffer.current.push({ t, code: "", lang: "cpp", kind: "scroll", payload: { frac } });
   }, []);
 
   // Flush recorded editor snapshots to the replay store every few seconds.
@@ -332,6 +339,7 @@ export function StationClient({
           onRun={recordRun}
           onRunResult={recordRunResult}
           onTabChange={recordTab}
+          onStatementScroll={recordScroll}
           onSubmitAccepted={refetch}
           rivalName={rival?.name}
           rivalSolveMs={rivalSolveMs}

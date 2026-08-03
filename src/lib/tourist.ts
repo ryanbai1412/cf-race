@@ -44,6 +44,7 @@ export type TouristEvent =
   | { t: number; type: "run" }
   | { t: number; type: "run_result"; result: RunSummary }
   | { t: number; type: "tab"; tab: string }
+  | { t: number; type: "scroll"; frac: number }
   | { t: number; type: "submit" }
   | { t: number; type: "verdict"; verdict: string };
 

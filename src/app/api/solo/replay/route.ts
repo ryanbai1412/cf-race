@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
 
   const { data: problem } = await db()
     .from("problems")
-    .select("name, rating, tourist_time_ms")
+    .select("*")
     .eq("id", session.problem_id)
     .maybeSingle();
 
@@ -39,6 +39,7 @@ export async function GET(req: NextRequest) {
     startedAt: session.started_at,
     problemName: problem?.name ?? session.problem_id,
     touristTimeMs: problem?.tourist_time_ms ?? null,
+    problem: problem ?? null,
     recordingUrl,
     recordingOffsetMs: session.recording_offset_ms ?? 0,
   });
