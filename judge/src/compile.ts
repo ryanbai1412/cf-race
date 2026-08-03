@@ -28,6 +28,16 @@ export function cacheKey(lang: Lang, mode: CompileMode, source: string): string 
     .digest("hex");
 }
 
+// Precompiled bits/stdc++.h per flag set (built in the Docker image); cuts
+// cold compiles from seconds to a few hundred ms.
+const PCH_ROOT = process.env.PCH_ROOT ?? "/opt/pch";
+function pchArgs(mode: CompileMode): string[] {
+  const dir = path.join(PCH_ROOT, mode);
+  return fs.existsSync(path.join(dir, "bits", "stdc++.h.gch"))
+    ? ["-I", dir, "-Winvalid-pch"]
+    : [];
+}
+
 const inflight = new Map<string, Promise<Compiled>>();
 
 export async function compile(
@@ -56,8 +66,9 @@ export async function compile(
   const p = (async (): Promise<Compiled> => {
     const res = await sandboxRun(
       {
-        argv: ["/usr/bin/g++", ...CPP_FLAGS[mode], "-o", "prog", "main.cpp"],
+        argv: ["/usr/bin/g++", ...CPP_FLAGS[mode], ...pchArgs(mode), "-o", "prog", "main.cpp"],
         files: { "main.cpp": source },
+        dirs: fs.existsSync(PCH_ROOT) ? [PCH_ROOT] : undefined,
         timeLimitMs: 20000,
         wallTimeMs: 30000,
         memoryLimitMb: 2048,
