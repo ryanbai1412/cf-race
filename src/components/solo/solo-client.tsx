@@ -93,8 +93,8 @@ export function SoloClient({
       t: number;
       code: string;
       lang: Lang;
-      kind?: "run" | "run_result" | "tab";
-      payload?: RunSummary | { tab: string };
+      kind?: "run" | "run_result" | "tab" | "scroll";
+      payload?: RunSummary | { tab: string } | { frac: number };
     }[]
   >([]);
   const recordEditor = useMemo(() => {
@@ -143,6 +143,13 @@ export function SoloClient({
     if (!s) return;
     const t = Math.max(0, Date.now() + clockOffset.current - s.startAtMs);
     buffer.current.push({ t, code: "", lang: "cpp", kind: "tab", payload: { tab } });
+  }, []);
+
+  const recordScroll = useCallback((frac: number) => {
+    const s = sessionRef.current;
+    if (!s) return;
+    const t = Math.max(0, Date.now() + clockOffset.current - s.startAtMs);
+    buffer.current.push({ t, code: "", lang: "cpp", kind: "scroll", payload: { frac } });
   }, []);
 
   const flushEvents = useCallback(() => {
@@ -340,6 +347,7 @@ export function SoloClient({
           onRun={recordRun}
           onRunResult={recordRunResult}
           onTabChange={recordTab}
+          onStatementScroll={recordScroll}
           onSubmitAccepted={onSolved}
         />
       </>

@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
   }
 
-  const kinds = new Set(["snapshot", "run", "run_result", "tab"]);
+  const kinds = new Set(["snapshot", "run", "run_result", "tab", "scroll"]);
   const rows = body.events.slice(0, 200).map((e) => ({
     session_id: body.sessionId,
     t_ms: Math.max(0, Math.round(e.t)),

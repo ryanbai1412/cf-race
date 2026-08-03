@@ -1,5 +1,5 @@
 import { db } from "./db";
-import type { Lang } from "./types";
+import type { Lang, Problem } from "./types";
 import type { RunSummary, TouristEvent } from "./tourist";
 
 /** Shape of GET /api/solo/replay responses (client + server share this). */
@@ -13,6 +13,7 @@ export type SoloReplayResponse = {
   startedAt: string;
   problemName: string;
   touristTimeMs: number | null;
+  problem: Problem | null;
   recordingUrl: string | null;
   recordingOffsetMs: number;
 };
@@ -71,7 +72,14 @@ export async function buildSoloLog(sessionId: string): Promise<{
       events.push({ t: s.t_ms, type: "run_result", result: s.payload as RunSummary });
     else if (s.kind === "tab" && s.payload)
       events.push({ t: s.t_ms, type: "tab", tab: (s.payload as { tab: string }).tab });
-    else if (s.kind === "run_result" || s.kind === "tab") continue;
+    else if (s.kind === "scroll" && s.payload)
+      events.push({
+        t: s.t_ms,
+        type: "scroll",
+        frac: (s.payload as { frac: number }).frac,
+      });
+    else if (s.kind === "run_result" || s.kind === "tab" || s.kind === "scroll")
+      continue;
     else
       events.push({
         t: s.t_ms,
