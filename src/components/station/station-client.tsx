@@ -21,6 +21,7 @@ export function StationClient({
   const { state, refetch, serverNow } = useEventState(eventId);
   const [warmupProblem, setWarmupProblem] = useState<Problem | null>(null);
   const [ready, setReady] = useState(false);
+  const [switchingContestant, setSwitchingContestant] = useState(false);
   const chRef = useRef<RealtimeChannel | null>(null);
 
   useEffect(() => {
@@ -121,16 +122,19 @@ export function StationClient({
   const rival = state.contestants[rivalRole];
   const race = state.race;
 
-  if (!contestant) {
+  if (!contestant || (switchingContestant && !race)) {
     return (
       <>
         {webcam}
         <CheckinForm
-        eventId={eventId}
-        eventName={state.event.name}
-        station={station}
-        rival={rival}
-          onCheckedIn={refetch}
+          eventId={eventId}
+          eventName={state.event.name}
+          station={station}
+          rival={rival}
+          onCheckedIn={() => {
+            setSwitchingContestant(false);
+            void refetch();
+          }}
         />
       </>
     );
@@ -194,6 +198,8 @@ export function StationClient({
           warmup={false}
           onEditorChange={broadcastEditor}
           onSubmitAccepted={refetch}
+          rivalName={rival?.name}
+          rivalSolveMs={rivalSolveMs}
         />
       </>
     );
@@ -223,6 +229,7 @@ export function StationClient({
         ready={ready}
         onReady={markReady}
         onEditorChange={broadcastEditor}
+        onSwitchContestant={() => setSwitchingContestant(true)}
       />
     </>
   );
