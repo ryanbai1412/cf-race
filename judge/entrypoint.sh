@@ -31,9 +31,9 @@ fi
 # Warm the compiler and Python so first runs are fast.
 (
   cd /tmp
-  echo 'int main(){return 0;}' > warm.cpp
-  g++ -O1 -g -fsanitize=address,undefined -std=c++20 -o /dev/null warm.cpp || true
-  g++ -O2 -std=c++20 -o /dev/null warm.cpp || true
+  printf '#include <bits/stdc++.h>\nint main(){return 0;}\n' > warm.cpp
+  g++ -O1 -g -fsanitize=address,undefined -std=c++20 -I /opt/pch/debug -o /dev/null warm.cpp || true
+  g++ -O2 -std=c++20 -I /opt/pch/submit -o /dev/null warm.cpp || true
   python3 -c 'pass' || true
 ) &
 
