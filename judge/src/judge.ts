@@ -92,7 +92,9 @@ async function runOneTest(
   else if (res.status === "RE") verdict = "RE";
   else if (test.expected == null) verdict = "AC";
   else {
-    const c = check(test.expected, out.text, floatEps);
+    // Check against the full captured output — out.text is truncated for
+    // display and would turn large correct outputs into WA.
+    const c = check(test.expected, res.stdout.toString("utf8"), floatEps);
     verdict = c.ok ? "AC" : "WA";
     checkerNote = c.note;
   }
