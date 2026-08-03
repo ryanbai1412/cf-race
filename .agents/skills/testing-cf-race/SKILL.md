@@ -28,7 +28,8 @@ description: How to run and end-to-end test the cf-race booth app locally (dev s
 - Direct judge check: `POST $JUDGE_URL/run` with `Authorization: Bearer $JUDGE_TOKEN`.
 
 ## Replay data
-- Editor snapshots go to table `race_editor_events` via `POST /api/replay` (flushed every 5 s from stations). If replays play back empty, check that table — the recorder in `src/components/station/station-client.tsx` only records when `race.state === "running"`; if the backend leaves races in `countdown`, nothing is recorded.
+- Editor snapshots go to table `race_editor_events` via `POST /api/replay` (flushed every 5 s from stations). If replays play back empty, check that table. Races intentionally stay in `state="countdown"` in the DB; the recorder in `src/components/station/station-client.tsx` arms whenever the race has `started_at` and `state !== "finished"` (fixed after an earlier bug that required `state === "running"`).
+- To verify recording during a test: type/edit code during the race, wait >5 s for the flush, then query the table. Direct `psql` to `db.<ref>.supabase.co:5432` may fail (IPv6-only DNS, unreachable from some boxes) — use the Supabase REST API instead: `curl "$SUPABASE_URL/rest/v1/race_editor_events?race_id=eq.<raceId>&select=station_role,t_ms,lang,code" -H "apikey: $SUPABASE_SERVICE_ROLE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY"`.
 
 ## Devin Secrets Needed
 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET`, `JUDGE_TOKEN`, `FLY_API_TOKEN`.
