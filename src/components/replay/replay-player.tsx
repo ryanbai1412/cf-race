@@ -8,7 +8,14 @@ import { touristStateAt, TouristLog, type RunSummary } from "@/lib/tourist";
 import { formatMsPrecise } from "@/lib/templates";
 import { flagEmoji } from "@/lib/countries";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronRight, Pause, Play, RotateCcw } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronRight,
+  LocateFixed,
+  Pause,
+  Play,
+  RotateCcw,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /** TouristLog with a possibly-null solve time (DNF runs/races). */
@@ -78,6 +85,31 @@ function ReplayStatement({
   clockRef.current = clockMs;
   const eventsRef = useRef(events);
   eventsRef.current = events;
+  const [following, setFollowing] = useState(true);
+  const followingRef = useRef(following);
+  followingRef.current = following;
+
+  useEffect(() => {
+    const el = paneRef.current;
+    if (!el) return;
+    const unfollow = () => setFollowing(false);
+    // Only real user input detaches; programmatic scrollTop writes fire
+    // 'scroll' but none of these.
+    el.addEventListener("wheel", unfollow, { passive: true });
+    el.addEventListener("touchmove", unfollow, { passive: true });
+    el.addEventListener("keydown", unfollow);
+    // Scrollbar drags: pointerdown landing on the scrollbar gutter.
+    const onPointerDown = (e: PointerEvent) => {
+      if (e.offsetX > el.clientWidth) unfollow();
+    };
+    el.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      el.removeEventListener("wheel", unfollow);
+      el.removeEventListener("touchmove", unfollow);
+      el.removeEventListener("keydown", unfollow);
+      el.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, []);
 
   useEffect(() => {
     let raf = 0;
@@ -86,7 +118,7 @@ function ReplayStatement({
       const dt = Math.min(100, now - lastNow);
       lastNow = now;
       const el = paneRef.current;
-      if (el) {
+      if (el && followingRef.current) {
         const max = Math.max(0, el.scrollHeight - el.clientHeight);
         const target = scrollFracAt(eventsRef.current, clockRef.current) * max;
         const diff = target - el.scrollTop;
@@ -102,8 +134,17 @@ function ReplayStatement({
   }, []);
 
   return (
-    <div className="min-h-0 w-[30%] min-w-[280px] overflow-hidden">
+    <div className="relative min-h-0 w-[30%] min-w-[280px] overflow-hidden">
       <StatementPane problem={problem} scrollRef={paneRef} />
+      {!following && (
+        <button
+          onClick={() => setFollowing(true)}
+          className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-border/60 bg-background/90 px-3 py-1.5 font-mono text-[11px] text-foreground shadow-lg backdrop-blur transition-colors hover:bg-accent"
+        >
+          <LocateFixed className="h-3.5 w-3.5" />
+          Follow their view
+        </button>
+      )}
     </div>
   );
 }
