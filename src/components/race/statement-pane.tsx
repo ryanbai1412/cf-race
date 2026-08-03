@@ -1,28 +1,48 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import renderMathInElement from "katex/contrib/auto-render";
+import { useMemo } from "react";
+import katex from "katex";
 import "katex/dist/katex.min.css";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Copy } from "lucide-react";
 import type { Problem } from "@/lib/types";
 
-export function StatementPane({ problem }: { problem: Problem }) {
-  const statementRef = useRef<HTMLDivElement>(null);
+const TEX_ENTITIES: [RegExp, string][] = [
+  [/&lt;/g, "<"],
+  [/&gt;/g, ">"],
+  [/&amp;/g, "&"],
+];
 
-  useEffect(() => {
-    if (!statementRef.current) return;
-    renderMathInElement(statementRef.current, {
-      delimiters: [
-        { left: "$$$$$$", right: "$$$$$$", display: true },
-        { left: "$$$", right: "$$$", display: false },
-        { left: "\\(", right: "\\)", display: false },
-        { left: "\\[", right: "\\]", display: true },
-      ],
-      throwOnError: false,
+function renderTex(tex: string, displayMode: boolean): string {
+  const decoded = TEX_ENTITIES.reduce((s, [re, ch]) => s.replace(re, ch), tex);
+  return katex.renderToString(decoded, { throwOnError: false, displayMode });
+}
+
+/** Replace \(...\) and \[...\] TeX delimiters in scraped statement HTML with KaTeX markup. */
+function renderStatementMath(html: string): string {
+  return html
+    .replace(/\\\[([\s\S]+?)\\\]/g, (m, tex) => {
+      try {
+        return renderTex(tex, true);
+      } catch {
+        return m;
+      }
+    })
+    .replace(/\\\(([\s\S]+?)\\\)/g, (m, tex) => {
+      try {
+        return renderTex(tex, false);
+      } catch {
+        return m;
+      }
     });
-  }, [problem.statement_html]);
+}
+
+export function StatementPane({ problem }: { problem: Problem }) {
+  const statementHtml = useMemo(
+    () => (problem.statement_html ? renderStatementMath(problem.statement_html) : null),
+    [problem.statement_html]
+  );
 
   return (
     <div className="flex h-full flex-col overflow-y-auto border-r border-border/60 bg-card/30 px-6 py-5">
@@ -32,11 +52,10 @@ export function StatementPane({ problem }: { problem: Problem }) {
           {problem.time_limit_ms / 1000}s · {problem.memory_limit_mb}MB
         </span>
       </div>
-      {problem.statement_html ? (
+      {statementHtml ? (
         <div
-          ref={statementRef}
           className="cf-statement prose prose-invert prose-sm max-w-none"
-          dangerouslySetInnerHTML={{ __html: problem.statement_html }}
+          dangerouslySetInnerHTML={{ __html: statementHtml }}
         />
       ) : (
         <p className="text-muted-foreground">Statement unavailable.</p>
