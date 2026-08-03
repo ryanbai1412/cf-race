@@ -9,6 +9,12 @@ export function supabaseServer() {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
+      global: {
+        // Opt out of Next.js's fetch data cache: PostgREST reads are GETs,
+        // which route handlers would otherwise cache indefinitely.
+        fetch: (input: RequestInfo | URL, init?: RequestInit) =>
+          fetch(input, { ...init, cache: "no-store" }),
+      },
       cookies: {
         getAll: () => store.getAll(),
         setAll: (cookiesToSet) => {
