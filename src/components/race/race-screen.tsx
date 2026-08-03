@@ -67,19 +67,25 @@ export function RaceScreen({
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [submitBusy, setSubmitBusy] = useState(false);
 
-  // Restore code from localStorage on mount.
+  // Restore code from localStorage on mount, then broadcast the initial
+  // snapshot so mirrors show this screen's code before the first edit.
   useEffect(() => {
+    let initialCode: string = STARTER_TEMPLATES.cpp;
+    let initialLang: Lang = "cpp";
     const saved = localStorage.getItem(storageKey);
     if (saved) {
       try {
         const { code: c, lang: l } = JSON.parse(saved);
         if (typeof c === "string" && (l === "cpp" || l === "py")) {
-          setCode(c);
-          setLang(l);
+          initialCode = c;
+          initialLang = l;
           touched.current = true;
         }
       } catch {}
     }
+    setCode(initialCode);
+    setLang(initialLang);
+    onEditorChange?.(initialCode, initialLang, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storageKey]);
 
@@ -102,11 +108,10 @@ export function RaceScreen({
 
   function switchLang(next: Lang) {
     setLang(next);
-    if (!touched.current) setCode(STARTER_TEMPLATES[next]);
-    localStorage.setItem(
-      storageKey,
-      JSON.stringify({ code: touched.current ? code : STARTER_TEMPLATES[next], lang: next })
-    );
+    const nextCode = touched.current ? code : STARTER_TEMPLATES[next];
+    if (!touched.current) setCode(nextCode);
+    localStorage.setItem(storageKey, JSON.stringify({ code: nextCode, lang: next }));
+    onEditorChange?.(nextCode, next, 0);
   }
 
   const runSamples = useCallback(async () => {
