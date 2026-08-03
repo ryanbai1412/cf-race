@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
 
     let solveMs: number | null = null;
     if (result.verdict === "AC") {
-      solveMs = new Date(submittedAt).getTime() - startMs;
+      solveMs = Math.max(0, new Date(submittedAt).getTime() - startMs);
       await db()
         .from("solo_sessions")
         .update({ outcome: "solved", solve_ms: solveMs, lang })
