@@ -33,23 +33,27 @@ export async function judgeRun(args: {
   return (await res.json()) as RunResult;
 }
 
-export async function judgeSubmit(args: {
-  submissionId: string;
-  lang: Lang;
-  source: string;
-  problemId: string;
-}): Promise<{
+type JudgeSubmitResponse = {
   submissionId: string;
   verdict: "AC" | "WA" | "TLE" | "RE" | "ML" | "CE";
   failedTest?: string;
   passedCount: number;
   totalCount: number;
   timeMsMax: number;
-  compileError?: string;
-}> {
+  compileStderr?: string;
+};
+
+export async function judgeSubmit(args: {
+  submissionId: string;
+  lang: Lang;
+  source: string;
+  problemId: string;
+}): Promise<JudgeSubmitResponse & { compileError?: string }> {
   const res = await judgeFetch("/submit", args);
   if (!res.ok) throw new Error(`judge /submit failed: ${res.status}`);
-  return await res.json();
+  const data = (await res.json()) as JudgeSubmitResponse;
+  // The judge names the compile diagnostics `compileStderr`.
+  return { ...data, compileError: data.compileStderr };
 }
 
 export function samplesToTests(

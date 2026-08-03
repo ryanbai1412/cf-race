@@ -61,6 +61,8 @@ export type RunTestResult = {
   timeMs: number;
   stdout: string;
   stderr: string;
+  stdoutTruncated?: boolean;
+  stderrTruncated?: boolean;
   checkerNote?: string;
 };
 
