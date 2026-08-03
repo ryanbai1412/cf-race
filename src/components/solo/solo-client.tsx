@@ -16,7 +16,8 @@ import {
   uploadRecording,
   type WebcamRecording,
 } from "@/lib/webcam-recorder";
-import type { Contestant, Lang, Problem } from "@/lib/types";
+import type { Contestant, Lang, Problem, RunResult } from "@/lib/types";
+import { summarizeRun, type RunSummary } from "@/lib/tourist";
 import { Camera, CameraOff, Play, RotateCcw, Video } from "lucide-react";
 
 const SOLO_CONTESTANT: Contestant = {
@@ -87,7 +88,15 @@ export function SoloClient({
   }, [camState, phase]);
 
   // Editor event recorder — same debounced-snapshot pattern as the stations.
-  const buffer = useRef<{ t: number; code: string; lang: Lang; kind?: "run" }[]>([]);
+  const buffer = useRef<
+    {
+      t: number;
+      code: string;
+      lang: Lang;
+      kind?: "run" | "run_result" | "tab";
+      payload?: RunSummary | { tab: string };
+    }[]
+  >([]);
   const recordEditor = useMemo(() => {
     let timeout: ReturnType<typeof setTimeout> | null = null;
     let pending: { code: string; lang: Lang } | null = null;
@@ -111,6 +120,29 @@ export function SoloClient({
     if (!s) return;
     const t = Math.max(0, Date.now() + clockOffset.current - s.startAtMs);
     buffer.current.push({ t, code: "", lang: "cpp", kind: "run" });
+  }, []);
+
+  const recordRunResult = useCallback(
+    (result: RunResult, target: "samples" | "custom") => {
+      const s = sessionRef.current;
+      if (!s) return;
+      const t = Math.max(0, Date.now() + clockOffset.current - s.startAtMs);
+      buffer.current.push({
+        t,
+        code: "",
+        lang: "cpp",
+        kind: "run_result",
+        payload: summarizeRun(result, target),
+      });
+    },
+    []
+  );
+
+  const recordTab = useCallback((tab: string) => {
+    const s = sessionRef.current;
+    if (!s) return;
+    const t = Math.max(0, Date.now() + clockOffset.current - s.startAtMs);
+    buffer.current.push({ t, code: "", lang: "cpp", kind: "tab", payload: { tab } });
   }, []);
 
   const flushEvents = useCallback(() => {
@@ -306,6 +338,8 @@ export function SoloClient({
           solo
           onEditorChange={recordEditor}
           onRun={recordRun}
+          onRunResult={recordRunResult}
+          onTabChange={recordTab}
           onSubmitAccepted={onSolved}
         />
       </>
