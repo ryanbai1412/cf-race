@@ -1,5 +1,7 @@
 "use client";
 
+import { supabase } from "./realtime";
+
 /**
  * Reusable webcam recording: MediaRecorder → webm blob → POST /api/recordings.
  * Used by the solo practice run and the event station race recorder.
@@ -58,19 +60,34 @@ export function startWebcamRecording(stream: MediaStream): WebcamRecording | nul
   };
 }
 
-/** Upload a finished recording; query identifies the solo session or race. */
+/**
+ * Upload a finished recording; query identifies the solo session or race.
+ * The webm goes straight to Supabase Storage via a signed upload URL
+ * (serverless request-body limits are too small to proxy video), then the
+ * API records the path in the DB.
+ */
 export async function uploadRecording(
   blob: Blob,
   query: Record<string, string>
 ): Promise<boolean> {
   const qs = new URLSearchParams(query).toString();
   try {
-    const res = await fetch(`/api/recordings?${qs}`, {
+    const signRes = await fetch(`/api/recordings?${qs}&step=sign`, {
       method: "POST",
-      headers: { "Content-Type": "video/webm" },
-      body: blob,
     });
-    return res.ok;
+    if (!signRes.ok) return false;
+    const { path, token } = (await signRes.json()) as {
+      path: string;
+      token: string;
+    };
+    const { error } = await supabase()
+      .storage.from("recordings")
+      .uploadToSignedUrl(path, token, blob, { contentType: "video/webm" });
+    if (error) return false;
+    const confirmRes = await fetch(`/api/recordings?${qs}&step=confirm`, {
+      method: "POST",
+    });
+    return confirmRes.ok;
   } catch {
     return false;
   }

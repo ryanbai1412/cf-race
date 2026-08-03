@@ -5,7 +5,7 @@ import type { BroadcastMsg } from "./types";
 
 let client: SupabaseClient | null = null;
 
-function supabase(): SupabaseClient {
+export function supabase(): SupabaseClient {
   if (!client) {
     client = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,

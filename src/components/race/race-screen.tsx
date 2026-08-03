@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { StatementPane } from "./statement-pane";
@@ -58,8 +58,12 @@ export function RaceScreen({
 }) {
   const storageKey = `cfr-code-${raceId ?? "warmup"}-${contestant.station_role}`;
   const [lang, setLang] = useState<Lang>("cpp");
-  const [code, setCode] = useState<string>(STARTER_TEMPLATES.cpp);
-  const touched = useRef(false);
+  // Each language is its own editor buffer; switching preserves both.
+  const [codes, setCodes] = useState<Record<Lang, string>>({
+    cpp: STARTER_TEMPLATES.cpp,
+    py: STARTER_TEMPLATES.py,
+  });
+  const code = codes[lang];
   const [remaining, setRemaining] = useState<number | null>(null);
 
   const [runResult, setRunResult] = useState<RunResult | null>(null);
@@ -74,22 +78,36 @@ export function RaceScreen({
   // Restore code from localStorage on mount, then broadcast the initial
   // snapshot so mirrors show this screen's code before the first edit.
   useEffect(() => {
-    let initialCode: string = STARTER_TEMPLATES.cpp;
+    let initialCodes: Record<Lang, string> = {
+      cpp: STARTER_TEMPLATES.cpp,
+      py: STARTER_TEMPLATES.py,
+    };
     let initialLang: Lang = "cpp";
     const saved = localStorage.getItem(storageKey);
     if (saved) {
       try {
-        const { code: c, lang: l } = JSON.parse(saved);
-        if (typeof c === "string" && (l === "cpp" || l === "py")) {
-          initialCode = c;
-          initialLang = l;
-          touched.current = true;
+        const parsed = JSON.parse(saved);
+        if (parsed.lang === "cpp" || parsed.lang === "py") initialLang = parsed.lang;
+        if (parsed.codes && typeof parsed.codes === "object") {
+          initialCodes = {
+            cpp:
+              typeof parsed.codes.cpp === "string"
+                ? parsed.codes.cpp
+                : STARTER_TEMPLATES.cpp,
+            py:
+              typeof parsed.codes.py === "string"
+                ? parsed.codes.py
+                : STARTER_TEMPLATES.py,
+          };
+        } else if (typeof parsed.code === "string") {
+          // Older saves stored a single buffer.
+          initialCodes = { ...initialCodes, [initialLang]: parsed.code };
         }
       } catch {}
     }
-    setCode(initialCode);
+    setCodes(initialCodes);
     setLang(initialLang);
-    onEditorChange?.(initialCode, initialLang, 0);
+    onEditorChange?.(initialCodes[initialLang], initialLang, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storageKey]);
 
@@ -102,28 +120,26 @@ export function RaceScreen({
 
   const timeUp = remaining !== null && remaining <= 0;
 
+  function persist(nextCodes: Record<Lang, string>, nextLang: Lang) {
+    setCodes(nextCodes);
+    setLang(nextLang);
+    localStorage.setItem(
+      storageKey,
+      JSON.stringify({ codes: nextCodes, lang: nextLang })
+    );
+    onEditorChange?.(nextCodes[nextLang], nextLang, 0);
+  }
+
   function updateCode(v: string | undefined) {
-    const next = v ?? "";
-    touched.current = true;
-    setCode(next);
-    localStorage.setItem(storageKey, JSON.stringify({ code: next, lang }));
-    onEditorChange?.(next, lang, 0);
+    persist({ ...codes, [lang]: v ?? "" }, lang);
   }
 
   function resetToTemplate() {
-    touched.current = false;
-    const next = STARTER_TEMPLATES[lang];
-    setCode(next);
-    localStorage.setItem(storageKey, JSON.stringify({ code: next, lang }));
-    onEditorChange?.(next, lang, 0);
+    persist({ ...codes, [lang]: STARTER_TEMPLATES[lang] }, lang);
   }
 
   function switchLang(next: Lang) {
-    setLang(next);
-    const nextCode = touched.current ? code : STARTER_TEMPLATES[next];
-    if (!touched.current) setCode(nextCode);
-    localStorage.setItem(storageKey, JSON.stringify({ code: nextCode, lang: next }));
-    onEditorChange?.(nextCode, next, 0);
+    persist(codes, next);
   }
 
   const runSamples = useCallback(async () => {

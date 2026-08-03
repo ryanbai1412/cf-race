@@ -98,8 +98,10 @@ export function SoloClient({
         timeout = null;
         const s = sessionRef.current;
         if (!pending || !s) return;
-        const t = Date.now() + clockOffset.current - s.startAtMs;
-        if (t >= 0) buffer.current.push({ t, ...pending });
+        // Clamp countdown-time snapshots to t=0 so the replay isn't empty
+        // before the first post-start edit.
+        const t = Math.max(0, Date.now() + clockOffset.current - s.startAtMs);
+        buffer.current.push({ t, ...pending });
       }, 300);
     };
   }, []);
@@ -107,8 +109,8 @@ export function SoloClient({
   const recordRun = useCallback(() => {
     const s = sessionRef.current;
     if (!s) return;
-    const t = Date.now() + clockOffset.current - s.startAtMs;
-    if (t >= 0) buffer.current.push({ t, code: "", lang: "cpp", kind: "run" });
+    const t = Math.max(0, Date.now() + clockOffset.current - s.startAtMs);
+    buffer.current.push({ t, code: "", lang: "cpp", kind: "run" });
   }, []);
 
   const flushEvents = useCallback(() => {
