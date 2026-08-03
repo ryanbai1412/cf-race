@@ -56,7 +56,7 @@ export function RaceScreen({
   onRun?: (lang: Lang) => void; // fired when "Run samples" is clicked (for replay markers)
   onRunResult?: (result: RunResult, target: "samples" | "custom", lang: Lang) => void;
   onTabChange?: (tab: ConsoleTab, lang: Lang) => void;
-  onStatementScroll?: (frac: number) => void; // throttled statement-pane scroll fraction
+  onStatementScroll?: (frac: number, lang: Lang) => void; // throttled statement-pane scroll fraction
   onSubmitAccepted?: () => void;
   rivalName?: string;
   rivalSolveMs?: number | null;
@@ -370,7 +370,10 @@ export function RaceScreen({
 
       {/* Main panes */}
       <div className="grid min-h-0 flex-1 grid-cols-[45%_55%]">
-        <StatementPane problem={problem} onScrollFrac={onStatementScroll} />
+        <StatementPane
+          problem={problem}
+          onScrollFrac={onStatementScroll && ((frac) => onStatementScroll(frac, lang))}
+        />
         <div className="flex min-h-0 flex-col">
           <div className="min-h-0 flex-[3]">
             <MonacoEditor
