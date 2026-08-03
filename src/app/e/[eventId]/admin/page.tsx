@@ -2,6 +2,7 @@ import { authorizeEvent } from "@/lib/event-auth";
 import { redirect } from "next/navigation";
 import { DeviceLinks } from "@/components/admin/device-links";
 import { RaceControl } from "@/components/admin/race-control";
+import { RaceHistory } from "@/components/admin/race-history";
 
 export default async function AdminPage({
   params,
@@ -22,6 +23,7 @@ export default async function AdminPage({
         <h1 className="text-3xl font-bold">{event.name}</h1>
       </header>
       <RaceControl eventId={event.id} />
+      <RaceHistory eventId={event.id} />
       <DeviceLinks eventId={event.id} secret={event.secret} />
     </main>
   );

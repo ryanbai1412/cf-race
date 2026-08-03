@@ -40,6 +40,13 @@ export function StationClient({
       .catch(() => {});
   }, [eventId]);
 
+  // Active race context for the replay recorder (kept in a ref so the
+  // debounced editor callback always sees the current race).
+  const recorderRef = useRef<{ raceId: string; startMs: number } | null>(null);
+  const replayBuffer = useRef<{ t: number; code: string; lang: Lang }[]>([]);
+  const serverNowRef = useRef(serverNow);
+  serverNowRef.current = serverNow;
+
   const broadcastEditor = useMemo(() => {
     let timeout: ReturnType<typeof setTimeout> | null = null;
     let pending: { code: string; lang: Lang; cursorLine: number } | null = null;
@@ -51,9 +58,47 @@ export function StationClient({
         if (pending && chRef.current) {
           sendBroadcast(chRef.current, { type: "editor", station, ...pending });
         }
+        const rec = recorderRef.current;
+        if (pending && rec) {
+          const t = serverNowRef.current() - rec.startMs;
+          if (t >= 0) {
+            replayBuffer.current.push({ t, code: pending.code, lang: pending.lang });
+          }
+        }
       }, 300);
     };
   }, [station]);
+
+  // Flush recorded editor snapshots to the replay store every few seconds.
+  useEffect(() => {
+    const flush = () => {
+      const rec = recorderRef.current;
+      const events = replayBuffer.current;
+      if (!rec || events.length === 0) return;
+      replayBuffer.current = [];
+      void fetch("/api/replay", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ eventId, raceId: rec.raceId, station, events }),
+        keepalive: true,
+      }).catch(() => {});
+    };
+    const id = setInterval(flush, 5000);
+    window.addEventListener("beforeunload", flush);
+    return () => {
+      clearInterval(id);
+      window.removeEventListener("beforeunload", flush);
+      flush();
+    };
+  }, [eventId, station]);
+
+  const race0 = state?.race;
+  useEffect(() => {
+    recorderRef.current =
+      race0 && race0.state === "running" && race0.started_at
+        ? { raceId: race0.id, startMs: new Date(race0.started_at).getTime() }
+        : null;
+  }, [race0]);
 
   const markReady = useCallback(() => {
     setReady((r) => !r);
