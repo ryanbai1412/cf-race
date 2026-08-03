@@ -145,11 +145,11 @@ export function SoloClient({
     buffer.current.push({ t, code: "", lang, kind: "tab", payload: { tab } });
   }, []);
 
-  const recordScroll = useCallback((frac: number) => {
+  const recordScroll = useCallback((frac: number, lang: Lang) => {
     const s = sessionRef.current;
     if (!s) return;
     const t = Math.max(0, Date.now() + clockOffset.current - s.startAtMs);
-    buffer.current.push({ t, code: "", lang: "cpp", kind: "scroll", payload: { frac } });
+    buffer.current.push({ t, code: "", lang, kind: "scroll", payload: { frac } });
   }, []);
 
   const flushEvents = useCallback(() => {

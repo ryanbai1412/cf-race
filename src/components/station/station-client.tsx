@@ -137,11 +137,11 @@ export function StationClient({
     replayBuffer.current.push({ t, code: "", lang, kind: "tab", payload: { tab } });
   }, []);
 
-  const recordScroll = useCallback((frac: number) => {
+  const recordScroll = useCallback((frac: number, lang: Lang) => {
     const rec = recorderRef.current;
     if (!rec) return;
     const t = Math.max(0, serverNowRef.current() - rec.startMs);
-    replayBuffer.current.push({ t, code: "", lang: "cpp", kind: "scroll", payload: { frac } });
+    replayBuffer.current.push({ t, code: "", lang, kind: "scroll", payload: { frac } });
   }, []);
 
   // Flush recorded editor snapshots to the replay store every few seconds.
