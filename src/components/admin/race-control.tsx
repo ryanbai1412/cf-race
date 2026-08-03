@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { flagEmoji } from "@/lib/countries";
+import { cn } from "@/lib/utils";
 import { formatMs, formatMsPrecise } from "@/lib/templates";
 import type { StationRole } from "@/lib/types";
 
@@ -84,9 +85,19 @@ export function RaceControl({ eventId }: { eventId: string }) {
     }
   }
 
-  if (!state) return null;
+  if (!state) {
+    return (
+      <p className="animate-pulse py-8 text-center font-mono text-sm text-muted-foreground">
+        Connecting…
+      </p>
+    );
+  }
   const race = state.race;
   const anyCheckedIn = Boolean(state.contestants.station1 || state.contestants.station2);
+  const raceEndMs = race?.started_at
+    ? new Date(race.started_at).getTime() + race.timer_sec * 1000
+    : null;
+  const raceOver = raceEndMs !== null && serverNow() > raceEndMs;
 
   return (
     <div className="space-y-6">
@@ -114,7 +125,14 @@ export function RaceControl({ eventId }: { eventId: string }) {
                       </span>
                     )}
                     {p && !p.first_ac_at && race && (
-                      <span className="ml-auto font-mono text-amber-400">racing…</span>
+                      <span
+                        className={cn(
+                          "ml-auto font-mono",
+                          raceOver ? "text-muted-foreground" : "text-amber-400"
+                        )}
+                      >
+                        {raceOver ? "time up — no AC" : "racing…"}
+                      </span>
                     )}
                   </div>
                 ) : (
@@ -141,19 +159,30 @@ export function RaceControl({ eventId }: { eventId: string }) {
                     ({race.problem_id})
                   </span>
                 </span>
-                {race.started_at && (
-                  <span className="ml-auto font-mono text-2xl tabular-nums">
-                    {formatMs(
-                      new Date(race.started_at).getTime() +
-                        race.timer_sec * 1000 -
-                        serverNow()
-                    )}
-                  </span>
-                )}
+                {race.started_at &&
+                  (raceOver ? (
+                    <span className="ml-auto font-mono text-2xl font-bold text-red-400">
+                      OVERTIME
+                    </span>
+                  ) : (
+                    <span className="ml-auto font-mono text-2xl tabular-nums">
+                      {formatMs(raceEndMs! - serverNow())}
+                    </span>
+                  ))}
               </div>
-              <Button variant="destructive" onClick={finishRace} disabled={busy}>
+              <Button
+                variant="destructive"
+                size={raceOver ? "lg" : "default"}
+                onClick={finishRace}
+                disabled={busy}
+              >
                 Finish &amp; reset stations
               </Button>
+              {raceOver && (
+                <p className="text-xs text-muted-foreground">
+                  Timer expired — finish to return stations to check-in.
+                </p>
+              )}
             </div>
           ) : (
             <div className="space-y-4">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Room,
   RoomEvent,
@@ -58,19 +58,26 @@ export function WebcamPublisher({
   return null;
 }
 
-/** Renders the webcam feed published by `publisherIdentity`. */
+/**
+ * Renders the webcam feed published by `publisherIdentity`.
+ * The wrapper (and video) stay hidden until a live video track is attached,
+ * so monitors never show a dead black rectangle.
+ */
 export function WebcamView({
   eventId,
   identity,
   publisherIdentity,
   className,
+  wrapperClassName,
 }: {
   eventId: string;
   identity: string;
   publisherIdentity: string;
   className?: string;
+  wrapperClassName?: string;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [live, setLive] = useState(false);
 
   useEffect(() => {
     const url = process.env.NEXT_PUBLIC_LIVEKIT_URL;
@@ -85,6 +92,7 @@ export function WebcamView({
         videoRef.current
       ) {
         track.attach(videoRef.current);
+        setLive(true);
       }
     }
 
@@ -95,6 +103,14 @@ export function WebcamView({
       room.on(RoomEvent.TrackSubscribed, (track, _pub, participant) =>
         attach(track, participant.identity)
       );
+      room.on(RoomEvent.TrackUnsubscribed, (track, _pub, participant) => {
+        if (
+          participant.identity === publisherIdentity &&
+          track.kind === Track.Kind.Video
+        ) {
+          setLive(false);
+        }
+      });
       try {
         await room.connect(url, token);
         for (const p of room.remoteParticipants.values()) {
@@ -111,12 +127,8 @@ export function WebcamView({
   }, [eventId, identity, publisherIdentity]);
 
   return (
-    <video
-      ref={videoRef}
-      autoPlay
-      muted
-      playsInline
-      className={className}
-    />
+    <div className={wrapperClassName} style={live ? undefined : { display: "none" }}>
+      <video ref={videoRef} autoPlay muted playsInline className={className} />
+    </div>
   );
 }

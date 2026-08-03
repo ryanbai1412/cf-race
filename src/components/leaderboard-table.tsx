@@ -20,6 +20,7 @@ export function LeaderboardTable({
   highlightContestantId,
   limit = 10,
   refreshKey,
+  size = "default",
 }: {
   eventId: string;
   problemId?: string;
@@ -27,6 +28,7 @@ export function LeaderboardTable({
   highlightContestantId?: string;
   limit?: number;
   refreshKey?: unknown;
+  size?: "default" | "lg";
 }) {
   const [rows, setRows] = useState<LeaderboardRow[]>([]);
 
@@ -67,29 +69,36 @@ export function LeaderboardTable({
   const top = entries.slice(0, limit);
   const showAppended = highlightIdx >= limit;
 
+  const lg = size === "lg";
+
   function Row({ e, rank }: { e: Entry; rank: number }) {
     const delta = touristTimeMs != null && !e.tourist ? e.solve_ms - touristTimeMs : null;
     return (
       <div
         className={cn(
           "flex items-center gap-3 rounded-md px-3 py-2",
+          lg && "gap-4 px-4 py-3",
           e.tourist && "bg-primary/10 text-primary",
           e.contestant_id === highlightContestantId &&
             "bg-green-500/10 ring-1 ring-green-500/40"
         )}
       >
-        <span className="w-8 font-mono text-sm text-muted-foreground">#{rank}</span>
-        <span className="text-lg">{e.country ? flagEmoji(e.country) : "🏳️"}</span>
-        <span className={cn("truncate font-medium", e.tourist && "font-bold")}>
+        <span className={cn("w-8 font-mono text-sm text-muted-foreground", lg && "w-12 text-xl")}>
+          #{rank}
+        </span>
+        <span className={cn("text-lg", lg && "text-3xl")}>
+          {e.country ? flagEmoji(e.country) : "🏳️"}
+        </span>
+        <span className={cn("truncate font-medium", e.tourist && "font-bold", lg && "text-2xl")}>
           {e.name}
         </span>
-        <span className="ml-auto font-mono tabular-nums">
+        <span className={cn("ml-auto font-mono tabular-nums", lg && "text-2xl")}>
           {formatMsPrecise(e.solve_ms)}
         </span>
         {delta !== null && (
           <span
             className={cn(
-              "w-16 text-right font-mono text-xs tabular-nums",
+              lg ? "w-24 text-right font-mono text-base tabular-nums" : "w-16 text-right font-mono text-xs tabular-nums",
               delta <= 0 ? "text-green-400" : "text-red-400"
             )}
           >
