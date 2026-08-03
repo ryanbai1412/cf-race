@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import confetti from "canvas-confetti";
 import { useEventState } from "@/hooks/use-event-state";
+import { eventChannel, sendBroadcast } from "@/lib/realtime";
 import { CodeMirror } from "./code-mirror";
 import { TouristPane } from "./tourist-pane";
 import { WebcamView } from "./webcam";
@@ -44,6 +45,21 @@ export function MonitorClient({
   );
 
   const { state, serverNow } = useEventState(eventId, onMessage);
+
+  // On mount, ask the station to rebroadcast its editor snapshot so the
+  // mirror isn't stuck on the starter template until the next keystroke
+  // (e.g. after a monitor refresh or a late join).
+  useEffect(() => {
+    const ch = eventChannel(eventId);
+    ch.subscribe((status) => {
+      if (status === "SUBSCRIBED") {
+        sendBroadcast(ch, { type: "request_editor", station });
+      }
+    });
+    return () => {
+      void ch.unsubscribe();
+    };
+  }, [eventId, station]);
 
   useEffect(() => {
     const iv = setInterval(() => forceTick((n) => n + 1), 200);
