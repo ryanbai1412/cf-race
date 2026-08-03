@@ -1,0 +1,24 @@
+import { NextRequest, NextResponse } from "next/server";
+import { db } from "@/lib/db";
+
+export const dynamic = "force-dynamic";
+
+/** Mark a non-AC end of a solo run (timeout, or abandoned via sendBeacon). */
+export async function POST(req: NextRequest) {
+  // sendBeacon posts as text/plain, so parse the body manually.
+  const body = JSON.parse(await req.text().catch(() => "null") || "null");
+  const sessionId = typeof body?.sessionId === "string" ? body.sessionId : "";
+  const outcome = body?.outcome === "timeout" || body?.outcome === "abandoned"
+    ? body.outcome
+    : null;
+  if (!sessionId || !outcome) {
+    return NextResponse.json({ error: "bad request" }, { status: 400 });
+  }
+  const { error } = await db()
+    .from("solo_sessions")
+    .update({ outcome })
+    .eq("id", sessionId)
+    .is("outcome", null);
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json({ ok: true });
+}

@@ -8,6 +8,12 @@ import { CountdownOverlay } from "./countdown-overlay";
 import { FinishScreen } from "./finish-screen";
 import { RaceScreen } from "@/components/race/race-screen";
 import { WebcamPublisher } from "@/components/monitor/webcam";
+import {
+  acquireWebcam,
+  startWebcamRecording,
+  uploadRecording,
+  type WebcamRecording,
+} from "@/lib/webcam-recorder";
 import type { Lang, Problem, StationRole } from "@/lib/types";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 
@@ -44,7 +50,9 @@ export function StationClient({
   // Active race context for the replay recorder (kept in a ref so the
   // debounced editor callback always sees the current race).
   const recorderRef = useRef<{ raceId: string; startMs: number } | null>(null);
-  const replayBuffer = useRef<{ t: number; code: string; lang: Lang }[]>([]);
+  const replayBuffer = useRef<
+    { t: number; code: string; lang: Lang; kind?: "run" }[]
+  >([]);
   const serverNowRef = useRef(serverNow);
   serverNowRef.current = serverNow;
 
@@ -69,6 +77,14 @@ export function StationClient({
       }, 300);
     };
   }, [station]);
+
+  // Record "ran samples" moments as replay timeline markers.
+  const recordRun = useCallback(() => {
+    const rec = recorderRef.current;
+    if (!rec) return;
+    const t = serverNowRef.current() - rec.startMs;
+    if (t >= 0) replayBuffer.current.push({ t, code: "", lang: "cpp", kind: "run" });
+  }, []);
 
   // Flush recorded editor snapshots to the replay store every few seconds.
   useEffect(() => {
@@ -102,6 +118,71 @@ export function StationClient({
         ? { raceId: race0.id, startMs: new Date(race0.started_at).getTime() }
         : null;
   }, [race0]);
+
+  // Webcam recording during races: capture from countdown, stop + upload when
+  // this station's race ends (AC, timer expiry, or reset). Keyed by race id.
+  const webcamRec = useRef<{
+    raceId: string;
+    rec: WebcamRecording;
+    stream: MediaStream;
+    offsetMs: number;
+  } | null>(null);
+  const activeRecRaceId =
+    race0 && race0.state !== "finished" && race0.started_at ? race0.id : null;
+  const activeRecStartMs = race0?.started_at
+    ? new Date(race0.started_at).getTime()
+    : null;
+  useEffect(() => {
+    const stopAndUpload = (entry: NonNullable<typeof webcamRec.current>) => {
+      void entry.rec.stop().then((blob) => {
+        entry.stream.getTracks().forEach((t) => t.stop());
+        if (blob) {
+          void uploadRecording(blob, {
+            eventId,
+            raceId: entry.raceId,
+            station,
+            offsetMs: String(entry.offsetMs),
+          });
+        }
+      });
+    };
+
+    const cur = webcamRec.current;
+    if (activeRecRaceId && activeRecStartMs !== null) {
+      if (cur && cur.raceId === activeRecRaceId) return;
+      if (cur) {
+        webcamRec.current = null;
+        stopAndUpload(cur);
+      }
+      let cancelled = false;
+      void acquireWebcam().then((stream) => {
+        if (!stream) return;
+        if (cancelled || webcamRec.current) {
+          stream.getTracks().forEach((t) => t.stop());
+          return;
+        }
+        const rec = startWebcamRecording(stream);
+        if (!rec) {
+          stream.getTracks().forEach((t) => t.stop());
+          return;
+        }
+        const clockSkew = serverNowRef.current() - Date.now();
+        webcamRec.current = {
+          raceId: activeRecRaceId,
+          rec,
+          stream,
+          offsetMs: rec.startedAtMs + clockSkew - activeRecStartMs,
+        };
+      });
+      return () => {
+        cancelled = true;
+      };
+    }
+    if (cur) {
+      webcamRec.current = null;
+      stopAndUpload(cur);
+    }
+  }, [activeRecRaceId, activeRecStartMs, eventId, station]);
 
   const markReady = useCallback(() => {
     setReady((r) => !r);
@@ -197,6 +278,7 @@ export function StationClient({
           serverNow={serverNow}
           warmup={false}
           onEditorChange={broadcastEditor}
+          onRun={recordRun}
           onSubmitAccepted={refetch}
           rivalName={rival?.name}
           rivalSolveMs={rivalSolveMs}
