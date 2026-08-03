@@ -63,7 +63,11 @@ export async function POST(req: NextRequest) {
         { status: 500 }
       );
     }
-    return NextResponse.json({ path: data.path, token: data.token });
+    return NextResponse.json({
+      path: data.path,
+      token: data.token,
+      signedUrl: data.signedUrl,
+    });
   }
 
   if (sessionId) {
