@@ -95,12 +95,15 @@ export async function POST(req: NextRequest) {
     }
     return NextResponse.json({ ...result, submissionId: sub.id, solveMs });
   } catch (e) {
-    await db()
-      .from("solo_submissions")
-      .update({ verdict: null, details: { error: "judge failed" } })
-      .eq("id", sub.id);
+    // The attempt never got a verdict, so drop it instead of leaving a
+    // permanently PENDING row that also eats one of the 10 submissions.
+    await db().from("solo_submissions").delete().eq("id", sub.id);
     return NextResponse.json(
-      { error: e instanceof Error ? e.message : "judge error" },
+      {
+        error: `Judge unavailable, submission not counted (${
+          e instanceof Error ? e.message : "judge error"
+        })`,
+      },
       { status: 502 }
     );
   }
