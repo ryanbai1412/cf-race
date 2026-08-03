@@ -167,9 +167,19 @@ function ActivityRow({
         !reached && "opacity-40"
       )}
     >
-      <div className="flex w-full items-center gap-2 px-2 py-1.5">
+      <div
+        className="flex w-full cursor-pointer items-center gap-2 px-2 py-1.5"
+        onClick={onJump}
+        title="Jump to this moment"
+      >
         {expandable ? (
-          <button onClick={() => setOpen((o) => !o)} className="shrink-0">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpen((o) => !o);
+            }}
+            className="shrink-0"
+          >
             {open ? (
               <ChevronDown className="h-3 w-3" />
             ) : (
