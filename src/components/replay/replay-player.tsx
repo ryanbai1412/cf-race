@@ -26,6 +26,7 @@ type ActivityItem = {
   t: number;
   label: string;
   verdict: string;
+  verdictT?: number; // when the verdict became known (submissions)
   run?: RunSummary;
 };
 
@@ -58,6 +59,7 @@ function buildActivity(events: TouristLog["events"]): ActivityItem[] {
         t: pendingSubmitT ?? ev.t,
         label: "Submission",
         verdict: ev.verdict,
+        verdictT: ev.t,
       });
       pendingSubmitT = null;
     }
@@ -147,6 +149,140 @@ function ActivityRow({
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+/**
+ * Re-render of the console the contestant saw at the current replay moment:
+ * the tab they were viewing, with the latest run/custom/submission results
+ * known at that point in the timeline.
+ */
+function ReplayConsole({
+  events,
+  activity,
+  clockMs,
+}: {
+  events: TouristLog["events"];
+  activity: ActivityItem[];
+  clockMs: number;
+}) {
+  let activeTab = "samples";
+  let running = false;
+  for (const ev of events) {
+    if (ev.t > clockMs) break;
+    if (ev.type === "tab") activeTab = ev.tab;
+    else if (ev.type === "run") running = true;
+    else if (ev.type === "run_result") running = false;
+  }
+  let samplesRun: RunSummary | null = null;
+  let customRun: RunSummary | null = null;
+  const submissions: ActivityItem[] = [];
+  for (const item of activity) {
+    if (item.t > clockMs) break;
+    if (item.run) {
+      if (item.run.target === "custom") customRun = item.run;
+      else samplesRun = item.run;
+    } else {
+      submissions.push(item);
+    }
+  }
+
+  const renderRun = (run: RunSummary | null, busy: boolean) => {
+    if (busy)
+      return (
+        <p className="animate-pulse p-2 font-mono text-xs text-amber-400">
+          Running…
+        </p>
+      );
+    if (!run)
+      return (
+        <p className="p-2 text-xs text-muted-foreground">No runs yet.</p>
+      );
+    if (!run.compiled)
+      return (
+        <pre className="m-2 max-h-full overflow-auto rounded bg-black/40 p-2 font-mono text-[11px] text-red-300">
+          {run.compileStderr || "Compilation failed"}
+        </pre>
+      );
+    return (
+      <div className="flex flex-wrap gap-1.5 p-2">
+        {run.tests?.map((tst) => (
+          <span
+            key={tst.name}
+            className={cn(
+              "flex items-center gap-1.5 rounded border border-border/60 px-2 py-1 font-mono text-[11px]",
+              verdictColor(tst.verdict)
+            )}
+          >
+            {tst.name} · {tst.verdict} · {tst.timeMs}ms
+          </span>
+        ))}
+      </div>
+    );
+  };
+
+  return (
+    <div className="flex h-44 shrink-0 flex-col border-t border-border/60 bg-card/40">
+      <div className="flex items-center gap-1 border-b border-border/60 px-2 pt-1">
+        {[
+          ["samples", "Samples"],
+          ["custom", "Custom input"],
+          ["submissions", "Submissions"],
+        ].map(([key, label]) => (
+          <span
+            key={key}
+            className={cn(
+              "rounded-t px-3 py-1 font-mono text-[11px]",
+              activeTab === key
+                ? "border border-b-0 border-border/60 bg-background text-foreground"
+                : "text-muted-foreground"
+            )}
+          >
+            {label}
+          </span>
+        ))}
+        <span className="ml-auto pb-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+          console · as viewed
+        </span>
+      </div>
+      <div className="min-h-0 flex-1 overflow-y-auto">
+        {activeTab === "samples" && renderRun(samplesRun, running)}
+        {activeTab === "custom" && renderRun(customRun, false)}
+        {activeTab === "submissions" &&
+          (submissions.length === 0 ? (
+            <p className="p-2 text-xs text-muted-foreground">
+              No submissions yet.
+            </p>
+          ) : (
+            <div className="space-y-1 p-2">
+              {[...submissions].reverse().map((sub, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-2 rounded border border-border/60 px-2 py-1 font-mono text-[11px]"
+                >
+                  <span>Submission</span>
+                  <span
+                    className={cn(
+                      "rounded px-1.5 py-px text-[10px]",
+                      sub.verdict === "PENDING" ||
+                        (sub.verdictT !== undefined && clockMs < sub.verdictT)
+                        ? "animate-pulse bg-amber-500/20 text-amber-400"
+                        : verdictColor(sub.verdict)
+                    )}
+                  >
+                    {sub.verdictT !== undefined && clockMs < sub.verdictT
+                      ? "JUDGING"
+                      : sub.verdict}
+                  </span>
+                  <span className="ml-auto text-muted-foreground">
+                    {formatMsPrecise(sub.t)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          ))}
+      </div>
     </div>
   );
 }
@@ -275,28 +411,20 @@ export function ReplayCore({
   );
   const activity = useMemo(() => buildActivity(log.events), [log.events]);
 
-  // Console state at the current clock: active tab + most recent run/compile.
-  let activeTab: string | null = null;
-  let lastRun: ActivityItem | null = null;
-  let running = false;
-  for (const ev of log.events) {
-    if (ev.t > clockMs) break;
-    if (ev.type === "tab") activeTab = ev.tab;
-    else if (ev.type === "run") running = true;
-    else if (ev.type === "run_result") running = false;
-  }
-  for (const item of activity) {
-    if (item.t > clockMs) break;
-    if (item.run) lastRun = item;
-  }
-
   return (
     <main className="flex h-screen flex-col bg-background">
       {header(clockMs, solved)}
 
       <div className="flex min-h-0 flex-1">
-        <div className="min-h-0 min-w-0 flex-1">
-          <CodeMirror code={state.code} lang={state.lang ?? log.lang} />
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+          <div className="min-h-0 flex-1">
+            <CodeMirror code={state.code} lang={state.lang ?? log.lang} />
+          </div>
+          <ReplayConsole
+            events={log.events}
+            activity={activity}
+            clockMs={clockMs}
+          />
         </div>
         {(videoUrl || activity.length > 0) && (
           <div className="flex w-[28%] min-w-[240px] flex-col border-l border-border/60 bg-black/40">
@@ -334,43 +462,6 @@ export function ReplayCore({
               ))}
             </div>
           </div>
-        )}
-      </div>
-
-      {/* Console state at the current moment of the replay. */}
-      <div className="flex items-center gap-3 border-t border-border/60 bg-card/40 px-5 py-1.5">
-        {activeTab && (
-          <span className="font-mono text-[11px] text-muted-foreground">
-            viewing: <span className="text-foreground">{activeTab}</span>
-          </span>
-        )}
-        {running && (
-          <span className="animate-pulse font-mono text-[11px] text-amber-400">
-            running…
-          </span>
-        )}
-        {!running && lastRun && (
-          <span className="flex items-center gap-2 font-mono text-[11px] text-muted-foreground">
-            last run: {lastRun.label.toLowerCase()}
-            <span
-              className={cn(
-                "rounded px-1.5 py-px text-[10px]",
-                verdictColor(lastRun.verdict)
-              )}
-            >
-              {lastRun.verdict}
-            </span>
-            {lastRun.run && lastRun.run.compiled && (
-              <span>
-                {lastRun.run.passed}/{lastRun.run.total} samples
-              </span>
-            )}
-          </span>
-        )}
-        {!activeTab && !running && !lastRun && (
-          <span className="font-mono text-[11px] text-muted-foreground">
-            no runs yet
-          </span>
         )}
       </div>
 
