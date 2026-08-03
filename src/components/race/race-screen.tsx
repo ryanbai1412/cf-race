@@ -78,6 +78,7 @@ export function RaceScreen({
   const [customBusy, setCustomBusy] = useState(false);
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [submitBusy, setSubmitBusy] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [consoleTab, setConsoleTab] = useState<ConsoleTab>("samples");
 
   // Restore code from localStorage on mount, then broadcast the initial
@@ -228,6 +229,7 @@ export function RaceScreen({
   const submit = useCallback(async () => {
     if (warmup || !raceId || submitBusy || timeUp) return;
     setSubmitBusy(true);
+    setSubmitError(null);
     changeTab("submissions");
     // Optimistic pending row so the submission shows up immediately.
     const pendingId = `pending-${Date.now()}`;
@@ -255,7 +257,10 @@ export function RaceScreen({
       });
       const data = await res.json();
       await refreshSubmissions();
-      if (res.ok && data.verdict === "AC") onSubmitAccepted?.();
+      if (!res.ok) setSubmitError(data.error ?? "Submit failed");
+      else if (data.verdict === "AC") onSubmitAccepted?.();
+    } catch (e) {
+      setSubmitError(e instanceof Error ? e.message : "Submit failed");
     } finally {
       setSubmissions((subs) => subs.filter((s) => s.id !== pendingId));
       setSubmitBusy(false);
@@ -425,6 +430,7 @@ export function RaceScreen({
               customBusy={customBusy}
               onRunCustom={runCustom}
               submissions={submissions}
+              submitError={submitError}
               submissionsUsed={submissionsUsed}
               maxSubmissions={MAX_SUBMISSIONS}
               tab={consoleTab}

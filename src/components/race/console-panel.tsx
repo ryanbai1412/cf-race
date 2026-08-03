@@ -86,6 +86,7 @@ export function ConsolePanel({
   customBusy,
   onRunCustom,
   submissions,
+  submitError,
   submissionsUsed,
   maxSubmissions,
   tab,
@@ -102,6 +103,7 @@ export function ConsolePanel({
   customBusy: boolean;
   onRunCustom: () => void;
   submissions: Submission[];
+  submitError?: string | null;
   submissionsUsed: number;
   maxSubmissions: number;
   tab: ConsoleTab;
@@ -192,6 +194,7 @@ export function ConsolePanel({
       </TabsContent>
 
       <TabsContent value="submissions" className="flex-1 space-y-2 overflow-y-auto px-3 pb-3">
+        {submitError && <p className="text-sm text-destructive">{submitError}</p>}
         {submissions.length === 0 && (
           <p className="pt-2 text-sm text-muted-foreground">
             No submissions yet. <kbd className="rounded border px-1 font-mono">Ctrl+Shift+Enter</kbd>{" "}
