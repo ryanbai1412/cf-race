@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { authUser } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +22,7 @@ export async function POST(req: NextRequest) {
     .maybeSingle();
   if (!problem) return NextResponse.json({ error: "unknown problem" }, { status: 400 });
 
+  const user = await authUser();
   const startAtMs = Date.now() + COUNTDOWN_MS;
   const { data: session, error } = await db()
     .from("solo_sessions")
@@ -28,6 +30,7 @@ export async function POST(req: NextRequest) {
       problem_id: problemId,
       started_at: new Date(startAtMs).toISOString(),
       timer_sec: TIMER_SEC,
+      user_id: user?.id ?? null,
     })
     .select("id")
     .single();
