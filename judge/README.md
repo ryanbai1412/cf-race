@@ -26,9 +26,9 @@ HTTP+WS code-execution judge for Code Voices Racing. Implements the contract in
 
 ```bash
 cd judge
-npm install
-JUDGE_TOKEN=dev JUDGE_SANDBOX=none PROBLEMS_DIR=../problems npm run dev
-npm test   # unit + integration tests against problems/dev/*
+pnpm install
+JUDGE_TOKEN=dev JUDGE_SANDBOX=none PROBLEMS_DIR=../problems pnpm run dev
+pnpm test   # unit + integration tests against problems/dev/*
 ```
 
 `JUDGE_SANDBOX=none` runs code as plain subprocesses (no isolation) — dev only.
@@ -42,7 +42,7 @@ curl -s localhost:8080/run -H "authorization: Bearer dev" -H 'content-type: appl
 
 ## Problem sync
 
-`npm run sync-problems` downloads the whole `problems` Supabase Storage bucket to
+`pnpm run sync-problems` downloads the whole `problems` Supabase Storage bucket to
 `$PROBLEMS_DIR`. The entrypoint runs it automatically on boot when Supabase creds
 are present. Dev problems (`problems/dev/*` in the repo) are baked into the Docker
 image so the judge works without a sync.
