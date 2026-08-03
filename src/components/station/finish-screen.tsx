@@ -67,7 +67,17 @@ export function FinishScreen({
               {rivalStillRacing ? (
                 <span className="text-amber-400">still racing…</span>
               ) : rivalDelta === null ? (
-                <span className="text-green-400">you finished, they didn&apos;t</span>
+                solved ? (
+                  <span className="text-green-400">you solved it, they didn&apos;t</span>
+                ) : rivalSolveMs !== null ? (
+                  <span className="text-red-400">
+                    solved in {formatMsPrecise(rivalSolveMs)}
+                  </span>
+                ) : (
+                  <span className="text-muted-foreground">
+                    didn&apos;t solve it either
+                  </span>
+                )
               ) : (
                 <span className={rivalDelta <= 0 ? "text-green-400" : "text-red-400"}>
                   {rivalDelta <= 0 ? "−" : "+"}

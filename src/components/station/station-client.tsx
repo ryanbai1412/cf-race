@@ -21,6 +21,7 @@ export function StationClient({
   const { state, refetch, serverNow } = useEventState(eventId);
   const [warmupProblem, setWarmupProblem] = useState<Problem | null>(null);
   const [ready, setReady] = useState(false);
+  const [switchingContestant, setSwitchingContestant] = useState(false);
   const chRef = useRef<RealtimeChannel | null>(null);
 
   useEffect(() => {
@@ -94,8 +95,10 @@ export function StationClient({
 
   const race0 = state?.race;
   useEffect(() => {
+    // Races stay in "countdown" state in the DB; the recorder itself only
+    // keeps snapshots with t >= 0, i.e. after the actual start moment.
     recorderRef.current =
-      race0 && race0.state === "running" && race0.started_at
+      race0 && race0.state !== "finished" && race0.started_at
         ? { raceId: race0.id, startMs: new Date(race0.started_at).getTime() }
         : null;
   }, [race0]);
@@ -119,16 +122,19 @@ export function StationClient({
   const rival = state.contestants[rivalRole];
   const race = state.race;
 
-  if (!contestant) {
+  if (!contestant || (switchingContestant && !race)) {
     return (
       <>
         {webcam}
         <CheckinForm
-        eventId={eventId}
-        eventName={state.event.name}
-        station={station}
-        rival={rival}
-          onCheckedIn={refetch}
+          eventId={eventId}
+          eventName={state.event.name}
+          station={station}
+          rival={rival}
+          onCheckedIn={() => {
+            setSwitchingContestant(false);
+            void refetch();
+          }}
         />
       </>
     );
@@ -192,6 +198,8 @@ export function StationClient({
           warmup={false}
           onEditorChange={broadcastEditor}
           onSubmitAccepted={refetch}
+          rivalName={rival?.name}
+          rivalSolveMs={rivalSolveMs}
         />
       </>
     );
@@ -221,6 +229,7 @@ export function StationClient({
         ready={ready}
         onReady={markReady}
         onEditorChange={broadcastEditor}
+        onSwitchContestant={() => setSwitchingContestant(true)}
       />
     </>
   );

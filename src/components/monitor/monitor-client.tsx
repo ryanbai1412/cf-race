@@ -118,14 +118,13 @@ export function MonitorClient({
               <CodeMirror code={mirror.code} lang={mirror.lang} />
             </div>
             {contestant && (
-              <div className="absolute bottom-4 right-4 z-10 overflow-hidden rounded-lg border border-border/60 shadow-lg">
-                <WebcamView
-                  eventId={eventId}
-                  identity={`monitor-${monitor}`}
-                  publisherIdentity={station}
-                  className="h-36 w-48 bg-black object-cover"
-                />
-              </div>
+              <WebcamView
+                eventId={eventId}
+                identity={`monitor-${monitor}`}
+                publisherIdentity={station}
+                wrapperClassName="absolute bottom-4 right-4 z-10 overflow-hidden rounded-lg border border-border/60 shadow-lg"
+                className="h-36 w-48 bg-black object-cover"
+              />
             )}
             {solveMs !== null && (
               <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-2 bg-background/80 backdrop-blur-sm">
@@ -174,11 +173,11 @@ export function MonitorClient({
         </div>
       )}
       {mode === 1 && (
-        <div className="z-10 w-full max-w-2xl px-8">
-          <h2 className="mb-4 text-center font-mono text-sm uppercase tracking-[0.4em] text-primary">
+        <div className="z-10 w-full max-w-3xl px-8">
+          <h2 className="mb-6 text-center font-mono text-xl uppercase tracking-[0.4em] text-primary">
             Fastest solves
           </h2>
-          <LeaderboardTable eventId={eventId} limit={10} />
+          <LeaderboardTable eventId={eventId} limit={8} size="lg" />
         </div>
       )}
       {mode === 2 && contestant && (
