@@ -1,6 +1,6 @@
 import { db } from "./db";
 import type { Lang } from "./types";
-import type { TouristEvent } from "./tourist";
+import type { RunSummary, TouristEvent } from "./tourist";
 
 /** Shape of GET /api/solo/replay responses (client + server share this). */
 export type SoloReplayResponse = {
@@ -53,7 +53,7 @@ export async function buildSoloLog(sessionId: string): Promise<{
   const [{ data: snaps }, { data: subs }] = await Promise.all([
     db()
       .from("solo_editor_events")
-      .select("t_ms, code, lang, kind")
+      .select("t_ms, code, lang, kind, payload")
       .eq("session_id", sessionId)
       .order("t_ms", { ascending: true })
       .limit(5000),
@@ -67,6 +67,11 @@ export async function buildSoloLog(sessionId: string): Promise<{
   const events: TouristEvent[] = [];
   for (const s of snaps ?? []) {
     if (s.kind === "run") events.push({ t: s.t_ms, type: "run" });
+    else if (s.kind === "run_result" && s.payload)
+      events.push({ t: s.t_ms, type: "run_result", result: s.payload as RunSummary });
+    else if (s.kind === "tab" && s.payload)
+      events.push({ t: s.t_ms, type: "tab", tab: (s.payload as { tab: string }).tab });
+    else if (s.kind === "run_result" || s.kind === "tab") continue;
     else
       events.push({
         t: s.t_ms,
@@ -88,8 +93,9 @@ export async function buildSoloLog(sessionId: string): Promise<{
     lang = s.lang === "py" ? "py" : "cpp";
   }
   events.sort((a, b) => a.t - b.t);
-  if ((snaps ?? []).length > 0) {
-    lang = (snaps ?? [])[snaps!.length - 1].lang as Lang;
+  const codeSnaps = (snaps ?? []).filter((s) => s.kind === "snapshot");
+  if (codeSnaps.length > 0) {
+    lang = codeSnaps[codeSnaps.length - 1].lang as Lang;
   }
 
   return {

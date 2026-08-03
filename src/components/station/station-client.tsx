@@ -14,7 +14,8 @@ import {
   uploadRecording,
   type WebcamRecording,
 } from "@/lib/webcam-recorder";
-import type { Lang, Problem, StationRole } from "@/lib/types";
+import type { Lang, Problem, RunResult, StationRole } from "@/lib/types";
+import { summarizeRun, type RunSummary } from "@/lib/tourist";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 
 export function StationClient({
@@ -51,7 +52,13 @@ export function StationClient({
   // debounced editor callback always sees the current race).
   const recorderRef = useRef<{ raceId: string; startMs: number } | null>(null);
   const replayBuffer = useRef<
-    { t: number; code: string; lang: Lang; kind?: "run" }[]
+    {
+      t: number;
+      code: string;
+      lang: Lang;
+      kind?: "run" | "run_result" | "tab";
+      payload?: RunSummary | { tab: string };
+    }[]
   >([]);
   const serverNowRef = useRef(serverNow);
   serverNowRef.current = serverNow;
@@ -84,6 +91,29 @@ export function StationClient({
     if (!rec) return;
     const t = serverNowRef.current() - rec.startMs;
     if (t >= 0) replayBuffer.current.push({ t, code: "", lang: "cpp", kind: "run" });
+  }, []);
+
+  const recordRunResult = useCallback(
+    (result: RunResult, target: "samples" | "custom") => {
+      const rec = recorderRef.current;
+      if (!rec) return;
+      const t = Math.max(0, serverNowRef.current() - rec.startMs);
+      replayBuffer.current.push({
+        t,
+        code: "",
+        lang: "cpp",
+        kind: "run_result",
+        payload: summarizeRun(result, target),
+      });
+    },
+    []
+  );
+
+  const recordTab = useCallback((tab: string) => {
+    const rec = recorderRef.current;
+    if (!rec) return;
+    const t = Math.max(0, serverNowRef.current() - rec.startMs);
+    replayBuffer.current.push({ t, code: "", lang: "cpp", kind: "tab", payload: { tab } });
   }, []);
 
   // Flush recorded editor snapshots to the replay store every few seconds.
@@ -279,6 +309,8 @@ export function StationClient({
           warmup={false}
           onEditorChange={broadcastEditor}
           onRun={recordRun}
+          onRunResult={recordRunResult}
+          onTabChange={recordTab}
           onSubmitAccepted={refetch}
           rivalName={rival?.name}
           rivalSolveMs={rivalSolveMs}
