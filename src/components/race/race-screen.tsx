@@ -34,6 +34,8 @@ export function RaceScreen({
   ready,
   onEditorChange,
   onRun,
+  onRunResult,
+  onTabChange,
   onSubmitAccepted,
   rivalName,
   rivalSolveMs,
@@ -51,6 +53,8 @@ export function RaceScreen({
   ready?: boolean;
   onEditorChange?: (code: string, lang: Lang, cursorLine: number) => void;
   onRun?: () => void; // fired when "Run samples" is clicked (for replay markers)
+  onRunResult?: (result: RunResult, target: "samples" | "custom") => void;
+  onTabChange?: (tab: ConsoleTab) => void;
   onSubmitAccepted?: () => void;
   rivalName?: string;
   rivalSolveMs?: number | null;
@@ -121,6 +125,14 @@ export function RaceScreen({
 
   const timeUp = remaining !== null && remaining <= 0;
 
+  const changeTab = useCallback(
+    (tab: ConsoleTab) => {
+      setConsoleTab(tab);
+      onTabChange?.(tab);
+    },
+    [onTabChange]
+  );
+
   function persist(nextCodes: Record<Lang, string>, nextLang: Lang) {
     setCodes(nextCodes);
     setLang(nextLang);
@@ -148,7 +160,7 @@ export function RaceScreen({
     setRunBusy(true);
     setRunError(null);
     setRunResult(null);
-    setConsoleTab("samples");
+    changeTab("samples");
     onRun?.();
     try {
       const res = await fetch(solo ? "/api/solo/run" : "/api/judge/run", {
@@ -159,12 +171,13 @@ export function RaceScreen({
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Run failed");
       setRunResult(data);
+      onRunResult?.(data, "samples");
     } catch (e) {
       setRunError(e instanceof Error ? e.message : "Run failed");
     } finally {
       setRunBusy(false);
     }
-  }, [runBusy, timeUp, solo, eventId, lang, code, problem.id, onRun]);
+  }, [runBusy, timeUp, solo, eventId, lang, code, problem.id, onRun, onRunResult, changeTab]);
 
   const runCustom = useCallback(async () => {
     if (customBusy || timeUp) return;
@@ -185,6 +198,7 @@ export function RaceScreen({
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Run failed");
       setCustomResult(data);
+      onRunResult?.(data, "custom");
     } catch (e) {
       setCustomResult({
         runId: "",
@@ -194,7 +208,7 @@ export function RaceScreen({
     } finally {
       setCustomBusy(false);
     }
-  }, [customBusy, timeUp, solo, eventId, lang, code, problem.id, customInput]);
+  }, [customBusy, timeUp, solo, eventId, lang, code, problem.id, customInput, onRunResult]);
 
   const refreshSubmissions = useCallback(async () => {
     if (!raceId) return;
@@ -214,7 +228,21 @@ export function RaceScreen({
   const submit = useCallback(async () => {
     if (warmup || !raceId || submitBusy || timeUp) return;
     setSubmitBusy(true);
-    setConsoleTab("submissions");
+    changeTab("submissions");
+    // Optimistic pending row so the submission shows up immediately.
+    const pendingId = `pending-${Date.now()}`;
+    setSubmissions((subs) => [
+      {
+        id: pendingId,
+        race_id: raceId,
+        contestant_id: contestant.id,
+        lang,
+        verdict: null,
+        details: {},
+        submitted_at: new Date().toISOString(),
+      },
+      ...subs,
+    ]);
     try {
       const res = await fetch(solo ? "/api/solo/submit" : "/api/submit", {
         method: "POST",
@@ -229,11 +257,12 @@ export function RaceScreen({
       await refreshSubmissions();
       if (res.ok && data.verdict === "AC") onSubmitAccepted?.();
     } finally {
+      setSubmissions((subs) => subs.filter((s) => s.id !== pendingId));
       setSubmitBusy(false);
     }
   }, [
     warmup, raceId, submitBusy, timeUp, solo, eventId, contestant.id, lang, code,
-    refreshSubmissions, onSubmitAccepted,
+    refreshSubmissions, onSubmitAccepted, changeTab,
   ]);
 
   // Keyboard shortcuts.
@@ -399,7 +428,7 @@ export function RaceScreen({
               submissionsUsed={submissionsUsed}
               maxSubmissions={MAX_SUBMISSIONS}
               tab={consoleTab}
-              onTabChange={setConsoleTab}
+              onTabChange={changeTab}
             />
           </div>
         </div>

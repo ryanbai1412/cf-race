@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { requireEvent } from "@/lib/api-auth";
 import type { Lang } from "@/lib/types";
-import type { TouristEvent } from "@/lib/tourist";
+import type { RunSummary, TouristEvent } from "@/lib/tourist";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +12,13 @@ export async function POST(req: NextRequest) {
     eventId?: string;
     raceId?: string;
     station?: string;
-    events?: { t: number; code: string; lang: Lang; kind?: string }[];
+    events?: {
+      t: number;
+      code: string;
+      lang: Lang;
+      kind?: string;
+      payload?: unknown;
+    }[];
   };
   const event = await requireEvent(body.eventId ?? "");
   if (!event) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
@@ -25,13 +31,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
   }
 
+  const kinds = new Set(["snapshot", "run", "run_result", "tab"]);
   const rows = body.events.slice(0, 200).map((e) => ({
     race_id: body.raceId,
     station_role: body.station,
     t_ms: Math.max(0, Math.round(e.t)),
     code: String(e.code).slice(0, 100_000),
     lang: e.lang === "py" ? "py" : "cpp",
-    kind: e.kind === "run" ? "run" : "snapshot",
+    kind: e.kind && kinds.has(e.kind) ? e.kind : "snapshot",
+    payload:
+      e.payload && JSON.stringify(e.payload).length <= 20_000 ? e.payload : null,
   }));
   const { error } = await db().from("race_editor_events").insert(rows);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
@@ -78,7 +87,7 @@ export async function GET(req: NextRequest) {
   const [{ data: snaps }, { data: subs }] = await Promise.all([
     db()
       .from("race_editor_events")
-      .select("t_ms, code, lang, kind")
+      .select("t_ms, code, lang, kind, payload")
       .eq("race_id", raceId)
       .eq("station_role", station)
       .order("t_ms", { ascending: true })
@@ -94,6 +103,11 @@ export async function GET(req: NextRequest) {
   const events: TouristEvent[] = [];
   for (const s of snaps ?? []) {
     if (s.kind === "run") events.push({ t: s.t_ms, type: "run" });
+    else if (s.kind === "run_result" && s.payload)
+      events.push({ t: s.t_ms, type: "run_result", result: s.payload as RunSummary });
+    else if (s.kind === "tab" && s.payload)
+      events.push({ t: s.t_ms, type: "tab", tab: (s.payload as { tab: string }).tab });
+    else if (s.kind === "run_result" || s.kind === "tab") continue;
     else
       events.push({
         t: s.t_ms,
@@ -115,7 +129,8 @@ export async function GET(req: NextRequest) {
     lang = s.lang === "py" ? "py" : "cpp";
   }
   events.sort((a, b) => a.t - b.t);
-  if ((snaps ?? []).length > 0) lang = (snaps ?? [])[snaps!.length - 1].lang as Lang;
+  const codeSnaps = (snaps ?? []).filter((s) => s.kind === "snapshot");
+  if (codeSnaps.length > 0) lang = codeSnaps[codeSnaps.length - 1].lang as Lang;
 
   const solveMs = participant.first_ac_at
     ? new Date(participant.first_ac_at).getTime() - startMs

@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CodeMirror } from "@/components/monitor/code-mirror";
-import { touristStateAt, TouristLog } from "@/lib/tourist";
+import { touristStateAt, TouristLog, type RunSummary } from "@/lib/tourist";
 import { formatMsPrecise } from "@/lib/templates";
 import { flagEmoji } from "@/lib/countries";
 import { Button } from "@/components/ui/button";
-import { Pause, Play, RotateCcw } from "lucide-react";
+import { ChevronDown, ChevronRight, Pause, Play, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /** TouristLog with a possibly-null solve time (DNF runs/races). */
@@ -20,6 +20,136 @@ type ReplayLog = ReplayableLog & {
 };
 
 const SPEEDS = [1, 2, 4, 8];
+
+/** One run/compile/submission moment shown in the replay activity list. */
+type ActivityItem = {
+  t: number;
+  label: string;
+  verdict: string;
+  run?: RunSummary;
+};
+
+function verdictColor(verdict: string): string {
+  if (verdict === "AC") return "bg-green-500/20 text-green-400";
+  if (verdict === "PENDING") return "bg-amber-500/20 text-amber-400";
+  return "bg-red-500/20 text-red-400";
+}
+
+function buildActivity(events: TouristLog["events"]): ActivityItem[] {
+  const items: ActivityItem[] = [];
+  let pendingSubmitT: number | null = null;
+  for (const ev of events) {
+    if (ev.type === "run_result") {
+      items.push({
+        t: ev.t,
+        label:
+          ev.result.target === "custom"
+            ? "Custom run"
+            : ev.result.compiled
+              ? "Ran samples"
+              : "Compile",
+        verdict: ev.result.verdict,
+        run: ev.result,
+      });
+    } else if (ev.type === "submit") {
+      pendingSubmitT = ev.t;
+    } else if (ev.type === "verdict") {
+      items.push({
+        t: pendingSubmitT ?? ev.t,
+        label: "Submission",
+        verdict: ev.verdict,
+      });
+      pendingSubmitT = null;
+    }
+  }
+  if (pendingSubmitT !== null) {
+    items.push({ t: pendingSubmitT, label: "Submission", verdict: "PENDING" });
+  }
+  return items;
+}
+
+function ActivityRow({
+  item,
+  reached,
+  onJump,
+}: {
+  item: ActivityItem;
+  reached: boolean;
+  onJump: () => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const expandable =
+    !!item.run && (item.run.tests?.length || item.run.compileStderr);
+  return (
+    <div
+      className={cn(
+        "rounded-md border border-border/60",
+        !reached && "opacity-40"
+      )}
+    >
+      <div className="flex w-full items-center gap-2 px-2 py-1.5">
+        {expandable ? (
+          <button onClick={() => setOpen((o) => !o)} className="shrink-0">
+            {open ? (
+              <ChevronDown className="h-3 w-3" />
+            ) : (
+              <ChevronRight className="h-3 w-3" />
+            )}
+          </button>
+        ) : (
+          <span className="w-3 shrink-0" />
+        )}
+        <span className="truncate text-xs">{item.label}</span>
+        <span
+          className={cn(
+            "rounded px-1.5 py-0.5 font-mono text-[10px]",
+            verdictColor(item.verdict)
+          )}
+        >
+          {item.verdict}
+        </span>
+        {item.run && item.run.compiled && (
+          <span className="font-mono text-[10px] text-muted-foreground">
+            {item.run.passed}/{item.run.total}
+          </span>
+        )}
+        <button
+          onClick={onJump}
+          title="Jump to this moment"
+          className="ml-auto shrink-0 rounded px-1.5 py-0.5 font-mono text-[10px] text-primary hover:bg-primary/10"
+        >
+          {formatMsPrecise(item.t)}
+        </button>
+      </div>
+      {open && item.run && (
+        <div className="space-y-1 border-t border-border/60 p-2">
+          {item.run.compileStderr && (
+            <pre className="max-h-28 overflow-auto rounded bg-black/40 p-1.5 font-mono text-[10px] text-red-300">
+              {item.run.compileStderr}
+            </pre>
+          )}
+          {item.run.tests?.map((tst) => (
+            <div
+              key={tst.name}
+              className="flex items-center gap-2 font-mono text-[10px]"
+            >
+              <span>{tst.name}</span>
+              <span
+                className={cn(
+                  "rounded px-1 py-px",
+                  verdictColor(tst.verdict)
+                )}
+              >
+                {tst.verdict}
+              </span>
+              <span className="ml-auto text-muted-foreground">{tst.timeMs}ms</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 /** Judging/verdict status badges for the current replay clock. */
 export function ReplayBadges({
@@ -140,7 +270,25 @@ export function ReplayCore({
 
   const state = touristStateAt(log, clockMs);
   const solved = log.solveMs !== null && clockMs >= log.solveMs;
-  const markers = log.events.filter((ev) => ev.type !== "snapshot");
+  const markers = log.events.filter(
+    (ev) => ev.type !== "snapshot" && ev.type !== "tab" && ev.type !== "run_result"
+  );
+  const activity = useMemo(() => buildActivity(log.events), [log.events]);
+
+  // Console state at the current clock: active tab + most recent run/compile.
+  let activeTab: string | null = null;
+  let lastRun: ActivityItem | null = null;
+  let running = false;
+  for (const ev of log.events) {
+    if (ev.t > clockMs) break;
+    if (ev.type === "tab") activeTab = ev.tab;
+    else if (ev.type === "run") running = true;
+    else if (ev.type === "run_result") running = false;
+  }
+  for (const item of activity) {
+    if (item.t > clockMs) break;
+    if (item.run) lastRun = item;
+  }
 
   return (
     <main className="flex h-screen flex-col bg-background">
@@ -150,20 +298,79 @@ export function ReplayCore({
         <div className="min-h-0 min-w-0 flex-1">
           <CodeMirror code={state.code} lang={state.lang ?? log.lang} />
         </div>
-        {videoUrl && (
+        {(videoUrl || activity.length > 0) && (
           <div className="flex w-[28%] min-w-[240px] flex-col border-l border-border/60 bg-black/40">
-            <video
-              ref={videoRef}
-              src={videoUrl}
-              muted
-              playsInline
-              preload="auto"
-              className="aspect-video w-full object-cover"
-            />
-            <p className="px-3 py-2 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
-              Webcam · synced
+            {videoUrl && (
+              <>
+                <video
+                  ref={videoRef}
+                  src={videoUrl}
+                  muted
+                  playsInline
+                  preload="auto"
+                  className="aspect-video w-full object-cover"
+                />
+                <p className="px-3 py-1.5 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+                  Webcam · synced
+                </p>
+              </>
+            )}
+            <p className="border-t border-border/60 px-3 py-1.5 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+              Runs & submissions
             </p>
+            <div className="min-h-0 flex-1 space-y-1.5 overflow-y-auto px-2 pb-2">
+              {activity.length === 0 && (
+                <p className="px-1 pt-1 text-xs text-muted-foreground">
+                  No runs or submissions in this replay.
+                </p>
+              )}
+              {activity.map((item, i) => (
+                <ActivityRow
+                  key={i}
+                  item={item}
+                  reached={item.t <= clockMs}
+                  onJump={() => setClockMs(item.t)}
+                />
+              ))}
+            </div>
           </div>
+        )}
+      </div>
+
+      {/* Console state at the current moment of the replay. */}
+      <div className="flex items-center gap-3 border-t border-border/60 bg-card/40 px-5 py-1.5">
+        {activeTab && (
+          <span className="font-mono text-[11px] text-muted-foreground">
+            viewing: <span className="text-foreground">{activeTab}</span>
+          </span>
+        )}
+        {running && (
+          <span className="animate-pulse font-mono text-[11px] text-amber-400">
+            running…
+          </span>
+        )}
+        {!running && lastRun && (
+          <span className="flex items-center gap-2 font-mono text-[11px] text-muted-foreground">
+            last run: {lastRun.label.toLowerCase()}
+            <span
+              className={cn(
+                "rounded px-1.5 py-px text-[10px]",
+                verdictColor(lastRun.verdict)
+              )}
+            >
+              {lastRun.verdict}
+            </span>
+            {lastRun.run && lastRun.run.compiled && (
+              <span>
+                {lastRun.run.passed}/{lastRun.run.total} samples
+              </span>
+            )}
+          </span>
+        )}
+        {!activeTab && !running && !lastRun && (
+          <span className="font-mono text-[11px] text-muted-foreground">
+            no runs yet
+          </span>
         )}
       </div>
 
