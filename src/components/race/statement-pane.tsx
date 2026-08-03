@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import katex from "katex";
 import "katex/dist/katex.min.css";
 import { Button } from "@/components/ui/button";
@@ -38,14 +38,47 @@ function renderStatementMath(html: string): string {
     });
 }
 
-export function StatementPane({ problem }: { problem: Problem }) {
+export function StatementPane({
+  problem,
+  onScrollFrac,
+  scrollRef,
+}: {
+  problem: Problem;
+  /** Reports scroll position as a 0..1 fraction, throttled (trailing). */
+  onScrollFrac?: (frac: number) => void;
+  /** Access to the scrollable container (used by the replay to drive scroll). */
+  scrollRef?: React.Ref<HTMLDivElement>;
+}) {
   const statementHtml = useMemo(
     () => (problem.statement_html ? renderStatementMath(problem.statement_html) : null),
     [problem.statement_html]
   );
 
+  const onScrollFracRef = useRef(onScrollFrac);
+  onScrollFracRef.current = onScrollFrac;
+  const throttle = useRef<{ timeout: ReturnType<typeof setTimeout> | null; frac: number }>({
+    timeout: null,
+    frac: 0,
+  });
+
+  function handleScroll(e: React.UIEvent<HTMLDivElement>) {
+    if (!onScrollFracRef.current) return;
+    const el = e.currentTarget;
+    const max = el.scrollHeight - el.clientHeight;
+    throttle.current.frac = max > 0 ? Math.min(1, Math.max(0, el.scrollTop / max)) : 0;
+    if (throttle.current.timeout) return;
+    throttle.current.timeout = setTimeout(() => {
+      throttle.current.timeout = null;
+      onScrollFracRef.current?.(throttle.current.frac);
+    }, 250);
+  }
+
   return (
-    <div className="flex h-full flex-col overflow-y-auto border-r border-border/60 bg-card/30 px-6 py-5">
+    <div
+      ref={scrollRef}
+      onScroll={handleScroll}
+      className="flex h-full flex-col overflow-y-auto border-r border-border/60 bg-card/30 px-6 py-5"
+    >
       <div className="mb-3 flex items-baseline gap-3">
         <h2 className="text-xl font-bold">{problem.name}</h2>
         <span className="font-mono text-xs text-muted-foreground">

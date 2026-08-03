@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CodeMirror } from "@/components/monitor/code-mirror";
+import { StatementPane } from "@/components/race/statement-pane";
+import type { Problem } from "@/lib/types";
 import { touristStateAt, TouristLog, type RunSummary } from "@/lib/tourist";
 import { formatMsPrecise } from "@/lib/templates";
 import { flagEmoji } from "@/lib/countries";
@@ -17,6 +19,7 @@ export type ReplayableLog = Omit<TouristLog, "solveMs"> & {
 type ReplayLog = ReplayableLog & {
   contestant: { name: string; country: string | null } | null;
   timerSec: number;
+  problem?: Problem | null;
 };
 
 const SPEEDS = [1, 2, 4, 8];
@@ -29,6 +32,81 @@ type ActivityItem = {
   verdictT?: number; // when the verdict became known (submissions)
   run?: RunSummary;
 };
+
+type ScrollEvent = { t: number; frac: number };
+
+/**
+ * Target scroll fraction at a given replay clock: the last scroll event at or
+ * before `t`, linearly interpolated toward the next one when they are close
+ * together (a continuous drag recorded as a burst of throttled events).
+ */
+function scrollFracAt(events: ScrollEvent[], t: number): number {
+  let lo = -1;
+  let hi = events.length;
+  while (hi - lo > 1) {
+    const mid = (lo + hi) >> 1;
+    if (events[mid].t <= t) lo = mid;
+    else hi = mid;
+  }
+  if (lo < 0) return events.length > 0 ? 0 : 0;
+  const prev = events[lo];
+  const next = events[lo + 1];
+  if (next && next.t - prev.t <= 1500 && next.t > prev.t) {
+    const k = (t - prev.t) / (next.t - prev.t);
+    return prev.frac + (next.frac - prev.frac) * k;
+  }
+  return prev.frac;
+}
+
+/**
+ * Statement pane whose scroll position follows the replay clock. The target
+ * fraction comes from interpolated scroll events; the actual scrollTop eases
+ * toward it each animation frame (exponential smoothing) so playback,
+ * scrubbing, and high speeds all glide instead of jump-cutting.
+ */
+function ReplayStatement({
+  problem,
+  events,
+  clockMs,
+}: {
+  problem: Problem;
+  events: ScrollEvent[];
+  clockMs: number;
+}) {
+  const paneRef = useRef<HTMLDivElement | null>(null);
+  const clockRef = useRef(clockMs);
+  clockRef.current = clockMs;
+  const eventsRef = useRef(events);
+  eventsRef.current = events;
+
+  useEffect(() => {
+    let raf = 0;
+    let lastNow = performance.now();
+    const tick = (now: number) => {
+      const dt = Math.min(100, now - lastNow);
+      lastNow = now;
+      const el = paneRef.current;
+      if (el) {
+        const max = Math.max(0, el.scrollHeight - el.clientHeight);
+        const target = scrollFracAt(eventsRef.current, clockRef.current) * max;
+        const diff = target - el.scrollTop;
+        if (Math.abs(diff) > 0.5) {
+          // Time-constant easing (~140ms): frame-rate independent glide.
+          el.scrollTop = el.scrollTop + diff * (1 - Math.exp(-dt / 140));
+        }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  return (
+    <div className="min-h-0 w-[30%] min-w-[280px] overflow-hidden">
+      <StatementPane problem={problem} scrollRef={paneRef} />
+    </div>
+  );
+}
 
 function verdictColor(verdict: string): string {
   if (verdict === "AC") return "bg-green-500/20 text-green-400";
@@ -340,12 +418,14 @@ export function ReplayCore({
   header,
   videoUrl,
   videoOffsetMs = 0,
+  problem,
   footerExtra,
 }: {
   log: ReplayableLog;
   header: (clockMs: number, solved: boolean) => React.ReactNode;
   videoUrl?: string | null;
   videoOffsetMs?: number;
+  problem?: Problem | null;
   footerExtra?: React.ReactNode;
 }) {
   const [clockMs, setClockMs] = useState(0);
@@ -407,7 +487,18 @@ export function ReplayCore({
   const state = touristStateAt(log, clockMs);
   const solved = log.solveMs !== null && clockMs >= log.solveMs;
   const markers = log.events.filter(
-    (ev) => ev.type !== "snapshot" && ev.type !== "tab" && ev.type !== "run_result"
+    (ev) =>
+      ev.type !== "snapshot" &&
+      ev.type !== "tab" &&
+      ev.type !== "run_result" &&
+      ev.type !== "scroll"
+  );
+  const scrollEvents = useMemo(
+    () =>
+      log.events.filter((ev): ev is { t: number; type: "scroll"; frac: number } =>
+        ev.type === "scroll"
+      ),
+    [log.events]
   );
   const activity = useMemo(() => buildActivity(log.events), [log.events]);
 
@@ -416,6 +507,13 @@ export function ReplayCore({
       {header(clockMs, solved)}
 
       <div className="flex min-h-0 flex-1">
+        {problem && (
+          <ReplayStatement
+            problem={problem}
+            events={scrollEvents}
+            clockMs={clockMs}
+          />
+        )}
         <div className="flex min-h-0 min-w-0 flex-1 flex-col">
           <div className="min-h-0 flex-1">
             <CodeMirror code={state.code} lang={state.lang ?? log.lang} />
@@ -584,6 +682,7 @@ export function ReplayPlayer({
       log={log}
       videoUrl={log.recordingUrl}
       videoOffsetMs={log.recordingOffsetMs ?? 0}
+      problem={log.problem}
       header={(clockMs, solved) => (
         <header
           className={cn(
