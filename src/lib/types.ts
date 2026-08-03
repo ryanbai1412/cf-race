@@ -23,6 +23,7 @@ export type Contestant = {
   station_role: StationRole;
   name: string;
   country: string | null;
+  retired_at: string | null;
 };
 
 export type StationRole = "station1" | "station2";
