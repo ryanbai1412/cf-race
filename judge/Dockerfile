@@ -3,7 +3,9 @@ FROM ubuntu:24.04 AS isolate-build
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential git libcap-dev libsystemd-dev pkg-config ca-certificates \
     && rm -rf /var/lib/apt/lists/*
-RUN git clone --depth 1 --branch v2.0 https://github.com/ioi/isolate.git /isolate \
+# v1.10.1: classic isolate (cgroup v1 / rlimits). v2.0's mountpoint scan
+# breaks on Fly.io's kernel, and Fly machines only expose cgroup v1 anyway.
+RUN git clone --depth 1 --branch v1.10.1 https://github.com/ioi/isolate.git /isolate \
     && make -C /isolate isolate
 
 FROM ubuntu:24.04
@@ -17,7 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=isolate-build /isolate/isolate /usr/local/bin/isolate
 COPY --from=isolate-build /isolate/default.cf /usr/local/etc/isolate
 RUN chmod u+s /usr/local/bin/isolate \
-    && mkdir -p /run/isolate /var/local/lib/isolate /data/problems
+    && mkdir -p /var/local/lib/isolate /data/problems
 
 WORKDIR /app
 COPY package.json package-lock.json* ./
