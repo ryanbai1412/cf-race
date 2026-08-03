@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import type { OnMount } from "@monaco-editor/react";
 import { Button } from "@/components/ui/button";
 import { StatementPane } from "./statement-pane";
 import { ConsolePanel, type ConsoleTab } from "./console-panel";
@@ -285,6 +286,24 @@ export function RaceScreen({
     return () => window.removeEventListener("keydown", onKey);
   }, [runSamples, submit]);
 
+  // Monaco intercepts Ctrl(+Shift)+Enter before it reaches the window
+  // listener, so the shortcuts are also registered on the editor itself.
+  const runSamplesRef = useRef(runSamples);
+  runSamplesRef.current = runSamples;
+  const submitRef = useRef(submit);
+  submitRef.current = submit;
+  const handleEditorMount: OnMount = (editor, monaco) => {
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
+      void runSamplesRef.current();
+    });
+    editor.addCommand(
+      monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.Enter,
+      () => {
+        void submitRef.current();
+      }
+    );
+  };
+
   const submissionsUsed = submissions.length;
 
   return (
@@ -382,6 +401,7 @@ export function RaceScreen({
               language={lang === "cpp" ? "cpp" : "python"}
               value={code}
               onChange={updateCode}
+              onMount={handleEditorMount}
               options={{
                 fontSize: 15,
                 fontFamily: "var(--font-geist-mono), 'JetBrains Mono', monospace",
