@@ -15,6 +15,10 @@ export const config = {
     | "none",
   workers: Number(process.env.JUDGE_WORKERS ?? os.cpus().length),
   outputCapBytes: Number(process.env.OUTPUT_CAP_BYTES ?? 64 * 1024),
+  // How much of a program's stdout is captured for checking (display is
+  // truncated to outputCapBytes). Must comfortably exceed the largest
+  // legitimate answer, otherwise correct big outputs would be judged WA.
+  captureCapBytes: Number(process.env.CAPTURE_CAP_BYTES ?? 16 * 1024 * 1024),
 };
 
 if (!config.judgeToken) {

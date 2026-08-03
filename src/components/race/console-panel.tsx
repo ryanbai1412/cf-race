@@ -9,12 +9,21 @@ import { ChevronDown, ChevronRight } from "lucide-react";
 
 export type ConsoleTab = "samples" | "custom" | "submissions";
 
-function OutputBlock({ label, text }: { label: string; text: string }) {
+function OutputBlock({
+  label,
+  text,
+  truncated,
+}: {
+  label: string;
+  text: string;
+  truncated?: boolean;
+}) {
   if (!text) return null;
   return (
     <div>
       <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
         {label}
+        {truncated && " (truncated)"}
       </p>
       <pre className="max-h-40 overflow-auto rounded bg-black/40 p-2 font-mono text-xs">
         {text}
@@ -53,8 +62,12 @@ function SampleRow({
           )}
           <OutputBlock label="Input" text={input ?? ""} />
           <OutputBlock label="Expected" text={expected ?? ""} />
-          <OutputBlock label="Your output (stdout)" text={r.stdout} />
-          <OutputBlock label="stderr" text={r.stderr} />
+          <OutputBlock
+            label="Your output (stdout)"
+            text={r.stdout}
+            truncated={r.stdoutTruncated}
+          />
+          <OutputBlock label="stderr" text={r.stderr} truncated={r.stderrTruncated} />
         </div>
       )}
     </div>
@@ -169,8 +182,8 @@ export function ConsolePanel({
                 </span>
                 {r.verdict !== "AC" && r.verdict !== "WA" && <VerdictChip verdict={r.verdict} />}
               </div>
-              <OutputBlock label="stdout" text={r.stdout} />
-              <OutputBlock label="stderr" text={r.stderr} />
+              <OutputBlock label="stdout" text={r.stdout} truncated={r.stdoutTruncated} />
+              <OutputBlock label="stderr" text={r.stderr} truncated={r.stderrTruncated} />
               {!r.stdout && !r.stderr && (
                 <p className="text-xs text-muted-foreground">(no output)</p>
               )}
@@ -186,25 +199,31 @@ export function ConsolePanel({
           </p>
         )}
         {submissions.map((s) => (
-          <div
-            key={s.id}
-            className="flex items-center gap-3 rounded-md border border-border/60 px-3 py-2"
-          >
-            <VerdictChip verdict={s.verdict ?? "PENDING"} />
-            <span className="font-mono text-xs uppercase text-muted-foreground">{s.lang}</span>
-            {s.details?.failedTest && (
-              <span className="font-mono text-xs text-muted-foreground">
-                failed on {s.details.failedTest}
+          <div key={s.id} className="rounded-md border border-border/60 px-3 py-2">
+            <div className="flex items-center gap-3">
+              <VerdictChip verdict={s.verdict ?? "PENDING"} />
+              <span className="font-mono text-xs uppercase text-muted-foreground">
+                {s.lang}
               </span>
-            )}
-            {typeof s.details?.passedCount === "number" && (
-              <span className="font-mono text-xs text-muted-foreground">
-                {s.details.passedCount}/{s.details.totalCount} passed
+              {s.details?.failedTest && (
+                <span className="font-mono text-xs text-muted-foreground">
+                  failed on {s.details.failedTest}
+                </span>
+              )}
+              {typeof s.details?.passedCount === "number" && (
+                <span className="font-mono text-xs text-muted-foreground">
+                  {s.details.passedCount}/{s.details.totalCount} passed
+                </span>
+              )}
+              <span className="ml-auto font-mono text-xs text-muted-foreground">
+                {new Date(s.submitted_at).toLocaleTimeString()}
               </span>
+            </div>
+            {s.details?.compileError && (
+              <pre className="mt-2 max-h-40 overflow-auto rounded bg-black/40 p-2 font-mono text-xs text-red-300">
+                {s.details.compileError}
+              </pre>
             )}
-            <span className="ml-auto font-mono text-xs text-muted-foreground">
-              {new Date(s.submitted_at).toLocaleTimeString()}
-            </span>
           </div>
         ))}
       </TabsContent>

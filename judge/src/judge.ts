@@ -91,7 +91,10 @@ async function runOneTest(
   else if (res.status === "ML") verdict = "ML";
   else if (res.status === "RE") verdict = "RE";
   else if (test.expected == null) verdict = "AC";
-  else {
+  else if (res.stdoutCapped) {
+    verdict = "WA";
+    checkerNote = `output exceeded ${Math.round(config.captureCapBytes / (1024 * 1024))}MB and could not be checked`;
+  } else {
     // Check against the full captured output — out.text is truncated for
     // display and would turn large correct outputs into WA.
     const c = check(test.expected, res.stdout.toString("utf8"), floatEps);

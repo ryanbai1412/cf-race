@@ -32,6 +32,8 @@ export interface ExecResult {
   timeMs: number;
   stdout: Buffer;
   stderr: Buffer;
+  /** stdout hit the capture cap, so it is incomplete even for checking */
+  stdoutCapped?: boolean;
   /** copy a file out of the box after the run (set via outFiles) */
   outFiles?: Record<string, Buffer>;
 }
@@ -41,17 +43,17 @@ export interface RunOptions {
   collect?: string[];
 }
 
-function capped(buf: Buffer): Buffer {
-  return buf.length > config.outputCapBytes * 4
-    ? buf.subarray(0, config.outputCapBytes * 4)
-    : buf;
-}
-
 function spawnCollect(
   cmd: string,
   args: string[],
   opts: { stdin?: string; cwd?: string; killAfterMs?: number; env?: NodeJS.ProcessEnv }
-): Promise<{ code: number | null; signal: string | null; stdout: Buffer; stderr: Buffer }> {
+): Promise<{
+  code: number | null;
+  signal: string | null;
+  stdout: Buffer;
+  stderr: Buffer;
+  stdoutCapped: boolean;
+}> {
   return new Promise((resolve, reject) => {
     const child = spawn(cmd, args, {
       cwd: opts.cwd,
@@ -62,15 +64,20 @@ function spawnCollect(
     const err: Buffer[] = [];
     let outLen = 0;
     let errLen = 0;
-    const cap = config.outputCapBytes * 4;
+    let outCapped = false;
+    // stdout must be kept in full for the checker; stderr is display-only.
+    const outCap = config.captureCapBytes;
+    const errCap = config.outputCapBytes * 4;
     child.stdout.on("data", (d: Buffer) => {
-      if (outLen < cap) {
+      if (outLen < outCap) {
         out.push(d);
         outLen += d.length;
+      } else {
+        outCapped = true;
       }
     });
     child.stderr.on("data", (d: Buffer) => {
-      if (errLen < cap) {
+      if (errLen < errCap) {
         err.push(d);
         errLen += d.length;
       }
@@ -92,8 +99,9 @@ function spawnCollect(
       resolve({
         code: killed && code === null ? null : code,
         signal,
-        stdout: capped(Buffer.concat(out)),
-        stderr: capped(Buffer.concat(err)),
+        stdout: Buffer.concat(out),
+        stderr: Buffer.concat(err).subarray(0, errCap),
+        stdoutCapped: outCapped,
       });
     });
     if (opts.stdin !== undefined) child.stdin.write(opts.stdin);
@@ -236,6 +244,7 @@ async function runIsolate(
       timeMs,
       stdout: res.stdout,
       stderr: res.stderr,
+      stdoutCapped: res.stdoutCapped,
       outFiles,
     };
   } finally {
@@ -275,6 +284,7 @@ async function runPlain(spec: ExecSpec, opts: RunOptions): Promise<ExecResult> {
       timeMs: Math.round(timeMs),
       stdout: res.stdout,
       stderr: res.stderr,
+      stdoutCapped: res.stdoutCapped,
       outFiles,
     };
   } finally {

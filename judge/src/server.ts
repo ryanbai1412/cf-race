@@ -14,6 +14,10 @@ function broadcast(type: "run_update" | "submit_update", payload: unknown) {
   }
 }
 
+function isLang(lang: unknown): boolean {
+  return lang === "cpp" || lang === "py";
+}
+
 function tokenOk(token: string | undefined): boolean {
   if (!config.judgeToken || !token) return false;
   const a = Buffer.from(token);
@@ -66,6 +70,9 @@ const server = http.createServer(async (req, res) => {
       if (!body.runId || !body.lang || typeof body.source !== "string") {
         return json(res, 400, { error: "runId, lang, source are required" });
       }
+      if (!isLang(body.lang)) {
+        return json(res, 400, { error: `unsupported lang: ${String(body.lang)}` });
+      }
       const result = await handleRun(body, (partial) =>
         broadcast("run_update", partial)
       );
@@ -78,6 +85,9 @@ const server = http.createServer(async (req, res) => {
         return json(res, 400, {
           error: "submissionId, lang, source, problemId are required",
         });
+      }
+      if (!isLang(body.lang)) {
+        return json(res, 400, { error: `unsupported lang: ${String(body.lang)}` });
       }
       const result = await handleSubmit(body, (partial) =>
         broadcast("submit_update", partial)
