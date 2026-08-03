@@ -101,4 +101,7 @@ export type BroadcastMsg =
       lang: Lang;
       cursorLine: number;
     }
-  | { type: "confetti"; station: StationRole };
+  | { type: "confetti"; station: StationRole }
+  // A monitor asks the station to rebroadcast its current editor snapshot
+  // (e.g. after a monitor refresh mid-race).
+  | { type: "request_editor"; station: StationRole };

@@ -14,7 +14,7 @@ import {
   uploadRecording,
   type WebcamRecording,
 } from "@/lib/webcam-recorder";
-import type { Lang, Problem, RunResult, StationRole } from "@/lib/types";
+import type { BroadcastMsg, Lang, Problem, RunResult, StationRole } from "@/lib/types";
 import { summarizeRun, type RunSummary } from "@/lib/tourist";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 
@@ -25,7 +25,27 @@ export function StationClient({
   eventId: string;
   station: StationRole;
 }) {
-  const { state, refetch, serverNow } = useEventState(eventId);
+  const lastEditorRef = useRef<{
+    code: string;
+    lang: Lang;
+    cursorLine: number;
+  } | null>(null);
+
+  // Re-send the latest editor snapshot when a monitor asks for it (it lost
+  // the mirror state, e.g. after a page refresh).
+  const onMessage = useCallback(
+    (msg: BroadcastMsg) => {
+      if (msg.type === "request_editor" && msg.station === station) {
+        const last = lastEditorRef.current;
+        if (last && chRef.current) {
+          sendBroadcast(chRef.current, { type: "editor", station, ...last });
+        }
+      }
+    },
+    [station]
+  );
+
+  const { state, refetch, serverNow } = useEventState(eventId, onMessage);
   const [warmupProblem, setWarmupProblem] = useState<Problem | null>(null);
   const [ready, setReady] = useState(false);
   const [switchingContestant, setSwitchingContestant] = useState(false);
@@ -72,6 +92,7 @@ export function StationClient({
       timeout = setTimeout(() => {
         timeout = null;
         if (pending && chRef.current) {
+          lastEditorRef.current = pending;
           sendBroadcast(chRef.current, { type: "editor", station, ...pending });
         }
         const rec = recorderRef.current;
