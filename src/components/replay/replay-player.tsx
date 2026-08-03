@@ -88,6 +88,19 @@ export function ReplayPlayer({
 
   const state = touristStateAt(log, clockMs);
   const solved = log.solveMs !== null && clockMs >= log.solveMs;
+  let lastVerdict: string | null = null;
+  let pendingSubmit = false;
+  for (const ev of log.events) {
+    if (ev.t > clockMs) break;
+    if (ev.type === "submit") {
+      pendingSubmit = true;
+      lastVerdict = null;
+    } else if (ev.type === "verdict") {
+      pendingSubmit = false;
+      lastVerdict = ev.verdict;
+    }
+  }
+  const markers = log.events.filter((ev) => ev.type !== "snapshot");
 
   return (
     <main className="flex h-screen flex-col bg-background">
@@ -106,7 +119,26 @@ export function ReplayPlayer({
         <span className="font-mono text-sm text-muted-foreground">
           {log.problemId} · replay
         </span>
-        <span className="ml-auto font-mono text-xl tabular-nums">
+        <span className="ml-auto flex items-center gap-3">
+          {pendingSubmit && (
+            <span className="animate-pulse rounded bg-amber-500/20 px-2 py-0.5 font-mono text-xs text-amber-400">
+              Judging…
+            </span>
+          )}
+          {lastVerdict && (
+            <span
+              className={cn(
+                "rounded px-2 py-0.5 font-mono text-xs",
+                lastVerdict === "AC"
+                  ? "bg-green-500/20 text-green-400"
+                  : "bg-red-500/20 text-red-400"
+              )}
+            >
+              {lastVerdict}
+            </span>
+          )}
+        </span>
+        <span className="font-mono text-xl tabular-nums">
           {solved && log.solveMs !== null ? (
             <span className="font-bold text-green-400">
               AC {formatMsPrecise(log.solveMs)}
@@ -142,15 +174,36 @@ export function ReplayPlayer({
         >
           <RotateCcw className="h-4 w-4" />
         </Button>
-        <input
-          type="range"
-          className="flex-1 accent-primary"
-          value={clockMs}
-          min={0}
-          max={durationMs}
-          step={100}
-          onChange={(e) => setClockMs(Number(e.target.value))}
-        />
+        <div className="relative flex-1">
+          <input
+            type="range"
+            className="w-full accent-primary"
+            value={clockMs}
+            min={0}
+            max={durationMs}
+            step={100}
+            onChange={(e) => setClockMs(Number(e.target.value))}
+          />
+          {markers.map((ev, i) => (
+            <span
+              key={i}
+              title={
+                ev.type === "submit"
+                  ? `Submitted ${formatMsPrecise(ev.t)}`
+                  : `${ev.verdict} ${formatMsPrecise(ev.t)}`
+              }
+              className={cn(
+                "pointer-events-auto absolute top-0 h-1.5 w-1.5 -translate-x-1/2 rounded-full",
+                ev.type === "submit"
+                  ? "bg-amber-400"
+                  : ev.verdict === "AC"
+                    ? "bg-green-400"
+                    : "bg-red-400"
+              )}
+              style={{ left: `${(ev.t / durationMs) * 100}%` }}
+            />
+          ))}
+        </div>
         <div className="flex gap-1">
           {SPEEDS.map((s) => (
             <Button

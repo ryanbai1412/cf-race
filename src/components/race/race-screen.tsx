@@ -106,6 +106,14 @@ export function RaceScreen({
     onEditorChange?.(next, lang, 0);
   }
 
+  function resetToTemplate() {
+    touched.current = false;
+    const next = STARTER_TEMPLATES[lang];
+    setCode(next);
+    localStorage.setItem(storageKey, JSON.stringify({ code: next, lang }));
+    onEditorChange?.(next, lang, 0);
+  }
+
   function switchLang(next: Lang) {
     setLang(next);
     const nextCode = touched.current ? code : STARTER_TEMPLATES[next];
@@ -283,6 +291,9 @@ export function RaceScreen({
             zero.
           </span>
           <div className="flex items-center gap-2">
+            <Button size="sm" variant="ghost" onClick={resetToTemplate}>
+              Reset to template
+            </Button>
             {onSwitchContestant && (
               <Button size="sm" variant="ghost" onClick={onSwitchContestant}>
                 Not {contestant.name}? Switch player
