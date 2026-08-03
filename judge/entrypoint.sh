@@ -30,6 +30,9 @@ if [ -n "$SUPABASE_URL" ] && [ -n "$SUPABASE_SERVICE_ROLE_KEY" ]; then
   npx tsx scripts/sync-problems.ts || echo "problem sync failed (continuing with local problems)"
 fi
 
+# Pre-mount isolate's tmpfs so concurrent first-inits don't race.
+isolate -b 0 --init >/dev/null 2>&1 && isolate -b 0 --cleanup >/dev/null 2>&1 || true
+
 # Warm the compiler and Python so first runs are fast.
 (
   cd /tmp
