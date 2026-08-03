@@ -49,8 +49,15 @@ export function StatementPane({
   /** Access to the scrollable container (used by the replay to drive scroll). */
   scrollRef?: React.Ref<HTMLDivElement>;
 }) {
+  // Memoized as an OBJECT: React re-sets innerHTML whenever the
+  // dangerouslySetInnerHTML prop is a new reference (even for an identical
+  // string), which nukes the DOM — and any text selection in it — on every
+  // parent re-render (the race timer ticks every 200ms).
   const statementHtml = useMemo(
-    () => (problem.statement_html ? renderStatementMath(problem.statement_html) : null),
+    () =>
+      problem.statement_html
+        ? { __html: renderStatementMath(problem.statement_html) }
+        : null,
     [problem.statement_html]
   );
 
@@ -88,7 +95,7 @@ export function StatementPane({
       {statementHtml ? (
         <div
           className="cf-statement prose prose-invert prose-sm max-w-none"
-          dangerouslySetInnerHTML={{ __html: statementHtml }}
+          dangerouslySetInnerHTML={statementHtml}
         />
       ) : (
         <p className="text-muted-foreground">Statement unavailable.</p>
