@@ -9,6 +9,17 @@ if [ "${JUDGE_SANDBOX:-isolate}" = "isolate" ] && [ ! -d /sys/fs/cgroup/memory ]
   export JUDGE_SANDBOX=isolate-nocg
 fi
 
+# isolate's box-tree walk requires a uniform st_dev, which overlayfs (the
+# container rootfs) does not guarantee — put the box root on a tmpfs.
+if ! mountpoint -q /var/local/lib/isolate 2>/dev/null; then
+  mount -t tmpfs -o size=1g,mode=700 tmpfs /var/local/lib/isolate 2>/dev/null || true
+fi
+
+# Some hosts co-mount cpu,cpuacct; isolate expects a plain cpuacct path.
+if [ ! -e /sys/fs/cgroup/cpuacct ] && [ -d /sys/fs/cgroup/cpu,cpuacct ]; then
+  ln -s cpu,cpuacct /sys/fs/cgroup/cpuacct 2>/dev/null || true
+fi
+
 mkdir -p "${CACHE_DIR:-/data/cache}" "${PROBLEMS_DIR:-/data/problems}"
 
 # Optional: sync problems from Supabase Storage on boot if creds are present.
