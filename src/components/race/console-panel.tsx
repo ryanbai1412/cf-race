@@ -7,6 +7,8 @@ import { VerdictChip } from "./verdict-chip";
 import type { RunResult, Submission } from "@/lib/types";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
+export type ConsoleTab = "samples" | "custom" | "submissions";
+
 function OutputBlock({ label, text }: { label: string; text: string }) {
   if (!text) return null;
   return (
@@ -73,6 +75,8 @@ export function ConsolePanel({
   submissions,
   submissionsUsed,
   maxSubmissions,
+  tab,
+  onTabChange,
 }: {
   runResult: RunResult | null;
   runBusy: boolean;
@@ -87,9 +91,15 @@ export function ConsolePanel({
   submissions: Submission[];
   submissionsUsed: number;
   maxSubmissions: number;
+  tab: ConsoleTab;
+  onTabChange: (tab: ConsoleTab) => void;
 }) {
   return (
-    <Tabs defaultValue="samples" className="flex h-full flex-col">
+    <Tabs
+      value={tab}
+      onValueChange={(v) => onTabChange(v as ConsoleTab)}
+      className="flex h-full flex-col"
+    >
       <TabsList className="mx-3 mt-2 w-fit">
         <TabsTrigger value="samples">Samples</TabsTrigger>
         <TabsTrigger value="custom">Custom test</TabsTrigger>
