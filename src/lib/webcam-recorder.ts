@@ -68,7 +68,8 @@ export function startWebcamRecording(stream: MediaStream): WebcamRecording | nul
  */
 export async function uploadRecording(
   blob: Blob,
-  query: Record<string, string>
+  query: Record<string, string>,
+  onProgress?: (frac: number) => void
 ): Promise<boolean> {
   const qs = new URLSearchParams(query).toString();
   try {
@@ -76,14 +77,21 @@ export async function uploadRecording(
       method: "POST",
     });
     if (!signRes.ok) return false;
-    const { path, token } = (await signRes.json()) as {
+    const { path, token, signedUrl } = (await signRes.json()) as {
       path: string;
       token: string;
+      signedUrl?: string;
     };
-    const { error } = await supabase()
-      .storage.from("recordings")
-      .uploadToSignedUrl(path, token, blob, { contentType: "video/webm" });
-    if (error) return false;
+    if (signedUrl && typeof XMLHttpRequest !== "undefined") {
+      const ok = await putWithProgress(signedUrl, blob, onProgress);
+      if (!ok) return false;
+    } else {
+      const { error } = await supabase()
+        .storage.from("recordings")
+        .uploadToSignedUrl(path, token, blob, { contentType: "video/webm" });
+      if (error) return false;
+      onProgress?.(1);
+    }
     const confirmRes = await fetch(`/api/recordings?${qs}&step=confirm`, {
       method: "POST",
     });
@@ -91,4 +99,24 @@ export async function uploadRecording(
   } catch {
     return false;
   }
+}
+
+/** PUT to a Supabase signed upload URL via XHR so we get upload progress. */
+function putWithProgress(
+  url: string,
+  blob: Blob,
+  onProgress?: (frac: number) => void
+): Promise<boolean> {
+  return new Promise((resolve) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("PUT", url);
+    xhr.setRequestHeader("content-type", "video/webm");
+    xhr.setRequestHeader("x-upsert", "true");
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable && e.total > 0) onProgress?.(e.loaded / e.total);
+    };
+    xhr.onload = () => resolve(xhr.status >= 200 && xhr.status < 300);
+    xhr.onerror = () => resolve(false);
+    xhr.send(blob);
+  });
 }

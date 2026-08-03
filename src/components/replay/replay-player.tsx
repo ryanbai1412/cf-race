@@ -98,16 +98,14 @@ function ReplayStatement({
     el.addEventListener("wheel", unfollow, { passive: true });
     el.addEventListener("touchmove", unfollow, { passive: true });
     el.addEventListener("keydown", unfollow);
-    // Scrollbar drags: pointerdown landing on the scrollbar gutter.
-    const onPointerDown = (e: PointerEvent) => {
-      if (e.offsetX > el.clientWidth) unfollow();
-    };
-    el.addEventListener("pointerdown", onPointerDown);
+    // Any click/drag in the pane (text selection, scrollbar) detaches too,
+    // so auto-scroll never fights a selection in progress.
+    el.addEventListener("pointerdown", unfollow);
     return () => {
       el.removeEventListener("wheel", unfollow);
       el.removeEventListener("touchmove", unfollow);
       el.removeEventListener("keydown", unfollow);
-      el.removeEventListener("pointerdown", onPointerDown);
+      el.removeEventListener("pointerdown", unfollow);
     };
   }, []);
 

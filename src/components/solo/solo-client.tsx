@@ -51,6 +51,7 @@ export function SoloClient({
   const [uploadState, setUploadState] = useState<
     "none" | "uploading" | "done" | "failed"
   >("none");
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [starting, setStarting] = useState(false);
 
   // Server clock offset (serverNow − Date.now()), set when the session starts.
@@ -224,20 +225,38 @@ export function SoloClient({
     recordingRef.current = null;
     if (rec) {
       setUploadState("uploading");
+      setUploadProgress(0);
       void rec.stop().then(async (blob) => {
         if (!blob) {
           setUploadState("failed");
           return;
         }
-        const ok = await uploadRecording(blob, {
-          sessionId: session.sessionId,
-          offsetMs: String(rec.startedAtMs + clockOffset.current - session.startAtMs),
-        });
+        const ok = await uploadRecording(
+          blob,
+          {
+            sessionId: session.sessionId,
+            offsetMs: String(
+              rec.startedAtMs + clockOffset.current - session.startAtMs
+            ),
+          },
+          setUploadProgress
+        );
         setUploadState(ok ? "done" : "failed");
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase]);
+
+  // Leaving mid-upload would lose the webcam recording — warn first.
+  useEffect(() => {
+    if (uploadState !== "uploading") return;
+    const warn = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [uploadState]);
 
   // Timer watchdog → timeout finish.
   useEffect(() => {
@@ -394,8 +413,20 @@ export function SoloClient({
                 No AC this time — replay it and see where the seconds went.
               </p>
             )}
+            {uploadState === "uploading" && (
+              <div className="mx-auto w-full max-w-xs space-y-1">
+                <p className="font-mono text-xs text-muted-foreground">
+                  Uploading webcam recording… {Math.round(uploadProgress * 100)}%
+                </p>
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
+                  <div
+                    className="h-full rounded-full bg-primary transition-[width] duration-200"
+                    style={{ width: `${Math.round(uploadProgress * 100)}%` }}
+                  />
+                </div>
+              </div>
+            )}
             <p className="font-mono text-xs text-muted-foreground">
-              {uploadState === "uploading" && "Uploading webcam recording…"}
               {uploadState === "done" && "Webcam recording saved."}
               {uploadState === "failed" &&
                 "Webcam recording could not be saved — the editor replay still works."}
