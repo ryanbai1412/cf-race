@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import confetti from "canvas-confetti";
 import { useEventState } from "@/hooks/use-event-state";
-import { eventChannel, sendBroadcast } from "@/lib/realtime";
+import { sendBroadcast } from "@/lib/realtime";
 import { CodeMirror } from "./code-mirror";
 import { TouristPane } from "./tourist-pane";
 import { WebcamView } from "./webcam";
@@ -13,6 +13,7 @@ import { STARTER_TEMPLATES, formatMs, formatMsPrecise } from "@/lib/templates";
 import { flagEmoji } from "@/lib/countries";
 import { cn } from "@/lib/utils";
 import type { BroadcastMsg, Lang, StationRole } from "@/lib/types";
+import type { RealtimeChannel } from "@supabase/supabase-js";
 
 const IDLE_SLIDE_MS = 12000;
 
@@ -44,22 +45,17 @@ export function MonitorClient({
     [station]
   );
 
-  const { state, serverNow } = useEventState(eventId, onMessage);
-
-  // On mount, ask the station to rebroadcast its editor snapshot so the
-  // mirror isn't stuck on the starter template until the next keystroke
+  // Once subscribed, ask the station to rebroadcast its editor snapshot so
+  // the mirror isn't stuck on the starter template until the next keystroke
   // (e.g. after a monitor refresh or a late join).
-  useEffect(() => {
-    const ch = eventChannel(eventId);
-    ch.subscribe((status) => {
-      if (status === "SUBSCRIBED") {
-        sendBroadcast(ch, { type: "request_editor", station });
-      }
-    });
-    return () => {
-      void ch.unsubscribe();
-    };
-  }, [eventId, station]);
+  const onSubscribed = useCallback(
+    (ch: RealtimeChannel) => {
+      sendBroadcast(ch, { type: "request_editor", station });
+    },
+    [station]
+  );
+
+  const { state, serverNow } = useEventState(eventId, onMessage, onSubscribed);
 
   useEffect(() => {
     const iv = setInterval(() => forceTick((n) => n + 1), 200);
