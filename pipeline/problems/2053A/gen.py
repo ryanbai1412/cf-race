@@ -34,3 +34,7 @@ w.add(multi([case([rng.randint(1, MAXV) for _ in range(200)]) for _ in range(200
 w.add(multi([case([rng.choice([1, 3, 9, 27, 81]) for _ in range(200)])
              for _ in range(200)]))
 w.add(multi([case(sorted(rng.randint(1, MAXV) for _ in range(200))) for _ in range(200)]))
+# adversarial for quadratic DPs: no stable segment longer than 1, so
+# O(n^2) scans never break early — alternating huge/small values
+w.add(multi([case([MAXV if i % 2 == 0 else 1 for i in range(200)]) for _ in range(200)]))
+w.add(multi([case([(MAXV if i % 2 == 0 else 1 + (i % 3)) for i in range(200)]) for _ in range(200)]))
