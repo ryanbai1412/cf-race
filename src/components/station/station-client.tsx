@@ -94,8 +94,10 @@ export function StationClient({
 
   const race0 = state?.race;
   useEffect(() => {
+    // Races stay in "countdown" state in the DB; the recorder itself only
+    // keeps snapshots with t >= 0, i.e. after the actual start moment.
     recorderRef.current =
-      race0 && race0.state === "running" && race0.started_at
+      race0 && race0.state !== "finished" && race0.started_at
         ? { raceId: race0.id, startMs: new Date(race0.started_at).getTime() }
         : null;
   }, [race0]);

@@ -1,0 +1,37 @@
+---
+name: testing-cf-race
+description: How to run and end-to-end test the cf-race booth app locally (dev server env vars, device links, judge on Fly, Supabase problems bucket, replay data tables).
+---
+
+# Testing the cf-race booth app
+
+## Run locally
+- Next.js app at repo root, pnpm. Start with: `pnpm exec next dev -p 3100` and env vars
+  `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`,
+  `NEXT_PUBLIC_LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET`,
+  `JUDGE_URL=https://cf-race-judge.fly.dev`, `JUDGE_TOKEN`.
+- Vercel prod may be behind SSO; test against localhost.
+
+## Navigation / auth model
+- Landing `/` → "Create event" → `/e/<eventId>/admin`.
+- Device links are `/e/<id>/join?k=<secret>&to=/station/1|/station/2|/monitor/a|/monitor/b|/admin`; the join route sets an httpOnly cookie with path `/`, so after joining once in a browser you can navigate directly to `/e/<id>/station/2`, `/e/<id>/monitor/a`, etc. in other tabs — no need to copy each link.
+- Simulate the booth with multiple tabs: admin, station 1, station 2, monitor A.
+
+## Test data
+- Reference AC solutions: `pipeline/problems/<id>/ref.py` (e.g. 2024A). Paste via clipboard (`xclip -selection clipboard`, then Ctrl+A/Ctrl+V in Monaco) — typing Python by keystrokes breaks due to Monaco auto-indent.
+- Wrong answer: submit `print(0)`.
+- Admin race control: pick problem, set Timer seconds (default 180 — use 600 to have time for all checks), "Start race (5s countdown)".
+
+## Judge (Fly) gotchas
+- Judge syncs problem packages from the Supabase Storage bucket `problems` **on boot only**. If a problem exists in the DB `problems` table but not in the bucket, runs fail with `judge /run failed: 404` (judge ENOENT on `/data/problems/<id>/meta.json`). `warmup-sum` was missing this way once.
+- Fix: upload `<id>/meta.json` + `<id>/tests/01.in|01.out` to the bucket (service-role key via storage REST API), then `flyctl machine restart <ids> -a cf-race-judge` (needs FLY_API_TOKEN; install flyctl via `curl -sL https://fly.io/install.sh | sh`).
+- Direct judge check: `POST $JUDGE_URL/run` with `Authorization: Bearer $JUDGE_TOKEN`.
+
+## Replay data
+- Editor snapshots go to table `race_editor_events` via `POST /api/replay` (flushed every 5 s from stations). If replays play back empty, check that table — the recorder in `src/components/station/station-client.tsx` only records when `race.state === "running"`; if the backend leaves races in `countdown`, nothing is recorded.
+
+## Devin Secrets Needed
+`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET`, `JUDGE_TOKEN`, `FLY_API_TOKEN`.
+
+## Webcam
+- Webcam publishing needs a camera; in a VM launch Chrome fresh with `--use-fake-ui-for-media-stream --use-fake-device-for-media-stream` **before** any Chrome instance is running, else the pane renders black.
