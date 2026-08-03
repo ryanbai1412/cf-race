@@ -120,6 +120,15 @@ class BoxPool {
 
 const boxPool = new BoxPool(Math.max(config.workers * 2, 4));
 
+// isolate --init instances race on mounting the shared tmpfs at
+// /var/local/lib/isolate ("Unexpected mountpoint" errors); serialize them.
+let initChain: Promise<unknown> = Promise.resolve();
+function serializedInit(args: string[]) {
+  const p = initChain.then(() => spawnCollect("isolate", args, {}));
+  initChain = p.catch(() => {});
+  return p;
+}
+
 async function placeFiles(dir: string, files?: ExecSpec["files"]) {
   if (!files) return;
   for (const [name, content] of Object.entries(files)) {
@@ -155,9 +164,14 @@ async function runIsolate(
   const metaPath = path.join(os.tmpdir(), `isolate-meta-${boxId}-${Date.now()}`);
   const cgArgs = cg ? ["--cg"] : [];
   try {
-    const init = await spawnCollect("isolate", [...cgArgs, "-b", String(boxId), "--init"], {});
+    let init = await serializedInit([...cgArgs, "-b", String(boxId), "--init"]);
     if (init.code !== 0) {
-      throw new Error(`isolate --init failed: ${init.stderr.toString()}`);
+      // A crashed previous run can leave the box dirty; clean and retry once.
+      await spawnCollect("isolate", [...cgArgs, "-b", String(boxId), "--cleanup"], {});
+      init = await serializedInit([...cgArgs, "-b", String(boxId), "--init"]);
+      if (init.code !== 0) {
+        throw new Error(`isolate --init failed: ${init.stderr.toString()}`);
+      }
     }
     const boxDir = init.stdout.toString().trim() + "/box";
     await placeFiles(boxDir, spec.files);
