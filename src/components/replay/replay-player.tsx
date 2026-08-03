@@ -148,7 +148,7 @@ export function ReplayCore({
 
       <div className="flex min-h-0 flex-1">
         <div className="min-h-0 min-w-0 flex-1">
-          <CodeMirror code={state.code} lang={log.lang} />
+          <CodeMirror code={state.code} lang={state.lang ?? log.lang} />
         </div>
         {videoUrl && (
           <div className="flex w-[28%] min-w-[240px] flex-col border-l border-border/60 bg-black/40">

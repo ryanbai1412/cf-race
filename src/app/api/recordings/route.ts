@@ -2,23 +2,30 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { requireEvent } from "@/lib/api-auth";
 
-export const maxDuration = 60;
-const MAX_BYTES = 100 * 1024 * 1024;
-
 /**
- * Upload a webcam webm to the private `recordings` bucket.
- * Solo runs:   POST /api/recordings?sessionId=…&offsetMs=…
- * Event races: POST /api/recordings?eventId=…&raceId=…&station=…&offsetMs=…
- * offsetMs = recorder start − race/run start (video time = clock − offset).
+ * Webcam recordings live in the private `recordings` bucket. The webm itself
+ * is uploaded straight from the browser via a signed upload URL (serverless
+ * request-body limits are far too small for video), in two steps:
+ *
+ *   POST /api/recordings?step=sign&…     → { path, token }
+ *   POST /api/recordings?step=confirm&…  → records path/offset in the DB
+ *
+ * Solo runs identify themselves with ?sessionId=…, event races with
+ * ?eventId=…&raceId=…&station=…. offsetMs = recorder start − race/run start
+ * (video time = clock − offset).
  */
 export async function POST(req: NextRequest) {
   const q = req.nextUrl.searchParams;
+  const step = q.get("step") ?? "";
   const sessionId = q.get("sessionId") ?? "";
   const eventId = q.get("eventId") ?? "";
   const raceId = q.get("raceId") ?? "";
   const station = q.get("station") ?? "";
   const offsetRaw = Number(q.get("offsetMs") ?? "0");
   const offsetMs = Number.isFinite(offsetRaw) ? Math.round(offsetRaw) : 0;
+  if (step !== "sign" && step !== "confirm") {
+    return NextResponse.json({ error: "bad request" }, { status: 400 });
+  }
 
   let path: string;
   if (sessionId) {
@@ -46,15 +53,18 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
   }
 
-  const buf = await req.arrayBuffer();
-  if (buf.byteLength === 0 || buf.byteLength > MAX_BYTES) {
-    return NextResponse.json({ error: "bad recording size" }, { status: 400 });
+  if (step === "sign") {
+    const { data, error } = await db()
+      .storage.from("recordings")
+      .createSignedUploadUrl(path, { upsert: true });
+    if (error || !data) {
+      return NextResponse.json(
+        { error: error?.message ?? "sign failed" },
+        { status: 500 }
+      );
+    }
+    return NextResponse.json({ path: data.path, token: data.token });
   }
-
-  const { error: upErr } = await db()
-    .storage.from("recordings")
-    .upload(path, buf, { contentType: "video/webm", upsert: true });
-  if (upErr) return NextResponse.json({ error: upErr.message }, { status: 500 });
 
   if (sessionId) {
     const { error } = await db()

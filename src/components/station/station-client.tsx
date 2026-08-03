@@ -69,10 +69,10 @@ export function StationClient({
         }
         const rec = recorderRef.current;
         if (pending && rec) {
-          const t = serverNowRef.current() - rec.startMs;
-          if (t >= 0) {
-            replayBuffer.current.push({ t, code: pending.code, lang: pending.lang });
-          }
+          // Clamp countdown-time snapshots to t=0 so the replay isn't empty
+          // before the first post-start edit.
+          const t = Math.max(0, serverNowRef.current() - rec.startMs);
+          replayBuffer.current.push({ t, code: pending.code, lang: pending.lang });
         }
       }, 300);
     };
