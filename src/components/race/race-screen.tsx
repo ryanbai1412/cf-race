@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { StatementPane } from "./statement-pane";
 import { ConsolePanel } from "./console-panel";
-import { STARTER_TEMPLATES, formatMs } from "@/lib/templates";
+import { STARTER_TEMPLATES, formatMs, formatMsPrecise } from "@/lib/templates";
 import { flagEmoji } from "@/lib/countries";
 import { cn } from "@/lib/utils";
 import type {
@@ -33,6 +33,9 @@ export function RaceScreen({
   ready,
   onEditorChange,
   onSubmitAccepted,
+  rivalName,
+  rivalSolveMs,
+  onSwitchContestant,
 }: {
   eventId: string;
   problem: Problem;
@@ -45,6 +48,9 @@ export function RaceScreen({
   ready?: boolean;
   onEditorChange?: (code: string, lang: Lang, cursorLine: number) => void;
   onSubmitAccepted?: () => void;
+  rivalName?: string;
+  rivalSolveMs?: number | null;
+  onSwitchContestant?: () => void;
 }) {
   const storageKey = `cfr-code-${raceId ?? "warmup"}-${contestant.station_role}`;
   const [lang, setLang] = useState<Lang>("cpp");
@@ -231,6 +237,19 @@ export function RaceScreen({
               {formatMs(remaining)}
             </span>
           )}
+          {!warmup && rivalName && (
+            <span className="font-mono text-sm">
+              {rivalSolveMs != null ? (
+                <span className="text-green-400">
+                  {rivalName} ✓ AC {formatMsPrecise(rivalSolveMs)}
+                </span>
+              ) : (
+                <span className="text-muted-foreground">
+                  vs {rivalName} — racing…
+                </span>
+              )}
+            </span>
+          )}
           <span className="text-sm text-muted-foreground">
             {contestant.name} {contestant.country ? flagEmoji(contestant.country) : ""}
           </span>
@@ -258,11 +277,18 @@ export function RaceScreen({
             Warm-up — get comfortable. The real race starts when the countdown hits
             zero.
           </span>
-          {onReady && (
-            <Button size="sm" variant={ready ? "secondary" : "default"} onClick={onReady}>
-              {ready ? "Ready ✓ (waiting for start)" : "I'm ready"}
-            </Button>
-          )}
+          <div className="flex items-center gap-2">
+            {onSwitchContestant && (
+              <Button size="sm" variant="ghost" onClick={onSwitchContestant}>
+                Not {contestant.name}? Switch player
+              </Button>
+            )}
+            {onReady && (
+              <Button size="sm" variant={ready ? "secondary" : "default"} onClick={onReady}>
+                {ready ? "Ready ✓ (waiting for start)" : "I'm ready"}
+              </Button>
+            )}
+          </div>
         </div>
       )}
 

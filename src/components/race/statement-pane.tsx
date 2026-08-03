@@ -1,11 +1,29 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+import renderMathInElement from "katex/contrib/auto-render";
+import "katex/dist/katex.min.css";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Copy } from "lucide-react";
 import type { Problem } from "@/lib/types";
 
 export function StatementPane({ problem }: { problem: Problem }) {
+  const statementRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!statementRef.current) return;
+    renderMathInElement(statementRef.current, {
+      delimiters: [
+        { left: "$$$$$$", right: "$$$$$$", display: true },
+        { left: "$$$", right: "$$$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      throwOnError: false,
+    });
+  }, [problem.statement_html]);
+
   return (
     <div className="flex h-full flex-col overflow-y-auto border-r border-border/60 bg-card/30 px-6 py-5">
       <div className="mb-3 flex items-baseline gap-3">
@@ -16,6 +34,7 @@ export function StatementPane({ problem }: { problem: Problem }) {
       </div>
       {problem.statement_html ? (
         <div
+          ref={statementRef}
           className="cf-statement prose prose-invert prose-sm max-w-none"
           dangerouslySetInnerHTML={{ __html: problem.statement_html }}
         />
