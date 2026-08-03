@@ -17,6 +17,8 @@ export interface ExecSpec {
   procs?: number;
   /** extra size for fsize in KB */
   fsizeKb?: number;
+  /** Extra host directories to bind read-only into the sandbox. */
+  dirs?: string[];
   /** skip the address-space rlimit in non-cg mode (needed for ASan binaries) */
   noAddressSpaceLimit?: boolean;
   env?: Record<string, string>;
@@ -204,6 +206,7 @@ async function runIsolate(
     } else if (!spec.noAddressSpaceLimit) {
       args.push("-m", String(spec.memoryLimitMb * 1024));
     }
+    for (const d of spec.dirs ?? []) args.push(`--dir=${d}=${d}`);
     for (const [k, v] of Object.entries(spec.env ?? {})) args.push("-E", `${k}=${v}`);
     args.push("--run", "--", ...spec.argv);
 
