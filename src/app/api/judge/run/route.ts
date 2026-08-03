@@ -43,7 +43,6 @@ export async function POST(req: NextRequest) {
       runId: randomUUID(),
       lang,
       source,
-      problemId: problem.id,
       tests,
       timeLimitMs: problem.time_limit_ms,
       memoryLimitMb: problem.memory_limit_mb,
