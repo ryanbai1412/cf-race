@@ -22,10 +22,10 @@ seed: ## upload problems/ packages to Supabase Storage + upsert problems table
 	pnpm seed
 
 judge-dev: ## local judge, no sandbox (unsafe, dev only) on http://localhost:8080
-	cd judge && JUDGE_TOKEN=dev JUDGE_SANDBOX=none PROBLEMS_DIR=../problems npm run dev
+	cd judge && JUDGE_TOKEN=dev JUDGE_SANDBOX=none PROBLEMS_DIR=../problems pnpm run dev
 
 judge-test:
-	cd judge && npm test
+	cd judge && pnpm test
 
 judge-docker: ## local judge in Docker with the real isolate sandbox
 	rm -rf judge/problems-dev && cp -R problems/dev judge/problems-dev

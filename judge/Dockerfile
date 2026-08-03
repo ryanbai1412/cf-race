@@ -33,12 +33,13 @@ RUN set -e; \
     chmod -R a+rX /opt/pch
 
 WORKDIR /app
-COPY package.json package-lock.json* ./
-RUN npm install
+RUN corepack enable pnpm
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+RUN pnpm install --frozen-lockfile
 COPY tsconfig.json ./
 COPY src ./src
 COPY scripts ./scripts
-RUN npm run build
+RUN pnpm run build
 
 # Dev problems baked into the image so the judge works before any sync.
 COPY problems-dev /data/problems/dev

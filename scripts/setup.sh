@@ -67,7 +67,7 @@ fi
 echo
 echo "Installing dependencies..."
 pnpm install
-(cd judge && npm install)
+(cd judge && pnpm install)
 
 echo
 echo "Done. Next steps:"
