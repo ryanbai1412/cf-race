@@ -11,6 +11,16 @@ description: How to run and end-to-end test the cf-race booth app locally (dev s
   `NEXT_PUBLIC_LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET`,
   `JUDGE_URL=https://cf-race-judge.fly.dev`, `JUDGE_TOKEN`.
 - Vercel prod may be behind SSO; test against localhost.
+- pnpm must be v10 (`packageManager: pnpm@10.18.3`): pnpm 9 fails on `pnpm-workspace.yaml`'s
+  `minimumReleaseAge` key with "ERROR packages field missing or empty". Use
+  `COREPACK_INTEGRITY_KEYS=0 corepack pnpm@10.18.3 install`, then run
+  `./node_modules/.bin/next dev -p 3100` directly. Run the dev server in a persistent/tty
+  shell — one-shot backgrounded shells may get reaped and the server silently dies.
+- Beware Next.js fetch caching of supabase-js GETs in API routes (`.next/cache/fetch-cache/`):
+  a route can keep returning stale data (e.g. empty `/api/solo/submissions`) even with
+  `dynamic = "force-dynamic"`. If an API returns stale/empty data that the DB clearly has,
+  restart the dev server (or clear `.next/cache/fetch-cache`) before concluding it's a bug
+  in the change under test.
 
 ## Navigation / auth model
 - Landing `/` → "Create event" → `/e/<eventId>/admin`.
