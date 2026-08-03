@@ -121,6 +121,11 @@ recording does not survive a reload (note shown on the finish card).
 - All tables RLS-enabled, service-role access only (as with the rest of the schema).
 
 ## Out of scope (future)
-- Accounts / cross-device solved state (localStorage is the source of truth for v1).
+- ~~Accounts / cross-device solved state~~ — added: "Log in with Google"
+  (Supabase Auth, `@supabase/ssr`). Signed-in runs are tagged with
+  `solo_sessions.user_id` (RLS: users read their own rows); `/api/solo/history`
+  serves the account history and `/api/solo/claim` merges anonymous localStorage
+  runs into the account on first login. localStorage remains the anonymous
+  fallback and cache.
 - Multi-problem timed gauntlet sessions with aggregate scoring.
 - Audio commentary recording.
