@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { StatementPane } from "./statement-pane";
-import { ConsolePanel } from "./console-panel";
+import { ConsolePanel, type ConsoleTab } from "./console-panel";
 import { STARTER_TEMPLATES, formatMs, formatMsPrecise } from "@/lib/templates";
 import { flagEmoji } from "@/lib/countries";
 import { cn } from "@/lib/utils";
@@ -74,6 +74,7 @@ export function RaceScreen({
   const [customBusy, setCustomBusy] = useState(false);
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [submitBusy, setSubmitBusy] = useState(false);
+  const [consoleTab, setConsoleTab] = useState<ConsoleTab>("samples");
 
   // Restore code from localStorage on mount, then broadcast the initial
   // snapshot so mirrors show this screen's code before the first edit.
@@ -147,6 +148,7 @@ export function RaceScreen({
     setRunBusy(true);
     setRunError(null);
     setRunResult(null);
+    setConsoleTab("samples");
     onRun?.();
     try {
       const res = await fetch(solo ? "/api/solo/run" : "/api/judge/run", {
@@ -212,6 +214,7 @@ export function RaceScreen({
   const submit = useCallback(async () => {
     if (warmup || !raceId || submitBusy || timeUp) return;
     setSubmitBusy(true);
+    setConsoleTab("submissions");
     try {
       const res = await fetch(solo ? "/api/solo/submit" : "/api/submit", {
         method: "POST",
@@ -395,6 +398,8 @@ export function RaceScreen({
               submissions={submissions}
               submissionsUsed={submissionsUsed}
               maxSubmissions={MAX_SUBMISSIONS}
+              tab={consoleTab}
+              onTabChange={setConsoleTab}
             />
           </div>
         </div>
