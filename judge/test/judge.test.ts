@@ -67,6 +67,24 @@ describe("run (samples)", () => {
     expect(r.results[0].stdout.trim()).toBe("42");
   });
 
+  it("large correct output is AC, with display truncated", async () => {
+    const n = 200_000; // ~1.2MB, far beyond the 64KB display cap
+    let expected = "";
+    for (let i = 0; i < n; i++) expected += `${i}\n`;
+    const r = await handleRun({
+      runId: "r7",
+      lang: "py",
+      source: `import sys\nsys.stdout.write("".join(f"{i}\\n" for i in range(${n})))`,
+      tests: [{ name: "big", input: "", expected }],
+      timeLimitMs: 5000,
+      memoryLimitMb: 512,
+    });
+    expect(r.results[0].checkerNote).toBeUndefined();
+    expect(r.results[0].verdict).toBe("AC");
+    expect(r.results[0].stdoutTruncated).toBe(true);
+    expect(r.results[0].stdout.length).toBeLessThan(expected.length);
+  }, 60000);
+
   it("cpp compiles (debug) and passes samples", async () => {
     const r = await handleRun({ runId: "r5", lang: "cpp", source: CPP_AC, problemId: "dev/aplusb" });
     expect(r.compile.ok).toBe(true);
