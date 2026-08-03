@@ -26,6 +26,17 @@ export async function GET(req: NextRequest) {
       .order("created_at", { ascending: false }),
   ]);
 
+  // Lazily transition countdown → running once the start time has passed.
+  if (
+    race &&
+    race.state === "countdown" &&
+    race.started_at &&
+    new Date(race.started_at).getTime() <= Date.now()
+  ) {
+    race.state = "running";
+    await db().from("races").update({ state: "running" }).eq("id", race.id);
+  }
+
   // Active contestant per station = most recent not attached to a finished race.
   const active: Partial<Record<StationRole, Contestant>> = {};
   for (const c of (contestants ?? []) as Contestant[]) {
