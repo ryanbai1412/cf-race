@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatMsPrecise } from "@/lib/templates";
 import { loadSoloHistory, bestSolve, type SoloHistoryEntry } from "@/lib/solo";
+import { SoloAuthButton, useSoloAuth } from "./auth-button";
 import { cn } from "@/lib/utils";
 import { Play, Trophy, Video } from "lucide-react";
 
@@ -20,6 +21,41 @@ type ProblemRow = {
 export function SoloHome({ problems }: { problems: ProblemRow[] }) {
   const [history, setHistory] = useState<SoloHistoryEntry[]>([]);
   useEffect(() => setHistory(loadSoloHistory()), []);
+
+  const auth = useSoloAuth();
+  const { user } = auth;
+
+  // Signed in: merge local (anonymous) runs into the account once, then use
+  // the account-backed history so it follows the user across machines.
+  useEffect(() => {
+    if (!user) return;
+    let cancelled = false;
+    const local = loadSoloHistory();
+    const claimKey = `cfr-solo-claimed-${user.id}`;
+    const claim =
+      !localStorage.getItem(claimKey) && local.length > 0
+        ? fetch("/api/solo/claim", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ sessionIds: local.map((e) => e.sessionId) }),
+          })
+            .then((r) => r.ok && localStorage.setItem(claimKey, "1"))
+            .catch(() => {})
+        : Promise.resolve();
+    void claim
+      .then(() => fetch("/api/solo/history", { cache: "no-store" }))
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: { entries: SoloHistoryEntry[] } | null) => {
+        if (cancelled || !d) return;
+        const merged = [...d.entries];
+        const seen = new Set(merged.map((e) => e.sessionId));
+        for (const e of local) if (!seen.has(e.sessionId)) merged.push(e);
+        setHistory(merged);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [user]);
 
   const solvedCount = problems.filter((p) => bestSolve(history, p.id)).length;
 
@@ -36,9 +72,13 @@ export function SoloHome({ problems }: { problems: ProblemRow[] }) {
             One problem, 3 minutes on the clock. Every run records your editor and
             webcam — replay any run below.
           </p>
-          <p className="font-mono text-sm text-muted-foreground">
-            {solvedCount} / {problems.length} solved on this machine
-          </p>
+          <div className="flex items-center gap-4">
+            <p className="font-mono text-sm text-muted-foreground">
+              {solvedCount} / {problems.length} solved{" "}
+              {user ? "on your account" : "on this machine"}
+            </p>
+            <SoloAuthButton {...auth} />
+          </div>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
