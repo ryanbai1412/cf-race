@@ -60,7 +60,7 @@ export function TouristPane({
       </div>
       <div className="min-h-0 flex-1">
         {log && ghost ? (
-          <CodeMirror code={ghost.code} lang={log.lang} fontSize={14} />
+          <CodeMirror code={ghost.code} lang={ghost.lang ?? log.lang} fontSize={14} />
         ) : (
           <div className="flex h-full flex-col items-center justify-center gap-2 p-6 text-center">
             {log === undefined ? (

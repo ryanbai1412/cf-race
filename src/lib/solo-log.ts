@@ -67,7 +67,13 @@ export async function buildSoloLog(sessionId: string): Promise<{
   const events: TouristEvent[] = [];
   for (const s of snaps ?? []) {
     if (s.kind === "run") events.push({ t: s.t_ms, type: "run" });
-    else events.push({ t: s.t_ms, type: "snapshot", code: s.code });
+    else
+      events.push({
+        t: s.t_ms,
+        type: "snapshot",
+        code: s.code,
+        lang: s.lang === "py" ? "py" : "cpp",
+      });
   }
   let lang: Lang = session.lang ?? "cpp";
   for (const s of subs ?? []) {
