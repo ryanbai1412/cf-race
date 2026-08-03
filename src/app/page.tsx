@@ -18,6 +18,12 @@ export default function Home() {
           </p>
         </div>
         <CreateEventCard />
+        <a
+          href="/solo"
+          className="font-mono text-sm text-muted-foreground underline-offset-4 hover:text-primary hover:underline"
+        >
+          or practice solo — the gauntlet →
+        </a>
       </div>
     </main>
   );

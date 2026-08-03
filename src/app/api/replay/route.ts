@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     eventId?: string;
     raceId?: string;
     station?: string;
-    events?: { t: number; code: string; lang: Lang }[];
+    events?: { t: number; code: string; lang: Lang; kind?: string }[];
   };
   const event = await requireEvent(body.eventId ?? "");
   if (!event) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
     t_ms: Math.max(0, Math.round(e.t)),
     code: String(e.code).slice(0, 100_000),
     lang: e.lang === "py" ? "py" : "cpp",
+    kind: e.kind === "run" ? "run" : "snapshot",
   }));
   const { error } = await db().from("race_editor_events").insert(rows);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
@@ -77,7 +78,7 @@ export async function GET(req: NextRequest) {
   const [{ data: snaps }, { data: subs }] = await Promise.all([
     db()
       .from("race_editor_events")
-      .select("t_ms, code, lang")
+      .select("t_ms, code, lang, kind")
       .eq("race_id", raceId)
       .eq("station_role", station)
       .order("t_ms", { ascending: true })
@@ -92,7 +93,8 @@ export async function GET(req: NextRequest) {
 
   const events: TouristEvent[] = [];
   for (const s of snaps ?? []) {
-    events.push({ t: s.t_ms, type: "snapshot", code: s.code });
+    if (s.kind === "run") events.push({ t: s.t_ms, type: "run" });
+    else events.push({ t: s.t_ms, type: "snapshot", code: s.code });
   }
   let lang: Lang = "cpp";
   for (const s of subs ?? []) {
@@ -113,6 +115,21 @@ export async function GET(req: NextRequest) {
     ? new Date(participant.first_ac_at).getTime() - startMs
     : null;
 
+  // Webcam recording for this station, if one was uploaded.
+  const { data: rec } = await db()
+    .from("race_recordings")
+    .select("path, offset_ms")
+    .eq("race_id", raceId)
+    .eq("station_role", station)
+    .maybeSingle();
+  let recordingUrl: string | null = null;
+  if (rec?.path) {
+    const { data: signed } = await db()
+      .storage.from("recordings")
+      .createSignedUrl(rec.path, 3600);
+    recordingUrl = signed?.signedUrl ?? null;
+  }
+
   return NextResponse.json({
     problemId: race.problem_id,
     lang,
@@ -122,5 +139,7 @@ export async function GET(req: NextRequest) {
       ? { name: participant.contestant.name, country: participant.contestant.country }
       : null,
     timerSec: race.timer_sec,
+    recordingUrl,
+    recordingOffsetMs: rec?.offset_ms ?? 0,
   });
 }

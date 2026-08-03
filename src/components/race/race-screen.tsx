@@ -29,9 +29,11 @@ export function RaceScreen({
   endAtMs,
   serverNow,
   warmup,
+  solo = false,
   onReady,
   ready,
   onEditorChange,
+  onRun,
   onSubmitAccepted,
   rivalName,
   rivalSolveMs,
@@ -40,13 +42,15 @@ export function RaceScreen({
   eventId: string;
   problem: Problem;
   contestant: Contestant;
-  raceId: string | null; // null during warm-up
+  raceId: string | null; // null during warm-up; solo session id in solo mode
   endAtMs: number | null; // null during warm-up
   serverNow: () => number;
   warmup: boolean;
+  solo?: boolean; // solo practice: run/submit/submissions go to /api/solo/*
   onReady?: () => void;
   ready?: boolean;
   onEditorChange?: (code: string, lang: Lang, cursorLine: number) => void;
+  onRun?: () => void; // fired when "Run samples" is clicked (for replay markers)
   onSubmitAccepted?: () => void;
   rivalName?: string;
   rivalSolveMs?: number | null;
@@ -127,8 +131,9 @@ export function RaceScreen({
     setRunBusy(true);
     setRunError(null);
     setRunResult(null);
+    onRun?.();
     try {
-      const res = await fetch("/api/judge/run", {
+      const res = await fetch(solo ? "/api/solo/run" : "/api/judge/run", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ eventId, lang, source: code, problemId: problem.id }),
@@ -141,14 +146,14 @@ export function RaceScreen({
     } finally {
       setRunBusy(false);
     }
-  }, [runBusy, timeUp, eventId, lang, code, problem.id]);
+  }, [runBusy, timeUp, solo, eventId, lang, code, problem.id, onRun]);
 
   const runCustom = useCallback(async () => {
     if (customBusy || timeUp) return;
     setCustomBusy(true);
     setCustomResult(null);
     try {
-      const res = await fetch("/api/judge/run", {
+      const res = await fetch(solo ? "/api/solo/run" : "/api/judge/run", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -171,16 +176,18 @@ export function RaceScreen({
     } finally {
       setCustomBusy(false);
     }
-  }, [customBusy, timeUp, eventId, lang, code, problem.id, customInput]);
+  }, [customBusy, timeUp, solo, eventId, lang, code, problem.id, customInput]);
 
   const refreshSubmissions = useCallback(async () => {
     if (!raceId) return;
     const res = await fetch(
-      `/api/submissions?eventId=${eventId}&raceId=${raceId}&contestantId=${contestant.id}`,
+      solo
+        ? `/api/solo/submissions?sessionId=${raceId}`
+        : `/api/submissions?eventId=${eventId}&raceId=${raceId}&contestantId=${contestant.id}`,
       { cache: "no-store" }
     );
     if (res.ok) setSubmissions((await res.json()).submissions);
-  }, [eventId, raceId, contestant.id]);
+  }, [solo, eventId, raceId, contestant.id]);
 
   useEffect(() => {
     void refreshSubmissions();
@@ -190,16 +197,14 @@ export function RaceScreen({
     if (warmup || !raceId || submitBusy || timeUp) return;
     setSubmitBusy(true);
     try {
-      const res = await fetch("/api/submit", {
+      const res = await fetch(solo ? "/api/solo/submit" : "/api/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          eventId,
-          raceId,
-          contestantId: contestant.id,
-          lang,
-          source: code,
-        }),
+        body: JSON.stringify(
+          solo
+            ? { sessionId: raceId, lang, source: code }
+            : { eventId, raceId, contestantId: contestant.id, lang, source: code }
+        ),
       });
       const data = await res.json();
       await refreshSubmissions();
@@ -208,7 +213,7 @@ export function RaceScreen({
       setSubmitBusy(false);
     }
   }, [
-    warmup, raceId, submitBusy, timeUp, eventId, contestant.id, lang, code,
+    warmup, raceId, submitBusy, timeUp, solo, eventId, contestant.id, lang, code,
     refreshSubmissions, onSubmitAccepted,
   ]);
 
@@ -232,7 +237,7 @@ export function RaceScreen({
       {/* Top bar */}
       <header className="flex items-center gap-4 border-b border-border/60 bg-card/50 px-4 py-2">
         <span className="font-mono text-xs uppercase tracking-widest text-primary">
-          {warmup ? "Warm-up" : "Race"}
+          {solo ? "Solo" : warmup ? "Warm-up" : "Race"}
         </span>
         <span className="truncate font-semibold">{problem.name}</span>
         <div className="ml-auto flex items-center gap-4">
@@ -380,7 +385,7 @@ export function RaceScreen({
       </div>
 
       {/* Time's up overlay */}
-      {timeUp && !warmup && (
+      {timeUp && !warmup && !solo && (
         <div className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-3 bg-background/90 backdrop-blur">
           <h2 className="font-mono text-6xl font-black">TIME&apos;S UP</h2>
           <p className="text-muted-foreground">Great effort — check the leaderboard!</p>

@@ -2,6 +2,7 @@ import type { Lang } from "./types";
 
 export type TouristEvent =
   | { t: number; type: "snapshot"; code: string }
+  | { t: number; type: "run" }
   | { t: number; type: "submit" }
   | { t: number; type: "verdict"; verdict: string };
 
@@ -14,7 +15,7 @@ export type TouristLog = {
 
 /** State of the tourist ghost at a given race-clock time. */
 export function touristStateAt(
-  log: TouristLog,
+  log: Pick<TouristLog, "events">,
   clockMs: number
 ): { code: string; solved: boolean; submitted: boolean } {
   let code = "";
