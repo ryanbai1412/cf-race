@@ -12,7 +12,6 @@ Results are appended as JSON lines to pipeline/cache/validation.jsonl.
 Usage: python3 pipeline/validate.py 1927A [...]
 """
 import glob
-import html as html_mod
 import json
 import os
 import re
@@ -21,15 +20,13 @@ import sys
 import tempfile
 import time
 
-from bs4 import BeautifulSoup
-
+import browser_fetch
 from checker import check
-from common import PIPELINE_DIR, PROBLEMS_DIR, api, fetch_proxy, load_meta, split_problem_id
+from common import PIPELINE_DIR, PROBLEMS_DIR, api, load_meta, split_problem_id
 
 CACHE = os.path.join(PIPELINE_DIR, "cache")
 N_AC = 5
 N_REJ = 5
-
 
 def lang_kind(verdict_lang: str):
     """Map a CF language name to a local runner kind, or None to skip."""
@@ -40,7 +37,6 @@ def lang_kind(verdict_lang: str):
     if verdict_lang.startswith("Python 3"):
         return "py"
     return None
-
 
 def pick_submissions(problem_id: str):
     contest_id, index = split_problem_id(problem_id)
@@ -62,16 +58,14 @@ def pick_submissions(problem_id: str):
             "lang": s["programmingLanguage"],
             "kind": kind,
         }
-        if v == "OK" and len(ac) < N_AC:
+        # over-collect: some sources are not viewable, skipped at fetch time
+        if v == "OK" and len(ac) < N_AC * 3:
             ac.append(entry)
-        elif v in ("WRONG_ANSWER", "TIME_LIMIT_EXCEEDED") and len(rej) < N_REJ:
-            # for TLE prefer to keep timing meaningful: skip py TLE (CPython
-            # local perf is comparable, keep them) — keep all
+        elif v in ("WRONG_ANSWER", "TIME_LIMIT_EXCEEDED") and len(rej) < N_REJ * 3:
             rej.append(entry)
-        if len(ac) >= N_AC and len(rej) >= N_REJ:
+        if len(ac) >= N_AC * 3 and len(rej) >= N_REJ * 3:
             break
     return ac, rej
-
 
 def fetch_source(contest_id: int, submission_id: int) -> str:
     cache_dir = os.path.join(CACHE, "sources")
@@ -80,17 +74,18 @@ def fetch_source(contest_id: int, submission_id: int) -> str:
     if os.path.exists(path):
         with open(path) as f:
             return f.read()
-    page = fetch_proxy(f"/contest/{contest_id}/submission/{submission_id}")
-    soup = BeautifulSoup(page, "html.parser")
-    pre = soup.find("pre", id="program-source-text")
-    if pre is None:
+    src = None
+    for _ in range(3):
+        src = browser_fetch.fetch_text(f"/contest/{contest_id}/submission/{submission_id}")
+        if src is not None:
+            break
+        time.sleep(3.0)
+    if src is None:
         raise RuntimeError(f"no source found for submission {submission_id}")
-    src = html_mod.unescape(pre.get_text())
     with open(path, "w") as f:
         f.write(src)
     time.sleep(1.0)  # be gentle on the proxy
     return src
-
 
 def build(kind: str, src: str, workdir: str):
     if kind == "py":
@@ -106,20 +101,29 @@ def build(kind: str, src: str, workdir: str):
                        capture_output=True, text=True)
     return ([binary], True) if r.returncode == 0 else (None, False)
 
-
 def run_against_tests(cmd, problem_id: str, tl_ms: int, float_eps=None):
-    """Returns (verdict, failed_test) — verdict in AC/WA/TLE/RE."""
+    """Returns (verdict, failed_test) — verdict in AC/WA/TLE/RE.
+
+    Mirrors the judge (judge/src/sandbox.ts): CPU time is limited to
+    timeLimitMs with no per-language multiplier; wall clock gets 2*TL+2s.
+    """
     tests = sorted(glob.glob(os.path.join(PROBLEMS_DIR, problem_id, "tests", "*.in")))
-    # python gets the customary multiplier CF uses for interpreted langs
-    limit_s = tl_ms / 1000.0 * (3 if cmd[0] == "python3" else 1) + 1.0
+    tl_s = tl_ms / 1000.0
+    wall_s = tl_s * 2 + 2.0
     for tin in tests:
         tout = tin[:-3] + ".out"
         with open(tin) as f:
             data = f.read()
+        before = os.times()
         try:
             r = subprocess.run(cmd, input=data, capture_output=True, text=True,
-                               timeout=limit_s)
+                               timeout=wall_s)
         except subprocess.TimeoutExpired:
+            return "TLE", os.path.basename(tin)
+        after = os.times()
+        cpu = (after.children_user - before.children_user
+               + after.children_system - before.children_system)
+        if cpu > tl_s:
             return "TLE", os.path.basename(tin)
         if r.returncode != 0:
             return "RE", os.path.basename(tin)
@@ -129,14 +133,21 @@ def run_against_tests(cmd, problem_id: str, tl_ms: int, float_eps=None):
             return "WA", os.path.basename(tin)
     return "AC", None
 
-
 def validate(problem_id: str) -> dict:
     meta = load_meta(problem_id)
     ac, rej = pick_submissions(problem_id)
     results = {"id": problem_id, "name": meta["name"], "ac": [], "rej": [], "ok": True}
-    for group, entries in (("ac", ac), ("rej", rej)):
+    for group, entries, quota in (("ac", ac, N_AC), ("rej", rej, N_REJ)):
+        done = 0
         for e in entries:
-            src = fetch_source(e["contestId"], e["id"])
+            if done >= quota:
+                break
+            try:
+                src = fetch_source(e["contestId"], e["id"])
+            except RuntimeError as exc:
+                print(f"  {problem_id} sub {e['id']}: {exc} — skipping")
+                continue
+            done += 1
             with tempfile.TemporaryDirectory() as wd:
                 cmd, built = build(e["kind"], src, wd)
                 if not built:
@@ -159,7 +170,6 @@ def validate(problem_id: str) -> dict:
         f.write(json.dumps(results) + "\n")
     print(f"{problem_id}: {'PASS' if results['ok'] else 'FAIL'}")
     return results
-
 
 if __name__ == "__main__":
     for pid in sys.argv[1:]:
