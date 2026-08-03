@@ -53,5 +53,9 @@ description: How to run and end-to-end test the cf-race booth app locally (dev s
 - API smoke test without a browser: `POST /api/solo/session {problemId}` → `POST /api/solo/events {sessionId, events:[{t,code,lang}]}` (a `kind:"run"` event = run-samples marker) → `POST /api/solo/submit {sessionId, lang, source}` (use `pipeline/problems/<id>/ref.py` for AC) → `GET /api/solo/replay?sessionId=`.
 - History/replay links live in localStorage key `cfr-solo-history`; active run in sessionStorage `cfr-solo-active`.
 
+## Selection / re-render gotchas (live race screen)
+- `RaceScreen` re-renders every 200 ms (timer `setRemaining`). Any prop that is a fresh object literal per render can churn the DOM: with the react-dom bundled in Next 14.2, `dangerouslySetInnerHTML={{ __html: s }}` re-sets `innerHTML` on **every** render (new object reference, even if the string is identical), destroying browser text selections in the statement pane 5×/sec. Fix pattern: `useMemo` the whole `{ __html }` object (see `src/components/race/statement-pane.tsx`).
+- Such selection-destruction bugs do NOT reproduce with headless/synthetic drags (they complete between ticks). Test with real GUI mouse: `mouse_move` → `left_mouse_down` → several `mouse_move`s with ~0.5–1 s waits (spanning timer ticks) → screenshot mid-drag → `left_mouse_up`. Diagnose by (a) MutationObserver on the statement subtree (200 ms-period childList mutations = timer-driven DOM churn) and (b) patching the `Element.prototype.innerHTML` setter to capture the stack of whoever re-sets it.
+
 ## pnpm gotcha
 - If `pnpm` fails with a corepack "Cannot find matching keyid" signature error, run with `COREPACK_INTEGRITY_KEYS=0` exported.
