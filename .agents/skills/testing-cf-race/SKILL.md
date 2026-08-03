@@ -36,3 +36,12 @@ description: How to run and end-to-end test the cf-race booth app locally (dev s
 
 ## Webcam
 - Webcam publishing needs a camera; in a VM launch Chrome fresh with `--use-fake-ui-for-media-stream --use-fake-device-for-media-stream` **before** any Chrome instance is running, else the pane renders black.
+- Webcam **recording** (solo runs + event races) uploads webm to the private Storage bucket `recordings` via `POST /api/recordings` (`?sessionId=` for solo, `?eventId=&raceId=&station=` for races); replay APIs return a 1-h signed `recordingUrl` + `recordingOffsetMs`. Without a camera everything still works — recording is skipped.
+
+## Solo practice mode
+- `/solo` (list) → `/solo/<problemId>` (3-min run) → `/solo/replay/<sessionId>`. No auth/cookies needed.
+- API smoke test without a browser: `POST /api/solo/session {problemId}` → `POST /api/solo/events {sessionId, events:[{t,code,lang}]}` (a `kind:"run"` event = run-samples marker) → `POST /api/solo/submit {sessionId, lang, source}` (use `pipeline/problems/<id>/ref.py` for AC) → `GET /api/solo/replay?sessionId=`.
+- History/replay links live in localStorage key `cfr-solo-history`; active run in sessionStorage `cfr-solo-active`.
+
+## pnpm gotcha
+- If `pnpm` fails with a corepack "Cannot find matching keyid" signature error, run with `COREPACK_INTEGRITY_KEYS=0` exported.
