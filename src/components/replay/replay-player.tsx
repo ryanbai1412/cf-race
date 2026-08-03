@@ -85,6 +85,15 @@ export function ReplayPlayer({
       </main>
     );
   }
+  if (!log.events.some((e) => e.type === "snapshot")) {
+    return (
+      <main className="flex min-h-screen items-center justify-center">
+        <p className="font-mono text-muted-foreground">
+          No editor recording was captured for this race.
+        </p>
+      </main>
+    );
+  }
 
   const state = touristStateAt(log, clockMs);
   const solved = log.solveMs !== null && clockMs >= log.solveMs;
