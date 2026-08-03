@@ -23,6 +23,7 @@ export async function GET(req: NextRequest) {
       .from("contestants")
       .select("*")
       .eq("event_id", eventId)
+      .is("retired_at", null)
       .order("created_at", { ascending: false }),
   ]);
 
@@ -37,7 +38,7 @@ export async function GET(req: NextRequest) {
     await db().from("races").update({ state: "running" }).eq("id", race.id);
   }
 
-  // Active contestant per station = most recent not attached to a finished race.
+  // Active contestant per station = most recent non-retired one.
   const active: Partial<Record<StationRole, Contestant>> = {};
   for (const c of (contestants ?? []) as Contestant[]) {
     if (!active[c.station_role]) active[c.station_role] = c;

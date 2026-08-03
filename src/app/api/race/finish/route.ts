@@ -29,6 +29,11 @@ export async function POST(req: NextRequest) {
       .eq("race_id", race.id)
       .is("first_ac_at", null);
   }
+  await db()
+    .from("contestants")
+    .update({ retired_at: new Date().toISOString() })
+    .eq("event_id", eventId)
+    .is("retired_at", null);
   await notifyEvent(eventId, { type: "state_changed" });
   return NextResponse.json({ ok: true });
 }
