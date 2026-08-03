@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { eventChannel } from "@/lib/realtime";
+import type { RealtimeChannel } from "@supabase/supabase-js";
 import type { BroadcastMsg, ClientState } from "@/lib/types";
 
 const POLL_MS = 2500;
@@ -13,12 +14,15 @@ const POLL_MS = 2500;
  */
 export function useEventState(
   eventId: string,
-  onMessage?: (msg: BroadcastMsg) => void
+  onMessage?: (msg: BroadcastMsg) => void,
+  onSubscribed?: (ch: RealtimeChannel) => void
 ) {
   const [state, setState] = useState<ClientState | null>(null);
   const [clockOffset, setClockOffset] = useState(0); // serverNow - clientNow
   const onMessageRef = useRef(onMessage);
   onMessageRef.current = onMessage;
+  const onSubscribedRef = useRef(onSubscribed);
+  onSubscribedRef.current = onSubscribed;
 
   const refetch = useCallback(async () => {
     try {
@@ -45,7 +49,9 @@ export function useEventState(
       if (msg.type === "state_changed") void refetch();
       onMessageRef.current?.(msg);
     });
-    ch.subscribe();
+    ch.subscribe((status) => {
+      if (status === "SUBSCRIBED") onSubscribedRef.current?.(ch);
+    });
     return () => {
       clearInterval(iv);
       void ch.unsubscribe();
