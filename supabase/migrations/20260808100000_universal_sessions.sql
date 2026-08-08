@@ -72,7 +72,9 @@ on conflict (id) do nothing;
 insert into public.session_events (session_id, t_ms, code, lang, kind, payload)
 select e.session_id, e.t_ms, e.code, e.lang, coalesce(e.kind, 'snapshot'), e.payload
 from public.solo_editor_events e
-where not exists (select 1 from public.session_events x limit 1)
+where not exists (
+  select 1 from public.session_events x where x.session_id = e.session_id
+)
 order by e.session_id, e.t_ms, e.id;
 
 insert into public.session_submissions (id, session_id, kind, lang, source,
@@ -107,8 +109,9 @@ marks as (
   where verdict is not null and verdict <> 'PENDING'
 )
 insert into public.session_events (session_id, t_ms, code, lang, kind, payload)
-select session_id, t_ms, '', lang, kind, payload
-from marks
+select m.session_id, m.t_ms, '', m.lang, m.kind, m.payload
+from marks m
 where not exists (
-  select 1 from public.session_events x where x.kind in ('submit','verdict') limit 1
+  select 1 from public.session_events x
+  where x.session_id = m.session_id and x.kind in ('submit','verdict')
 );
