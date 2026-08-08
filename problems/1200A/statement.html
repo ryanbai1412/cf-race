@@ -1,0 +1,44 @@
+<div class="problem-statement">
+<div class="header"><div class="title">Hotelier</div>
+<div class="time-limit">time limit per test: 1.0 s</div>
+<div class="memory-limit">memory limit per test: 256 MB</div>
+</div>
+<p>Amugae has a hotel consisting of \(10\) rooms. The rooms are numbered from \(0\) to \(9\) from left to right.</p>
+<p>The hotel has two entrances — one from the left end, and another from the right end. When a customer arrives to the hotel through the left entrance, they are assigned to an empty room closest to the left entrance. Similarly, when a customer arrives at the hotel through the right entrance, they are assigned to an empty room closest to the right entrance.</p>
+<p>One day, Amugae lost the room assignment list. Thankfully Amugae&#x27;s memory is perfect, and he remembers all of the customers: when a customer arrived, from which entrance, and when they left the hotel. Initially the hotel was empty. Write a program that recovers the room assignment list from Amugae&#x27;s memory.</p>
+<div class="input-specification"><div class="section-title">Input</div>
+<p>The first line consists of an integer \(n\) (\(1 \le n \le 10^5\)), the number of events in Amugae&#x27;s memory.</p>
+<p>The second line consists of a string of length \(n\) describing the events in chronological order. Each character represents:</p>
+<p>- &#x27;L&#x27;: A customer arrives from the left entrance.
+- &#x27;R&#x27;: A customer arrives from the right entrance.
+- &#x27;0&#x27;, &#x27;1&#x27;, ..., &#x27;9&#x27;: The customer in room \(x\) (\(0\), \(1\), ..., \(9\) respectively) leaves.</p>
+<p>It is guaranteed that there is at least one empty room when a customer arrives, and there is a customer in the room \(x\) when \(x\) (\(0\), \(1\), ..., \(9\)) is given. Also, all the rooms are initially empty.</p>
+</div>
+<div class="output-specification"><div class="section-title">Output</div>
+<p>In the only line, output the hotel room&#x27;s assignment status, from room \(0\) to room \(9\). Represent an empty room as &#x27;0&#x27;, and an occupied room as &#x27;1&#x27;, without spaces.</p>
+</div>
+<div class="note"><div class="section-title">Note</div>
+<p>In the first example, hotel room&#x27;s assignment status after each action is as follows.</p>
+<p>- First of all, all rooms are empty. Assignment status is 0000000000.
+- L: a customer arrives to the hotel through the left entrance. Assignment status is 1000000000.
+- L: one more customer from the left entrance. Assignment status is 1100000000.
+- R: one more customer from the right entrance. Assignment status is 1100000001.
+- L: one more customer from the left entrance. Assignment status is 1110000001.
+- 1: the customer in room \(1\) leaves. Assignment status is 1010000001.
+- R: one more customer from the right entrance. Assignment status is 1010000011.
+- L: one more customer from the left entrance. Assignment status is 1110000011.
+- 1: the customer in room \(1\) leaves. Assignment status is 1010000011.</p>
+<p>So after all, hotel room&#x27;s final assignment status is 1010000011.</p>
+<p>In the second example, hotel room&#x27;s assignment status after each action is as follows.</p>
+<p>- L: a customer arrives to the hotel through the left entrance. Assignment status is 1000000000.
+- 0: the customer in room \(0\) leaves. Assignment status is 0000000000.
+- L: a customer arrives to the hotel through the left entrance. Assignment status is 1000000000 again.
+- 0: the customer in room \(0\) leaves. Assignment status is 0000000000.
+- L: a customer arrives to the hotel through the left entrance. Assignment status is 1000000000.
+- L: one more customer from the left entrance. Assignment status is 1100000000.
+- R: one more customer from the right entrance. Assignment status is 1100000001.
+- R: one more customer from the right entrance. Assignment status is 1100000011.
+- 9: the customer in room \(9\) leaves. Assignment status is 1100000010.</p>
+<p>So after all, hotel room&#x27;s final assignment status is 1100000010.</p>
+</div>
+</div>
