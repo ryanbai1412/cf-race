@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
   }
   const { error } = await db()
-    .from("solo_sessions")
+    .from("sessions")
     .update({ outcome })
     .eq("id", sessionId)
     .is("outcome", null);

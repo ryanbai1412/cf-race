@@ -128,7 +128,7 @@ const MAX_ROWS = 50_000;
  * replay in insertion order.
  */
 export async function fetchEditorEventRows(
-  table: "race_editor_events" | "solo_editor_events",
+  table: "race_editor_events" | "session_events",
   filter: Record<string, string>
 ): Promise<EditorEventRow[]> {
   const rows: EditorEventRow[] = [];

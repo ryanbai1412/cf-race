@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 const COUNTDOWN_MS = 3000;
 const TIMER_SEC = 180;
 
-/** Start a solo practice run: creates a solo_sessions row with GO at now+3s. */
+/** Start a solo practice run: creates a sessions row (kind solo) with GO at now+3s. */
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
   const problemId = typeof body?.problemId === "string" ? body.problemId : "";
@@ -25,8 +25,9 @@ export async function POST(req: NextRequest) {
   const user = await authUser();
   const startAtMs = Date.now() + COUNTDOWN_MS;
   const { data: session, error } = await db()
-    .from("solo_sessions")
+    .from("sessions")
     .insert({
+      kind: "solo",
       problem_id: problemId,
       started_at: new Date(startAtMs).toISOString(),
       timer_sec: TIMER_SEC,

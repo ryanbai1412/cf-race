@@ -6,7 +6,7 @@ import { ReplayCore, ReplayBadges } from "@/components/replay/replay-player";
 import { Button } from "@/components/ui/button";
 import { formatMsPrecise } from "@/lib/templates";
 import { cn } from "@/lib/utils";
-import type { SoloReplayResponse } from "@/lib/solo-log";
+import type { SessionReplayResponse } from "@/lib/session-log";
 import { Download, Upload } from "lucide-react";
 import { toast } from "sonner";
 
@@ -17,7 +17,7 @@ export function SoloReplay({
   sessionId: string;
   showExport: boolean;
 }) {
-  const [log, setLog] = useState<SoloReplayResponse | null | undefined>(undefined);
+  const [log, setLog] = useState<SessionReplayResponse | null | undefined>(undefined);
   const [promoting, setPromoting] = useState(false);
 
   useEffect(() => {

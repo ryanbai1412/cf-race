@@ -7,7 +7,7 @@ import {
 
 export const dynamic = "force-dynamic";
 
-/** Persist a batch of editor snapshots recorded during a solo run. */
+/** Persist a batch of editor events recorded during a solo or duel run. */
 export async function POST(req: NextRequest) {
   const body = (await req.json().catch(() => null)) as {
     sessionId?: string;
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     ...row,
     session_id: body.sessionId,
   }));
-  const { error } = await db().from("solo_editor_events").insert(rows);
+  const { error } = await db().from("session_events").insert(rows);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ ok: true });
 }

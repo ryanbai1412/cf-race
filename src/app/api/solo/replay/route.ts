@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
-import { buildSoloLog } from "@/lib/solo-log";
+import { buildSessionReplay } from "@/lib/session-log";
 
 export const dynamic = "force-dynamic";
 
 /**
- * Assemble the replay log for a solo run — the exact TouristLog shape plus
+ * Assemble the replay log for a session — the exact TouristLog shape plus
  * outcome metadata and a signed URL for the webcam video (if recorded).
  */
 export async function GET(req: NextRequest) {
@@ -14,33 +13,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
   }
 
-  const built = await buildSoloLog(sessionId);
-  if (!built) return NextResponse.json({ error: "not found" }, { status: 404 });
-  const { session, log } = built;
-
-  let recordingUrl: string | null = null;
-  if (session.recording_path) {
-    const { data } = await db()
-      .storage.from("recordings")
-      .createSignedUrl(session.recording_path, 3600);
-    recordingUrl = data?.signedUrl ?? null;
-  }
-
-  const { data: problem } = await db()
-    .from("problems")
-    .select("*")
-    .eq("id", session.problem_id)
-    .maybeSingle();
-
-  return NextResponse.json({
-    ...log,
-    outcome: session.outcome,
-    timerSec: session.timer_sec,
-    startedAt: session.started_at,
-    problemName: problem?.name ?? session.problem_id,
-    touristTimeMs: problem?.tourist_time_ms ?? null,
-    problem: problem ?? null,
-    recordingUrl,
-    recordingOffsetMs: session.recording_offset_ms ?? 0,
-  });
+  const replay = await buildSessionReplay(sessionId);
+  if (!replay) return NextResponse.json({ error: "not found" }, { status: 404 });
+  return NextResponse.json(replay);
 }

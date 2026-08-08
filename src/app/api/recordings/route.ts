@@ -10,7 +10,7 @@ import { requireEvent } from "@/lib/event-auth";
  *   POST /api/recordings?step=sign&…     → { path, token }
  *   POST /api/recordings?step=confirm&…  → records path/offset in the DB
  *
- * Solo runs identify themselves with ?sessionId=…, event races with
+ * Solo/duel runs identify themselves with ?sessionId=…, event races with
  * ?eventId=…&raceId=…&station=…. offsetMs = recorder start − race/run start
  * (video time = clock − offset).
  */
@@ -30,14 +30,14 @@ export async function POST(req: NextRequest) {
   let path: string;
   if (sessionId) {
     const { data: session } = await db()
-      .from("solo_sessions")
-      .select("id")
+      .from("sessions")
+      .select("id, kind")
       .eq("id", sessionId)
       .maybeSingle();
     if (!session) {
       return NextResponse.json({ error: "unknown session" }, { status: 400 });
     }
-    path = `solo/${sessionId}.webm`;
+    path = `${session.kind}/${sessionId}.webm`;
   } else if (raceId && (station === "station1" || station === "station2")) {
     const event = await requireEvent(eventId);
     if (!event) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
 
   if (sessionId) {
     const { error } = await db()
-      .from("solo_sessions")
+      .from("sessions")
       .update({ recording_path: path, recording_offset_ms: offsetMs })
       .eq("id", sessionId);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });

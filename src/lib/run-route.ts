@@ -10,6 +10,7 @@ export type RunRequestBody = {
   source: string;
   problemId: string;
   customInput: string | null;
+  sessionId: string | null;
 };
 
 /** Parse the shared fields of a run request (race + solo). */
@@ -19,8 +20,9 @@ export function parseRunBody(body: unknown): RunRequestBody | null {
   const source = typeof b?.source === "string" ? b.source : "";
   const problemId = typeof b?.problemId === "string" ? b.problemId : "";
   const customInput = typeof b?.customInput === "string" ? b.customInput : null;
+  const sessionId = typeof b?.sessionId === "string" ? b.sessionId : null;
   if (!lang || !source || source.length > MAX_SOURCE_LEN) return null;
-  return { lang, source, problemId, customInput };
+  return { lang, source, problemId, customInput, sessionId };
 }
 
 /**
@@ -63,6 +65,22 @@ export async function runOnJudge(run: RunRequestBody): Promise<NextResponse> {
       memoryLimitMb: problem.memory_limit_mb,
     });
     if (problem.special_judge) result.checkerUnreliable = true;
+    if (run.sessionId) {
+      const verdict = !result.compile.ok
+        ? "CE"
+        : result.results.every((r) => r.verdict === "AC")
+          ? "AC"
+          : (result.results.find((r) => r.verdict !== "AC")?.verdict ?? null);
+      await db().from("session_submissions").insert({
+        session_id: run.sessionId,
+        kind: "run",
+        lang: run.lang,
+        source: run.source,
+        verdict,
+        details: { custom: run.customInput !== null },
+        judged_at: new Date().toISOString(),
+      });
+    }
     return NextResponse.json(result);
   } catch (e) {
     return NextResponse.json(
