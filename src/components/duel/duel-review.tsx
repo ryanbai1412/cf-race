@@ -165,7 +165,7 @@ function ReviewPane({
 export function DuelReview({ matchId }: { matchId: string }) {
   const [data, setData] = useState<ReviewData | null | undefined>(undefined);
   const [clockMs, setClockMs] = useState(0);
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(false);
   const [speed, setSpeed] = useState(1);
   const [invalidating, setInvalidating] = useState(false);
   const raf = useRef<number>();
@@ -181,6 +181,16 @@ export function DuelReview({ matchId }: { matchId: string }) {
   useEffect(() => {
     refresh();
   }, [refresh]);
+
+  // Autoplay once the replay data is actually loaded (not against the
+  // placeholder duration).
+  const startedRef = useRef(false);
+  useEffect(() => {
+    if (data && !startedRef.current) {
+      startedRef.current = true;
+      setPlaying(true);
+    }
+  }, [data]);
 
   const durationMs = useMemo(() => {
     if (!data) return 1000;
