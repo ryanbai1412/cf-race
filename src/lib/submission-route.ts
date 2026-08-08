@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { db } from "./db";
+import { db, logDbError } from "./db";
 import { judgeSubmit, type SubmitResult } from "./judge";
 import { MAX_SUBMISSIONS } from "./limits";
 import type { Lang } from "./types";
@@ -64,7 +64,7 @@ export async function judgeOfficialSubmission(opts: {
       source: opts.source,
       problemId: opts.problemId,
     });
-    await db()
+    const { error: verdictErr } = await db()
       .from(opts.table)
       .update({
         verdict: result.verdict,
@@ -78,11 +78,13 @@ export async function judgeOfficialSubmission(opts: {
         },
       })
       .eq("id", sub.id);
+    logDbError(`submission verdict ${sub.id}`, verdictErr);
     return { ok: true, submissionId: sub.id, result };
   } catch (e) {
     // The attempt never got a verdict, so drop it instead of leaving a
     // permanently PENDING row that also eats one of the submissions.
-    await db().from(opts.table).delete().eq("id", sub.id);
+    const { error: dropErr } = await db().from(opts.table).delete().eq("id", sub.id);
+    logDbError(`submission cleanup ${sub.id}`, dropErr);
     return {
       ok: false,
       response: NextResponse.json(

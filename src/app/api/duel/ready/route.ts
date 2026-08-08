@@ -38,11 +38,14 @@ export async function POST(req: NextRequest) {
     .maybeSingle();
   if (!me) return NextResponse.json({ error: "not in room" }, { status: 403 });
 
-  await db()
+  const { error: readyErr } = await db()
     .from("duel_room_players")
     .update({ ready_at: ready ? new Date().toISOString() : null })
     .eq("room_id", roomId)
     .eq("user_id", user.id);
+  if (readyErr) {
+    return NextResponse.json({ error: readyErr.message }, { status: 500 });
+  }
 
   const { data: players } = await db()
     .from("duel_room_players")

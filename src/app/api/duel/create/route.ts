@@ -21,7 +21,7 @@ export async function POST() {
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
   const meta = user.user_metadata as Record<string, unknown>;
-  await db().from("duel_room_players").insert({
+  const { error: joinErr } = await db().from("duel_room_players").insert({
     room_id: room.id,
     user_id: user.id,
     name:
@@ -31,6 +31,11 @@ export async function POST() {
       "Player",
     avatar_url: typeof meta.avatar_url === "string" ? meta.avatar_url : null,
   });
+  if (joinErr) {
+    // Don't leave a hostless room behind — it could never start a duel.
+    await db().from("duel_rooms").delete().eq("id", room.id);
+    return NextResponse.json({ error: joinErr.message }, { status: 500 });
+  }
 
   return NextResponse.json({ roomId: room.id });
 }
