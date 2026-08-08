@@ -26,11 +26,12 @@ export function useSoloAuth() {
   return { supabase, user, loading };
 }
 
-/** Google sign-in / sign-out for solo practice (Supabase Auth). */
+/** Google sign-in / sign-out (Supabase Auth), shared by solo and duel. */
 export function SoloAuthButton({
   user,
   supabase,
-}: ReturnType<typeof useSoloAuth>) {
+  next = "/solo",
+}: ReturnType<typeof useSoloAuth> & { next?: string }) {
   if (user) {
     return (
       <div className="flex items-center gap-2">
@@ -56,7 +57,7 @@ export function SoloAuthButton({
         const { error } = await supabase.auth.signInWithOAuth({
           provider: "google",
           options: {
-            redirectTo: `${window.location.origin}/auth/callback?next=/solo`,
+            redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
           },
         });
         if (error) toast.error(`Google sign-in unavailable: ${error.message}`);
