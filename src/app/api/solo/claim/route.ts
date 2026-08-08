@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
   if (ids.length === 0) return NextResponse.json({ claimed: 0 });
 
   const { data, error } = await db()
-    .from("solo_sessions")
+    .from("sessions")
     .update({ user_id: user.id })
     .in("id", ids)
     .is("user_id", null)

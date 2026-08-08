@@ -6,7 +6,7 @@ import type { Lang } from "./types";
 
 /** True when the caller already used all of its official submissions. */
 export async function submissionLimitReached(
-  table: "submissions" | "solo_submissions",
+  table: "submissions" | "session_submissions",
   filter: Record<string, string>
 ): Promise<boolean> {
   let q = db().from(table).select("id", { count: "exact", head: true });
