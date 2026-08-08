@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { authUser } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +19,19 @@ export async function POST(req: NextRequest) {
     : null;
   if (!sessionId || !outcome) {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
+  }
+  const { data: session } = await db()
+    .from("sessions")
+    .select("user_id")
+    .eq("id", sessionId)
+    .maybeSingle();
+  if (!session) return NextResponse.json({ error: "not found" }, { status: 404 });
+  // Owned sessions (duels, claimed solo runs) only accept their owner's beacon.
+  if (session.user_id !== null) {
+    const user = await authUser();
+    if (user?.id !== session.user_id) {
+      return NextResponse.json({ error: "not your session" }, { status: 403 });
+    }
   }
   const { error } = await db()
     .from("sessions")

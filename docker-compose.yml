@@ -1,6 +1,6 @@
 # Local judge with the real isolate sandbox (same image as the Fly deployment).
 #
-#   make judge-docker          # rsyncs problems/dev -> judge/problems-dev, then builds & runs
+#   make judge-docker          # builds & runs the judge image
 #   curl localhost:8080/healthz
 #
 # Point the web app at it with JUDGE_URL=http://localhost:8080 JUDGE_TOKEN=dev
@@ -10,7 +10,9 @@
 # For a no-Docker judge (unsafe plain-subprocess sandbox), use `make judge-dev`.
 services:
   judge:
-    build: ./judge # run `make judge-docker` (needs judge/problems-dev, see judge/README.md)
+    build:
+      context: . # repo root: the judge image needs the workspace pnpm lockfile
+      dockerfile: judge/Dockerfile
     privileged: true # isolate needs cgroup access
     ports:
       - "8080:8080"

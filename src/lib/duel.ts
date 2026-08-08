@@ -5,7 +5,6 @@ import type { Lang } from "./types";
 export const SUBMIT_GRACE_MS = 3000;
 export const COUNTDOWN_MS = 3000;
 export const DEFAULT_GRACE_AFTER_AC_SEC = 60;
-export const MAX_SUBMISSIONS = 10;
 
 export type DuelRoomRow = {
   id: string;

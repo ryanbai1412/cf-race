@@ -1,4 +1,11 @@
-# pnpm settings (no workspaces; this file is pnpm's config file).
+# pnpm workspace: web app (root) + judge service.
+packages:
+  - judge
+
 # Only resolve package versions published at least 7 days ago
 # (matches the org package proxy's supply-chain age policy).
 minimumReleaseAge: 10080
+
+# Judge test tooling: pin rollup (vitest transitive dep).
+overrides:
+  rollup: 4.62.2

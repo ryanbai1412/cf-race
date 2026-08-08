@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { authUser } from "@/lib/supabase/server";
-import { judgeConfigured, judgeSubmit } from "@/lib/judge";
+import { judgeConfigured } from "@/lib/judge";
+import { DUEL_MAX_SUBMISSIONS, MAX_SOURCE_LEN } from "@/lib/limits";
 import {
-  MAX_SUBMISSIONS,
+  judgeOfficialSubmission,
+  submissionLimitReached,
+} from "@/lib/submission-route";
+import {
   SUBMIT_GRACE_MS,
   matchEndMs,
   resolveMatch,
@@ -14,7 +18,7 @@ export const maxDuration = 120;
 
 /**
  * Official submission during a duel: full-test judging. Time windows (total
- * cutoff + grace after first AC), the 10-submission cap, and match state are
+ * cutoff + grace after first AC), the submission cap, and match state are
  * all enforced server-side. First AC stamps the match winner; a grace-window
  * AC still counts as solved for the other player.
  */
@@ -26,7 +30,7 @@ export async function POST(req: NextRequest) {
   const sessionId = typeof body?.sessionId === "string" ? body.sessionId : "";
   const lang = body?.lang === "cpp" || body?.lang === "py" ? body.lang : null;
   const source = typeof body?.source === "string" ? body.source : "";
-  if (!sessionId || !lang || !source || source.length > 200_000) {
+  if (!sessionId || !lang || !source || source.length > MAX_SOURCE_LEN) {
     return NextResponse.json({ error: "invalid request" }, { status: 400 });
   }
   if (!judgeConfigured()) {
@@ -76,98 +80,66 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "match has not started" }, { status: 400 });
   }
 
-  const { count } = await db()
-    .from("session_submissions")
-    .select("id", { count: "exact", head: true })
-    .eq("session_id", sessionId)
-    .eq("kind", "submit");
-  if ((count ?? 0) >= MAX_SUBMISSIONS) {
+  if (
+    await submissionLimitReached(
+      "session_submissions",
+      { session_id: sessionId, kind: "submit" },
+      DUEL_MAX_SUBMISSIONS
+    )
+  ) {
     return NextResponse.json({ error: "submission limit reached" }, { status: 400 });
   }
 
   const submittedAt = new Date().toISOString();
-  const { data: sub, error } = await db()
-    .from("session_submissions")
-    .insert({
-      session_id: sessionId,
-      kind: "submit",
-      lang,
-      source,
-      verdict: "PENDING",
-      submitted_at: submittedAt,
-    })
-    .select("id")
-    .single();
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-
-  await db().from("session_events").insert({
-    session_id: sessionId,
-    t_ms: Math.max(0, new Date(submittedAt).getTime() - startMs),
+  const judged = await judgeOfficialSubmission({
+    table: "session_submissions",
+    insertRow: { session_id: sessionId, kind: "submit", submitted_at: submittedAt },
     lang,
-    kind: "submit",
-    payload: { submissionId: sub.id },
+    source,
+    problemId: session.problem_id,
   });
+  if (!judged.ok) return judged.response;
 
-  try {
-    const result = await judgeSubmit({
-      submissionId: sub.id,
+  // Submit + verdict moments become part of the single playback stream.
+  await db().from("session_events").insert([
+    {
+      session_id: sessionId,
+      t_ms: Math.max(0, new Date(submittedAt).getTime() - startMs),
       lang,
-      source,
-      problemId: session.problem_id,
-    });
-    await db()
-      .from("session_submissions")
-      .update({
-        verdict: result.verdict,
-        judged_at: new Date().toISOString(),
-        details: {
-          failedTest: result.failedTest,
-          passedCount: result.passedCount,
-          totalCount: result.totalCount,
-          timeMsMax: result.timeMsMax,
-          compileError: result.compileError,
-        },
-      })
-      .eq("id", sub.id);
-    await db().from("session_events").insert({
+      kind: "submit",
+      payload: { submissionId: judged.submissionId },
+    },
+    {
       session_id: sessionId,
       t_ms: Math.max(0, Date.now() - startMs),
       lang,
       kind: "verdict",
-      payload: { submissionId: sub.id, verdict: result.verdict },
-    });
+      payload: { submissionId: judged.submissionId, verdict: judged.result.verdict },
+    },
+  ]);
 
-    let solveMs: number | null = null;
-    if (result.verdict === "AC") {
-      solveMs = Math.max(0, new Date(submittedAt).getTime() - startMs);
-      await db()
-        .from("sessions")
-        .update({ outcome: "solved", solve_ms: solveMs, lang })
-        .eq("id", sessionId)
-        .is("solve_ms", null);
-      // First AC wins: stamp the winner + start the grace window once.
-      await db()
-        .from("duel_matches")
-        .update({
-          first_ac_at: submittedAt,
-          winner_user_id: user.id,
-        })
-        .eq("id", match.id)
-        .is("first_ac_at", null);
-      await resolveMatch(match.room_id);
-    }
-    return NextResponse.json({ ...result, submissionId: sub.id, solveMs });
-  } catch (e) {
-    // The attempt never got a verdict, so drop it instead of leaving a
-    // permanently PENDING row that also eats one of the 10 submissions.
-    await db().from("session_submissions").delete().eq("id", sub.id);
-    return NextResponse.json(
-      {
-        error: `Judge unavailable, submission not counted (${
-          e instanceof Error ? e.message : "judge error"
-        })`,
-      },
-      { status: 502 }
-    );
+  let solveMs: number | null = null;
+  if (judged.result.verdict === "AC") {
+    solveMs = Math.max(0, new Date(submittedAt).getTime() - startMs);
+    await db()
+      .from("sessions")
+      .update({ outcome: "solved", solve_ms: solveMs, lang })
+      .eq("id", sessionId)
+      .is("solve_ms", null);
+    // First AC wins: stamp the winner + start the grace window once.
+    await db()
+      .from("duel_matches")
+      .update({
+        first_ac_at: submittedAt,
+        winner_user_id: user.id,
+      })
+      .eq("id", match.id)
+      .is("first_ac_at", null);
+    await resolveMatch(match.room_id);
   }
+  return NextResponse.json({
+    ...judged.result,
+    submissionId: judged.submissionId,
+    solveMs,
+  });
 }
