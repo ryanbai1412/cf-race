@@ -4,6 +4,7 @@ import { requireEvent } from "@/lib/event-auth";
 import { judgeConfigured } from "@/lib/judge";
 import { MAX_SOURCE_LEN } from "@/lib/limits";
 import { notifyEvent } from "@/lib/notify";
+import { raceWithParticipants } from "@/lib/races";
 import {
   judgeOfficialSubmission,
   submissionLimitReached,
@@ -11,6 +12,7 @@ import {
 
 export const maxDuration = 120;
 
+/** Official submission during an event race: full-test judging, first AC wins. */
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
   const eventId = typeof body?.eventId === "string" ? body.eventId : "";
@@ -30,19 +32,13 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { data: race } = await db()
-    .from("races")
-    .select("*, participants:race_participants(*)")
-    .eq("id", raceId)
-    .eq("event_id", eventId)
-    .maybeSingle();
-  if (!race || race.state === "finished") {
+  const found = await raceWithParticipants(eventId, raceId);
+  if (!found || found.race.state === "finished") {
     return NextResponse.json({ error: "race is not active" }, { status: 400 });
   }
-  const participant = race.participants.find(
-    (p: { contestant_id: string }) => p.contestant_id === contestantId
-  );
-  if (!participant) {
+  const { race, participants } = found;
+  const participant = participants.find((p) => p.contestant_id === contestantId);
+  if (!participant || !participant.session_id) {
     return NextResponse.json({ error: "not a participant" }, { status: 403 });
   }
   if (participant.first_ac_at) {
@@ -57,10 +53,11 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  const sessionId = participant.session_id;
   if (
-    await submissionLimitReached("submissions", {
-      race_id: raceId,
-      contestant_id: contestantId,
+    await submissionLimitReached("session_submissions", {
+      session_id: sessionId,
+      kind: "submit",
     })
   ) {
     return NextResponse.json({ error: "submission limit reached" }, { status: 400 });
@@ -69,12 +66,8 @@ export async function POST(req: NextRequest) {
   const submittedAt = new Date().toISOString();
   await notifyEvent(eventId, { type: "state_changed" });
   const judged = await judgeOfficialSubmission({
-    table: "submissions",
-    insertRow: {
-      race_id: raceId,
-      contestant_id: contestantId,
-      submitted_at: submittedAt,
-    },
+    table: "session_submissions",
+    insertRow: { session_id: sessionId, kind: "submit", submitted_at: submittedAt },
     lang,
     source,
     problemId: race.problem_id,
@@ -84,13 +77,38 @@ export async function POST(req: NextRequest) {
     return judged.response;
   }
 
+  // Submit + verdict moments become part of the single playback stream.
+  const startMs = race.started_at ? new Date(race.started_at).getTime() : Date.now();
+  await db().from("session_events").insert([
+    {
+      session_id: sessionId,
+      t_ms: Math.max(0, new Date(submittedAt).getTime() - startMs),
+      lang,
+      kind: "submit",
+      payload: { submissionId: judged.submissionId },
+    },
+    {
+      session_id: sessionId,
+      t_ms: Math.max(0, Date.now() - startMs),
+      lang,
+      kind: "verdict",
+      payload: { submissionId: judged.submissionId, verdict: judged.result.verdict },
+    },
+  ]);
+
   if (judged.result.verdict === "AC" && !participant.first_ac_at) {
+    const solveMs = Math.max(0, new Date(submittedAt).getTime() - startMs);
     await db()
       .from("race_participants")
       .update({ first_ac_at: submittedAt })
       .eq("race_id", raceId)
       .eq("contestant_id", contestantId)
       .is("first_ac_at", null);
+    await db()
+      .from("sessions")
+      .update({ outcome: "solved", solve_ms: solveMs, lang })
+      .eq("id", sessionId)
+      .is("solve_ms", null);
     await notifyEvent(eventId, {
       type: "confetti",
       station: participant.station_role,

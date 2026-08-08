@@ -2,15 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { requireEvent } from "@/lib/event-auth";
 import {
-  buildReplayEvents,
-  fetchEditorEventRows,
   sanitizeEditorEvents,
   type IncomingEditorEvent,
 } from "@/lib/editor-events";
+import { raceParticipantByStation } from "@/lib/races";
+import { buildSessionLog } from "@/lib/session-log";
+import type { StationRole } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
-/** Persist a batch of editor snapshots recorded during a race. */
+/** Persist a batch of editor events recorded during a race. */
 export async function POST(req: NextRequest) {
   const body = (await req.json().catch(() => null)) as {
     eventId?: string;
@@ -30,20 +31,27 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
   }
 
+  const found = await raceParticipantByStation(
+    body.eventId ?? "",
+    body.raceId,
+    body.station as StationRole
+  );
+  if (!found?.participant.session_id) {
+    return NextResponse.json({ error: "not found" }, { status: 404 });
+  }
+
   const rows = sanitizeEditorEvents(body.events).map((row) => ({
     ...row,
-    race_id: body.raceId,
-    station_role: body.station,
+    session_id: found.participant.session_id,
   }));
-  const { error } = await db().from("race_editor_events").insert(rows);
+  const { error } = await db().from("session_events").insert(rows);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ ok: true });
 }
 
 /**
  * Assemble a replay log (same shape as a tourist log) for one station of a
- * race: editor snapshots from race_editor_events, submit/verdict moments from
- * the submissions table.
+ * race, from the participant's universal session.
  */
 export async function GET(req: NextRequest) {
   const eventId = req.nextUrl.searchParams.get("eventId") ?? "";
@@ -55,80 +63,46 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
   }
 
-  const { data: race } = await db()
-    .from("races")
-    .select("*, participants:race_participants(*, contestant:contestants(*))")
-    .eq("id", raceId)
-    .eq("event_id", eventId)
+  const found = await raceParticipantByStation(eventId, raceId, station);
+  if (!found?.participant.session_id || !found.race.started_at) {
+    return NextResponse.json({ error: "not found" }, { status: 404 });
+  }
+  const built = await buildSessionLog(found.participant.session_id);
+  if (!built) return NextResponse.json({ error: "not found" }, { status: 404 });
+  const { session, log } = built;
+
+  const { data: contestant } = await db()
+    .from("contestants")
+    .select("name, country")
+    .eq("id", found.participant.contestant_id)
     .maybeSingle();
-  if (!race || !race.started_at) {
-    return NextResponse.json({ error: "not found" }, { status: 404 });
-  }
-  const startMs = new Date(race.started_at).getTime();
-  const participant = (
-    race.participants as {
-      contestant_id: string;
-      station_role: string;
-      first_ac_at: string | null;
-      contestant: { name: string; country: string | null } | null;
-    }[]
-  ).find((p) => p.station_role === station);
-  if (!participant) {
-    return NextResponse.json({ error: "not found" }, { status: 404 });
-  }
-
-  const [snaps, { data: subs }] = await Promise.all([
-    fetchEditorEventRows("race_editor_events", {
-      race_id: raceId,
-      station_role: station,
-    }),
-    db()
-      .from("submissions")
-      .select("submitted_at, judged_at, verdict, lang")
-      .eq("race_id", raceId)
-      .eq("contestant_id", participant.contestant_id)
-      .order("submitted_at", { ascending: true }),
-  ]);
-
-  const { events, lang } = buildReplayEvents(snaps, subs ?? [], startMs);
-
-  const solveMs = participant.first_ac_at
-    ? new Date(participant.first_ac_at).getTime() - startMs
-    : null;
 
   // Full problem row so the replay can render the statement pane.
   const { data: problemRow } = await db()
     .from("problems")
     .select("*")
-    .eq("id", race.problem_id)
+    .eq("id", session.problem_id)
     .maybeSingle();
 
-  // Webcam recording for this station, if one was uploaded.
-  const { data: rec } = await db()
-    .from("race_recordings")
-    .select("path, offset_ms")
-    .eq("race_id", raceId)
-    .eq("station_role", station)
-    .maybeSingle();
   let recordingUrl: string | null = null;
-  if (rec?.path) {
+  if (session.recording_path) {
     const { data: signed } = await db()
       .storage.from("recordings")
-      .createSignedUrl(rec.path, 3600);
+      .createSignedUrl(session.recording_path, 3600);
     recordingUrl = signed?.signedUrl ?? null;
   }
 
   return NextResponse.json({
-    problemId: race.problem_id,
-    lang,
-    solveMs,
-    events,
-    contestant: participant.contestant
-      ? { name: participant.contestant.name, country: participant.contestant.country }
+    problemId: session.problem_id,
+    lang: log.lang,
+    solveMs: session.solve_ms,
+    events: log.events,
+    contestant: contestant
+      ? { name: contestant.name, country: contestant.country }
       : null,
-    timerSec: race.timer_sec,
+    timerSec: session.timer_sec ?? found.race.timer_sec,
     problem: problemRow ?? null,
     recordingUrl,
-    recordingOffsetMs: rec?.offset_ms ?? 0,
+    recordingOffsetMs: session.recording_offset_ms ?? 0,
   });
 }

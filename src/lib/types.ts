@@ -1,6 +1,14 @@
-export type Lang = "cpp" | "py";
+import type {
+  Lang as ProtocolLang,
+  SubmitVerdict,
+  RunResponse,
+  TestResult,
+} from "@cf-race/judge-protocol";
 
-export type Verdict = "AC" | "WA" | "TLE" | "RE" | "ML" | "CE" | "PENDING";
+export type Lang = ProtocolLang;
+
+/** DB verdicts: the judge's submit verdicts plus a pre-judging PENDING. */
+export type Verdict = SubmitVerdict | "PENDING";
 
 export type SampleTest = { input: string; output: string };
 
@@ -55,23 +63,9 @@ export type Submission = {
   submitted_at: string;
 };
 
-export type RunTestResult = {
-  name: string;
-  verdict: "AC" | "WA" | "RE" | "TLE" | "ML" | "SKIP";
-  timeMs: number;
-  stdout: string;
-  stderr: string;
-  stdoutTruncated?: boolean;
-  stderrTruncated?: boolean;
-  checkerNote?: string;
-};
-
-export type RunResult = {
-  runId: string;
-  compile: { ok: boolean; stderr: string };
-  results: RunTestResult[];
-  checkerUnreliable?: boolean;
-};
+// Judge wire types, shared with judge/src via the workspace package.
+export type RunTestResult = TestResult;
+export type RunResult = RunResponse;
 
 /** Full state for a station/monitor client, returned by GET /api/state. */
 export type ClientState = {

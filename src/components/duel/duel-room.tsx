@@ -22,6 +22,7 @@ import {
   uploadRecording,
   type WebcamRecording,
 } from "@/lib/webcam-recorder";
+import { DUEL_MAX_SUBMISSIONS } from "@/lib/limits";
 import type { Contestant, Lang, Problem, RunResult } from "@/lib/types";
 import { summarizeRun } from "@/lib/tourist";
 import {
@@ -585,6 +586,7 @@ export function DuelRoom({ roomId }: { roomId: string }) {
           solo
           apiBase="/api/duel"
           label="Duel"
+          maxSubmissions={DUEL_MAX_SUBMISSIONS}
           onEditorDelta={editorRecorder.delta}
           onEditorSnapshot={editorRecorder.snapshot}
           onRun={recordRun}
