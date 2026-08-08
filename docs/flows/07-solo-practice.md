@@ -40,7 +40,8 @@ tourist ghost the monitors play back during the live event.
      **Everything else still works**; recording video is optional, editor events are
      always recorded.
 3. "Start run" button → `POST /api/solo/session` creates a `solo_sessions` row with
-   `started_at = now + 3s` (countdown baked into the server timestamp) and
+   `started_at = now + 4s` (3-2-1-GO countdown baked into the server
+   timestamp; the race clock starts at GO with the full timer) and
    `timer_sec = 180`. Client stores the session in `cfr-solo-history` immediately
    (outcome `pending`) and enters the countdown.
 

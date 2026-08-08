@@ -10,13 +10,14 @@ import { CountdownOverlay } from "@/components/station/countdown-overlay";
 import { RaceScreen } from "@/components/race/race-screen";
 import { formatMsPrecise } from "@/lib/templates";
 import { loadSoloHistory, upsertSoloHistory, bestSolve } from "@/lib/solo";
+import { preferredLang, setPreferredLang } from "@/lib/lang-preference";
 import {
   acquireWebcam,
   startWebcamRecording,
   type WebcamRecording,
 } from "@/lib/webcam-recorder";
 import { enqueueRecording } from "@/lib/upload-manager";
-import type { Contestant, Problem } from "@/lib/types";
+import type { Contestant, Lang, Problem } from "@/lib/types";
 import { useReplayRecorder } from "@/hooks/use-replay-recorder";
 import { Camera, CameraOff, Play, RotateCcw, Video } from "lucide-react";
 
@@ -53,6 +54,14 @@ export function SoloClient({
   >("none");
   const [uploadProgress, setUploadProgress] = useState(0);
   const [starting, setStarting] = useState(false);
+  // Language chosen before the run starts, so the race opens on the right
+  // buffer and template.
+  const [lang, setLang] = useState<Lang>("cpp");
+
+  useEffect(() => {
+    const saved = preferredLang();
+    if (saved) setLang(saved);
+  }, []);
 
   // Server clock offset (serverNow − Date.now()), set when the session starts.
   const clockOffset = useRef(0);
@@ -275,11 +284,19 @@ export function SoloClient({
     }
   }, [starting, problem.id]);
 
-  const onSolved = useCallback(() => {
-    const s = sessionRef.current;
-    const solveMs = s ? Date.now() + clockOffset.current - s.startAtMs : null;
-    finish("solved", solveMs);
-  }, [finish]);
+  // The server's solveMs is measured from the submission timestamp; the local
+  // clock here would measure from the judge verdict instead.
+  const onSolved = useCallback(
+    (solveMs: number | null) => {
+      const s = sessionRef.current;
+      finish(
+        "solved",
+        solveMs ??
+          (s ? Date.now() + clockOffset.current - s.startAtMs : null)
+      );
+    },
+    [finish]
+  );
 
   const nextProblemId = useMemo(() => {
     const history = typeof window !== "undefined" ? loadSoloHistory() : [];
@@ -298,7 +315,7 @@ export function SoloClient({
     const endAtMs = session.startAtMs + session.timerSec * 1000;
     return (
       <>
-        {serverNow() < session.startAtMs + 1200 && (
+        {serverNow() < session.startAtMs && (
           <CountdownOverlay startAtMs={session.startAtMs} serverNow={serverNow} />
         )}
         <RaceScreen
@@ -310,6 +327,7 @@ export function SoloClient({
           serverNow={serverNow}
           warmup={false}
           solo
+          initialLang={lang}
           onEditorDelta={editorRecorder.delta}
           onEditorSnapshot={editorRecorder.snapshot}
           onRun={recordRun}
@@ -347,14 +365,21 @@ export function SoloClient({
                 {formatMsPrecise(result.solveMs)}
               </p>
             )}
-            {touristDelta !== null && (
-              <p
-                className={`font-mono text-sm ${
-                  touristDelta <= 0 ? "text-green-400" : "text-red-400"
-                }`}
-              >
-                vs tourist: {touristDelta <= 0 ? "−" : "+"}
-                {formatMsPrecise(Math.abs(touristDelta))}
+            {touristDelta !== null && problem.tourist_time_ms !== null && (
+              <p className="font-mono text-sm text-muted-foreground">
+                tourist{" "}
+                <span className="text-foreground tabular-nums">
+                  {formatMsPrecise(problem.tourist_time_ms)}
+                </span>{" "}
+                ·{" "}
+                <span
+                  className={
+                    touristDelta <= 0 ? "text-green-400" : "text-red-400"
+                  }
+                >
+                  {touristDelta <= 0 ? "−" : "+"}
+                  {formatMsPrecise(Math.abs(touristDelta))}
+                </span>
               </p>
             )}
             {!solved && (
@@ -430,9 +455,32 @@ export function SoloClient({
         </CardHeader>
         <CardContent className="space-y-5">
           <p className="text-sm text-muted-foreground">
-            3:00 on the clock · 10 submissions · C++ or Python. Your editor and
-            webcam are recorded for replay.
+            3:00 on the clock · 50 submissions · Your editor and webcam are
+            recorded for replay.
           </p>
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+              Language
+            </span>
+            <div className="flex overflow-hidden rounded-md border border-border">
+              {(["cpp", "py"] as Lang[]).map((l) => (
+                <button
+                  key={l}
+                  onClick={() => {
+                    setLang(l);
+                    setPreferredLang(l);
+                  }}
+                  className={`px-3 py-1 font-mono text-xs ${
+                    lang === l
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:bg-accent"
+                  }`}
+                >
+                  {l === "cpp" ? "C++" : "Python"}
+                </button>
+              ))}
+            </div>
+          </div>
           <div className="overflow-hidden rounded-lg border border-border/60 bg-black/50">
             {camState === "ready" ? (
               <video

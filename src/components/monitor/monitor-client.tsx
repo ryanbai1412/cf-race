@@ -92,7 +92,7 @@ export function MonitorClient({
 
     return (
       <main className="flex h-screen flex-col bg-background">
-        {clockMs < 1200 && (
+        {clockMs < 0 && (
           <CountdownOverlay startAtMs={startMs} serverNow={serverNow} />
         )}
         <header className="flex items-center gap-4 border-b border-border/60 bg-card/50 px-6 py-3">

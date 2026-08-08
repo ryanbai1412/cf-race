@@ -18,6 +18,7 @@ import type {
 } from "@/lib/types";
 import type { EditorDeltaChange } from "@/lib/tourist";
 import { MAX_SUBMISSIONS } from "@/lib/limits";
+import { preferredLang, setPreferredLang } from "@/lib/lang-preference";
 import { Play, Send } from "lucide-react";
 
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
@@ -43,6 +44,7 @@ export function RaceScreen({
   onTabChange,
   onStatementScroll,
   onSubmitAccepted,
+  initialLang,
   rivalName,
   rivalSolveMs,
   onSwitchContestant,
@@ -66,14 +68,15 @@ export function RaceScreen({
   onRunResult?: (result: RunResult, target: "samples" | "custom", lang: Lang) => void;
   onTabChange?: (tab: ConsoleTab, lang: Lang) => void;
   onStatementScroll?: (frac: number, lang: Lang) => void; // throttled statement-pane scroll fraction
-  onSubmitAccepted?: () => void;
+  onSubmitAccepted?: (solveMs: number | null) => void;
+  initialLang?: Lang;
   rivalName?: string;
   rivalSolveMs?: number | null;
   onSwitchContestant?: () => void;
 }) {
   const api = apiBase ?? "/api/solo";
   const storageKey = `cfr-code-${raceId ?? "warmup"}-${contestant.station_role}`;
-  const [lang, setLang] = useState<Lang>("cpp");
+  const [lang, setLang] = useState<Lang>(initialLang ?? "cpp");
   // Each language is its own editor buffer; switching preserves both.
   const [codes, setCodes] = useState<Record<Lang, string>>({
     cpp: STARTER_TEMPLATES.cpp,
@@ -100,12 +103,14 @@ export function RaceScreen({
       cpp: STARTER_TEMPLATES.cpp,
       py: STARTER_TEMPLATES.py,
     };
-    let initialLang: Lang = "cpp";
+    // The language carries over from wherever it was last chosen (solo
+    // pre-race screen, warm-up sandbox) unless this buffer has its own save.
+    let startLang: Lang = initialLang ?? preferredLang() ?? "cpp";
     const saved = localStorage.getItem(storageKey);
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        if (parsed.lang === "cpp" || parsed.lang === "py") initialLang = parsed.lang;
+        if (parsed.lang === "cpp" || parsed.lang === "py") startLang = parsed.lang;
         if (parsed.codes && typeof parsed.codes === "object") {
           initialCodes = {
             cpp:
@@ -119,14 +124,14 @@ export function RaceScreen({
           };
         } else if (typeof parsed.code === "string") {
           // Older saves stored a single buffer.
-          initialCodes = { ...initialCodes, [initialLang]: parsed.code };
+          initialCodes = { ...initialCodes, [startLang]: parsed.code };
         }
       } catch {}
     }
     setCodes(initialCodes);
-    setLang(initialLang);
-    onEditorChange?.(initialCodes[initialLang], initialLang, 0);
-    onEditorSnapshot?.(initialCodes[initialLang], initialLang);
+    setLang(startLang);
+    onEditorChange?.(initialCodes[startLang], startLang, 0);
+    onEditorSnapshot?.(initialCodes[startLang], startLang);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storageKey]);
 
@@ -158,6 +163,7 @@ export function RaceScreen({
       storageKey,
       JSON.stringify({ codes: nextCodes, lang: nextLang })
     );
+    setPreferredLang(nextLang);
     onEditorChange?.(nextCodes[nextLang], nextLang, 0);
     if (changes) onEditorDelta?.(changes, nextCodes[nextLang], nextLang);
     else onEditorSnapshot?.(nextCodes[nextLang], nextLang);
@@ -292,7 +298,8 @@ export function RaceScreen({
       const data = await res.json();
       await refreshSubmissions();
       if (!res.ok) setSubmitError(data.error ?? "Submit failed");
-      else if (data.verdict === "AC") onSubmitAccepted?.();
+      else if (data.verdict === "AC")
+        onSubmitAccepted?.(typeof data.solveMs === "number" ? data.solveMs : null);
     } catch (e) {
       setSubmitError(e instanceof Error ? e.message : "Submit failed");
     } finally {

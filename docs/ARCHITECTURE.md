@@ -33,7 +33,7 @@ Pages/roles, all joined to an event via secret link (`/e/<eventId>?k=<secret>&ro
 - Node/Go service on a dedicated 8–16 core VM, colocated region.
 - Sandboxing via `isolate` (cgroups): per-run CPU/memory/time limits, no network.
 - **Sample runs ("debug mode")**: C++ compiled with `-O1 -g -fsanitize=address,undefined`; Python run directly. Warm compile cache keyed on source hash (samples then submit = one compile). Target: Python samples < 300ms, C++ ~1–2s (compile-dominated).
-- **Submissions**: compile with `-O2`, run against full generated tests, short-circuit on first failure per CF convention; up to ~10 submissions per contestant, concurrent runs OK (queue with per-station fairness).
+- **Submissions**: compile with `-O2`, run against full generated tests, short-circuit on first failure per CF convention; up to 50 submissions per contestant, concurrent runs OK (queue with per-station fairness).
 - **Checker**: CF-style token comparison (trailing whitespace, case-insensitive YES/NO, float eps option); special-judge problems flagged in problem metadata → warning on samples.
 - API: `POST /run` (samples/custom), `POST /submit`, WS for streaming verdicts as tests complete.
 

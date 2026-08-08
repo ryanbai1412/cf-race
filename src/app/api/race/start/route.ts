@@ -4,7 +4,8 @@ import { db } from "@/lib/db";
 import { requireEvent } from "@/lib/event-auth";
 import { notifyEvent } from "@/lib/notify";
 
-const COUNTDOWN_MS = 5000;
+// 5-4-3-2-1 plus a "GO!" beat; the race clock starts when the overlay clears.
+const COUNTDOWN_MS = 6000;
 
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);

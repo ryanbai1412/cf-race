@@ -3,7 +3,12 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-/** Full-screen 3-2-1-GO overlay driven by a server-synced start time. */
+/**
+ * Full-screen 3-2-1-GO overlay driven by a server-synced start time.
+ * `startAtMs` is the GO moment *and* the race-clock zero: the last second
+ * before it shows "GO!", and the overlay clears exactly when the clock
+ * starts, so the countdown never eats race time.
+ */
 export function CountdownOverlay({
   startAtMs,
   serverNow,
@@ -18,9 +23,10 @@ export function CountdownOverlay({
     return () => clearInterval(iv);
   }, [startAtMs, serverNow]);
 
-  if (remaining <= -1200) return null;
-  const secs = Math.ceil(remaining / 1000);
-  const label = secs > 3 ? "Get ready…" : secs >= 1 ? String(secs) : "GO!";
+  if (remaining <= 0) return null;
+  // The final second of the countdown is the "GO!" beat.
+  const secs = Math.ceil(remaining / 1000) - 1;
+  const label = secs >= 1 ? String(secs) : "GO!";
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur">

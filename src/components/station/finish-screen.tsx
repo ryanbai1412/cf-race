@@ -86,9 +86,13 @@ export function FinishScreen({
               )}
             </span>
           )}
-          {touristDelta !== null && (
-            <span>
-              vs tourist 🇧🇾:{" "}
+          {touristDelta !== null && problem.tourist_time_ms != null && (
+            <span className="text-muted-foreground">
+              tourist 🇧🇾 {" "}
+              <span className="text-foreground tabular-nums">
+                {formatMsPrecise(problem.tourist_time_ms)}
+              </span>{" "}
+              ·{" "}
               <span className={touristDelta <= 0 ? "text-green-400" : "text-red-400"}>
                 {touristDelta <= 0 ? "−" : "+"}
                 {formatMsPrecise(Math.abs(touristDelta))}
