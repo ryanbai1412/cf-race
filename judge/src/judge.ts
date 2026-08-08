@@ -188,53 +188,88 @@ export async function handleSubmit(
     };
   }
 
+  // Tests run concurrently (bounded by the worker pool), but the reported
+  // verdict is the one of the lowest-indexed failing test, so results match
+  // sequential CF-style judging. Tests queued after that failure is known are
+  // skipped.
+  const results: (TestResult | undefined)[] = new Array(tests.length);
+  let firstFailure = Number.POSITIVE_INFINITY;
   let passedCount = 0;
-  let timeMsMax = 0;
-  // Sequential with short-circuit on first failure (CF convention).
-  for (const t of tests) {
-    const r = await pool.run(() =>
-      runOneTest(
-        req.lang,
-        compiled.binPath,
-        req.source,
-        t,
-        meta.timeLimitMs,
-        meta.memoryLimitMb,
-        meta.floatEps,
-        false,
-        false
-      )
-    );
-    timeMsMax = Math.max(timeMsMax, r.timeMs);
-    if (r.verdict !== "AC") {
-      const resp: SubmitResponse = {
+
+  /** Number of leading tests that finished AC, for monotonic progress. */
+  function acPrefix(): number {
+    let n = 0;
+    while (n < results.length && results[n]?.verdict === "AC") n++;
+    return n;
+  }
+
+  await Promise.all(
+    tests.map((t, i) =>
+      pool.run(async () => {
+        if (i > firstFailure) return;
+        const r = await runOneTest(
+          req.lang,
+          compiled.binPath,
+          req.source,
+          t,
+          meta.timeLimitMs,
+          meta.memoryLimitMb,
+          meta.floatEps,
+          false,
+          false
+        );
+        results[i] = r;
+        if (r.verdict !== "AC") firstFailure = Math.min(firstFailure, i);
+        const prefix = acPrefix();
+        if (prefix > passedCount) {
+          passedCount = prefix;
+          onUpdate?.({
+            submissionId: req.submissionId,
+            verdict: "AC",
+            failedTest: null,
+            passedCount,
+            totalCount,
+            timeMsMax: maxTimeMs(results, firstFailure),
+          });
+        }
+      })
+    )
+  );
+
+  passedCount = acPrefix();
+  const timeMsMax = maxTimeMs(results, firstFailure);
+  const failed = Number.isFinite(firstFailure) ? results[firstFailure] : undefined;
+  const resp: SubmitResponse = failed
+    ? {
         submissionId: req.submissionId,
-        // Sequential judging never yields SKIP, but the per-test type allows it.
-        verdict: r.verdict === "SKIP" ? "RE" : r.verdict,
-        failedTest: t.name,
+        // Judging never yields SKIP here, but the per-test type allows it.
+        verdict: failed.verdict === "SKIP" ? "RE" : failed.verdict,
+        failedTest: failed.name,
+        passedCount,
+        totalCount,
+        timeMsMax,
+      }
+    : {
+        submissionId: req.submissionId,
+        verdict: "AC",
+        failedTest: null,
         passedCount,
         totalCount,
         timeMsMax,
       };
-      onUpdate?.(resp);
-      return resp;
-    }
-    passedCount++;
-    onUpdate?.({
-      submissionId: req.submissionId,
-      verdict: "AC",
-      failedTest: null,
-      passedCount,
-      totalCount,
-      timeMsMax,
-    });
+  if (failed) onUpdate?.(resp);
+  return resp;
+}
+
+/** Max runtime over the tests a sequential judge would have executed. */
+function maxTimeMs(
+  results: (TestResult | undefined)[],
+  firstFailure: number
+): number {
+  let max = 0;
+  for (let i = 0; i < results.length && i <= firstFailure; i++) {
+    const r = results[i];
+    if (r) max = Math.max(max, r.timeMs);
   }
-  return {
-    submissionId: req.submissionId,
-    verdict: "AC",
-    failedTest: null,
-    passedCount,
-    totalCount,
-    timeMsMax,
-  };
+  return max;
 }
