@@ -49,8 +49,7 @@ join public.race_participants rp
 where rp.session_id is not null
   and not exists (
     select 1 from public.session_events x
-    join public.race_participants xp on xp.session_id = x.session_id
-    limit 1
+    where x.session_id = rp.session_id
   )
 order by e.race_id, e.station_role, e.t_ms, e.id;
 
@@ -93,13 +92,11 @@ marks as (
   where verdict is not null and verdict <> 'PENDING'
 )
 insert into public.session_events (session_id, t_ms, code, lang, kind, payload)
-select session_id, t_ms, '', lang, kind, payload
-from marks
+select m.session_id, m.t_ms, '', m.lang, m.kind, m.payload
+from marks m
 where not exists (
   select 1 from public.session_events x
-  join public.race_participants xp on xp.session_id = x.session_id
-  where x.kind in ('submit', 'verdict')
-  limit 1
+  where x.session_id = m.session_id and x.kind in ('submit', 'verdict')
 );
 
 -- The leaderboard reads first-AC times straight from race data; define the
