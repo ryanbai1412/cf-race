@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CodeMirror } from "@/components/monitor/code-mirror";
+import { ReplayEditor } from "@/components/replay/replay-editor";
 import { StatementPane } from "@/components/race/statement-pane";
 import type { Problem } from "@/lib/types";
-import { touristStateAt, TouristLog, type RunSummary } from "@/lib/tourist";
+import { TouristPlayer, TouristLog, type RunSummary } from "@/lib/tourist";
 import { formatMsPrecise } from "@/lib/templates";
 import { flagEmoji } from "@/lib/countries";
 import { Button } from "@/components/ui/button";
@@ -533,11 +533,12 @@ export function ReplayCore({
     if (Math.abs(v.currentTime - target) > 0.4) v.currentTime = target;
   }, [clockMs, videoOffsetMs]);
 
-  const state = touristStateAt(log, clockMs);
+  const player = useMemo(() => new TouristPlayer(log.events), [log.events]);
   const solved = log.solveMs !== null && clockMs >= log.solveMs;
   const markers = log.events.filter(
     (ev) =>
       ev.type !== "snapshot" &&
+      ev.type !== "delta" &&
       ev.type !== "tab" &&
       ev.type !== "run_result" &&
       ev.type !== "scroll"
@@ -565,7 +566,7 @@ export function ReplayCore({
         )}
         <div className="flex min-h-0 min-w-0 flex-1 flex-col">
           <div className="min-h-0 flex-1">
-            <CodeMirror code={state.code} lang={state.lang ?? log.lang} />
+            <ReplayEditor player={player} clockMs={clockMs} fallbackLang={log.lang} />
           </div>
           <ReplayConsole
             events={log.events}
