@@ -1,4 +1,4 @@
-import { db } from "./db";
+import { db, logDbError } from "./db";
 import type { Lang } from "./types";
 
 /** Latency grace (ms) added to server-side time-window checks. */
@@ -122,14 +122,15 @@ export async function resolveMatch(roomId: string): Promise<DuelMatchRow | null>
 
   for (const s of sessions) {
     if (s.outcome === null) {
-      await db()
+      const { error } = await db()
         .from("sessions")
         .update({ outcome: "timeout" })
         .eq("id", s.id)
         .is("outcome", null);
+      logDbError(`resolveMatch: timeout session ${s.id}`, error);
     }
   }
-  const { data: updated } = await db()
+  const { data: updated, error: finishErr } = await db()
     .from("duel_matches")
     .update({
       finished_at: new Date().toISOString(),
@@ -139,15 +140,18 @@ export async function resolveMatch(roomId: string): Promise<DuelMatchRow | null>
     .is("finished_at", null)
     .select("*")
     .maybeSingle<DuelMatchRow>();
-  await db()
+  logDbError(`resolveMatch: finish match ${match.id}`, finishErr);
+  const { error: roomErr } = await db()
     .from("duel_rooms")
     .update({ status: "lobby" })
     .eq("id", roomId)
     .eq("status", "racing");
-  await db()
+  logDbError(`resolveMatch: reset room ${roomId}`, roomErr);
+  const { error: readyErr } = await db()
     .from("duel_room_players")
     .update({ ready_at: null })
     .eq("room_id", roomId);
+  logDbError(`resolveMatch: clear ready ${roomId}`, readyErr);
   return updated ?? { ...match, finished_at: new Date().toISOString(), winner_user_id: winner };
 }
 
@@ -163,11 +167,16 @@ export async function startDuelMatch(
   const [userA, userB] = playerIds;
   const problemId = await pickDuelProblem(userA, userB);
   if (!problemId) {
-    await db().from("duel_rooms").update({ status: "lobby" }).eq("id", room.id);
-    await db()
+    const { error: roomErr } = await db()
+      .from("duel_rooms")
+      .update({ status: "lobby" })
+      .eq("id", room.id);
+    logDbError(`startDuelMatch: reset room ${room.id}`, roomErr);
+    const { error: readyErr } = await db()
       .from("duel_room_players")
       .update({ ready_at: null })
       .eq("room_id", room.id);
+    logDbError(`startDuelMatch: clear ready ${room.id}`, readyErr);
     return { ok: false, error: "no eligible problems left for this pair", status: 409 };
   }
 

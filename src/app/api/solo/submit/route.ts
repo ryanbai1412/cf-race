@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { db, logDbError } from "@/lib/db";
 import { requireSessionAccess } from "@/lib/session-auth";
 import { judgeConfigured } from "@/lib/judge";
 import { MAX_SOURCE_LEN } from "@/lib/limits";
@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
   if (!judged.ok) return judged.response;
 
   // Submit + verdict moments become part of the single playback stream.
-  await db().from("session_events").insert([
+  const { error: markerErr } = await db().from("session_events").insert([
     {
       session_id: sessionId,
       t_ms: Math.max(0, new Date(submittedAt).getTime() - startMs),
@@ -82,15 +82,17 @@ export async function POST(req: NextRequest) {
       payload: { submissionId: judged.submissionId, verdict: judged.result.verdict },
     },
   ]);
+  logDbError(`solo submit: replay markers ${sessionId}`, markerErr);
 
   let solveMs: number | null = null;
   if (judged.result.verdict === "AC") {
     solveMs = Math.max(0, new Date(submittedAt).getTime() - startMs);
-    await db()
+    const { error: solvedErr } = await db()
       .from("sessions")
       .update({ outcome: "solved", solve_ms: solveMs, lang })
       .eq("id", sessionId)
       .is("solve_ms", null);
+    logDbError(`solo submit: solved stamp ${sessionId}`, solvedErr);
   }
   return NextResponse.json({ ...judged.result, submissionId: judged.submissionId, solveMs });
 }
