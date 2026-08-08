@@ -64,18 +64,21 @@ screen is a side-by-side review of both players.
 ### 4. Race
 1. Same `RaceScreen` as solo/event (Monaco, statement, samples/custom/submit,
    per-language buffers), 10-submission cap, standard verdicts.
-2. Timer: none by default (first AC wins); optional room setting
-   `timer_sec` (e.g. 5/10 min) as a cutoff → both DNF if it expires.
-3. Live opponent presence: a slim status strip (not a full editor mirror in
-   v1): opponent's language, last run/submit + verdict, and a "typing"
-   heartbeat via the existing Supabase Realtime channel pattern
-   (`duel-{roomId}`).
+2. Timer: configurable in the room lobby before ready-up:
+   - `total_time_sec` (optional): hard cutoff for the whole match;
+   - `grace_after_ac_sec` (optional): once the first player ACs, the other
+     has this much additional time before the match ends.
+   Defaults: no total cutoff, 60s grace after first AC.
+3. No live opponent visibility during the race. The only realtime signal is
+   a notification when the opponent ACs (via the `duel-{roomId}` Supabase
+   Realtime channel).
 4. Recording: full event log per player (keystroke deltas/snapshots, runs,
    run results, tabs, submits, verdicts, statement scroll — the same recorder
    as solo) + webcam via MediaRecorder.
-5. Win condition: first AC ends the match for both (loser's screen shows
-   "<name> solved it first" and locks after a short grace to finish typing a
-   pending submit). Both-DNF if timer expires or both exhaust submissions.
+5. Win condition: first AC wins. The other player gets a notification
+   ("<name> solved it!") and the grace window keeps running — if they AC
+   within it, the problem still counts as solved for them (winner unchanged).
+   Both-DNF if the total cutoff expires or both exhaust submissions.
 
 ### 5. Finish + upload guard
 - On match end each client stops MediaRecorder and uploads the webm (signed
@@ -106,11 +109,11 @@ screen is a side-by-side review of both players.
 - Spectator/monitor view of a duel; ratings/ELO; more than 2 players;
   in-race chat.
 
-## Open questions
-1. Live opponent visibility during the race: none, a status strip (proposed),
-   or full live editor mirror of the opponent?
-2. Race timer: pure first-AC-wins with no cutoff, or a default cutoff
-   (e.g. 10 min)?
-3. Should a duel loser's problem count as "solved" for them if they AC after
-   the winner (within grace), or only the winner's solve recorded?
-4. Login: Google-only, or also allow the booth secret-link identities?
+## Decisions (from review)
+1. No live opponent visibility during the race — only a notification when the
+   opponent solves.
+2. Timer configurable on the duel page: total time and/or additional time
+   after the first AC.
+3. Any AC counts as solved for that player, regardless of who won.
+4. Google-only login for v1; keep the auth layer pluggable for future
+   providers.
