@@ -87,15 +87,19 @@ the judge VM. `scripts/upload-tourist.ts` uploads tourist ghost replay logs.
   `request_editor` messages. Timers are server-authoritative: clients render
   offsets from `serverNow`, and the server re-checks deadlines on submit.
 - **Race lifecycle**: admin starts a race → row in `races` with
-  `state=countdown` and `started_at` 5s in the future; participants snapshot
-  the currently checked-in contestants. `/api/state` lazily flips countdown →
+  `state=countdown` and `started_at` a few seconds in the future; participants
+  snapshot the currently checked-in contestants, and each participant gets a
+  universal `sessions` row (`kind='event'`) that carries its replay stream,
+  submissions, and webcam recording. `/api/state` lazily flips countdown →
   running. First `AC` sets `race_participants.first_ac_at`; finishing the race
-  DQs unsolved participants and retires contestants back to check-in.
+  DQs unsolved participants and retires contestants back to check-in. A
+  partial unique index guarantees at most one unfinished race per event.
 - **Run vs submit**: "Run samples"/custom input goes to `/api/judge/run` (or
   `/api/solo/run`) → judge `/run`, no persistence. "Submit" goes to
-  `/api/submit` (or `/api/solo/submit`) → inserts a `PENDING` row, judges on
-  full tests, records the verdict; each contestant gets 50 submissions per
-  race (`src/lib/limits.ts`).
+  `/api/submit` (or `/api/solo/submit`) → inserts a `PENDING` row in
+  `session_submissions`, judges on full tests, records the verdict; caps are
+  50 submissions per session, 10 for duels (`src/lib/limits.ts`), enforced
+  atomically by a Postgres trigger (`session_submission_cap`).
 - **Replay recording**: the station/solo client records every keystroke as
   editor deltas with periodic full-code keyframes, plus run / run-result /
   console-tab / statement-scroll markers, and flushes batches every 5s to
@@ -141,34 +145,28 @@ races                           race_participants
   started_at timestamptz?
   timer_sec int
 
-submissions                     race_editor_events
-  id uuid PK                      id bigint PK
-  race_id → races                 race_id → races (cascade)
-  contestant_id → contestants     station_role
-  lang cpp|py                     t_ms int          (ms since race start)
-  source text                     code text, lang
-  verdict text? (PENDING→…)       kind snapshot|delta|run|run_result|
-  details jsonb                        tab|scroll
-  submitted_at, judged_at         payload jsonb?    (delta changes, run
-                                                     summary, tab, frac)
-race_recordings
-  (race_id, station_role) PK     — webcam .webm in Storage bucket
-  path text, offset_ms int         `recordings/race/<raceId>-<station>.webm`
 ```
 
-Solo practice mirrors the race tables:
+`race_participants.session_id` links each participant to a universal session.
+
+All modes (solo, duel, event) share the universal session tables:
 
 ```
-solo_sessions                   solo_editor_events    solo_submissions
-  id uuid PK (capability)         session_id → solo_sessions (cascade)
-  problem_id → problems           t_ms, code, lang, kind, payload
-  user_id → auth.users?           (same shape as race_editor_events,
-  lang cpp|py?                     keyed by session instead of
-  started_at, timer_sec            race+station)
-  solve_ms int?
+sessions                        session_events        session_submissions
+  id uuid PK (capability)         session_id → sessions (cascade)
+  kind solo|duel|event            t_ms, code, lang      kind run|submit
+  problem_id → problems           kind snapshot|delta|  lang, source
+  user_id → auth.users?                run|run_result|  verdict? (PENDING→…)
+  lang cpp|py?                         tab|scroll|      details jsonb
+  started_at, timer_sec                submit|verdict   submitted_at,
+  solve_ms int?                   payload jsonb?        judged_at
   outcome solved|timeout|abandoned
   recording_path, recording_offset_ms
 ```
+
+The legacy `submissions`, `race_editor_events`, `race_recordings`, and
+`solo_*` tables are frozen archives — backfilled into the universal tables by
+migrations, no longer written.
 
 RLS is enabled everywhere; the app's service-role client bypasses it, and the
 only anon/authenticated policy is `solo_sessions_select_own` (signed-in users

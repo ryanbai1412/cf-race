@@ -4,9 +4,13 @@ import { judgeSubmit, type SubmitResult } from "./judge";
 import { MAX_SUBMISSIONS } from "./limits";
 import type { Lang } from "./types";
 
-/** True when the caller already used all of its official submissions. */
+/**
+ * True when the caller already used all of its official submissions.
+ * Advisory (for a friendly 400): the cap is atomically enforced by the
+ * session_submission_cap trigger in Postgres.
+ */
 export async function submissionLimitReached(
-  table: "submissions" | "session_submissions",
+  table: "session_submissions",
   filter: Record<string, string>,
   max: number = MAX_SUBMISSIONS
 ): Promise<boolean> {
@@ -22,7 +26,7 @@ export async function submissionLimitReached(
  * row is deleted so it neither sticks around forever nor eats a submission.
  */
 export async function judgeOfficialSubmission(opts: {
-  table: "submissions" | "session_submissions";
+  table: "session_submissions";
   insertRow: Record<string, unknown>;
   lang: Lang;
   source: string;
@@ -42,9 +46,14 @@ export async function judgeOfficialSubmission(opts: {
     .select("id")
     .single();
   if (error) {
+    // 23514 = the DB-side submission-cap trigger rejected the insert.
+    const capped = error.code === "23514";
     return {
       ok: false,
-      response: NextResponse.json({ error: error.message }, { status: 500 }),
+      response: NextResponse.json(
+        { error: capped ? "submission limit reached" : error.message },
+        { status: capped ? 400 : 500 }
+      ),
     };
   }
 

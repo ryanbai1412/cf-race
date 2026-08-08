@@ -1,7 +1,7 @@
 import { db } from "./db";
-import { fetchEditorEventRows } from "./editor-events";
+import { buildReplayEvents, fetchEditorEventRows } from "./editor-events";
 import type { Lang, Problem } from "./types";
-import type { EditorDeltaChange, RunSummary, TouristEvent } from "./tourist";
+import type { TouristEvent } from "./tourist";
 
 export type SessionKind = "solo" | "duel" | "event";
 
@@ -59,58 +59,7 @@ export async function buildSessionLog(sessionId: string): Promise<{
   const snaps = await fetchEditorEventRows("session_events", {
     session_id: sessionId,
   });
-
-  const events: TouristEvent[] = [];
-  for (const s of snaps) {
-    if (s.kind === "run") events.push({ t: s.t_ms, type: "run" });
-    else if (s.kind === "submit") events.push({ t: s.t_ms, type: "submit" });
-    else if (s.kind === "verdict" && s.payload)
-      events.push({
-        t: s.t_ms,
-        type: "verdict",
-        verdict: (s.payload as { verdict: string }).verdict,
-      });
-    else if (s.kind === "run_result" && s.payload)
-      events.push({ t: s.t_ms, type: "run_result", result: s.payload as RunSummary });
-    else if (s.kind === "tab" && s.payload)
-      events.push({ t: s.t_ms, type: "tab", tab: (s.payload as { tab: string }).tab });
-    else if (s.kind === "scroll" && s.payload)
-      events.push({
-        t: s.t_ms,
-        type: "scroll",
-        frac: (s.payload as { frac: number }).frac,
-      });
-    else if (s.kind === "delta" && s.payload)
-      events.push({
-        t: s.t_ms,
-        type: "delta",
-        lang: s.lang === "py" ? "py" : "cpp",
-        changes: (s.payload as { changes: EditorDeltaChange[] }).changes,
-      });
-    else if (
-      s.kind === "run_result" ||
-      s.kind === "tab" ||
-      s.kind === "scroll" ||
-      s.kind === "delta" ||
-      s.kind === "verdict"
-    )
-      continue;
-    else
-      events.push({
-        t: s.t_ms,
-        type: "snapshot",
-        code: s.code,
-        lang: s.lang === "py" ? "py" : "cpp",
-      });
-  }
-  events.sort((a, b) => a.t - b.t);
-  let lang: Lang = session.lang ?? "cpp";
-  const codeSnaps = snaps.filter(
-    (s) => s.kind === "snapshot" || s.kind === "delta"
-  );
-  if (codeSnaps.length > 0) {
-    lang = codeSnaps[codeSnaps.length - 1].lang as Lang;
-  }
+  const { events, lang } = buildReplayEvents(snaps, session.lang ?? "cpp");
 
   return {
     session,

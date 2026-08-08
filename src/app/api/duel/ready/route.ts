@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { authUser } from "@/lib/supabase/server";
-import { COUNTDOWN_MS, pickDuelProblem } from "@/lib/duel";
+import { startDuelMatch } from "@/lib/duel";
 
 export const dynamic = "force-dynamic";
 
@@ -63,52 +63,9 @@ export async function POST(req: NextRequest) {
     .maybeSingle();
   if (!claimed) return NextResponse.json({ ok: true, started: true });
 
-  const [userA, userB] = all.map((p) => p.user_id);
-  const problemId = await pickDuelProblem(userA, userB);
-  if (!problemId) {
-    await db().from("duel_rooms").update({ status: "lobby" }).eq("id", roomId);
-    await db()
-      .from("duel_room_players")
-      .update({ ready_at: null })
-      .eq("room_id", roomId);
-    return NextResponse.json(
-      { error: "no eligible problems left for this pair" },
-      { status: 409 }
-    );
+  const started = await startDuelMatch(room, [all[0].user_id, all[1].user_id]);
+  if (!started.ok) {
+    return NextResponse.json({ error: started.error }, { status: started.status });
   }
-
-  const startAt = new Date(Date.now() + COUNTDOWN_MS).toISOString();
-  const { data: match, error } = await db()
-    .from("duel_matches")
-    .insert({
-      room_id: roomId,
-      problem_id: problemId,
-      started_at: startAt,
-      total_time_sec: room.total_time_sec,
-      grace_after_ac_sec: room.grace_after_ac_sec,
-    })
-    .select("id")
-    .single();
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-
-  for (const uid of [userA, userB]) {
-    const { data: session } = await db()
-      .from("sessions")
-      .insert({
-        kind: "duel",
-        user_id: uid,
-        problem_id: problemId,
-        started_at: startAt,
-        timer_sec: room.total_time_sec,
-      })
-      .select("id")
-      .single();
-    await db().from("duel_players").insert({
-      match_id: match.id,
-      user_id: uid,
-      session_id: session!.id,
-    });
-  }
-
   return NextResponse.json({ ok: true, started: true });
 }
