@@ -13,7 +13,7 @@ launch the countdown, and recover from anything with one click.
    - No active race: problem picker (dropdown of the problem bank, shows id, name,
      rating, tourist time, special-judge flag), timer override input (defaults to the
      problem's `race_timer_sec`), and a big **Start race** button (disabled until at
-     least one station has checked in). Starting = 5s countdown broadcast to all.
+     least one station has checked in). Starting = 5-4-3-2-1-GO countdown broadcast to all; the race clock starts at GO.
    - Active race: problem name, race phase (countdown/racing/overtime), live per-station
      status (AC at mm:ss / racing / DQ), time remaining, and **Finish & reset** button
      (marks race finished, DQs unsolved, returns stations to check-in).

@@ -94,7 +94,7 @@ the judge VM. `scripts/upload-tourist.ts` uploads tourist ghost replay logs.
 - **Run vs submit**: "Run samples"/custom input goes to `/api/judge/run` (or
   `/api/solo/run`) → judge `/run`, no persistence. "Submit" goes to
   `/api/submit` (or `/api/solo/submit`) → inserts a `PENDING` row, judges on
-  full tests, records the verdict; each contestant gets 10 submissions per
+  full tests, records the verdict; each contestant gets 50 submissions per
   race (`src/lib/limits.ts`).
 - **Replay recording**: the station/solo client records every keystroke as
   editor deltas with periodic full-code keyframes, plus run / run-result /

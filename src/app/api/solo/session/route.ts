@@ -4,10 +4,11 @@ import { authUser } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 
-const COUNTDOWN_MS = 3000;
+// 3-2-1 plus a "GO!" beat; the race clock starts when the overlay clears.
+const COUNTDOWN_MS = 4000;
 const TIMER_SEC = 180;
 
-/** Start a solo practice run: creates a sessions row (kind solo) with GO at now+3s. */
+/** Start a solo practice run: creates a sessions row (kind solo) with GO after the countdown. */
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
   const problemId = typeof body?.problemId === "string" ? body.problemId : "";

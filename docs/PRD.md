@@ -22,7 +22,7 @@ Everything is a single web app with multiple screen/pages (contestant screens, s
    - **Run on samples** (default: debug mode; C++ debug builds include ASan/UBSan etc.). Runs all sample tests and gives a quick verdict per sample.
    - stdout and stderr are automatically captured and shown — both **split** and **combined** views.
    - **Custom test case**: contestant can add and run their own input.
-   - **Submit**: up to ~10 submissions; multiple submissions may run concurrently. Judged against our own full generated test data (not via Codeforces). **The timestamp of the first AC is what counts.**
+   - **Submit**: up to 50 submissions; multiple submissions may run concurrently. Judged against our own full generated test data (not via Codeforces). **The timestamp of the first AC is what counts.**
    - **Timer**: hard per-problem cap (~3 min, maybe 4 — configurable per problem). Exceeding it = DQ.
    - Sample-run latency must be as fast as possible — the run/submit UX is the single most important thing to get right.
 5. **Finish**: On AC → congratulations screen + confetti, then the leaderboard: fastest solves on this problem, including your time vs tourist's time.

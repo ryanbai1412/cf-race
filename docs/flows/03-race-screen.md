@@ -16,7 +16,7 @@ instant feedback, clear verdicts, zero confusion under adrenaline.
     input, expected, got, stderr — split and combined stdout/stderr views.
   - **Custom** tab: textarea for custom input + Run button; output split/combined.
   - **Submit** tab: submission history list (verdict, time, failed test #, counter
-    "N/10 submissions used").
+    "N/50 submissions used").
 - Action buttons: `Run samples` (Ctrl+Enter), `Run custom`, `Submit` (Ctrl+Shift+Enter),
   all with busy states; concurrent submits allowed, run disabled while a run is active.
 
