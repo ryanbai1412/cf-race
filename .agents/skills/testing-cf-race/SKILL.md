@@ -53,6 +53,37 @@ description: How to run and end-to-end test the cf-race booth app locally (dev s
 - API smoke test without a browser: `POST /api/solo/session {problemId}` → `POST /api/solo/events {sessionId, events:[{t,code,lang}]}` (a `kind:"run"` event = run-samples marker) → `POST /api/solo/submit {sessionId, lang, source}` (use `pipeline/problems/<id>/ref.py` for AC) → `GET /api/solo/replay?sessionId=`.
 - History/replay links live in localStorage key `cfr-solo-history`; active run in sessionStorage `cfr-solo-active`.
 
+## Duel mode (1v1) testing
+- `/duel` requires a signed-in Supabase user (Google OAuth in prod). For local testing, skip
+  OAuth: create test users via the admin API (`POST $SUPABASE_URL/auth/v1/admin/users` with the
+  service-role key, `email_confirm: true` + password), then password-grant login
+  (`POST /auth/v1/token?grant_type=password` with the anon key) and set the resulting session as
+  a cookie named `sb-<projectref>-auth-token` with value `"base64-" + base64url(JSON session)`
+  (chunk into `.0`, `.1`… suffixes above ~3180 chars). Setting it via CDP `Network.setCookie`
+  for `http://localhost:3100` works; verify by loading `/duel` (signed-in home, not the Google
+  button). One session JSON fits in a single cookie chunk.
+- Two players: launch two Chrome instances with separate `--user-data-dir`s and distinct
+  `--remote-debugging-port`s (9222/9223), both with the fake-media flags. Switch windows with
+  `wmctrl -i -a <winid>`; drive the off-screen player headlessly via CDP `Runtime.evaluate`
+  (click buttons by textContent) so realtime effects (opponent-AC toast) can be captured on the
+  visible window.
+- Pasting code: `xclip` may be unavailable and CDP `Input.insertText` still triggers Monaco
+  auto-indent (mangles Python). Reliable: `window.monaco.editor.getModels()[0].setValue(<code>)`
+  via CDP eval. Remember to click the **Python** language toggle before submitting, else the
+  submit goes out as C++ and CEs.
+- Deterministic problem pick: `pickDuelProblem` excludes invalidated problems, problems either
+  player solved, and problems the pair already played. Pre-seed `problem_invalidations` rows
+  (reason `test-fixture`) for all but the target problem via the REST API, then DELETE them
+  right after the countdown starts (problem is stamped on `duel_matches` at ready-up).
+- Duel data: rooms/matches/players in `duel_rooms`/`duel_matches`/`duel_players`; per-player
+  runs are `sessions` rows (kind `duel`) with `session_events`/`session_submissions`.
+- Known bugs seen (2026-08): after a match finishes, "Back to lobby" (and even a full page
+  reload of the room) keeps showing the TIME'S UP/ACCEPTED finish screen — `/api/duel/state`
+  always returns the latest (finished) match with `yourSessionId`, and `duel-room.tsx` re-arms
+  `racedSessionId` from it. Workaround: create a fresh room. Also `/duel/review` auto-plays on
+  load with `durationMs=1000` before data arrives, so it pauses itself at 0:01.0; press play
+  once data is loaded.
+
 ## Selection / re-render gotchas (live race screen)
 - `RaceScreen` re-renders every 200 ms (timer `setRemaining`). Any prop that is a fresh object literal per render can churn the DOM: with the react-dom bundled in Next 14.2, `dangerouslySetInnerHTML={{ __html: s }}` re-sets `innerHTML` on **every** render (new object reference, even if the string is identical), destroying browser text selections in the statement pane 5×/sec. Fix pattern: `useMemo` the whole `{ __html }` object (see `src/components/race/statement-pane.tsx`).
 - Such selection-destruction bugs do NOT reproduce with headless/synthetic drags (they complete between ticks). Test with real GUI mouse: `mouse_move` → `left_mouse_down` → several `mouse_move`s with ~0.5–1 s waits (spanning timer ticks) → screenshot mid-drag → `left_mouse_up`. Diagnose by (a) MutationObserver on the statement subtree (200 ms-period childList mutations = timer-driven DOM churn) and (b) patching the `Element.prototype.innerHTML` setter to capture the stack of whoever re-sets it.
