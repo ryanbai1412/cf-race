@@ -99,23 +99,22 @@ export async function POST(req: NextRequest) {
 
   if (judged.result.verdict === "AC" && !participant.first_ac_at) {
     const solveMs = Math.max(0, new Date(submittedAt).getTime() - startMs);
-    const { error: acErr } = await db()
-      .from("race_participants")
-      .update({ first_ac_at: submittedAt })
-      .eq("race_id", raceId)
-      .eq("contestant_id", contestantId)
-      .is("first_ac_at", null);
-    logDbError(`event submit: first AC ${raceId}/${contestantId}`, acErr);
-    const { error: solvedErr } = await db()
-      .from("sessions")
-      .update({ outcome: "solved", solve_ms: solveMs, lang })
-      .eq("id", sessionId)
-      .is("solve_ms", null);
-    logDbError(`event submit: solved stamp ${sessionId}`, solvedErr);
-    await notifyEvent(eventId, {
-      type: "confetti",
-      station: participant.station_role,
+    // Single transaction: participant first-AC + session solved stamp.
+    const { data: stamped, error: acErr } = await db().rpc("record_event_ac", {
+      p_session_id: sessionId,
+      p_race_id: raceId,
+      p_contestant_id: contestantId,
+      p_submitted_at: submittedAt,
+      p_solve_ms: solveMs,
+      p_lang: lang,
     });
+    logDbError(`event submit: record_event_ac ${raceId}/${contestantId}`, acErr);
+    if (stamped === true) {
+      await notifyEvent(eventId, {
+        type: "confetti",
+        station: participant.station_role,
+      });
+    }
   }
   await notifyEvent(eventId, { type: "state_changed" });
   return NextResponse.json({ ...judged.result, submissionId: judged.submissionId });
