@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { db, logDbError } from "@/lib/db";
 import { authUser } from "@/lib/supabase/server";
 import { judgeConfigured } from "@/lib/judge";
 import { DUEL_MAX_SUBMISSIONS, MAX_SOURCE_LEN } from "@/lib/limits";
@@ -101,7 +101,7 @@ export async function POST(req: NextRequest) {
   if (!judged.ok) return judged.response;
 
   // Submit + verdict moments become part of the single playback stream.
-  await db().from("session_events").insert([
+  const { error: markerErr } = await db().from("session_events").insert([
     {
       session_id: sessionId,
       t_ms: Math.max(0, new Date(submittedAt).getTime() - startMs),
@@ -117,17 +117,19 @@ export async function POST(req: NextRequest) {
       payload: { submissionId: judged.submissionId, verdict: judged.result.verdict },
     },
   ]);
+  logDbError(`duel submit: replay markers ${sessionId}`, markerErr);
 
   let solveMs: number | null = null;
   if (judged.result.verdict === "AC") {
     solveMs = Math.max(0, new Date(submittedAt).getTime() - startMs);
-    await db()
+    const { error: solvedErr } = await db()
       .from("sessions")
       .update({ outcome: "solved", solve_ms: solveMs, lang })
       .eq("id", sessionId)
       .is("solve_ms", null);
+    logDbError(`duel submit: solved stamp ${sessionId}`, solvedErr);
     // First AC wins: stamp the winner + start the grace window once.
-    await db()
+    const { error: acErr } = await db()
       .from("duel_matches")
       .update({
         first_ac_at: submittedAt,
@@ -135,6 +137,7 @@ export async function POST(req: NextRequest) {
       })
       .eq("id", match.id)
       .is("first_ac_at", null);
+    logDbError(`duel submit: first AC ${match.id}`, acErr);
     await resolveMatch(match.room_id);
   }
   return NextResponse.json({

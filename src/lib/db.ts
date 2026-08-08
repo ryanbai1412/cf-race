@@ -18,3 +18,15 @@ export function db(): SupabaseClient {
   }
   return client;
 }
+
+/**
+ * Log a failed fire-and-forget write (shows up in server/Vercel logs).
+ * Use for writes whose failure shouldn't fail the response but must not
+ * disappear silently — replay markers, outcome stamps, lobby resets.
+ */
+export function logDbError(
+  context: string,
+  error: { message: string } | null
+): void {
+  if (error) console.error(`[db] ${context}: ${error.message}`);
+}

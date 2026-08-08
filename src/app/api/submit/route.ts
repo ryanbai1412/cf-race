@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { db, logDbError } from "@/lib/db";
 import { requireEvent } from "@/lib/event-auth";
 import { judgeConfigured } from "@/lib/judge";
 import { MAX_SOURCE_LEN } from "@/lib/limits";
@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
 
   // Submit + verdict moments become part of the single playback stream.
   const startMs = race.started_at ? new Date(race.started_at).getTime() : Date.now();
-  await db().from("session_events").insert([
+  const { error: markerErr } = await db().from("session_events").insert([
     {
       session_id: sessionId,
       t_ms: Math.max(0, new Date(submittedAt).getTime() - startMs),
@@ -95,20 +95,23 @@ export async function POST(req: NextRequest) {
       payload: { submissionId: judged.submissionId, verdict: judged.result.verdict },
     },
   ]);
+  logDbError(`event submit: replay markers ${sessionId}`, markerErr);
 
   if (judged.result.verdict === "AC" && !participant.first_ac_at) {
     const solveMs = Math.max(0, new Date(submittedAt).getTime() - startMs);
-    await db()
+    const { error: acErr } = await db()
       .from("race_participants")
       .update({ first_ac_at: submittedAt })
       .eq("race_id", raceId)
       .eq("contestant_id", contestantId)
       .is("first_ac_at", null);
-    await db()
+    logDbError(`event submit: first AC ${raceId}/${contestantId}`, acErr);
+    const { error: solvedErr } = await db()
       .from("sessions")
       .update({ outcome: "solved", solve_ms: solveMs, lang })
       .eq("id", sessionId)
       .is("solve_ms", null);
+    logDbError(`event submit: solved stamp ${sessionId}`, solvedErr);
     await notifyEvent(eventId, {
       type: "confetti",
       station: participant.station_role,
