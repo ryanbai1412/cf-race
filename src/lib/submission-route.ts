@@ -21,7 +21,7 @@ export async function submissionLimitReached(
  * row is deleted so it neither sticks around forever nor eats a submission.
  */
 export async function judgeOfficialSubmission(opts: {
-  table: "submissions" | "solo_submissions";
+  table: "submissions" | "session_submissions";
   insertRow: Record<string, unknown>;
   lang: Lang;
   source: string;
