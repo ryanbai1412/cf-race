@@ -17,7 +17,11 @@ import {
   type WebcamRecording,
 } from "@/lib/webcam-recorder";
 import type { Contestant, Lang, Problem, RunResult } from "@/lib/types";
-import { summarizeRun, type RunSummary } from "@/lib/tourist";
+import { summarizeRun } from "@/lib/tourist";
+import {
+  createEditorRecorder,
+  type RecordedEditorEvent,
+} from "@/lib/replay-recorder";
 import { Camera, CameraOff, Play, RotateCcw, Video } from "lucide-react";
 
 const SOLO_CONTESTANT: Contestant = {
@@ -88,33 +92,21 @@ export function SoloClient({
     }
   }, [camState, phase]);
 
-  // Editor event recorder — same debounced-snapshot pattern as the stations.
-  const buffer = useRef<
-    {
-      t: number;
-      code: string;
-      lang: Lang;
-      kind?: "run" | "run_result" | "tab" | "scroll";
-      payload?: RunSummary | { tab: string } | { frac: number };
-    }[]
-  >([]);
-  const recordEditor = useMemo(() => {
-    let timeout: ReturnType<typeof setTimeout> | null = null;
-    let pending: { code: string; lang: Lang } | null = null;
-    return (code: string, lang: Lang) => {
-      pending = { code, lang };
-      if (timeout) return;
-      timeout = setTimeout(() => {
-        timeout = null;
-        const s = sessionRef.current;
-        if (!pending || !s) return;
-        // Clamp countdown-time snapshots to t=0 so the replay isn't empty
-        // before the first post-start edit.
-        const t = Math.max(0, Date.now() + clockOffset.current - s.startAtMs);
-        buffer.current.push({ t, ...pending });
-      }, 300);
-    };
-  }, []);
+  // Per-keystroke editor recorder: deltas + periodic keyframes. Clamps
+  // countdown-time events to t=0 so the replay isn't empty before the start.
+  const buffer = useRef<RecordedEditorEvent[]>([]);
+  const editorRecorder = useMemo(
+    () =>
+      createEditorRecorder({
+        now: () => {
+          const s = sessionRef.current;
+          if (!s) return null;
+          return Math.max(0, Date.now() + clockOffset.current - s.startAtMs);
+        },
+        push: (ev) => buffer.current.push(ev),
+      }),
+    []
+  );
 
   const recordRun = useCallback((lang: Lang) => {
     const s = sessionRef.current;
@@ -362,7 +354,8 @@ export function SoloClient({
           serverNow={serverNow}
           warmup={false}
           solo
-          onEditorChange={recordEditor}
+          onEditorDelta={editorRecorder.delta}
+          onEditorSnapshot={editorRecorder.snapshot}
           onRun={recordRun}
           onRunResult={recordRunResult}
           onTabChange={recordTab}

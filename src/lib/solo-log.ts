@@ -1,6 +1,7 @@
 import { db } from "./db";
+import { fetchEditorEventRows } from "./editor-events";
 import type { Lang, Problem } from "./types";
-import type { RunSummary, TouristEvent } from "./tourist";
+import type { EditorDeltaChange, RunSummary, TouristEvent } from "./tourist";
 
 /** Shape of GET /api/solo/replay responses (client + server share this). */
 export type SoloReplayResponse = {
@@ -51,13 +52,8 @@ export async function buildSoloLog(sessionId: string): Promise<{
   if (!session) return null;
 
   const startMs = new Date(session.started_at).getTime();
-  const [{ data: snaps }, { data: subs }] = await Promise.all([
-    db()
-      .from("solo_editor_events")
-      .select("t_ms, code, lang, kind, payload")
-      .eq("session_id", sessionId)
-      .order("t_ms", { ascending: true })
-      .limit(5000),
+  const [snaps, { data: subs }] = await Promise.all([
+    fetchEditorEventRows("solo_editor_events", { session_id: sessionId }),
     db()
       .from("solo_submissions")
       .select("submitted_at, judged_at, verdict, lang")
@@ -66,7 +62,7 @@ export async function buildSoloLog(sessionId: string): Promise<{
   ]);
 
   const events: TouristEvent[] = [];
-  for (const s of snaps ?? []) {
+  for (const s of snaps) {
     if (s.kind === "run") events.push({ t: s.t_ms, type: "run" });
     else if (s.kind === "run_result" && s.payload)
       events.push({ t: s.t_ms, type: "run_result", result: s.payload as RunSummary });
@@ -78,7 +74,19 @@ export async function buildSoloLog(sessionId: string): Promise<{
         type: "scroll",
         frac: (s.payload as { frac: number }).frac,
       });
-    else if (s.kind === "run_result" || s.kind === "tab" || s.kind === "scroll")
+    else if (s.kind === "delta" && s.payload)
+      events.push({
+        t: s.t_ms,
+        type: "delta",
+        lang: s.lang === "py" ? "py" : "cpp",
+        changes: (s.payload as { changes: EditorDeltaChange[] }).changes,
+      });
+    else if (
+      s.kind === "run_result" ||
+      s.kind === "tab" ||
+      s.kind === "scroll" ||
+      s.kind === "delta"
+    )
       continue;
     else
       events.push({
@@ -101,7 +109,9 @@ export async function buildSoloLog(sessionId: string): Promise<{
     lang = s.lang === "py" ? "py" : "cpp";
   }
   events.sort((a, b) => a.t - b.t);
-  const codeSnaps = (snaps ?? []).filter((s) => s.kind === "snapshot");
+  const codeSnaps = snaps.filter(
+    (s) => s.kind === "snapshot" || s.kind === "delta"
+  );
   if (codeSnaps.length > 0) {
     lang = codeSnaps[codeSnaps.length - 1].lang as Lang;
   }

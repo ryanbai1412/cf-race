@@ -15,7 +15,11 @@ import {
   type WebcamRecording,
 } from "@/lib/webcam-recorder";
 import type { BroadcastMsg, Lang, Problem, RunResult, StationRole } from "@/lib/types";
-import { summarizeRun, type RunSummary } from "@/lib/tourist";
+import { summarizeRun } from "@/lib/tourist";
+import {
+  createEditorRecorder,
+  type RecordedEditorEvent,
+} from "@/lib/replay-recorder";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 
 export function StationClient({
@@ -73,17 +77,24 @@ export function StationClient({
   // Active race context for the replay recorder (kept in a ref so the
   // debounced editor callback always sees the current race).
   const recorderRef = useRef<{ raceId: string; startMs: number } | null>(null);
-  const replayBuffer = useRef<
-    {
-      t: number;
-      code: string;
-      lang: Lang;
-      kind?: "run" | "run_result" | "tab" | "scroll";
-      payload?: RunSummary | { tab: string } | { frac: number };
-    }[]
-  >([]);
+  const replayBuffer = useRef<RecordedEditorEvent[]>([]);
   const serverNowRef = useRef(serverNow);
   serverNowRef.current = serverNow;
+
+  // Per-keystroke replay recorder: deltas + periodic keyframes. Clamps
+  // countdown-time events to t=0 so the replay isn't empty before the start.
+  const editorRecorder = useMemo(
+    () =>
+      createEditorRecorder({
+        now: () => {
+          const rec = recorderRef.current;
+          if (!rec) return null;
+          return Math.max(0, serverNowRef.current() - rec.startMs);
+        },
+        push: (ev) => replayBuffer.current.push(ev),
+      }),
+    []
+  );
 
   const broadcastEditor = useMemo(() => {
     let timeout: ReturnType<typeof setTimeout> | null = null;
@@ -96,13 +107,6 @@ export function StationClient({
         if (pending && chRef.current) {
           lastEditorRef.current = pending;
           sendBroadcast(chRef.current, { type: "editor", station, ...pending });
-        }
-        const rec = recorderRef.current;
-        if (pending && rec) {
-          // Clamp countdown-time snapshots to t=0 so the replay isn't empty
-          // before the first post-start edit.
-          const t = Math.max(0, serverNowRef.current() - rec.startMs);
-          replayBuffer.current.push({ t, code: pending.code, lang: pending.lang });
         }
       }, 300);
     };
@@ -376,6 +380,8 @@ export function StationClient({
           serverNow={serverNow}
           warmup={false}
           onEditorChange={broadcastEditor}
+          onEditorDelta={editorRecorder.delta}
+          onEditorSnapshot={editorRecorder.snapshot}
           onRun={recordRun}
           onRunResult={recordRunResult}
           onTabChange={recordTab}

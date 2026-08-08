@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import type { OnMount } from "@monaco-editor/react";
+import type { OnChange, OnMount } from "@monaco-editor/react";
 import { Button } from "@/components/ui/button";
 import { StatementPane } from "./statement-pane";
 import { ConsolePanel, type ConsoleTab } from "./console-panel";
@@ -16,6 +16,7 @@ import type {
   RunResult,
   Submission,
 } from "@/lib/types";
+import type { EditorDeltaChange } from "@/lib/tourist";
 import { Play, Send } from "lucide-react";
 
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
@@ -34,6 +35,8 @@ export function RaceScreen({
   onReady,
   ready,
   onEditorChange,
+  onEditorDelta,
+  onEditorSnapshot,
   onRun,
   onRunResult,
   onTabChange,
@@ -54,6 +57,8 @@ export function RaceScreen({
   onReady?: () => void;
   ready?: boolean;
   onEditorChange?: (code: string, lang: Lang, cursorLine: number) => void;
+  onEditorDelta?: (changes: EditorDeltaChange[], code: string, lang: Lang) => void; // per-keystroke Monaco changes (for replay recording)
+  onEditorSnapshot?: (code: string, lang: Lang) => void; // full-code keyframe (mount, language switch, template reset)
   onRun?: (lang: Lang) => void; // fired when "Run samples" is clicked (for replay markers)
   onRunResult?: (result: RunResult, target: "samples" | "custom", lang: Lang) => void;
   onTabChange?: (tab: ConsoleTab, lang: Lang) => void;
@@ -117,6 +122,7 @@ export function RaceScreen({
     setCodes(initialCodes);
     setLang(initialLang);
     onEditorChange?.(initialCodes[initialLang], initialLang, 0);
+    onEditorSnapshot?.(initialCodes[initialLang], initialLang);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storageKey]);
 
@@ -137,7 +143,11 @@ export function RaceScreen({
     [onTabChange, lang]
   );
 
-  function persist(nextCodes: Record<Lang, string>, nextLang: Lang) {
+  function persist(
+    nextCodes: Record<Lang, string>,
+    nextLang: Lang,
+    changes?: EditorDeltaChange[]
+  ) {
     setCodes(nextCodes);
     setLang(nextLang);
     localStorage.setItem(
@@ -145,11 +155,21 @@ export function RaceScreen({
       JSON.stringify({ codes: nextCodes, lang: nextLang })
     );
     onEditorChange?.(nextCodes[nextLang], nextLang, 0);
+    if (changes) onEditorDelta?.(changes, nextCodes[nextLang], nextLang);
+    else onEditorSnapshot?.(nextCodes[nextLang], nextLang);
   }
 
-  function updateCode(v: string | undefined) {
-    persist({ ...codes, [lang]: v ?? "" }, lang);
-  }
+  const updateCode: OnChange = (v, ev) => {
+    persist(
+      { ...codes, [lang]: v ?? "" },
+      lang,
+      ev.changes.map((c) => ({
+        o: c.rangeOffset,
+        l: c.rangeLength,
+        text: c.text,
+      }))
+    );
+  };
 
   function resetToTemplate() {
     persist({ ...codes, [lang]: STARTER_TEMPLATES[lang] }, lang);

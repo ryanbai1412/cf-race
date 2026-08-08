@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { requireEvent } from "@/lib/api-auth";
+import { fetchEditorEventRows } from "@/lib/editor-events";
 import type { Lang } from "@/lib/types";
-import type { RunSummary, TouristEvent } from "@/lib/tourist";
+import type { EditorDeltaChange, RunSummary, TouristEvent } from "@/lib/tourist";
 
 export const dynamic = "force-dynamic";
 
@@ -31,8 +32,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
   }
 
-  const kinds = new Set(["snapshot", "run", "run_result", "tab", "scroll"]);
-  const rows = body.events.slice(0, 200).map((e) => ({
+  const kinds = new Set(["snapshot", "delta", "run", "run_result", "tab", "scroll"]);
+  const rows = body.events.slice(0, 1000).map((e) => ({
     race_id: body.raceId,
     station_role: body.station,
     t_ms: Math.max(0, Math.round(e.t)),
@@ -84,14 +85,11 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "not found" }, { status: 404 });
   }
 
-  const [{ data: snaps }, { data: subs }] = await Promise.all([
-    db()
-      .from("race_editor_events")
-      .select("t_ms, code, lang, kind, payload")
-      .eq("race_id", raceId)
-      .eq("station_role", station)
-      .order("t_ms", { ascending: true })
-      .limit(5000),
+  const [snaps, { data: subs }] = await Promise.all([
+    fetchEditorEventRows("race_editor_events", {
+      race_id: raceId,
+      station_role: station,
+    }),
     db()
       .from("submissions")
       .select("submitted_at, judged_at, verdict, lang")
@@ -101,7 +99,7 @@ export async function GET(req: NextRequest) {
   ]);
 
   const events: TouristEvent[] = [];
-  for (const s of snaps ?? []) {
+  for (const s of snaps) {
     if (s.kind === "run") events.push({ t: s.t_ms, type: "run" });
     else if (s.kind === "run_result" && s.payload)
       events.push({ t: s.t_ms, type: "run_result", result: s.payload as RunSummary });
@@ -113,7 +111,19 @@ export async function GET(req: NextRequest) {
         type: "scroll",
         frac: (s.payload as { frac: number }).frac,
       });
-    else if (s.kind === "run_result" || s.kind === "tab" || s.kind === "scroll")
+    else if (s.kind === "delta" && s.payload)
+      events.push({
+        t: s.t_ms,
+        type: "delta",
+        lang: s.lang === "py" ? "py" : "cpp",
+        changes: (s.payload as { changes: EditorDeltaChange[] }).changes,
+      });
+    else if (
+      s.kind === "run_result" ||
+      s.kind === "tab" ||
+      s.kind === "scroll" ||
+      s.kind === "delta"
+    )
       continue;
     else
       events.push({
@@ -136,7 +146,9 @@ export async function GET(req: NextRequest) {
     lang = s.lang === "py" ? "py" : "cpp";
   }
   events.sort((a, b) => a.t - b.t);
-  const codeSnaps = (snaps ?? []).filter((s) => s.kind === "snapshot");
+  const codeSnaps = snaps.filter(
+    (s) => s.kind === "snapshot" || s.kind === "delta"
+  );
   if (codeSnaps.length > 0) lang = codeSnaps[codeSnaps.length - 1].lang as Lang;
 
   const solveMs = participant.first_ac_at
