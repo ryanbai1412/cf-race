@@ -12,9 +12,9 @@ import { WebcamPublisher } from "@/components/monitor/webcam";
 import {
   acquireWebcam,
   startWebcamRecording,
-  uploadRecording,
   type WebcamRecording,
 } from "@/lib/webcam-recorder";
+import { enqueueRecording } from "@/lib/upload-manager";
 import type { BroadcastMsg, Lang, Problem, StationRole } from "@/lib/types";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 
@@ -49,8 +49,6 @@ export function StationClient({
   const [warmupProblem, setWarmupProblem] = useState<Problem | null>(null);
   const [ready, setReady] = useState(false);
   const [switchingContestant, setSwitchingContestant] = useState(false);
-  const [uploading, setUploading] = useState(0);
-  const [uploadProgress, setUploadProgress] = useState(0);
   const chRef = useRef<RealtimeChannel | null>(null);
 
   useEffect(() => {
@@ -139,23 +137,19 @@ export function StationClient({
     ? new Date(race0.started_at).getTime()
     : null;
   useEffect(() => {
+    // Keep recording 5s past the end to capture the contestant's reaction,
+    // then persist + upload via the site-wide upload manager (survives a
+    // closed tab: retried from IndexedDB on the next visit).
     const stopAndUpload = (entry: NonNullable<typeof webcamRec.current>) => {
-      void entry.rec.stop().then(async (blob) => {
+      void entry.rec.stop(5000).then(async (blob) => {
         entry.stream.getTracks().forEach((t) => t.stop());
         if (blob) {
-          setUploading((n) => n + 1);
-          setUploadProgress(0);
-          await uploadRecording(
-            blob,
-            {
-              eventId,
-              raceId: entry.raceId,
-              station,
-              offsetMs: String(entry.offsetMs),
-            },
-            setUploadProgress
-          );
-          setUploading((n) => n - 1);
+          await enqueueRecording(blob, {
+            eventId,
+            raceId: entry.raceId,
+            station,
+            offsetMs: String(entry.offsetMs),
+          });
         }
       });
     };
@@ -197,17 +191,6 @@ export function StationClient({
     }
   }, [activeRecRaceId, activeRecStartMs, eventId, station]);
 
-  // Leaving mid-upload would lose the webcam recording — warn first.
-  useEffect(() => {
-    if (uploading === 0) return;
-    const warn = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-      e.returnValue = "";
-    };
-    window.addEventListener("beforeunload", warn);
-    return () => window.removeEventListener("beforeunload", warn);
-  }, [uploading]);
-
   const markReady = useCallback(() => {
     setReady((r) => !r);
     void refetch();
@@ -221,27 +204,9 @@ export function StationClient({
     );
   }
 
-  const webcam = (
-    <>
-      <WebcamPublisher eventId={eventId} identity={station} />
-      {uploading > 0 && (
-        <div className="fixed bottom-4 right-4 z-50 w-64 space-y-1.5 rounded-lg border border-border/60 bg-background/95 p-3 shadow-lg backdrop-blur">
-          <p className="font-mono text-xs text-foreground">
-            Uploading webcam recording… {Math.round(uploadProgress * 100)}%
-          </p>
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
-            <div
-              className="h-full rounded-full bg-primary transition-[width] duration-200"
-              style={{ width: `${Math.round(uploadProgress * 100)}%` }}
-            />
-          </div>
-          <p className="text-[10px] text-muted-foreground">
-            Don&apos;t close this tab until it finishes.
-          </p>
-        </div>
-      )}
-    </>
-  );
+  // Upload progress toast + leave-warning come from the layout-mounted
+  // RecordingUploadManager, which also retries pending uploads from IndexedDB.
+  const webcam = <WebcamPublisher eventId={eventId} identity={station} />;
   const contestant = state.contestants[station];
   const rivalRole: StationRole = station === "station1" ? "station2" : "station1";
   const rival = state.contestants[rivalRole];
