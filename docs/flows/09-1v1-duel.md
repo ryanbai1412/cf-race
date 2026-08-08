@@ -29,9 +29,14 @@ screen is a side-by-side review of both players.
    recordings.
 
 ### 2. Problem tracking
-- `duel_solves` records `(user_id, problem_id, match_id, solve_ms)` for every
-  AC in a duel. Solo-mode solves count too (existing `solo_sessions` with
-  `user_id`) — "solved" means solved in either mode.
+- **Single `sessions` data source**: one row per player-run of a problem
+  (user_id, problem_id, started_at, timer_sec, outcome, solve_ms,
+  recording_path, recording_offset_ms). Editor events, submissions, and
+  webcam recordings all hang off a session id — identical for solo and duel.
+  Solo's `solo_sessions` is migrated into it; duels reference it (below).
+- "Solved by user X" = exists a session for (X, problem) with
+  outcome='solved'. Replays are always per-session, so solo and duel replays
+  share one player and one URL scheme.
 - **Random pick**: when a match starts, the server picks a uniformly random
   problem from the bank that (a) neither player has solved, (b) is not
   invalidated, (c) has not been used in a previous match between these two
