@@ -49,12 +49,11 @@ image so the judge works without a sync.
 
 ## Docker
 
-Build context must contain `problems-dev/` (copied from the repo's `problems/dev/`):
+Build from the repo root (the image needs the workspace pnpm lockfile and
+`problems/dev/`):
 
 ```bash
-cd judge
-rsync -a --delete ../problems/dev/ problems-dev/
-docker build -t cf-race-judge .
+docker build -f judge/Dockerfile -t cf-race-judge .
 docker run --privileged -p 8080:8080 -e JUDGE_TOKEN=dev cf-race-judge
 ```
 
@@ -65,9 +64,7 @@ docker run --privileged -p 8080:8080 -e JUDGE_TOKEN=dev cf-race-judge
 App `cf-race-judge`, org `cf-racing-129`, region `ams`, `performance-4x`.
 
 ```bash
-cd judge
-rsync -a --delete ../problems/dev/ problems-dev/
 fly secrets set JUDGE_TOKEN=... SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... -a cf-race-judge
-fly deploy -a cf-race-judge
+fly deploy -a cf-race-judge -c judge/fly.toml   # or: make judge-deploy
 curl https://cf-race-judge.fly.dev/healthz
 ```

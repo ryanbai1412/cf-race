@@ -48,6 +48,7 @@ export function RaceScreen({
   rivalName,
   rivalSolveMs,
   onSwitchContestant,
+  maxSubmissions = MAX_SUBMISSIONS,
 }: {
   eventId: string;
   problem: Problem;
@@ -73,6 +74,7 @@ export function RaceScreen({
   rivalName?: string;
   rivalSolveMs?: number | null;
   onSwitchContestant?: () => void;
+  maxSubmissions?: number; // per-mode submission cap (duels are tighter)
 }) {
   const api = apiBase ?? "/api/solo";
   const storageKey = `cfr-code-${raceId ?? "warmup"}-${contestant.station_role}`;
@@ -465,7 +467,7 @@ export function RaceScreen({
                 variant="secondary"
                 className="bg-green-600 text-white hover:bg-green-700"
                 onClick={submit}
-                disabled={submitBusy || timeUp || submissionsUsed >= MAX_SUBMISSIONS}
+                disabled={submitBusy || timeUp || submissionsUsed >= maxSubmissions}
               >
                 <Send className="mr-1.5 h-3.5 w-3.5" />
                 {submitBusy ? "Judging…" : "Submit"}
@@ -495,7 +497,7 @@ export function RaceScreen({
               submissions={submissions}
               submitError={submitError}
               submissionsUsed={submissionsUsed}
-              maxSubmissions={MAX_SUBMISSIONS}
+              maxSubmissions={maxSubmissions}
               tab={consoleTab}
               onTabChange={changeTab}
             />
