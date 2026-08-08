@@ -275,7 +275,7 @@ export function StationClient({
     return (
       <>
         {webcam}
-        {startMs !== null && now < startMs + 1200 && (
+        {startMs !== null && now < startMs && (
           <CountdownOverlay startAtMs={startMs} serverNow={serverNow} />
         )}
         <RaceScreen

@@ -33,12 +33,17 @@ const SPEEDS = [1, 2, 4, 8];
 
 /** One run/compile/submission moment shown in the replay activity list. */
 type ActivityItem = {
-  t: number;
+  t: number; // when the contestant hit Run/Submit
   label: string;
   verdict: string;
-  verdictT?: number; // when the verdict became known (submissions)
+  verdictT?: number; // when the feedback arrived
   run?: RunSummary;
 };
+
+/** When this item's result became visible to the contestant. */
+function feedbackT(item: ActivityItem): number {
+  return item.verdictT ?? item.t;
+}
 
 type ScrollEvent = { t: number; frac: number };
 
@@ -153,13 +158,22 @@ function verdictColor(verdict: string): string {
   return "bg-red-500/20 text-red-400";
 }
 
+/**
+ * Timeline of runs and submissions, ordered by when the contestant *started*
+ * each action (clicked Run/Submit) rather than when its feedback landed —
+ * otherwise a slow sample run appears after a submission it preceded.
+ */
 function buildActivity(events: TouristLog["events"]): ActivityItem[] {
   const items: ActivityItem[] = [];
   let pendingSubmitT: number | null = null;
+  let pendingRunT: number | null = null;
   for (const ev of events) {
-    if (ev.type === "run_result") {
+    if (ev.type === "run") {
+      pendingRunT = ev.t;
+    } else if (ev.type === "run_result") {
+      const startedT = ev.result.target === "custom" ? null : pendingRunT;
       items.push({
-        t: ev.t,
+        t: startedT ?? ev.t,
         label:
           ev.result.target === "custom"
             ? "Custom run"
@@ -167,8 +181,10 @@ function buildActivity(events: TouristLog["events"]): ActivityItem[] {
               ? "Ran samples"
               : "Compile",
         verdict: ev.result.verdict,
+        verdictT: ev.t,
         run: ev.result,
       });
+      if (ev.result.target !== "custom") pendingRunT = null;
     } else if (ev.type === "submit") {
       pendingSubmitT = ev.t;
     } else if (ev.type === "verdict") {
@@ -184,6 +200,7 @@ function buildActivity(events: TouristLog["events"]): ActivityItem[] {
   if (pendingSubmitT !== null) {
     items.push({ t: pendingSubmitT, label: "Submission", verdict: "PENDING" });
   }
+  items.sort((a, b) => a.t - b.t);
   return items;
 }
 
@@ -197,8 +214,10 @@ function ActivityRow({
   onJump: () => void;
 }) {
   const [open, setOpen] = useState(false);
+  const verdictT = item.verdictT;
   const expandable =
-    !!item.run && (item.run.tests?.length || item.run.compileStderr);
+    verdictT !== undefined ||
+    (!!item.run && (item.run.tests?.length || item.run.compileStderr));
   return (
     <div
       className={cn(
@@ -250,14 +269,19 @@ function ActivityRow({
           {formatMsPrecise(item.t)}
         </button>
       </div>
-      {open && item.run && (
+      {open && (
         <div className="space-y-1 border-t border-border/60 p-2">
-          {item.run.compileStderr && (
+          {verdictT !== undefined && (
+            <p className="font-mono text-[10px] text-muted-foreground">
+              verdict at {formatMsPrecise(verdictT)}
+            </p>
+          )}
+          {item.run?.compileStderr && (
             <pre className="max-h-28 overflow-auto rounded bg-black/40 p-1.5 font-mono text-[10px] text-red-300">
               {item.run.compileStderr}
             </pre>
           )}
-          {item.run.tests?.map((tst) => (
+          {item.run?.tests?.map((tst) => (
             <div
               key={tst.name}
               className="flex items-center gap-2 font-mono text-[10px]"
@@ -306,7 +330,8 @@ function ReplayConsole({
   let customRun: RunSummary | null = null;
   const submissions: ActivityItem[] = [];
   for (const item of activity) {
-    if (item.t > clockMs) break;
+    // The console showed each result only once its feedback arrived.
+    if (feedbackT(item) > clockMs) continue;
     if (item.run) {
       if (item.run.target === "custom") customRun = item.run;
       else samplesRun = item.run;

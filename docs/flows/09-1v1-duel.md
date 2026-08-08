@@ -57,7 +57,7 @@ screen is a side-by-side review of both players.
    same optional-camera semantics as solo mode).
 3. **Async ready-up**: each player clicks "Ready". State is per-player;
    you can un-ready until both are ready. When both are ready the server
-   stamps `started_at = now + 3s` → synchronized 3-2-1-GO countdown on both
+   stamps `started_at = now + 4s` → synchronized 3-2-1-GO countdown on both
    screens (server-authoritative clock, same as event races).
 4. Problem is chosen server-side at ready-completion and revealed at GO.
 
