@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { requireEvent } from "@/lib/event-auth";
 import { raceParticipantByStation } from "@/lib/races";
+import { requireSessionAccess } from "@/lib/session-auth";
 
 /**
  * Webcam recordings live in the private `recordings` bucket. The webm itself
@@ -33,16 +34,10 @@ export async function POST(req: NextRequest) {
   let targetSessionId: string;
   let path: string;
   if (sessionId) {
-    const { data: session } = await db()
-      .from("sessions")
-      .select("id, kind")
-      .eq("id", sessionId)
-      .maybeSingle();
-    if (!session) {
-      return NextResponse.json({ error: "unknown session" }, { status: 400 });
-    }
-    targetSessionId = session.id;
-    path = `${session.kind}/${sessionId}.webm`;
+    const access = await requireSessionAccess(sessionId);
+    if (!access.ok) return access.response;
+    targetSessionId = access.session.id;
+    path = `${access.session.kind}/${sessionId}.webm`;
   } else if (raceId && (station === "station1" || station === "station2")) {
     const event = await requireEvent(eventId);
     if (!event) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
