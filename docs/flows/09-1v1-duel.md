@@ -32,8 +32,11 @@ screen is a side-by-side review of both players.
 - **Single `sessions` data source**: one row per player-run of a problem
   (user_id, problem_id, started_at, timer_sec, outcome, solve_ms,
   recording_path, recording_offset_ms). Editor events, submissions, and
-  webcam recordings all hang off a session id — identical for solo and duel.
-  Solo's `solo_sessions` is migrated into it; duels reference it (below).
+  webcam recordings all hang off a session id — identical for ALL surfaces:
+  solo, duel, and live-event races. Solo's `solo_sessions` is migrated into
+  it, duel matches fkey into two sessions (below), and event races fkey into
+  one session per station — one recording/replay/submission code path
+  everywhere.
 - "Solved by user X" = exists a session for (X, problem) with
   outcome='solved'. Replays are always per-session, so solo and duel replays
   share one player and one URL scheme.
