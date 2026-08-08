@@ -17,11 +17,10 @@ import type {
   Submission,
 } from "@/lib/types";
 import type { EditorDeltaChange } from "@/lib/tourist";
+import { MAX_SUBMISSIONS } from "@/lib/limits";
 import { Play, Send } from "lucide-react";
 
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
-
-const MAX_SUBMISSIONS = 10;
 
 export function RaceScreen({
   eventId,

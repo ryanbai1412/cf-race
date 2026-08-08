@@ -62,12 +62,14 @@ type JudgeSubmitResponse = {
   compileStderr?: string;
 };
 
+export type SubmitResult = JudgeSubmitResponse & { compileError?: string };
+
 export async function judgeSubmit(args: {
   submissionId: string;
   lang: Lang;
   source: string;
   problemId: string;
-}): Promise<JudgeSubmitResponse & { compileError?: string }> {
+}): Promise<SubmitResult> {
   const res = await judgeFetch("/submit", args);
   if (!res.ok) throw new Error(`judge /submit failed: ${res.status}`);
   const data = (await res.json()) as JudgeSubmitResponse;

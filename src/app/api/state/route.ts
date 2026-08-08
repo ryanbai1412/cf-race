@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { activeContestants } from "@/lib/contestants";
 import { db } from "@/lib/db";
-import { requireEvent } from "@/lib/api-auth";
-import type { ClientState, Contestant, StationRole } from "@/lib/types";
+import { requireEvent } from "@/lib/event-auth";
+import type { ClientState } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +11,7 @@ export async function GET(req: NextRequest) {
   const event = await requireEvent(eventId);
   if (!event) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 
-  const [{ data: race }, { data: contestants }] = await Promise.all([
+  const [{ data: race }, active] = await Promise.all([
     db()
       .from("races")
       .select("*, problem:problems(*), participants:race_participants(*)")
@@ -19,12 +20,7 @@ export async function GET(req: NextRequest) {
       .order("created_at", { ascending: false })
       .limit(1)
       .maybeSingle(),
-    db()
-      .from("contestants")
-      .select("*")
-      .eq("event_id", eventId)
-      .is("retired_at", null)
-      .order("created_at", { ascending: false }),
+    activeContestants(eventId, { excludeRetired: true }),
   ]);
 
   // Lazily transition countdown → running once the start time has passed.
@@ -36,12 +32,6 @@ export async function GET(req: NextRequest) {
   ) {
     race.state = "running";
     await db().from("races").update({ state: "running" }).eq("id", race.id);
-  }
-
-  // Active contestant per station = most recent non-retired one.
-  const active: Partial<Record<StationRole, Contestant>> = {};
-  for (const c of (contestants ?? []) as Contestant[]) {
-    if (!active[c.station_role]) active[c.station_role] = c;
   }
 
   const state: ClientState = {

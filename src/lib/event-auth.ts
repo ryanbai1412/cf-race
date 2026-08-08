@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import { cookies } from "next/headers";
 import { db } from "./db";
 
@@ -13,6 +14,13 @@ export function eventCookieName(eventId: string): string {
   return `cfr_${eventId.replace(/-/g, "")}`;
 }
 
+/** Constant-time comparison of an event secret against a provided key. */
+export function secretMatches(secret: string, provided: string): boolean {
+  const a = Buffer.from(secret);
+  const b = Buffer.from(provided);
+  return a.length === b.length && crypto.timingSafeEqual(a, b);
+}
+
 /**
  * Validates access to an event from either the ?k= query param or the
  * event cookie. Returns the event row when authorized, null otherwise.
@@ -21,6 +29,7 @@ export async function authorizeEvent(
   eventId: string,
   keyParam: string | undefined
 ): Promise<EventRow | null> {
+  if (!eventId) return null;
   const { data: event } = await db()
     .from("events")
     .select("*")
@@ -30,6 +39,11 @@ export async function authorizeEvent(
 
   const cookieKey = cookies().get(eventCookieName(eventId))?.value;
   const provided = keyParam ?? cookieKey;
-  if (!provided || provided !== event.secret) return null;
+  if (!provided || !secretMatches(event.secret, provided)) return null;
   return event as EventRow;
+}
+
+/** Authorize an API request for an event using the event cookie. */
+export function requireEvent(eventId: string): Promise<EventRow | null> {
+  return authorizeEvent(eventId, undefined);
 }

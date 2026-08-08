@@ -6,7 +6,12 @@ export const dynamic = "force-dynamic";
 /** Mark a non-AC end of a solo run (timeout, or abandoned via sendBeacon). */
 export async function POST(req: NextRequest) {
   // sendBeacon posts as text/plain, so parse the body manually.
-  const body = JSON.parse(await req.text().catch(() => "null") || "null");
+  let body: { sessionId?: unknown; outcome?: unknown } | null = null;
+  try {
+    body = JSON.parse(await req.text());
+  } catch {
+    body = null;
+  }
   const sessionId = typeof body?.sessionId === "string" ? body.sessionId : "";
   const outcome = body?.outcome === "timeout" || body?.outcome === "abandoned"
     ? body.outcome

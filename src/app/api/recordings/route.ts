@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { requireEvent } from "@/lib/api-auth";
+import { requireEvent } from "@/lib/event-auth";
 
 /**
  * Webcam recordings live in the private `recordings` bucket. The webm itself
