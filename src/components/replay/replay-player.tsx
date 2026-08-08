@@ -494,23 +494,33 @@ export function ReplayCore({
     1000
   );
 
-  const onVideoDuration = () => {
-    const v = videoRef.current;
-    if (!v) return;
-    if (Number.isFinite(v.duration) && v.duration > 0) {
-      setVideoEndMs(videoOffsetMs + v.duration * 1000);
-    } else if (v.duration === Infinity) {
-      // MediaRecorder webms often report Infinity until seeked to the end.
-      v.currentTime = Number.MAX_SAFE_INTEGER;
-      v.ontimeupdate = () => {
-        v.ontimeupdate = null;
-        if (Number.isFinite(v.duration) && v.duration > 0) {
-          setVideoEndMs(videoOffsetMs + v.duration * 1000);
-        }
-        v.currentTime = 0;
-      };
-    }
-  };
+  useEffect(() => {
+    if (!videoUrl) return;
+    // MediaRecorder webms often report Infinity duration until seeked to the
+    // end, so probe with a detached element (the visible one is clock-synced).
+    const probe = document.createElement("video");
+    probe.preload = "metadata";
+    probe.muted = true;
+    probe.src = videoUrl;
+    const report = () => {
+      if (Number.isFinite(probe.duration) && probe.duration > 0) {
+        setVideoEndMs(videoOffsetMs + probe.duration * 1000);
+      }
+    };
+    probe.onloadedmetadata = () => {
+      if (probe.duration === Infinity) {
+        probe.ondurationchange = report;
+        probe.currentTime = Number.MAX_SAFE_INTEGER;
+      } else {
+        report();
+      }
+    };
+    return () => {
+      probe.ondurationchange = null;
+      probe.onloadedmetadata = null;
+      probe.removeAttribute("src");
+    };
+  }, [videoUrl, videoOffsetMs]);
 
   useEffect(() => {
     if (!playing) return;
@@ -606,8 +616,6 @@ export function ReplayCore({
                   muted
                   playsInline
                   preload="auto"
-                  onLoadedMetadata={onVideoDuration}
-                  onDurationChange={onVideoDuration}
                   className="aspect-video w-full object-cover"
                 />
                 <p className="px-3 py-1.5 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
