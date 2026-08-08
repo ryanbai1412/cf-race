@@ -47,6 +47,26 @@ description: How to run and end-to-end test the cf-race booth app locally (dev s
 - Fix: upload `<id>/meta.json` + `<id>/tests/01.in|01.out` to the bucket (service-role key via storage REST API), then `flyctl machine restart <ids> -a cf-race-judge` (needs FLY_API_TOKEN; install flyctl via `curl -sL https://fly.io/install.sh | sh`).
 - Direct judge check: `POST $JUDGE_URL/run` with `Authorization: Bearer $JUDGE_TOKEN`.
 
+## Testing the judge locally (grading correctness / parallelism)
+- Two judges side by side make behaviour changes provable: run the branch judge on :8080 and a
+  baseline from `origin/main` in a `git worktree` on :8081, both with
+  `JUDGE_TOKEN=dev JUDGE_SANDBOX=none PROBLEMS_DIR=<repo>/problems npx tsx src/server.ts`
+  (node at `~/.nvm/versions/node/v24.19.0/bin`; sandbox=none avoids needing isolate/cgroups).
+  Point the app at the branch judge with `JUDGE_URL=http://localhost:8080 JUDGE_TOKEN=dev`.
+- Custom fixtures: any dir under `problems/<id>/{meta.json,tests/NN.in,NN.out,samples/}` is
+  loadable as `problemId` (e.g. `dev/pslow`). Make per-test cost measurable by having the
+  *submitted solution* `time.sleep()` based on its input, and raise `timeLimitMs` in meta.json
+  above that sleep. 12 tests × 1 s ⇒ ~2 s parallel vs ~12 s sequential with 8 workers.
+- Adversarial ordering check (catches "first failure to finish" bugs): make the solution wrong on
+  a *slow* early test and also wrong on a *fast* later test. Correct CF-style output is the
+  lowest-indexed failure (e.g. `failedTest: "03"`, `passedCount: 2`), not the fast one.
+  With real CF packages this works too (938A: wrong+sleep on input `b` = test 05, wrong on `ya`
+  = test 09 ⇒ UI must show "failed on 05 · 4/26 passed").
+- Progress updates: subscribe to `ws://localhost:8080/ws?token=<token>` and collect
+  `submit_update` payloads to assert `passedCount` is monotonic and ends at `totalCount`.
+- Note: a TLE submission is *not* faster under parallel grading (all queued tests still run out
+  their time limit), so don't expect wall-time wins there — only correct verdicts.
+
 ## Replay data
 - Since the universal-sessions migration (Aug 2026), event races write to the `sessions` tables:
   each `race_participants` row carries a `session_id` (a `sessions` row with kind='event'),
