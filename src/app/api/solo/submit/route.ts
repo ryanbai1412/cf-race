@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { judgeConfigured, judgeSubmit } from "@/lib/judge";
+import { judgeConfigured } from "@/lib/judge";
+import { MAX_SOURCE_LEN } from "@/lib/limits";
+import {
+  judgeOfficialSubmission,
+  submissionLimitReached,
+} from "@/lib/submission-route";
 
 export const maxDuration = 120;
-const MAX_SUBMISSIONS = 10;
 
 /** Official submission during a solo run: full-test judging, AC ends the run. */
 export async function POST(req: NextRequest) {
@@ -12,7 +16,7 @@ export async function POST(req: NextRequest) {
   const lang = body?.lang === "cpp" || body?.lang === "py" ? body.lang : null;
   const source = typeof body?.source === "string" ? body.source : "";
 
-  if (!sessionId || !lang || !source || source.length > 200_000) {
+  if (!sessionId || !lang || !source || source.length > MAX_SOURCE_LEN) {
     return NextResponse.json({ error: "invalid request" }, { status: 400 });
   }
   if (!judgeConfigured()) {
@@ -40,71 +44,28 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "time is up" }, { status: 400 });
   }
 
-  const { count } = await db()
-    .from("solo_submissions")
-    .select("id", { count: "exact", head: true })
-    .eq("session_id", sessionId);
-  if ((count ?? 0) >= MAX_SUBMISSIONS) {
+  if (await submissionLimitReached("solo_submissions", { session_id: sessionId })) {
     return NextResponse.json({ error: "submission limit reached" }, { status: 400 });
   }
 
   const submittedAt = new Date().toISOString();
-  const { data: sub, error } = await db()
-    .from("solo_submissions")
-    .insert({
-      session_id: sessionId,
-      lang,
-      source,
-      verdict: "PENDING",
-      submitted_at: submittedAt,
-    })
-    .select("id")
-    .single();
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  const judged = await judgeOfficialSubmission({
+    table: "solo_submissions",
+    insertRow: { session_id: sessionId, submitted_at: submittedAt },
+    lang,
+    source,
+    problemId: session.problem_id,
+  });
+  if (!judged.ok) return judged.response;
 
-  try {
-    const result = await judgeSubmit({
-      submissionId: sub.id,
-      lang,
-      source,
-      problemId: session.problem_id,
-    });
+  let solveMs: number | null = null;
+  if (judged.result.verdict === "AC") {
+    solveMs = Math.max(0, new Date(submittedAt).getTime() - startMs);
     await db()
-      .from("solo_submissions")
-      .update({
-        verdict: result.verdict,
-        judged_at: new Date().toISOString(),
-        details: {
-          failedTest: result.failedTest,
-          passedCount: result.passedCount,
-          totalCount: result.totalCount,
-          timeMsMax: result.timeMsMax,
-          compileError: result.compileError,
-        },
-      })
-      .eq("id", sub.id);
-
-    let solveMs: number | null = null;
-    if (result.verdict === "AC") {
-      solveMs = Math.max(0, new Date(submittedAt).getTime() - startMs);
-      await db()
-        .from("solo_sessions")
-        .update({ outcome: "solved", solve_ms: solveMs, lang })
-        .eq("id", sessionId)
-        .is("solve_ms", null);
-    }
-    return NextResponse.json({ ...result, submissionId: sub.id, solveMs });
-  } catch (e) {
-    // The attempt never got a verdict, so drop it instead of leaving a
-    // permanently PENDING row that also eats one of the 10 submissions.
-    await db().from("solo_submissions").delete().eq("id", sub.id);
-    return NextResponse.json(
-      {
-        error: `Judge unavailable, submission not counted (${
-          e instanceof Error ? e.message : "judge error"
-        })`,
-      },
-      { status: 502 }
-    );
+      .from("solo_sessions")
+      .update({ outcome: "solved", solve_ms: solveMs, lang })
+      .eq("id", sessionId)
+      .is("solve_ms", null);
   }
+  return NextResponse.json({ ...judged.result, submissionId: judged.submissionId, solveMs });
 }

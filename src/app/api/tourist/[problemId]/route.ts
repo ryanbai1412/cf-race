@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { requireEvent } from "@/lib/api-auth";
+import { requireEvent } from "@/lib/event-auth";
 
 export const dynamic = "force-dynamic";
 

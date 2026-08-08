@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { activeContestants } from "@/lib/contestants";
 import { db } from "@/lib/db";
-import { requireEvent } from "@/lib/api-auth";
+import { requireEvent } from "@/lib/event-auth";
 import { notifyEvent } from "@/lib/notify";
-import type { Contestant, StationRole } from "@/lib/types";
 
 const COUNTDOWN_MS = 5000;
 
@@ -47,15 +47,7 @@ export async function POST(req: NextRequest) {
   }
 
   // Active contestants become participants.
-  const { data: contestants } = await db()
-    .from("contestants")
-    .select("*")
-    .eq("event_id", eventId)
-    .order("created_at", { ascending: false });
-  const active: Partial<Record<StationRole, Contestant>> = {};
-  for (const c of (contestants ?? []) as Contestant[]) {
-    if (!active[c.station_role]) active[c.station_role] = c;
-  }
+  const active = await activeContestants(eventId);
   const participants = Object.values(active);
   if (participants.length === 0) {
     return NextResponse.json({ error: "no contestants checked in" }, { status: 400 });
@@ -75,7 +67,7 @@ export async function POST(req: NextRequest) {
     .single();
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  await db()
+  const { error: pErr } = await db()
     .from("race_participants")
     .insert(
       participants.map((c) => ({
@@ -84,6 +76,12 @@ export async function POST(req: NextRequest) {
         station_role: c.station_role,
       }))
     );
+  if (pErr) {
+    // Don't leave an active race without participants — it would block
+    // future starts and no station would ever join it.
+    await db().from("races").delete().eq("id", race.id);
+    return NextResponse.json({ error: pErr.message }, { status: 500 });
+  }
 
   await notifyEvent(eventId, { type: "state_changed" });
   return NextResponse.json({ race });

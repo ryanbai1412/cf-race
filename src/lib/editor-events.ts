@@ -1,4 +1,6 @@
 import { db } from "./db";
+import type { Lang } from "./types";
+import type { EditorDeltaChange, RunSummary, TouristEvent } from "./tourist";
 
 export type EditorEventRow = {
   t_ms: number;
@@ -7,6 +9,114 @@ export type EditorEventRow = {
   kind: string | null;
   payload: unknown;
 };
+
+export type IncomingEditorEvent = {
+  t: number;
+  code: string;
+  lang: Lang;
+  kind?: string;
+  payload?: unknown;
+};
+
+const EVENT_KINDS = new Set([
+  "snapshot",
+  "delta",
+  "run",
+  "run_result",
+  "tab",
+  "scroll",
+]);
+
+/**
+ * Normalize a client-supplied editor-event batch into rows ready for insert
+ * (caller merges in its own foreign-key columns). Caps batch size, code
+ * length, and payload size.
+ */
+export function sanitizeEditorEvents(
+  events: IncomingEditorEvent[]
+): EditorEventRow[] {
+  return events.slice(0, 1000).map((e) => ({
+    t_ms: Math.max(0, Math.round(e.t)),
+    code: String(e.code).slice(0, 100_000),
+    lang: e.lang === "py" ? "py" : "cpp",
+    kind: e.kind && EVENT_KINDS.has(e.kind) ? e.kind : "snapshot",
+    payload:
+      e.payload && JSON.stringify(e.payload).length <= 20_000 ? e.payload : null,
+  }));
+}
+
+export type SubmissionMomentRow = {
+  submitted_at: string;
+  judged_at: string | null;
+  verdict: string | null;
+  lang: string;
+};
+
+/**
+ * Convert persisted editor-event rows plus submission moments into a sorted
+ * tourist-format event log. Returns the log and the language of the final
+ * code state (falling back to the last submission's language).
+ */
+export function buildReplayEvents(
+  snaps: EditorEventRow[],
+  subs: SubmissionMomentRow[],
+  startMs: number,
+  fallbackLang: Lang = "cpp"
+): { events: TouristEvent[]; lang: Lang } {
+  const events: TouristEvent[] = [];
+  for (const s of snaps) {
+    if (s.kind === "run") events.push({ t: s.t_ms, type: "run" });
+    else if (s.kind === "run_result" && s.payload)
+      events.push({ t: s.t_ms, type: "run_result", result: s.payload as RunSummary });
+    else if (s.kind === "tab" && s.payload)
+      events.push({ t: s.t_ms, type: "tab", tab: (s.payload as { tab: string }).tab });
+    else if (s.kind === "scroll" && s.payload)
+      events.push({
+        t: s.t_ms,
+        type: "scroll",
+        frac: (s.payload as { frac: number }).frac,
+      });
+    else if (s.kind === "delta" && s.payload)
+      events.push({
+        t: s.t_ms,
+        type: "delta",
+        lang: s.lang === "py" ? "py" : "cpp",
+        changes: (s.payload as { changes: EditorDeltaChange[] }).changes,
+      });
+    else if (
+      s.kind === "run_result" ||
+      s.kind === "tab" ||
+      s.kind === "scroll" ||
+      s.kind === "delta"
+    )
+      continue;
+    else
+      events.push({
+        t: s.t_ms,
+        type: "snapshot",
+        code: s.code,
+        lang: s.lang === "py" ? "py" : "cpp",
+      });
+  }
+  let lang: Lang = fallbackLang;
+  for (const s of subs) {
+    events.push({ t: new Date(s.submitted_at).getTime() - startMs, type: "submit" });
+    if (s.verdict && s.verdict !== "PENDING") {
+      events.push({
+        t: new Date(s.judged_at ?? s.submitted_at).getTime() - startMs,
+        type: "verdict",
+        verdict: s.verdict,
+      });
+    }
+    lang = s.lang === "py" ? "py" : "cpp";
+  }
+  events.sort((a, b) => a.t - b.t);
+  const codeSnaps = snaps.filter(
+    (s) => s.kind === "snapshot" || s.kind === "delta"
+  );
+  if (codeSnaps.length > 0) lang = codeSnaps[codeSnaps.length - 1].lang as Lang;
+  return { events, lang };
+}
 
 const PAGE = 1000;
 const MAX_ROWS = 50_000;

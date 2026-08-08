@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useEventState } from "@/hooks/use-event-state";
+import { useReplayRecorder } from "@/hooks/use-replay-recorder";
 import { eventChannel, sendBroadcast } from "@/lib/realtime";
 import { CheckinForm } from "./checkin-form";
 import { CountdownOverlay } from "./countdown-overlay";
@@ -14,12 +15,7 @@ import {
   uploadRecording,
   type WebcamRecording,
 } from "@/lib/webcam-recorder";
-import type { BroadcastMsg, Lang, Problem, RunResult, StationRole } from "@/lib/types";
-import { summarizeRun } from "@/lib/tourist";
-import {
-  createEditorRecorder,
-  type RecordedEditorEvent,
-} from "@/lib/replay-recorder";
+import type { BroadcastMsg, Lang, Problem, StationRole } from "@/lib/types";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 
 export function StationClient({
@@ -77,24 +73,31 @@ export function StationClient({
   // Active race context for the replay recorder (kept in a ref so the
   // debounced editor callback always sees the current race).
   const recorderRef = useRef<{ raceId: string; startMs: number } | null>(null);
-  const replayBuffer = useRef<RecordedEditorEvent[]>([]);
   const serverNowRef = useRef(serverNow);
   serverNowRef.current = serverNow;
 
   // Per-keystroke replay recorder: deltas + periodic keyframes. Clamps
   // countdown-time events to t=0 so the replay isn't empty before the start.
-  const editorRecorder = useMemo(
-    () =>
-      createEditorRecorder({
-        now: () => {
-          const rec = recorderRef.current;
-          if (!rec) return null;
-          return Math.max(0, serverNowRef.current() - rec.startMs);
-        },
-        push: (ev) => replayBuffer.current.push(ev),
-      }),
-    []
-  );
+  const { editorRecorder, recordRun, recordRunResult, recordTab, recordScroll } =
+    useReplayRecorder({
+      now: () => {
+        const rec = recorderRef.current;
+        if (!rec) return null;
+        return serverNowRef.current() - rec.startMs;
+      },
+      send: (events) => {
+        const rec = recorderRef.current;
+        if (!rec) return false;
+        void fetch("/api/replay", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ eventId, raceId: rec.raceId, station, events }),
+          keepalive: true,
+        }).catch(() => {});
+        return true;
+      },
+      autoFlush: true,
+    });
 
   const broadcastEditor = useMemo(() => {
     let timeout: ReturnType<typeof setTimeout> | null = null;
@@ -111,67 +114,6 @@ export function StationClient({
       }, 300);
     };
   }, [station]);
-
-  // Record "ran samples" moments as replay timeline markers.
-  const recordRun = useCallback((lang: Lang) => {
-    const rec = recorderRef.current;
-    if (!rec) return;
-    const t = serverNowRef.current() - rec.startMs;
-    if (t >= 0) replayBuffer.current.push({ t, code: "", lang, kind: "run" });
-  }, []);
-
-  const recordRunResult = useCallback(
-    (result: RunResult, target: "samples" | "custom", lang: Lang) => {
-      const rec = recorderRef.current;
-      if (!rec) return;
-      const t = Math.max(0, serverNowRef.current() - rec.startMs);
-      replayBuffer.current.push({
-        t,
-        code: "",
-        lang,
-        kind: "run_result",
-        payload: summarizeRun(result, target),
-      });
-    },
-    []
-  );
-
-  const recordTab = useCallback((tab: string, lang: Lang) => {
-    const rec = recorderRef.current;
-    if (!rec) return;
-    const t = Math.max(0, serverNowRef.current() - rec.startMs);
-    replayBuffer.current.push({ t, code: "", lang, kind: "tab", payload: { tab } });
-  }, []);
-
-  const recordScroll = useCallback((frac: number, lang: Lang) => {
-    const rec = recorderRef.current;
-    if (!rec) return;
-    const t = Math.max(0, serverNowRef.current() - rec.startMs);
-    replayBuffer.current.push({ t, code: "", lang, kind: "scroll", payload: { frac } });
-  }, []);
-
-  // Flush recorded editor snapshots to the replay store every few seconds.
-  useEffect(() => {
-    const flush = () => {
-      const rec = recorderRef.current;
-      const events = replayBuffer.current;
-      if (!rec || events.length === 0) return;
-      replayBuffer.current = [];
-      void fetch("/api/replay", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ eventId, raceId: rec.raceId, station, events }),
-        keepalive: true,
-      }).catch(() => {});
-    };
-    const id = setInterval(flush, 5000);
-    window.addEventListener("beforeunload", flush);
-    return () => {
-      clearInterval(id);
-      window.removeEventListener("beforeunload", flush);
-      flush();
-    };
-  }, [eventId, station]);
 
   const race0 = state?.race;
   useEffect(() => {

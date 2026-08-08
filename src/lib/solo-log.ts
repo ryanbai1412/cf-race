@@ -1,7 +1,7 @@
 import { db } from "./db";
-import { fetchEditorEventRows } from "./editor-events";
+import { buildReplayEvents, fetchEditorEventRows } from "./editor-events";
 import type { Lang, Problem } from "./types";
-import type { EditorDeltaChange, RunSummary, TouristEvent } from "./tourist";
+import type { TouristEvent } from "./tourist";
 
 /** Shape of GET /api/solo/replay responses (client + server share this). */
 export type SoloReplayResponse = {
@@ -61,60 +61,12 @@ export async function buildSoloLog(sessionId: string): Promise<{
       .order("submitted_at", { ascending: true }),
   ]);
 
-  const events: TouristEvent[] = [];
-  for (const s of snaps) {
-    if (s.kind === "run") events.push({ t: s.t_ms, type: "run" });
-    else if (s.kind === "run_result" && s.payload)
-      events.push({ t: s.t_ms, type: "run_result", result: s.payload as RunSummary });
-    else if (s.kind === "tab" && s.payload)
-      events.push({ t: s.t_ms, type: "tab", tab: (s.payload as { tab: string }).tab });
-    else if (s.kind === "scroll" && s.payload)
-      events.push({
-        t: s.t_ms,
-        type: "scroll",
-        frac: (s.payload as { frac: number }).frac,
-      });
-    else if (s.kind === "delta" && s.payload)
-      events.push({
-        t: s.t_ms,
-        type: "delta",
-        lang: s.lang === "py" ? "py" : "cpp",
-        changes: (s.payload as { changes: EditorDeltaChange[] }).changes,
-      });
-    else if (
-      s.kind === "run_result" ||
-      s.kind === "tab" ||
-      s.kind === "scroll" ||
-      s.kind === "delta"
-    )
-      continue;
-    else
-      events.push({
-        t: s.t_ms,
-        type: "snapshot",
-        code: s.code,
-        lang: s.lang === "py" ? "py" : "cpp",
-      });
-  }
-  let lang: Lang = session.lang ?? "cpp";
-  for (const s of subs ?? []) {
-    events.push({ t: new Date(s.submitted_at).getTime() - startMs, type: "submit" });
-    if (s.verdict && s.verdict !== "PENDING") {
-      events.push({
-        t: new Date(s.judged_at ?? s.submitted_at).getTime() - startMs,
-        type: "verdict",
-        verdict: s.verdict,
-      });
-    }
-    lang = s.lang === "py" ? "py" : "cpp";
-  }
-  events.sort((a, b) => a.t - b.t);
-  const codeSnaps = snaps.filter(
-    (s) => s.kind === "snapshot" || s.kind === "delta"
+  const { events, lang } = buildReplayEvents(
+    snaps,
+    subs ?? [],
+    startMs,
+    session.lang ?? "cpp"
   );
-  if (codeSnaps.length > 0) {
-    lang = codeSnaps[codeSnaps.length - 1].lang as Lang;
-  }
 
   return {
     session,
