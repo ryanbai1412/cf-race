@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { db, logDbError } from "@/lib/db";
 import { buildSessionLog } from "@/lib/session-log";
 
 export const dynamic = "force-dynamic";
@@ -35,10 +35,11 @@ export async function POST(req: NextRequest) {
     });
   if (upErr) return NextResponse.json({ error: upErr.message }, { status: 500 });
 
-  await db()
+  const { error: timeErr } = await db()
     .from("problems")
     .update({ tourist_time_ms: log.solveMs })
     .eq("id", session.problem_id);
+  logDbError(`solo promote: tourist_time_ms ${session.problem_id}`, timeErr);
 
   return NextResponse.json({ ok: true, path });
 }

@@ -122,22 +122,16 @@ export async function POST(req: NextRequest) {
   let solveMs: number | null = null;
   if (judged.result.verdict === "AC") {
     solveMs = Math.max(0, new Date(submittedAt).getTime() - startMs);
-    const { error: solvedErr } = await db()
-      .from("sessions")
-      .update({ outcome: "solved", solve_ms: solveMs, lang })
-      .eq("id", sessionId)
-      .is("solve_ms", null);
-    logDbError(`duel submit: solved stamp ${sessionId}`, solvedErr);
-    // First AC wins: stamp the winner + start the grace window once.
-    const { error: acErr } = await db()
-      .from("duel_matches")
-      .update({
-        first_ac_at: submittedAt,
-        winner_user_id: user.id,
-      })
-      .eq("id", match.id)
-      .is("first_ac_at", null);
-    logDbError(`duel submit: first AC ${match.id}`, acErr);
+    // Single transaction: session solved stamp + first-AC winner/grace window.
+    const { error: acErr } = await db().rpc("record_duel_ac", {
+      p_session_id: sessionId,
+      p_match_id: match.id,
+      p_user_id: user.id,
+      p_submitted_at: submittedAt,
+      p_solve_ms: solveMs,
+      p_lang: lang,
+    });
+    logDbError(`duel submit: record_duel_ac ${match.id}`, acErr);
     await resolveMatch(match.room_id);
   }
   return NextResponse.json({
