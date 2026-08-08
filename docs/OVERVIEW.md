@@ -67,13 +67,19 @@ A standalone Node/TypeScript HTTP service on a dedicated VM (Fly.io app
 - Checker: token-based comparator (whitespace-insensitive, float epsilon,
   YES/NO case-insensitive); `special_judge` problems flag results as
   potentially unreliable rather than shipping per-problem checkers.
-- Test data lives on the VM disk, synced from `problems/` packages via
-  `judge/scripts/sync-problems.ts`.
+- Test data lives on the VM disk, synced from the Supabase Storage `problems`
+  bucket via `judge/scripts/sync-problems.ts`.
 
 ### Problem pipeline (`pipeline/`, `problems/`, `scripts/`)
 Offline tooling that scrapes/generates problem statements and test data into
 `problems/<id>/` packages, then seeds them into Supabase (`pnpm seed`) and onto
 the judge VM. `scripts/upload-tourist.ts` uploads tourist ghost replay logs.
+
+CF test packages (`problems/<id>/tests/`) are gitignored — Supabase Storage is
+their source of truth. Git tracks `problems/tests-manifest.json` instead (file
+count + content hash per problem, regenerated with `pnpm tests:manifest` after
+uploading new tests). Dev fixtures under `problems/dev/` keep their tests in
+git for local judge work.
 
 ## Runtime data flows
 
