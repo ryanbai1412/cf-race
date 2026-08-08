@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { authUser } from "@/lib/supabase/server";
 import { judgeConfigured } from "@/lib/judge";
 import { MAX_SOURCE_LEN } from "@/lib/limits";
 import {
@@ -30,9 +31,18 @@ export async function POST(req: NextRequest) {
     .from("sessions")
     .select("*")
     .eq("id", sessionId)
+    .eq("kind", "solo")
     .maybeSingle();
   if (!session) {
     return NextResponse.json({ error: "unknown session" }, { status: 400 });
+  }
+  // Claimed sessions only accept submissions from their owner (anonymous
+  // sessions stay open so logged-out practice keeps working).
+  if (session.user_id !== null) {
+    const user = await authUser();
+    if (user?.id !== session.user_id) {
+      return NextResponse.json({ error: "not your session" }, { status: 403 });
+    }
   }
   if (session.outcome === "solved") {
     return NextResponse.json({ error: "already solved" }, { status: 400 });

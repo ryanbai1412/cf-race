@@ -28,12 +28,10 @@ judge-test:
 	cd judge && pnpm test
 
 judge-docker: ## local judge in Docker with the real isolate sandbox
-	rm -rf judge/problems-dev && cp -R problems/dev judge/problems-dev
 	docker compose up --build judge
 
 judge-deploy: ## deploy the judge to Fly.io (app cf-race-judge)
-	rm -rf judge/problems-dev && cp -R problems/dev judge/problems-dev
-	cd judge && fly deploy -a cf-race-judge
+	fly deploy -a cf-race-judge -c judge/fly.toml
 
 smoke: ## end-to-end smoke test (BASE_URL=... PROBLEM_ID=...)
 	./scripts/smoke.sh

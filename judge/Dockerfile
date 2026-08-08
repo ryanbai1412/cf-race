@@ -1,4 +1,6 @@
 # Judge service: Node.js + g++ + python3 + isolate sandbox.
+# Build context is the repo root (see fly.toml / docker-compose.yml) so the
+# workspace-wide pnpm lockfile is available.
 FROM ubuntu:24.04 AS isolate-build
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential git libcap-dev libsystemd-dev pkg-config ca-certificates \
@@ -34,15 +36,17 @@ RUN set -e; \
 
 WORKDIR /app
 RUN corepack enable pnpm
+# Workspace manifests only, so dependency installs cache across code changes.
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-RUN pnpm install --frozen-lockfile
-COPY tsconfig.json ./
-COPY src ./src
-COPY scripts ./scripts
-RUN pnpm run build
+COPY judge/package.json judge/
+RUN pnpm install --frozen-lockfile --filter cf-race-judge
+COPY judge/tsconfig.json judge/
+COPY judge/src judge/src
+COPY judge/scripts judge/scripts
+RUN pnpm --filter cf-race-judge run build
 
 # Dev problems baked into the image so the judge works before any sync.
-COPY problems-dev /data/problems/dev
+COPY problems/dev /data/problems/dev
 
 ENV PROBLEMS_DIR=/data/problems \
     CACHE_DIR=/data/cache \
@@ -50,6 +54,7 @@ ENV PROBLEMS_DIR=/data/problems \
     PORT=8080
 
 EXPOSE 8080
-COPY entrypoint.sh /entrypoint.sh
+WORKDIR /app/judge
+COPY judge/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]

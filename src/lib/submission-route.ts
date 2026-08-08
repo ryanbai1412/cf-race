@@ -7,12 +7,13 @@ import type { Lang } from "./types";
 /** True when the caller already used all of its official submissions. */
 export async function submissionLimitReached(
   table: "submissions" | "session_submissions",
-  filter: Record<string, string>
+  filter: Record<string, string>,
+  max: number = MAX_SUBMISSIONS
 ): Promise<boolean> {
   let q = db().from(table).select("id", { count: "exact", head: true });
   for (const [k, v] of Object.entries(filter)) q = q.eq(k, v);
   const { count } = await q;
-  return (count ?? 0) >= MAX_SUBMISSIONS;
+  return (count ?? 0) >= max;
 }
 
 /**
