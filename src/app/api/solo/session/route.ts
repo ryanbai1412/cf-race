@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { authUser } from "@/lib/supabase/server";
+import { anonSessionIds, rememberAnonSession } from "@/lib/anon-sessions";
+import { abandonActiveSessions } from "@/lib/session-lifecycle";
 
 export const dynamic = "force-dynamic";
 
@@ -24,6 +26,12 @@ export async function POST(req: NextRequest) {
   if (!problem) return NextResponse.json({ error: "unknown problem" }, { status: 400 });
 
   const user = await authUser();
+  // A new run of the same problem supersedes any still-active one.
+  await abandonActiveSessions({
+    problemId,
+    userId: user?.id ?? null,
+    sessionIds: user ? undefined : anonSessionIds(),
+  });
   const startAtMs = Date.now() + COUNTDOWN_MS;
   const { data: session, error } = await db()
     .from("sessions")
@@ -37,6 +45,8 @@ export async function POST(req: NextRequest) {
     .select("id")
     .single();
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  if (!user) rememberAnonSession(session.id);
 
   return NextResponse.json({
     sessionId: session.id,

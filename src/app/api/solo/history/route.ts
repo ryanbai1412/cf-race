@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { authUser } from "@/lib/supabase/server";
+import { sweepStaleSessions } from "@/lib/session-lifecycle";
 import type { SoloHistoryEntry, SoloOutcome } from "@/lib/solo";
 
 export const dynamic = "force-dynamic";
@@ -10,6 +11,7 @@ export async function GET() {
   const user = await authUser();
   if (!user) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 
+  await sweepStaleSessions({ userId: user.id });
   const { data, error } = await db()
     .from("sessions")
     .select("id, problem_id, started_at, outcome, solve_ms")

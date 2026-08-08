@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { authUser } from "@/lib/supabase/server";
 import { invalidatedProblemIds } from "@/lib/duel";
+import { sweepStaleSessions } from "@/lib/session-lifecycle";
 
 export const dynamic = "force-dynamic";
 
@@ -10,6 +11,7 @@ export async function GET() {
   const user = await authUser();
   if (!user) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 
+  await sweepStaleSessions({ userId: user.id });
   const { data: myPlayers } = await db()
     .from("duel_players")
     .select("match_id, session_id")
