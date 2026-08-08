@@ -22,6 +22,21 @@ export function eventChannel(eventId: string): RealtimeChannel {
   });
 }
 
+/** Duel room channel: lobby sync nudges + opponent-AC notifications. */
+export function duelChannel(roomId: string): RealtimeChannel {
+  return supabase().channel(`duel-${roomId}`, {
+    config: { broadcast: { self: false } },
+  });
+}
+
+export type DuelBroadcast =
+  | { type: "sync" }
+  | { type: "ac"; userId: string; name: string; solveMs: number };
+
+export function sendDuelBroadcast(ch: RealtimeChannel, msg: DuelBroadcast): void {
+  void ch.send({ type: "broadcast", event: "duel", payload: msg });
+}
+
 export function sendBroadcast(ch: RealtimeChannel, msg: BroadcastMsg): void {
   void ch.send({ type: "broadcast", event: "msg", payload: msg });
 }

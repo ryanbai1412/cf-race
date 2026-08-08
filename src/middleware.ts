@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
-/** Refresh Supabase auth sessions on solo/auth routes (@supabase/ssr). */
+/** Refresh Supabase auth sessions on solo/duel/auth routes (@supabase/ssr). */
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request });
 
@@ -29,5 +29,13 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/solo/:path*", "/solo", "/auth/:path*", "/api/solo/:path*"],
+  matcher: [
+    "/solo/:path*",
+    "/solo",
+    "/duel/:path*",
+    "/duel",
+    "/auth/:path*",
+    "/api/solo/:path*",
+    "/api/duel/:path*",
+  ],
 };
