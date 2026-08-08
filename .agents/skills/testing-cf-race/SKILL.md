@@ -16,6 +16,8 @@ description: How to run and end-to-end test the cf-race booth app locally (dev s
   `COREPACK_INTEGRITY_KEYS=0 corepack pnpm@10.18.3 install`, then run
   `./node_modules/.bin/next dev -p 3100` directly. Run the dev server in a persistent/tty
   shell — one-shot backgrounded shells may get reaped and the server silently dies.
+- node may not be on the default PATH (`corepack: command not found`) — `source ~/.nvm/nvm.sh`
+  first; a `~/.local/bin/pnpm` shim may also exist and resolve to the right pnpm.
 - Beware Next.js fetch caching of supabase-js GETs in API routes (`.next/cache/fetch-cache/`):
   a route can keep returning stale data (e.g. empty `/api/solo/submissions`) even with
   `dynamic = "force-dynamic"`. If an API returns stale/empty data that the DB clearly has,
@@ -29,6 +31,14 @@ description: How to run and end-to-end test the cf-race booth app locally (dev s
 
 ## Test data
 - Reference AC solutions: `pipeline/problems/<id>/ref.py` (e.g. 2024A). Paste via clipboard (`xclip -selection clipboard`, then Ctrl+A/Ctrl+V in Monaco) — typing Python by keystrokes breaks due to Monaco auto-indent.
+- If `xclip` is missing and there is no sudo, the reliable fallback (works for stations, solo
+  and duel) is CDP `Runtime.evaluate` with
+  `monaco.editor.getModels().find(m => m.getLanguageId()==='python').setValue(code)`.
+  Two gotchas: (a) raw CDP websockets need `suppress_origin=True` (Chrome rejects unknown
+  Origins unless launched with `--remote-allow-origins=*`); (b) never embed Python inside a JS
+  template literal — `\n` in `print("\n".join(...))` becomes a real newline and the code REs.
+  Build the source as a JSON array of lines joined with `"\n"` instead. Click the **Python**
+  language toggle in the UI before setValue/submit.
 - Wrong answer: submit `print(0)`.
 - Admin race control: pick problem, set Timer seconds (default 180 — use 600 to have time for all checks), "Start race (5s countdown)".
 
@@ -38,7 +48,19 @@ description: How to run and end-to-end test the cf-race booth app locally (dev s
 - Direct judge check: `POST $JUDGE_URL/run` with `Authorization: Bearer $JUDGE_TOKEN`.
 
 ## Replay data
-- Editor snapshots go to table `race_editor_events` via `POST /api/replay` (flushed every 5 s from stations). If replays play back empty, check that table. Races intentionally stay in `state="countdown"` in the DB; the recorder in `src/components/station/station-client.tsx` arms whenever the race has `started_at` and `state !== "finished"` (fixed after an earlier bug that required `state === "running"`).
+- Since the universal-sessions migration (Aug 2026), event races write to the `sessions` tables:
+  each `race_participants` row carries a `session_id` (a `sessions` row with kind='event'),
+  editor events go to `session_events`, official submissions to `session_submissions`, and the
+  webcam path to `sessions.recording_path` (`race/<raceId>-<station>.webm`). Query
+  `session_events?session_id=eq.<sid>` (not `race_editor_events`) to verify recording.
+  Expected kinds after a full run: snapshot/delta, tab, run, run_result, submit, verdict.
+- A per-session submission cap is enforced by a Postgres trigger (50, duels 10): inserting past
+  the cap fails with code 23514 "submission limit reached". Cheap way to test: bulk-insert dummy
+  rows via REST (`kind:'submit'`, needs `lang` + `source`), try one more, then DELETE the dummies.
+- `POST /api/race/start` authorizes via cookie `cfr_<eventId-without-dashes>=<events.secret>`;
+  with the secret from the `events` table you can curl it directly (useful to prove the
+  409 "a race is already active" invariant while a race is running).
+- Legacy note: editor snapshots used to go to `race_editor_events` via `POST /api/replay` (flushed every 5 s from stations). If replays play back empty, check that table. Races intentionally stay in `state="countdown"` in the DB; the recorder in `src/components/station/station-client.tsx` arms whenever the race has `started_at` and `state !== "finished"` (fixed after an earlier bug that required `state === "running"`).
 - To verify recording during a test: type/edit code during the race, wait >5 s for the flush, then query the table. Direct `psql` to `db.<ref>.supabase.co:5432` may fail (IPv6-only DNS, unreachable from some boxes) — use the Supabase REST API instead: `curl "$SUPABASE_URL/rest/v1/race_editor_events?race_id=eq.<raceId>&select=station_role,t_ms,lang,code" -H "apikey: $SUPABASE_SERVICE_ROLE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY"`.
 
 ## Devin Secrets Needed
@@ -56,14 +78,18 @@ description: How to run and end-to-end test the cf-race booth app locally (dev s
 ## Duel mode (1v1) testing
 - `/duel` requires a signed-in Supabase user (Google OAuth in prod). For local testing, skip
   OAuth: create test users via the admin API (`POST $SUPABASE_URL/auth/v1/admin/users` with the
-  service-role key, `email_confirm: true` + password), then password-grant login
+  service-role key, `email_confirm: true` + password), then password-grant login.
+  Users `duel-tester-a@example.com` / `duel-tester-b@example.com` already exist; if the password
+  is unknown, reset it via `PUT /auth/v1/admin/users/<id>` with the service-role key.
   (`POST /auth/v1/token?grant_type=password` with the anon key) and set the resulting session as
   a cookie named `sb-<projectref>-auth-token` with value `"base64-" + base64url(JSON session)`
   (chunk into `.0`, `.1`… suffixes above ~3180 chars). Setting it via CDP `Network.setCookie`
   for `http://localhost:3100` works; verify by loading `/duel` (signed-in home, not the Google
   button). One session JSON fits in a single cookie chunk.
 - Two players: launch two Chrome instances with separate `--user-data-dir`s and distinct
-  `--remote-debugging-port`s (9222/9223), both with the fake-media flags. Switch windows with
+  `--remote-debugging-port`s (9222/9223), both with the fake-media flags. The second instance
+  steals focus even with `--window-position=2000,0` — minimize it right away
+  (`xdotool windowminimize <winid>`) and keep driving it via CDP. Switch windows with
   `wmctrl -i -a <winid>`; drive the off-screen player headlessly via CDP `Runtime.evaluate`
   (click buttons by textContent) so realtime effects (opponent-AC toast) can be captured on the
   visible window.
@@ -75,6 +101,9 @@ description: How to run and end-to-end test the cf-race booth app locally (dev s
   player solved, and problems the pair already played. Pre-seed `problem_invalidations` rows
   (reason `test-fixture`) for all but the target problem via the REST API, then DELETE them
   right after the countdown starts (problem is stamped on `duel_matches` at ready-up).
+  Check `duel_matches` for problems the test-user pair already played and pick a target outside
+  that list (and with a `pipeline/problems/<id>/ref.py`), else the start silently falls back to
+  the lobby with "no problem available"-style behavior.
 - Duel data: rooms/matches/players in `duel_rooms`/`duel_matches`/`duel_players`; per-player
   runs are `sessions` rows (kind `duel`) with `session_events`/`session_submissions`.
 - Known bugs seen (2026-08): after a match finishes, "Back to lobby" (and even a full page
