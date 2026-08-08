@@ -16,12 +16,8 @@ import {
   uploadRecording,
   type WebcamRecording,
 } from "@/lib/webcam-recorder";
-import type { Contestant, Lang, Problem, RunResult } from "@/lib/types";
-import { summarizeRun } from "@/lib/tourist";
-import {
-  createEditorRecorder,
-  type RecordedEditorEvent,
-} from "@/lib/replay-recorder";
+import type { Contestant, Problem } from "@/lib/types";
+import { useReplayRecorder } from "@/hooks/use-replay-recorder";
 import { Camera, CameraOff, Play, RotateCcw, Video } from "lucide-react";
 
 const SOLO_CONTESTANT: Contestant = {
@@ -94,75 +90,32 @@ export function SoloClient({
 
   // Per-keystroke editor recorder: deltas + periodic keyframes. Clamps
   // countdown-time events to t=0 so the replay isn't empty before the start.
-  const buffer = useRef<RecordedEditorEvent[]>([]);
-  const editorRecorder = useMemo(
-    () =>
-      createEditorRecorder({
-        now: () => {
-          const s = sessionRef.current;
-          if (!s) return null;
-          return Math.max(0, Date.now() + clockOffset.current - s.startAtMs);
-        },
-        push: (ev) => buffer.current.push(ev),
-      }),
-    []
-  );
-
-  const recordRun = useCallback((lang: Lang) => {
-    const s = sessionRef.current;
-    if (!s) return;
-    const t = Math.max(0, Date.now() + clockOffset.current - s.startAtMs);
-    buffer.current.push({ t, code: "", lang, kind: "run" });
-  }, []);
-
-  const recordRunResult = useCallback(
-    (result: RunResult, target: "samples" | "custom", lang: Lang) => {
+  const {
+    editorRecorder,
+    recordRun,
+    recordRunResult,
+    recordTab,
+    recordScroll,
+    flush: flushEvents,
+  } = useReplayRecorder({
+    now: () => {
       const s = sessionRef.current;
-      if (!s) return;
-      const t = Math.max(0, Date.now() + clockOffset.current - s.startAtMs);
-      buffer.current.push({
-        t,
-        code: "",
-        lang,
-        kind: "run_result",
-        payload: summarizeRun(result, target),
-      });
+      if (!s) return null;
+      return Date.now() + clockOffset.current - s.startAtMs;
     },
-    []
-  );
-
-  const recordTab = useCallback((tab: string, lang: Lang) => {
-    const s = sessionRef.current;
-    if (!s) return;
-    const t = Math.max(0, Date.now() + clockOffset.current - s.startAtMs);
-    buffer.current.push({ t, code: "", lang, kind: "tab", payload: { tab } });
-  }, []);
-
-  const recordScroll = useCallback((frac: number, lang: Lang) => {
-    const s = sessionRef.current;
-    if (!s) return;
-    const t = Math.max(0, Date.now() + clockOffset.current - s.startAtMs);
-    buffer.current.push({ t, code: "", lang, kind: "scroll", payload: { frac } });
-  }, []);
-
-  const flushEvents = useCallback(() => {
-    const s = sessionRef.current;
-    const events = buffer.current;
-    if (!s || events.length === 0) return;
-    buffer.current = [];
-    void fetch("/api/solo/events", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ sessionId: s.sessionId, events }),
-      keepalive: true,
-    }).catch(() => {});
-  }, []);
-
-  useEffect(() => {
-    if (phase !== "racing") return;
-    const id = setInterval(flushEvents, 5000);
-    return () => clearInterval(id);
-  }, [phase, flushEvents]);
+    send: (events) => {
+      const s = sessionRef.current;
+      if (!s) return false;
+      void fetch("/api/solo/events", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ sessionId: s.sessionId, events }),
+        keepalive: true,
+      }).catch(() => {});
+      return true;
+    },
+    autoFlush: phase === "racing",
+  });
 
   // Mark abandoned runs if the tab closes mid-race.
   useEffect(() => {

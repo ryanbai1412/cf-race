@@ -55,7 +55,7 @@ function scrollFracAt(events: ScrollEvent[], t: number): number {
     if (events[mid].t <= t) lo = mid;
     else hi = mid;
   }
-  if (lo < 0) return events.length > 0 ? 0 : 0;
+  if (lo < 0) return 0;
   const prev = events[lo];
   const next = events[lo + 1];
   if (next && next.t - prev.t <= 1500 && next.t > prev.t) {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AccessToken } from "livekit-server-sdk";
-import { requireEvent } from "@/lib/api-auth";
+import { requireEvent } from "@/lib/event-auth";
 
 export const dynamic = "force-dynamic";
 

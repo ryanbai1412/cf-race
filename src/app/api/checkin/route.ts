@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { requireEvent } from "@/lib/api-auth";
+import { requireEvent } from "@/lib/event-auth";
 import { notifyEvent } from "@/lib/notify";
 
 export async function POST(req: NextRequest) {

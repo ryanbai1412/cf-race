@@ -1,29 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { requireEvent } from "@/lib/api-auth";
-import { fetchEditorEventRows } from "@/lib/editor-events";
-import type { Lang } from "@/lib/types";
-import type { EditorDeltaChange, RunSummary, TouristEvent } from "@/lib/tourist";
+import { requireEvent } from "@/lib/event-auth";
+import {
+  buildReplayEvents,
+  fetchEditorEventRows,
+  sanitizeEditorEvents,
+  type IncomingEditorEvent,
+} from "@/lib/editor-events";
 
 export const dynamic = "force-dynamic";
 
 /** Persist a batch of editor snapshots recorded during a race. */
 export async function POST(req: NextRequest) {
-  const body = (await req.json()) as {
+  const body = (await req.json().catch(() => null)) as {
     eventId?: string;
     raceId?: string;
     station?: string;
-    events?: {
-      t: number;
-      code: string;
-      lang: Lang;
-      kind?: string;
-      payload?: unknown;
-    }[];
-  };
-  const event = await requireEvent(body.eventId ?? "");
+    events?: IncomingEditorEvent[];
+  } | null;
+  const event = await requireEvent(body?.eventId ?? "");
   if (!event) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   if (
+    !body ||
     !body.raceId ||
     (body.station !== "station1" && body.station !== "station2") ||
     !Array.isArray(body.events) ||
@@ -32,16 +30,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
   }
 
-  const kinds = new Set(["snapshot", "delta", "run", "run_result", "tab", "scroll"]);
-  const rows = body.events.slice(0, 1000).map((e) => ({
+  const rows = sanitizeEditorEvents(body.events).map((row) => ({
+    ...row,
     race_id: body.raceId,
     station_role: body.station,
-    t_ms: Math.max(0, Math.round(e.t)),
-    code: String(e.code).slice(0, 100_000),
-    lang: e.lang === "py" ? "py" : "cpp",
-    kind: e.kind && kinds.has(e.kind) ? e.kind : "snapshot",
-    payload:
-      e.payload && JSON.stringify(e.payload).length <= 20_000 ? e.payload : null,
   }));
   const { error } = await db().from("race_editor_events").insert(rows);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
@@ -98,58 +90,7 @@ export async function GET(req: NextRequest) {
       .order("submitted_at", { ascending: true }),
   ]);
 
-  const events: TouristEvent[] = [];
-  for (const s of snaps) {
-    if (s.kind === "run") events.push({ t: s.t_ms, type: "run" });
-    else if (s.kind === "run_result" && s.payload)
-      events.push({ t: s.t_ms, type: "run_result", result: s.payload as RunSummary });
-    else if (s.kind === "tab" && s.payload)
-      events.push({ t: s.t_ms, type: "tab", tab: (s.payload as { tab: string }).tab });
-    else if (s.kind === "scroll" && s.payload)
-      events.push({
-        t: s.t_ms,
-        type: "scroll",
-        frac: (s.payload as { frac: number }).frac,
-      });
-    else if (s.kind === "delta" && s.payload)
-      events.push({
-        t: s.t_ms,
-        type: "delta",
-        lang: s.lang === "py" ? "py" : "cpp",
-        changes: (s.payload as { changes: EditorDeltaChange[] }).changes,
-      });
-    else if (
-      s.kind === "run_result" ||
-      s.kind === "tab" ||
-      s.kind === "scroll" ||
-      s.kind === "delta"
-    )
-      continue;
-    else
-      events.push({
-        t: s.t_ms,
-        type: "snapshot",
-        code: s.code,
-        lang: s.lang === "py" ? "py" : "cpp",
-      });
-  }
-  let lang: Lang = "cpp";
-  for (const s of subs ?? []) {
-    events.push({ t: new Date(s.submitted_at).getTime() - startMs, type: "submit" });
-    if (s.verdict) {
-      events.push({
-        t: new Date(s.judged_at ?? s.submitted_at).getTime() - startMs,
-        type: "verdict",
-        verdict: s.verdict,
-      });
-    }
-    lang = s.lang === "py" ? "py" : "cpp";
-  }
-  events.sort((a, b) => a.t - b.t);
-  const codeSnaps = snaps.filter(
-    (s) => s.kind === "snapshot" || s.kind === "delta"
-  );
-  if (codeSnaps.length > 0) lang = codeSnaps[codeSnaps.length - 1].lang as Lang;
+  const { events, lang } = buildReplayEvents(snaps, subs ?? [], startMs);
 
   const solveMs = participant.first_ac_at
     ? new Date(participant.first_ac_at).getTime() - startMs
