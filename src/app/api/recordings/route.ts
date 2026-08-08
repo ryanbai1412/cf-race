@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { requireEvent } from "@/lib/event-auth";
+import { raceParticipantByStation } from "@/lib/races";
 
 /**
  * Webcam recordings live in the private `recordings` bucket. The webm itself
@@ -27,6 +28,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
   }
 
+  // Both flows end up writing to the participant's universal session; the
+  // event-race branch just resolves the session through the race + station.
+  let targetSessionId: string;
   let path: string;
   if (sessionId) {
     const { data: session } = await db()
@@ -37,17 +41,16 @@ export async function POST(req: NextRequest) {
     if (!session) {
       return NextResponse.json({ error: "unknown session" }, { status: 400 });
     }
+    targetSessionId = session.id;
     path = `${session.kind}/${sessionId}.webm`;
   } else if (raceId && (station === "station1" || station === "station2")) {
     const event = await requireEvent(eventId);
     if (!event) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-    const { data: race } = await db()
-      .from("races")
-      .select("id")
-      .eq("id", raceId)
-      .eq("event_id", eventId)
-      .maybeSingle();
-    if (!race) return NextResponse.json({ error: "unknown race" }, { status: 400 });
+    const found = await raceParticipantByStation(eventId, raceId, station);
+    if (!found?.participant.session_id) {
+      return NextResponse.json({ error: "unknown race" }, { status: 400 });
+    }
+    targetSessionId = found.participant.session_id;
     path = `race/${raceId}-${station}.webm`;
   } else {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
@@ -70,22 +73,10 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  if (sessionId) {
-    const { error } = await db()
-      .from("sessions")
-      .update({ recording_path: path, recording_offset_ms: offsetMs })
-      .eq("id", sessionId);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  } else {
-    const { error } = await db()
-      .from("race_recordings")
-      .upsert({
-        race_id: raceId,
-        station_role: station,
-        path,
-        offset_ms: offsetMs,
-      });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  }
+  const { error } = await db()
+    .from("sessions")
+    .update({ recording_path: path, recording_offset_ms: offsetMs })
+    .eq("id", targetSessionId);
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ ok: true, path });
 }

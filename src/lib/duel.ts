@@ -151,6 +151,65 @@ export async function resolveMatch(roomId: string): Promise<DuelMatchRow | null>
   return updated ?? { ...match, finished_at: new Date().toISOString(), winner_user_id: winner };
 }
 
+/**
+ * Start a match for a room whose start was already claimed (status flipped
+ * lobby → racing): pick the problem, create the match and one session per
+ * player with a server-stamped start (now + countdown).
+ */
+export async function startDuelMatch(
+  room: DuelRoomRow,
+  playerIds: [string, string]
+): Promise<{ ok: true } | { ok: false; error: string; status: number }> {
+  const [userA, userB] = playerIds;
+  const problemId = await pickDuelProblem(userA, userB);
+  if (!problemId) {
+    await db().from("duel_rooms").update({ status: "lobby" }).eq("id", room.id);
+    await db()
+      .from("duel_room_players")
+      .update({ ready_at: null })
+      .eq("room_id", room.id);
+    return { ok: false, error: "no eligible problems left for this pair", status: 409 };
+  }
+
+  const startAt = new Date(Date.now() + COUNTDOWN_MS).toISOString();
+  const { data: match, error } = await db()
+    .from("duel_matches")
+    .insert({
+      room_id: room.id,
+      problem_id: problemId,
+      started_at: startAt,
+      total_time_sec: room.total_time_sec,
+      grace_after_ac_sec: room.grace_after_ac_sec,
+    })
+    .select("id")
+    .single();
+  if (error) return { ok: false, error: error.message, status: 500 };
+
+  for (const uid of playerIds) {
+    const { data: session, error: sErr } = await db()
+      .from("sessions")
+      .insert({
+        kind: "duel",
+        user_id: uid,
+        problem_id: problemId,
+        started_at: startAt,
+        timer_sec: room.total_time_sec,
+      })
+      .select("id")
+      .single();
+    if (sErr || !session) {
+      return { ok: false, error: sErr?.message ?? "failed to create session", status: 500 };
+    }
+    const { error: pErr } = await db().from("duel_players").insert({
+      match_id: match.id,
+      user_id: uid,
+      session_id: session.id,
+    });
+    if (pErr) return { ok: false, error: pErr.message, status: 500 };
+  }
+  return { ok: true };
+}
+
 /** Problem ids currently invalidated (active, non-revoked invalidations). */
 export async function invalidatedProblemIds(): Promise<Set<string>> {
   const { data } = await db()

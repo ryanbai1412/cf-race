@@ -1,56 +1,15 @@
-export type Lang = "cpp" | "py";
-export type Verdict = "AC" | "WA" | "RE" | "TLE" | "ML" | "SKIP" | "CE";
-
-export interface TestCase {
-  name: string;
-  input: string;
-  expected: string | null;
-}
-
-export interface RunRequest {
-  runId: string;
-  lang: Lang;
-  source: string;
-  problemId?: string;
-  tests?: TestCase[];
-  timeLimitMs?: number;
-  memoryLimitMb?: number;
-}
-
-export interface TestResult {
-  name: string;
-  verdict: Verdict;
-  timeMs: number;
-  stdout: string;
-  stderr: string;
-  stdoutTruncated?: boolean;
-  stderrTruncated?: boolean;
-  checkerNote?: string;
-  checkerUnreliable?: boolean;
-}
-
-export interface RunResponse {
-  runId: string;
-  compile: { ok: boolean; stderr: string };
-  results: TestResult[];
-}
-
-export interface SubmitRequest {
-  submissionId: string;
-  lang: Lang;
-  source: string;
-  problemId: string;
-}
-
-export interface SubmitResponse {
-  submissionId: string;
-  verdict: Verdict;
-  failedTest: string | null;
-  passedCount: number;
-  totalCount: number;
-  timeMsMax: number;
-  compileStderr?: string;
-}
+// Wire types are shared with the web app via @cf-race/judge-protocol
+// (types-only workspace package); ProblemMeta is judge-internal.
+export type {
+  Lang,
+  TestCase,
+  TestResult,
+  RunRequest,
+  RunResponse,
+  SubmitRequest,
+  SubmitResponse,
+} from "@cf-race/judge-protocol";
+export type { TestVerdict as Verdict } from "@cf-race/judge-protocol";
 
 export interface ProblemMeta {
   id: string;

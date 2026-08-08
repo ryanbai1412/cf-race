@@ -209,7 +209,8 @@ export async function handleSubmit(
     if (r.verdict !== "AC") {
       const resp: SubmitResponse = {
         submissionId: req.submissionId,
-        verdict: r.verdict,
+        // Sequential judging never yields SKIP, but the per-test type allows it.
+        verdict: r.verdict === "SKIP" ? "RE" : r.verdict,
         failedTest: t.name,
         passedCount,
         totalCount,

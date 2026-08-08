@@ -45,27 +45,24 @@ export function sanitizeEditorEvents(
   }));
 }
 
-export type SubmissionMomentRow = {
-  submitted_at: string;
-  judged_at: string | null;
-  verdict: string | null;
-  lang: string;
-};
-
 /**
- * Convert persisted editor-event rows plus submission moments into a sorted
- * tourist-format event log. Returns the log and the language of the final
- * code state (falling back to the last submission's language).
+ * Convert persisted event rows into a sorted tourist-format event log.
+ * Returns the log and the language of the final code state.
  */
 export function buildReplayEvents(
-  snaps: EditorEventRow[],
-  subs: SubmissionMomentRow[],
-  startMs: number,
+  rows: EditorEventRow[],
   fallbackLang: Lang = "cpp"
 ): { events: TouristEvent[]; lang: Lang } {
   const events: TouristEvent[] = [];
-  for (const s of snaps) {
+  for (const s of rows) {
     if (s.kind === "run") events.push({ t: s.t_ms, type: "run" });
+    else if (s.kind === "submit") events.push({ t: s.t_ms, type: "submit" });
+    else if (s.kind === "verdict" && s.payload)
+      events.push({
+        t: s.t_ms,
+        type: "verdict",
+        verdict: (s.payload as { verdict: string }).verdict,
+      });
     else if (s.kind === "run_result" && s.payload)
       events.push({ t: s.t_ms, type: "run_result", result: s.payload as RunSummary });
     else if (s.kind === "tab" && s.payload)
@@ -87,7 +84,8 @@ export function buildReplayEvents(
       s.kind === "run_result" ||
       s.kind === "tab" ||
       s.kind === "scroll" ||
-      s.kind === "delta"
+      s.kind === "delta" ||
+      s.kind === "verdict"
     )
       continue;
     else
@@ -98,20 +96,9 @@ export function buildReplayEvents(
         lang: s.lang === "py" ? "py" : "cpp",
       });
   }
-  let lang: Lang = fallbackLang;
-  for (const s of subs) {
-    events.push({ t: new Date(s.submitted_at).getTime() - startMs, type: "submit" });
-    if (s.verdict && s.verdict !== "PENDING") {
-      events.push({
-        t: new Date(s.judged_at ?? s.submitted_at).getTime() - startMs,
-        type: "verdict",
-        verdict: s.verdict,
-      });
-    }
-    lang = s.lang === "py" ? "py" : "cpp";
-  }
   events.sort((a, b) => a.t - b.t);
-  const codeSnaps = snaps.filter(
+  let lang: Lang = fallbackLang;
+  const codeSnaps = rows.filter(
     (s) => s.kind === "snapshot" || s.kind === "delta"
   );
   if (codeSnaps.length > 0) lang = codeSnaps[codeSnaps.length - 1].lang as Lang;
@@ -128,7 +115,7 @@ const MAX_ROWS = 50_000;
  * replay in insertion order.
  */
 export async function fetchEditorEventRows(
-  table: "race_editor_events" | "session_events",
+  table: "session_events",
   filter: Record<string, string>
 ): Promise<EditorEventRow[]> {
   const rows: EditorEventRow[] = [];

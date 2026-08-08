@@ -39,7 +39,9 @@ RUN corepack enable pnpm
 # Workspace manifests only, so dependency installs cache across code changes.
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY judge/package.json judge/
+COPY packages/judge-protocol/package.json packages/judge-protocol/
 RUN pnpm install --frozen-lockfile --filter cf-race-judge
+COPY packages/judge-protocol packages/judge-protocol
 COPY judge/tsconfig.json judge/
 COPY judge/src judge/src
 COPY judge/scripts judge/scripts

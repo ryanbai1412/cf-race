@@ -1,4 +1,10 @@
-import type { Lang, RunResult, SampleTest } from "./types";
+import type {
+  RunRequest,
+  RunResponse,
+  SubmitRequest,
+  SubmitResponse,
+} from "@cf-race/judge-protocol";
+import type { SampleTest } from "./types";
 
 const JUDGE_URL = process.env.JUDGE_URL;
 const JUDGE_TOKEN = process.env.JUDGE_TOKEN;
@@ -38,41 +44,18 @@ async function judgeFetch(path: string, body: unknown): Promise<Response> {
   }
 }
 
-export async function judgeRun(args: {
-  runId: string;
-  lang: Lang;
-  source: string;
-  problemId?: string;
-  tests?: { name: string; input: string; expected: string | null }[];
-  timeLimitMs?: number;
-  memoryLimitMb?: number;
-}): Promise<RunResult> {
+export async function judgeRun(args: RunRequest): Promise<RunResponse> {
   const res = await judgeFetch("/run", args);
   if (!res.ok) throw new Error(`judge /run failed: ${res.status}`);
-  return (await res.json()) as RunResult;
+  return (await res.json()) as RunResponse;
 }
 
-type JudgeSubmitResponse = {
-  submissionId: string;
-  verdict: "AC" | "WA" | "TLE" | "RE" | "ML" | "CE";
-  failedTest?: string;
-  passedCount: number;
-  totalCount: number;
-  timeMsMax: number;
-  compileStderr?: string;
-};
+export type SubmitResult = SubmitResponse & { compileError?: string };
 
-export type SubmitResult = JudgeSubmitResponse & { compileError?: string };
-
-export async function judgeSubmit(args: {
-  submissionId: string;
-  lang: Lang;
-  source: string;
-  problemId: string;
-}): Promise<SubmitResult> {
+export async function judgeSubmit(args: SubmitRequest): Promise<SubmitResult> {
   const res = await judgeFetch("/submit", args);
   if (!res.ok) throw new Error(`judge /submit failed: ${res.status}`);
-  const data = (await res.json()) as JudgeSubmitResponse;
+  const data = (await res.json()) as SubmitResponse;
   // The judge names the compile diagnostics `compileStderr`.
   return { ...data, compileError: data.compileStderr };
 }
