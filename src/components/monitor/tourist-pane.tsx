@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { CodeMirror } from "./code-mirror";
-import { touristStateAt, TouristLog } from "@/lib/tourist";
+import { useEffect, useMemo, useState } from "react";
+import { ReplayEditor } from "@/components/replay/replay-editor";
+import { TouristLog, TouristPlayer } from "@/lib/tourist";
 import { formatMsPrecise } from "@/lib/templates";
 import { cn } from "@/lib/utils";
 
@@ -31,7 +31,10 @@ export function TouristPane({
   }, [eventId, problemId]);
 
   const solveMs = log?.solveMs ?? touristTimeMs;
-  const ghost = log ? touristStateAt(log, clockMs) : null;
+  const player = useMemo(
+    () => (log ? new TouristPlayer(log.events) : null),
+    [log]
+  );
   const solved = solveMs !== null && clockMs >= solveMs;
 
   return (
@@ -59,8 +62,13 @@ export function TouristPane({
         </span>
       </div>
       <div className="min-h-0 flex-1">
-        {log && ghost ? (
-          <CodeMirror code={ghost.code} lang={ghost.lang ?? log.lang} fontSize={14} />
+        {log && player ? (
+          <ReplayEditor
+            player={player}
+            clockMs={clockMs}
+            fallbackLang={log.lang}
+            fontSize={14}
+          />
         ) : (
           <div className="flex h-full flex-col items-center justify-center gap-2 p-6 text-center">
             {log === undefined ? (
