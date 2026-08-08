@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import { RecordingUploadManager } from "@/components/recording-upload-manager";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,6 +32,7 @@ export default function RootLayout({
       >
         {children}
         <Toaster />
+        <RecordingUploadManager />
       </body>
     </html>
   );

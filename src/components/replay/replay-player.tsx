@@ -483,12 +483,34 @@ export function ReplayCore({
   const raf = useRef<number>();
   const last = useRef<number>(0);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  // Recordings extend a few seconds past the last event (the reaction tail);
+  // let the replay clock run to the end of the video.
+  const [videoEndMs, setVideoEndMs] = useState(0);
 
   const durationMs = Math.max(
     log.solveMs ?? 0,
     log.events.length ? log.events[log.events.length - 1].t : 0,
+    videoEndMs,
     1000
   );
+
+  const onVideoDuration = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (Number.isFinite(v.duration) && v.duration > 0) {
+      setVideoEndMs(videoOffsetMs + v.duration * 1000);
+    } else if (v.duration === Infinity) {
+      // MediaRecorder webms often report Infinity until seeked to the end.
+      v.currentTime = Number.MAX_SAFE_INTEGER;
+      v.ontimeupdate = () => {
+        v.ontimeupdate = null;
+        if (Number.isFinite(v.duration) && v.duration > 0) {
+          setVideoEndMs(videoOffsetMs + v.duration * 1000);
+        }
+        v.currentTime = 0;
+      };
+    }
+  };
 
   useEffect(() => {
     if (!playing) return;
@@ -584,6 +606,8 @@ export function ReplayCore({
                   muted
                   playsInline
                   preload="auto"
+                  onLoadedMetadata={onVideoDuration}
+                  onDurationChange={onVideoDuration}
                   className="aspect-video w-full object-cover"
                 />
                 <p className="px-3 py-1.5 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
