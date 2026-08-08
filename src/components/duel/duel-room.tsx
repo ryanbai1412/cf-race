@@ -214,15 +214,17 @@ export function DuelRoom({ roomId }: { roomId: string }) {
   });
 
   // Start the webcam recording as soon as my match session exists (countdown).
+  // Finished matches never re-arm, so "Back to lobby" actually returns there.
   useEffect(() => {
     if (!mySessionId || racedSessionId === mySessionId) return;
+    if (match?.finishedAtMs != null) return;
     setRacedSessionId(mySessionId);
     setFinishedLocal(null);
     setUploadState("none");
     if (streamRef.current && !recordingRef.current) {
       recordingRef.current = startWebcamRecording(streamRef.current);
     }
-  }, [mySessionId, racedSessionId]);
+  }, [mySessionId, racedSessionId, match?.finishedAtMs]);
 
   // Editor event recorder (deltas + keyframes), flushed to /api/duel/events.
   const matchStartRef = useRef<number | null>(null);
