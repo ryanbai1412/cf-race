@@ -4,6 +4,7 @@ import {
   sanitizeEditorEvents,
   type IncomingEditorEvent,
 } from "@/lib/editor-events";
+import { requireSessionAccess } from "@/lib/session-auth";
 
 export const dynamic = "force-dynamic";
 
@@ -20,6 +21,9 @@ export async function POST(req: NextRequest) {
   ) {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
   }
+
+  const access = await requireSessionAccess(body.sessionId);
+  if (!access.ok) return access.response;
 
   const rows = sanitizeEditorEvents(body.events).map((row) => ({
     ...row,
