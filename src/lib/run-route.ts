@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { db } from "./db";
 import { judgeConfigured, judgeRun, samplesToTests } from "./judge";
+import { requireSessionAccess } from "./session-auth";
 import { MAX_CUSTOM_INPUT_LEN, MAX_SOURCE_LEN } from "./limits";
 import type { Lang, Problem } from "./types";
 
@@ -35,6 +36,12 @@ export async function runOnJudge(run: RunRequestBody): Promise<NextResponse> {
       { error: "Judge service is not configured yet" },
       { status: 503 }
     );
+  }
+
+  // Runs attributed to a session require access to that session.
+  if (run.sessionId) {
+    const access = await requireSessionAccess(run.sessionId);
+    if (!access.ok) return access.response;
   }
 
   const { data: problem } = await db()
