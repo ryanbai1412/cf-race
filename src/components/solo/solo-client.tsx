@@ -13,9 +13,9 @@ import { loadSoloHistory, upsertSoloHistory, bestSolve } from "@/lib/solo";
 import {
   acquireWebcam,
   startWebcamRecording,
-  uploadRecording,
   type WebcamRecording,
 } from "@/lib/webcam-recorder";
+import { enqueueRecording } from "@/lib/upload-manager";
 import type { Contestant, Problem } from "@/lib/types";
 import { useReplayRecorder } from "@/hooks/use-replay-recorder";
 import { Camera, CameraOff, Play, RotateCcw, Video } from "lucide-react";
@@ -171,12 +171,15 @@ export function SoloClient({
     if (rec) {
       setUploadState("uploading");
       setUploadProgress(0);
-      void rec.stop().then(async (blob) => {
+      // Keep recording 5s past the end to capture the reaction, then persist
+      // + upload via the upload manager (survives a closed tab: retried from
+      // IndexedDB on the next visit).
+      void rec.stop(5000).then(async (blob) => {
         if (!blob) {
           setUploadState("failed");
           return;
         }
-        const ok = await uploadRecording(
+        const ok = await enqueueRecording(
           blob,
           {
             sessionId: session.sessionId,
@@ -375,7 +378,7 @@ export function SoloClient({
             <p className="font-mono text-xs text-muted-foreground">
               {uploadState === "done" && "Webcam recording saved."}
               {uploadState === "failed" &&
-                "Webcam recording could not be saved — the editor replay still works."}
+                "Webcam recording saved locally — upload will retry automatically."}
               {uploadState === "none" &&
                 camState === "none" &&
                 "No camera — this run was recorded without video."}

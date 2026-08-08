@@ -23,8 +23,12 @@ export async function acquireWebcam(): Promise<MediaStream | null> {
 export type WebcamRecording = {
   /** Epoch ms when the recorder actually started capturing. */
   startedAtMs: number;
-  /** Stop capture and get the final blob (null if nothing was recorded). */
-  stop: () => Promise<Blob | null>;
+  /**
+   * Stop capture and get the final blob (null if nothing was recorded).
+   * `tailMs` keeps recording that much longer before stopping, so the video
+   * captures the moment after the run ends (e.g. the player's reaction).
+   */
+  stop: (tailMs?: number) => Promise<Blob | null>;
 };
 
 export function startWebcamRecording(stream: MediaStream): WebcamRecording | null {
@@ -47,15 +51,20 @@ export function startWebcamRecording(stream: MediaStream): WebcamRecording | nul
 
   return {
     startedAtMs,
-    stop: () =>
+    stop: (tailMs = 0) =>
       new Promise((resolve) => {
+        const finalBlob = () =>
+          chunks.length ? new Blob(chunks, { type: "video/webm" }) : null;
         if (recorder.state === "inactive") {
-          resolve(chunks.length ? new Blob(chunks, { type: "video/webm" }) : null);
+          resolve(finalBlob());
           return;
         }
-        recorder.onstop = () =>
-          resolve(chunks.length ? new Blob(chunks, { type: "video/webm" }) : null);
-        recorder.stop();
+        recorder.onstop = () => resolve(finalBlob());
+        const doStop = () => {
+          if (recorder.state !== "inactive") recorder.stop();
+        };
+        if (tailMs > 0) setTimeout(doStop, tailMs);
+        else doStop();
       }),
   };
 }
