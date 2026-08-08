@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { buildSoloLog } from "@/lib/solo-log";
+import { buildSessionLog } from "@/lib/session-log";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
   }
 
-  const built = await buildSoloLog(sessionId);
+  const built = await buildSessionLog(sessionId);
   if (!built) return NextResponse.json({ error: "not found" }, { status: 404 });
   const { session, log } = built;
   if (session.outcome !== "solved" || log.solveMs === null) {

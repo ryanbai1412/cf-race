@@ -31,6 +31,8 @@ export function RaceScreen({
   serverNow,
   warmup,
   solo = false,
+  apiBase,
+  label,
   onReady,
   ready,
   onEditorChange,
@@ -52,7 +54,9 @@ export function RaceScreen({
   endAtMs: number | null; // null during warm-up
   serverNow: () => number;
   warmup: boolean;
-  solo?: boolean; // solo practice: run/submit/submissions go to /api/solo/*
+  solo?: boolean; // session mode: run/submit/submissions keyed by session id
+  apiBase?: string; // session-mode API prefix (default "/api/solo"; duel uses "/api/duel")
+  label?: string; // header mode label override
   onReady?: () => void;
   ready?: boolean;
   onEditorChange?: (code: string, lang: Lang, cursorLine: number) => void;
@@ -67,6 +71,7 @@ export function RaceScreen({
   rivalSolveMs?: number | null;
   onSwitchContestant?: () => void;
 }) {
+  const api = apiBase ?? "/api/solo";
   const storageKey = `cfr-code-${raceId ?? "warmup"}-${contestant.station_role}`;
   const [lang, setLang] = useState<Lang>("cpp");
   // Each language is its own editor buffer; switching preserves both.
@@ -186,10 +191,16 @@ export function RaceScreen({
     changeTab("samples");
     onRun?.(lang);
     try {
-      const res = await fetch(solo ? "/api/solo/run" : "/api/judge/run", {
+      const res = await fetch(solo ? `${api}/run` : "/api/judge/run", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ eventId, lang, source: code, problemId: problem.id }),
+        body: JSON.stringify({
+          eventId,
+          lang,
+          source: code,
+          problemId: problem.id,
+          sessionId: solo ? raceId : undefined,
+        }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Run failed");
@@ -200,14 +211,14 @@ export function RaceScreen({
     } finally {
       setRunBusy(false);
     }
-  }, [runBusy, timeUp, solo, eventId, lang, code, problem.id, onRun, onRunResult, changeTab]);
+  }, [runBusy, timeUp, solo, api, eventId, raceId, lang, code, problem.id, onRun, onRunResult, changeTab]);
 
   const runCustom = useCallback(async () => {
     if (customBusy || timeUp) return;
     setCustomBusy(true);
     setCustomResult(null);
     try {
-      const res = await fetch(solo ? "/api/solo/run" : "/api/judge/run", {
+      const res = await fetch(solo ? `${api}/run` : "/api/judge/run", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -216,6 +227,7 @@ export function RaceScreen({
           source: code,
           problemId: problem.id,
           customInput,
+          sessionId: solo ? raceId : undefined,
         }),
       });
       const data = await res.json();
@@ -231,18 +243,18 @@ export function RaceScreen({
     } finally {
       setCustomBusy(false);
     }
-  }, [customBusy, timeUp, solo, eventId, lang, code, problem.id, customInput, onRunResult]);
+  }, [customBusy, timeUp, solo, api, eventId, raceId, lang, code, problem.id, customInput, onRunResult]);
 
   const refreshSubmissions = useCallback(async () => {
     if (!raceId) return;
     const res = await fetch(
       solo
-        ? `/api/solo/submissions?sessionId=${raceId}`
+        ? `${api}/submissions?sessionId=${raceId}`
         : `/api/submissions?eventId=${eventId}&raceId=${raceId}&contestantId=${contestant.id}`,
       { cache: "no-store" }
     );
     if (res.ok) setSubmissions((await res.json()).submissions);
-  }, [solo, eventId, raceId, contestant.id]);
+  }, [solo, api, eventId, raceId, contestant.id]);
 
   useEffect(() => {
     void refreshSubmissions();
@@ -268,7 +280,7 @@ export function RaceScreen({
       ...subs,
     ]);
     try {
-      const res = await fetch(solo ? "/api/solo/submit" : "/api/submit", {
+      const res = await fetch(solo ? `${api}/submit` : "/api/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
@@ -288,7 +300,7 @@ export function RaceScreen({
       setSubmitBusy(false);
     }
   }, [
-    warmup, raceId, submitBusy, timeUp, solo, eventId, contestant.id, lang, code,
+    warmup, raceId, submitBusy, timeUp, solo, api, eventId, contestant.id, lang, code,
     refreshSubmissions, onSubmitAccepted, changeTab,
   ]);
 
@@ -330,7 +342,7 @@ export function RaceScreen({
       {/* Top bar */}
       <header className="flex items-center gap-4 border-b border-border/60 bg-card/50 px-4 py-2">
         <span className="font-mono text-xs uppercase tracking-widest text-primary">
-          {solo ? "Solo" : warmup ? "Warm-up" : "Race"}
+          {label ?? (solo ? "Solo" : warmup ? "Warm-up" : "Race")}
         </span>
         <span className="truncate font-semibold">{problem.name}</span>
         <div className="ml-auto flex items-center gap-4">

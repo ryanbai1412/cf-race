@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
   }
 
   const { data: session } = await db()
-    .from("solo_sessions")
+    .from("sessions")
     .select("*")
     .eq("id", sessionId)
     .maybeSingle();
@@ -40,29 +40,55 @@ export async function POST(req: NextRequest) {
 
   // Enforce the solo timer server-side (small grace for latency).
   const startMs = new Date(session.started_at).getTime();
-  if (Date.now() > startMs + session.timer_sec * 1000 + 3000) {
+  if (
+    session.timer_sec !== null &&
+    Date.now() > startMs + session.timer_sec * 1000 + 3000
+  ) {
     return NextResponse.json({ error: "time is up" }, { status: 400 });
   }
 
-  if (await submissionLimitReached("solo_submissions", { session_id: sessionId })) {
+  if (
+    await submissionLimitReached("session_submissions", {
+      session_id: sessionId,
+      kind: "submit",
+    })
+  ) {
     return NextResponse.json({ error: "submission limit reached" }, { status: 400 });
   }
 
   const submittedAt = new Date().toISOString();
   const judged = await judgeOfficialSubmission({
-    table: "solo_submissions",
-    insertRow: { session_id: sessionId, submitted_at: submittedAt },
+    table: "session_submissions",
+    insertRow: { session_id: sessionId, kind: "submit", submitted_at: submittedAt },
     lang,
     source,
     problemId: session.problem_id,
   });
   if (!judged.ok) return judged.response;
 
+  // Submit + verdict moments become part of the single playback stream.
+  await db().from("session_events").insert([
+    {
+      session_id: sessionId,
+      t_ms: Math.max(0, new Date(submittedAt).getTime() - startMs),
+      lang,
+      kind: "submit",
+      payload: { submissionId: judged.submissionId },
+    },
+    {
+      session_id: sessionId,
+      t_ms: Math.max(0, Date.now() - startMs),
+      lang,
+      kind: "verdict",
+      payload: { submissionId: judged.submissionId, verdict: judged.result.verdict },
+    },
+  ]);
+
   let solveMs: number | null = null;
   if (judged.result.verdict === "AC") {
     solveMs = Math.max(0, new Date(submittedAt).getTime() - startMs);
     await db()
-      .from("solo_sessions")
+      .from("sessions")
       .update({ outcome: "solved", solve_ms: solveMs, lang })
       .eq("id", sessionId)
       .is("solve_ms", null);

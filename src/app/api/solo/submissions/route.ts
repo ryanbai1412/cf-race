@@ -9,9 +9,10 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
   }
   const { data, error } = await db()
-    .from("solo_submissions")
+    .from("session_submissions")
     .select("id, session_id, lang, verdict, details, submitted_at")
     .eq("session_id", sessionId)
+    .eq("kind", "submit")
     .order("submitted_at", { ascending: false });
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ submissions: data });
