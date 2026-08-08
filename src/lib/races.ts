@@ -1,5 +1,5 @@
 import { activeContestants } from "./contestants";
-import { db } from "./db";
+import { db, logDbError } from "./db";
 import { notifyEvent } from "./notify";
 import type { StationRole } from "./types";
 
@@ -127,30 +127,37 @@ export async function finishRace(eventId: string): Promise<void> {
     .limit(1)
     .maybeSingle();
   if (race) {
-    await db().from("races").update({ state: "finished" }).eq("id", race.id);
-    await db()
+    const { error: finishErr } = await db()
+      .from("races")
+      .update({ state: "finished" })
+      .eq("id", race.id);
+    logDbError(`finishRace: finish ${race.id}`, finishErr);
+    const { error: dqErr } = await db()
       .from("race_participants")
       .update({ dq: true })
       .eq("race_id", race.id)
       .is("first_ac_at", null);
+    logDbError(`finishRace: dq ${race.id}`, dqErr);
     const unsolved = (
       race.participants as { session_id: string | null; first_ac_at: string | null }[]
     )
       .filter((p) => p.session_id && !p.first_ac_at)
       .map((p) => p.session_id as string);
     if (unsolved.length > 0) {
-      await db()
+      const { error: timeoutErr } = await db()
         .from("sessions")
         .update({ outcome: "timeout" })
         .in("id", unsolved)
         .is("outcome", null);
+      logDbError(`finishRace: timeout sessions ${race.id}`, timeoutErr);
     }
   }
-  await db()
+  const { error: retireErr } = await db()
     .from("contestants")
     .update({ retired_at: new Date().toISOString() })
     .eq("event_id", eventId)
     .is("retired_at", null);
+  logDbError(`finishRace: retire contestants ${eventId}`, retireErr);
   await notifyEvent(eventId, { type: "state_changed" });
 }
 
