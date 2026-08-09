@@ -17,15 +17,6 @@ primary_region = "ams"
   auto_start_machines = true
   min_machines_running = 1
 
-  # Keep every request on one machine: the compile cache is per-machine, so
-  # spilling a submit onto the other one re-pays the ~650ms cold compile. The
-  # soft limit sits far above peak booth concurrency, leaving the second
-  # machine idle until the first is overloaded or fails its health check.
-  [http_service.concurrency]
-    type = "requests"
-    soft_limit = 200
-    hard_limit = 400
-
   [[http_service.checks]]
     interval = "15s"
     timeout = "5s"
@@ -33,5 +24,8 @@ primary_region = "ams"
     method = "GET"
     path = "/healthz"
 
+# Single machine on purpose: the compile cache is per-machine, and Fly's proxy
+# balances by load rather than pinning a client, so a second machine would make
+# a submit re-pay the ~650ms cold compile whenever it landed on the other one.
 [[vm]]
   size = "performance-16x"
