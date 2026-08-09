@@ -578,7 +578,7 @@ export function DuelRoom({ roomId }: { roomId: string }) {
       return (
         <main className="flex min-h-screen items-center justify-center">
           <CountdownOverlay startAtMs={match.startAtMs} serverNow={serverNow} />
-          <p className="animate-pulse font-mono text-muted-foreground">
+          <p className="animate-pulse font-mono text-sm text-muted-foreground">
             Problem revealed at GO…
           </p>
         </main>

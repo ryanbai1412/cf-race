@@ -200,7 +200,9 @@ export function StationClient({
   if (!state) {
     return (
       <main className="flex min-h-screen items-center justify-center">
-        <p className="animate-pulse font-mono text-muted-foreground">Connecting…</p>
+        <p className="animate-pulse font-mono text-sm text-muted-foreground">
+          Connecting…
+        </p>
       </main>
     );
   }
@@ -312,7 +314,7 @@ export function StationClient({
   if (!warmupProblem) {
     return (
       <main className="flex min-h-screen items-center justify-center">
-        <p className="animate-pulse font-mono text-muted-foreground">
+        <p className="animate-pulse font-mono text-sm text-muted-foreground">
           Loading warm-up…
         </p>
       </main>

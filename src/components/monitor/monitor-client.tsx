@@ -70,7 +70,9 @@ export function MonitorClient({
   if (!state) {
     return (
       <main className="flex min-h-screen items-center justify-center">
-        <p className="animate-pulse font-mono text-muted-foreground">Connecting…</p>
+        <p className="animate-pulse font-mono text-sm text-muted-foreground">
+          Connecting…
+        </p>
       </main>
     );
   }

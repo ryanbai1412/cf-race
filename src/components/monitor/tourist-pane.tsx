@@ -72,7 +72,9 @@ export function TouristPane({
         ) : (
           <div className="flex h-full flex-col items-center justify-center gap-2 p-6 text-center">
             {log === undefined ? (
-              <p className="animate-pulse text-muted-foreground">Loading ghost…</p>
+              <p className="animate-pulse font-mono text-sm text-muted-foreground">
+                Loading ghost…
+              </p>
             ) : solveMs !== null ? (
               <>
                 <p className="font-mono text-5xl font-black tabular-nums">

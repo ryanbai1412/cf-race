@@ -796,7 +796,9 @@ export function ReplayPlayer({
   if (log === undefined) {
     return (
       <main className="flex h-full items-center justify-center">
-        <p className="animate-pulse font-mono text-muted-foreground">Loading replay…</p>
+        <p className="animate-pulse font-mono text-sm text-muted-foreground">
+          Loading replay…
+        </p>
       </main>
     );
   }
