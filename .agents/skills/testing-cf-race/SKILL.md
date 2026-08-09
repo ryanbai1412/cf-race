@@ -114,6 +114,39 @@ description: How to run and end-to-end test the cf-race booth app locally (dev s
 - Note: a TLE submission is *not* faster under parallel grading (all queued tests still run out
   their time limit), so don't expect wall-time wins there — only correct verdicts.
 
+## Testing the judge with the *real* isolate sandbox (and forcing sandbox failures)
+- `JUDGE_SANDBOX=none` (`make judge-dev`) never enters `runIsolate`, so it cannot exercise any
+  sandbox/isolate code. Use `docker compose up -d judge` (`make judge-docker`, privileged,
+  container `cf-race-judge-1`, `localhost:8080`, token `dev`); repo `problems/` is bind-mounted,
+  so problems added on the host are visible immediately (no rebuild).
+- On a cgroup-v2-only box (`/proc/cgroups` hierarchies all 0) the entrypoint logs
+  "cgroup v1 memory controller unavailable" and downgrades to `isolate-nocg`. Mounting cgroup v1
+  inside the privileged container fails with EPERM, so `--cg` mode is not reachable locally.
+  Consequences to expect in nocg mode (they reproduce on `origin/main` too — not regressions):
+  a C++ `/run` (debug/ASan build) fails with "Shadow memory range interleaves…" ⇒ `RE`, and a
+  memory-limit submission grades `RE` instead of `ML` (no cgroup OOM signal). `/submit` C++
+  (-O2, no ASan) works fine.
+- Because compiles use `procs: 16`, in nocg mode they fall back to `runPlain`; the *compile*
+  sandbox path only runs under `JUDGE_SANDBOX=isolate`. To cover it anyway, run a second judge
+  inside the same container with a small **isolate emulator** on PATH
+  (`PATH=/emu:$PATH JUDGE_SANDBOX=isolate PORT=8081 CACHE_DIR=/data/cache-emu node /app/judge/dist/server.js`).
+  The emulator only needs `--init` (mkdir + print box dir), `--cleanup` (rm -rf) and `--run`
+  (exec argv in the box dir, write an isolate-format meta file with `time`, `exitcode`, and
+  `status:TO/RE`). Verify it grades a known-good submission AC before trusting failure results.
+- Forcing sandbox failures without restarting the judge (so box/worker-pool leaks stay
+  observable): replace `/usr/local/bin/isolate` with a wrapper that `execv`s the real binary
+  (copied to `isolate.real`, keep the setuid bit) unless a mode file says `hang` (sleep forever
+  on `--run`) or `xx` (write `status:XX` meta and exit 1). Toggle the mode file between requests.
+  Expected on a fixed judge: HTTP 500 `sandbox failed on <test>: isolate did not exit within
+  <wall+10000>ms` / `isolate internal error: …`; on old code: verdict `RE` (xx) or a request that
+  never returns (hang).
+- `docker cp` into the container's `/tmp` silently fails (it is a tmpfs mounted by the
+  entrypoint) — copy to `/` instead. Build an `origin/main` baseline inside the container by
+  copying `judge/src` to `/app/judge/src-main` and compiling with a `tsconfig.main.json` that
+  extends the real one (building outside `/app/judge` breaks `type: module` / `ws` resolution).
+- Feed request bodies from JSON files (`curl --data-binary @/payloads/x.json`) — hand-quoting
+  C++/Python sources in a shell heredoc mangles them into spurious CE verdicts.
+
 ## Replay data
 - Since the universal-sessions migration (Aug 2026), event races write to the `sessions` tables:
   each `race_participants` row carries a `session_id` (a `sessions` row with kind='event'),
