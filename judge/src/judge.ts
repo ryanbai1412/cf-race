@@ -162,7 +162,20 @@ export async function handleRun(
       })
     )
   );
+  prewarmSubmitBinary(req.lang, req.source);
   return { runId: req.runId, compile: compileInfo, results };
+}
+
+/**
+ * Build the -O2 binary for this exact source in the background, so a submit of
+ * unchanged code hits the compile cache instead of paying ~600ms mid-race.
+ * Queued behind the sample runs and deduplicated by `compile`'s cache.
+ */
+function prewarmSubmitBinary(lang: Lang, source: string): void {
+  if (lang !== "cpp") return;
+  void pool
+    .run(() => compile(lang, "submit", source))
+    .catch((e) => console.error("submit prewarm failed:", e));
 }
 
 export async function handleSubmit(
