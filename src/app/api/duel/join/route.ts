@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getEffectiveUser } from "@/lib/impersonation";
+import { rateLimit } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 
@@ -8,6 +9,9 @@ export const dynamic = "force-dynamic";
 export async function POST(req: NextRequest) {
   const user = await getEffectiveUser();
   if (!user) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+
+  const limited = rateLimit(req, { name: "duel-join", limit: 120, subject: user.id });
+  if (limited) return limited;
 
   const body = await req.json().catch(() => null);
   const roomId = typeof body?.roomId === "string" ? body.roomId : "";
@@ -38,6 +42,13 @@ export async function POST(req: NextRequest) {
       "Player",
     avatar_url: typeof meta.avatar_url === "string" ? meta.avatar_url : null,
   });
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) {
+    // 23514 = the duel_room_player_cap trigger: someone took the last slot
+    // between the read above and this insert.
+    if (error.code === "23514") {
+      return NextResponse.json({ error: "room full" }, { status: 409 });
+    }
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
   return NextResponse.json({ ok: true, joined: true });
 }

@@ -2,7 +2,7 @@ import http from "node:http";
 import crypto from "node:crypto";
 import { WebSocketServer, WebSocket } from "ws";
 import { config } from "./config.js";
-import { handleRun, handleSubmit, pool } from "./judge.js";
+import { handleRun, handleSubmit, internalError, pool } from "./judge.js";
 import { ProblemNotFoundError } from "./problems.js";
 import { scheduleProblemSync } from "./sync.js";
 import { RunRequest, SubmitRequest } from "./types.js";
@@ -114,9 +114,20 @@ const server = http.createServer(async (req, res) => {
       if (!isLang(body.lang)) {
         return json(res, 400, { error: `unsupported lang: ${String(body.lang)}` });
       }
-      const result = await handleSubmit(body, (partial) =>
-        broadcast("submit_update", partial)
-      );
+      // Any failure while judging becomes an IE verdict: the app must never
+      // see a submission that crashed the judge as a pass or a fail.
+      let result;
+      try {
+        result = await handleSubmit(body, (partial) =>
+          broadcast("submit_update", partial)
+        );
+      } catch (e) {
+        console.error(`submit ${body.submissionId} failed:`, e);
+        result = internalError(
+          body.submissionId,
+          e instanceof ProblemNotFoundError ? e.message : "judge error"
+        );
+      }
       broadcast("submit_update", result);
       return json(res, 200, result);
     }
@@ -126,7 +137,8 @@ const server = http.createServer(async (req, res) => {
     if (e instanceof ProblemNotFoundError) return json(res, 404, { error: msg });
     if (e instanceof SyntaxError) return json(res, 400, { error: "invalid JSON" });
     console.error("request failed:", e);
-    return json(res, 500, { error: msg });
+    // Internal failure details stay in the judge's logs.
+    return json(res, 500, { error: "internal error" });
   }
 });
 

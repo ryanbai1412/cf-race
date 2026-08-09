@@ -20,7 +20,7 @@ export default async function ProblemsPage() {
   const [problems, invalidated, { data: sessions }, { data: myRatings }] =
     await Promise.all([
       visibleProblems(),
-      invalidatedProblemIds(),
+      invalidatedProblemIds([user.id]),
       sweepStaleSessions({ userId: user.id }).then(() =>
         db()
           .from("sessions")

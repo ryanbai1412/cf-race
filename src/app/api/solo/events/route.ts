@@ -5,6 +5,7 @@ import {
   type IncomingEditorEvent,
 } from "@/lib/editor-events";
 import { requireSessionAccess } from "@/lib/session-auth";
+import { rateLimit } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 
@@ -24,6 +25,14 @@ export async function POST(req: NextRequest) {
 
   const access = await requireSessionAccess(body.sessionId);
   if (!access.ok) return access.response;
+
+  // The client batches events every few seconds; 60/min leaves plenty of room.
+  const limited = rateLimit(req, {
+    name: "solo-events",
+    limit: 60,
+    subject: body.sessionId,
+  });
+  if (limited) return limited;
 
   const rows = sanitizeEditorEvents(body.events).map((row) => ({
     ...row,

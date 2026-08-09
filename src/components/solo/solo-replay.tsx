@@ -8,8 +8,7 @@ import { Button } from "@/components/ui/button";
 import { formatMsPrecise } from "@/lib/templates";
 import { cn } from "@/lib/utils";
 import type { SessionReplayResponse } from "@/lib/session-log";
-import { Download, Upload } from "lucide-react";
-import { toast } from "sonner";
+import { Download } from "lucide-react";
 
 export function SoloReplay({
   sessionId,
@@ -21,11 +20,10 @@ export function SoloReplay({
   showExport?: boolean;
   /** Override the replay data endpoint (e.g. public share tokens). */
   apiUrl?: string;
-  /** Public share view: no share/promote/export controls. */
+  /** Public share view: no share/export controls. */
   readOnly?: boolean;
 }) {
   const [log, setLog] = useState<SessionReplayResponse | null | undefined>(undefined);
-  const [promoting, setPromoting] = useState(false);
 
   const url = apiUrl ?? `/api/solo/replay?sessionId=${sessionId}`;
   useEffect(() => {
@@ -75,30 +73,6 @@ export function SoloReplay({
     URL.revokeObjectURL(url);
   };
 
-  const promote = async () => {
-    if (
-      !confirm(
-        `Promote this run to the tourist ghost for ${log.problemId}? This overwrites the ghost the monitors play.`
-      )
-    )
-      return;
-    setPromoting(true);
-    try {
-      const res = await fetch("/api/solo/promote", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ sessionId }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Promote failed");
-      toast.success(`Uploaded tourist ghost: ${data.path}`);
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Promote failed");
-    } finally {
-      setPromoting(false);
-    }
-  };
-
   return (
     <ReplayCore
       log={log}
@@ -145,15 +119,6 @@ export function SoloReplay({
             <Button size="sm" variant="ghost" onClick={downloadTouristJson}>
               <Download className="mr-1.5 h-3.5 w-3.5" />
               Tourist JSON
-            </Button>
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={promote}
-              disabled={promoting || log.outcome !== "solved"}
-            >
-              <Upload className="mr-1.5 h-3.5 w-3.5" />
-              {promoting ? "Promoting…" : "Promote to tourist"}
             </Button>
           </div>
         ) : undefined

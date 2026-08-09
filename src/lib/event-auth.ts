@@ -22,13 +22,12 @@ export function secretMatches(secret: string, provided: string): boolean {
 }
 
 /**
- * Validates access to an event from either the ?k= query param or the
- * event cookie. Returns the event row when authorized, null otherwise.
+ * Validates access to an event from the event cookie. The secret is never
+ * accepted from the URL here: `/e/[eventId]/join?k=` trades it for the cookie
+ * in a redirect exactly once, so it never lands in a rendered page's address
+ * bar, history entry or Referer header.
  */
-export async function authorizeEvent(
-  eventId: string,
-  keyParam: string | undefined
-): Promise<EventRow | null> {
+export async function authorizeEvent(eventId: string): Promise<EventRow | null> {
   if (!eventId) return null;
   const { data: event } = await db()
     .from("events")
@@ -38,12 +37,11 @@ export async function authorizeEvent(
   if (!event) return null;
 
   const cookieKey = cookies().get(eventCookieName(eventId))?.value;
-  const provided = keyParam ?? cookieKey;
-  if (!provided || !secretMatches(event.secret, provided)) return null;
+  if (!cookieKey || !secretMatches(event.secret, cookieKey)) return null;
   return event as EventRow;
 }
 
 /** Authorize an API request for an event using the event cookie. */
 export function requireEvent(eventId: string): Promise<EventRow | null> {
-  return authorizeEvent(eventId, undefined);
+  return authorizeEvent(eventId);
 }

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireEvent } from "@/lib/event-auth";
 import { parseRunBody, runOnJudge } from "@/lib/run-route";
+import { rateLimit } from "@/lib/rate-limit";
 
 export const maxDuration = 60;
 
@@ -17,5 +18,7 @@ export async function POST(req: NextRequest) {
   if (!event || !run) {
     return NextResponse.json({ error: "invalid request" }, { status: 400 });
   }
+  const limited = rateLimit(req, { name: "judge-run", limit: 240 });
+  if (limited) return limited;
   return runOnJudge(run);
 }

@@ -36,13 +36,24 @@ export function sanitizeEditorEvents(
   events: IncomingEditorEvent[]
 ): EditorEventRow[] {
   return events.slice(0, 1000).map((e) => ({
-    t_ms: Math.max(0, Math.round(e.t)),
-    code: String(e.code).slice(0, 100_000),
+    // A non-numeric t would become NaN → null → a not-null violation that
+    // fails the whole batch, losing that window of the replay.
+    t_ms: Number.isFinite(e.t) ? Math.max(0, Math.round(e.t)) : 0,
+    code: String(e.code ?? "").slice(0, 100_000),
     lang: e.lang === "py" ? "py" : "cpp",
     kind: e.kind && EVENT_KINDS.has(e.kind) ? e.kind : "snapshot",
-    payload:
-      e.payload && JSON.stringify(e.payload).length <= 20_000 ? e.payload : null,
+    payload: serializablePayload(e.payload),
   }));
+}
+
+/** Payloads that are absent, too large, or not JSON-encodable are dropped. */
+function serializablePayload(payload: unknown): unknown {
+  if (!payload) return null;
+  try {
+    return JSON.stringify(payload).length <= 20_000 ? payload : null;
+  } catch {
+    return null;
+  }
 }
 
 /**

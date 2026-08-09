@@ -202,6 +202,15 @@ export async function handleSubmit(
   const tests = await loadFullTests(req.problemId);
   const totalCount = tests.length;
 
+  // Nothing to judge against (package not synced to this machine yet, or its
+  // tests/ is empty): fail closed rather than reporting a free AC.
+  if (totalCount === 0) {
+    return internalError(
+      req.submissionId,
+      `no tests available for ${req.problemId}`
+    );
+  }
+
   const compiled = await pool.run(() =>
     compile(req.lang, "submit" as CompileMode, req.source)
   );
@@ -288,6 +297,25 @@ export async function handleSubmit(
       };
   if (failed) onUpdate?.(resp);
   return resp;
+}
+
+/**
+ * The verdict for "the judge could not decide": an unjudged submission must
+ * never look like an AC (or a WA) to the app.
+ */
+export function internalError(
+  submissionId: string,
+  note: string
+): SubmitResponse {
+  return {
+    submissionId,
+    verdict: "IE",
+    failedTest: null,
+    passedCount: 0,
+    totalCount: 0,
+    timeMsMax: 0,
+    compileStderr: note,
+  };
 }
 
 /** Max runtime over the tests a sequential judge would have executed. */

@@ -33,7 +33,7 @@ export async function GET() {
         .not("recording_path", "is", null)
         .order("started_at", { ascending: false })
         .limit(100),
-      invalidatedProblemIds(),
+      invalidatedProblemIds([user.id]),
       sweepStaleSessions({ userId: user.id }),
     ]);
 

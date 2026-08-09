@@ -1,14 +1,22 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getEffectiveUser } from "@/lib/impersonation";
 import { DEFAULT_GRACE_AFTER_AC_SEC } from "@/lib/duel";
+import { rateLimit } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 
 /** Create a duel room; the creator joins it immediately. */
-export async function POST() {
+export async function POST(req: NextRequest) {
   const user = await getEffectiveUser();
   if (!user) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+
+  const limited = rateLimit(req, {
+    name: "duel-create",
+    limit: 60,
+    subject: user.id,
+  });
+  if (limited) return limited;
 
   const { data: room, error } = await db()
     .from("duel_rooms")

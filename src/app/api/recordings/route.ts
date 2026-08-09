@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { requireEvent } from "@/lib/event-auth";
 import { raceParticipantByStation } from "@/lib/races";
 import { requireSessionAccess } from "@/lib/session-auth";
+import { rateLimit } from "@/lib/rate-limit";
 
 /**
  * Webcam recordings live in the private `recordings` bucket. The webm itself
@@ -82,6 +83,14 @@ export async function POST(req: NextRequest) {
   } else {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
   }
+
+  // Chunked uploads sign one URL per chunk, so the ceiling has to be roomy.
+  const limited = rateLimit(req, {
+    name: `recordings-${step}`,
+    limit: 600,
+    subject: targetSessionId,
+  });
+  if (limited) return limited;
 
   if (step === "sign") {
     const target = chunkIndex === null ? path : chunkPath(path, chunkIndex);

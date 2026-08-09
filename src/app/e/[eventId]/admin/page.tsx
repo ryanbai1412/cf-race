@@ -9,12 +9,10 @@ import { PageHeader, PageShell } from "@/components/shell/page";
 
 export default async function AdminPage({
   params,
-  searchParams,
 }: {
   params: { eventId: string };
-  searchParams: { k?: string };
 }) {
-  const event = await authorizeEvent(params.eventId, searchParams.k);
+  const event = await authorizeEvent(params.eventId);
   if (!event) redirect("/invalid-link");
 
   return (

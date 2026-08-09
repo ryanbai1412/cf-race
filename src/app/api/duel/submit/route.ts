@@ -3,6 +3,7 @@ import { db, logDbError } from "@/lib/db";
 import { getEffectiveUser } from "@/lib/impersonation";
 import { judgeConfigured } from "@/lib/judge";
 import { DUEL_MAX_SUBMISSIONS, MAX_SOURCE_LEN } from "@/lib/limits";
+import { rateLimit } from "@/lib/rate-limit";
 import {
   judgeOfficialSubmission,
   submissionLimitReached,
@@ -23,6 +24,8 @@ export const maxDuration = 120;
  * AC still counts as solved for the other player.
  */
 export async function POST(req: NextRequest) {
+  const limited = rateLimit(req, { name: "duel-submit", limit: 60 });
+  if (limited) return limited;
   const user = await getEffectiveUser();
   if (!user) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 

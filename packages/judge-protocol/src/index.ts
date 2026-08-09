@@ -11,8 +11,12 @@ export type Lang = "cpp" | "py";
 /** Per-test verdicts. `SKIP` appears when an earlier test already failed. */
 export type TestVerdict = "AC" | "WA" | "RE" | "TLE" | "ML" | "SKIP" | "CE";
 
-/** Whole-submission verdicts (no SKIP; CE when compilation fails). */
-export type SubmitVerdict = "AC" | "WA" | "TLE" | "RE" | "ML" | "CE";
+/**
+ * Whole-submission verdicts (no SKIP; CE when compilation fails). `IE` means
+ * the judge could not decide the submission (missing tests, internal failure)
+ * — never a pass or a fail, and never counted against the submitter.
+ */
+export type SubmitVerdict = "AC" | "WA" | "TLE" | "RE" | "ML" | "CE" | "IE";
 
 export interface TestCase {
   name: string;

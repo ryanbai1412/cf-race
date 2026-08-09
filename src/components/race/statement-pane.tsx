@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Copy } from "lucide-react";
 import type { Problem } from "@/lib/types";
+import { sanitizeStatementHtml } from "@/lib/statement-html";
 
 const TEX_ENTITIES: [RegExp, string][] = [
   [/&lt;/g, "<"],
@@ -19,9 +20,13 @@ function renderTex(tex: string, displayMode: boolean): string {
   return katex.renderToString(decoded, { throwOnError: false, displayMode });
 }
 
-/** Replace \(...\) and \[...\] TeX delimiters in scraped statement HTML with KaTeX markup. */
-function renderStatementMath(html: string): string {
-  return html
+/**
+ * Replace \(...\) and \[...\] TeX delimiters in scraped statement HTML with
+ * KaTeX markup. The scraped HTML is sanitized first; the KaTeX we generate
+ * afterwards is our own output.
+ */
+function renderStatementMath(raw: string): string {
+  return sanitizeStatementHtml(raw)
     .replace(/\\\[([\s\S]+?)\\\]/g, (m, tex) => {
       try {
         return renderTex(tex, true);
