@@ -157,7 +157,7 @@ export default async function ProblemDetailPage({
                   key={s.id}
                   className="flex min-w-0 flex-wrap items-center gap-2 px-3 py-2.5"
                 >
-                  <Badge variant="outline" className="font-mono text-xs">
+                  <Badge variant="muted" className="font-mono text-xs">
                     {s.kind}
                   </Badge>
                   <OutcomeBadge outcome={s.outcome} />

@@ -79,7 +79,7 @@ export function SessionsList({ sessions }: { sessions: SessionListRow[] }) {
             >
               {s.problemId}
             </Link>
-            <Badge variant="outline" className="font-mono text-xs">
+            <Badge variant="muted" className="font-mono text-xs">
               {s.kind}
             </Badge>
             <OutcomeBadge outcome={s.outcome} />
@@ -89,7 +89,7 @@ export function SessionsList({ sessions }: { sessions: SessionListRow[] }) {
               </span>
             )}
             {s.shared && (
-              <Badge variant="outline" className="font-mono text-xs">
+              <Badge variant="muted" className="font-mono text-xs">
                 shared
               </Badge>
             )}

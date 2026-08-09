@@ -49,7 +49,7 @@ export function EventList({ events }: { events: EventListRow[] }) {
           <CardContent className="space-y-3 p-4">
             <div className="flex flex-wrap items-center gap-3">
               <span className="font-semibold">{e.name}</span>
-              <Badge variant="outline" className="font-mono text-xs">
+              <Badge variant="muted" className="font-mono text-xs">
                 {new Date(e.createdAt).toLocaleDateString()}
               </Badge>
               <div className="ml-auto flex items-center gap-2">
