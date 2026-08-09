@@ -112,11 +112,11 @@ export function DuelHome() {
         />
 
         <div className="flex flex-wrap gap-2">
-          <Button size="lg" onClick={createRoom} disabled={creating}>
+          <Button onClick={createRoom} disabled={creating}>
             <Swords className="mr-2 h-4 w-4" />
             {creating ? "Creating…" : "Create room"}
           </Button>
-          <Button asChild size="lg" variant="secondary">
+          <Button asChild variant="secondary">
             <Link href="/duel/problems">
               <ListChecks className="mr-2 h-4 w-4" />
               Problem bank
@@ -131,10 +131,9 @@ export function DuelHome() {
                 setJoinError(null);
               }}
               onKeyDown={(e) => e.key === "Enter" && joinByLink()}
-              className="h-10 w-64 font-mono text-xs"
+              className="h-9 w-64 font-mono text-xs"
             />
             <Button
-              size="lg"
               variant="secondary"
               onClick={joinByLink}
               disabled={!joinLink.trim()}

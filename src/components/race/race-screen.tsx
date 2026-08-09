@@ -472,8 +472,7 @@ export function RaceScreen({
             {!warmup && (
               <Button
                 size="sm"
-                variant="secondary"
-                className="border-green-500/40 bg-green-500/15 text-green-400 hover:bg-green-500/25"
+                variant="success"
                 onClick={submit}
                 disabled={submitBusy || timeUp || submissionsUsed >= maxSubmissions}
               >

@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CountdownOverlay } from "@/components/station/countdown-overlay";
 import { RaceScreen } from "@/components/race/race-screen";
 import { Eyebrow } from "@/components/shell/page";
+import { Segmented } from "@/components/ui/segmented";
 import { formatMsPrecise } from "@/lib/templates";
 import { loadSoloHistory, upsertSoloHistory, bestSolve } from "@/lib/solo";
 import { preferredLang, setPreferredLang } from "@/lib/lang-preference";
@@ -489,24 +490,15 @@ export function SoloClient({
             <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
               Language
             </span>
-            <div className="flex overflow-hidden rounded-md border border-border/60">
-              {(["cpp", "py"] as Lang[]).map((l) => (
-                <button
-                  key={l}
-                  onClick={() => {
-                    setLang(l);
-                    setPreferredLang(l);
-                  }}
-                  className={`px-3 py-1 font-mono text-xs ${
-                    lang === l
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:bg-accent"
-                  }`}
-                >
-                  {l === "cpp" ? "C++" : "Python"}
-                </button>
-              ))}
-            </div>
+            <Segmented
+              options={["cpp", "py"] as Lang[]}
+              value={lang}
+              onChange={(l) => {
+                setLang(l);
+                setPreferredLang(l);
+              }}
+              labelFor={(l) => (l === "cpp" ? "C++" : "Python")}
+            />
           </div>
           <div className="overflow-hidden rounded-lg border border-border/60 bg-black/50">
             {camState === "ready" ? (
@@ -560,7 +552,7 @@ export function SoloClient({
             </button>
           </div>
           <div className="flex items-center gap-2">
-            <Button className="flex-1" size="lg" onClick={start} disabled={starting}>
+            <Button className="flex-1" onClick={start} disabled={starting}>
               <Play className="mr-2 h-4 w-4" />
               {starting ? "Starting…" : "Start run"}
             </Button>
