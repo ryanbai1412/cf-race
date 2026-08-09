@@ -133,6 +133,10 @@ export async function compile(
       { collect: ["prog"] }
     );
     const stderr = res.stderr.toString("utf8");
+    if (res.internalError) {
+      // Sandbox failure, not the source's fault: never cache it as a CE.
+      throw new Error(`compile sandbox failed: ${res.internalError}`);
+    }
     if (res.status === "OK" && res.exitCode === 0 && res.outFiles?.["prog"]) {
       try {
         await fs.promises.mkdir(dir, { recursive: true });
