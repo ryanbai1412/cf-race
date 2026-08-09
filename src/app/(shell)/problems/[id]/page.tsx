@@ -1,0 +1,133 @@
+import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
+import { authUser } from "@/lib/supabase/server";
+import { db } from "@/lib/db";
+import { sweepStaleSessions } from "@/lib/session-lifecycle";
+import { StatementPane } from "@/components/race/statement-pane";
+import { InvalidateToggle } from "@/components/problems/invalidate-toggle";
+import { OutcomeBadge } from "@/components/shell/outcome-badge";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { formatMsPrecise } from "@/lib/templates";
+import type { Problem } from "@/lib/types";
+import { Play, Video } from "lucide-react";
+
+export const dynamic = "force-dynamic";
+
+type SessionHistoryRow = {
+  id: string;
+  kind: string;
+  started_at: string;
+  outcome: "solved" | "timeout" | "abandoned" | null;
+  solve_ms: number | null;
+};
+
+export default async function ProblemDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const user = await authUser();
+  if (!user) redirect(`/?next=/problems/${params.id}`);
+
+  const { data: problem } = await db()
+    .from("problems")
+    .select("*")
+    .eq("id", params.id)
+    .maybeSingle<Problem & { tags: string[] | null }>();
+  if (!problem || (problem.tags ?? []).includes("hidden")) notFound();
+
+  await sweepStaleSessions({ userId: user.id, problemId: problem.id });
+  const [{ data: sessions }, { data: invalidation }] = await Promise.all([
+    db()
+      .from("sessions")
+      .select("id, kind, started_at, outcome, solve_ms")
+      .eq("user_id", user.id)
+      .eq("problem_id", problem.id)
+      .order("started_at", { ascending: false })
+      .limit(100),
+    db()
+      .from("problem_invalidations")
+      .select("reason, by_user, created_at")
+      .eq("problem_id", problem.id)
+      .is("revoked_at", null)
+      .maybeSingle(),
+  ]);
+
+  const history = (sessions ?? []) as SessionHistoryRow[];
+
+  return (
+    <main className="mx-auto max-w-5xl space-y-6 px-6 py-10">
+      <div className="flex flex-wrap items-center gap-3">
+        <h1 className="text-3xl font-bold tracking-tight">
+          <span className="font-mono text-primary">{problem.id}</span>{" "}
+          {problem.name}
+        </h1>
+        {problem.rating !== null && (
+          <Badge variant="outline" className="font-mono">
+            {problem.rating}
+          </Badge>
+        )}
+        <div className="ml-auto flex items-center gap-2">
+          <InvalidateToggle
+            problemId={problem.id}
+            invalidated={invalidation !== null}
+          />
+          <Button asChild>
+            <Link href={`/problems/${problem.id}/solve`}>
+              <Play className="mr-1.5 h-4 w-4" />
+              Solve
+            </Link>
+          </Button>
+        </div>
+      </div>
+
+      {invalidation && (
+        <div className="rounded-md border border-amber-500/50 bg-amber-500/10 px-4 py-3 text-sm text-amber-300">
+          Invalidated {new Date(invalidation.created_at).toLocaleDateString()} —
+          excluded from duel and practice picks.
+          {invalidation.reason && <> Reason: {invalidation.reason}</>}
+        </div>
+      )}
+
+      <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+        <div className="h-[60vh] overflow-hidden rounded-lg border border-border/60 bg-card/40">
+          <StatementPane problem={problem} />
+        </div>
+
+        <section className="space-y-3">
+          <h2 className="text-lg font-semibold">Your sessions</h2>
+          {history.length === 0 ? (
+            <p className="font-mono text-sm text-muted-foreground">
+              No runs yet.
+            </p>
+          ) : (
+            <div className="divide-y divide-border/60 rounded-lg border border-border/60 bg-card/60">
+              {history.map((s) => (
+                <div key={s.id} className="flex items-center gap-2 px-3 py-2.5">
+                  <Badge variant="outline" className="font-mono text-xs">
+                    {s.kind}
+                  </Badge>
+                  <OutcomeBadge outcome={s.outcome} />
+                  {s.outcome === "solved" && s.solve_ms !== null && (
+                    <span className="font-mono text-xs text-green-400 tabular-nums">
+                      {formatMsPrecise(s.solve_ms)}
+                    </span>
+                  )}
+                  <span className="ml-auto font-mono text-[11px] text-muted-foreground">
+                    {new Date(s.started_at).toLocaleDateString()}
+                  </span>
+                  <Button asChild size="sm" variant="ghost">
+                    <Link href={`/replay/${s.id}`}>
+                      <Video className="h-3.5 w-3.5" />
+                    </Link>
+                  </Button>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      </div>
+    </main>
+  );
+}
