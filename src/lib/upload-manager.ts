@@ -80,6 +80,9 @@ export type UploadStatus = {
 /** Share of the progress bar spent uploading chunks; the rest is stitching. */
 const UPLOAD_SHARE = 0.9;
 
+/** How many chunk uploads may be in flight at once. */
+const UPLOAD_CONCURRENCY = 5;
+
 /** Stable key for a recording, so a UI can find its own upload. */
 export function recordingKey(query: RecordingQuery): string {
   return query.sessionId ?? `${query.raceId ?? ""}-${query.station ?? ""}`;
@@ -297,12 +300,29 @@ export async function createStreamingUpload(
     return true;
   };
 
+  // Chunk uploads run several at a time: a slow round trip must not hold back
+  // the ones behind it, or the last chunks pile up at the end of the run.
+  const inFlight = new Set<Promise<void>>();
+  const uploadsIdle = async () => {
+    while (inFlight.size > 0) await Promise.all([...inFlight]);
+  };
+  const send = (index: number, blob: Blob) => {
+    const p = sendChunk(index, blob).then(() => {
+      inFlight.delete(p);
+    });
+    inFlight.add(p);
+    return p;
+  };
+
   const addChunk = (blob: Blob): Promise<void> => {
     if (blob.size === 0) return Promise.resolve();
     const index = record.chunks.length;
     record.chunks.push({ index, size: blob.size });
     totalBytes += blob.size;
     pending.set(index, blob);
+    report();
+    // Persisting stays serialized (it writes the shared manifest record);
+    // the network upload then joins the bounded parallel pool.
     queue = queue.then(async () => {
       try {
         await idbPut(CHUNKS, {
@@ -313,7 +333,10 @@ export async function createStreamingUpload(
         } satisfies ChunkRecord);
         await idbPut(UPLOADS, record);
       } catch {}
-      await sendChunk(index, blob);
+      while (inFlight.size >= UPLOAD_CONCURRENCY) {
+        await Promise.race([...inFlight]);
+      }
+      void send(index, blob);
     });
     return queue;
   };
@@ -327,6 +350,7 @@ export async function createStreamingUpload(
     active.add(record.id);
     try {
       await queue;
+      await uploadsIdle();
       try {
         await idbPut(UPLOADS, record);
       } catch {}
@@ -335,8 +359,14 @@ export async function createStreamingUpload(
         setStatus(record.id, null);
         return false;
       }
-      for (const [index, blob] of [...pending].sort((a, b) => a[0] - b[0])) {
-        await sendChunk(index, blob);
+      // Anything that failed mid-run gets one more pass, in parallel too.
+      const retries = [...pending].sort((a, b) => a[0] - b[0]);
+      for (let i = 0; i < retries.length; i += UPLOAD_CONCURRENCY) {
+        await Promise.all(
+          retries
+            .slice(i, i + UPLOAD_CONCURRENCY)
+            .map(([index, blob]) => sendChunk(index, blob))
+        );
       }
       if (pending.size > 0) {
         setStatus(record.id, { state: "failed" });

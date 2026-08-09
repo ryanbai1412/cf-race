@@ -128,8 +128,8 @@ export async function uploadRecording(
     const signed = await sign(query);
     if (!signed) return false;
     const ok = await putSigned(signed, blob, (loaded, total) => {
-      // Cap at 99% — 100% only after the server confirms the save.
-      if (total > 0) onProgress?.(Math.min(loaded / total, 0.99));
+      // Cap at 90% — the rest is the server-side save, as in the chunked path.
+      if (total > 0) onProgress?.(Math.min(loaded / total, 0.9) * 0.9);
     });
     if (!ok) return false;
     const confirmRes = await fetch(
