@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "not found" }, { status: 404 });
   }
 
-  const replay = await buildSessionReplay(sessionId);
+  const replay = await buildSessionReplay(sessionId, session);
   if (!replay) return NextResponse.json({ error: "not found" }, { status: 404 });
   return NextResponse.json(replay);
 }

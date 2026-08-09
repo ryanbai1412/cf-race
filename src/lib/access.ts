@@ -103,11 +103,9 @@ export async function canShareMatch(
 export async function loadSessionForReplay(
   sessionId: string
 ): Promise<SessionRow | null> {
-  await sweepStaleSessions({ sessionIds: [sessionId] });
-  const { data } = await db()
-    .from("sessions")
-    .select("*")
-    .eq("id", sessionId)
-    .maybeSingle<SessionRow>();
+  const { data } = await sweepStaleSessions({ sessionIds: [sessionId] }).then(
+    () =>
+      db().from("sessions").select("*").eq("id", sessionId).maybeSingle<SessionRow>()
+  );
   return data;
 }

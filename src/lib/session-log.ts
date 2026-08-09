@@ -40,7 +40,10 @@ export type SessionRow = {
  * single session_events playback stream (editor snapshots/deltas, runs,
  * tabs, scroll, submit + verdict moments).
  */
-export async function buildSessionLog(sessionId: string): Promise<{
+export async function buildSessionLog(
+  sessionId: string,
+  preloaded?: SessionRow
+): Promise<{
   session: SessionRow;
   log: {
     problemId: string;
@@ -49,11 +52,15 @@ export async function buildSessionLog(sessionId: string): Promise<{
     events: TouristEvent[];
   };
 } | null> {
-  const { data: session } = await db()
-    .from("sessions")
-    .select("*")
-    .eq("id", sessionId)
-    .maybeSingle<SessionRow>();
+  const session =
+    preloaded ??
+    (
+      await db()
+        .from("sessions")
+        .select("*")
+        .eq("id", sessionId)
+        .maybeSingle<SessionRow>()
+    ).data;
   if (!session) return null;
 
   const snaps = await fetchEditorEventRows("session_events", {
@@ -74,25 +81,31 @@ export async function buildSessionLog(sessionId: string): Promise<{
 
 /** A session's replay payload with a signed webcam URL, shared by surfaces. */
 export async function buildSessionReplay(
-  sessionId: string
+  sessionId: string,
+  preloaded?: SessionRow
 ): Promise<SessionReplayResponse | null> {
-  const built = await buildSessionLog(sessionId);
+  const session =
+    preloaded ??
+    (
+      await db()
+        .from("sessions")
+        .select("*")
+        .eq("id", sessionId)
+        .maybeSingle<SessionRow>()
+    ).data;
+  if (!session) return null;
+
+  const [built, signed, { data: problem }] = await Promise.all([
+    buildSessionLog(sessionId, session),
+    session.recording_path
+      ? db().storage.from("recordings").createSignedUrl(session.recording_path, 3600)
+      : Promise.resolve({ data: null }),
+    db().from("problems").select("*").eq("id", session.problem_id).maybeSingle(),
+  ]);
   if (!built) return null;
-  const { session, log } = built;
+  const { log } = built;
 
-  let recordingUrl: string | null = null;
-  if (session.recording_path) {
-    const { data } = await db()
-      .storage.from("recordings")
-      .createSignedUrl(session.recording_path, 3600);
-    recordingUrl = data?.signedUrl ?? null;
-  }
-
-  const { data: problem } = await db()
-    .from("problems")
-    .select("*")
-    .eq("id", session.problem_id)
-    .maybeSingle();
+  const recordingUrl = signed.data?.signedUrl ?? null;
 
   return {
     ...log,

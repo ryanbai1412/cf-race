@@ -11,14 +11,16 @@ export async function GET() {
   const user = await getEffectiveUser();
   if (!user) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 
-  await sweepStaleSessions({ userId: user.id });
-  const { data, error } = await db()
-    .from("sessions")
-    .select("id, problem_id, started_at, outcome, solve_ms")
-    .eq("kind", "solo")
-    .eq("user_id", user.id)
-    .order("started_at", { ascending: false })
-    .limit(500);
+  const { data, error } = await sweepStaleSessions({ userId: user.id }).then(
+    () =>
+      db()
+        .from("sessions")
+        .select("id, problem_id, started_at, outcome, solve_ms")
+        .eq("kind", "solo")
+        .eq("user_id", user.id)
+        .order("started_at", { ascending: false })
+        .limit(500)
+  );
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
   const entries: SoloHistoryEntry[] = (data ?? []).map((s) => ({
