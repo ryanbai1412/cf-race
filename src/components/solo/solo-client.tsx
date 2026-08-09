@@ -320,13 +320,10 @@ export function SoloClient({
 
   const nextProblemId = useMemo(() => {
     const history = typeof window !== "undefined" ? loadSoloHistory() : [];
-    const idx = problemIds.indexOf(problem.id);
-    const ordered = [...problemIds.slice(idx + 1), ...problemIds.slice(0, idx)];
-    return (
-      ordered.find((id) => !bestSolve(history, id)) ??
-      ordered[0] ??
-      null
-    );
+    const others = problemIds.filter((id) => id !== problem.id);
+    const unsolved = others.filter((id) => !bestSolve(history, id));
+    const pool = unsolved.length > 0 ? unsolved : others;
+    return pool[Math.floor(Math.random() * pool.length)] ?? null;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [problemIds, problem.id, phase]);
 
@@ -450,7 +447,7 @@ export function SoloClient({
               {nextProblemId && (
                 <Button asChild variant="secondary">
                   <Link href={`/problems/${nextProblemId}/solve`}>
-                    Next problem →
+                    Random unsolved problem →
                   </Link>
                 </Button>
               )}
