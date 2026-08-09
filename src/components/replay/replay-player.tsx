@@ -18,6 +18,12 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+  useResizableLayout,
+} from "@/components/ui/resizable";
 
 /** TouristLog with a possibly-null solve time (DNF runs/races). */
 export type ReplayableLog = Omit<TouristLog, "solveMs"> & {
@@ -115,6 +121,28 @@ function ReplayStatement({
     };
   }, []);
 
+  // Set while the pane is being resized: the tracked fraction is re-applied
+  // instantly instead of eased, so a drag never shows the statement sliding.
+  const snapRef = useRef(false);
+
+  useEffect(() => {
+    const el = paneRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    let clear = 0;
+    const ro = new ResizeObserver(() => {
+      snapRef.current = true;
+      window.clearTimeout(clear);
+      clear = window.setTimeout(() => {
+        snapRef.current = false;
+      }, 200);
+    });
+    ro.observe(el);
+    return () => {
+      ro.disconnect();
+      window.clearTimeout(clear);
+    };
+  }, []);
+
   useEffect(() => {
     let raf = 0;
     let lastNow = performance.now();
@@ -126,7 +154,9 @@ function ReplayStatement({
         const max = Math.max(0, el.scrollHeight - el.clientHeight);
         const target = scrollFracAt(eventsRef.current, clockRef.current) * max;
         const diff = target - el.scrollTop;
-        if (Math.abs(diff) > 0.5) {
+        if (snapRef.current) {
+          if (Math.abs(diff) > 0.5) el.scrollTop = target;
+        } else if (Math.abs(diff) > 0.5) {
           // Time-constant easing (~140ms): frame-rate independent glide.
           el.scrollTop = el.scrollTop + diff * (1 - Math.exp(-dt / 140));
         }
@@ -138,7 +168,7 @@ function ReplayStatement({
   }, []);
 
   return (
-    <div className="relative min-h-0 w-[30%] min-w-[280px] overflow-hidden">
+    <div className="relative h-full min-h-0 overflow-hidden">
       <StatementPane problem={problem} scrollRef={paneRef} />
       {!following && (
         <button
@@ -378,7 +408,7 @@ function ReplayConsole({
   };
 
   return (
-    <div className="flex h-44 shrink-0 flex-col border-t border-border/60 bg-card/40">
+    <div className="flex h-full min-h-0 flex-col bg-card/40">
       <div className="flex items-center gap-1 border-b border-border/60 px-2 pt-1">
         {[
           ["samples", "Samples"],
@@ -624,75 +654,105 @@ export function ReplayCore({
     [log.events]
   );
   const activity = useMemo(() => buildActivity(log.events), [log.events]);
+  const outerLayout = useResizableLayout("cfr-replay-panes-h");
+  const mainLayout = useResizableLayout("cfr-replay-panes-v");
 
   return (
     <main className="flex h-full flex-col bg-background">
       {header(clockMs, solved)}
 
-      <div className="flex min-h-0 flex-1">
+      <ResizablePanelGroup
+        orientation="horizontal"
+        className="min-h-0 flex-1"
+        defaultLayout={outerLayout.defaultLayout}
+        onLayoutChanged={outerLayout.onLayoutChanged}
+      >
         {problem && (
-          <ReplayStatement
-            problem={problem}
-            events={scrollEvents}
-            clockMs={clockMs}
-          />
+          <>
+            <ResizablePanel id="statement" defaultSize="30%" minSize="15%">
+              <ReplayStatement
+                problem={problem}
+                events={scrollEvents}
+                clockMs={clockMs}
+              />
+            </ResizablePanel>
+            <ResizableHandle />
+          </>
         )}
-        <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-          <div className="min-h-0 flex-1">
-            <ReplayEditor player={player} clockMs={clockMs} fallbackLang={log.lang} />
-          </div>
-          <ReplayConsole
-            events={log.events}
-            activity={activity}
-            clockMs={clockMs}
-          />
-        </div>
+        <ResizablePanel id="main" minSize="25%" className="flex min-h-0 min-w-0">
+          <ResizablePanelGroup
+            orientation="vertical"
+            className="flex-1"
+            defaultLayout={mainLayout.defaultLayout}
+            onLayoutChanged={mainLayout.onLayoutChanged}
+          >
+            <ResizablePanel id="editor" defaultSize="72%" minSize="25%">
+              <ReplayEditor player={player} clockMs={clockMs} fallbackLang={log.lang} />
+            </ResizablePanel>
+            <ResizableHandle />
+            <ResizablePanel id="console" defaultSize="28%" minSize="10%">
+              <ReplayConsole
+                events={log.events}
+                activity={activity}
+                clockMs={clockMs}
+              />
+            </ResizablePanel>
+          </ResizablePanelGroup>
+        </ResizablePanel>
         {(videoUrl || activity.length > 0) && (
-          <div className="flex w-[28%] min-w-[240px] flex-col border-l border-border/60 bg-black/40">
-            {videoUrl && (
-              <>
-                <div className="relative">
-                  <video
-                    ref={videoRef}
-                    src={videoUrl}
-                    muted
-                    playsInline
-                    preload="auto"
-                    onLoadedData={() => setVideoReady(true)}
-                    className="aspect-video w-full object-cover"
-                  />
-                  {!videoReady && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-                      <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-                    </div>
-                  )}
-                </div>
-                <p className="px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-                  Webcam · synced
-                </p>
-              </>
-            )}
-            <p className="border-t border-border/60 px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-              Runs & submissions
-            </p>
-            <div className="min-h-0 flex-1 space-y-1.5 overflow-y-auto px-2 pb-2">
-              {activity.length === 0 && (
-                <p className="px-1 pt-1 text-xs text-muted-foreground">
-                  No runs or submissions in this replay.
-                </p>
+          <>
+            <ResizableHandle />
+            <ResizablePanel
+              id="sidebar"
+              defaultSize="28%"
+              minSize="12%"
+              className="flex min-h-0 flex-col bg-black/40"
+            >
+              {videoUrl && (
+                <>
+                  <div className="relative">
+                    <video
+                      ref={videoRef}
+                      src={videoUrl}
+                      muted
+                      playsInline
+                      preload="auto"
+                      onLoadedData={() => setVideoReady(true)}
+                      className="aspect-video w-full object-cover"
+                    />
+                    {!videoReady && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                      </div>
+                    )}
+                  </div>
+                  <p className="px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                    Webcam · synced
+                  </p>
+                </>
               )}
-              {activity.map((item, i) => (
-                <ActivityRow
-                  key={i}
-                  item={item}
-                  reached={item.t <= clockMs}
-                  onJump={() => setClockMs(item.t)}
-                />
-              ))}
-            </div>
-          </div>
+              <p className="border-t border-border/60 px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                Runs & submissions
+              </p>
+              <div className="min-h-0 flex-1 space-y-1.5 overflow-y-auto px-2 pb-2">
+                {activity.length === 0 && (
+                  <p className="px-1 pt-1 text-xs text-muted-foreground">
+                    No runs or submissions in this replay.
+                  </p>
+                )}
+                {activity.map((item, i) => (
+                  <ActivityRow
+                    key={i}
+                    item={item}
+                    reached={item.t <= clockMs}
+                    onJump={() => setClockMs(item.t)}
+                  />
+                ))}
+              </div>
+            </ResizablePanel>
+          </>
         )}
-      </div>
+      </ResizablePanelGroup>
 
       <footer className="flex items-center gap-3 border-t border-border/60 px-5 py-3">
         <Button
