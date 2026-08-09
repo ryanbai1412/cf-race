@@ -4,6 +4,11 @@ import { ProblemMeta, TestCase } from "./types.js";
 
 const metaCache = new Map<string, ProblemMeta>();
 
+/** Drop cached metadata after a problem sync so updates are picked up. */
+export function clearProblemCache(): void {
+  metaCache.clear();
+}
+
 function problemDir(id: string): string {
   if (!/^[A-Za-z0-9_.-]+(\/[A-Za-z0-9_.-]+)?$/.test(id))
     throw new Error(`invalid problem id: ${id}`);

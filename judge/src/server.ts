@@ -3,6 +3,7 @@ import crypto from "node:crypto";
 import { WebSocketServer, WebSocket } from "ws";
 import { config } from "./config.js";
 import { handleRun, handleSubmit, pool } from "./judge.js";
+import { scheduleProblemSync } from "./sync.js";
 import { RunRequest, SubmitRequest } from "./types.js";
 
 const clients = new Set<WebSocket>();
@@ -123,4 +124,5 @@ server.listen(config.port, () => {
   console.log(
     `judge listening on :${config.port} (sandbox=${config.sandbox}, workers=${config.workers})`
   );
+  scheduleProblemSync(config.problemSyncIntervalSec);
 });

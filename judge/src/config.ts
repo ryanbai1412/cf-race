@@ -19,6 +19,8 @@ export const config = {
   // truncated to outputCapBytes). Must comfortably exceed the largest
   // legitimate answer, otherwise correct big outputs would be judged WA.
   captureCapBytes: Number(process.env.CAPTURE_CAP_BYTES ?? 16 * 1024 * 1024),
+  // How often to pull new/changed problem packages from Storage (0 disables).
+  problemSyncIntervalSec: Number(process.env.PROBLEM_SYNC_INTERVAL_SEC ?? 300),
 };
 
 if (!config.judgeToken) {
