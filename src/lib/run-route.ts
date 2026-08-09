@@ -38,10 +38,17 @@ export async function runOnJudge(run: RunRequestBody): Promise<NextResponse> {
     );
   }
 
-  // Runs attributed to a session require access to that session.
+  // Runs attributed to a session require access to that session, and the
+  // run must target the session's own problem.
   if (run.sessionId) {
     const access = await requireSessionAccess(run.sessionId);
     if (!access.ok) return access.response;
+    if (access.session.problem_id !== run.problemId) {
+      return NextResponse.json(
+        { error: "problem does not match session" },
+        { status: 400 }
+      );
+    }
   }
 
   const { data: problem } = await db()

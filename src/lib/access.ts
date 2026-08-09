@@ -63,17 +63,29 @@ export async function canViewSession(session: SessionRow): Promise<boolean> {
   return false;
 }
 
-/** Who may view a duel match review: either participant. */
+/**
+ * Who may view a duel match review: either participant, once the match is
+ * finished. A live match must stay opaque — the review (and any session
+ * access derived from it) would stream the opponent's editor and verdicts
+ * mid-race.
+ */
 export async function canViewMatch(matchId: string): Promise<boolean> {
   const user = await getEffectiveUser();
   if (!user) return false;
-  const { data: me } = await db()
-    .from("duel_players")
-    .select("match_id")
-    .eq("match_id", matchId)
-    .eq("user_id", user.id)
-    .maybeSingle();
-  return me !== null;
+  const [{ data: me }, { data: match }] = await Promise.all([
+    db()
+      .from("duel_players")
+      .select("match_id")
+      .eq("match_id", matchId)
+      .eq("user_id", user.id)
+      .maybeSingle(),
+    db()
+      .from("duel_matches")
+      .select("finished_at")
+      .eq("id", matchId)
+      .maybeSingle(),
+  ]);
+  return me !== null && match?.finished_at != null;
 }
 
 /** Who may mint/revoke a session share: the signed-in owner. */
