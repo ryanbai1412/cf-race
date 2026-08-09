@@ -297,8 +297,8 @@ export function DuelReview({
 
   if (data === undefined) {
     return (
-      <main className="flex min-h-screen items-center justify-center">
-        <p className="animate-pulse font-mono text-muted-foreground">
+      <main className="flex h-full items-center justify-center">
+        <p className="animate-pulse font-mono text-sm text-muted-foreground">
           Loading review…
         </p>
       </main>
@@ -306,9 +306,11 @@ export function DuelReview({
   }
   if (data === null) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center gap-3">
-        <p className="font-mono text-muted-foreground">Match not found.</p>
-        <Button asChild variant="secondary">
+      <main className="flex h-full flex-col items-center justify-center gap-3">
+        <p className="font-mono text-sm text-muted-foreground">
+          Match not found.
+        </p>
+        <Button asChild size="sm" variant="secondary">
           <Link href="/duels">Back to duels</Link>
         </Button>
       </main>

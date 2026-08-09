@@ -97,7 +97,7 @@ export function DuelHome() {
   const played = data?.matches.filter((m) => m.finished).length ?? 0;
 
   return (
-    <main className="relative min-h-screen overflow-hidden px-6 py-10">
+    <main className="relative min-h-full overflow-hidden px-6 py-10">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.12),transparent_60%)]" />
       <div className="relative mx-auto w-full max-w-5xl space-y-8">
         <PageHeader
