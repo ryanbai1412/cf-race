@@ -15,6 +15,14 @@ import type { RecordingQuery } from "./recording-upload";
 /** MediaRecorder timeslice: how much video a single upload chunk holds. */
 const CHUNK_MS = 5000;
 
+/**
+ * Webcam quality is a talking-head in a corner of a replay, so it is capped
+ * well below what MediaRecorder picks by default (~3 Mbps): at ~4 MB/min an
+ * hour-long run still fits under Supabase's 50 MB per-object limit.
+ */
+const VIDEO_BITS_PER_SECOND = 400_000;
+const AUDIO_BITS_PER_SECOND = 48_000;
+
 export async function acquireWebcam(): Promise<MediaStream | null> {
   if (typeof navigator === "undefined" || !navigator.mediaDevices) return null;
   try {
@@ -79,7 +87,11 @@ export function startWebcamRecording(
   );
   let recorder: MediaRecorder;
   try {
-    recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+    recorder = new MediaRecorder(stream, {
+      ...(mimeType ? { mimeType } : {}),
+      videoBitsPerSecond: VIDEO_BITS_PER_SECOND,
+      audioBitsPerSecond: AUDIO_BITS_PER_SECOND,
+    });
   } catch {
     return null;
   }
