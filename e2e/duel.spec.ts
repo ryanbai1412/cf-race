@@ -154,6 +154,16 @@ test("duel: ready-up, hidden problem, first AC wins, grace AC counts", async ({
     );
     expect(sessions.every((s) => s.outcome === "solved")).toBe(true);
 
+    // The side-by-side review (replays + webcam URLs) is participants-only.
+    const anon = await fetch(
+      `http://localhost:3100/api/duel/review?matchId=${matchId}`
+    );
+    expect(anon.status).toBe(404);
+    const participant = await pageA.request.get(
+      `http://localhost:3100/api/duel/review?matchId=${matchId}`
+    );
+    expect(participant.status()).toBe(200);
+
     // Duel cap is 10 (not solo's 50): fill and prove the trigger holds.
     const capSession = sessionB;
     await rest(`session_submissions?session_id=eq.${capSession}`, {

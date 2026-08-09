@@ -3,6 +3,8 @@ import { applyDeltaChanges, type TouristEvent } from "../src/lib/tourist";
 import {
   WA_SOLUTION,
   api,
+  judgeHasProblem,
+  problemsWithRef,
   refSolution,
   rest,
   setMonaco,
@@ -25,8 +27,28 @@ function reconstructCode(events: TouristEvent[], lang: "cpp" | "py"): string {
  * full hidden tests, WA never stamps a solve, AC stamps solve_ms exactly
  * once, replay reconstructs what was actually typed, and the submission cap
  * holds even for direct API callers.
+ *
+ * The problem must be visible in the bank (hidden-tagged problems 404 on the
+ * solve page) and present on the judge VM.
  */
-const PROBLEM = "2024A";
+let PROBLEM = "";
+
+test.beforeAll(async () => {
+  const candidates = problemsWithRef();
+  const rows = await rest<{ id: string; tags: string[] | null }[]>(
+    `problems?id=in.(${candidates.join(",")})&select=id,tags`
+  );
+  const visible = rows
+    .filter((r) => !(r.tags ?? []).includes("hidden"))
+    .map((r) => r.id);
+  for (const id of visible) {
+    if (await judgeHasProblem(id)) {
+      PROBLEM = id;
+      return;
+    }
+  }
+  throw new Error("no visible problem with a ref solution on the judge");
+});
 
 type SessionRow = {
   id: string;
@@ -40,11 +62,10 @@ test.describe("solo run", () => {
     page,
     request,
   }) => {
+    // Legacy /solo/<id> must 301 to the new solve route (PRD 11 §10).
     await page.goto(`/solo/${PROBLEM}`);
+    await page.waitForURL(`**/problems/${PROBLEM}/solve`);
     await page.getByRole("button", { name: /start/i }).click();
-
-    // Countdown is 4s; the editor is usable at GO.
-    await page.waitForURL(`**/solo/${PROBLEM}`);
     await page.getByText(/GO!|\d+:\d+/).first().waitFor();
 
     // Switch to Python and put a distinctive program in the editor.
@@ -110,9 +131,9 @@ test.describe("solo run", () => {
       events: TouristEvent[];
     };
     expect(replay.lang).toBe("py");
-    const verdicts = replay.events
-      .filter((e): e is { type: "verdict"; verdict: string } => e.type === "verdict")
-      .map((e) => e.verdict);
+    const verdicts = replay.events.flatMap((e) =>
+      e.type === "verdict" ? [e.verdict] : []
+    );
     expect(verdicts).toEqual(["WA", "AC"]);
     // Reconstruct the Python buffer exactly the way the replay player does
     // (snapshots + deltas) — it must equal what was actually typed.

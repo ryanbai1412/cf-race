@@ -111,6 +111,18 @@ export async function POST(req: NextRequest) {
     .insert({ [col]: id, created_by: auth.userId })
     .select("token")
     .single();
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) {
+    // Concurrent mint lost the one-active-share unique-index race: reuse the winner.
+    if (error.code === "23505") {
+      const { data: winner } = await db()
+        .from(table)
+        .select("token")
+        .eq(col, id)
+        .is("revoked_at", null)
+        .maybeSingle();
+      if (winner) return NextResponse.json({ token: winner.token });
+    }
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
   return NextResponse.json({ token: data.token });
 }

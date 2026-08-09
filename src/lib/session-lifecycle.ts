@@ -30,8 +30,10 @@ export async function sweepStaleSessions(filter?: SweepFilter): Promise<void> {
 }
 
 /**
- * Abandon a user's still-active sessions on a problem — called when they
+ * Abandon a user's still-active solo runs on a problem — called when they
  * start a new run of the same problem (the new run supersedes the old one).
+ * Only solo sessions: duel/event sessions on the same problem are owned by
+ * their match/race lifecycle and must not be forfeited by a practice run.
  */
 export async function abandonActiveSessions(args: {
   problemId: string;
@@ -44,6 +46,7 @@ export async function abandonActiveSessions(args: {
     .from("sessions")
     .update({ outcome: "abandoned" })
     .is("outcome", null)
+    .eq("kind", "solo")
     .eq("problem_id", problemId);
   q = userId ? q.eq("user_id", userId) : q.in("id", sessionIds ?? []);
   const { error } = await q;

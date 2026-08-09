@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { api, refSolution, rest } from "./helpers";
+import { api, refSolution, rest, signInTestUser } from "./helpers";
 
 /**
  * Event race invariants: booth cookie auth gates the APIs, only one race can
@@ -18,8 +18,10 @@ type ParticipantRow = {
 test("event race: join, race, one-active invariant, first AC, finish", async ({
   browser,
 }) => {
-  // Create the event and join two stations + admin through the secret link.
+  // Create the event (signed-in — event creation is account-backed now) and
+  // join two stations + admin through the secret link.
   const context = await browser.newContext();
+  await signInTestUser(context, "duel-tester-a@example.com");
   const page = await context.newPage();
   const created = await api<{ id: string; secret: string }>(
     page.request,
