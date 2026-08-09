@@ -89,6 +89,15 @@ description: How to run and end-to-end test the cf-race booth app locally (dev s
   = test 09 ⇒ UI must show "failed on 05 · 4/26 passed").
 - Progress updates: subscribe to `ws://localhost:8080/ws?token=<token>` and collect
   `submit_update` payloads to assert `passedCount` is monotonic and ends at `totalCount`.
+- Repo `problems/<id>/` dirs for real CF problems ship only `meta.json/samples/statement.html`
+  — full `tests/` live in the Supabase Storage bucket `problems`. To exercise the UI submit
+  path against a *local* judge, download `<id>/tests/NN.in|NN.out` from the bucket
+  (`GET $SUPABASE_URL/storage/v1/object/problems/<id>/tests/01.in` with the service-role key)
+  into `problems/<id>/tests/` first; only `problems/dev/*` have tests checked in, and those
+  dev/* ids are not in the DB `problems` table so the web UI can't open them. `warmup-sum`
+  is in the DB and its bucket tests are a tiny A+B set — good target for UI-vs-local-judge.
+- `pkill -f "PORT=8081"` does NOT kill a judge started that way (env assignments aren't in the
+  child's cmdline); find the real pid with `ss -ltnp | grep 8081` and `kill` it.
 - Note: a TLE submission is *not* faster under parallel grading (all queued tests still run out
   their time limit), so don't expect wall-time wins there — only correct verdicts.
 
