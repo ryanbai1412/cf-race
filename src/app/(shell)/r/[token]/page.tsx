@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { db } from "@/lib/db";
+import { lookupShare } from "@/lib/shares";
 import { SoloReplay } from "@/components/solo/solo-replay";
 import { DuelReview } from "@/components/duel/duel-review";
 
@@ -18,27 +18,14 @@ export default async function SharedReplayPage({
   params: { token: string };
 }) {
   const token = params.token;
-  const [{ data: sessionShare }, { data: matchShare }] = await Promise.all([
-    db()
-      .from("session_shares")
-      .select("session_id")
-      .eq("token", token)
-      .is("revoked_at", null)
-      .maybeSingle(),
-    db()
-      .from("match_shares")
-      .select("match_id")
-      .eq("token", token)
-      .is("revoked_at", null)
-      .maybeSingle(),
-  ]);
+  const share = await lookupShare(token);
 
-  if (sessionShare) {
+  if (share?.kind === "session") {
     return (
       <SoloReplay apiUrl={`/api/shared/replay?token=${token}`} readOnly />
     );
   }
-  if (matchShare) {
+  if (share?.kind === "match") {
     return (
       <DuelReview apiUrl={`/api/shared/review?token=${token}`} readOnly />
     );

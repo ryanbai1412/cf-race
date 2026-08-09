@@ -7,11 +7,16 @@ import { sweepStaleSessions } from "./session-lifecycle";
 import type { SessionRow } from "./session-log";
 
 /**
- * Replay access rules (docs/flows/11-unified-app-detailed.md §5.3):
- * the session owner, anyone in the browser that created an anonymous
- * session (cookie), either participant of a duel session's match, or a
- * holder of the event secret cookie for event sessions. Everything else
- * is a 404 — session existence is never leaked.
+ * All replay/review/share authorization in one place
+ * (docs/flows/11-unified-app-detailed.md §5.3-§5.4). Routes call these and
+ * translate a denial into a 404 so existence is never leaked.
+ */
+
+/**
+ * Who may view a session replay: the owner, anyone in the browser that
+ * created an anonymous session (cookie), either participant of a duel
+ * session's match, or a holder of the event secret cookie for event
+ * sessions.
  */
 export async function canViewSession(session: SessionRow): Promise<boolean> {
   const user = await authUser();
@@ -26,15 +31,7 @@ export async function canViewSession(session: SessionRow): Promise<boolean> {
       .select("match_id")
       .eq("session_id", session.id)
       .maybeSingle();
-    if (mine) {
-      const { data: me } = await db()
-        .from("duel_players")
-        .select("session_id")
-        .eq("match_id", mine.match_id)
-        .eq("user_id", user.id)
-        .maybeSingle();
-      if (me) return true;
-    }
+    if (mine && (await canViewMatch(mine.match_id))) return true;
   }
 
   if (session.kind === "event") {
@@ -62,6 +59,44 @@ export async function canViewSession(session: SessionRow): Promise<boolean> {
   }
 
   return false;
+}
+
+/** Who may view a duel match review: either participant. */
+export async function canViewMatch(matchId: string): Promise<boolean> {
+  const user = await authUser();
+  if (!user) return false;
+  const { data: me } = await db()
+    .from("duel_players")
+    .select("match_id")
+    .eq("match_id", matchId)
+    .eq("user_id", user.id)
+    .maybeSingle();
+  return me !== null;
+}
+
+/** Who may mint/revoke a session share: the signed-in owner. */
+export async function canShareSession(
+  sessionId: string
+): Promise<{ userId: string } | null> {
+  const user = await authUser();
+  if (!user) return null;
+  const { data: session } = await db()
+    .from("sessions")
+    .select("id, user_id")
+    .eq("id", sessionId)
+    .maybeSingle();
+  if (!session || session.user_id !== user.id) return null;
+  return { userId: user.id };
+}
+
+/** Who may mint/revoke a match share: either participant. */
+export async function canShareMatch(
+  matchId: string
+): Promise<{ userId: string } | null> {
+  const user = await authUser();
+  if (!user) return null;
+  if (!(await canViewMatch(matchId))) return null;
+  return { userId: user.id };
 }
 
 /** Load a session for replay, sweeping the idle timeout first. */

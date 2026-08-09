@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { buildSessionReplay } from "@/lib/session-log";
-import { canViewSession, loadSessionForReplay } from "@/lib/replay-access";
+import { canViewSession, loadSessionForReplay } from "@/lib/access";
 
 export const dynamic = "force-dynamic";
 

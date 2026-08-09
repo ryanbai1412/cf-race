@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
-import { authUser } from "@/lib/supabase/server";
+import { canViewMatch } from "@/lib/access";
 import { buildDuelReview } from "@/lib/duel-review";
 
 export const dynamic = "force-dynamic";
@@ -16,15 +15,9 @@ export async function GET(req: NextRequest) {
   const matchId = req.nextUrl.searchParams.get("matchId") ?? "";
   if (!matchId) return NextResponse.json({ error: "bad request" }, { status: 400 });
 
-  const user = await authUser();
-  if (!user) return NextResponse.json({ error: "not found" }, { status: 404 });
-  const { data: me } = await db()
-    .from("duel_players")
-    .select("match_id")
-    .eq("match_id", matchId)
-    .eq("user_id", user.id)
-    .maybeSingle();
-  if (!me) return NextResponse.json({ error: "not found" }, { status: 404 });
+  if (!(await canViewMatch(matchId))) {
+    return NextResponse.json({ error: "not found" }, { status: 404 });
+  }
 
   const review = await buildDuelReview(matchId);
   if (!review) return NextResponse.json({ error: "not found" }, { status: 404 });
