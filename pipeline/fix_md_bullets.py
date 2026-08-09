@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Fix literal markdown bullet lines left inside <p> blocks of problems.statement_html.
+"""Fix literal markdown list lines left inside <p> blocks of problems.statement_html.
 
 The HF import (import_hf.py) split statements into <p> blocks on blank lines,
-leaving markdown bullet lists as literal "- item" lines inside a paragraph.
-This converts consecutive "- " lines within a <p> into a proper <ul><li> list,
-keeping any non-bullet leading/trailing lines as separate <p> blocks.
+leaving markdown lists as literal "- item" / "1. item" lines inside a paragraph.
+This converts consecutive "- " lines within a <p> into a proper <ul><li> list
+(and "N. " lines into <ol><li>), keeping any non-list leading/trailing lines
+as separate <p> blocks.
 
 Usage:
   python3 pipeline/fix_md_bullets.py [--dry-run] [id ...]
@@ -20,15 +21,17 @@ import urllib.request
 
 P_RE = re.compile(r"<p>(.*?)</p>", re.S)
 BULLET_RE = re.compile(r"^- (.*)$")
+NUM_RE = re.compile(r"^\d+\. (.*)$")
 
 
 def fix_paragraph(inner: str) -> str:
     lines = inner.split("\n")
-    if not any(BULLET_RE.match(l.strip()) for l in lines):
+    if not any(BULLET_RE.match(l.strip()) or NUM_RE.match(l.strip()) for l in lines):
         return f"<p>{inner}</p>"
     out = []
     buf_text = []
     buf_items = []
+    list_tag = "ul"
 
     def flush_text():
         if buf_text:
@@ -37,22 +40,26 @@ def fix_paragraph(inner: str) -> str:
 
     def flush_items():
         if buf_items:
-            out.append("<ul>" + "".join(f"<li>{i}</li>" for i in buf_items) + "</ul>")
+            out.append(f"<{list_tag}>" + "".join(f"<li>{i}</li>" for i in buf_items) + f"</{list_tag}>")
             buf_items.clear()
 
     for line in lines:
-        m = BULLET_RE.match(line.strip())
-        if m:
+        s = line.strip()
+        mb = BULLET_RE.match(s)
+        mn = NUM_RE.match(s)
+        if mb or mn:
+            tag = "ul" if mb else "ol"
+            if buf_items and tag != list_tag:
+                flush_items()
             flush_text()
-            item = m.group(1)
-            # strip trailing comma/period-only separators left from prose lists? keep as-is
-            buf_items.append(item)
-        elif line.strip() == "":
+            list_tag = tag
+            buf_items.append((mb or mn).group(1))
+        elif s == "":
             flush_items()
             flush_text()
         elif buf_items:
-            # continuation of the previous bullet item
-            buf_items[-1] += " " + line.strip()
+            # continuation of the previous list item
+            buf_items[-1] += " " + s
         else:
             buf_text.append(line)
     flush_items()
