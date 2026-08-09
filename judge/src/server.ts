@@ -124,6 +124,8 @@ server.on("upgrade", (req, socket, head) => {
   }
   wss.handleUpgrade(req, socket, head, (ws) => {
     clients.add(ws);
+    // 'error' with no listener is rethrown by EventEmitter and kills the judge.
+    ws.on("error", () => clients.delete(ws));
     ws.on("close", () => clients.delete(ws));
   });
 });
