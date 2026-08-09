@@ -16,20 +16,34 @@ import type { RecordingQuery } from "./recording-upload";
 const CHUNK_MS = 5000;
 
 /**
- * Webcam quality is a talking-head in a corner of a replay, so it is capped
- * well below what MediaRecorder picks by default (~3 Mbps): at ~4 MB/min an
- * hour-long run still fits under Supabase's 50 MB per-object limit.
+ * The webcam is a talking head in a corner of a replay, so it is captured
+ * small and encoded well below MediaRecorder's default (~3 Mbps): 360p at
+ * ~400 kbps is ~3 MB/min, which keeps even very long runs a sane download.
  */
+const VIDEO_WIDTH = 640;
+const VIDEO_HEIGHT = 360;
+const VIDEO_FPS = 24;
 const VIDEO_BITS_PER_SECOND = 400_000;
 const AUDIO_BITS_PER_SECOND = 48_000;
+
+const VIDEO_CONSTRAINTS: MediaTrackConstraints = {
+  width: { ideal: VIDEO_WIDTH },
+  height: { ideal: VIDEO_HEIGHT },
+  frameRate: { ideal: VIDEO_FPS, max: 30 },
+};
 
 export async function acquireWebcam(): Promise<MediaStream | null> {
   if (typeof navigator === "undefined" || !navigator.mediaDevices) return null;
   try {
-    return await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    return await navigator.mediaDevices.getUserMedia({
+      video: VIDEO_CONSTRAINTS,
+      audio: true,
+    });
   } catch {
     try {
-      return await navigator.mediaDevices.getUserMedia({ video: true });
+      return await navigator.mediaDevices.getUserMedia({
+        video: VIDEO_CONSTRAINTS,
+      });
     } catch {
       return null;
     }
@@ -82,9 +96,12 @@ export function startWebcamRecording(
   } = {}
 ): WebcamRecording | null {
   if (typeof MediaRecorder === "undefined") return null;
-  const mimeType = ["video/webm;codecs=vp8,opus", "video/webm"].find((t) =>
-    MediaRecorder.isTypeSupported(t)
-  );
+  // VP9 first: roughly half the bytes of VP8 at the same visual quality.
+  const mimeType = [
+    "video/webm;codecs=vp9,opus",
+    "video/webm;codecs=vp8,opus",
+    "video/webm",
+  ].find((t) => MediaRecorder.isTypeSupported(t));
   let recorder: MediaRecorder;
   try {
     recorder = new MediaRecorder(stream, {
