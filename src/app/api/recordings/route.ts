@@ -106,14 +106,21 @@ export async function POST(req: NextRequest) {
     if (chunkIndex === null || !Number.isFinite(expected) || expected <= 0) {
       return NextResponse.json({ error: "bad request" }, { status: 400 });
     }
-    const sizes = await storedChunkSizes(path);
-    if (sizes.get(chunkIndex) !== expected) {
-      return NextResponse.json(
-        { error: "chunk missing or size mismatch" },
-        { status: 409 }
-      );
+    // Storage listings lag a just-finished upload by a moment, so a first
+    // miss is retried before the chunk is called lost.
+    let seen: number | null = null;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      if (attempt > 0) await new Promise((r) => setTimeout(r, 400));
+      seen = await storedSize(chunkPath(path, chunkIndex));
+      if (seen === expected) return NextResponse.json({ ok: true });
     }
-    return NextResponse.json({ ok: true });
+    console.warn(
+      `[recordings] chunk ${chunkIndex} of ${path}: expected ${expected}, stored ${seen}`
+    );
+    return NextResponse.json(
+      { error: "chunk missing or size mismatch" },
+      { status: 409 }
+    );
   }
 
   if (step === "finalize") {
@@ -136,6 +143,7 @@ export async function POST(req: NextRequest) {
 
     // Every chunk must be present with exactly the byte size the browser
     // recorded, or the concatenation would produce a corrupt video.
+    const startedAt = Date.now();
     const sizes = await storedChunkSizes(path);
     const missing = manifest.filter((c) => sizes.get(c.index) !== c.size);
     if (missing.length > 0) {
@@ -146,6 +154,11 @@ export async function POST(req: NextRequest) {
       if ((await storedSize(path)) === total) {
         return NextResponse.json({ ok: true, path });
       }
+      console.warn(
+        `[recordings] finalize ${path}: missing chunks ${missing
+          .map((c) => c.index)
+          .join(",")} of ${manifest.length}`
+      );
       return NextResponse.json(
         { error: "chunks incomplete", missing: missing.map((c) => c.index) },
         { status: 409 }
@@ -175,6 +188,7 @@ export async function POST(req: NextRequest) {
       );
     }
     const parts = results.map((r) => r.bytes as ArrayBuffer);
+    const downloadedAt = Date.now();
 
     const { error: upErr } = await db()
       .storage.from("recordings")
@@ -191,6 +205,12 @@ export async function POST(req: NextRequest) {
       .update({ recording_path: path, recording_offset_ms: offsetMs })
       .eq("id", targetSessionId);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+    console.log(
+      `[recordings] finalize ${path}: ${manifest.length} chunks, download ${
+        downloadedAt - startedAt
+      }ms, upload ${Date.now() - downloadedAt}ms`
+    );
 
     // Best-effort cleanup: the recording is already complete without it.
     await db()
