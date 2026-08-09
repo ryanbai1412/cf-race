@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Eyebrow } from "@/components/shell/page";
 import { COUNTRIES, flagEmoji } from "@/lib/countries";
 import type { Contestant, StationRole } from "@/lib/types";
 
@@ -55,13 +56,13 @@ export function CheckinForm({
     <main className="relative flex min-h-screen flex-col items-center justify-center gap-8 px-6">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.12),transparent_60%)]" />
       <div className="z-10 text-center">
-        <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
+        <Eyebrow>
           {eventName} · Station {station === "station1" ? "1" : "2"}
-        </p>
+        </Eyebrow>
         <h1 className="mt-2 text-5xl font-extrabold tracking-tight">
           Ready to race?
         </h1>
-        <p className="mt-3 text-muted-foreground">
+        <p className="mt-3 text-sm text-muted-foreground">
           {rival
             ? `Your rival ${rival.name} ${rival.country ? flagEmoji(rival.country) : ""} is checked in.`
             : "Waiting for a rival on the other station…"}
@@ -69,7 +70,7 @@ export function CheckinForm({
       </div>
       <Card className="z-10 w-full max-w-md border-border/60 bg-card/60 backdrop-blur">
         <CardHeader>
-          <CardTitle>Check in</CardTitle>
+          <CardTitle className="text-lg">Check in</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-1.5">
@@ -87,7 +88,7 @@ export function CheckinForm({
           <div className="space-y-1.5">
             <Label htmlFor="country">Country (optional)</Label>
             {country ? (
-              <div className="flex items-center justify-between rounded-md border border-border px-3 py-2">
+              <div className="flex items-center justify-between rounded-md border border-border/60 px-3 py-2">
                 <span>
                   {flagEmoji(country)}{" "}
                   {COUNTRIES.find((c) => c.code === country)?.name ?? country}
@@ -111,7 +112,7 @@ export function CheckinForm({
                   onChange={(e) => setQuery(e.target.value)}
                 />
                 {matches.length > 0 && (
-                  <div className="overflow-hidden rounded-md border border-border">
+                  <div className="overflow-hidden rounded-md border border-border/60">
                     {matches.map((c) => (
                       <button
                         key={c.code}

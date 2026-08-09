@@ -142,7 +142,7 @@ function ReplayStatement({
       {!following && (
         <button
           onClick={() => setFollowing(true)}
-          className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-border/60 bg-background/90 px-3 py-1.5 font-mono text-[11px] text-foreground shadow-lg backdrop-blur transition-colors hover:bg-accent"
+          className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-border/60 bg-background/90 px-3 py-1.5 font-mono text-xs text-foreground shadow-lg backdrop-blur transition-colors hover:bg-accent"
         >
           <LocateFixed className="h-3.5 w-3.5" />
           Follow their view
@@ -250,21 +250,21 @@ function ActivityRow({
         <span className="truncate text-xs">{item.label}</span>
         <span
           className={cn(
-            "rounded px-1.5 py-0.5 font-mono text-[10px]",
+            "rounded px-1.5 py-0.5 font-mono text-xs",
             verdictColor(item.verdict)
           )}
         >
           {item.verdict}
         </span>
         {item.run && item.run.compiled && (
-          <span className="font-mono text-[10px] text-muted-foreground">
+          <span className="font-mono text-xs text-muted-foreground">
             {item.run.passed}/{item.run.total}
           </span>
         )}
         <button
           onClick={onJump}
           title="Jump to this moment"
-          className="ml-auto shrink-0 rounded px-1.5 py-0.5 font-mono text-[10px] text-primary hover:bg-primary/10"
+          className="ml-auto shrink-0 rounded px-1.5 py-0.5 font-mono text-xs text-primary hover:bg-primary/10"
         >
           {formatMsPrecise(item.t)}
         </button>
@@ -272,19 +272,19 @@ function ActivityRow({
       {open && (
         <div className="space-y-1 border-t border-border/60 p-2">
           {verdictT !== undefined && (
-            <p className="font-mono text-[10px] text-muted-foreground">
+            <p className="font-mono text-xs text-muted-foreground">
               verdict at {formatMsPrecise(verdictT)}
             </p>
           )}
           {item.run?.compileStderr && (
-            <pre className="max-h-28 overflow-auto rounded bg-black/40 p-1.5 font-mono text-[10px] text-red-400">
+            <pre className="max-h-28 overflow-auto rounded bg-black/40 p-1.5 font-mono text-xs text-red-400">
               {item.run.compileStderr}
             </pre>
           )}
           {item.run?.tests?.map((tst) => (
             <div
               key={tst.name}
-              className="flex items-center gap-2 font-mono text-[10px]"
+              className="flex items-center gap-2 font-mono text-xs"
             >
               <span>{tst.name}</span>
               <span
@@ -355,7 +355,7 @@ function ReplayConsole({
       );
     if (!run.compiled)
       return (
-        <pre className="m-2 max-h-full overflow-auto rounded bg-black/40 p-2 font-mono text-[11px] text-red-400">
+        <pre className="m-2 max-h-full overflow-auto rounded bg-black/40 p-2 font-mono text-xs text-red-400">
           {run.compileStderr || "Compilation failed"}
         </pre>
       );
@@ -365,7 +365,7 @@ function ReplayConsole({
           <span
             key={tst.name}
             className={cn(
-              "flex items-center gap-1.5 rounded border border-border/60 px-2 py-1 font-mono text-[11px]",
+              "flex items-center gap-1.5 rounded border border-border/60 px-2 py-1 font-mono text-xs",
               verdictColor(tst.verdict)
             )}
           >
@@ -389,7 +389,7 @@ function ReplayConsole({
             type="button"
             onClick={() => setManualTab(key === followedTab ? null : key)}
             className={cn(
-              "rounded-t px-3 py-1 font-mono text-[11px]",
+              "rounded-t px-3 py-1 font-mono text-xs",
               activeTab === key
                 ? "border border-b-0 border-border/60 bg-background text-foreground"
                 : "text-muted-foreground hover:text-foreground"
@@ -402,12 +402,12 @@ function ReplayConsole({
           <button
             type="button"
             onClick={() => setManualTab(null)}
-            className="ml-auto rounded border border-primary/50 px-2 py-0.5 font-mono text-[10px] text-primary hover:bg-primary/10"
+            className="ml-auto rounded border border-primary/50 px-2 py-0.5 font-mono text-xs text-primary hover:bg-primary/10"
           >
             Follow their view
           </button>
         ) : (
-          <span className="ml-auto pb-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+          <span className="ml-auto pb-1 font-mono text-xs uppercase tracking-widest text-muted-foreground">
             console · as viewed
           </span>
         )}
@@ -425,12 +425,12 @@ function ReplayConsole({
               {[...submissions].reverse().map((sub, i) => (
                 <div
                   key={i}
-                  className="flex items-center gap-2 rounded border border-border/60 px-2 py-1 font-mono text-[11px]"
+                  className="flex items-center gap-2 rounded border border-border/60 px-2 py-1 font-mono text-xs"
                 >
                   <span>Submission</span>
                   <span
                     className={cn(
-                      "rounded px-1.5 py-px text-[10px]",
+                      "rounded px-1.5 py-px text-xs",
                       sub.verdict === "PENDING" ||
                         (sub.verdictT !== undefined && clockMs < sub.verdictT)
                         ? "animate-pulse bg-amber-500/20 text-amber-400"
@@ -657,12 +657,12 @@ export function ReplayCore({
                   preload="auto"
                   className="aspect-video w-full object-cover"
                 />
-                <p className="px-3 py-1.5 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+                <p className="px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-muted-foreground">
                   Webcam · synced
                 </p>
               </>
             )}
-            <p className="border-t border-border/60 px-3 py-1.5 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+            <p className="border-t border-border/60 px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-muted-foreground">
               Runs & submissions
             </p>
             <div className="min-h-0 flex-1 space-y-1.5 overflow-y-auto px-2 pb-2">
