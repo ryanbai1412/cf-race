@@ -410,7 +410,7 @@ export function SoloClient({
             </p>
             <div className="flex flex-wrap justify-center gap-2">
               <Button asChild>
-                <Link href={`/solo/replay/${session.sessionId}`}>
+                <Link href={`/replay/${session.sessionId}`}>
                   <Video className="mr-1.5 h-4 w-4" />
                   Watch replay
                 </Link>
@@ -421,11 +421,13 @@ export function SoloClient({
               </Button>
               {nextProblemId && (
                 <Button asChild variant="secondary">
-                  <Link href={`/solo/${nextProblemId}`}>Next problem →</Link>
+                  <Link href={`/problems/${nextProblemId}/solve`}>
+                    Next problem →
+                  </Link>
                 </Button>
               )}
               <Button asChild variant="ghost">
-                <Link href="/solo">Back to list</Link>
+                <Link href="/problems">Back to list</Link>
               </Button>
             </div>
           </CardContent>
@@ -516,7 +518,7 @@ export function SoloClient({
               {starting ? "Starting…" : "Start run"}
             </Button>
             <Button asChild variant="ghost">
-              <Link href="/solo">Back</Link>
+              <Link href="/problems">Back</Link>
             </Button>
           </div>
         </CardContent>

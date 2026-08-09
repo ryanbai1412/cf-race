@@ -1,16 +1,10 @@
-import { SoloReplay } from "@/components/solo/solo-replay";
+import { permanentRedirect } from "next/navigation";
 
-export default function SoloReplayPage({
+/** Legacy route — replays moved to /replay/[sessionId] (PRD 11 §10). */
+export default function LegacySoloReplayPage({
   params,
-  searchParams,
 }: {
   params: { sessionId: string };
-  searchParams: { export?: string };
 }) {
-  return (
-    <SoloReplay
-      sessionId={params.sessionId}
-      showExport={searchParams.export === "1"}
-    />
-  );
+  permanentRedirect(`/replay/${params.sessionId}`);
 }

@@ -1,7 +1,6 @@
-import { DuelHome } from "@/components/duel/duel-home";
+import { permanentRedirect } from "next/navigation";
 
-export const dynamic = "force-dynamic";
-
-export default function DuelPage() {
-  return <DuelHome />;
+/** Legacy route — the duel arena moved to /duels (PRD 11 §10). */
+export default function LegacyDuelPage() {
+  permanentRedirect("/duels");
 }
