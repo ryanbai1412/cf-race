@@ -187,12 +187,15 @@ export function StationClient({
           return;
         }
         const clockSkew = serverNowRef.current() - Date.now();
-        webcamRec.current = {
+        const offsetMs = rec.startedAtMs + clockSkew - activeRecStartMs;
+        // Persist the offset now: a reload mid-race finalizes from IndexedDB.
+        rec.setQuery({
+          eventId,
           raceId: activeRecRaceId,
-          rec,
-          stream,
-          offsetMs: rec.startedAtMs + clockSkew - activeRecStartMs,
-        };
+          station,
+          offsetMs: String(offsetMs),
+        });
+        webcamRec.current = { raceId: activeRecRaceId, rec, stream, offsetMs };
       });
       return () => {
         cancelled = true;

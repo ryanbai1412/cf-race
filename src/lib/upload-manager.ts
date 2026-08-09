@@ -207,6 +207,11 @@ export type StreamingUpload = {
   /** Persist + upload one MediaRecorder chunk (in emission order). */
   addChunk: (blob: Blob) => Promise<void>;
   /**
+   * Merge params (typically offsetMs) into the persisted query, so a recording
+   * resumed after a reload finalizes with them too.
+   */
+  setQuery: (query: RecordingQuery) => void;
+  /**
    * Mark the manifest complete, flush any unconfirmed chunks and finalize.
    * `query` overrides the params the upload started with (e.g. a corrected
    * offsetMs). Resolves true once the server confirmed the finished recording.
@@ -352,7 +357,16 @@ export async function createStreamingUpload(
     }
   };
 
-  return { id: record.id, addChunk, finish };
+  const setQuery = (extra: RecordingQuery) => {
+    record.query = { ...record.query, ...extra };
+    queue = queue.then(async () => {
+      try {
+        await idbPut(UPLOADS, record);
+      } catch {}
+    });
+  };
+
+  return { id: record.id, addChunk, setQuery, finish };
 }
 
 async function dropUpload(uploadId: string): Promise<void> {

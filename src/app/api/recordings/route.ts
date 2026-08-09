@@ -182,6 +182,13 @@ export async function POST(req: NextRequest) {
     );
     const bad = results.find((r) => r.error);
     if (bad) {
+      // A concurrent finalize (another tab, or the retry loop) may have
+      // deleted the chunks from under us — if it produced the recording,
+      // this call succeeded too.
+      const total = manifest.reduce((n, c) => n + c.size, 0);
+      if ((await storedSize(path)) === total) {
+        return NextResponse.json({ ok: true, path });
+      }
       return NextResponse.json(
         { error: `chunk ${bad.index} ${bad.error}` },
         { status: bad.error === "size mismatch" ? 409 : 500 }

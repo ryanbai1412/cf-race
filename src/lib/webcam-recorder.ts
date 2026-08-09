@@ -40,6 +40,11 @@ export type WebcamRecording = {
    * the recording started with (e.g. a corrected offsetMs). Resolves true once
    * the server has confirmed the finished recording.
    */
+  /**
+   * Merge params (typically offsetMs) into the upload query as soon as they
+   * are known, so a recording resumed after a reload keeps them.
+   */
+  setQuery: (query: RecordingQuery) => void;
   stopAndUpload: (opts?: {
     tailMs?: number;
     query?: RecordingQuery;
@@ -115,6 +120,9 @@ export function startWebcamRecording(
     startedAtMs,
     get streaming() {
       return !streamingFailed;
+    },
+    setQuery: (extra) => {
+      void uploadReady.then(() => upload?.setQuery(extra));
     },
     stopAndUpload: async ({
       tailMs = 0,

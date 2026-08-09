@@ -294,6 +294,12 @@ export function SoloClient({
           { sessionId: s.sessionId },
           { label: problem.name, problemId: problem.id }
         );
+        // Persist the offset now: a reload mid-run finalizes from IndexedDB.
+        recordingRef.current?.setQuery({
+          offsetMs: String(
+            recordingRef.current.startedAtMs + clockOffset.current - s.startAtMs
+          ),
+        });
       }
       setResult(null);
       setUploadState("none");
