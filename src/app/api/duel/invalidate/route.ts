@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { db } from "@/lib/db";
 import { getEffectiveUser } from "@/lib/impersonation";
 
@@ -34,6 +35,7 @@ export async function POST(req: NextRequest) {
       .eq("problem_id", problemId)
       .is("revoked_at", null);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    revalidateTag("problem-invalidations");
     return NextResponse.json({ ok: true, invalidated: false });
   }
 
@@ -51,5 +53,6 @@ export async function POST(req: NextRequest) {
     reason,
   });
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  revalidateTag("problem-invalidations");
   return NextResponse.json({ ok: true, invalidated: true });
 }

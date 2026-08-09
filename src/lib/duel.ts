@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache";
 import { db, logDbError } from "./db";
 import type { Lang } from "./types";
 
@@ -219,13 +220,25 @@ export async function startDuelMatch(
   return { ok: true };
 }
 
-/** Problem ids currently invalidated (active, non-revoked invalidations). */
+const cachedInvalidatedIds = unstable_cache(
+  async (): Promise<string[]> => {
+    const { data } = await db()
+      .from("problem_invalidations")
+      .select("problem_id")
+      .is("revoked_at", null);
+    return (data ?? []).map((r) => r.problem_id as string);
+  },
+  ["invalidated-problem-ids"],
+  { revalidate: 60, tags: ["problem-invalidations"] }
+);
+
+/**
+ * Problem ids currently invalidated (active, non-revoked invalidations).
+ * Cached across requests (global data); the invalidate API revalidates the
+ * tag so toggles take effect immediately.
+ */
 export async function invalidatedProblemIds(): Promise<Set<string>> {
-  const { data } = await db()
-    .from("problem_invalidations")
-    .select("problem_id")
-    .is("revoked_at", null);
-  return new Set((data ?? []).map((r) => r.problem_id as string));
+  return new Set(await cachedInvalidatedIds());
 }
 
 /**

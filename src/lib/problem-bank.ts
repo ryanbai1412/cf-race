@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache";
 import { db } from "./db";
 import { invalidatedProblemIds } from "./duel";
 
@@ -9,17 +10,25 @@ export type BankProblem = {
   tourist_time_ms: number | null;
 };
 
-/** Problems shown in the bank: hidden-tagged and the warmup are excluded. */
-export async function visibleProblems(): Promise<BankProblem[]> {
-  const { data } = await db()
-    .from("problems")
-    .select("id, name, rating, tags, tourist_time_ms")
-    .neq("id", "warmup-sum")
-    .order("id", { ascending: true });
-  return ((data ?? []) as BankProblem[]).filter(
-    (p) => !(p.tags ?? []).includes("hidden")
-  );
-}
+/**
+ * Problems shown in the bank: hidden-tagged and the warmup are excluded.
+ * Cached across requests (the bank is global, not user-scoped) — changes
+ * from `pnpm seed` show up within a minute.
+ */
+export const visibleProblems = unstable_cache(
+  async (): Promise<BankProblem[]> => {
+    const { data } = await db()
+      .from("problems")
+      .select("id, name, rating, tags, tourist_time_ms")
+      .neq("id", "warmup-sum")
+      .order("id", { ascending: true });
+    return ((data ?? []) as BankProblem[]).filter(
+      (p) => !(p.tags ?? []).includes("hidden")
+    );
+  },
+  ["visible-problems"],
+  { revalidate: 60, tags: ["problems"] }
+);
 
 /**
  * Random practice pick: a non-hidden, non-invalidated problem the user
