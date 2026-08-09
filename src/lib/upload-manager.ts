@@ -241,9 +241,12 @@ export async function createStreamingUpload(
     onProgress?: (frac: number) => void;
   } = {}
 ): Promise<StreamingUpload | null> {
+  const id = newId();
   const record: UploadRecord = {
-    id: newId(),
-    query,
+    id,
+    // `upload` namespaces this attempt's chunk objects: a reload restarts the
+    // chunk numbering, which would otherwise overwrite the previous attempt's.
+    query: { ...query, upload: id },
     label,
     problemId,
     chunks: [],

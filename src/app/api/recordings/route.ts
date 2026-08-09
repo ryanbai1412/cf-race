@@ -31,13 +31,19 @@ export const maxDuration = 300;
 const STEPS = ["sign", "confirm", "chunk-confirm", "finalize"] as const;
 type Step = (typeof STEPS)[number];
 
-/** `solo/<id>.webm` → `solo/<id>/chunks/000007.webm`. */
-function chunkPath(path: string, index: number): string {
-  return `${path.replace(/\.webm$/, "")}/chunks/${String(index).padStart(6, "0")}.webm`;
+/**
+ * `solo/<id>.webm` → `solo/<id>/chunks/<uploadId>/000007.webm`. Chunks are
+ * namespaced per upload attempt: a reload starts a new recorder whose indices
+ * restart at 0, and those must not overwrite the interrupted attempt's chunks.
+ * `uploadId` is empty for clients from before the namespacing.
+ */
+function chunkDir(path: string, uploadId: string): string {
+  const base = `${path.replace(/\.webm$/, "")}/chunks`;
+  return uploadId ? `${base}/${uploadId}` : base;
 }
 
-function chunkDir(path: string): string {
-  return `${path.replace(/\.webm$/, "")}/chunks`;
+function chunkPath(path: string, uploadId: string, index: number): string {
+  return `${chunkDir(path, uploadId)}/${String(index).padStart(6, "0")}.webm`;
 }
 
 export async function POST(req: NextRequest) {
@@ -49,6 +55,7 @@ export async function POST(req: NextRequest) {
   const station = q.get("station") ?? "";
   const offsetRaw = Number(q.get("offsetMs") ?? "0");
   const offsetMs = Number.isFinite(offsetRaw) ? Math.round(offsetRaw) : 0;
+  const uploadId = (q.get("upload") ?? "").replace(/[^a-zA-Z0-9-]/g, "");
   const chunkRaw = q.get("chunk");
   const chunkIndex = chunkRaw === null ? null : Number(chunkRaw);
   if (!STEPS.includes(step)) {
@@ -84,7 +91,8 @@ export async function POST(req: NextRequest) {
   }
 
   if (step === "sign") {
-    const target = chunkIndex === null ? path : chunkPath(path, chunkIndex);
+    const target =
+      chunkIndex === null ? path : chunkPath(path, uploadId, chunkIndex);
     const { data, error } = await db()
       .storage.from("recordings")
       .createSignedUploadUrl(target, { upsert: true });
@@ -111,7 +119,7 @@ export async function POST(req: NextRequest) {
     let seen: number | null = null;
     for (let attempt = 0; attempt < 3; attempt++) {
       if (attempt > 0) await new Promise((r) => setTimeout(r, 400));
-      seen = await storedSize(chunkPath(path, chunkIndex));
+      seen = await storedSize(chunkPath(path, uploadId, chunkIndex));
       if (seen === expected) return NextResponse.json({ ok: true });
     }
     console.warn(
@@ -144,7 +152,7 @@ export async function POST(req: NextRequest) {
     // Every chunk must be present with exactly the byte size the browser
     // recorded, or the concatenation would produce a corrupt video.
     const startedAt = Date.now();
-    const sizes = await storedChunkSizes(path);
+    const sizes = await storedChunkSizes(path, uploadId);
     const missing = manifest.filter((c) => sizes.get(c.index) !== c.size);
     if (missing.length > 0) {
       // A finalize that already ran deletes the chunks, so a duplicate call
@@ -171,7 +179,7 @@ export async function POST(req: NextRequest) {
       manifest.map(async (c) => {
         const { data, error } = await db()
           .storage.from("recordings")
-          .download(chunkPath(path, c.index));
+          .download(chunkPath(path, uploadId, c.index));
         if (error || !data) return { index: c.index, error: "download failed" };
         const bytes = await data.arrayBuffer();
         if (bytes.byteLength !== c.size) {
@@ -222,7 +230,7 @@ export async function POST(req: NextRequest) {
     // Best-effort cleanup: the recording is already complete without it.
     await db()
       .storage.from("recordings")
-      .remove(manifest.map((c) => chunkPath(path, c.index)));
+      .remove(manifest.map((c) => chunkPath(path, uploadId, c.index)));
 
     return NextResponse.json({ ok: true, path });
   }
@@ -248,8 +256,11 @@ async function storedSize(path: string): Promise<number | null> {
 }
 
 /** Sizes of the chunk objects currently in storage, keyed by chunk index. */
-async function storedChunkSizes(path: string): Promise<Map<number, number>> {
-  const dir = chunkDir(path);
+async function storedChunkSizes(
+  path: string,
+  uploadId: string
+): Promise<Map<number, number>> {
+  const dir = chunkDir(path, uploadId);
   const sizes = new Map<number, number>();
   const pageSize = 1000;
   for (let offset = 0; ; offset += pageSize) {
