@@ -689,7 +689,7 @@ export function ReplayCore({
             <ResizablePanel id="editor" defaultSize="72%" minSize="25%">
               <ReplayEditor player={player} clockMs={clockMs} fallbackLang={log.lang} />
             </ResizablePanel>
-            <ResizableHandle />
+            <ResizableHandle orientation="vertical" />
             <ResizablePanel id="console" defaultSize="28%" minSize="10%">
               <ReplayConsole
                 events={log.events}

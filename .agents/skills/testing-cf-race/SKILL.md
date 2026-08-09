@@ -67,6 +67,19 @@ description: How to run and end-to-end test the cf-race booth app locally (dev s
 - Wrong answer: submit `print(0)`.
 - Admin race control: pick problem, set Timer seconds (default 180 — use 600 to have time for all checks), "Start race (5s countdown)".
 
+## Replay resizable panes (react-resizable-panels v4)
+- The pane `Separator`s render 0px wide/tall (invisible); they are draggable only via the
+  library's hit-area margin (~±5px around the boundary). To drag reliably with GUI mouse,
+  compute the separator position from `document.querySelectorAll('[role="separator"]')`
+  getBoundingClientRect (page px ×(screenshot_w/window.innerWidth) + browser-chrome offset)
+  and expect to need a retry ±1-2px. Verify a drag actually took via panel widths, not the
+  cursor position.
+- `pointerdown` anywhere inside the statement pane detaches "Follow their view" by design —
+  when testing that resizing alone does NOT show the pill, start the drag from the editor
+  side of the divider, not the statement side.
+- Layout persists in localStorage keys `react-resizable-panels:cfr-replay-panes-h` / `-v`
+  (only after user interaction).
+
 ## Judge (Fly) gotchas
 - Judge syncs problem packages from the Supabase Storage bucket `problems` **on boot only**. If a problem exists in the DB `problems` table but not in the bucket, runs fail with `judge /run failed: 404` (judge ENOENT on `/data/problems/<id>/meta.json`). `warmup-sum` was missing this way once.
 - Fix: upload `<id>/meta.json` + `<id>/tests/01.in|01.out` to the bucket (service-role key via storage REST API), then `flyctl machine restart <ids> -a cf-race-judge` (needs FLY_API_TOKEN; install flyctl via `curl -sL https://fly.io/install.sh | sh`).

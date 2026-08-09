@@ -19,12 +19,17 @@ const ResizablePanel = Panel;
 
 function ResizableHandle({
   className,
+  orientation = "horizontal",
   ...props
-}: React.ComponentProps<typeof Separator>) {
+}: React.ComponentProps<typeof Separator> & {
+  /** Orientation of the parent group. */
+  orientation?: "horizontal" | "vertical";
+}) {
   return (
     <Separator
       className={cn(
-        "relative shrink-0 bg-border/60 transition-colors data-[state=dragging]:bg-primary/60 hover:bg-primary/40",
+        "bg-border/60 transition-colors hover:bg-primary/60",
+        orientation === "vertical" ? "h-px w-full" : "h-full w-px",
         className
       )}
       {...props}
