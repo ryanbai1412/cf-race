@@ -10,6 +10,7 @@ import { OutcomeBadge } from "@/components/shell/outcome-badge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { EmptyState, PageHeader, SectionTitle } from "@/components/shell/page";
 import { formatMsPrecise } from "@/lib/templates";
 import { Video } from "lucide-react";
 
@@ -96,9 +97,13 @@ export default async function HomePage({
     <main className="relative min-h-[calc(100vh-3.5rem)] overflow-hidden px-6 py-10">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.12),transparent_60%)]" />
       <LegacyClaim userId={user.id} />
-      <div className="relative mx-auto max-w-4xl space-y-8">
+      <div className="relative mx-auto w-full max-w-5xl space-y-8">
         <div className="space-y-4">
-          <h1 className="text-3xl font-bold tracking-tight">Ready to race?</h1>
+          <PageHeader
+            eyebrow="Home"
+            title="Ready to race?"
+            description="Practice solo, duel a friend, or run a booth event."
+          />
           <QuickActions practiceProblemId={practiceProblemId} />
         </div>
 
@@ -120,22 +125,20 @@ export default async function HomePage({
         </div>
 
         <section className="space-y-3">
-          <h2 className="text-lg font-semibold">Recent activity</h2>
+          <SectionTitle>Recent activity</SectionTitle>
           {sessions.length === 0 ? (
-            <Card className="border-border/60 bg-card/60">
-              <CardContent className="flex flex-col items-start gap-3 p-6">
-                <p className="text-muted-foreground">
-                  No runs yet — solve your first problem to start your history.
-                </p>
-                {practiceProblemId && (
-                  <Button asChild>
-                    <Link href={`/problems/${practiceProblemId}/solve`}>
-                      Solve your first problem
-                    </Link>
-                  </Button>
-                )}
-              </CardContent>
-            </Card>
+            <div className="flex flex-col items-center gap-3 rounded-lg border border-border/60 bg-card/60 py-8">
+              <EmptyState className="p-0">
+                No runs yet — solve your first problem to start your history.
+              </EmptyState>
+              {practiceProblemId && (
+                <Button asChild size="sm">
+                  <Link href={`/problems/${practiceProblemId}/solve`}>
+                    Solve your first problem
+                  </Link>
+                </Button>
+              )}
+            </div>
           ) : (
             <div className="divide-y divide-border/60 rounded-lg border border-border/60 bg-card/60">
               {sessions.map((s) => (

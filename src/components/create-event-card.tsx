@@ -5,17 +5,16 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 
 export function CreateEventCard() {
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   async function createEvent() {
     if (!name.trim()) return;
     setBusy(true);
-    setError(null);
     try {
       const res = await fetch("/api/events", {
         method: "POST",
@@ -26,15 +25,15 @@ export function CreateEventCard() {
       if (!res.ok) throw new Error(data.error ?? "Failed to create event");
       router.push(`/e/${data.id}/join?k=${data.secret}&to=/admin`);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Something went wrong");
+      toast.error(e instanceof Error ? e.message : "Failed to create event");
       setBusy(false);
     }
   }
 
   return (
-    <Card className="w-full max-w-md border-border/60 bg-card/70 backdrop-blur">
+    <Card className="w-full max-w-md border-border/60 bg-card/60">
       <CardHeader>
-        <CardTitle className="text-left text-lg">Create an event</CardTitle>
+        <CardTitle className="text-lg">Create an event</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
         <Input
@@ -47,7 +46,6 @@ export function CreateEventCard() {
         <Button className="w-full" onClick={createEvent} disabled={busy || !name.trim()}>
           {busy ? "Creating…" : "Create event"}
         </Button>
-        {error && <p className="text-sm text-destructive">{error}</p>}
       </CardContent>
     </Card>
   );

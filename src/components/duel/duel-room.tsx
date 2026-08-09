@@ -539,7 +539,7 @@ export function DuelRoom({ roomId }: { roomId: string }) {
   if (!isMember && state.players.length >= 2) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center gap-4 px-6">
-        <Card className="w-full max-w-md border-border/60 bg-card/70 text-center">
+        <Card className="w-full max-w-md border-border/60 bg-card/60 text-center">
           <CardHeader>
             <CardTitle>Room is full</CardTitle>
           </CardHeader>
@@ -636,7 +636,7 @@ export function DuelRoom({ roomId }: { roomId: string }) {
             </Card>
           </div>
         )}
-        <Card className="w-full max-w-lg border-border/60 bg-card/70 text-center">
+        <Card className="w-full max-w-lg border-border/60 bg-card/60 text-center">
           <CardHeader>
             <CardTitle
               className={`font-mono text-4xl font-black ${
@@ -747,7 +747,7 @@ export function DuelRoom({ roomId }: { roomId: string }) {
           </div>
         </header>
 
-        <Card className="border-border/60 bg-card/70">
+        <Card className="border-border/60 bg-card/60">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-lg">
               <Swords className="h-4 w-4 text-primary" /> Players
@@ -805,7 +805,7 @@ export function DuelRoom({ roomId }: { roomId: string }) {
 
         {isMember && (
           <>
-            <Card className="border-border/60 bg-card/70">
+            <Card className="border-border/60 bg-card/60">
               <CardHeader>
                 <CardTitle className="text-lg">Timers</CardTitle>
               </CardHeader>
@@ -853,7 +853,7 @@ export function DuelRoom({ roomId }: { roomId: string }) {
               </CardContent>
             </Card>
 
-            <Card className="border-border/60 bg-card/70">
+            <Card className="border-border/60 bg-card/60">
               <CardContent className="space-y-4 pt-6">
                 <div className="overflow-hidden rounded-lg border border-border/60 bg-black/50">
                   {camState === "ready" ? (
@@ -909,7 +909,7 @@ export function DuelRoom({ roomId }: { roomId: string }) {
         )}
 
         {lastMatch?.finishedAtMs != null && (
-          <Card className="border-border/60 bg-card/70">
+          <Card className="border-border/60 bg-card/60">
             <CardContent className="flex items-center gap-3 pt-6">
               <span className="font-mono text-sm text-primary">
                 {lastMatch.problem?.id ?? "Last match"}

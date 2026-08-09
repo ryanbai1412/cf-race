@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
+import { Eyebrow } from "@/components/shell/page";
 import { LogIn, Play } from "lucide-react";
 import { toast } from "sonner";
 
@@ -30,9 +31,7 @@ export function Landing({
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.15),transparent_60%)]" />
       <div className="z-10 flex flex-col items-center gap-8 text-center">
         <div className="space-y-3">
-          <p className="font-mono text-sm uppercase tracking-[0.3em] text-primary">
-            Code vs Racing
-          </p>
+          <Eyebrow>Code vs Racing</Eyebrow>
           <h1 className="max-w-2xl text-5xl font-extrabold tracking-tight sm:text-6xl">
             Race the fastest coders alive.
           </h1>

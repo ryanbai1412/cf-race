@@ -67,7 +67,7 @@ export function CheckinForm({
             : "Waiting for a rival on the other station…"}
         </p>
       </div>
-      <Card className="z-10 w-full max-w-md border-border/60 bg-card/70 backdrop-blur">
+      <Card className="z-10 w-full max-w-md border-border/60 bg-card/60 backdrop-blur">
         <CardHeader>
           <CardTitle>Check in</CardTitle>
         </CardHeader>

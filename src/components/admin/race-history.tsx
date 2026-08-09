@@ -39,9 +39,9 @@ export function RaceHistory({ eventId }: { eventId: string }) {
   if (races.length === 0) return null;
 
   return (
-    <Card>
+    <Card className="border-border/60 bg-card/60">
       <CardHeader>
-        <CardTitle>Race history &amp; replays</CardTitle>
+        <CardTitle className="text-lg">Race history &amp; replays</CardTitle>
       </CardHeader>
       <CardContent className="space-y-2">
         {races.map((race) => {
@@ -52,7 +52,9 @@ export function RaceHistory({ eventId }: { eventId: string }) {
               className="flex flex-wrap items-center gap-3 rounded-md border border-border/60 px-3 py-2"
             >
               <div className="min-w-40">
-                <p className="font-semibold">{race.problem?.name ?? race.problem_id}</p>
+                <p className="text-sm font-semibold">
+                  {race.problem?.name ?? race.problem_id}
+                </p>
                 <p className="font-mono text-xs text-muted-foreground">
                   {new Date(race.started_at).toLocaleTimeString()} · {race.state}
                 </p>

@@ -9,6 +9,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { SoloAuthButton, useSoloAuth } from "@/components/solo/auth-button";
 import { ShareButton } from "@/components/shell/share-button";
+import {
+  CenteredMessage,
+  EmptyState,
+  LoadingScreen,
+  PageHeader,
+} from "@/components/shell/page";
 import { formatMsPrecise } from "@/lib/templates";
 import { cn } from "@/lib/utils";
 import { ListChecks, Swords, Trophy, Video } from "lucide-react";
@@ -44,11 +50,12 @@ export function DuelHome() {
   const [data, setData] = useState<HomeData | null>(null);
   const [creating, setCreating] = useState(false);
   const [joinLink, setJoinLink] = useState("");
+  const [joinError, setJoinError] = useState<string | null>(null);
 
   const joinByLink = () => {
     const match = joinLink.match(/\/duel\/room\/([0-9a-f-]{36})/i);
     if (match) router.push(`/duel/room/${match[1]}`);
-    else toast.error("Paste a duel room link (…/duel/room/…)");
+    else setJoinError("That doesn\u2019t look like a duel room link (…/duel/room/…).");
   };
 
   useEffect(() => {
@@ -72,36 +79,17 @@ export function DuelHome() {
     }
   };
 
-  if (loading) {
-    return (
-      <main className="flex min-h-screen items-center justify-center">
-        <p className="animate-pulse font-mono text-muted-foreground">Loading…</p>
-      </main>
-    );
-  }
+  if (loading) return <LoadingScreen />;
 
   if (!user) {
     return (
-      <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-6">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.12),transparent_60%)]" />
-        <Card className="relative w-full max-w-md border-border/60 bg-card/70 text-center">
-          <CardHeader>
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-              1v1 Duel
-            </p>
-            <CardTitle className="text-2xl">Sign in to duel</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              Duels are head-to-head races on a shared problem — everything is
-              recorded. Google login is required.
-            </p>
-            <div className="flex justify-center">
-              <SoloAuthButton {...auth} next="/duels" />
-            </div>
-          </CardContent>
-        </Card>
-      </main>
+      <CenteredMessage
+        eyebrow="1v1 Duel"
+        title="Sign in to duel"
+        description="Duels are head-to-head races on a shared problem — everything is recorded. Google login is required."
+      >
+        <SoloAuthButton {...auth} next="/duels" />
+      </CenteredMessage>
     );
   }
 
@@ -111,22 +99,17 @@ export function DuelHome() {
   return (
     <main className="relative min-h-screen overflow-hidden px-6 py-10">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.12),transparent_60%)]" />
-      <div className="relative mx-auto max-w-4xl space-y-6">
-        <header className="flex flex-wrap items-center gap-3">
-          <div>
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-              1v1 Duel
-            </p>
-            <h1 className="text-3xl font-bold">Duel arena</h1>
-            <p className="mt-1 font-mono text-sm text-muted-foreground">
+      <div className="relative mx-auto w-full max-w-5xl space-y-8">
+        <PageHeader
+          eyebrow="1v1 Duel"
+          title="Duel arena"
+          description={
+            <span className="font-mono">
               {played} matches · {wins} wins · {data?.solved.length ?? 0} problems
               solved
-            </p>
-          </div>
-          <div className="ml-auto flex items-center gap-2">
-            <SoloAuthButton {...auth} next="/duels" />
-          </div>
-        </header>
+            </span>
+          }
+        />
 
         <div className="flex flex-wrap gap-2">
           <Button size="lg" onClick={createRoom} disabled={creating}>
@@ -143,17 +126,26 @@ export function DuelHome() {
             <Input
               placeholder="Paste a room link to join…"
               value={joinLink}
-              onChange={(e) => setJoinLink(e.target.value)}
+              onChange={(e) => {
+                setJoinLink(e.target.value);
+                setJoinError(null);
+              }}
               onKeyDown={(e) => e.key === "Enter" && joinByLink()}
               className="h-10 w-64 font-mono text-xs"
             />
-            <Button size="lg" variant="outline" onClick={joinByLink} disabled={!joinLink.trim()}>
+            <Button
+              size="lg"
+              variant="secondary"
+              onClick={joinByLink}
+              disabled={!joinLink.trim()}
+            >
               Join
             </Button>
           </div>
         </div>
+        {joinError && <p className="text-sm text-destructive">{joinError}</p>}
 
-        <Card className="border-border/60 bg-card/70">
+        <Card className="border-border/60 bg-card/60">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-lg">
               <Swords className="h-4 w-4 text-primary" /> Matches
@@ -161,10 +153,9 @@ export function DuelHome() {
           </CardHeader>
           <CardContent>
             {!data || data.matches.length === 0 ? (
-              <p className="text-sm text-muted-foreground">
-                No matches yet — create a room and send the link to your
-                opponent.
-              </p>
+              <EmptyState>
+                No matches yet — create a room and send the link to your opponent.
+              </EmptyState>
             ) : (
               <div className="space-y-1.5">
                 {data.matches.map((m) => (
@@ -215,7 +206,7 @@ export function DuelHome() {
         </Card>
 
         <div className="grid gap-6 md:grid-cols-2">
-          <Card className="border-border/60 bg-card/70">
+          <Card className="border-border/60 bg-card/60">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-lg">
                 <Trophy className="h-4 w-4 text-green-400" /> Solved by you
@@ -247,7 +238,7 @@ export function DuelHome() {
             </CardContent>
           </Card>
 
-          <Card className="border-border/60 bg-card/70">
+          <Card className="border-border/60 bg-card/60">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-lg">
                 <Video className="h-4 w-4 text-primary" /> Recordings

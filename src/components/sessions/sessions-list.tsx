@@ -5,9 +5,10 @@ import Link from "next/link";
 import { OutcomeBadge, type SessionOutcome } from "@/components/shell/outcome-badge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Segmented } from "@/components/ui/segmented";
+import { EmptyState } from "@/components/shell/page";
 import { formatMsPrecise } from "@/lib/templates";
-import { cn } from "@/lib/utils";
-import { Video } from "lucide-react";
+import { ChevronLeft, ChevronRight, Video } from "lucide-react";
 
 export type SessionListRow = {
   id: string;
@@ -42,37 +43,25 @@ export function SessionsList({ sessions }: { sessions: SessionListRow[] }) {
   const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const rows = filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
 
-  const filterRow = (
-    options: readonly string[],
-    value: string,
-    set: (v: never) => void
-  ) => (
-    <div className="flex overflow-hidden rounded-md border border-border">
-      {options.map((o) => (
-        <button
-          key={o}
-          onClick={() => {
-            set(o as never);
-            setPage(0);
-          }}
-          className={cn(
-            "px-3 py-1.5 font-mono text-xs capitalize",
-            value === o
-              ? "bg-primary text-primary-foreground"
-              : "text-muted-foreground hover:bg-accent"
-          )}
-        >
-          {o}
-        </button>
-      ))}
-    </div>
-  );
-
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-2">
-        {filterRow(KINDS, kind, setKind)}
-        {filterRow(OUTCOMES, outcome, setOutcome)}
+        <Segmented
+          options={KINDS}
+          value={kind}
+          onChange={(k) => {
+            setKind(k);
+            setPage(0);
+          }}
+        />
+        <Segmented
+          options={OUTCOMES}
+          value={outcome}
+          onChange={(o) => {
+            setOutcome(o);
+            setPage(0);
+          }}
+        />
         <span className="ml-auto font-mono text-xs text-muted-foreground">
           {filtered.length} sessions
         </span>
@@ -113,9 +102,11 @@ export function SessionsList({ sessions }: { sessions: SessionListRow[] }) {
           </div>
         ))}
         {rows.length === 0 && (
-          <p className="px-4 py-8 text-center font-mono text-sm text-muted-foreground">
-            No sessions yet.
-          </p>
+          <EmptyState>
+            {sessions.length === 0
+              ? "No sessions yet \u2014 solve a problem to start your history."
+              : "No sessions match these filters."}
+          </EmptyState>
         )}
       </div>
 
@@ -127,7 +118,8 @@ export function SessionsList({ sessions }: { sessions: SessionListRow[] }) {
             disabled={page === 0}
             onClick={() => setPage((p) => p - 1)}
           >
-            ← Prev
+            <ChevronLeft className="mr-1.5 h-3.5 w-3.5" />
+            Prev
           </Button>
           <span className="font-mono text-xs text-muted-foreground">
             {page + 1} / {pages}
@@ -138,7 +130,8 @@ export function SessionsList({ sessions }: { sessions: SessionListRow[] }) {
             disabled={page >= pages - 1}
             onClick={() => setPage((p) => p + 1)}
           >
-            Next →
+            Next
+            <ChevronRight className="ml-1.5 h-3.5 w-3.5" />
           </Button>
         </div>
       )}

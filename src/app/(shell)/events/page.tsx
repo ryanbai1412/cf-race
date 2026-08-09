@@ -3,6 +3,7 @@ import { getEffectiveUser } from "@/lib/impersonation";
 import { db } from "@/lib/db";
 import { CreateEventCard } from "@/components/create-event-card";
 import { EventList, type EventListRow } from "@/components/events/event-list";
+import { PageHeader, PageShell } from "@/components/shell/page";
 
 export const dynamic = "force-dynamic";
 
@@ -24,16 +25,14 @@ export default async function EventsPage() {
   }));
 
   return (
-    <main className="mx-auto max-w-4xl space-y-8 px-6 py-10">
-      <div className="space-y-1">
-        <h1 className="text-3xl font-bold tracking-tight">Events</h1>
-        <p className="text-sm text-muted-foreground">
-          Booth events — stations, monitors, and an admin console behind one
-          secret link.
-        </p>
-      </div>
+    <PageShell>
+      <PageHeader
+        eyebrow="Booth"
+        title="Events"
+        description="Booth events — stations, monitors, and an admin console behind one secret link."
+      />
       <CreateEventCard />
       <EventList events={rows} />
-    </main>
+    </PageShell>
   );
 }

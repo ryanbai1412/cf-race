@@ -5,6 +5,7 @@ import { RaceControl } from "@/components/admin/race-control";
 import { RaceHistory } from "@/components/admin/race-history";
 import { EventSettings } from "@/components/admin/event-settings";
 import { requireWebcam } from "@/lib/event-settings";
+import { PageHeader, PageShell } from "@/components/shell/page";
 
 export default async function AdminPage({
   params,
@@ -17,13 +18,8 @@ export default async function AdminPage({
   if (!event) redirect("/invalid-link");
 
   return (
-    <main className="mx-auto max-w-5xl space-y-8 px-6 py-10">
-      <header className="space-y-1">
-        <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-          Admin console
-        </p>
-        <h1 className="text-3xl font-bold">{event.name}</h1>
-      </header>
+    <PageShell>
+      <PageHeader eyebrow="Admin console" title={event.name} />
       <RaceControl eventId={event.id} />
       <EventSettings
         eventId={event.id}
@@ -31,6 +27,6 @@ export default async function AdminPage({
       />
       <RaceHistory eventId={event.id} />
       <DeviceLinks eventId={event.id} secret={event.secret} />
-    </main>
+    </PageShell>
   );
 }

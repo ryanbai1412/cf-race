@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { EmptyState, SectionTitle } from "@/components/shell/page";
 import { toast } from "sonner";
 import { ChevronDown, ChevronUp, Copy, ExternalLink } from "lucide-react";
 
@@ -31,15 +32,18 @@ export function EventList({ events }: { events: EventListRow[] }) {
 
   if (events.length === 0) {
     return (
-      <p className="font-mono text-sm text-muted-foreground">
-        No events yet — create one above.
-      </p>
+      <div className="space-y-3">
+        <SectionTitle>Your events</SectionTitle>
+        <div className="rounded-lg border border-border/60 bg-card/60">
+          <EmptyState>No events yet — create one above.</EmptyState>
+        </div>
+      </div>
     );
   }
 
   return (
     <div className="space-y-3">
-      <h2 className="text-lg font-semibold">Your events</h2>
+      <SectionTitle>Your events</SectionTitle>
       {events.map((e) => (
         <Card key={e.id} className="border-border/60 bg-card/60">
           <CardContent className="space-y-3 p-4">
@@ -87,7 +91,7 @@ export function EventList({ events }: { events: EventListRow[] }) {
                       }}
                     >
                       <Copy className="mr-1.5 h-3.5 w-3.5" />
-                      Copy
+                      Copy link
                     </Button>
                   </div>
                 ))}

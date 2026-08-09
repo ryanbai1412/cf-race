@@ -11,7 +11,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formatMsPrecise } from "@/lib/templates";
 import type { Problem } from "@/lib/types";
-import { Play, Video } from "lucide-react";
+import {
+  EmptyState,
+  PageHeader,
+  PageShell,
+  SectionTitle,
+} from "@/components/shell/page";
+import { ArrowLeft, Play, Video } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -74,46 +80,59 @@ export default async function ProblemDetailPage({
   const history = (sessions ?? []) as SessionHistoryRow[];
 
   return (
-    <main className="mx-auto max-w-5xl space-y-6 px-6 py-10">
-      <div className="flex flex-wrap items-center gap-3">
-        <h1 className="text-3xl font-bold tracking-tight">
-          <span className="font-mono text-primary">{problem.id}</span>{" "}
-          {problem.name}
-        </h1>
-        {problem.rating !== null && (
-          <Badge variant="outline" className="font-mono">
-            {problem.rating}
-          </Badge>
-        )}
-        <div className="flex items-center gap-2">
-          {history.some((s) => s.outcome === "solved") && (
-            <StarRating
+    <PageShell className="space-y-6">
+      <Button asChild size="sm" variant="ghost" className="-ml-3">
+        <Link href="/problems">
+          <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
+          Problems
+        </Link>
+      </Button>
+
+      <PageHeader
+        eyebrow={problem.id}
+        title={
+          <span className="flex flex-wrap items-center gap-3">
+            {problem.name}
+            {problem.rating !== null && (
+              <Badge variant="outline" className="font-mono text-xs">
+                {problem.rating}
+              </Badge>
+            )}
+          </span>
+        }
+        description={
+          <span className="flex items-center gap-2">
+            {history.some((s) => s.outcome === "solved") && (
+              <StarRating
+                problemId={problem.id}
+                initial={myRating?.stars ?? null}
+              />
+            )}
+            {avgStars !== null && (
+              <span className="font-mono text-xs text-muted-foreground">
+                avg {avgStars.toFixed(1)} ({ratings.length})
+              </span>
+            )}
+          </span>
+        }
+        actions={
+          <>
+            <InvalidateToggle
               problemId={problem.id}
-              initial={myRating?.stars ?? null}
+              invalidated={invalidation !== null}
             />
-          )}
-          {avgStars !== null && (
-            <span className="font-mono text-xs text-muted-foreground">
-              avg {avgStars.toFixed(1)} ({ratings.length})
-            </span>
-          )}
-        </div>
-        <div className="ml-auto flex items-center gap-2">
-          <InvalidateToggle
-            problemId={problem.id}
-            invalidated={invalidation !== null}
-          />
-          <Button asChild>
-            <Link href={`/problems/${problem.id}/solve`}>
-              <Play className="mr-1.5 h-4 w-4" />
-              Solve
-            </Link>
-          </Button>
-        </div>
-      </div>
+            <Button asChild size="sm">
+              <Link href={`/problems/${problem.id}/solve`}>
+                <Play className="mr-1.5 h-3.5 w-3.5" />
+                Solve
+              </Link>
+            </Button>
+          </>
+        }
+      />
 
       {invalidation && (
-        <div className="rounded-md border border-amber-500/50 bg-amber-500/10 px-4 py-3 text-sm text-amber-300">
+        <div className="rounded-md border border-amber-500/50 bg-amber-500/10 px-4 py-3 text-sm text-amber-400">
           Invalidated {new Date(invalidation.created_at).toLocaleDateString()} —
           excluded from duel and practice picks.
           {invalidation.reason && <> Reason: {invalidation.reason}</>}
@@ -126,11 +145,11 @@ export default async function ProblemDetailPage({
         </div>
 
         <section className="space-y-3">
-          <h2 className="text-lg font-semibold">Your sessions</h2>
+          <SectionTitle>Your sessions</SectionTitle>
           {history.length === 0 ? (
-            <p className="font-mono text-sm text-muted-foreground">
-              No runs yet.
-            </p>
+            <div className="rounded-lg border border-border/60 bg-card/60">
+              <EmptyState>No runs yet.</EmptyState>
+            </div>
           ) : (
             <div className="divide-y divide-border/60 rounded-lg border border-border/60 bg-card/60">
               {history.map((s) => (
@@ -144,12 +163,13 @@ export default async function ProblemDetailPage({
                       {formatMsPrecise(s.solve_ms)}
                     </span>
                   )}
-                  <span className="ml-auto font-mono text-[11px] text-muted-foreground">
+                  <span className="ml-auto font-mono text-xs text-muted-foreground">
                     {new Date(s.started_at).toLocaleDateString()}
                   </span>
                   <Button asChild size="sm" variant="ghost">
-                    <Link href={`/replay/${s.id}`}>
-                      <Video className="h-3.5 w-3.5" />
+                    <Link href={`/replay/${s.id}`} aria-label="Watch replay">
+                      <Video className="mr-1.5 h-3.5 w-3.5" />
+                      Replay
                     </Link>
                   </Button>
                 </div>
@@ -158,6 +178,6 @@ export default async function ProblemDetailPage({
           )}
         </section>
       </div>
-    </main>
+    </PageShell>
   );
 }

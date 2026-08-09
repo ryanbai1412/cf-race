@@ -6,6 +6,7 @@ import {
   SessionsList,
   type SessionListRow,
 } from "@/components/sessions/sessions-list";
+import { PageHeader, PageShell } from "@/components/shell/page";
 
 export const dynamic = "force-dynamic";
 
@@ -44,14 +45,13 @@ export default async function SessionsPage() {
   }));
 
   return (
-    <main className="mx-auto max-w-4xl px-6 py-10">
-      <div className="mb-6 space-y-1">
-        <h1 className="text-3xl font-bold tracking-tight">Sessions</h1>
-        <p className="text-sm text-muted-foreground">
-          Every run you&apos;ve made — replay or share any of them.
-        </p>
-      </div>
+    <PageShell>
+      <PageHeader
+        eyebrow="History"
+        title="Sessions"
+        description={<>Every run you&apos;ve made — replay or share any of them.</>}
+      />
       <SessionsList sessions={rows} />
-    </main>
+    </PageShell>
   );
 }

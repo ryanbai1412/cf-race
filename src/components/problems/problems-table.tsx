@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Segmented } from "@/components/ui/segmented";
+import { EmptyState } from "@/components/shell/page";
 import { formatMsPrecise } from "@/lib/templates";
 import { cn } from "@/lib/utils";
 import { Play, Shuffle, Video } from "lucide-react";
@@ -80,28 +82,13 @@ export function ProblemsTable({ problems }: { problems: ProblemBankRow[] }) {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-2">
-        <div className="flex overflow-hidden rounded-md border border-border">
-          {FILTERS.map((f) => (
-            <button
-              key={f}
-              onClick={() => setAndSaveFilter(f)}
-              className={cn(
-                "px-3 py-1.5 font-mono text-xs capitalize",
-                filter === f
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:bg-accent"
-              )}
-            >
-              {f}
-            </button>
-          ))}
-        </div>
+        <Segmented options={FILTERS} value={filter} onChange={setAndSaveFilter} />
         <Input
           ref={searchRef}
           placeholder="Search ( / )"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="h-8 w-48 font-mono text-sm"
+          className="h-8 w-48 font-mono text-xs"
         />
         <Button
           size="sm"
@@ -124,8 +111,10 @@ export function ProblemsTable({ problems }: { problems: ProblemBankRow[] }) {
               key={s}
               onClick={() => setSort(s)}
               className={cn(
-                "rounded px-2 py-1",
-                sort === s ? "bg-accent text-foreground" : "hover:bg-accent"
+                "rounded px-2 py-1 transition-colors",
+                sort === s
+                  ? "bg-accent text-foreground"
+                  : "hover:bg-accent hover:text-foreground"
               )}
             >
               {s}
@@ -195,9 +184,7 @@ export function ProblemsTable({ problems }: { problems: ProblemBankRow[] }) {
           </div>
         ))}
         {rows.length === 0 && (
-          <p className="px-4 py-8 text-center font-mono text-sm text-muted-foreground">
-            No problems match.
-          </p>
+          <EmptyState>No problems match these filters.</EmptyState>
         )}
       </div>
     </div>

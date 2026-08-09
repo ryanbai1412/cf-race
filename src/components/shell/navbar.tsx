@@ -10,12 +10,19 @@ import { cn } from "@/lib/utils";
 import { LogIn, LogOut, Menu, X } from "lucide-react";
 import { toast } from "sonner";
 
+// `match` lists every path prefix that should light the link up, so nested
+// surfaces (a replay, a duel room) still show where you are in the app.
 const LINKS = [
-  { href: "/problems", label: "Problems" },
-  { href: "/sessions", label: "Sessions" },
-  { href: "/duels", label: "Duels" },
-  { href: "/events", label: "Events" },
+  { href: "/problems", label: "Problems", match: ["/problems"] },
+  { href: "/sessions", label: "Sessions", match: ["/sessions", "/replay", "/r"] },
+  { href: "/duels", label: "Duels", match: ["/duels", "/duel"] },
+  { href: "/events", label: "Events", match: ["/events", "/e"] },
 ];
+
+function isActive(pathname: string | null, prefixes: string[]) {
+  if (!pathname) return false;
+  return prefixes.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+}
 
 function AvatarMenu({
   user,
@@ -94,7 +101,7 @@ export function Navbar() {
 
   return (
     <nav className="sticky top-0 z-30 border-b border-border/60 bg-background/85 backdrop-blur">
-      <div className="flex h-14 items-center gap-4 px-4 sm:px-6">
+      <div className="flex h-14 items-center gap-4 px-6">
         <Link href="/" className="font-mono text-sm font-bold tracking-tight">
           <span className="text-primary">cf</span>racing
         </Link>
@@ -103,10 +110,10 @@ export function Navbar() {
             <Link
               key={l.href}
               href={l.href}
+              aria-current={isActive(pathname, l.match) ? "page" : undefined}
               className={cn(
-                "rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:bg-accent hover:text-foreground",
-                (pathname === l.href || pathname?.startsWith(`${l.href}/`)) &&
-                  "bg-accent text-foreground"
+                "rounded-md px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground",
+                isActive(pathname, l.match) && "bg-accent font-medium text-foreground"
               )}
             >
               {l.label}
@@ -120,7 +127,7 @@ export function Navbar() {
             ) : (
               <Button size="sm" variant="secondary" onClick={signIn}>
                 <LogIn className="mr-1.5 h-3.5 w-3.5" />
-                Sign in
+                Sign in with Google
               </Button>
             ))}
           <button
@@ -133,13 +140,17 @@ export function Navbar() {
         </div>
       </div>
       {mobileOpen && (
-        <div className="border-t border-border/60 px-4 py-2 sm:hidden">
+        <div className="border-t border-border/60 px-6 py-2 sm:hidden">
           {LINKS.map((l) => (
             <Link
               key={l.href}
               href={l.href}
               onClick={() => setMobileOpen(false)}
-              className="block rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-foreground"
+              aria-current={isActive(pathname, l.match) ? "page" : undefined}
+              className={cn(
+                "block rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground",
+                isActive(pathname, l.match) && "bg-accent font-medium text-foreground"
+              )}
             >
               {l.label}
             </Link>

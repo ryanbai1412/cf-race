@@ -5,7 +5,14 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Segmented } from "@/components/ui/segmented";
 import { SoloAuthButton, useSoloAuth } from "@/components/solo/auth-button";
+import {
+  CenteredMessage,
+  EmptyState,
+  LoadingScreen,
+  PageHeader,
+} from "@/components/shell/page";
 import { formatMsPrecise } from "@/lib/templates";
 import { cn } from "@/lib/utils";
 import { ArrowLeft, Ban, RotateCcw } from "lucide-react";
@@ -22,14 +29,15 @@ type BankProblem = {
   invalidReason: string | null;
 };
 
-type View = "all" | "solved-you" | "solved-any" | "invalidated";
+const VIEWS = ["all", "solved-you", "solved-any", "invalidated"] as const;
+type View = (typeof VIEWS)[number];
 
-const VIEWS: { id: View; label: string }[] = [
-  { id: "all", label: "All" },
-  { id: "solved-you", label: "Solved by you" },
-  { id: "solved-any", label: "Solved by anyone" },
-  { id: "invalidated", label: "Invalidated" },
-];
+const VIEW_LABELS: Record<View, string> = {
+  all: "All",
+  "solved-you": "Solved by you",
+  "solved-any": "Solved by anyone",
+  invalidated: "Invalidated",
+};
 
 export function DuelProblems() {
   const auth = useSoloAuth();
@@ -75,21 +83,16 @@ export function DuelProblems() {
     }
   };
 
-  if (loading) {
-    return (
-      <main className="flex min-h-screen items-center justify-center">
-        <p className="animate-pulse font-mono text-muted-foreground">Loading…</p>
-      </main>
-    );
-  }
+  if (loading) return <LoadingScreen />;
   if (!user) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center gap-4 px-6">
-        <p className="text-sm text-muted-foreground">
-          Sign in with Google to view the duel problem bank.
-        </p>
+      <CenteredMessage
+        eyebrow="Problem bank"
+        title="Sign in to view the duel bank"
+        description="The duel problem bank shows what you and your opponents have already solved."
+      >
         <SoloAuthButton {...auth} next="/duel/problems" />
-      </main>
+      </CenteredMessage>
     );
   }
 
@@ -103,48 +106,34 @@ export function DuelProblems() {
   return (
     <main className="relative min-h-screen overflow-hidden px-6 py-10">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.12),transparent_60%)]" />
-      <div className="relative mx-auto max-w-3xl space-y-6">
-        <header className="flex flex-wrap items-center gap-3">
-          <Button asChild size="sm" variant="ghost">
-            <Link href="/duel">
-              <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
-              Duel
-            </Link>
-          </Button>
-          <div>
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-              Problem bank
-            </p>
-            <h1 className="text-2xl font-bold">Duel problems</h1>
-          </div>
-          <div className="ml-auto">
-            <SoloAuthButton {...auth} next="/duel/problems" />
-          </div>
-        </header>
+      <div className="relative mx-auto w-full max-w-5xl space-y-6">
+        <Button asChild size="sm" variant="ghost" className="-ml-3">
+          <Link href="/duels">
+            <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
+            Duels
+          </Link>
+        </Button>
 
-        <div className="flex flex-wrap gap-1.5">
-          {VIEWS.map((v) => (
-            <Button
-              key={v.id}
-              size="sm"
-              variant={view === v.id ? "default" : "secondary"}
-              onClick={() => setView(v.id)}
-            >
-              {v.label}
-            </Button>
-          ))}
-        </div>
+        <PageHeader
+          eyebrow="Problem bank"
+          title="Duel problems"
+          description="Problems eligible for duels — invalidate any that leaked."
+        />
 
-        <Card className="border-border/60 bg-card/70">
+        <Segmented
+          className="w-fit"
+          options={VIEWS}
+          value={view}
+          onChange={setView}
+          labelFor={(v) => VIEW_LABELS[v]}
+        />
+
+        <Card className="border-border/60 bg-card/60">
           <CardContent className="pt-6">
             {problems === null ? (
-              <p className="animate-pulse text-sm text-muted-foreground">
-                Loading problems…
-              </p>
+              <EmptyState className="animate-pulse">Loading problems…</EmptyState>
             ) : filtered.length === 0 ? (
-              <p className="text-sm text-muted-foreground">
-                No problems in this view.
-              </p>
+              <EmptyState>No problems in this view.</EmptyState>
             ) : (
               <div className="space-y-1.5">
                 {filtered.map((p) => (
@@ -161,16 +150,17 @@ export function DuelProblems() {
                           {p.id}
                         </span>
                         {p.rating !== null && (
-                          <Badge variant="outline" className="font-mono text-[10px]">
+                          <Badge variant="outline" className="font-mono text-xs">
                             {p.rating}
                           </Badge>
                         )}
                         {p.invalidated && (
                           <Badge
                             variant="outline"
-                            className="border-red-500/50 font-mono text-[10px] text-red-400"
+                            className="border-amber-500/50 font-mono text-xs text-amber-400"
                           >
-                            invalid{p.invalidReason ? `: ${p.invalidReason}` : ""}
+                            invalidated
+                            {p.invalidReason ? `: ${p.invalidReason}` : ""}
                           </Badge>
                         )}
                       </div>

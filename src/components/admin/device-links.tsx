@@ -26,17 +26,17 @@ export function DeviceLinks({
   }
 
   return (
-    <Card>
+    <Card className="border-border/60 bg-card/60">
       <CardHeader>
-        <CardTitle>Device links</CardTitle>
+        <CardTitle className="text-lg">Device links</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-3 sm:grid-cols-2">
         {DEVICES.map((d) => (
           <div
             key={d.to}
-            className="flex items-center justify-between rounded-md border border-border/60 px-4 py-3"
+            className="flex items-center justify-between rounded-md border border-border/60 px-3 py-2"
           >
-            <span className="font-medium">{d.label}</span>
+            <span className="text-sm">{d.label}</span>
             <Button
               size="sm"
               variant="secondary"

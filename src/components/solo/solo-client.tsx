@@ -360,7 +360,7 @@ export function SoloClient({
         : null;
     return (
       <main className="flex min-h-screen items-center justify-center px-6">
-        <Card className="w-full max-w-lg border-border/60 bg-card/70 text-center">
+        <Card className="w-full max-w-lg border-border/60 bg-card/60 text-center">
           <CardHeader>
             <CardTitle
               className={`font-mono text-4xl font-black ${
@@ -459,7 +459,7 @@ export function SoloClient({
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-6">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.12),transparent_60%)]" />
-      <Card className="relative w-full max-w-lg border-border/60 bg-card/70">
+      <Card className="relative w-full max-w-lg border-border/60 bg-card/60">
         <CardHeader>
           <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
             Solo practice

@@ -9,6 +9,7 @@ import {
   type ProblemBankRow,
   type ProblemStatus,
 } from "@/components/problems/problems-table";
+import { PageHeader, PageShell } from "@/components/shell/page";
 
 export const dynamic = "force-dynamic";
 
@@ -80,14 +81,13 @@ export default async function ProblemsPage() {
   });
 
   return (
-    <main className="mx-auto max-w-4xl px-6 py-10">
-      <div className="mb-6 space-y-1">
-        <h1 className="text-3xl font-bold tracking-tight">Problems</h1>
-        <p className="text-sm text-muted-foreground">
-          The bank — every run is timed and recorded.
-        </p>
-      </div>
+    <PageShell>
+      <PageHeader
+        eyebrow="Problem bank"
+        title="Problems"
+        description="The bank — every run is timed and recorded."
+      />
       <ProblemsTable problems={rows} />
-    </main>
+    </PageShell>
   );
 }

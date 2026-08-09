@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { EmptyState } from "@/components/shell/page";
 import { toast } from "sonner";
 import { flagEmoji } from "@/lib/countries";
 import { cn } from "@/lib/utils";
@@ -86,11 +87,7 @@ export function RaceControl({ eventId }: { eventId: string }) {
   }
 
   if (!state) {
-    return (
-      <p className="animate-pulse py-8 text-center font-mono text-sm text-muted-foreground">
-        Connecting…
-      </p>
-    );
+    return <EmptyState className="animate-pulse">Connecting…</EmptyState>;
   }
   const race = state.race;
   const anyCheckedIn = Boolean(state.contestants.station1 || state.contestants.station2);
@@ -108,9 +105,9 @@ export function RaceControl({ eventId }: { eventId: string }) {
           const p = race?.participants.find((x) => x.station_role === role);
           const startMs = race?.started_at ? new Date(race.started_at).getTime() : null;
           return (
-            <Card key={role}>
+            <Card key={role} className="border-border/60 bg-card/60">
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm text-muted-foreground">
+                <CardTitle className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
                   Station {role === "station1" ? "1" : "2"}
                 </CardTitle>
               </CardHeader>
@@ -136,7 +133,9 @@ export function RaceControl({ eventId }: { eventId: string }) {
                     )}
                   </div>
                 ) : (
-                  <p className="text-muted-foreground">Empty — waiting for check-in</p>
+                  <p className="text-sm text-muted-foreground">
+                    Empty — waiting for check-in
+                  </p>
                 )}
               </CardContent>
             </Card>
@@ -145,9 +144,9 @@ export function RaceControl({ eventId }: { eventId: string }) {
       </div>
 
       {/* Race control */}
-      <Card>
+      <Card className="border-border/60 bg-card/60">
         <CardHeader>
-          <CardTitle>Race control</CardTitle>
+          <CardTitle className="text-lg">Race control</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {race ? (
@@ -172,7 +171,7 @@ export function RaceControl({ eventId }: { eventId: string }) {
               </div>
               <Button
                 variant="destructive"
-                size={raceOver ? "lg" : "default"}
+                size="lg"
                 onClick={finishRace}
                 disabled={busy}
               >
