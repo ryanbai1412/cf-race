@@ -83,6 +83,9 @@ const UPLOAD_SHARE = 0.9;
 /** How many chunk uploads may be in flight at once. */
 const UPLOAD_CONCURRENCY = 5;
 
+/** Ceiling for progress while the recording is still producing chunks. */
+const LIVE_SHARE = 0.5;
+
 /** Stable key for a recording, so a UI can find its own upload. */
 export function recordingKey(query: RecordingQuery): string {
   return query.sessionId ?? `${query.raceId ?? ""}-${query.station ?? ""}`;
@@ -281,11 +284,14 @@ export async function createStreamingUpload(
   const pending = new Map<number, Blob>();
 
   const report = () => {
-    // Chunks only ever fill the first 90%; stitching owns the rest.
-    const frac =
-      totalBytes > 0 ? (uploadedBytes / totalBytes) * UPLOAD_SHARE : 0;
-    setStatus(record.id, { progress: Math.min(frac, UPLOAD_SHARE) });
-    onProgress?.(Math.min(frac, UPLOAD_SHARE));
+    // Chunks only ever fill the first 90%; stitching owns the rest. While the
+    // recording is still running the denominator is only the chunks produced
+    // so far, so the bar is held back — otherwise it sits near the top of its
+    // range from the first chunk on and jumps backwards at stop.
+    const ceiling = record.closed ? UPLOAD_SHARE : LIVE_SHARE;
+    const frac = totalBytes > 0 ? (uploadedBytes / totalBytes) * ceiling : 0;
+    setStatus(record.id, { progress: Math.min(frac, ceiling) });
+    onProgress?.(Math.min(frac, ceiling));
   };
 
   const sendChunk = async (index: number, blob: Blob): Promise<boolean> => {
