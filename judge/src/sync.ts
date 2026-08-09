@@ -12,6 +12,8 @@ import { clearProblemCache } from "./problems.js";
 
 const BUCKET = process.env.PROBLEMS_BUCKET ?? "problems";
 const STATE_FILE = ".sync-state.json";
+const LIST_TIMEOUT_MS = 30_000;
+const DOWNLOAD_TIMEOUT_MS = 180_000;
 
 type RemoteObject = { path: string; version: string; size: number | null };
 type SyncState = Record<string, string>;
@@ -42,6 +44,7 @@ async function list(
       "content-type": "application/json",
     },
     body: JSON.stringify({ prefix, limit: 10000, offset: 0 }),
+    signal: AbortSignal.timeout(LIST_TIMEOUT_MS),
   });
   if (!res.ok) {
     throw new Error(`list ${prefix} failed: ${res.status} ${await res.text()}`);
@@ -74,14 +77,27 @@ async function walk(
   }
 }
 
+/** Object names come from the bucket; never let them escape problemsDir. */
+function safeObjectPath(p: string): boolean {
+  return (
+    !path.isAbsolute(p) &&
+    p.split("/").every((seg) => seg.length > 0 && seg !== "." && seg !== "..")
+  );
+}
+
 async function download(url: string, key: string, objectPath: string): Promise<void> {
   const dest = path.join(config.problemsDir, objectPath);
   await fs.promises.mkdir(path.dirname(dest), { recursive: true });
   const res = await fetch(`${url}/storage/v1/object/${BUCKET}/${objectPath}`, {
     headers: { apikey: key, authorization: `Bearer ${key}` },
+    signal: AbortSignal.timeout(DOWNLOAD_TIMEOUT_MS),
   });
   if (!res.ok) throw new Error(`download ${objectPath} failed: ${res.status}`);
-  await fs.promises.writeFile(dest, Buffer.from(await res.arrayBuffer()));
+  // Write to a temp file and rename so a concurrent judge run never sees a
+  // partially written test file.
+  const tmp = `${dest}.partial-${process.pid}`;
+  await fs.promises.writeFile(tmp, Buffer.from(await res.arrayBuffer()));
+  await fs.promises.rename(tmp, dest);
 }
 
 function statePath(): string {
@@ -103,6 +119,9 @@ export async function syncProblems(): Promise<number> {
 
   const remote: RemoteObject[] = [];
   await walk(c.url, c.key, "", remote);
+  for (const o of remote) {
+    if (!safeObjectPath(o.path)) throw new Error(`unsafe object path: ${o.path}`);
+  }
   const state = loadState();
   let seeded = false;
   const changed = remote.filter((o) => {
@@ -153,12 +172,17 @@ export async function syncProblems(): Promise<number> {
  */
 export function scheduleProblemSync(intervalSec: number): void {
   if (!creds() || intervalSec <= 0) return;
+  let running = false;
   const tick = async () => {
+    if (running) return;
+    running = true;
     try {
       const n = await syncProblems();
       if (n > 0) console.log(`sync: ${n} objects updated`);
     } catch (e) {
       console.error("sync: failed", e);
+    } finally {
+      running = false;
     }
   };
   void tick();

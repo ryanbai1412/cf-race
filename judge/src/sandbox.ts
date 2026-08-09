@@ -10,6 +10,8 @@ export interface ExecSpec {
   /** Files to place in the working dir before running: name -> content/path. */
   files?: Record<string, string | { fromPath: string }>;
   stdin?: string;
+  /** Host file to feed as stdin instead of an in-memory string. */
+  stdinFile?: string;
   timeLimitMs: number;
   memoryLimitMb: number;
   wallTimeMs?: number;
@@ -46,7 +48,13 @@ export interface RunOptions {
 function spawnCollect(
   cmd: string,
   args: string[],
-  opts: { stdin?: string; cwd?: string; killAfterMs?: number; env?: NodeJS.ProcessEnv }
+  opts: {
+    stdin?: string;
+    stdinFile?: string;
+    cwd?: string;
+    killAfterMs?: number;
+    env?: NodeJS.ProcessEnv;
+  }
 ): Promise<{
   code: number | null;
   signal: string | null;
@@ -55,10 +63,19 @@ function spawnCollect(
   stdoutCapped: boolean;
 }> {
   return new Promise((resolve, reject) => {
+    let stdinFd: number | undefined;
+    if (opts.stdinFile !== undefined) {
+      try {
+        stdinFd = fs.openSync(opts.stdinFile, "r");
+      } catch (e) {
+        reject(e);
+        return;
+      }
+    }
     const child = spawn(cmd, args, {
       cwd: opts.cwd,
       env: opts.env ?? process.env,
-      stdio: ["pipe", "pipe", "pipe"],
+      stdio: [stdinFd ?? "pipe", "pipe", "pipe"],
     });
     const out: Buffer[] = [];
     const err: Buffer[] = [];
@@ -68,7 +85,7 @@ function spawnCollect(
     // stdout must be kept in full for the checker; stderr is display-only.
     const outCap = config.captureCapBytes;
     const errCap = config.outputCapBytes * 4;
-    child.stdout.on("data", (d: Buffer) => {
+    child.stdout!.on("data", (d: Buffer) => {
       if (outLen < outCap) {
         out.push(d);
         outLen += d.length;
@@ -76,7 +93,7 @@ function spawnCollect(
         outCapped = true;
       }
     });
-    child.stderr.on("data", (d: Buffer) => {
+    child.stderr!.on("data", (d: Buffer) => {
       if (errLen < errCap) {
         err.push(d);
         errLen += d.length;
@@ -92,10 +109,12 @@ function spawnCollect(
     }
     child.on("error", (e) => {
       if (timer) clearTimeout(timer);
+      if (stdinFd !== undefined) fs.close(stdinFd, () => {});
       reject(e);
     });
     child.on("close", (code, signal) => {
       if (timer) clearTimeout(timer);
+      if (stdinFd !== undefined) fs.close(stdinFd, () => {});
       resolve({
         code: killed && code === null ? null : code,
         signal,
@@ -106,9 +125,11 @@ function spawnCollect(
     });
     // A program that exits without reading its input closes the pipe early;
     // the resulting EPIPE is expected and must not surface as an 'error' event.
-    child.stdin.on("error", () => {});
-    if (opts.stdin !== undefined) child.stdin.write(opts.stdin);
-    child.stdin.end();
+    if (child.stdin) {
+      child.stdin.on("error", () => {});
+      if (opts.stdin !== undefined) child.stdin.write(opts.stdin);
+      child.stdin.end();
+    }
   });
 }
 
@@ -217,11 +238,18 @@ async function runIsolate(
     } else if (!spec.noAddressSpaceLimit) {
       args.push("-m", String(spec.memoryLimitMb * 1024));
     }
-    for (const d of spec.dirs ?? []) args.push(`--dir=${d}=${d}`);
+    const dirs = [...(spec.dirs ?? [])];
+    if (spec.stdinFile) {
+      dirs.push(path.dirname(spec.stdinFile));
+      args.push(`--stdin=${spec.stdinFile}`);
+    }
+    for (const d of dirs) args.push(`--dir=${d}=${d}`);
     for (const [k, v] of Object.entries(spec.env ?? {})) args.push("-E", `${k}=${v}`);
     args.push("--run", "--", ...spec.argv);
 
-    const res = await spawnCollect("isolate", args, { stdin: spec.stdin ?? "" });
+    const res = await spawnCollect("isolate", args, {
+      stdin: spec.stdinFile ? undefined : spec.stdin ?? "",
+    });
     const meta = parseIsolateMeta(metaPath);
     const timeMs = Math.round(Number(meta["time"] ?? 0) * 1000);
     let status: ExecStatus = "OK";
@@ -265,7 +293,8 @@ async function runPlain(spec: ExecSpec, opts: RunOptions): Promise<ExecResult> {
     await placeFiles(dir, spec.files);
     const start = process.hrtime.bigint();
     const res = await spawnCollect(spec.argv[0], spec.argv.slice(1), {
-      stdin: spec.stdin ?? "",
+      stdin: spec.stdinFile ? undefined : spec.stdin ?? "",
+      stdinFile: spec.stdinFile,
       cwd: dir,
       killAfterMs: spec.wallTimeMs ?? spec.timeLimitMs * 2 + 2000,
       env: { ...process.env, ...spec.env },

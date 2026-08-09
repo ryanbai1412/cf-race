@@ -1,12 +1,27 @@
 import fs from "node:fs";
 import path from "node:path";
-import { ProblemMeta, TestCase } from "./types.js";
+import { ProblemMeta } from "./types.js";
+
+/** The requested problem package does not exist on disk. */
+export class ProblemNotFoundError extends Error {}
+
+/**
+ * A test stored on disk. Only paths are held in memory; inputs are streamed
+ * into the sandbox and expected outputs are read per-test at check time.
+ */
+export interface DiskTest {
+  name: string;
+  inputPath: string;
+  expectedPath: string | null;
+}
 
 const metaCache = new Map<string, ProblemMeta>();
+const testListCache = new Map<string, DiskTest[]>();
 
 /** Drop cached metadata after a problem sync so updates are picked up. */
 export function clearProblemCache(): void {
   metaCache.clear();
+  testListCache.clear();
 }
 
 function problemDir(id: string): string {
@@ -15,40 +30,67 @@ function problemDir(id: string): string {
   return path.join(process.env.PROBLEMS_DIR ?? "/data/problems", id);
 }
 
-export function loadMeta(id: string): ProblemMeta {
+export async function loadMeta(id: string): Promise<ProblemMeta> {
   const cached = metaCache.get(id);
   if (cached) return cached;
   const p = path.join(problemDir(id), "meta.json");
-  const meta = JSON.parse(fs.readFileSync(p, "utf8")) as ProblemMeta;
+  let raw: string;
+  try {
+    raw = await fs.promises.readFile(p, "utf8");
+  } catch (e) {
+    if ((e as NodeJS.ErrnoException).code === "ENOENT")
+      throw new ProblemNotFoundError(`unknown problem: ${id}`);
+    throw e;
+  }
+  let meta: ProblemMeta;
+  try {
+    meta = JSON.parse(raw) as ProblemMeta;
+  } catch {
+    throw new Error(`corrupt meta.json for problem ${id}`);
+  }
   metaCache.set(id, meta);
   return meta;
 }
 
-function loadPairs(dir: string, inExt: string, outExt: string): TestCase[] {
-  if (!fs.existsSync(dir)) return [];
-  const ins = fs
-    .readdirSync(dir)
-    .filter((f) => f.endsWith(inExt))
-    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
-  const tests: TestCase[] = [];
-  for (const f of ins) {
-    const base = f.slice(0, -inExt.length);
-    const outPath = path.join(dir, base + outExt);
-    tests.push({
-      name: base,
-      input: fs.readFileSync(path.join(dir, f), "utf8"),
-      expected: fs.existsSync(outPath) ? fs.readFileSync(outPath, "utf8") : null,
-    });
+async function listPairs(
+  dir: string,
+  inExt: string,
+  outExt: string
+): Promise<DiskTest[]> {
+  let names: string[];
+  try {
+    names = await fs.promises.readdir(dir);
+  } catch (e) {
+    if ((e as NodeJS.ErrnoException).code === "ENOENT") return [];
+    throw e;
   }
+  const outs = new Set(names.filter((f) => f.endsWith(outExt)));
+  return names
+    .filter((f) => f.endsWith(inExt))
+    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+    .map((f) => {
+      const base = f.slice(0, -inExt.length);
+      return {
+        name: base,
+        inputPath: path.join(dir, f),
+        expectedPath: outs.has(base + outExt) ? path.join(dir, base + outExt) : null,
+      };
+    });
+}
+
+async function cachedPairs(cacheKey: string, dir: string): Promise<DiskTest[]> {
+  const cached = testListCache.get(cacheKey);
+  if (cached) return cached;
+  const tests = await listPairs(dir, ".in", ".out");
+  testListCache.set(cacheKey, tests);
   return tests;
 }
 
-export function loadSamples(id: string): TestCase[] {
-  return loadPairs(path.join(problemDir(id), "samples"), ".in", ".out").map(
-    (t) => ({ ...t, name: `sample${t.name}` })
-  );
+export async function loadSamples(id: string): Promise<DiskTest[]> {
+  const tests = await cachedPairs(`samples:${id}`, path.join(problemDir(id), "samples"));
+  return tests.map((t) => ({ ...t, name: `sample${t.name}` }));
 }
 
-export function loadFullTests(id: string): TestCase[] {
-  return loadPairs(path.join(problemDir(id), "tests"), ".in", ".out");
+export async function loadFullTests(id: string): Promise<DiskTest[]> {
+  return cachedPairs(`tests:${id}`, path.join(problemDir(id), "tests"));
 }

@@ -24,7 +24,7 @@ mkdir -p "${CACHE_DIR:-/data/cache}" "${PROBLEMS_DIR:-/data/problems}"
 
 # Keep the compile cache and scratch space in RAM (box dirs already are).
 if ! mountpoint -q "${CACHE_DIR:-/data/cache}" 2>/dev/null; then
-  mount -t tmpfs -o size=2g tmpfs "${CACHE_DIR:-/data/cache}" 2>/dev/null || true
+  mount -t tmpfs -o size=8g tmpfs "${CACHE_DIR:-/data/cache}" 2>/dev/null || true
 fi
 if ! mountpoint -q /tmp 2>/dev/null; then
   mount -t tmpfs -o size=1g tmpfs /tmp 2>/dev/null || true

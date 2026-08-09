@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import { check } from "./checker.js";
 import { compile, CompileMode } from "./compile.js";
 import { config } from "./config.js";
@@ -9,10 +10,18 @@ import {
   RunResponse,
   SubmitRequest,
   SubmitResponse,
-  TestCase,
   TestResult,
   Verdict,
 } from "./types.js";
+
+/** A test either inline (wire requests) or on disk (problem packages). */
+interface JudgeTest {
+  name: string;
+  input?: string;
+  inputPath?: string;
+  expected?: string | null;
+  expectedPath?: string | null;
+}
 
 /** Simple counting semaphore for the worker pool. */
 class Semaphore {
@@ -51,7 +60,7 @@ async function runOneTest(
   lang: Lang,
   binPath: string | undefined,
   source: string,
-  test: TestCase,
+  test: JudgeTest,
   timeLimitMs: number,
   memoryLimitMb: number,
   floatEps: number | null | undefined,
@@ -76,6 +85,7 @@ async function runOneTest(
   const res = await sandboxRun({
     ...spec,
     stdin: test.input,
+    stdinFile: test.inputPath,
     timeLimitMs,
     memoryLimitMb,
     // ASan reserves terabytes of address space; the rlimit-based fallback
@@ -87,17 +97,23 @@ async function runOneTest(
   const err = truncateText(res.stderr);
   let verdict: Verdict;
   let checkerNote: string | undefined;
+  const expected =
+    test.expected !== undefined
+      ? test.expected
+      : test.expectedPath
+        ? await fs.promises.readFile(test.expectedPath, "utf8")
+        : null;
   if (res.status === "TLE") verdict = "TLE";
   else if (res.status === "ML") verdict = "ML";
   else if (res.status === "RE") verdict = "RE";
-  else if (test.expected == null) verdict = "AC";
+  else if (expected == null) verdict = "AC";
   else if (res.stdoutCapped) {
     verdict = "WA";
     checkerNote = `output exceeded ${Math.round(config.captureCapBytes / (1024 * 1024))}MB and could not be checked`;
   } else {
     // Check against the full captured output — out.text is truncated for
     // display and would turn large correct outputs into WA.
-    const c = check(test.expected, res.stdout.toString("utf8"), floatEps);
+    const c = check(expected, res.stdout.toString("utf8"), floatEps);
     verdict = c.ok ? "AC" : "WA";
     checkerNote = c.note;
   }
@@ -119,11 +135,11 @@ export async function handleRun(
   req: RunRequest,
   onUpdate?: (partial: Partial<RunResponse> & { runId: string }) => void
 ): Promise<RunResponse> {
-  const meta = req.problemId ? loadMeta(req.problemId) : undefined;
+  const meta = req.problemId ? await loadMeta(req.problemId) : undefined;
   const timeLimitMs = req.timeLimitMs ?? meta?.timeLimitMs ?? 2000;
   const memoryLimitMb = req.memoryLimitMb ?? meta?.memoryLimitMb ?? 256;
-  const tests: TestCase[] =
-    req.tests ?? (req.problemId ? loadSamples(req.problemId) : []);
+  const tests: JudgeTest[] =
+    req.tests ?? (req.problemId ? await loadSamples(req.problemId) : []);
 
   const compiled = await pool.run(() => compile(req.lang, "debug", req.source));
   const compileInfo = { ok: compiled.ok, stderr: compiled.stderr };
@@ -182,8 +198,8 @@ export async function handleSubmit(
   req: SubmitRequest,
   onUpdate?: (partial: SubmitResponse) => void
 ): Promise<SubmitResponse> {
-  const meta = loadMeta(req.problemId);
-  const tests = loadFullTests(req.problemId);
+  const meta = await loadMeta(req.problemId);
+  const tests = await loadFullTests(req.problemId);
   const totalCount = tests.length;
 
   const compiled = await pool.run(() =>
