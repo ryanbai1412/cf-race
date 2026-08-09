@@ -30,6 +30,13 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/",
+    "/problems/:path*",
+    "/problems",
+    "/sessions",
+    "/replay/:path*",
+    "/duels",
+    "/events",
     "/solo/:path*",
     "/solo",
     "/duel/:path*",
@@ -37,5 +44,7 @@ export const config = {
     "/auth/:path*",
     "/api/solo/:path*",
     "/api/duel/:path*",
+    "/api/shares",
+    "/api/events",
   ],
 };
