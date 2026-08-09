@@ -153,7 +153,10 @@ export default async function ProblemDetailPage({
           ) : (
             <div className="divide-y divide-border/60 rounded-lg border border-border/60 bg-card/60">
               {history.map((s) => (
-                <div key={s.id} className="flex items-center gap-2 px-3 py-2.5">
+                <div
+                  key={s.id}
+                  className="flex min-w-0 flex-wrap items-center gap-2 px-3 py-2.5"
+                >
                   <Badge variant="outline" className="font-mono text-xs">
                     {s.kind}
                   </Badge>
@@ -164,7 +167,10 @@ export default async function ProblemDetailPage({
                     </span>
                   )}
                   <span className="ml-auto font-mono text-xs text-muted-foreground">
-                    {new Date(s.started_at).toLocaleDateString()}
+                    {new Date(s.started_at).toLocaleString([], {
+                      dateStyle: "short",
+                      timeStyle: "short",
+                    })}
                   </span>
                   <Button asChild size="sm" variant="ghost">
                     <Link href={`/replay/${s.id}`} aria-label="Watch replay">
