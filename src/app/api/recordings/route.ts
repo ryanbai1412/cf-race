@@ -152,26 +152,29 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const parts: ArrayBuffer[] = [];
-    for (const c of manifest) {
-      const { data, error } = await db()
-        .storage.from("recordings")
-        .download(chunkPath(path, c.index));
-      if (error || !data) {
-        return NextResponse.json(
-          { error: `chunk ${c.index} download failed` },
-          { status: 500 }
-        );
-      }
-      const bytes = await data.arrayBuffer();
-      if (bytes.byteLength !== c.size) {
-        return NextResponse.json(
-          { error: `chunk ${c.index} size mismatch` },
-          { status: 409 }
-        );
-      }
-      parts.push(bytes);
+    // Downloaded concurrently — stitching is dominated by per-object round
+    // trips — but kept in manifest order, which is what makes the webm valid.
+    const results = await Promise.all(
+      manifest.map(async (c) => {
+        const { data, error } = await db()
+          .storage.from("recordings")
+          .download(chunkPath(path, c.index));
+        if (error || !data) return { index: c.index, error: "download failed" };
+        const bytes = await data.arrayBuffer();
+        if (bytes.byteLength !== c.size) {
+          return { index: c.index, error: "size mismatch" };
+        }
+        return { index: c.index, bytes };
+      })
+    );
+    const bad = results.find((r) => r.error);
+    if (bad) {
+      return NextResponse.json(
+        { error: `chunk ${bad.index} ${bad.error}` },
+        { status: bad.error === "size mismatch" ? 409 : 500 }
+      );
     }
+    const parts = results.map((r) => r.bytes as ArrayBuffer);
 
     const { error: upErr } = await db()
       .storage.from("recordings")

@@ -21,6 +21,10 @@ import {
 import type { Contestant, Lang, Problem } from "@/lib/types";
 import { useReplayRecorder } from "@/hooks/use-replay-recorder";
 import {
+  RecordingUploadProgress,
+  useRecordingUpload,
+} from "@/components/recording-upload-progress";
+import {
   Camera,
   CameraOff,
   Loader2,
@@ -64,7 +68,6 @@ export function SoloClient({
   const [uploadState, setUploadState] = useState<
     "none" | "uploading" | "done" | "failed"
   >("none");
-  const [uploadProgress, setUploadProgress] = useState(0);
   const [starting, setStarting] = useState(false);
   // Language chosen before the run starts, so the race opens on the right
   // buffer and template.
@@ -84,6 +87,9 @@ export function SoloClient({
   const recordingRef = useRef<WebcamRecording | null>(null);
   const sessionRef = useRef<Session | null>(null);
   sessionRef.current = session;
+
+  // Shared upload progress (also covers uploads resumed from a previous load).
+  const upload = useRecordingUpload(session?.sessionId);
 
   // Webcam preview (recording is optional — everything works without it).
   useEffect(() => {
@@ -198,7 +204,6 @@ export function SoloClient({
     recordingRef.current = null;
     if (rec) {
       setUploadState("uploading");
-      setUploadProgress(0);
       // Keep recording 5s past the end to capture the reaction. Chunks have
       // been streaming up during the run; this finalizes the recording (and
       // survives a closed tab: resumed from IndexedDB on the next visit).
@@ -211,7 +216,6 @@ export function SoloClient({
               rec.startedAtMs + clockOffset.current - session.startAtMs
             ),
           },
-          onProgress: setUploadProgress,
         })
         .then((ok) => setUploadState(ok ? "done" : "failed"));
     }
@@ -288,7 +292,7 @@ export function SoloClient({
         recordingRef.current = startWebcamRecording(
           streamRef.current,
           { sessionId: s.sessionId },
-          { label: problem.name, onProgress: setUploadProgress }
+          { label: problem.name, problemId: problem.id }
         );
       }
       setResult(null);
@@ -402,23 +406,12 @@ export function SoloClient({
                 No AC this time — replay it and see where the seconds went.
               </p>
             )}
-            {uploadState === "uploading" && (
-              <div className="mx-auto w-full max-w-xs space-y-1">
-                <p className="font-mono text-xs text-muted-foreground">
-                  Uploading webcam recording… {Math.round(uploadProgress * 100)}%
-                </p>
-                <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
-                  <div
-                    className="h-full rounded-full bg-primary transition-[width] duration-200"
-                    style={{ width: `${Math.round(uploadProgress * 100)}%` }}
-                  />
-                </div>
-              </div>
-            )}
+            <RecordingUploadProgress
+              status={upload}
+              className="mx-auto w-full max-w-xs"
+            />
             <p className="font-mono text-xs text-muted-foreground">
               {uploadState === "done" && "Webcam recording saved."}
-              {uploadState === "failed" &&
-                "Webcam recording saved locally — upload will retry automatically."}
               {uploadState === "none" &&
                 camState === "none" &&
                 "No camera — this run was recorded without video."}

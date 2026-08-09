@@ -37,6 +37,8 @@ type PendingRecording = {
   query: RecordingQuery;
   /** Human label for the progress toast, e.g. the problem name. */
   label?: string;
+  /** Codeforces problem id (e.g. 1335A), so the label can link to it. */
+  problemId?: string;
   createdAt: number;
 };
 
@@ -46,6 +48,8 @@ type UploadRecord = {
   query: RecordingQuery;
   /** Human label for the progress toast, e.g. the problem name. */
   label?: string;
+  /** Codeforces problem id (e.g. 1335A), so the label can link to it. */
+  problemId?: string;
   chunks: ChunkManifestEntry[];
   /** True once the recorder stopped and the manifest is complete. */
   closed: boolean;
@@ -62,11 +66,24 @@ type ChunkRecord = {
 
 export type UploadStatus = {
   id: string;
+  /** 0…1 across both phases: chunk uploads 0–0.9, stitching 0.9–1. */
   progress: number;
-  state: "uploading" | "failed";
+  state: "uploading" | "stitching" | "failed";
   /** What the recording is of (problem name), when known. */
   label?: string;
+  /** Codeforces problem id of `label`, when known. */
+  problemId?: string;
+  /** Stable per-recording key (session id, or race id + station). */
+  key?: string;
 };
+
+/** Share of the progress bar spent uploading chunks; the rest is stitching. */
+const UPLOAD_SHARE = 0.9;
+
+/** Stable key for a recording, so a UI can find its own upload. */
+export function recordingKey(query: RecordingQuery): string {
+  return query.sessionId ?? `${query.raceId ?? ""}-${query.station ?? ""}`;
+}
 
 function openDb(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
@@ -170,7 +187,11 @@ function setStatus(id: string, patch: Partial<UploadStatus> | null) {
   emit();
 }
 
-/** Subscribe to upload progress/state; immediately called with current state. */
+/**
+ * Subscribe to upload progress/state; immediately called with current state.
+ * This is the single source of truth for every recording progress UI — see
+ * useRecordingUpload / <RecordingUploadProgress>.
+ */
 export function subscribeUploads(cb: (s: UploadStatus[]) => void): () => void {
   listeners.add(cb);
   cb(statuses);
@@ -205,12 +226,21 @@ const liveUploads = new Set<string>();
  */
 export async function createStreamingUpload(
   query: RecordingQuery,
-  { label, onProgress: liveProgress }: { label?: string; onProgress?: (frac: number) => void } = {}
+  {
+    label,
+    problemId,
+    onProgress: liveProgress,
+  }: {
+    label?: string;
+    problemId?: string;
+    onProgress?: (frac: number) => void;
+  } = {}
 ): Promise<StreamingUpload | null> {
   const record: UploadRecord = {
     id: newId(),
     query,
     label,
+    problemId,
     chunks: [],
     closed: false,
     createdAt: Date.now(),
@@ -221,7 +251,13 @@ export async function createStreamingUpload(
     return null;
   }
   liveUploads.add(record.id);
-  setStatus(record.id, { state: "uploading", progress: 0, label });
+  setStatus(record.id, {
+    state: "uploading",
+    progress: 0,
+    label,
+    problemId,
+    key: recordingKey(query),
+  });
 
   let queue: Promise<void> = Promise.resolve();
   let uploadedBytes = 0;
@@ -234,10 +270,11 @@ export async function createStreamingUpload(
   const pending = new Map<number, Blob>();
 
   const report = () => {
-    // Cap at 99% — 100% only after the server confirms the finalize step.
-    const frac = totalBytes > 0 ? Math.min(uploadedBytes / totalBytes, 0.99) : 0;
-    setStatus(record.id, { progress: frac });
-    onProgress?.(frac);
+    // Chunks only ever fill the first 90%; stitching owns the rest.
+    const frac =
+      totalBytes > 0 ? (uploadedBytes / totalBytes) * UPLOAD_SHARE : 0;
+    setStatus(record.id, { progress: Math.min(frac, UPLOAD_SHARE) });
+    onProgress?.(Math.min(frac, UPLOAD_SHARE));
   };
 
   const sendChunk = async (index: number, blob: Blob): Promise<boolean> => {
@@ -293,8 +330,13 @@ export async function createStreamingUpload(
       for (const [index, blob] of [...pending].sort((a, b) => a[0] - b[0])) {
         await sendChunk(index, blob);
       }
-      const ok =
-        pending.size === 0 && (await finalizeRecording(record.query, record.chunks));
+      if (pending.size > 0) {
+        setStatus(record.id, { state: "failed" });
+        return false;
+      }
+      setStatus(record.id, { state: "stitching", progress: UPLOAD_SHARE });
+      onProgress?.(UPLOAD_SHARE);
+      const ok = await finalizeRecording(record.query, record.chunks);
       if (ok) {
         await dropUpload(record.id);
         setStatus(record.id, { progress: 1 });
@@ -327,7 +369,13 @@ async function dropUpload(uploadId: string): Promise<void> {
 async function resumeUpload(record: UploadRecord): Promise<boolean> {
   if (active.has(record.id)) return false;
   active.add(record.id);
-  setStatus(record.id, { state: "uploading", progress: 0, label: record.label });
+  setStatus(record.id, {
+    state: "uploading",
+    progress: 0,
+    label: record.label,
+    problemId: record.problemId,
+    key: recordingKey(record.query),
+  });
   try {
     if (!record.closed) {
       // The recorder died with the tab; the chunks it managed to emit are all
@@ -343,16 +391,17 @@ async function resumeUpload(record: UploadRecord): Promise<boolean> {
     const stored = (await chunksOf(record.id)).sort((a, b) => a.index - b.index);
     const total = record.chunks.reduce((n, c) => n + c.size, 0);
     let uploaded = total - stored.reduce((n, c) => n + c.blob.size, 0);
-    setStatus(record.id, { progress: Math.min(uploaded / total, 0.99) });
+    setStatus(record.id, { progress: (uploaded / total) * UPLOAD_SHARE });
     for (const c of stored) {
       if (!(await uploadChunk(record.query, c.index, c.blob))) {
         setStatus(record.id, { state: "failed" });
         return false;
       }
       uploaded += c.blob.size;
-      setStatus(record.id, { progress: Math.min(uploaded / total, 0.99) });
+      setStatus(record.id, { progress: (uploaded / total) * UPLOAD_SHARE });
       await idbDelete(CHUNKS, c.id);
     }
+    setStatus(record.id, { state: "stitching", progress: UPLOAD_SHARE });
     const ok = await finalizeRecording(record.query, record.chunks);
     if (ok) {
       await dropUpload(record.id);
@@ -377,10 +426,21 @@ async function uploadEntry(
 ): Promise<boolean> {
   if (active.has(entry.id)) return false;
   active.add(entry.id);
-  setStatus(entry.id, { state: "uploading", progress: 0, label: entry.label });
+  setStatus(entry.id, {
+    state: "uploading",
+    progress: 0,
+    label: entry.label,
+    problemId: entry.problemId,
+    key: recordingKey(entry.query),
+  });
   const ok = await uploadRecording(entry.blob, entry.query, (frac) => {
-    setStatus(entry.id, { progress: frac });
-    onProgress?.(frac);
+    // Same 90/10 split as the streamed path: the tail is the server save.
+    const scaled = Math.min(frac, 1) * UPLOAD_SHARE;
+    setStatus(entry.id, {
+      progress: scaled,
+      state: frac >= 1 ? "stitching" : "uploading",
+    });
+    onProgress?.(scaled);
   });
   active.delete(entry.id);
   if (ok) {
@@ -403,13 +463,15 @@ export async function enqueueRecording(
   blob: Blob,
   query: RecordingQuery,
   onProgress?: (frac: number) => void,
-  label?: string
+  label?: string,
+  problemId?: string
 ): Promise<boolean> {
   const entry: PendingRecording = {
     id: newId(),
     blob,
     query,
     label,
+    problemId,
     createdAt: Date.now(),
   };
   try {
@@ -418,6 +480,25 @@ export async function enqueueRecording(
     // IndexedDB unavailable — fall back to a plain one-shot upload.
   }
   return uploadEntry(entry, onProgress);
+}
+
+/**
+ * Retry one upload on demand (the "Retry" button on a failed upload). The
+ * background loop would eventually pick it up too; this just makes it now.
+ */
+export async function retryUpload(id: string): Promise<boolean> {
+  if (active.has(id)) return false;
+  try {
+    const record = ((await idbAll<UploadRecord>(UPLOADS)) ?? []).find(
+      (r) => r.id === id
+    );
+    if (record) return resumeUpload(record);
+    const entry = ((await idbAll<PendingRecording>(STORE)) ?? []).find(
+      (e) => e.id === id
+    );
+    if (entry) return uploadEntry(entry);
+  } catch {}
+  return false;
 }
 
 /** Retry every persisted recording that isn't already uploading. */

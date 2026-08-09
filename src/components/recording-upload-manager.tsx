@@ -7,6 +7,7 @@ import {
   subscribeUploads,
   type UploadStatus,
 } from "@/lib/upload-manager";
+import { RecordingUploadProgress } from "@/components/recording-upload-progress";
 
 const RETRY_INTERVAL_MS = 30_000;
 
@@ -43,7 +44,7 @@ export function RecordingUploadManager() {
   }, []);
 
   // Leaving mid-upload would delay the recording until the next visit — warn.
-  const uploading = uploads.some((u) => u.state === "uploading");
+  const uploading = uploads.some((u) => u.state !== "failed");
   useEffect(() => {
     if (!uploading) return;
     const warn = (e: BeforeUnloadEvent) => {
@@ -62,26 +63,10 @@ export function RecordingUploadManager() {
           key={u.id}
           className="space-y-1.5 rounded-lg border border-border/60 bg-background/95 p-3 shadow-lg backdrop-blur"
         >
-          {u.state === "uploading" ? (
-            <>
-              <p className="font-mono text-xs text-foreground">
-                Uploading webcam recording
-                {u.label ? ` for ${u.label}` : ""}… {Math.round(u.progress * 100)}%
-              </p>
-              <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
-                <div
-                  className="h-full rounded-full bg-primary transition-[width] duration-200"
-                  style={{ width: `${Math.round(u.progress * 100)}%` }}
-                />
-              </div>
-              <p className="font-mono text-xs text-muted-foreground">
-                Don&apos;t close this tab until it finishes.
-              </p>
-            </>
-          ) : (
-            <p className="font-mono text-xs text-amber-400">
-              Recording upload{u.label ? ` for ${u.label}` : ""} failed — will retry
-              automatically.
+          <RecordingUploadProgress status={u} />
+          {u.state !== "failed" && (
+            <p className="font-mono text-xs text-muted-foreground">
+              Don&apos;t close this tab until it finishes.
             </p>
           )}
         </div>

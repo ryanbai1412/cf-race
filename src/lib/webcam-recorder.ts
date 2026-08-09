@@ -58,7 +58,15 @@ export type WebcamRecording = {
 export function startWebcamRecording(
   stream: MediaStream,
   query: RecordingQuery,
-  { label, onProgress }: { label?: string; onProgress?: (frac: number) => void } = {}
+  {
+    label,
+    problemId,
+    onProgress,
+  }: {
+    label?: string;
+    problemId?: string;
+    onProgress?: (frac: number) => void;
+  } = {}
 ): WebcamRecording | null {
   if (typeof MediaRecorder === "undefined") return null;
   const mimeType = ["video/webm;codecs=vp8,opus", "video/webm"].find((t) =>
@@ -78,7 +86,7 @@ export function startWebcamRecording(
   let upload: StreamingUpload | null = null;
   let streamingFailed = false;
   let pump: Promise<void> = Promise.resolve();
-  const uploadReady = createStreamingUpload(query, { label, onProgress })
+  const uploadReady = createStreamingUpload(query, { label, problemId, onProgress })
     .then((u) => {
       upload = u;
       if (!u) streamingFailed = true;
@@ -128,7 +136,8 @@ export function startWebcamRecording(
         new Blob(buffered, { type: "video/webm" }),
         { ...query, ...finalQuery },
         finalProgress ?? onProgress,
-        label
+        label,
+        problemId
       );
     },
   };

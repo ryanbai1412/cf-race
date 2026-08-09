@@ -137,8 +137,11 @@ export function StationClient({
     ? new Date(race0.started_at).getTime()
     : null;
   // Problem name for the upload toast, read at recorder start.
-  const raceProblemRef = useRef<string | undefined>(undefined);
-  raceProblemRef.current = race0?.problem?.name;
+  const raceProblemRef = useRef<{ name?: string; id?: string }>({});
+  raceProblemRef.current = {
+    name: race0?.problem?.name,
+    id: race0?.problem?.id,
+  };
   useEffect(() => {
     // Keep recording 5s past the end to capture the contestant's reaction.
     // Chunks stream up during the race; this finalizes the recording (and
@@ -174,7 +177,10 @@ export function StationClient({
         const rec = startWebcamRecording(
           stream,
           { eventId, raceId: activeRecRaceId, station },
-          { label: raceProblemRef.current }
+          {
+            label: raceProblemRef.current.name,
+            problemId: raceProblemRef.current.id,
+          }
         );
         if (!rec) {
           stream.getTracks().forEach((t) => t.stop());

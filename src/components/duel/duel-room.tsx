@@ -23,6 +23,10 @@ import {
   startWebcamRecording,
   type WebcamRecording,
 } from "@/lib/webcam-recorder";
+import {
+  RecordingUploadProgress,
+  useRecordingUpload,
+} from "@/components/recording-upload-progress";
 import { DUEL_MAX_SUBMISSIONS } from "@/lib/limits";
 import type { Contestant, Lang, Problem, RunResult } from "@/lib/types";
 import { summarizeRun } from "@/lib/tourist";
@@ -101,11 +105,11 @@ export function DuelRoom({ roomId }: { roomId: string }) {
   const [uploadState, setUploadState] = useState<
     "none" | "uploading" | "done" | "failed"
   >("none");
-  const [uploadProgress, setUploadProgress] = useState(0);
   const [copied, setCopied] = useState(false);
   // The session id I raced under; kept after the match ends so the finish
   // screen survives the room flipping back to lobby.
   const [racedSessionId, setRacedSessionId] = useState<string | null>(null);
+  const upload = useRecordingUpload(racedSessionId);
   const [finishedLocal, setFinishedLocal] = useState<{
     outcome: "solved" | "timeout";
     solveMs: number | null;
@@ -227,7 +231,7 @@ export function DuelRoom({ roomId }: { roomId: string }) {
       recordingRef.current = startWebcamRecording(
         streamRef.current,
         { sessionId: mySessionId },
-        { label: match?.problem?.name, onProgress: setUploadProgress }
+        { label: match?.problem?.name, problemId: match?.problem?.id }
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -386,7 +390,6 @@ export function DuelRoom({ roomId }: { roomId: string }) {
     recordingRef.current = null;
     if (rec) {
       setUploadState("uploading");
-      setUploadProgress(0);
       const startAt = matchStartRef.current ?? rec.startedAtMs;
       void rec
         .stopAndUpload({
@@ -394,7 +397,6 @@ export function DuelRoom({ roomId }: { roomId: string }) {
             sessionId: racedSessionId,
             offsetMs: String(rec.startedAtMs + clockOffset.current - startAt),
           },
-          onProgress: setUploadProgress,
         })
         .then((ok) => setUploadState(ok ? "done" : "failed"));
     }
@@ -633,15 +635,7 @@ export function DuelRoom({ roomId }: { roomId: string }) {
             <Card className="w-full max-w-sm border-border/60 bg-card text-center">
               <CardContent className="space-y-3 pt-6">
                 <Loader2 className="mx-auto h-6 w-6 animate-spin text-primary" />
-                <p className="text-sm font-medium">
-                  Uploading webcam recording… {Math.round(uploadProgress * 100)}%
-                </p>
-                <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
-                  <div
-                    className="h-full rounded-full bg-primary transition-[width] duration-200"
-                    style={{ width: `${Math.round(uploadProgress * 100)}%` }}
-                  />
-                </div>
+                <RecordingUploadProgress status={upload} />
                 <p className="text-xs text-muted-foreground">
                   Don&apos;t close this tab — the recording is part of the match
                   review.
