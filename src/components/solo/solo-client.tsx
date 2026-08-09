@@ -20,6 +20,7 @@ import { enqueueRecording } from "@/lib/upload-manager";
 import type { Contestant, Lang, Problem } from "@/lib/types";
 import { useReplayRecorder } from "@/hooks/use-replay-recorder";
 import { Camera, CameraOff, Play, RotateCcw, Video } from "lucide-react";
+import { StarRating } from "@/components/problems/star-rating";
 
 const SOLO_CONTESTANT: Contestant = {
   id: "solo",
@@ -38,9 +39,11 @@ const ACTIVE_KEY = "cfr-solo-active";
 export function SoloClient({
   problem,
   problemIds,
+  signedIn = false,
 }: {
   problem: Problem;
   problemIds: string[];
+  signedIn?: boolean;
 }) {
   const [phase, setPhase] = useState<Phase>("idle");
   const [session, setSession] = useState<Session | null>(null);
@@ -408,6 +411,14 @@ export function SoloClient({
                 camState === "none" &&
                 "No camera — this run was recorded without video."}
             </p>
+            {signedIn && (
+              <div className="flex items-center justify-center gap-2">
+                <span className="font-mono text-xs text-muted-foreground">
+                  Rate this problem:
+                </span>
+                <StarRating problemId={problem.id} initial={null} />
+              </div>
+            )}
             <div className="flex flex-wrap justify-center gap-2">
               <Button asChild>
                 <Link href={`/replay/${session.sessionId}`}>

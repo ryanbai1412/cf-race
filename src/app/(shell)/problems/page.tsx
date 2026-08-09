@@ -17,14 +17,22 @@ export default async function ProblemsPage() {
   if (!user) redirect("/?next=/problems");
 
   await sweepStaleSessions({ userId: user.id });
-  const [problems, invalidated, { data: sessions }] = await Promise.all([
-    visibleProblems(),
-    invalidatedProblemIds(),
-    db()
-      .from("sessions")
-      .select("problem_id, outcome, solve_ms")
-      .eq("user_id", user.id),
-  ]);
+  const [problems, invalidated, { data: sessions }, { data: myRatings }] =
+    await Promise.all([
+      visibleProblems(),
+      invalidatedProblemIds(),
+      db()
+        .from("sessions")
+        .select("problem_id, outcome, solve_ms")
+        .eq("user_id", user.id),
+      db()
+        .from("problem_ratings")
+        .select("problem_id, stars")
+        .eq("user_id", user.id),
+    ]);
+  const starsByProblem = new Map(
+    (myRatings ?? []).map((r) => [r.problem_id as string, r.stars as number])
+  );
 
   const byProblem = new Map<
     string,
@@ -66,6 +74,7 @@ export default async function ProblemsPage() {
       status,
       bestSolveMs: mine?.best ?? null,
       sessionCount: mine?.count ?? 0,
+      myStars: starsByProblem.get(p.id) ?? null,
     };
   });
 

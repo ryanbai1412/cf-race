@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
+import { authUser } from "@/lib/supabase/server";
 import { SoloClient } from "@/components/solo/solo-client";
 import type { Problem } from "@/lib/types";
 
@@ -11,7 +12,8 @@ export default async function SolvePage({
 }: {
   params: { id: string };
 }) {
-  const [{ data: problem }, { data: all }] = await Promise.all([
+  const [user, { data: problem }, { data: all }] = await Promise.all([
+    authUser(),
     db()
       .from("problems")
       .select("*")
@@ -28,5 +30,5 @@ export default async function SolvePage({
   const ids = (all ?? [])
     .filter((p) => !((p.tags as string[] | null) ?? []).includes("hidden"))
     .map((p) => p.id);
-  return <SoloClient problem={problem} problemIds={ids} />;
+  return <SoloClient problem={problem} problemIds={ids} signedIn={user !== null} />;
 }

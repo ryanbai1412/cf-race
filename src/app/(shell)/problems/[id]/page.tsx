@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { sweepStaleSessions } from "@/lib/session-lifecycle";
 import { StatementPane } from "@/components/race/statement-pane";
 import { InvalidateToggle } from "@/components/problems/invalidate-toggle";
+import { StarRating } from "@/components/problems/star-rating";
 import { OutcomeBadge } from "@/components/shell/outcome-badge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -38,7 +39,7 @@ export default async function ProblemDetailPage({
   if (!problem || (problem.tags ?? []).includes("hidden")) notFound();
 
   await sweepStaleSessions({ userId: user.id, problemId: problem.id });
-  const [{ data: sessions }, { data: invalidation }] = await Promise.all([
+  const [{ data: sessions }, { data: invalidation }, { data: myRating }, { data: allRatings }] = await Promise.all([
     db()
       .from("sessions")
       .select("id, kind, started_at, outcome, solve_ms")
@@ -52,7 +53,23 @@ export default async function ProblemDetailPage({
       .eq("problem_id", problem.id)
       .is("revoked_at", null)
       .maybeSingle(),
+    db()
+      .from("problem_ratings")
+      .select("stars")
+      .eq("user_id", user.id)
+      .eq("problem_id", problem.id)
+      .maybeSingle(),
+    db()
+      .from("problem_ratings")
+      .select("stars")
+      .eq("problem_id", problem.id),
   ]);
+
+  const ratings = (allRatings ?? []) as { stars: number }[];
+  const avgStars =
+    ratings.length > 0
+      ? ratings.reduce((a, r) => a + r.stars, 0) / ratings.length
+      : null;
 
   const history = (sessions ?? []) as SessionHistoryRow[];
 
@@ -68,6 +85,14 @@ export default async function ProblemDetailPage({
             {problem.rating}
           </Badge>
         )}
+        <div className="flex items-center gap-2">
+          <StarRating problemId={problem.id} initial={myRating?.stars ?? null} />
+          {avgStars !== null && (
+            <span className="font-mono text-xs text-muted-foreground">
+              avg {avgStars.toFixed(1)} ({ratings.length})
+            </span>
+          )}
+        </div>
         <div className="ml-auto flex items-center gap-2">
           <InvalidateToggle
             problemId={problem.id}

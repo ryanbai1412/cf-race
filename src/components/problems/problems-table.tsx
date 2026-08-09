@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { formatMsPrecise } from "@/lib/templates";
 import { cn } from "@/lib/utils";
-import { Play, Video } from "lucide-react";
+import { Play, Shuffle, Video } from "lucide-react";
+import { StarRating } from "@/components/problems/star-rating";
 
 export type ProblemStatus = "unsolved" | "solved" | "attempted" | "invalidated";
 
@@ -20,6 +21,7 @@ export type ProblemBankRow = {
   status: ProblemStatus;
   bestSolveMs: number | null;
   sessionCount: number;
+  myStars: number | null;
 };
 
 const FILTERS = ["all", "unsolved", "solved", "attempted", "invalidated"] as const;
@@ -101,6 +103,20 @@ export function ProblemsTable({ problems }: { problems: ProblemBankRow[] }) {
           onChange={(e) => setSearch(e.target.value)}
           className="h-8 w-48 font-mono text-sm"
         />
+        <Button
+          size="sm"
+          variant="secondary"
+          className="h-8 shrink-0"
+          onClick={() => {
+            const pool = problems.filter((p) => p.status === "unsolved");
+            if (pool.length === 0) return;
+            const pick = pool[Math.floor(Math.random() * pool.length)];
+            window.location.href = `/problems/${pick.id}/solve`;
+          }}
+        >
+          <Shuffle className="mr-1.5 h-3.5 w-3.5" />
+          Random unsolved
+        </Button>
         <div className="ml-auto flex items-center gap-1 font-mono text-xs text-muted-foreground">
           sort:
           {(["id", "rating", "time"] as Sort[]).map((s) => (
@@ -163,6 +179,9 @@ export function ProblemsTable({ problems }: { problems: ProblemBankRow[] }) {
                 Solve
               </Link>
             </Button>
+            <div className="shrink-0">
+              <StarRating problemId={p.id} initial={p.myStars} size="sm" />
+            </div>
             {p.sessionCount > 0 && (
               <Button asChild size="sm" variant="ghost" className="shrink-0">
                 <Link href={`/problems/${p.id}`}>
