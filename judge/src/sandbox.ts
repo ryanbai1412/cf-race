@@ -104,6 +104,9 @@ function spawnCollect(
         stdoutCapped: outCapped,
       });
     });
+    // A program that exits without reading its input closes the pipe early;
+    // the resulting EPIPE is expected and must not surface as an 'error' event.
+    child.stdin.on("error", () => {});
     if (opts.stdin !== undefined) child.stdin.write(opts.stdin);
     child.stdin.end();
   });
