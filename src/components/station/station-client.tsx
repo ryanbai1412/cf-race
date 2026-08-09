@@ -14,7 +14,6 @@ import {
   startWebcamRecording,
   type WebcamRecording,
 } from "@/lib/webcam-recorder";
-import { enqueueRecording } from "@/lib/upload-manager";
 import type { BroadcastMsg, Lang, Problem, StationRole } from "@/lib/types";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 
@@ -138,21 +137,21 @@ export function StationClient({
     ? new Date(race0.started_at).getTime()
     : null;
   useEffect(() => {
-    // Keep recording 5s past the end to capture the contestant's reaction,
-    // then persist + upload via the site-wide upload manager (survives a
-    // closed tab: retried from IndexedDB on the next visit).
+    // Keep recording 5s past the end to capture the contestant's reaction.
+    // Chunks stream up during the race; this finalizes the recording (and
+    // survives a closed tab: resumed from IndexedDB on the next visit).
     const stopAndUpload = (entry: NonNullable<typeof webcamRec.current>) => {
-      void entry.rec.stop(5000).then(async (blob) => {
-        entry.stream.getTracks().forEach((t) => t.stop());
-        if (blob) {
-          await enqueueRecording(blob, {
+      void entry.rec
+        .stopAndUpload({
+          tailMs: 5000,
+          query: {
             eventId,
             raceId: entry.raceId,
             station,
             offsetMs: String(entry.offsetMs),
-          });
-        }
-      });
+          },
+        })
+        .finally(() => entry.stream.getTracks().forEach((t) => t.stop()));
     };
 
     const cur = webcamRec.current;
@@ -169,7 +168,11 @@ export function StationClient({
           stream.getTracks().forEach((t) => t.stop());
           return;
         }
-        const rec = startWebcamRecording(stream);
+        const rec = startWebcamRecording(stream, {
+          eventId,
+          raceId: activeRecRaceId,
+          station,
+        });
         if (!rec) {
           stream.getTracks().forEach((t) => t.stop());
           return;

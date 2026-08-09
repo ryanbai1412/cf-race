@@ -21,7 +21,6 @@ import {
 import {
   acquireWebcam,
   startWebcamRecording,
-  uploadRecording,
   type WebcamRecording,
 } from "@/lib/webcam-recorder";
 import { DUEL_MAX_SUBMISSIONS } from "@/lib/limits";
@@ -225,7 +224,9 @@ export function DuelRoom({ roomId }: { roomId: string }) {
     setFinishedLocal(null);
     setUploadState("none");
     if (streamRef.current && !recordingRef.current) {
-      recordingRef.current = startWebcamRecording(streamRef.current);
+      recordingRef.current = startWebcamRecording(streamRef.current, {
+        sessionId: mySessionId,
+      });
     }
   }, [mySessionId, racedSessionId, match?.finishedAtMs]);
 
@@ -383,22 +384,16 @@ export function DuelRoom({ roomId }: { roomId: string }) {
     if (rec) {
       setUploadState("uploading");
       setUploadProgress(0);
-      void rec.stop().then(async (blob) => {
-        if (!blob) {
-          setUploadState("failed");
-          return;
-        }
-        const startAt = matchStartRef.current ?? rec.startedAtMs;
-        const ok = await uploadRecording(
-          blob,
-          {
+      const startAt = matchStartRef.current ?? rec.startedAtMs;
+      void rec
+        .stopAndUpload({
+          query: {
             sessionId: racedSessionId,
             offsetMs: String(rec.startedAtMs + clockOffset.current - startAt),
           },
-          setUploadProgress
-        );
-        setUploadState(ok ? "done" : "failed");
-      });
+          onProgress: setUploadProgress,
+        })
+        .then((ok) => setUploadState(ok ? "done" : "failed"));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [finished]);

@@ -18,7 +18,6 @@ import {
   startWebcamRecording,
   type WebcamRecording,
 } from "@/lib/webcam-recorder";
-import { enqueueRecording } from "@/lib/upload-manager";
 import type { Contestant, Lang, Problem } from "@/lib/types";
 import { useReplayRecorder } from "@/hooks/use-replay-recorder";
 import {
@@ -200,26 +199,21 @@ export function SoloClient({
     if (rec) {
       setUploadState("uploading");
       setUploadProgress(0);
-      // Keep recording 5s past the end to capture the reaction, then persist
-      // + upload via the upload manager (survives a closed tab: retried from
-      // IndexedDB on the next visit).
-      void rec.stop(5000).then(async (blob) => {
-        if (!blob) {
-          setUploadState("failed");
-          return;
-        }
-        const ok = await enqueueRecording(
-          blob,
-          {
+      // Keep recording 5s past the end to capture the reaction. Chunks have
+      // been streaming up during the run; this finalizes the recording (and
+      // survives a closed tab: resumed from IndexedDB on the next visit).
+      void rec
+        .stopAndUpload({
+          tailMs: 5000,
+          query: {
             sessionId: session.sessionId,
             offsetMs: String(
               rec.startedAtMs + clockOffset.current - session.startAtMs
             ),
           },
-          setUploadProgress
-        );
-        setUploadState(ok ? "done" : "failed");
-      });
+          onProgress: setUploadProgress,
+        })
+        .then((ok) => setUploadState(ok ? "done" : "failed"));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase]);
@@ -291,7 +285,9 @@ export function SoloClient({
         solveMs: null,
       });
       if (streamRef.current) {
-        recordingRef.current = startWebcamRecording(streamRef.current);
+        recordingRef.current = startWebcamRecording(streamRef.current, {
+          sessionId: s.sessionId,
+        });
       }
       setResult(null);
       setUploadState("none");

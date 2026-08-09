@@ -1,11 +1,19 @@
 "use client";
 
-import { supabase } from "./realtime";
+import { createStreamingUpload, enqueueRecording, type StreamingUpload } from "./upload-manager";
+import type { RecordingQuery } from "./recording-upload";
 
 /**
- * Reusable webcam recording: MediaRecorder → webm blob → POST /api/recordings.
- * Used by the solo practice run and the event station race recorder.
+ * Reusable webcam recording: MediaRecorder → chunked upload → /api/recordings.
+ * Used by the solo practice run, the duel room and the event station recorder.
+ *
+ * Chunks are uploaded while the recording is still running (see
+ * upload-manager), so a crash or a closed tab loses at most the current
+ * timeslice instead of the whole video.
  */
+
+/** MediaRecorder timeslice: how much video a single upload chunk holds. */
+const CHUNK_MS = 5000;
 
 export async function acquireWebcam(): Promise<MediaStream | null> {
   if (typeof navigator === "undefined" || !navigator.mediaDevices) return null;
@@ -23,15 +31,31 @@ export async function acquireWebcam(): Promise<MediaStream | null> {
 export type WebcamRecording = {
   /** Epoch ms when the recorder actually started capturing. */
   startedAtMs: number;
+  /** Whether chunks are being uploaded as they're produced. */
+  streaming: boolean;
   /**
-   * Stop capture and get the final blob (null if nothing was recorded).
-   * `tailMs` keeps recording that much longer before stopping, so the video
-   * captures the moment after the run ends (e.g. the player's reaction).
+   * Stop capture and upload the recording. `tailMs` keeps recording that much
+   * longer before stopping, so the video captures the moment after the run
+   * ends (e.g. the player's reaction). `query` overrides/completes the params
+   * the recording started with (e.g. a corrected offsetMs). Resolves true once
+   * the server has confirmed the finished recording.
    */
-  stop: (tailMs?: number) => Promise<Blob | null>;
+  stopAndUpload: (opts?: {
+    tailMs?: number;
+    query?: RecordingQuery;
+    onProgress?: (frac: number) => void;
+  }) => Promise<boolean>;
 };
 
-export function startWebcamRecording(stream: MediaStream): WebcamRecording | null {
+/**
+ * Start recording `stream`. `query` identifies the target recording
+ * (?sessionId=… for solo/duel runs, ?eventId=&raceId=&station=… for races)
+ * and is used for the streamed chunk uploads.
+ */
+export function startWebcamRecording(
+  stream: MediaStream,
+  query: RecordingQuery
+): WebcamRecording | null {
   if (typeof MediaRecorder === "undefined") return null;
   const mimeType = ["video/webm;codecs=vp8,opus", "video/webm"].find((t) =>
     MediaRecorder.isTypeSupported(t)
@@ -42,94 +66,61 @@ export function startWebcamRecording(stream: MediaStream): WebcamRecording | nul
   } catch {
     return null;
   }
-  const chunks: Blob[] = [];
+
+  // Chunks are handed to the streaming upload as they arrive; until it is
+  // ready (IndexedDB open) they're buffered here, and they're kept as a
+  // whole-blob fallback for browsers where streaming isn't available.
+  const buffered: Blob[] = [];
+  let upload: StreamingUpload | null = null;
+  let streamingFailed = false;
+  let pump: Promise<void> = Promise.resolve();
+  const uploadReady = createStreamingUpload(query)
+    .then((u) => {
+      upload = u;
+      if (!u) streamingFailed = true;
+    })
+    .catch(() => {
+      streamingFailed = true;
+    });
+
   recorder.ondataavailable = (e) => {
-    if (e.data.size > 0) chunks.push(e.data);
+    if (e.data.size === 0) return;
+    buffered.push(e.data);
+    const chunk = e.data;
+    pump = pump.then(async () => {
+      await uploadReady;
+      if (upload) await upload.addChunk(chunk);
+    });
   };
-  recorder.start(1000);
+  recorder.start(CHUNK_MS);
   const startedAtMs = Date.now();
+
+  const stopped = new Promise<void>((resolve) => {
+    recorder.onstop = () => resolve();
+  });
 
   return {
     startedAtMs,
-    stop: (tailMs = 0) =>
-      new Promise((resolve) => {
-        const finalBlob = () =>
-          chunks.length ? new Blob(chunks, { type: "video/webm" }) : null;
-        if (recorder.state === "inactive") {
-          resolve(finalBlob());
-          return;
-        }
-        recorder.onstop = () => resolve(finalBlob());
-        const doStop = () => {
-          if (recorder.state !== "inactive") recorder.stop();
-        };
-        if (tailMs > 0) setTimeout(doStop, tailMs);
-        else doStop();
-      }),
+    get streaming() {
+      return !streamingFailed;
+    },
+    stopAndUpload: async ({ tailMs = 0, query: finalQuery, onProgress } = {}) => {
+      if (recorder.state !== "inactive") {
+        if (tailMs > 0) await new Promise((r) => setTimeout(r, tailMs));
+        recorder.stop();
+        await stopped;
+      }
+      await pump;
+      await uploadReady;
+      if (upload) {
+        return upload.finish(finalQuery, onProgress);
+      }
+      if (buffered.length === 0) return false;
+      return enqueueRecording(
+        new Blob(buffered, { type: "video/webm" }),
+        { ...query, ...finalQuery },
+        onProgress
+      );
+    },
   };
-}
-
-/**
- * Upload a finished recording; query identifies the solo session or race.
- * The webm goes straight to Supabase Storage via a signed upload URL
- * (serverless request-body limits are too small to proxy video), then the
- * API records the path in the DB.
- */
-export async function uploadRecording(
-  blob: Blob,
-  query: Record<string, string>,
-  onProgress?: (frac: number) => void
-): Promise<boolean> {
-  const qs = new URLSearchParams(query).toString();
-  try {
-    const signRes = await fetch(`/api/recordings?${qs}&step=sign`, {
-      method: "POST",
-    });
-    if (!signRes.ok) return false;
-    const { path, token, signedUrl } = (await signRes.json()) as {
-      path: string;
-      token: string;
-      signedUrl?: string;
-    };
-    if (signedUrl && typeof XMLHttpRequest !== "undefined") {
-      const ok = await putWithProgress(signedUrl, blob, onProgress);
-      if (!ok) return false;
-    } else {
-      const { error } = await supabase()
-        .storage.from("recordings")
-        .uploadToSignedUrl(path, token, blob, { contentType: "video/webm" });
-      if (error) return false;
-      onProgress?.(0.99);
-    }
-    const confirmRes = await fetch(`/api/recordings?${qs}&step=confirm`, {
-      method: "POST",
-    });
-    if (!confirmRes.ok) return false;
-    onProgress?.(1);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-/** PUT to a Supabase signed upload URL via XHR so we get upload progress. */
-function putWithProgress(
-  url: string,
-  blob: Blob,
-  onProgress?: (frac: number) => void
-): Promise<boolean> {
-  return new Promise((resolve) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open("PUT", url);
-    xhr.setRequestHeader("content-type", "video/webm");
-    xhr.setRequestHeader("x-upsert", "true");
-    xhr.upload.onprogress = (e) => {
-      // Cap at 99% — 100% only after the server confirms the save.
-      if (e.lengthComputable && e.total > 0)
-        onProgress?.(Math.min(e.loaded / e.total, 0.99));
-    };
-    xhr.onload = () => resolve(xhr.status >= 200 && xhr.status < 300);
-    xhr.onerror = () => resolve(false);
-    xhr.send(blob);
-  });
 }
