@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import {
   ChevronDown,
   ChevronRight,
+  Loader2,
   LocateFixed,
   Pause,
   Play,
@@ -525,6 +526,7 @@ export function ReplayCore({
   // Recordings extend a few seconds past the last event (the reaction tail);
   // let the replay clock run to the end of the video.
   const [videoEndMs, setVideoEndMs] = useState(0);
+  const [videoReady, setVideoReady] = useState(false);
 
   const durationMs = Math.max(
     log.solveMs ?? 0,
@@ -649,14 +651,22 @@ export function ReplayCore({
           <div className="flex w-[28%] min-w-[240px] flex-col border-l border-border/60 bg-black/40">
             {videoUrl && (
               <>
-                <video
-                  ref={videoRef}
-                  src={videoUrl}
-                  muted
-                  playsInline
-                  preload="auto"
-                  className="aspect-video w-full object-cover"
-                />
+                <div className="relative">
+                  <video
+                    ref={videoRef}
+                    src={videoUrl}
+                    muted
+                    playsInline
+                    preload="auto"
+                    onLoadedData={() => setVideoReady(true)}
+                    className="aspect-video w-full object-cover"
+                  />
+                  {!videoReady && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                      <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                    </div>
+                  )}
+                </div>
                 <p className="px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-muted-foreground">
                   Webcam · synced
                 </p>

@@ -884,7 +884,8 @@ export function DuelRoom({ roomId }: { roomId: string }) {
                   ) : (
                     <div className="flex aspect-video w-full items-center justify-center">
                       {camState === "pending" ? (
-                        <p className="animate-pulse font-mono text-sm text-muted-foreground">
+                        <p className="flex items-center gap-2 font-mono text-sm text-muted-foreground">
+                          <Loader2 className="h-4 w-4 animate-spin" />
                           Requesting camera…
                         </p>
                       ) : (

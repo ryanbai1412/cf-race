@@ -20,7 +20,14 @@ import {
 import { enqueueRecording } from "@/lib/upload-manager";
 import type { Contestant, Lang, Problem } from "@/lib/types";
 import { useReplayRecorder } from "@/hooks/use-replay-recorder";
-import { Camera, CameraOff, Play, RotateCcw, Video } from "lucide-react";
+import {
+  Camera,
+  CameraOff,
+  Loader2,
+  Play,
+  RotateCcw,
+  Video,
+} from "lucide-react";
 import { StarRating } from "@/components/problems/star-rating";
 
 const SOLO_CONTESTANT: Contestant = {
@@ -513,7 +520,8 @@ export function SoloClient({
             ) : (
               <div className="flex aspect-video w-full items-center justify-center">
                 {camState === "pending" ? (
-                  <p className="animate-pulse font-mono text-sm text-muted-foreground">
+                  <p className="flex items-center gap-2 font-mono text-sm text-muted-foreground">
+                    <Loader2 className="h-4 w-4 animate-spin" />
                     Requesting camera…
                   </p>
                 ) : (
