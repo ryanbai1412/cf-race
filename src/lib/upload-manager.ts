@@ -35,6 +35,8 @@ type PendingRecording = {
   blob: Blob;
   /** Query params for /api/recordings (identifies the solo session or race). */
   query: RecordingQuery;
+  /** Human label for the progress toast, e.g. the problem name. */
+  label?: string;
   createdAt: number;
 };
 
@@ -42,6 +44,8 @@ type PendingRecording = {
 type UploadRecord = {
   id: string;
   query: RecordingQuery;
+  /** Human label for the progress toast, e.g. the problem name. */
+  label?: string;
   chunks: ChunkManifestEntry[];
   /** True once the recorder stopped and the manifest is complete. */
   closed: boolean;
@@ -60,6 +64,8 @@ export type UploadStatus = {
   id: string;
   progress: number;
   state: "uploading" | "failed";
+  /** What the recording is of (problem name), when known. */
+  label?: string;
 };
 
 function openDb(): Promise<IDBDatabase> {
@@ -198,11 +204,13 @@ const liveUploads = new Set<string>();
  * unavailable, so callers can fall back to the single-blob path.
  */
 export async function createStreamingUpload(
-  query: RecordingQuery
+  query: RecordingQuery,
+  label?: string
 ): Promise<StreamingUpload | null> {
   const record: UploadRecord = {
     id: newId(),
     query,
+    label,
     chunks: [],
     closed: false,
     createdAt: Date.now(),
@@ -213,7 +221,7 @@ export async function createStreamingUpload(
     return null;
   }
   liveUploads.add(record.id);
-  setStatus(record.id, { state: "uploading", progress: 0 });
+  setStatus(record.id, { state: "uploading", progress: 0, label });
 
   let queue: Promise<void> = Promise.resolve();
   let uploadedBytes = 0;
@@ -267,29 +275,37 @@ export async function createStreamingUpload(
     onProgress = progressCb;
     if (finalQuery) record.query = { ...record.query, ...finalQuery };
     record.closed = true;
-    await queue;
+    // Claim the upload for the whole finish: the background retry loop must
+    // not start a second finalize for the same recording.
+    active.add(record.id);
     try {
-      await idbPut(UPLOADS, record);
-    } catch {}
-    liveUploads.delete(record.id);
-    if (record.chunks.length === 0) {
-      await dropUpload(record.id);
-      setStatus(record.id, null);
-      return false;
+      await queue;
+      try {
+        await idbPut(UPLOADS, record);
+      } catch {}
+      if (record.chunks.length === 0) {
+        await dropUpload(record.id);
+        setStatus(record.id, null);
+        return false;
+      }
+      for (const [index, blob] of [...pending].sort((a, b) => a[0] - b[0])) {
+        await sendChunk(index, blob);
+      }
+      const ok =
+        pending.size === 0 && (await finalizeRecording(record.query, record.chunks));
+      if (ok) {
+        await dropUpload(record.id);
+        setStatus(record.id, { progress: 1 });
+        setStatus(record.id, null);
+        onProgress?.(1);
+      } else {
+        setStatus(record.id, { state: "failed" });
+      }
+      return ok;
+    } finally {
+      liveUploads.delete(record.id);
+      active.delete(record.id);
     }
-    for (const [index, blob] of [...pending].sort((a, b) => a[0] - b[0])) {
-      await sendChunk(index, blob);
-    }
-    const ok = pending.size === 0 && (await finalizeRecording(record.query, record.chunks));
-    if (ok) {
-      await dropUpload(record.id);
-      setStatus(record.id, { progress: 1 });
-      setStatus(record.id, null);
-      onProgress?.(1);
-    } else {
-      setStatus(record.id, { state: "failed" });
-    }
-    return ok;
   };
 
   return { id: record.id, addChunk, finish };
@@ -309,7 +325,7 @@ async function dropUpload(uploadId: string): Promise<void> {
 async function resumeUpload(record: UploadRecord): Promise<boolean> {
   if (active.has(record.id)) return false;
   active.add(record.id);
-  setStatus(record.id, { state: "uploading", progress: 0 });
+  setStatus(record.id, { state: "uploading", progress: 0, label: record.label });
   try {
     if (!record.closed) {
       // The recorder died with the tab; the chunks it managed to emit are all
@@ -359,7 +375,7 @@ async function uploadEntry(
 ): Promise<boolean> {
   if (active.has(entry.id)) return false;
   active.add(entry.id);
-  setStatus(entry.id, { state: "uploading", progress: 0 });
+  setStatus(entry.id, { state: "uploading", progress: 0, label: entry.label });
   const ok = await uploadRecording(entry.blob, entry.query, (frac) => {
     setStatus(entry.id, { progress: frac });
     onProgress?.(frac);
@@ -384,12 +400,14 @@ async function uploadEntry(
 export async function enqueueRecording(
   blob: Blob,
   query: RecordingQuery,
-  onProgress?: (frac: number) => void
+  onProgress?: (frac: number) => void,
+  label?: string
 ): Promise<boolean> {
   const entry: PendingRecording = {
     id: newId(),
     blob,
     query,
+    label,
     createdAt: Date.now(),
   };
   try {

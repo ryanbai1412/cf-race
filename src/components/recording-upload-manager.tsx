@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   retryPendingRecordings,
@@ -10,12 +11,28 @@ import {
 const RETRY_INTERVAL_MS = 30_000;
 
 /**
+ * Pages where a run is happening or being watched. The progress toast would
+ * sit on top of the thing the user is concentrating on, so it stays hidden
+ * there — uploading itself is unaffected.
+ */
+const FOCUSED_PAGES = [
+  /^\/problems\/[^/]+\/solve/,
+  /^\/solo\//,
+  /^\/replay\//,
+  /^\/r\//,
+  /^\/duel\/(room|review)\//,
+  /^\/e\//,
+];
+
+/**
  * Site-wide recording upload manager (mounted in the root layout). Retries
  * IndexedDB-persisted recordings on load and periodically, shows a bottom-right
  * progress toast for in-flight uploads, and warns before leaving mid-upload.
  */
 export function RecordingUploadManager() {
   const [uploads, setUploads] = useState<UploadStatus[]>([]);
+  const pathname = usePathname();
+  const focused = FOCUSED_PAGES.some((re) => re.test(pathname ?? ""));
 
   useEffect(() => subscribeUploads(setUploads), []);
 
@@ -37,7 +54,7 @@ export function RecordingUploadManager() {
     return () => window.removeEventListener("beforeunload", warn);
   }, [uploading]);
 
-  if (uploads.length === 0) return null;
+  if (uploads.length === 0 || focused) return null;
   return (
     <div className="fixed bottom-4 right-4 z-50 w-64 space-y-2">
       {uploads.map((u) => (
@@ -48,7 +65,8 @@ export function RecordingUploadManager() {
           {u.state === "uploading" ? (
             <>
               <p className="font-mono text-xs text-foreground">
-                Uploading webcam recording… {Math.round(u.progress * 100)}%
+                Uploading webcam recording
+                {u.label ? ` for ${u.label}` : ""}… {Math.round(u.progress * 100)}%
               </p>
               <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
                 <div
@@ -62,7 +80,8 @@ export function RecordingUploadManager() {
             </>
           ) : (
             <p className="font-mono text-xs text-amber-400">
-              Recording upload failed — will retry automatically.
+              Recording upload{u.label ? ` for ${u.label}` : ""} failed — will retry
+              automatically.
             </p>
           )}
         </div>

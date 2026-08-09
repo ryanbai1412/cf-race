@@ -224,10 +224,13 @@ export function DuelRoom({ roomId }: { roomId: string }) {
     setFinishedLocal(null);
     setUploadState("none");
     if (streamRef.current && !recordingRef.current) {
-      recordingRef.current = startWebcamRecording(streamRef.current, {
-        sessionId: mySessionId,
-      });
+      recordingRef.current = startWebcamRecording(
+        streamRef.current,
+        { sessionId: mySessionId },
+        match?.problem?.name
+      );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mySessionId, racedSessionId, match?.finishedAtMs]);
 
   // Editor event recorder (deltas + keyframes), flushed to /api/duel/events.

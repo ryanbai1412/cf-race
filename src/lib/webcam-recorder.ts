@@ -50,11 +50,13 @@ export type WebcamRecording = {
 /**
  * Start recording `stream`. `query` identifies the target recording
  * (?sessionId=… for solo/duel runs, ?eventId=&raceId=&station=… for races)
- * and is used for the streamed chunk uploads.
+ * and is used for the streamed chunk uploads; `label` (the problem name)
+ * is shown in the upload progress toast.
  */
 export function startWebcamRecording(
   stream: MediaStream,
-  query: RecordingQuery
+  query: RecordingQuery,
+  label?: string
 ): WebcamRecording | null {
   if (typeof MediaRecorder === "undefined") return null;
   const mimeType = ["video/webm;codecs=vp8,opus", "video/webm"].find((t) =>
@@ -74,7 +76,7 @@ export function startWebcamRecording(
   let upload: StreamingUpload | null = null;
   let streamingFailed = false;
   let pump: Promise<void> = Promise.resolve();
-  const uploadReady = createStreamingUpload(query)
+  const uploadReady = createStreamingUpload(query, label)
     .then((u) => {
       upload = u;
       if (!u) streamingFailed = true;
@@ -119,7 +121,8 @@ export function startWebcamRecording(
       return enqueueRecording(
         new Blob(buffered, { type: "video/webm" }),
         { ...query, ...finalQuery },
-        onProgress
+        onProgress,
+        label
       );
     },
   };

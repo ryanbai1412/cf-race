@@ -285,9 +285,11 @@ export function SoloClient({
         solveMs: null,
       });
       if (streamRef.current) {
-        recordingRef.current = startWebcamRecording(streamRef.current, {
-          sessionId: s.sessionId,
-        });
+        recordingRef.current = startWebcamRecording(
+          streamRef.current,
+          { sessionId: s.sessionId },
+          problem.name
+        );
       }
       setResult(null);
       setUploadState("none");
@@ -298,7 +300,7 @@ export function SoloClient({
     } finally {
       setStarting(false);
     }
-  }, [starting, problem.id]);
+  }, [starting, problem.id, problem.name]);
 
   // The server's solveMs is measured from the submission timestamp; the local
   // clock here would measure from the judge verdict instead.

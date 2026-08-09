@@ -139,6 +139,13 @@ export async function POST(req: NextRequest) {
     const sizes = await storedChunkSizes(path);
     const missing = manifest.filter((c) => sizes.get(c.index) !== c.size);
     if (missing.length > 0) {
+      // A finalize that already ran deletes the chunks, so a duplicate call
+      // (retry loop racing the recorder) succeeds if the stitched recording
+      // is there with the manifest's total size.
+      const total = manifest.reduce((n, c) => n + c.size, 0);
+      if ((await storedSize(path)) === total) {
+        return NextResponse.json({ ok: true, path });
+      }
       return NextResponse.json(
         { error: "chunks incomplete", missing: missing.map((c) => c.index) },
         { status: 409 }
@@ -196,6 +203,18 @@ export async function POST(req: NextRequest) {
     .eq("id", targetSessionId);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ ok: true, path });
+}
+
+/** Byte size of a stored object, or null when it doesn't exist. */
+async function storedSize(path: string): Promise<number | null> {
+  const slash = path.lastIndexOf("/");
+  const dir = slash === -1 ? "" : path.slice(0, slash);
+  const name = path.slice(slash + 1);
+  const { data } = await db()
+    .storage.from("recordings")
+    .list(dir, { limit: 1, search: name });
+  const size = (data?.[0]?.metadata as { size?: number } | null)?.size;
+  return typeof size === "number" ? size : null;
 }
 
 /** Sizes of the chunk objects currently in storage, keyed by chunk index. */
