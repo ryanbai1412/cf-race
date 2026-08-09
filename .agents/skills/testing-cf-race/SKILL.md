@@ -5,6 +5,31 @@ description: How to run and end-to-end test the cf-race booth app locally (dev s
 
 # Testing the cf-race booth app
 
+## Unified app shell (PRD 11) — testing without Google login
+- Google OAuth is not possible in the test browser; the shell is still very testable logged-out:
+  landing `/` (CTAs "Sign in with Google" + "Just practice"), anonymous solo runs at
+  `/problems/<id>/solve`, `/replay/<sessionId>` (anon access via httpOnly cookie
+  `cfr_anon_sessions` set by POST `/api/solo/session`), public shares `/r/<token>`.
+- Auth-gated pages redirect logged-out: `/problems` → `/?next=/problems` (same for
+  /sessions, /duels, /events). Legacy 308s: `/solo`→`/problems`,
+  `/solo/<id>`→`/problems/<id>/solve`, `/solo/replay/<id>`→`/replay/<id>`, `/duel`→`/duels`.
+- Share mint/revoke needs an owned session (401 logged-out); instead insert/patch
+  `session_shares` rows directly via Supabase REST with the service key
+  (`POST /rest/v1/session_shares {"session_id":...}` → token; revoke by PATCH `revoked_at`).
+  `/r/<token>` should render the replay (with `<meta name="robots" content="noindex, nofollow">`)
+  and 404 after revocation.
+- Abandoned sweep: insert a `sessions` row (kind solo, outcome null, `last_event_at` 20+ min ago)
+  via REST, then hit any server read (`GET /api/solo/replay?sessionId=...` runs the sweep even
+  when it returns 404) and confirm `outcome` flipped to `abandoned`.
+- Solving warmup-sum anonymously: click Python toggle, Start run, then Ctrl+A and *type* a short
+  multi-line solution that has no indented lines (avoids Monaco auto-indent), e.g. read all of
+  stdin with `sys.stdin.read().split()` and print joined sums. Submit → ACCEPTED overlay with
+  "Watch replay" link containing the session id.
+- Chrome address bar aggressively autocompletes previous localhost URLs — after typing a URL,
+  press Delete to drop the inline completion before Enter, or you'll navigate to the old page.
+- Devin secrets for the dev server env are ORG-scoped (`secret:org:NEXT_PUBLIC_SUPABASE_URL`, ...),
+  not repo-scoped as the repo blueprint claims.
+
 ## Run locally
 - Next.js app at repo root, pnpm. Start with: `pnpm exec next dev -p 3100` and env vars
   `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`,
