@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { ReplayCore, ReplayBadges } from "@/components/replay/replay-player";
 import { ShareButton } from "@/components/shell/share-button";
 import { Button } from "@/components/ui/button";
@@ -37,14 +38,23 @@ export function SoloReplay({
   if (log === undefined) {
     return (
       <main className="flex h-full items-center justify-center">
-        <p className="animate-pulse font-mono text-muted-foreground">Loading replay…</p>
+        <p className="animate-pulse font-mono text-sm text-muted-foreground">
+          Loading replay…
+        </p>
       </main>
     );
   }
   if (log === null) {
     return (
-      <main className="flex h-full items-center justify-center">
-        <p className="font-mono text-muted-foreground">No replay found for this run.</p>
+      <main className="flex h-full flex-col items-center justify-center gap-3">
+        <p className="font-mono text-sm text-muted-foreground">
+          No replay found for this run.
+        </p>
+        {!readOnly && (
+          <Button asChild size="sm" variant="secondary">
+            <Link href="/sessions">Back to sessions</Link>
+          </Button>
+        )}
       </main>
     );
   }

@@ -16,6 +16,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PageHeader, PageShell } from "@/components/shell/page";
 import { toast } from "sonner";
 
 export type AdminUserRow = {
@@ -113,13 +114,12 @@ export function AdminPanel({
   };
 
   return (
-    <main className="mx-auto max-w-6xl space-y-6 px-6 py-10">
-      <div className="space-y-1">
-        <h1 className="text-3xl font-bold tracking-tight">Admin</h1>
-        <p className="text-sm text-muted-foreground">
-          Unlisted console — visible only to admins.
-        </p>
-      </div>
+    <PageShell className="max-w-6xl space-y-6">
+      <PageHeader
+        eyebrow="Internal"
+        title="Admin"
+        description="Unlisted console — visible only to admins."
+      />
 
       <Tabs defaultValue="users">
         <TabsList>
@@ -305,6 +305,6 @@ export function AdminPanel({
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </main>
+    </PageShell>
   );
 }
