@@ -52,6 +52,7 @@ export function SoloClient({
     solveMs: number | null;
   } | null>(null);
   const [camState, setCamState] = useState<"pending" | "ready" | "none">("pending");
+  const [camEnabled, setCamEnabled] = useState(true);
   const [uploadState, setUploadState] = useState<
     "none" | "uploading" | "done" | "failed"
   >("none");
@@ -78,7 +79,14 @@ export function SoloClient({
 
   // Webcam preview (recording is optional — everything works without it).
   useEffect(() => {
+    if (!camEnabled) {
+      streamRef.current?.getTracks().forEach((t) => t.stop());
+      streamRef.current = null;
+      setCamState("none");
+      return;
+    }
     let cancelled = false;
+    setCamState("pending");
     void acquireWebcam().then((stream) => {
       if (cancelled) {
         stream?.getTracks().forEach((t) => t.stop());
@@ -92,7 +100,7 @@ export function SoloClient({
       streamRef.current?.getTracks().forEach((t) => t.stop());
       streamRef.current = null;
     };
-  }, []);
+  }, [camEnabled]);
 
   useEffect(() => {
     if (camState === "ready" && previewRef.current && streamRef.current) {
@@ -512,17 +520,38 @@ export function SoloClient({
                 ) : (
                   <p className="flex items-center gap-2 font-mono text-sm text-amber-400">
                     <CameraOff className="h-4 w-4" />
-                    No camera — run will be recorded without video
+                    {camEnabled
+                      ? "No camera — run will be recorded without video"
+                      : "Webcam off — run will be recorded without video"}
                   </p>
                 )}
               </div>
             )}
           </div>
-          {camState === "ready" && (
-            <p className="flex items-center gap-1.5 font-mono text-xs text-green-400">
-              <Camera className="h-3.5 w-3.5" /> Camera ready
-            </p>
-          )}
+          <div className="flex items-center justify-between">
+            {camState === "ready" ? (
+              <p className="flex items-center gap-1.5 font-mono text-xs text-green-400">
+                <Camera className="h-3.5 w-3.5" /> Camera ready
+              </p>
+            ) : (
+              <span />
+            )}
+            <button
+              type="button"
+              onClick={() => setCamEnabled((v) => !v)}
+              className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground hover:text-foreground"
+            >
+              {camEnabled ? (
+                <>
+                  <CameraOff className="h-3.5 w-3.5" /> Turn webcam off
+                </>
+              ) : (
+                <>
+                  <Camera className="h-3.5 w-3.5" /> Turn webcam on
+                </>
+              )}
+            </button>
+          </div>
           <div className="flex items-center gap-2">
             <Button className="flex-1" size="lg" onClick={start} disabled={starting}>
               <Play className="mr-2 h-4 w-4" />

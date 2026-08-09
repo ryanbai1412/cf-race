@@ -318,14 +318,16 @@ function ReplayConsole({
   activity: ActivityItem[];
   clockMs: number;
 }) {
-  let activeTab = "samples";
+  const [manualTab, setManualTab] = useState<string | null>(null);
+  let followedTab = "samples";
   let running = false;
   for (const ev of events) {
     if (ev.t > clockMs) break;
-    if (ev.type === "tab") activeTab = ev.tab;
+    if (ev.type === "tab") followedTab = ev.tab;
     else if (ev.type === "run") running = true;
     else if (ev.type === "run_result") running = false;
   }
+  const activeTab = manualTab ?? followedTab;
   let samplesRun: RunSummary | null = null;
   let customRun: RunSummary | null = null;
   const submissions: ActivityItem[] = [];
@@ -382,21 +384,33 @@ function ReplayConsole({
           ["custom", "Custom input"],
           ["submissions", "Submissions"],
         ].map(([key, label]) => (
-          <span
+          <button
             key={key}
+            type="button"
+            onClick={() => setManualTab(key === followedTab ? null : key)}
             className={cn(
               "rounded-t px-3 py-1 font-mono text-[11px]",
               activeTab === key
                 ? "border border-b-0 border-border/60 bg-background text-foreground"
-                : "text-muted-foreground"
+                : "text-muted-foreground hover:text-foreground"
             )}
           >
             {label}
-          </span>
+          </button>
         ))}
-        <span className="ml-auto pb-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-          console · as viewed
-        </span>
+        {manualTab !== null && manualTab !== followedTab ? (
+          <button
+            type="button"
+            onClick={() => setManualTab(null)}
+            className="ml-auto rounded border border-primary/50 px-2 py-0.5 font-mono text-[10px] text-primary hover:bg-primary/10"
+          >
+            Follow their view
+          </button>
+        ) : (
+          <span className="ml-auto pb-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+            console · as viewed
+          </span>
+        )}
       </div>
       <div className="min-h-0 flex-1 overflow-y-auto">
         {activeTab === "samples" && renderRun(samplesRun, running)}
