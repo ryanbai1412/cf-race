@@ -94,7 +94,7 @@ export function Navbar() {
 
   return (
     <nav className="sticky top-0 z-30 border-b border-border/60 bg-background/85 backdrop-blur">
-      <div className="mx-auto flex h-14 max-w-6xl items-center gap-4 px-4 sm:px-6">
+      <div className="flex h-14 items-center gap-4 px-4 sm:px-6">
         <Link href="/" className="font-mono text-sm font-bold tracking-tight">
           <span className="text-primary">cf</span>racing
         </Link>

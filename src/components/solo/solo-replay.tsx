@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { ReplayCore, ReplayBadges } from "@/components/replay/replay-player";
 import { ShareButton } from "@/components/shell/share-button";
 import { Button } from "@/components/ui/button";
@@ -115,14 +114,7 @@ export function SoloReplay({
                 ? "DNF"
                 : (log.outcome ?? "in progress")}
           </span>
-          {!readOnly && (
-            <>
-              <Button asChild size="sm" variant="ghost" className="font-mono text-xs">
-                <Link href="/problems">← problems</Link>
-              </Button>
-              {sessionId && <ShareButton sessionId={sessionId} />}
-            </>
-          )}
+          {!readOnly && sessionId && <ShareButton sessionId={sessionId} />}
           <span className="ml-auto">
             <ReplayBadges log={log} clockMs={clockMs} />
           </span>
