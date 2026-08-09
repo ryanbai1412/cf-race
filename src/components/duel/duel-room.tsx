@@ -796,12 +796,8 @@ export function DuelRoom({ roomId }: { roomId: string }) {
                   )}
                 </span>
                 <Badge
-                  variant="outline"
-                  className={`ml-auto font-mono ${
-                    p.ready
-                      ? "border-green-500/50 text-green-400"
-                      : "text-muted-foreground"
-                  }`}
+                  variant={p.ready ? "success" : "muted"}
+                  className="ml-auto font-mono"
                 >
                   {p.ready ? "ready" : "not ready"}
                 </Badge>

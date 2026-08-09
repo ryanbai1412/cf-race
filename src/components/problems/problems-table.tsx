@@ -149,10 +149,7 @@ export function ProblemsTable({ problems }: { problems: ProblemBankRow[] }) {
               </Badge>
             )}
             {p.status === "invalidated" && (
-              <Badge
-                variant="outline"
-                className="shrink-0 border-amber-500/50 font-mono text-xs text-amber-400"
-              >
+              <Badge variant="warning" className="shrink-0 font-mono text-xs">
                 invalidated
               </Badge>
             )}

@@ -155,10 +155,7 @@ export function DuelProblems() {
                           </Badge>
                         )}
                         {p.invalidated && (
-                          <Badge
-                            variant="outline"
-                            className="border-amber-500/50 font-mono text-xs text-amber-400"
-                          >
+                          <Badge variant="warning" className="font-mono text-xs">
                             invalidated
                             {p.invalidReason ? `: ${p.invalidReason}` : ""}
                           </Badge>
