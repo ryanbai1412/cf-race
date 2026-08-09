@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { supabaseBrowser } from "@/lib/supabase/client";
+import { BuiltByDevin } from "@/components/shell/built-by-devin";
 import { Button } from "@/components/ui/button";
 import { Eyebrow } from "@/components/shell/page";
 import { LogIn, Play } from "lucide-react";
@@ -59,6 +60,7 @@ export function Landing({
           Practice works without an account — sign in to keep your history and
           share replays.
         </p>
+        <BuiltByDevin />
       </div>
     </main>
   );
