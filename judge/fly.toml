@@ -17,6 +17,15 @@ primary_region = "ams"
   auto_start_machines = true
   min_machines_running = 1
 
+  # Keep every request on one machine: the compile cache is per-machine, so
+  # spilling a submit onto the other one re-pays the ~650ms cold compile. The
+  # soft limit sits far above peak booth concurrency, leaving the second
+  # machine idle until the first is overloaded or fails its health check.
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 200
+    hard_limit = 400
+
   [[http_service.checks]]
     interval = "15s"
     timeout = "5s"
@@ -25,4 +34,4 @@ primary_region = "ams"
     path = "/healthz"
 
 [[vm]]
-  size = "performance-4x"
+  size = "performance-16x"
