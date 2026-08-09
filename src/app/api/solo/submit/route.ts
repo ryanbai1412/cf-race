@@ -3,6 +3,7 @@ import { db, logDbError } from "@/lib/db";
 import { requireSessionAccess } from "@/lib/session-auth";
 import { judgeConfigured } from "@/lib/judge";
 import { MAX_SOURCE_LEN } from "@/lib/limits";
+import { rateLimit } from "@/lib/rate-limit";
 import {
   judgeOfficialSubmission,
   submissionLimitReached,
@@ -29,6 +30,12 @@ export async function POST(req: NextRequest) {
 
   const access = await requireSessionAccess(sessionId);
   if (!access.ok) return access.response;
+  const limited = rateLimit(req, {
+    name: "solo-submit",
+    limit: 60,
+    subject: sessionId,
+  });
+  if (limited) return limited;
   const session = access.session;
   if (session.kind !== "solo") {
     return NextResponse.json({ error: "unknown session" }, { status: 404 });

@@ -7,6 +7,7 @@ import {
   rememberAnonSession,
 } from "@/lib/anon-sessions";
 import { abandonActiveSessions } from "@/lib/session-lifecycle";
+import { rateLimit } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +17,9 @@ const TIMER_SEC = 180;
 
 /** Start a solo practice run: creates a sessions row (kind solo) with GO after the countdown. */
 export async function POST(req: NextRequest) {
+  const limited = rateLimit(req, { name: "solo-session", limit: 60 });
+  if (limited) return limited;
+
   const body = await req.json().catch(() => null);
   const problemId = typeof body?.problemId === "string" ? body.problemId : "";
   if (!problemId) {

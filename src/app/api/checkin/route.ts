@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { requireEvent } from "@/lib/event-auth";
 import { notifyEvent } from "@/lib/notify";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
@@ -14,6 +15,8 @@ export async function POST(req: NextRequest) {
   if (!event || !station || !name) {
     return NextResponse.json({ error: "invalid request" }, { status: 400 });
   }
+  const limited = rateLimit(req, { name: "checkin", limit: 60 });
+  if (limited) return limited;
 
   const { data, error } = await db()
     .from("contestants")

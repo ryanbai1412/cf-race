@@ -56,6 +56,7 @@ export default async function ProblemDetailPage({
       .from("problem_invalidations")
       .select("reason, by_user, created_at")
       .eq("problem_id", problem.id)
+      .eq("by_user", user.id)
       .is("revoked_at", null)
       .maybeSingle(),
     db()
@@ -133,8 +134,9 @@ export default async function ProblemDetailPage({
 
       {invalidation && (
         <div className="rounded-md border border-amber-500/50 bg-amber-500/10 px-4 py-3 text-sm text-amber-400">
-          Invalidated {new Date(invalidation.created_at).toLocaleDateString()} —
-          excluded from duel and practice picks.
+          You invalidated this{" "}
+          {new Date(invalidation.created_at).toLocaleDateString()} — excluded
+          from your duel and practice picks.
           {invalidation.reason && <> Reason: {invalidation.reason}</>}
         </div>
       )}

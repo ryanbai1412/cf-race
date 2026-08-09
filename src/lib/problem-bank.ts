@@ -31,15 +31,15 @@ export const visibleProblems = unstable_cache(
 );
 
 /**
- * Random practice pick: a non-hidden, non-invalidated problem the user
- * hasn't solved yet (falls back to any eligible problem).
+ * Random practice pick: a non-hidden problem the user hasn't solved or
+ * invalidated yet (falls back to any eligible problem).
  */
 export async function pickPracticeProblem(
   userId?: string | null
 ): Promise<string | null> {
   const [problems, invalidated] = await Promise.all([
     visibleProblems(),
-    invalidatedProblemIds(),
+    invalidatedProblemIds([userId]),
   ]);
   let eligible = problems.filter((p) => !invalidated.has(p.id));
 

@@ -1,4 +1,3 @@
-import { unstable_cache } from "next/cache";
 import { db, logDbError } from "./db";
 import type { Lang } from "./types";
 
@@ -222,25 +221,37 @@ export async function startDuelMatch(
   return { ok: true };
 }
 
-const cachedInvalidatedIds = unstable_cache(
-  async (): Promise<string[]> => {
-    const { data } = await db()
-      .from("problem_invalidations")
-      .select("problem_id")
-      .is("revoked_at", null);
-    return (data ?? []).map((r) => r.problem_id as string);
-  },
-  ["invalidated-problem-ids"],
-  { revalidate: 60, tags: ["problem-invalidations"] }
-);
-
 /**
- * Problem ids currently invalidated (active, non-revoked invalidations).
- * Cached across requests (global data); the invalidate API revalidates the
- * tag so toggles take effect immediately.
+ * Problem ids these users have invalidated ("don't give me this one again").
+ * Invalidations are per-user, so a pick for two players excludes the union of
+ * both players' choices.
  */
-export async function invalidatedProblemIds(): Promise<Set<string>> {
-  return new Set(await cachedInvalidatedIds());
+export async function invalidatedProblemIds(
+  userIds: (string | null | undefined)[]
+): Promise<Set<string>> {
+  const ids = userIds.filter((id): id is string => Boolean(id));
+  if (ids.length === 0) return new Set();
+  const { data } = await db()
+    .from("problem_invalidations")
+    .select("problem_id")
+    .in("by_user", ids)
+    .is("revoked_at", null);
+  return new Set((data ?? []).map((r) => r.problem_id as string));
+}
+
+/** The reason this user invalidated a problem, or null when they haven't. */
+export async function invalidationFor(
+  problemId: string,
+  userId: string
+): Promise<{ reason: string | null; created_at: string } | null> {
+  const { data } = await db()
+    .from("problem_invalidations")
+    .select("reason, created_at")
+    .eq("problem_id", problemId)
+    .eq("by_user", userId)
+    .is("revoked_at", null)
+    .maybeSingle<{ reason: string | null; created_at: string }>();
+  return data ?? null;
 }
 
 /**
@@ -255,7 +266,7 @@ export async function pickDuelProblem(
   const [{ data: problems }, invalidated, { data: solved }, { data: aMatches }] =
     await Promise.all([
       db().from("problems").select("id").neq("id", "warmup-sum"),
-      invalidatedProblemIds(),
+      invalidatedProblemIds([userA, userB]),
       db()
         .from("sessions")
         .select("problem_id, user_id")

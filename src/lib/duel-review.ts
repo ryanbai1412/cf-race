@@ -44,11 +44,15 @@ export async function buildDuelReview(matchId: string) {
     })
   );
 
+  // Invalidations are per-user: the review shows one when either player has
+  // invalidated the problem they duelled on.
   const { data: invalidation } = await db()
     .from("problem_invalidations")
     .select("reason, created_at")
     .eq("problem_id", match.problem_id)
+    .in("by_user", userIds)
     .is("revoked_at", null)
+    .limit(1)
     .maybeSingle();
 
   return {

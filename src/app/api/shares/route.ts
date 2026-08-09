@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rate-limit";
 import { canShareMatch, canShareSession } from "@/lib/access";
 import {
   activeShareToken,
@@ -65,6 +66,9 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const limited = rateLimit(req, { name: "shares", limit: 120 });
+  if (limited) return limited;
+
   const body = await req.json().catch(() => null);
   const revoke = (body as { revoke?: unknown } | null)?.revoke === true;
 

@@ -4,13 +4,11 @@ import { StationClient } from "@/components/station/station-client";
 
 export default async function StationPage({
   params,
-  searchParams,
 }: {
   params: { eventId: string; n: string };
-  searchParams: { k?: string };
 }) {
   if (params.n !== "1" && params.n !== "2") notFound();
-  const event = await authorizeEvent(params.eventId, searchParams.k);
+  const event = await authorizeEvent(params.eventId);
   if (!event) redirect("/invalid-link");
 
   return (

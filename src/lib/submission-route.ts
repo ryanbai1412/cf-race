@@ -22,8 +22,9 @@ export async function submissionLimitReached(
 
 /**
  * The shared official-submission lifecycle: insert a PENDING row, judge the
- * source on full tests, then record the verdict. On judge failure the pending
- * row is deleted so it neither sticks around forever nor eats a submission.
+ * source on full tests, then record the verdict. On judge failure — a thrown
+ * error, or an IE verdict meaning the judge could not decide — the pending row
+ * is deleted so it neither sticks around forever nor eats a submission.
  */
 export async function judgeOfficialSubmission(opts: {
   table: "session_submissions";
@@ -64,6 +65,9 @@ export async function judgeOfficialSubmission(opts: {
       source: opts.source,
       problemId: opts.problemId,
     });
+    if (result.verdict === "IE") {
+      throw new Error(result.compileError || "judge could not judge this attempt");
+    }
     const { error: verdictErr } = await db()
       .from(opts.table)
       .update({
@@ -85,14 +89,11 @@ export async function judgeOfficialSubmission(opts: {
     // permanently PENDING row that also eats one of the submissions.
     const { error: dropErr } = await db().from(opts.table).delete().eq("id", sub.id);
     logDbError(`submission cleanup ${sub.id}`, dropErr);
+    console.error(`submission ${sub.id} judge failure:`, e);
     return {
       ok: false,
       response: NextResponse.json(
-        {
-          error: `Judge unavailable, submission not counted (${
-            e instanceof Error ? e.message : "judge error"
-          })`,
-        },
+        { error: "Judge unavailable, submission not counted" },
         { status: 502 }
       ),
     };
