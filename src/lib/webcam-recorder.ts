@@ -99,12 +99,14 @@ export async function uploadRecording(
         .storage.from("recordings")
         .uploadToSignedUrl(path, token, blob, { contentType: "video/webm" });
       if (error) return false;
-      onProgress?.(1);
+      onProgress?.(0.99);
     }
     const confirmRes = await fetch(`/api/recordings?${qs}&step=confirm`, {
       method: "POST",
     });
-    return confirmRes.ok;
+    if (!confirmRes.ok) return false;
+    onProgress?.(1);
+    return true;
   } catch {
     return false;
   }
@@ -122,7 +124,9 @@ function putWithProgress(
     xhr.setRequestHeader("content-type", "video/webm");
     xhr.setRequestHeader("x-upsert", "true");
     xhr.upload.onprogress = (e) => {
-      if (e.lengthComputable && e.total > 0) onProgress?.(e.loaded / e.total);
+      // Cap at 99% — 100% only after the server confirms the save.
+      if (e.lengthComputable && e.total > 0)
+        onProgress?.(Math.min(e.loaded / e.total, 0.99));
     };
     xhr.onload = () => resolve(xhr.status >= 200 && xhr.status < 300);
     xhr.onerror = () => resolve(false);
