@@ -149,6 +149,11 @@ export function ProblemsTable({ problems }: { problems: ProblemBankRow[] }) {
             >
               {p.name}
             </Link>
+            {p.status === "solved" && (
+              <div className="shrink-0">
+                <StarRating problemId={p.id} initial={p.myStars} size="sm" />
+              </div>
+            )}
             {p.rating !== null && (
               <Badge variant="outline" className="shrink-0 font-mono text-xs">
                 {p.rating}
@@ -179,9 +184,6 @@ export function ProblemsTable({ problems }: { problems: ProblemBankRow[] }) {
                 Solve
               </Link>
             </Button>
-            <div className="shrink-0">
-              <StarRating problemId={p.id} initial={p.myStars} size="sm" />
-            </div>
             {p.sessionCount > 0 && (
               <Button asChild size="sm" variant="ghost" className="shrink-0">
                 <Link href={`/problems/${p.id}`}>
