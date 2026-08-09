@@ -10,6 +10,8 @@ import { Input } from "@/components/ui/input";
 import { CountdownOverlay } from "@/components/station/countdown-overlay";
 import { RaceScreen } from "@/components/race/race-screen";
 import { SoloAuthButton, useSoloAuth } from "@/components/solo/auth-button";
+import { Eyebrow } from "@/components/shell/page";
+import { Navbar } from "@/components/shell/navbar";
 import { formatMsPrecise } from "@/lib/templates";
 import {
   duelChannel,
@@ -504,41 +506,52 @@ export function DuelRoom({ roomId }: { roomId: string }) {
   // ── Gates ─────────────────────────────────────────────────────────────────
   if (loading || (user && !state && !notFound)) {
     return (
-      <main className="flex min-h-screen items-center justify-center">
-        <p className="animate-pulse font-mono text-muted-foreground">Loading…</p>
-      </main>
+      <>
+        <Navbar />
+        <main className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center">
+          <p className="animate-pulse font-mono text-sm text-muted-foreground">
+            Loading…
+          </p>
+        </main>
+      </>
     );
   }
 
   if (!user) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center gap-4 px-6">
-        <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-          1v1 Duel
-        </p>
-        <p className="text-sm text-muted-foreground">
-          Sign in with Google to join this duel room.
-        </p>
-        <SoloAuthButton {...auth} next={`/duel/room/${roomId}`} />
-      </main>
+      <>
+        <Navbar />
+        <main className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center gap-4 px-6">
+          <Eyebrow>1v1 Duel</Eyebrow>
+          <p className="text-sm text-muted-foreground">
+            Sign in with Google to join this duel room.
+          </p>
+          <SoloAuthButton {...auth} next={`/duel/room/${roomId}`} />
+        </main>
+      </>
     );
   }
 
   if (notFound || !state) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center gap-3 px-6">
-        <p className="text-lg font-semibold">Room not found</p>
-        <Button asChild variant="secondary">
-          <Link href="/duel">Back to duels</Link>
-        </Button>
-      </main>
+      <>
+        <Navbar />
+        <main className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center gap-3 px-6">
+          <p className="text-lg font-semibold">Room not found</p>
+          <Button asChild size="sm" variant="secondary">
+            <Link href="/duels">Back to duels</Link>
+          </Button>
+        </main>
+      </>
     );
   }
 
   // Full room (2 players, I'm not one of them).
   if (!isMember && state.players.length >= 2) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center gap-4 px-6">
+      <>
+        <Navbar />
+        <main className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center gap-4 px-6">
         <Card className="w-full max-w-md border-border/60 bg-card/60 text-center">
           <CardHeader>
             <CardTitle>Room is full</CardTitle>
@@ -549,12 +562,13 @@ export function DuelRoom({ roomId }: { roomId: string }) {
               here. There is no spectator mode — ask for the review link after
               the match.
             </p>
-            <Button asChild variant="secondary">
-              <Link href="/duel">Back to duels</Link>
+            <Button asChild size="sm" variant="secondary">
+              <Link href="/duels">Back to duels</Link>
             </Button>
           </CardContent>
         </Card>
-      </main>
+        </main>
+      </>
     );
   }
 
@@ -613,7 +627,9 @@ export function DuelRoom({ roomId }: { roomId: string }) {
     const uploading = uploadState === "uploading";
     const reviewMatchId = finishedLocal?.matchId ?? match?.id ?? null;
     return (
-      <main className="relative flex min-h-screen items-center justify-center px-6">
+      <>
+        <Navbar />
+        <main className="relative flex min-h-[calc(100vh-3.5rem)] items-center justify-center px-6">
         {uploading && (
           <div className="absolute inset-0 z-40 flex items-center justify-center bg-background/80 backdrop-blur-sm">
             <Card className="w-full max-w-sm border-border/60 bg-card text-center">
@@ -716,21 +732,22 @@ export function DuelRoom({ roomId }: { roomId: string }) {
             </div>
           </CardContent>
         </Card>
-      </main>
+        </main>
+      </>
     );
   }
 
   // ── Lobby ─────────────────────────────────────────────────────────────────
   const lastMatch = match;
   return (
-    <main className="relative min-h-screen overflow-hidden px-6 py-10">
+    <>
+      <Navbar />
+      <main className="relative min-h-[calc(100vh-3.5rem)] overflow-hidden px-6 py-10">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.12),transparent_60%)]" />
       <div className="relative mx-auto max-w-2xl space-y-6">
         <header className="flex items-center gap-3">
           <div>
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-              Duel lobby
-            </p>
+            <Eyebrow>Duel lobby</Eyebrow>
             <h1 className="text-2xl font-bold">
               {state.players.map((p) => p.name).join(" vs ") || "Empty room"}
             </h1>
@@ -932,6 +949,7 @@ export function DuelRoom({ roomId }: { roomId: string }) {
           </Card>
         )}
       </div>
-    </main>
+      </main>
+    </>
   );
 }

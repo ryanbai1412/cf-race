@@ -1,5 +1,5 @@
 import { DuelReview } from "@/components/duel/duel-review";
-import { Navbar } from "@/components/shell/navbar";
+import { ShellFrame } from "@/components/shell/shell-frame";
 
 export const dynamic = "force-dynamic";
 
@@ -9,11 +9,8 @@ export default function DuelReviewPage({
   params: { matchId: string };
 }) {
   return (
-    <div className="flex h-screen flex-col">
-      <Navbar />
-      <div className="min-h-0 flex-1">
-        <DuelReview matchId={params.matchId} />
-      </div>
-    </div>
+    <ShellFrame>
+      <DuelReview matchId={params.matchId} />
+    </ShellFrame>
   );
 }
