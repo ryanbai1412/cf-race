@@ -208,7 +208,9 @@ export function DuelHome() {
             </CardHeader>
             <CardContent>
               {!data || data.solved.length === 0 ? (
-                <p className="text-sm text-muted-foreground">Nothing yet.</p>
+                <EmptyState>
+                  No duel solves yet — win a room to fill this in.
+                </EmptyState>
               ) : (
                 <div className="space-y-1">
                   {data.solved.map((s) => (
