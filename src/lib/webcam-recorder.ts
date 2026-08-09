@@ -50,13 +50,15 @@ export type WebcamRecording = {
 /**
  * Start recording `stream`. `query` identifies the target recording
  * (?sessionId=… for solo/duel runs, ?eventId=&raceId=&station=… for races)
- * and is used for the streamed chunk uploads; `label` (the problem name)
- * is shown in the upload progress toast.
+ * and is used for the streamed chunk uploads. `label` (the problem name) is
+ * shown in the upload progress toast, and `onProgress` reports uploaded
+ * bytes from the very first chunk, so progress bars don't sit at 0% during
+ * the run and then jump when the recording stops.
  */
 export function startWebcamRecording(
   stream: MediaStream,
   query: RecordingQuery,
-  label?: string
+  { label, onProgress }: { label?: string; onProgress?: (frac: number) => void } = {}
 ): WebcamRecording | null {
   if (typeof MediaRecorder === "undefined") return null;
   const mimeType = ["video/webm;codecs=vp8,opus", "video/webm"].find((t) =>
@@ -76,7 +78,7 @@ export function startWebcamRecording(
   let upload: StreamingUpload | null = null;
   let streamingFailed = false;
   let pump: Promise<void> = Promise.resolve();
-  const uploadReady = createStreamingUpload(query, label)
+  const uploadReady = createStreamingUpload(query, { label, onProgress })
     .then((u) => {
       upload = u;
       if (!u) streamingFailed = true;
@@ -106,7 +108,11 @@ export function startWebcamRecording(
     get streaming() {
       return !streamingFailed;
     },
-    stopAndUpload: async ({ tailMs = 0, query: finalQuery, onProgress } = {}) => {
+    stopAndUpload: async ({
+      tailMs = 0,
+      query: finalQuery,
+      onProgress: finalProgress,
+    } = {}) => {
       if (recorder.state !== "inactive") {
         if (tailMs > 0) await new Promise((r) => setTimeout(r, tailMs));
         recorder.stop();
@@ -115,13 +121,13 @@ export function startWebcamRecording(
       await pump;
       await uploadReady;
       if (upload) {
-        return upload.finish(finalQuery, onProgress);
+        return upload.finish(finalQuery, finalProgress ?? onProgress);
       }
       if (buffered.length === 0) return false;
       return enqueueRecording(
         new Blob(buffered, { type: "video/webm" }),
         { ...query, ...finalQuery },
-        onProgress,
+        finalProgress ?? onProgress,
         label
       );
     },

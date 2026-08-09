@@ -227,7 +227,7 @@ export function DuelRoom({ roomId }: { roomId: string }) {
       recordingRef.current = startWebcamRecording(
         streamRef.current,
         { sessionId: mySessionId },
-        match?.problem?.name
+        { label: match?.problem?.name, onProgress: setUploadProgress }
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

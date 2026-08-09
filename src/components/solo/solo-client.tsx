@@ -288,7 +288,7 @@ export function SoloClient({
         recordingRef.current = startWebcamRecording(
           streamRef.current,
           { sessionId: s.sessionId },
-          problem.name
+          { label: problem.name, onProgress: setUploadProgress }
         );
       }
       setResult(null);

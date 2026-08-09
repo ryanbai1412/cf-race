@@ -205,7 +205,7 @@ const liveUploads = new Set<string>();
  */
 export async function createStreamingUpload(
   query: RecordingQuery,
-  label?: string
+  { label, onProgress: liveProgress }: { label?: string; onProgress?: (frac: number) => void } = {}
 ): Promise<StreamingUpload | null> {
   const record: UploadRecord = {
     id: newId(),
@@ -226,7 +226,9 @@ export async function createStreamingUpload(
   let queue: Promise<void> = Promise.resolve();
   let uploadedBytes = 0;
   let totalBytes = 0;
-  let onProgress: ((frac: number) => void) | undefined;
+  // Reported from the first chunk on, so a UI progress bar reflects what has
+  // already been uploaded during the run instead of jumping from 0% at the end.
+  let onProgress: ((frac: number) => void) | undefined = liveProgress;
   // Chunks whose upload failed stay in IndexedDB and are retried at finish
   // (or by the background manager after a reload).
   const pending = new Map<number, Blob>();
@@ -272,7 +274,7 @@ export async function createStreamingUpload(
   };
 
   const finish: StreamingUpload["finish"] = async (finalQuery, progressCb) => {
-    onProgress = progressCb;
+    if (progressCb) onProgress = progressCb;
     if (finalQuery) record.query = { ...record.query, ...finalQuery };
     record.closed = true;
     // Claim the upload for the whole finish: the background retry loop must

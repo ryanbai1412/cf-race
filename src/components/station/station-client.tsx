@@ -174,7 +174,7 @@ export function StationClient({
         const rec = startWebcamRecording(
           stream,
           { eventId, raceId: activeRecRaceId, station },
-          raceProblemRef.current
+          { label: raceProblemRef.current }
         );
         if (!rec) {
           stream.getTracks().forEach((t) => t.stop());
