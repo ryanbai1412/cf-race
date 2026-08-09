@@ -6,7 +6,9 @@ import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { SoloAuthButton, useSoloAuth } from "@/components/solo/auth-button";
+import { ShareButton } from "@/components/shell/share-button";
 import { formatMsPrecise } from "@/lib/templates";
 import { cn } from "@/lib/utils";
 import { ListChecks, Swords, Trophy, Video } from "lucide-react";
@@ -41,6 +43,13 @@ export function DuelHome() {
   const router = useRouter();
   const [data, setData] = useState<HomeData | null>(null);
   const [creating, setCreating] = useState(false);
+  const [joinLink, setJoinLink] = useState("");
+
+  const joinByLink = () => {
+    const match = joinLink.match(/\/duel\/room\/([0-9a-f-]{36})/i);
+    if (match) router.push(`/duel/room/${match[1]}`);
+    else toast.error("Paste a duel room link (…/duel/room/…)");
+  };
 
   useEffect(() => {
     if (!user) return;
@@ -88,7 +97,7 @@ export function DuelHome() {
               recorded. Google login is required.
             </p>
             <div className="flex justify-center">
-              <SoloAuthButton {...auth} next="/duel" />
+              <SoloAuthButton {...auth} next="/duels" />
             </div>
           </CardContent>
         </Card>
@@ -115,7 +124,7 @@ export function DuelHome() {
             </p>
           </div>
           <div className="ml-auto flex items-center gap-2">
-            <SoloAuthButton {...auth} next="/duel" />
+            <SoloAuthButton {...auth} next="/duels" />
           </div>
         </header>
 
@@ -130,6 +139,18 @@ export function DuelHome() {
               Problem bank
             </Link>
           </Button>
+          <div className="flex items-center gap-2">
+            <Input
+              placeholder="Paste a room link to join…"
+              value={joinLink}
+              onChange={(e) => setJoinLink(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && joinByLink()}
+              className="h-10 w-64 font-mono text-xs"
+            />
+            <Button size="lg" variant="outline" onClick={joinByLink} disabled={!joinLink.trim()}>
+              Join
+            </Button>
+          </div>
         </div>
 
         <Card className="border-border/60 bg-card/70">
@@ -185,6 +206,7 @@ export function DuelHome() {
                         Review
                       </Link>
                     </Button>
+                    {m.finished && <ShareButton matchId={m.id} />}
                   </div>
                 ))}
               </div>
@@ -241,7 +263,7 @@ export function DuelHome() {
                   {data.recordings.map((r) => (
                     <Link
                       key={r.id}
-                      href={`/solo/replay/${r.id}`}
+                      href={`/replay/${r.id}`}
                       className="flex items-center gap-2 rounded px-1 py-0.5 font-mono text-sm hover:bg-accent"
                     >
                       <span className="text-primary">{r.problem_id}</span>

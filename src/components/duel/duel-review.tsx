@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { ReplayEditor } from "@/components/replay/replay-editor";
 import { ReplayBadges } from "@/components/replay/replay-player";
+import { ShareButton } from "@/components/shell/share-button";
 import { Button } from "@/components/ui/button";
 import { formatMsPrecise } from "@/lib/templates";
 import { TouristPlayer, type TouristLog, type TouristEvent } from "@/lib/tourist";
@@ -162,7 +163,17 @@ function ReviewPane({
  * Side-by-side duel review: both players' editor replays and webcams driven
  * by ONE shared clock/scrubber with play/pause, speeds, and jump-to-event.
  */
-export function DuelReview({ matchId }: { matchId: string }) {
+export function DuelReview({
+  matchId,
+  apiUrl,
+  readOnly = false,
+}: {
+  matchId?: string;
+  /** Override the review data endpoint (e.g. public share tokens). */
+  apiUrl?: string;
+  /** Public share view: no invalidate/share controls. */
+  readOnly?: boolean;
+}) {
   const [data, setData] = useState<ReviewData | null | undefined>(undefined);
   const [clockMs, setClockMs] = useState(0);
   const [playing, setPlaying] = useState(false);
@@ -172,11 +183,11 @@ export function DuelReview({ matchId }: { matchId: string }) {
   const last = useRef<number>(0);
 
   const refresh = useCallback(() => {
-    fetch(`/api/duel/review?matchId=${matchId}`, { cache: "no-store" })
+    fetch(apiUrl ?? `/api/duel/review?matchId=${matchId}`, { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : null))
       .then(setData)
       .catch(() => setData(null));
-  }, [matchId]);
+  }, [matchId, apiUrl]);
 
   useEffect(() => {
     refresh();
@@ -298,7 +309,7 @@ export function DuelReview({ matchId }: { matchId: string }) {
       <main className="flex min-h-screen flex-col items-center justify-center gap-3">
         <p className="font-mono text-muted-foreground">Match not found.</p>
         <Button asChild variant="secondary">
-          <Link href="/duel">Back to duels</Link>
+          <Link href="/duels">Back to duels</Link>
         </Button>
       </main>
     );
@@ -307,11 +318,13 @@ export function DuelReview({ matchId }: { matchId: string }) {
   const winner = data.players.find((p) => p.isWinner) ?? null;
 
   return (
-    <main className="flex h-screen flex-col bg-background">
+    <main className="flex h-full min-h-0 flex-col bg-background">
       <header className="flex flex-wrap items-center gap-3 border-b border-border/60 px-5 py-3">
-        <Link href="/duel" className="font-mono text-xs text-primary hover:underline">
-          ← duels
-        </Link>
+        {!readOnly && (
+          <Link href="/duels" className="font-mono text-xs text-primary hover:underline">
+            ← duels
+          </Link>
+        )}
         <span className="font-mono text-sm text-primary">
           {data.match.problemId}
         </span>
@@ -336,24 +349,27 @@ export function DuelReview({ matchId }: { matchId: string }) {
           </span>
         )}
         <span className="ml-auto flex items-center gap-2">
-          <Button
-            size="sm"
-            variant="ghost"
-            disabled={invalidating}
-            onClick={() => void toggleInvalid()}
-          >
-            {data.invalidated ? (
-              <>
-                <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
-                Restore problem
-              </>
-            ) : (
-              <>
-                <Ban className="mr-1.5 h-3.5 w-3.5" />
-                Invalidate problem
-              </>
-            )}
-          </Button>
+          {!readOnly && matchId && <ShareButton matchId={matchId} />}
+          {!readOnly && (
+            <Button
+              size="sm"
+              variant="ghost"
+              disabled={invalidating}
+              onClick={() => void toggleInvalid()}
+            >
+              {data.invalidated ? (
+                <>
+                  <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
+                  Restore problem
+                </>
+              ) : (
+                <>
+                  <Ban className="mr-1.5 h-3.5 w-3.5" />
+                  Invalidate problem
+                </>
+              )}
+            </Button>
+          )}
           <span className="font-mono text-xl tabular-nums">
             {formatMsPrecise(clockMs)}
           </span>
