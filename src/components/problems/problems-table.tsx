@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Segmented } from "@/components/ui/segmented";
 import { EmptyState } from "@/components/shell/page";
 import { formatMsPrecise } from "@/lib/templates";
-import { cn } from "@/lib/utils";
 import { Play, Shuffle, Video } from "lucide-react";
 import { StarRating } from "@/components/problems/star-rating";
 
@@ -104,22 +103,15 @@ export function ProblemsTable({ problems }: { problems: ProblemBankRow[] }) {
           <Shuffle className="mr-1.5 h-3.5 w-3.5" />
           Random unsolved
         </Button>
-        <div className="ml-auto flex items-center gap-1 font-mono text-xs text-muted-foreground">
-          sort:
-          {(["id", "rating", "time"] as Sort[]).map((s) => (
-            <button
-              key={s}
-              onClick={() => setSort(s)}
-              className={cn(
-                "rounded px-2 py-1 transition-colors",
-                sort === s
-                  ? "bg-accent text-foreground"
-                  : "hover:bg-accent hover:text-foreground"
-              )}
-            >
-              {s}
-            </button>
-          ))}
+        <div className="ml-auto flex items-center gap-2">
+          <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+            Sort
+          </span>
+          <Segmented
+            options={["id", "rating", "time"] as Sort[]}
+            value={sort}
+            onChange={setSort}
+          />
         </div>
       </div>
 
