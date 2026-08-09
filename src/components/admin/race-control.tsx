@@ -107,7 +107,7 @@ export function RaceControl({ eventId }: { eventId: string }) {
           return (
             <Card key={role} className="border-border/60 bg-card/60">
               <CardHeader className="pb-2">
-                <CardTitle className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                <CardTitle className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
                   Station {role === "station1" ? "1" : "2"}
                 </CardTitle>
               </CardHeader>

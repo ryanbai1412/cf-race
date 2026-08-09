@@ -101,7 +101,7 @@ export function StatementPane({
         <p className="text-muted-foreground">Statement unavailable.</p>
       )}
       <div className="mt-6 space-y-4">
-        <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+        <h3 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
           Sample tests
         </h3>
         {problem.samples.map((s, i) => (

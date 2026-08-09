@@ -21,7 +21,7 @@ function OutputBlock({
   if (!text) return null;
   return (
     <div>
-      <p className="mb-0.5 font-mono text-xs uppercase tracking-wider text-muted-foreground">
+      <p className="mb-0.5 font-mono text-xs uppercase tracking-widest text-muted-foreground">
         {label}
         {truncated && " (truncated)"}
       </p>

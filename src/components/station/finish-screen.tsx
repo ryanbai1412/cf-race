@@ -103,7 +103,7 @@ export function FinishScreen({
       </div>
 
       <div className="w-full max-w-xl">
-        <h2 className="mb-2 text-center font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">
+        <h2 className="mb-2 text-center font-mono text-xs uppercase tracking-widest text-muted-foreground">
           Fastest solves — {problem.name}
         </h2>
         <LeaderboardTable
