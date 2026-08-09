@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import katex from "katex";
 import "katex/dist/katex.min.css";
 import { Button } from "@/components/ui/button";
@@ -54,16 +54,21 @@ export function StatementPane({
   /** Access to the scrollable container (used by the replay to drive scroll). */
   scrollRef?: React.Ref<HTMLDivElement>;
 }) {
+  // Sanitizing (and KaTeX) needs a DOM, so the statement is rendered after
+  // mount; on the server there is nothing to inject.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   // Memoized as an OBJECT: React re-sets innerHTML whenever the
   // dangerouslySetInnerHTML prop is a new reference (even for an identical
   // string), which nukes the DOM — and any text selection in it — on every
   // parent re-render (the race timer ticks every 200ms).
   const statementHtml = useMemo(
     () =>
-      problem.statement_html
+      mounted && problem.statement_html
         ? { __html: renderStatementMath(problem.statement_html) }
         : null,
-    [problem.statement_html]
+    [mounted, problem.statement_html]
   );
 
   const onScrollFracRef = useRef(onScrollFrac);

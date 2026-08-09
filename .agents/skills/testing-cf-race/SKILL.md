@@ -219,3 +219,37 @@ description: How to run and end-to-end test the cf-race booth app locally (dev s
 
 ## pnpm gotcha
 - If `pnpm` fails with a corepack "Cannot find matching keyid" signature error, run with `COREPACK_INTEGRITY_KEYS=0` exported.
+
+## Statement sanitizing / jsdom SSR (added 2026-08)
+- `src/lib/statement-html.ts` uses `isomorphic-dompurify`, which pulls in **jsdom**. jsdom does a
+  `readFileSync` of `lib/jsdom/browser/default-stylesheet.css` at module init; webpack rewrites
+  that path, so any route whose server component graph imports `statement-html.ts` can throw
+  `ENOENT ... /browser/default-stylesheet.css` during SSR and return **HTTP 500**
+  (seen on `/problems/[id]/solve` and `/e/[eventId]/station/[n]`, dev *and* `next build && next start`).
+- Symptom is easy to miss in a browser: Next falls back to client rendering, so the page looks
+  fine while every request logs a 500. **Always verify page routes with `curl -o /dev/null -w '%{http_code}'`,
+  not only via the browser**, and grep the dev log for ` 500 ` / `ENOENT`.
+- Externalizing the package (`experimental.serverComponentsExternalPackages: ["isomorphic-dompurify","jsdom"]`
+  on Next 14) removes the ENOENT but produced a different SSR error ("Element type is invalid")
+  in one attempt — treat it as unverified; a browser-only sanitize path may be the safer fix.
+- To prove a regression is new, run the parent commit in a throwaway git worktree on another port:
+  `git worktree add --detach /tmp/x <sha>~1 && ln -s <repo>/node_modules /tmp/x/node_modules`
+  then `next dev -p 3300` (fast) or `next build && next start -p 3200` (for prod-only issues).
+
+## Triggering judge IE (502 "Judge unavailable, submission not counted") from the UI
+- Problems whose package is missing from the Supabase `problems` bucket make the judge return
+  `IE`; the API deletes the pending row and returns 502. As of 2026-08 all bucket-missing
+  problems (`1031A`, `1131A`, `1428A`, `1002A1`, `1651A`, `1692C`, …) are tagged `hidden`, and
+  `/problems/<id>/solve` 404s for hidden problems.
+- Recipe: temporarily un-hide one (`update problems set tags = array_remove(tags,'hidden') where id='1651A'`),
+  Start run → Submit (Run samples still works), assert the red "Judge unavailable, submission not
+  counted" text and that the Submissions counter stays `0/50` and `session_submissions` has 0 rows,
+  then **restore the tag** (`array_append(tags,'hidden')`).
+
+## Swapping the signed-in user without Google OAuth (per-user features)
+- Mint a Supabase session with the password grant and write it as the
+  `sb-<project-ref>-auth-token` cookie via CDP `Network.setCookie` (base64- prefixed, URL-safe,
+  split into `.0/.1` chunks above ~3180 chars). Filter the CDP target by page URL when several
+  Chrome windows/incognito contexts are open, otherwise the cookie lands in the wrong context.
+- Test users `duel-tester-a@example.com` / `duel-tester-b@example.com`. Confirm which user is
+  active by opening the avatar menu (shows the email) before asserting per-user behavior.
