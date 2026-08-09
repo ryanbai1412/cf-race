@@ -13,7 +13,7 @@ import { clearProblemCache } from "./problems.js";
 const BUCKET = process.env.PROBLEMS_BUCKET ?? "problems";
 const STATE_FILE = ".sync-state.json";
 
-type RemoteObject = { path: string; version: string };
+type RemoteObject = { path: string; version: string; size: number | null };
 type SyncState = Record<string, string>;
 
 function creds(): { url: string; key: string } | null {
@@ -31,7 +31,7 @@ async function list(
     name: string;
     id: string | null;
     updated_at?: string;
-    metadata?: { eTag?: string };
+    metadata?: { eTag?: string; size?: number };
   }[]
 > {
   const res = await fetch(`${url}/storage/v1/object/list/${BUCKET}`, {
@@ -50,7 +50,7 @@ async function list(
     name: string;
     id: string | null;
     updated_at?: string;
-    metadata?: { eTag?: string };
+    metadata?: { eTag?: string; size?: number };
   }[];
 }
 
@@ -65,7 +65,12 @@ async function walk(
     const full = prefix ? `${prefix}/${e.name}` : e.name;
     // Folders come back with id === null in Supabase Storage listings.
     if (e.id === null) await walk(url, key, full, out);
-    else out.push({ path: full, version: e.metadata?.eTag ?? e.updated_at ?? "" });
+    else
+      out.push({
+        path: full,
+        version: e.metadata?.eTag ?? e.updated_at ?? "",
+        size: e.metadata?.size ?? null,
+      });
   }
 }
 
@@ -99,12 +104,29 @@ export async function syncProblems(): Promise<number> {
   const remote: RemoteObject[] = [];
   await walk(c.url, c.key, "", remote);
   const state = loadState();
-  const changed = remote.filter(
-    (o) =>
-      state[o.path] !== o.version ||
-      !fs.existsSync(path.join(config.problemsDir, o.path))
-  );
-  if (changed.length === 0) return 0;
+  let seeded = false;
+  const changed = remote.filter((o) => {
+    const dest = path.join(config.problemsDir, o.path);
+    if (state[o.path] === o.version && fs.existsSync(dest)) return false;
+    if (state[o.path] === undefined) {
+      // No state yet (first run on a pre-populated volume): trust files whose
+      // size matches the bucket instead of re-downloading everything.
+      const stat = fs.statSync(dest, { throwIfNoEntry: false });
+      if (stat && o.size !== null && stat.size === o.size) {
+        state[o.path] = o.version;
+        seeded = true;
+        return false;
+      }
+    }
+    return true;
+  });
+  if (changed.length === 0) {
+    if (seeded) {
+      await fs.promises.mkdir(config.problemsDir, { recursive: true });
+      await fs.promises.writeFile(statePath(), JSON.stringify(state));
+    }
+    return 0;
+  }
 
   console.log(`sync: downloading ${changed.length}/${remote.length} objects`);
   const CONC = 16;
@@ -125,7 +147,10 @@ export async function syncProblems(): Promise<number> {
   return changed.length;
 }
 
-/** Run syncProblems on an interval, logging failures without crashing. */
+/**
+ * Run syncProblems immediately (in the background) and then on an interval,
+ * logging failures without crashing.
+ */
 export function scheduleProblemSync(intervalSec: number): void {
   if (!creds() || intervalSec <= 0) return;
   const tick = async () => {
@@ -136,5 +161,6 @@ export function scheduleProblemSync(intervalSec: number): void {
       console.error("sync: failed", e);
     }
   };
+  void tick();
   setInterval(tick, intervalSec * 1000).unref();
 }

@@ -30,11 +30,9 @@ if ! mountpoint -q /tmp 2>/dev/null; then
   mount -t tmpfs -o size=1g tmpfs /tmp 2>/dev/null || true
 fi
 
-# Optional: sync problems from Supabase Storage on boot if creds are present.
-if [ -n "$SUPABASE_URL" ] && [ -n "$SUPABASE_SERVICE_ROLE_KEY" ]; then
-  echo "syncing problems from Supabase..."
-  npx tsx scripts/sync-problems.ts || echo "problem sync failed (continuing with local problems)"
-fi
+# Problem sync happens inside the server (immediately on boot, then every
+# PROBLEM_SYNC_INTERVAL_SEC) so startup isn't blocked and the health check
+# passes while existing packages on the volume keep serving.
 
 # Warm the compiler and Python so first runs are fast.
 (

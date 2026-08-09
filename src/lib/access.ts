@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { db } from "./db";
 import { getEffectiveUser } from "./impersonation";
-import { anonSessionIds } from "./anon-sessions";
+import { anonSessionIds, browserId } from "./anon-sessions";
 import { eventCookieName, secretMatches } from "./event-auth";
 import { sweepStaleSessions } from "./session-lifecycle";
 import type { SessionRow } from "./session-log";
@@ -21,8 +21,10 @@ import type { SessionRow } from "./session-log";
 export async function canViewSession(session: SessionRow): Promise<boolean> {
   const user = await getEffectiveUser();
   if (session.user_id !== null && user?.id === session.user_id) return true;
-  if (session.user_id === null && anonSessionIds().includes(session.id)) {
-    return true;
+  if (session.user_id === null) {
+    if (anonSessionIds().includes(session.id)) return true;
+    const bid = browserId();
+    if (bid && session.browser_id === bid) return true;
   }
 
   if (session.kind === "duel" && user) {

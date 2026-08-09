@@ -30,3 +30,29 @@ export function rememberAnonSession(sessionId: string): void {
 export function clearAnonSessions(): void {
   cookies().set(COOKIE, "", { path: "/", maxAge: 0 });
 }
+
+/**
+ * Stable per-browser id stamped onto anonymous sessions (sessions.browser_id)
+ * so sign-in can claim them even if the session-list cookie is lost. Minting
+ * writes a cookie, so only call from route handlers / server actions.
+ */
+const BID_COOKIE = "cfr_bid";
+
+export function browserId(): string | null {
+  const raw = cookies().get(BID_COOKIE)?.value;
+  return raw && /^[0-9a-f-]{36}$/.test(raw) ? raw : null;
+}
+
+export function ensureBrowserId(): string {
+  const existing = browserId();
+  if (existing) return existing;
+  const id = crypto.randomUUID();
+  cookies().set(BID_COOKIE, id, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: MAX_AGE_SEC,
+  });
+  return id;
+}

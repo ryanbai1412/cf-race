@@ -25,6 +25,7 @@ export type SessionRow = {
   id: string;
   kind: SessionKind;
   user_id: string | null;
+  browser_id: string | null;
   problem_id: string;
   lang: Lang | null;
   started_at: string;

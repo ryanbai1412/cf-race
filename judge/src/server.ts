@@ -8,6 +8,14 @@ import { RunRequest, SubmitRequest } from "./types.js";
 
 const clients = new Set<WebSocket>();
 
+// A dropped client mid-write (EPIPE) must not take the judge down.
+process.on("uncaughtException", (e) => {
+  console.error("uncaughtException:", e);
+});
+process.on("unhandledRejection", (e) => {
+  console.error("unhandledRejection:", e);
+});
+
 function broadcast(type: "run_update" | "submit_update", payload: unknown) {
   const msg = JSON.stringify({ type, payload });
   for (const ws of clients) {

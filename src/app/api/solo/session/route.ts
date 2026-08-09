@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getEffectiveUser } from "@/lib/impersonation";
-import { anonSessionIds, rememberAnonSession } from "@/lib/anon-sessions";
+import {
+  anonSessionIds,
+  ensureBrowserId,
+  rememberAnonSession,
+} from "@/lib/anon-sessions";
 import { abandonActiveSessions } from "@/lib/session-lifecycle";
 
 export const dynamic = "force-dynamic";
@@ -41,6 +45,7 @@ export async function POST(req: NextRequest) {
       started_at: new Date(startAtMs).toISOString(),
       timer_sec: TIMER_SEC,
       user_id: user?.id ?? null,
+      browser_id: user ? null : ensureBrowserId(),
     })
     .select("id")
     .single();
