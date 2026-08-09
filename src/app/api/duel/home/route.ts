@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { authUser } from "@/lib/supabase/server";
+import { getEffectiveUser } from "@/lib/impersonation";
 import { invalidatedProblemIds } from "@/lib/duel";
 import { sweepStaleSessions } from "@/lib/session-lifecycle";
 
@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 /** Data for /duel home: your matches, solved problems, and recordings. */
 export async function GET() {
-  const user = await authUser();
+  const user = await getEffectiveUser();
   if (!user) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 
   await sweepStaleSessions({ userId: user.id });

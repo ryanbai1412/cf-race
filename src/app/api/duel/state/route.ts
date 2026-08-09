@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { authUser } from "@/lib/supabase/server";
+import { getEffectiveUser } from "@/lib/impersonation";
 import {
   latestMatch,
   resolveMatch,
@@ -17,7 +17,7 @@ export const dynamic = "force-dynamic";
  * server clock has reached the match start (revealed at GO).
  */
 export async function GET(req: NextRequest) {
-  const user = await authUser();
+  const user = await getEffectiveUser();
   if (!user) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 
   const roomId = req.nextUrl.searchParams.get("roomId") ?? "";

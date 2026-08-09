@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "./db";
-import { authUser } from "./supabase/server";
+import { getEffectiveUser } from "./impersonation";
 import type { SessionRow } from "./session-log";
 
 export type SessionAccess =
@@ -27,7 +27,7 @@ export async function requireSessionAccess(
     };
   }
   if (session.user_id !== null) {
-    const user = await authUser();
+    const user = await getEffectiveUser();
     if (user?.id !== session.user_id) {
       return {
         ok: false,

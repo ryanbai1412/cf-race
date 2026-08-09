@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { authUser } from "@/lib/supabase/server";
+import { getEffectiveUser } from "@/lib/impersonation";
 import { db } from "@/lib/db";
 import { CreateEventCard } from "@/components/create-event-card";
 import { EventList, type EventListRow } from "@/components/events/event-list";
@@ -7,7 +7,7 @@ import { EventList, type EventListRow } from "@/components/events/event-list";
 export const dynamic = "force-dynamic";
 
 export default async function EventsPage() {
-  const user = await authUser();
+  const user = await getEffectiveUser();
   if (!user) redirect("/?next=/events");
 
   const { data: events } = await db()

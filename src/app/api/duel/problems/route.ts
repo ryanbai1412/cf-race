@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { authUser } from "@/lib/supabase/server";
+import { getEffectiveUser } from "@/lib/impersonation";
 
 export const dynamic = "force-dynamic";
 
@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
  * solved-by-anyone flags and the active invalidation (if any).
  */
 export async function GET() {
-  const user = await authUser();
+  const user = await getEffectiveUser();
   if (!user) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 
   const [{ data: problems }, { data: solved }, { data: invalidations }] =

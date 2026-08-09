@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { authUser } from "@/lib/supabase/server";
+import { getEffectiveUser } from "@/lib/impersonation";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
  * { problemId, revoke: true }.
  */
 export async function POST(req: NextRequest) {
-  const user = await authUser();
+  const user = await getEffectiveUser();
   if (!user) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 
   const body = await req.json().catch(() => null);

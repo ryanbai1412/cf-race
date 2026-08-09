@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { authUser } from "@/lib/supabase/server";
+import { getEffectiveUser } from "@/lib/impersonation";
 import { anonSessionIds, rememberAnonSession } from "@/lib/anon-sessions";
 import { abandonActiveSessions } from "@/lib/session-lifecycle";
 
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     .maybeSingle();
   if (!problem) return NextResponse.json({ error: "unknown problem" }, { status: 400 });
 
-  const user = await authUser();
+  const user = await getEffectiveUser();
   // A new run of the same problem supersedes any still-active one.
   await abandonActiveSessions({
     problemId,

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { authUser } from "@/lib/supabase/server";
+import { getEffectiveUser } from "@/lib/impersonation";
 import { db } from "@/lib/db";
 import { sweepStaleSessions } from "@/lib/session-lifecycle";
 import { StatementPane } from "@/components/race/statement-pane";
@@ -27,7 +27,7 @@ export default async function ProblemDetailPage({
 }: {
   params: { id: string };
 }) {
-  const user = await authUser();
+  const user = await getEffectiveUser();
   if (!user) redirect(`/?next=/problems/${params.id}`);
 
   const { data: problem } = await db()

@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { db } from "./db";
-import { authUser } from "./supabase/server";
+import { getEffectiveUser } from "./impersonation";
 import { anonSessionIds } from "./anon-sessions";
 import { eventCookieName, secretMatches } from "./event-auth";
 import { sweepStaleSessions } from "./session-lifecycle";
@@ -19,7 +19,7 @@ import type { SessionRow } from "./session-log";
  * sessions.
  */
 export async function canViewSession(session: SessionRow): Promise<boolean> {
-  const user = await authUser();
+  const user = await getEffectiveUser();
   if (session.user_id !== null && user?.id === session.user_id) return true;
   if (session.user_id === null && anonSessionIds().includes(session.id)) {
     return true;
@@ -63,7 +63,7 @@ export async function canViewSession(session: SessionRow): Promise<boolean> {
 
 /** Who may view a duel match review: either participant. */
 export async function canViewMatch(matchId: string): Promise<boolean> {
-  const user = await authUser();
+  const user = await getEffectiveUser();
   if (!user) return false;
   const { data: me } = await db()
     .from("duel_players")
@@ -78,7 +78,7 @@ export async function canViewMatch(matchId: string): Promise<boolean> {
 export async function canShareSession(
   sessionId: string
 ): Promise<{ userId: string } | null> {
-  const user = await authUser();
+  const user = await getEffectiveUser();
   if (!user) return null;
   const { data: session } = await db()
     .from("sessions")
@@ -93,7 +93,7 @@ export async function canShareSession(
 export async function canShareMatch(
   matchId: string
 ): Promise<{ userId: string } | null> {
-  const user = await authUser();
+  const user = await getEffectiveUser();
   if (!user) return null;
   if (!(await canViewMatch(matchId))) return null;
   return { userId: user.id };

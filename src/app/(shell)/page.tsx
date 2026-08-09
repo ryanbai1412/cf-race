@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { authUser } from "@/lib/supabase/server";
+import { getEffectiveUser } from "@/lib/impersonation";
 import { db } from "@/lib/db";
 import { sweepStaleSessions } from "@/lib/session-lifecycle";
 import { pickPracticeProblem } from "@/lib/problem-bank";
@@ -29,7 +29,7 @@ export default async function HomePage({
 }: {
   searchParams: { next?: string };
 }) {
-  const user = await authUser();
+  const user = await getEffectiveUser();
   const practiceProblemId = await pickPracticeProblem(user?.id);
 
   if (!user) {

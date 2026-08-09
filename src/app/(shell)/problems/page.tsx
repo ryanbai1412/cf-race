@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { authUser } from "@/lib/supabase/server";
+import { getEffectiveUser } from "@/lib/impersonation";
 import { db } from "@/lib/db";
 import { invalidatedProblemIds } from "@/lib/duel";
 import { visibleProblems } from "@/lib/problem-bank";
@@ -13,7 +13,7 @@ import {
 export const dynamic = "force-dynamic";
 
 export default async function ProblemsPage() {
-  const user = await authUser();
+  const user = await getEffectiveUser();
   if (!user) redirect("/?next=/problems");
 
   await sweepStaleSessions({ userId: user.id });

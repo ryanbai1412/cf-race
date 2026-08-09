@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { authUser } from "@/lib/supabase/server";
+import { getEffectiveUser } from "@/lib/impersonation";
 import { db } from "@/lib/db";
 import { sweepStaleSessions } from "@/lib/session-lifecycle";
 import {
@@ -10,7 +10,7 @@ import {
 export const dynamic = "force-dynamic";
 
 export default async function SessionsPage() {
-  const user = await authUser();
+  const user = await getEffectiveUser();
   if (!user) redirect("/?next=/sessions");
 
   await sweepStaleSessions({ userId: user.id });

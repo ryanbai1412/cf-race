@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db, logDbError } from "@/lib/db";
-import { authUser } from "@/lib/supabase/server";
+import { getEffectiveUser } from "@/lib/impersonation";
 import { judgeConfigured } from "@/lib/judge";
 import { DUEL_MAX_SUBMISSIONS, MAX_SOURCE_LEN } from "@/lib/limits";
 import {
@@ -23,7 +23,7 @@ export const maxDuration = 120;
  * AC still counts as solved for the other player.
  */
 export async function POST(req: NextRequest) {
-  const user = await authUser();
+  const user = await getEffectiveUser();
   if (!user) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 
   const body = await req.json().catch(() => null);

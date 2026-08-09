@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { authUser } from "@/lib/supabase/server";
+import { getEffectiveUser } from "@/lib/impersonation";
 import { DEFAULT_GRACE_AFTER_AC_SEC } from "@/lib/duel";
 
 export const dynamic = "force-dynamic";
 
 /** Create a duel room; the creator joins it immediately. */
 export async function POST() {
-  const user = await authUser();
+  const user = await getEffectiveUser();
   if (!user) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 
   const { data: room, error } = await db()
