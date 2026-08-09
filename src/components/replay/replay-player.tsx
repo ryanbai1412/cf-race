@@ -277,7 +277,7 @@ function ActivityRow({
             </p>
           )}
           {item.run?.compileStderr && (
-            <pre className="max-h-28 overflow-auto rounded bg-black/40 p-1.5 font-mono text-[10px] text-red-300">
+            <pre className="max-h-28 overflow-auto rounded bg-black/40 p-1.5 font-mono text-[10px] text-red-400">
               {item.run.compileStderr}
             </pre>
           )}
@@ -355,7 +355,7 @@ function ReplayConsole({
       );
     if (!run.compiled)
       return (
-        <pre className="m-2 max-h-full overflow-auto rounded bg-black/40 p-2 font-mono text-[11px] text-red-300">
+        <pre className="m-2 max-h-full overflow-auto rounded bg-black/40 p-2 font-mono text-[11px] text-red-400">
           {run.compileStderr || "Compilation failed"}
         </pre>
       );

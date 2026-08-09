@@ -56,7 +56,7 @@ export function RecordingUploadManager() {
                   style={{ width: `${Math.round(u.progress * 100)}%` }}
                 />
               </div>
-              <p className="text-[10px] text-muted-foreground">
+              <p className="font-mono text-xs text-muted-foreground">
                 Don&apos;t close this tab until it finishes.
               </p>
             </>

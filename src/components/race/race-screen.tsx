@@ -465,7 +465,7 @@ export function RaceScreen({
             <Button size="sm" onClick={runSamples} disabled={runBusy || (timeUp && !warmup)}>
               <Play className="mr-1.5 h-3.5 w-3.5" />
               {runBusy ? "Running…" : "Run samples"}
-              <kbd className="ml-2 rounded border border-primary-foreground/30 px-1 font-mono text-[10px]">
+              <kbd className="ml-2 rounded border border-primary-foreground/30 px-1 font-mono text-xs">
                 Ctrl+↵
               </kbd>
             </Button>
@@ -473,13 +473,13 @@ export function RaceScreen({
               <Button
                 size="sm"
                 variant="secondary"
-                className="bg-green-600 text-white hover:bg-green-700"
+                className="border-green-500/40 bg-green-500/15 text-green-400 hover:bg-green-500/25"
                 onClick={submit}
                 disabled={submitBusy || timeUp || submissionsUsed >= maxSubmissions}
               >
                 <Send className="mr-1.5 h-3.5 w-3.5" />
                 {submitBusy ? "Judging…" : "Submit"}
-                <kbd className="ml-2 rounded border border-white/30 px-1 font-mono text-[10px]">
+                <kbd className="ml-2 rounded border border-green-500/40 px-1 font-mono text-xs">
                   Ctrl+⇧+↵
                 </kbd>
               </Button>

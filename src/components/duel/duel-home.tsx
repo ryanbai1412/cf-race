@@ -223,7 +223,7 @@ export function DuelHome() {
                       className="flex items-center gap-2 font-mono text-sm"
                     >
                       <span className="text-primary">{s.problemId}</span>
-                      <Badge variant="outline" className="text-[10px]">
+                      <Badge variant="outline" className="font-mono text-xs">
                         {s.kind}
                       </Badge>
                       {s.solveMs !== null && (
@@ -258,7 +258,7 @@ export function DuelHome() {
                       className="flex items-center gap-2 rounded px-1 py-0.5 font-mono text-sm hover:bg-accent"
                     >
                       <span className="text-primary">{r.problem_id}</span>
-                      <Badge variant="outline" className="text-[10px]">
+                      <Badge variant="outline" className="font-mono text-xs">
                         {r.kind}
                       </Badge>
                       <span

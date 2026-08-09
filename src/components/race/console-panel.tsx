@@ -21,7 +21,7 @@ function OutputBlock({
   if (!text) return null;
   return (
     <div>
-      <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+      <p className="mb-0.5 font-mono text-xs uppercase tracking-wider text-muted-foreground">
         {label}
         {truncated && " (truncated)"}
       </p>
@@ -138,7 +138,7 @@ export function ConsolePanel({
         {runResult && !runResult.compile.ok && (
           <div>
             <VerdictChip verdict="CE" />
-            <pre className="mt-2 max-h-48 overflow-auto rounded bg-black/40 p-2 font-mono text-xs text-red-300">
+            <pre className="mt-2 max-h-48 overflow-auto rounded bg-black/40 p-2 font-mono text-xs text-red-400">
               {runResult.compile.stderr}
             </pre>
           </div>
@@ -171,7 +171,7 @@ export function ConsolePanel({
           {customBusy ? "Running…" : "Run custom input"}
         </Button>
         {customResult && !customResult.compile.ok && (
-          <pre className="max-h-48 overflow-auto rounded bg-black/40 p-2 font-mono text-xs text-red-300">
+          <pre className="max-h-48 overflow-auto rounded bg-black/40 p-2 font-mono text-xs text-red-400">
             {customResult.compile.stderr}
           </pre>
         )}
@@ -223,7 +223,7 @@ export function ConsolePanel({
               </span>
             </div>
             {s.details?.compileError && (
-              <pre className="mt-2 max-h-40 overflow-auto rounded bg-black/40 p-2 font-mono text-xs text-red-300">
+              <pre className="mt-2 max-h-40 overflow-auto rounded bg-black/40 p-2 font-mono text-xs text-red-400">
                 {s.details.compileError}
               </pre>
             )}
