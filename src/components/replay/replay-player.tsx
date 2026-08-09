@@ -624,7 +624,7 @@ export function ReplayCore({
   const activity = useMemo(() => buildActivity(log.events), [log.events]);
 
   return (
-    <main className="flex h-screen flex-col bg-background">
+    <main className="flex h-full flex-col bg-background">
       {header(clockMs, solved)}
 
       <div className="flex min-h-0 flex-1">
@@ -785,14 +785,14 @@ export function ReplayPlayer({
 
   if (log === undefined) {
     return (
-      <main className="flex min-h-screen items-center justify-center">
+      <main className="flex h-full items-center justify-center">
         <p className="animate-pulse font-mono text-muted-foreground">Loading replay…</p>
       </main>
     );
   }
   if (log === null) {
     return (
-      <main className="flex min-h-screen items-center justify-center">
+      <main className="flex h-full items-center justify-center">
         <p className="font-mono text-muted-foreground">No replay found for this race.</p>
       </main>
     );

@@ -29,10 +29,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} flex h-dvh flex-col antialiased`}
       >
         <ImpersonationBanner />
-        {children}
+        <div className="min-h-0 flex-1 overflow-y-auto">{children}</div>
         <Toaster />
         <RecordingUploadManager />
       </body>

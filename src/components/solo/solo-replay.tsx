@@ -37,14 +37,14 @@ export function SoloReplay({
 
   if (log === undefined) {
     return (
-      <main className="flex min-h-screen items-center justify-center">
+      <main className="flex h-full items-center justify-center">
         <p className="animate-pulse font-mono text-muted-foreground">Loading replay…</p>
       </main>
     );
   }
   if (log === null) {
     return (
-      <main className="flex min-h-screen items-center justify-center">
+      <main className="flex h-full items-center justify-center">
         <p className="font-mono text-muted-foreground">No replay found for this run.</p>
       </main>
     );

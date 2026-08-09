@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { DeviceLinks } from "@/components/admin/device-links";
 import { RaceControl } from "@/components/admin/race-control";
 import { RaceHistory } from "@/components/admin/race-history";
+import { EventSettings } from "@/components/admin/event-settings";
+import { requireWebcam } from "@/lib/event-settings";
 
 export default async function AdminPage({
   params,
@@ -23,6 +25,10 @@ export default async function AdminPage({
         <h1 className="text-3xl font-bold">{event.name}</h1>
       </header>
       <RaceControl eventId={event.id} />
+      <EventSettings
+        eventId={event.id}
+        initialRequireWebcam={requireWebcam(event.settings)}
+      />
       <RaceHistory eventId={event.id} />
       <DeviceLinks eventId={event.id} secret={event.secret} />
     </main>
