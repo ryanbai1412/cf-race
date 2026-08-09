@@ -16,15 +16,16 @@ export default async function ProblemsPage() {
   const user = await getEffectiveUser();
   if (!user) redirect("/?next=/problems");
 
-  await sweepStaleSessions({ userId: user.id });
   const [problems, invalidated, { data: sessions }, { data: myRatings }] =
     await Promise.all([
       visibleProblems(),
       invalidatedProblemIds(),
-      db()
-        .from("sessions")
-        .select("problem_id, outcome, solve_ms")
-        .eq("user_id", user.id),
+      sweepStaleSessions({ userId: user.id }).then(() =>
+        db()
+          .from("sessions")
+          .select("problem_id, outcome, solve_ms")
+          .eq("user_id", user.id)
+      ),
       db()
         .from("problem_ratings")
         .select("problem_id, stars")
