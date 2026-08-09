@@ -23,9 +23,11 @@ async function getToken(eventId: string, identity: string, publish: boolean) {
 export function WebcamPublisher({
   eventId,
   identity,
+  onPublishState,
 }: {
   eventId: string;
   identity: string;
+  onPublishState?: (publishing: boolean) => void;
 }) {
   useEffect(() => {
     const url = process.env.NEXT_PUBLIC_LIVEKIT_URL;
@@ -46,14 +48,18 @@ export function WebcamPublisher({
           return;
         }
         await room.localParticipant.publishTrack(track);
+        onPublishState?.(true);
       } catch {
         // No camera / permission denied — webcam is best-effort.
+        onPublishState?.(false);
       }
     })();
     return () => {
       cancelled = true;
+      onPublishState?.(false);
       void room?.disconnect();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [eventId, identity]);
   return null;
 }

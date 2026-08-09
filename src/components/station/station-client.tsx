@@ -49,6 +49,7 @@ export function StationClient({
   const [warmupProblem, setWarmupProblem] = useState<Problem | null>(null);
   const [ready, setReady] = useState(false);
   const [switchingContestant, setSwitchingContestant] = useState(false);
+  const [camReady, setCamReady] = useState(false);
   const chRef = useRef<RealtimeChannel | null>(null);
 
   useEffect(() => {
@@ -206,7 +207,13 @@ export function StationClient({
 
   // Upload progress toast + leave-warning come from the layout-mounted
   // RecordingUploadManager, which also retries pending uploads from IndexedDB.
-  const webcam = <WebcamPublisher eventId={eventId} identity={station} />;
+  const webcam = (
+    <WebcamPublisher
+      eventId={eventId}
+      identity={station}
+      onPublishState={setCamReady}
+    />
+  );
   const contestant = state.contestants[station];
   const rivalRole: StationRole = station === "station1" ? "station2" : "station1";
   const rival = state.contestants[rivalRole];
@@ -324,6 +331,11 @@ export function StationClient({
         warmup
         ready={ready}
         onReady={markReady}
+        readyBlockedReason={
+          state.event.requireWebcam && !camReady
+            ? "This event requires a webcam — allow camera access to ready up"
+            : null
+        }
         onEditorChange={broadcastEditor}
         onSwitchContestant={() => setSwitchingContestant(true)}
       />

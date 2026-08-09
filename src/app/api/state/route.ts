@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { activeContestants } from "@/lib/contestants";
 import { requireEvent } from "@/lib/event-auth";
+import { requireWebcam } from "@/lib/event-settings";
 import { activeRace } from "@/lib/races";
 import type { ClientState } from "@/lib/types";
 
@@ -18,7 +19,11 @@ export async function GET(req: NextRequest) {
 
   const state: ClientState = {
     serverNow: Date.now(),
-    event: { id: event.id, name: event.name },
+    event: {
+      id: event.id,
+      name: event.name,
+      requireWebcam: requireWebcam(event.settings),
+    },
     contestants: active,
     race: race ?? null,
   };

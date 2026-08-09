@@ -70,7 +70,7 @@ export type RunResult = RunResponse;
 /** Full state for a station/monitor client, returned by GET /api/state. */
 export type ClientState = {
   serverNow: number; // epoch ms, for clock sync
-  event: { id: string; name: string };
+  event: { id: string; name: string; requireWebcam: boolean };
   contestants: Partial<Record<StationRole, Contestant>>;
   race:
     | (Race & {

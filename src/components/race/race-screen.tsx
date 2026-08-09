@@ -35,6 +35,7 @@ export function RaceScreen({
   apiBase,
   label,
   onReady,
+  readyBlockedReason,
   ready,
   onEditorChange,
   onEditorDelta,
@@ -61,6 +62,7 @@ export function RaceScreen({
   apiBase?: string; // session-mode API prefix (default "/api/solo"; duel uses "/api/duel")
   label?: string; // header mode label override
   onReady?: () => void;
+  readyBlockedReason?: string | null;
   ready?: boolean;
   onEditorChange?: (code: string, lang: Lang, cursorLine: number) => void;
   onEditorDelta?: (changes: EditorDeltaChange[], code: string, lang: Lang) => void; // per-keystroke Monaco changes (for replay recording)
@@ -418,10 +420,16 @@ export function RaceScreen({
                 Not {contestant.name}? Switch player
               </Button>
             )}
-            {onReady && (
-              <Button size="sm" variant={ready ? "secondary" : "default"} onClick={onReady}>
-                {ready ? "Ready ✓ (waiting for start)" : "I'm ready"}
-              </Button>
+            {onReady && readyBlockedReason ? (
+              <span className="font-mono text-xs text-amber-400">
+                {readyBlockedReason}
+              </span>
+            ) : (
+              onReady && (
+                <Button size="sm" variant={ready ? "secondary" : "default"} onClick={onReady}>
+                  {ready ? "Ready ✓ (waiting for start)" : "I'm ready"}
+                </Button>
+              )
             )}
           </div>
         </div>
