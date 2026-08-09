@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CountdownOverlay } from "@/components/station/countdown-overlay";
 import { RaceScreen } from "@/components/race/race-screen";
+import { Eyebrow } from "@/components/shell/page";
 import { formatMsPrecise } from "@/lib/templates";
 import { loadSoloHistory, upsertSoloHistory, bestSolve } from "@/lib/solo";
 import { preferredLang, setPreferredLang } from "@/lib/lang-preference";
@@ -394,7 +395,7 @@ export function SoloClient({
               </p>
             )}
             {!solved && (
-              <p className="text-muted-foreground">
+              <p className="text-sm text-muted-foreground">
                 No AC this time — replay it and see where the seconds went.
               </p>
             )}
@@ -461,9 +462,7 @@ export function SoloClient({
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.12),transparent_60%)]" />
       <Card className="relative w-full max-w-lg border-border/60 bg-card/60">
         <CardHeader>
-          <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-            Solo practice
-          </p>
+          <Eyebrow>Solo practice</Eyebrow>
           <CardTitle className="flex items-center gap-2 text-2xl">
             <span className="font-mono text-primary">{problem.id}</span>
             {problem.name}
@@ -483,7 +482,7 @@ export function SoloClient({
             <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
               Language
             </span>
-            <div className="flex overflow-hidden rounded-md border border-border">
+            <div className="flex overflow-hidden rounded-md border border-border/60">
               {(["cpp", "py"] as Lang[]).map((l) => (
                 <button
                   key={l}
