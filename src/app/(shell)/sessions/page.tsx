@@ -14,24 +14,22 @@ export default async function SessionsPage() {
   const user = await getEffectiveUser();
   if (!user) redirect("/?next=/sessions");
 
-  await sweepStaleSessions({ userId: user.id });
-  const { data: sessions } = await db()
-    .from("sessions")
-    .select("id, kind, problem_id, started_at, outcome, solve_ms, timer_sec")
-    .eq("user_id", user.id)
-    .order("started_at", { ascending: false })
-    .limit(500);
-
-  const ids = (sessions ?? []).map((s) => s.id);
-  const shared = new Set<string>();
-  if (ids.length > 0) {
-    const { data: shares } = await db()
+  const [{ data: sessions }, { data: shares }] = await Promise.all([
+    db()
+      .from("sessions")
+      .select("id, kind, problem_id, started_at, outcome, solve_ms, timer_sec")
+      .eq("user_id", user.id)
+      .order("started_at", { ascending: false })
+      .limit(500),
+    db()
       .from("session_shares")
-      .select("session_id")
-      .in("session_id", ids)
-      .is("revoked_at", null);
-    for (const s of shares ?? []) shared.add(s.session_id);
-  }
+      .select("session_id, sessions!inner(user_id)")
+      .eq("sessions.user_id", user.id)
+      .is("revoked_at", null),
+    sweepStaleSessions({ userId: user.id }),
+  ]);
+
+  const shared = new Set<string>((shares ?? []).map((s) => s.session_id));
 
   const rows: SessionListRow[] = (sessions ?? []).map((s) => ({
     id: s.id,

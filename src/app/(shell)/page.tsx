@@ -31,9 +31,9 @@ export default async function HomePage({
   searchParams: { next?: string };
 }) {
   const user = await getEffectiveUser();
-  const practiceProblemId = await pickPracticeProblem(user?.id);
 
   if (!user) {
+    const practiceProblemId = await pickPracticeProblem(null);
     const next =
       typeof searchParams.next === "string" && searchParams.next.startsWith("/")
         ? searchParams.next
@@ -41,36 +41,41 @@ export default async function HomePage({
     return <Landing next={next} practiceProblemId={practiceProblemId} />;
   }
 
-  await sweepStaleSessions({ userId: user.id });
-  const [{ data: recent }, { data: solvedRows }, { data: myPlayers }] =
-    await Promise.all([
-      db()
-        .from("sessions")
-        .select("id, kind, problem_id, started_at, outcome, solve_ms")
-        .eq("user_id", user.id)
-        .order("started_at", { ascending: false })
-        .limit(10),
-      db()
-        .from("sessions")
-        .select("problem_id, kind, started_at")
-        .eq("user_id", user.id)
-        .eq("outcome", "solved"),
-      db().from("duel_players").select("match_id").eq("user_id", user.id),
-    ]);
+  const [
+    practiceProblemId,
+    { data: recent },
+    { data: solvedRows },
+    { data: myMatches },
+    { data: shares },
+  ] = await Promise.all([
+    pickPracticeProblem(user.id),
+    db()
+      .from("sessions")
+      .select("id, kind, problem_id, started_at, outcome, solve_ms")
+      .eq("user_id", user.id)
+      .order("started_at", { ascending: false })
+      .limit(10),
+    db()
+      .from("sessions")
+      .select("problem_id, kind, started_at")
+      .eq("user_id", user.id)
+      .eq("outcome", "solved"),
+    db()
+      .from("duel_players")
+      .select("match_id, duel_matches!inner(winner_user_id, finished_at)")
+      .eq("user_id", user.id)
+      .not("duel_matches.finished_at", "is", null),
+    db()
+      .from("session_shares")
+      .select("session_id, sessions!inner(user_id)")
+      .eq("sessions.user_id", user.id)
+      .is("revoked_at", null),
+    sweepStaleSessions({ userId: user.id }),
+  ]);
 
   const sessions = (recent ?? []) as RecentSession[];
   const shareBySession = new Map<string, boolean>();
-  if (sessions.length > 0) {
-    const { data: shares } = await db()
-      .from("session_shares")
-      .select("session_id")
-      .in(
-        "session_id",
-        sessions.map((s) => s.id)
-      )
-      .is("revoked_at", null);
-    for (const s of shares ?? []) shareBySession.set(s.session_id, true);
-  }
+  for (const s of shares ?? []) shareBySession.set(s.session_id, true);
 
   const solvedProblems = new Set((solvedRows ?? []).map((s) => s.problem_id));
   const weekAgo = Date.now() - 7 * 24 * 3600 * 1000;
@@ -78,19 +83,15 @@ export default async function HomePage({
     (s) => s.kind === "solo" && new Date(s.started_at).getTime() > weekAgo
   ).length;
 
-  const matchIds = (myPlayers ?? []).map((p) => p.match_id);
   let wins = 0;
   let losses = 0;
-  if (matchIds.length > 0) {
-    const { data: matches } = await db()
-      .from("duel_matches")
-      .select("id, winner_user_id, finished_at")
-      .in("id", matchIds)
-      .not("finished_at", "is", null);
-    for (const m of matches ?? []) {
-      if (m.winner_user_id === user.id) wins += 1;
-      else if (m.winner_user_id !== null) losses += 1;
-    }
+  for (const p of myMatches ?? []) {
+    const m = p.duel_matches as unknown as {
+      winner_user_id: string | null;
+      finished_at: string | null;
+    };
+    if (m.winner_user_id === user.id) wins += 1;
+    else if (m.winner_user_id !== null) losses += 1;
   }
 
   return (

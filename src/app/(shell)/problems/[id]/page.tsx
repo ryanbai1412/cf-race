@@ -44,7 +44,6 @@ export default async function ProblemDetailPage({
     .maybeSingle<Problem & { tags: string[] | null }>();
   if (!problem || (problem.tags ?? []).includes("hidden")) notFound();
 
-  await sweepStaleSessions({ userId: user.id, problemId: problem.id });
   const [{ data: sessions }, { data: invalidation }, { data: myRating }, { data: allRatings }] = await Promise.all([
     db()
       .from("sessions")
@@ -69,6 +68,7 @@ export default async function ProblemDetailPage({
       .from("problem_ratings")
       .select("stars")
       .eq("problem_id", problem.id),
+    sweepStaleSessions({ userId: user.id, problemId: problem.id }),
   ]);
 
   const ratings = (allRatings ?? []) as { stars: number }[];
