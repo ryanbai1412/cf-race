@@ -62,25 +62,27 @@ export async function latestMatch(roomId: string): Promise<{
 } | null> {
   const { data: match } = await db()
     .from("duel_matches")
-    .select("*")
+    .select(
+      "*, duel_players(match_id, user_id, session_id, sessions(id, user_id, problem_id, lang, started_at, outcome, solve_ms, recording_path))"
+    )
     .eq("room_id", roomId)
     .order("created_at", { ascending: false })
     .limit(1)
-    .maybeSingle<DuelMatchRow>();
+    .maybeSingle<
+      DuelMatchRow & {
+        duel_players: (DuelPlayerRow & { sessions: DuelSessionRow | null })[];
+      }
+    >();
   if (!match) return null;
-  const { data: players } = await db()
-    .from("duel_players")
-    .select("*")
-    .eq("match_id", match.id);
-  const sessionIds = (players ?? []).map((p) => p.session_id);
-  const { data: sessions } = await db()
-    .from("sessions")
-    .select("id, user_id, problem_id, lang, started_at, outcome, solve_ms, recording_path")
-    .in("id", sessionIds);
+  const { duel_players: rows, ...matchRow } = match;
   return {
-    match,
-    players: (players ?? []) as DuelPlayerRow[],
-    sessions: (sessions ?? []) as DuelSessionRow[],
+    match: matchRow as DuelMatchRow,
+    players: rows.map(({ match_id, user_id, session_id }) => ({
+      match_id,
+      user_id,
+      session_id,
+    })),
+    sessions: rows.flatMap((r) => (r.sessions ? [r.sessions] : [])),
   };
 }
 

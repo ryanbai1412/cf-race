@@ -11,23 +11,14 @@ export async function GET() {
   const user = await getEffectiveUser();
   if (!user) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 
-  await sweepStaleSessions({ userId: user.id });
-  const { data: myPlayers } = await db()
-    .from("duel_players")
-    .select("match_id, session_id")
-    .eq("user_id", user.id);
-  const matchIds = (myPlayers ?? []).map((p) => p.match_id);
-
-  const [{ data: matches }, { data: solved }, { data: recordings }, invalidated] =
+  const [{ data: myPlayers }, { data: solved }, { data: recordings }, invalidated] =
     await Promise.all([
-      matchIds.length > 0
-        ? db()
-            .from("duel_matches")
-            .select("id, room_id, problem_id, started_at, winner_user_id, finished_at")
-            .in("id", matchIds)
-            .order("started_at", { ascending: false })
-            .limit(100)
-        : Promise.resolve({ data: [] }),
+      db()
+        .from("duel_players")
+        .select(
+          "match_id, duel_matches!inner(id, room_id, problem_id, started_at, winner_user_id, finished_at)"
+        )
+        .eq("user_id", user.id),
       db()
         .from("sessions")
         .select("problem_id, kind, solve_ms, started_at")
@@ -43,7 +34,26 @@ export async function GET() {
         .order("started_at", { ascending: false })
         .limit(100),
       invalidatedProblemIds(),
+      sweepStaleSessions({ userId: user.id }),
     ]);
+
+  const matchIds = (myPlayers ?? []).map((p) => p.match_id);
+  const matches = (myPlayers ?? [])
+    .map(
+      (p) =>
+        p.duel_matches as unknown as {
+          id: string;
+          room_id: string;
+          problem_id: string;
+          started_at: string;
+          winner_user_id: string | null;
+          finished_at: string | null;
+        }
+    )
+    .sort(
+      (a, b) =>
+        new Date(b.started_at).getTime() - new Date(a.started_at).getTime()
+    );
 
   // Opponent names per match.
   let opponents: Record<string, string> = {};

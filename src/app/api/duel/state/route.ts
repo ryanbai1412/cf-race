@@ -23,28 +23,27 @@ export async function GET(req: NextRequest) {
   const roomId = req.nextUrl.searchParams.get("roomId") ?? "";
   if (!roomId) return NextResponse.json({ error: "bad request" }, { status: 400 });
 
-  const { data: room } = await db()
-    .from("duel_rooms")
-    .select("*")
-    .eq("id", roomId)
-    .maybeSingle<DuelRoomRow>();
+  const [{ data: room }, { data: players }] = await Promise.all([
+    db().from("duel_rooms").select("*").eq("id", roomId).maybeSingle<DuelRoomRow>(),
+    db()
+      .from("duel_room_players")
+      .select("*")
+      .eq("room_id", roomId)
+      .order("joined_at", { ascending: true }),
+  ]);
   if (!room) return NextResponse.json({ error: "unknown room" }, { status: 404 });
 
-  const { data: players } = await db()
-    .from("duel_room_players")
-    .select("*")
-    .eq("room_id", roomId)
-    .order("joined_at", { ascending: true });
-
-  // Lazily settle the current match (grace/cutoff expiry, both decided).
-  if (room.status === "racing") await resolveMatch(roomId);
+  // Lazily settle the current match (grace/cutoff expiry, both decided);
+  // re-read the room only when the settle could have changed its status.
+  let freshRoom: DuelRoomRow | null = null;
+  if (room.status === "racing") {
+    await resolveMatch(roomId);
+    freshRoom = (
+      await db().from("duel_rooms").select("*").eq("id", roomId).maybeSingle<DuelRoomRow>()
+    ).data;
+  }
 
   const cur = await latestMatch(roomId);
-  const { data: freshRoom } = await db()
-    .from("duel_rooms")
-    .select("*")
-    .eq("id", roomId)
-    .maybeSingle<DuelRoomRow>();
 
   let match: Record<string, unknown> | null = null;
   if (cur) {

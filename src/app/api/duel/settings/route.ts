@@ -21,19 +21,17 @@ export async function POST(req: NextRequest) {
   const totalTimeSec = "totalTimeSec" in (body ?? {}) ? norm(body.totalTimeSec) : undefined;
   const graceSec = "graceAfterAcSec" in (body ?? {}) ? norm(body.graceAfterAcSec) : undefined;
 
-  const { data: member } = await db()
-    .from("duel_room_players")
-    .select("user_id")
-    .eq("room_id", roomId)
-    .eq("user_id", user.id)
-    .maybeSingle();
+  const [{ data: member }, { data: room }] = await Promise.all([
+    db()
+      .from("duel_room_players")
+      .select("user_id")
+      .eq("room_id", roomId)
+      .eq("user_id", user.id)
+      .maybeSingle(),
+    db().from("duel_rooms").select("status").eq("id", roomId).maybeSingle(),
+  ]);
   if (!member) return NextResponse.json({ error: "not in room" }, { status: 403 });
 
-  const { data: room } = await db()
-    .from("duel_rooms")
-    .select("status")
-    .eq("id", roomId)
-    .maybeSingle();
   if (!room || room.status !== "lobby") {
     return NextResponse.json({ error: "room is not in the lobby" }, { status: 400 });
   }

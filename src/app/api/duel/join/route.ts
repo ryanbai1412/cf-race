@@ -13,17 +13,12 @@ export async function POST(req: NextRequest) {
   const roomId = typeof body?.roomId === "string" ? body.roomId : "";
   if (!roomId) return NextResponse.json({ error: "bad request" }, { status: 400 });
 
-  const { data: room } = await db()
-    .from("duel_rooms")
-    .select("id")
-    .eq("id", roomId)
-    .maybeSingle();
+  const [{ data: room }, { data: players }] = await Promise.all([
+    db().from("duel_rooms").select("id").eq("id", roomId).maybeSingle(),
+    db().from("duel_room_players").select("user_id").eq("room_id", roomId),
+  ]);
   if (!room) return NextResponse.json({ error: "unknown room" }, { status: 404 });
 
-  const { data: players } = await db()
-    .from("duel_room_players")
-    .select("user_id")
-    .eq("room_id", roomId);
   const existing = players ?? [];
   if (existing.some((p) => p.user_id === user.id)) {
     return NextResponse.json({ ok: true, joined: true });

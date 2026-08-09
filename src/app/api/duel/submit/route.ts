@@ -40,12 +40,19 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { data: session } = await db()
-    .from("sessions")
-    .select("*")
-    .eq("id", sessionId)
-    .eq("kind", "duel")
-    .maybeSingle();
+  const [{ data: session }, { data: player }] = await Promise.all([
+    db()
+      .from("sessions")
+      .select("*")
+      .eq("id", sessionId)
+      .eq("kind", "duel")
+      .maybeSingle(),
+    db()
+      .from("duel_players")
+      .select("match_id, duel_matches(*)")
+      .eq("session_id", sessionId)
+      .maybeSingle<{ match_id: string; duel_matches: DuelMatchRow | null }>(),
+  ]);
   if (!session) {
     return NextResponse.json({ error: "unknown session" }, { status: 400 });
   }
@@ -56,19 +63,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "already solved" }, { status: 400 });
   }
 
-  const { data: player } = await db()
-    .from("duel_players")
-    .select("match_id")
-    .eq("session_id", sessionId)
-    .maybeSingle();
   if (!player) {
     return NextResponse.json({ error: "no match for session" }, { status: 400 });
   }
-  const { data: match } = await db()
-    .from("duel_matches")
-    .select("*")
-    .eq("id", player.match_id)
-    .maybeSingle<DuelMatchRow>();
+  const match = player.duel_matches;
   if (!match) return NextResponse.json({ error: "unknown match" }, { status: 400 });
 
   const now = Date.now();

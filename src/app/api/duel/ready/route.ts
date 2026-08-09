@@ -20,22 +20,19 @@ export async function POST(req: NextRequest) {
   const ready = body?.ready === true;
   if (!roomId) return NextResponse.json({ error: "bad request" }, { status: 400 });
 
-  const { data: room } = await db()
-    .from("duel_rooms")
-    .select("*")
-    .eq("id", roomId)
-    .maybeSingle();
+  const [{ data: room }, { data: me }] = await Promise.all([
+    db().from("duel_rooms").select("*").eq("id", roomId).maybeSingle(),
+    db()
+      .from("duel_room_players")
+      .select("user_id")
+      .eq("room_id", roomId)
+      .eq("user_id", user.id)
+      .maybeSingle(),
+  ]);
   if (!room) return NextResponse.json({ error: "unknown room" }, { status: 404 });
   if (room.status !== "lobby") {
     return NextResponse.json({ error: "room is not in the lobby" }, { status: 400 });
   }
-
-  const { data: me } = await db()
-    .from("duel_room_players")
-    .select("user_id")
-    .eq("room_id", roomId)
-    .eq("user_id", user.id)
-    .maybeSingle();
   if (!me) return NextResponse.json({ error: "not in room" }, { status: 403 });
 
   const { error: readyErr } = await db()
