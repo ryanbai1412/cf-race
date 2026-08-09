@@ -122,7 +122,13 @@ test.describe("solo run", () => {
 
     // Replay: the event stream must reconstruct the exact typed code and
     // carry the submit/verdict markers for both submissions.
-    const replayRes = await request.get(
+    // Replay access rides the anon-session cookie, so go through the page's
+    // context; a cookie-less client must get a 404 (privacy: PRD 11 §5.3).
+    const stranger = await request.get(
+      `http://localhost:3100/api/solo/replay?sessionId=${sessionId}`
+    );
+    expect(stranger.status()).toBe(404);
+    const replayRes = await page.request.get(
       `http://localhost:3100/api/solo/replay?sessionId=${sessionId}`
     );
     expect(replayRes.status()).toBe(200);
