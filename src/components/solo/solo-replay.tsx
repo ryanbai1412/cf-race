@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ReplayCore, ReplayBadges } from "@/components/replay/replay-player";
+import { ShareButton } from "@/components/shell/share-button";
 import { Button } from "@/components/ui/button";
 import { formatMsPrecise } from "@/lib/templates";
 import { cn } from "@/lib/utils";
@@ -12,20 +13,27 @@ import { toast } from "sonner";
 
 export function SoloReplay({
   sessionId,
-  showExport,
+  showExport = false,
+  apiUrl,
+  readOnly = false,
 }: {
-  sessionId: string;
-  showExport: boolean;
+  sessionId?: string;
+  showExport?: boolean;
+  /** Override the replay data endpoint (e.g. public share tokens). */
+  apiUrl?: string;
+  /** Public share view: no share/promote/export controls. */
+  readOnly?: boolean;
 }) {
   const [log, setLog] = useState<SessionReplayResponse | null | undefined>(undefined);
   const [promoting, setPromoting] = useState(false);
 
+  const url = apiUrl ?? `/api/solo/replay?sessionId=${sessionId}`;
   useEffect(() => {
-    fetch(`/api/solo/replay?sessionId=${sessionId}`, { cache: "no-store" })
+    fetch(url, { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : null))
       .then(setLog)
       .catch(() => setLog(null));
-  }, [sessionId]);
+  }, [url]);
 
   if (log === undefined) {
     return (
@@ -100,16 +108,21 @@ export function SoloReplay({
             {log.problemName}
           </span>
           <span className="font-mono text-sm text-muted-foreground">
-            solo replay ·{" "}
+            {readOnly ? "shared replay" : "replay"} ·{" "}
             {log.outcome === "solved"
               ? "AC"
               : log.outcome === "timeout"
                 ? "DNF"
                 : (log.outcome ?? "in progress")}
           </span>
-          <Button asChild size="sm" variant="ghost" className="font-mono text-xs">
-            <Link href="/solo">← gauntlet</Link>
-          </Button>
+          {!readOnly && (
+            <>
+              <Button asChild size="sm" variant="ghost" className="font-mono text-xs">
+                <Link href="/problems">← problems</Link>
+              </Button>
+              {sessionId && <ShareButton sessionId={sessionId} />}
+            </>
+          )}
           <span className="ml-auto">
             <ReplayBadges log={log} clockMs={clockMs} />
           </span>
@@ -125,7 +138,7 @@ export function SoloReplay({
         </header>
       )}
       footerExtra={
-        showExport ? (
+        showExport && !readOnly ? (
           <div className="flex gap-1">
             <Button size="sm" variant="ghost" onClick={downloadTouristJson}>
               <Download className="mr-1.5 h-3.5 w-3.5" />
