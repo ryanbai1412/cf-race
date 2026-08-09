@@ -36,6 +36,12 @@ export interface ExecResult {
   stderr: Buffer;
   /** stdout hit the capture cap, so it is incomplete even for checking */
   stdoutCapped?: boolean;
+  /**
+   * The sandbox itself failed (isolate internal error, or isolate hung past
+   * its own limits and had to be killed). Such a run says nothing about the
+   * program, so callers must not turn it into a verdict.
+   */
+  internalError?: string;
   /** copy a file out of the box after the run (set via outFiles) */
   outFiles?: Record<string, Buffer>;
 }
@@ -154,13 +160,27 @@ class BoxPool {
 
 const boxPool = new BoxPool(Math.max(config.workers * 2, 4));
 
+/** Host-side kill deadline for isolate's own bookkeeping commands. */
+const ISOLATE_ADMIN_TIMEOUT_MS = 30_000;
+/** Slack over the sandbox wall clock before isolate itself is killed. */
+const ISOLATE_OVERHEAD_MS = 10_000;
+
 // isolate --init instances race on mounting the shared tmpfs at
 // /var/local/lib/isolate ("Unexpected mountpoint" errors); serialize them.
 let initChain: Promise<unknown> = Promise.resolve();
 function serializedInit(args: string[]) {
-  const p = initChain.then(() => spawnCollect("isolate", args, {}));
+  // Bounded: a hung --init would block every later run behind this chain.
+  const p = initChain.then(() =>
+    spawnCollect("isolate", args, { killAfterMs: ISOLATE_ADMIN_TIMEOUT_MS })
+  );
   initChain = p.catch(() => {});
   return p;
+}
+
+function cleanupBox(cgArgs: string[], boxId: number): Promise<unknown> {
+  return spawnCollect("isolate", [...cgArgs, "-b", String(boxId), "--cleanup"], {
+    killAfterMs: ISOLATE_ADMIN_TIMEOUT_MS,
+  }).catch((e) => console.error(`isolate cleanup failed for box ${boxId}:`, e));
 }
 
 async function placeFiles(dir: string, files?: ExecSpec["files"]) {
@@ -201,7 +221,7 @@ async function runIsolate(
     let init = await serializedInit([...cgArgs, "-b", String(boxId), "--init"]);
     if (init.code !== 0) {
       // A crashed previous run can leave the box dirty; clean and retry once.
-      await spawnCollect("isolate", [...cgArgs, "-b", String(boxId), "--cleanup"], {});
+      await cleanupBox(cgArgs, boxId);
       init = await serializedInit([...cgArgs, "-b", String(boxId), "--init"]);
       if (init.code !== 0) {
         throw new Error(`isolate --init failed: ${init.stderr.toString()}`);
@@ -247,20 +267,29 @@ async function runIsolate(
     for (const [k, v] of Object.entries(spec.env ?? {})) args.push("-E", `${k}=${v}`);
     args.push("--run", "--", ...spec.argv);
 
+    // isolate enforces -t/-w on the sandboxed program only; nothing bounds
+    // isolate itself, so a hung sandbox would hold this box id and its worker
+    // slot forever without a host-side kill.
+    const killAfterMs = wallSec * 1000 + ISOLATE_OVERHEAD_MS;
     const res = await spawnCollect("isolate", args, {
       stdin: spec.stdinFile ? undefined : spec.stdin ?? "",
+      killAfterMs,
     });
     const meta = parseIsolateMeta(metaPath);
     const timeMs = Math.round(Number(meta["time"] ?? 0) * 1000);
     let status: ExecStatus = "OK";
-    if (meta["status"] === "TO") status = "TLE";
+    let internalError: string | undefined;
+    if (res.code === null) {
+      internalError = `isolate did not exit within ${Math.round(killAfterMs)}ms`;
+    } else if (meta["status"] === "TO") status = "TLE";
     else if (meta["status"] === "SG" || meta["status"] === "RE") {
       status =
         meta["cg-oom-killed"] === "1" || /oom/i.test(meta["message"] ?? "")
           ? "ML"
           : "RE";
-    } else if (meta["status"] === "XX") status = "RE";
-    else if (Number(meta["time"] ?? 0) * 1000 > spec.timeLimitMs) status = "TLE";
+    } else if (meta["status"] === "XX") {
+      internalError = `isolate internal error: ${meta["message"] ?? res.stderr.toString("utf8")}`;
+    } else if (Number(meta["time"] ?? 0) * 1000 > spec.timeLimitMs) status = "TLE";
 
     const outFiles: Record<string, Buffer> = {};
     if (opts.collect && status === "OK") {
@@ -277,11 +306,10 @@ async function runIsolate(
       stderr: res.stderr,
       stdoutCapped: res.stdoutCapped,
       outFiles,
+      ...(internalError ? { internalError } : {}),
     };
   } finally {
-    spawnCollect("isolate", [...cgArgs, "-b", String(boxId), "--cleanup"], {}).finally(
-      () => boxPool.release(boxId)
-    );
+    void cleanupBox(cgArgs, boxId).finally(() => boxPool.release(boxId));
     fs.promises.unlink(metaPath).catch(() => {});
   }
 }

@@ -93,6 +93,10 @@ async function runOneTest(
     noAddressSpaceLimit: sanitized,
   });
 
+  // A sandbox failure says nothing about the submitted program; surface it as
+  // a judge error instead of grading it as RE.
+  if (res.internalError) throw new Error(`sandbox failed on ${test.name}: ${res.internalError}`);
+
   const out = truncateText(res.stdout);
   const err = truncateText(res.stderr);
   let verdict: Verdict;
