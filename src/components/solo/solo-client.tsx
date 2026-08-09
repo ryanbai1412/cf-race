@@ -52,10 +52,12 @@ export function SoloClient({
   problem,
   problemIds,
   signedIn = false,
+  myStars = null,
 }: {
   problem: Problem;
   problemIds: string[];
   signedIn?: boolean;
+  myStars?: number | null;
 }) {
   const [phase, setPhase] = useState<Phase>("idle");
   const [session, setSession] = useState<Session | null>(null);
@@ -427,7 +429,7 @@ export function SoloClient({
                 <span className="font-mono text-xs text-muted-foreground">
                   Rate this problem:
                 </span>
-                <StarRating problemId={problem.id} initial={null} />
+                <StarRating problemId={problem.id} initial={myStars} />
               </div>
             )}
             <div className="flex flex-wrap justify-center gap-2">

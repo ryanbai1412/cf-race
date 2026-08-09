@@ -27,8 +27,24 @@ export default async function SolvePage({
   ]);
   if (!problem || (problem.tags ?? []).includes("hidden")) notFound();
 
+  const { data: myRating } = user
+    ? await db()
+        .from("problem_ratings")
+        .select("stars")
+        .eq("user_id", user.id)
+        .eq("problem_id", params.id)
+        .maybeSingle()
+    : { data: null };
+
   const ids = (all ?? [])
     .filter((p) => !((p.tags as string[] | null) ?? []).includes("hidden"))
     .map((p) => p.id);
-  return <SoloClient problem={problem} problemIds={ids} signedIn={user !== null} />;
+  return (
+    <SoloClient
+      problem={problem}
+      problemIds={ids}
+      signedIn={user !== null}
+      myStars={myRating?.stars ?? null}
+    />
+  );
 }
