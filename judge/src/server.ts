@@ -3,14 +3,30 @@ import crypto from "node:crypto";
 import { WebSocketServer, WebSocket } from "ws";
 import { config } from "./config.js";
 import { handleRun, handleSubmit, pool } from "./judge.js";
+import { ProblemNotFoundError } from "./problems.js";
 import { scheduleProblemSync } from "./sync.js";
 import { RunRequest, SubmitRequest } from "./types.js";
 
 const clients = new Set<WebSocket>();
 
-// A dropped client mid-write (EPIPE) must not take the judge down.
+// A dropped client mid-write (EPIPE) must not take the judge down, but an
+// arbitrary uncaught exception leaves undefined state; exit and let the
+// platform restart a clean process instead of limping along.
+const RECOVERABLE_CODES = new Set([
+  "EPIPE",
+  "ECONNRESET",
+  "ERR_STREAM_WRITE_AFTER_END",
+  "ERR_STREAM_DESTROYED",
+  "ERR_HTTP_HEADERS_SENT",
+]);
 process.on("uncaughtException", (e) => {
-  console.error("uncaughtException:", e);
+  const code = (e as NodeJS.ErrnoException).code;
+  if (code && RECOVERABLE_CODES.has(code)) {
+    console.error("uncaughtException (recovered):", e);
+    return;
+  }
+  console.error("uncaughtException (fatal):", e);
+  process.exit(1);
 });
 process.on("unhandledRejection", (e) => {
   console.error("unhandledRejection:", e);
@@ -107,7 +123,7 @@ const server = http.createServer(async (req, res) => {
     return json(res, 404, { error: "not found" });
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
-    if (/ENOENT/.test(msg)) return json(res, 404, { error: msg });
+    if (e instanceof ProblemNotFoundError) return json(res, 404, { error: msg });
     if (e instanceof SyntaxError) return json(res, 400, { error: "invalid JSON" });
     console.error("request failed:", e);
     return json(res, 500, { error: msg });
