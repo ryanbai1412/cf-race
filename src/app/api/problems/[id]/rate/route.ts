@@ -18,6 +18,20 @@ export async function POST(
   if (typeof stars !== "number" || !Number.isInteger(stars) || stars < 0 || stars > 5)
     return NextResponse.json({ error: "invalid stars" }, { status: 400 });
 
+  const { data: solve } = await db()
+    .from("sessions")
+    .select("id")
+    .eq("user_id", user.id)
+    .eq("problem_id", params.id)
+    .eq("outcome", "solved")
+    .limit(1)
+    .maybeSingle();
+  if (!solve)
+    return NextResponse.json(
+      { error: "solve the problem before rating it" },
+      { status: 403 }
+    );
+
   if (stars === 0) {
     const { error } = await db()
       .from("problem_ratings")

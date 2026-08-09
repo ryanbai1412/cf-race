@@ -86,7 +86,12 @@ export default async function ProblemDetailPage({
           </Badge>
         )}
         <div className="flex items-center gap-2">
-          <StarRating problemId={problem.id} initial={myRating?.stars ?? null} />
+          {history.some((s) => s.outcome === "solved") && (
+            <StarRating
+              problemId={problem.id}
+              initial={myRating?.stars ?? null}
+            />
+          )}
           {avgStars !== null && (
             <span className="font-mono text-xs text-muted-foreground">
               avg {avgStars.toFixed(1)} ({ratings.length})
