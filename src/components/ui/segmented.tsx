@@ -33,7 +33,7 @@ export function Segmented<T extends string>({
           aria-pressed={value === o}
           onClick={() => onChange(o)}
           className={cn(
-            "px-3 py-1.5 font-mono text-xs capitalize transition-colors",
+            "px-3 py-1.5 font-mono text-xs capitalize transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-ring",
             value === o
               ? "bg-primary text-primary-foreground"
               : "text-muted-foreground hover:bg-accent hover:text-foreground"

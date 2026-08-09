@@ -56,7 +56,10 @@ export function StarRating({
           disabled={disabled || saving}
           onClick={() => rate(n)}
           onMouseEnter={() => !disabled && setHover(n)}
-          className={cn("p-0.5", disabled ? "cursor-default" : "cursor-pointer")}
+          className={cn(
+            "rounded p-0.5 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+            disabled ? "cursor-default" : "cursor-pointer"
+          )}
           aria-label={`${n} star${n > 1 ? "s" : ""}`}
         >
           <Star
