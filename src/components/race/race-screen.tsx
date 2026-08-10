@@ -79,7 +79,9 @@ export function RaceScreen({
   maxSubmissions?: number; // per-mode submission cap (duels are tighter)
 }) {
   const api = apiBase ?? "/api/solo";
-  const storageKey = `cfr-code-${raceId ?? "warmup"}-${contestant.station_role}`;
+  // Warm-up buffers are keyed by contestant so each new player starts from
+  // the default templates instead of the previous player's code.
+  const storageKey = `cfr-code-${raceId ?? `warmup-${contestant.id}`}-${contestant.station_role}`;
   const [lang, setLang] = useState<Lang>(initialLang ?? "cpp");
   // Each language is its own editor buffer; switching preserves both.
   const [codes, setCodes] = useState<Record<Lang, string>>({
@@ -271,7 +273,7 @@ export function RaceScreen({
   }, [refreshSubmissions]);
 
   const submit = useCallback(async () => {
-    if (warmup || !raceId || submitBusy || timeUp) return;
+    if ((!warmup && !raceId) || submitBusy || timeUp) return;
     setSubmitBusy(true);
     setSubmitError(null);
     changeTab("submissions");
@@ -280,7 +282,7 @@ export function RaceScreen({
     setSubmissions((subs) => [
       {
         id: pendingId,
-        race_id: raceId,
+        race_id: raceId ?? "warmup",
         contestant_id: contestant.id,
         lang,
         verdict: null,
@@ -290,6 +292,36 @@ export function RaceScreen({
       ...subs,
     ]);
     try {
+      if (warmup) {
+        // Practice submission: full-test judging, nothing persisted.
+        const res = await fetch("/api/judge/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ eventId, lang, source: code, problemId: problem.id }),
+        });
+        const data = await res.json();
+        if (!res.ok) setSubmitError(data.error ?? "Submit failed");
+        else
+          setSubmissions((subs) => [
+            {
+              id: `warmup-${Date.now()}`,
+              race_id: "warmup",
+              contestant_id: contestant.id,
+              lang,
+              verdict: data.verdict,
+              details: {
+                failedTest: data.failedTest,
+                passedCount: data.passedCount,
+                totalCount: data.totalCount,
+                timeMsMax: data.timeMsMax,
+                compileError: data.compileError,
+              },
+              submitted_at: new Date().toISOString(),
+            },
+            ...subs.filter((s) => s.id !== pendingId),
+          ]);
+        return;
+      }
       const res = await fetch(solo ? `${api}/submit` : "/api/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -312,7 +344,7 @@ export function RaceScreen({
     }
   }, [
     warmup, raceId, submitBusy, timeUp, solo, api, eventId, contestant.id, lang, code,
-    refreshSubmissions, onSubmitAccepted, changeTab,
+    problem.id, refreshSubmissions, onSubmitAccepted, changeTab,
   ]);
 
   // Keyboard shortcuts.
@@ -408,8 +440,8 @@ export function RaceScreen({
       {warmup && (
         <div className="flex items-center justify-between border-b border-primary/30 bg-primary/10 px-4 py-1.5 text-sm">
           <span>
-            Warm-up — get comfortable. The real race starts when the countdown hits
-            zero.
+            Warm-up sandbox — nothing counts here. Try the editor, run the samples,
+            and submit; the race begins when the organizer starts it.
           </span>
           <div className="flex items-center gap-2">
             <Button size="sm" variant="ghost" onClick={resetToTemplate}>
@@ -469,20 +501,18 @@ export function RaceScreen({
                 Ctrl+↵
               </kbd>
             </Button>
-            {!warmup && (
-              <Button
-                size="sm"
-                variant="success"
-                onClick={submit}
-                disabled={submitBusy || timeUp || submissionsUsed >= maxSubmissions}
-              >
-                <Send className="mr-1.5 h-3.5 w-3.5" />
-                {submitBusy ? "Judging…" : "Submit"}
-                <kbd className="ml-2 rounded border border-green-500/40 px-1 font-mono text-xs">
-                  Ctrl+⇧+↵
-                </kbd>
-              </Button>
-            )}
+            <Button
+              size="sm"
+              variant="success"
+              onClick={submit}
+              disabled={submitBusy || timeUp || submissionsUsed >= maxSubmissions}
+            >
+              <Send className="mr-1.5 h-3.5 w-3.5" />
+              {submitBusy ? "Judging…" : "Submit"}
+              <kbd className="ml-2 rounded border border-green-500/40 px-1 font-mono text-xs">
+                Ctrl+⇧+↵
+              </kbd>
+            </Button>
             {lang === "cpp" && (
               <span className="ml-auto text-xs text-muted-foreground">
                 Runs use ASan/UBSan (slower, catches UB); submits use -O2
