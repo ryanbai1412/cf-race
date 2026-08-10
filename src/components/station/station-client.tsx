@@ -212,6 +212,14 @@ export function StationClient({
     void refetch();
   }, [refetch]);
 
+  // Readiness belongs to one player's warm-up: clear it whenever the
+  // contestant changes or a race starts.
+  const contestantId = state?.contestants[station]?.id ?? null;
+  const raceActive = Boolean(state?.race && state.race.state !== "finished");
+  useEffect(() => {
+    setReady(false);
+  }, [contestantId, raceActive]);
+
   if (!state) {
     return (
       <main className="flex min-h-screen items-center justify-center">
