@@ -51,7 +51,7 @@ async function main() {
       const isIoiTeam = !a3 && !teamName;
       if (a3 && !A3_TO_A2[a3]) throw new Error(`unmapped country code ${a3}`);
       current = {
-        team: isIoiTeam ? "IOI team" : teamName,
+        team: isIoiTeam ? "IOI" : teamName,
         country: a3 ? A3_TO_A2[a3] : null,
         members: [],
       };

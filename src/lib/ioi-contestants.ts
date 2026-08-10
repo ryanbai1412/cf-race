@@ -939,7 +939,7 @@ export const IOI_TEAMS: IoiTeam[] = [
     ]
   },
   {
-    "team": "IOI team",
+    "team": "IOI",
     "country": null,
     "members": [
       "Akmuhammet Shohratgeldiyev",
