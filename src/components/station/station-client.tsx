@@ -367,7 +367,8 @@ export function StationClient({
     );
   }
 
-  // Just-finished race → review until the contestant heads to warm-up.
+  // Just-finished race → review until someone hands the station to the next
+  // pair: the button retires both contestants and returns to check-in.
   const lastRace = state.lastRace;
   if (!race && lastRace && lastRace.id !== dismissedReview) {
     return (
@@ -375,8 +376,19 @@ export function StationClient({
         {webcam}
         <RaceReview eventId={eventId} race={lastRace} />
         <div className="flex justify-center border-t border-border/60 px-6 py-4">
-          <Button size="lg" onClick={() => setDismissedReview(lastRace.id)}>
-            Go to warm-up
+          <Button
+            size="lg"
+            onClick={async () => {
+              setDismissedReview(lastRace.id);
+              await fetch("/api/race/finish", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ eventId }),
+              }).catch(() => {});
+              void refetch();
+            }}
+          >
+            Done — next contestants →
           </Button>
         </div>
       </main>
