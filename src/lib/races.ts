@@ -9,7 +9,7 @@ import type { Contestant, StationRole } from "./types";
 export const RACE_COUNTDOWN_MS = 6000;
 
 /** Self-serve mode: un-ready window between both-ready and race start. */
-export const SELF_SERVE_START_DELAY_MS = 10000;
+export const SELF_SERVE_START_DELAY_MS = 5000;
 
 export type ServiceError = { ok: false; error: string; status: number };
 const fail = (error: string, status: number): ServiceError => ({

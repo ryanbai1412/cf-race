@@ -87,7 +87,7 @@ export function EventSettings({
             disabled={saving}
           />
           <Label htmlFor="self-serve" className="cursor-pointer">
-            Self-serve — auto-start a random problem 10s after both stations
+            Self-serve — auto-start a random problem 5s after both stations
             ready up
           </Label>
         </div>
