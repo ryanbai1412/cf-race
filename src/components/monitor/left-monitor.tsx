@@ -64,7 +64,7 @@ export function LeftMonitor({ eventId }: { eventId: string }) {
             RACE <TouristName />
           </h1>
           <p className="mt-1 font-mono text-sm uppercase tracking-[0.3em] text-muted-foreground">
-            best solve times vs one of the greatest competitive programmers of all time
+            best solve times vs a legendary competitive programmer
           </p>
         </header>
         <div className="min-h-0 flex-1 overflow-hidden px-6 py-4">
