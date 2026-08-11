@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import confetti from "canvas-confetti";
+import { Button } from "@/components/ui/button";
 import { LeaderboardTable } from "@/components/leaderboard-table";
 import { formatMsPrecise } from "@/lib/templates";
 import { flagEmoji } from "@/lib/countries";
@@ -26,6 +27,17 @@ export function FinishScreen({
   rivalStillRacing: boolean;
 }) {
   const solved = solveMs !== null;
+  const [resetting, setResetting] = useState(false);
+
+  const nextContestants = async () => {
+    setResetting(true);
+    await fetch("/api/race/finish", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ eventId }),
+    }).catch(() => {});
+    setResetting(false);
+  };
 
   useEffect(() => {
     if (!solved) return;
@@ -113,9 +125,20 @@ export function FinishScreen({
           highlightContestantId={contestant.id}
         />
       </div>
-      <p className="font-mono text-sm text-muted-foreground">
-        Next racers — see the staff!
-      </p>
+      {rivalStillRacing ? (
+        <p className="font-mono text-sm text-muted-foreground">
+          Waiting for {rival?.name ?? "your opponent"} to finish…
+        </p>
+      ) : (
+        <Button
+          size="lg"
+          className="h-12 px-10 text-lg font-bold"
+          onClick={nextContestants}
+          disabled={resetting}
+        >
+          {resetting ? "Resetting…" : "Done — next contestants →"}
+        </Button>
+      )}
     </main>
   );
 }

@@ -265,9 +265,10 @@ export function StationClient({
     );
   }
 
-  // Active race involving this contestant?
+  // Active race at this station (matched by station role, so the finish
+  // screen survives a mid-race contestant re-check-in).
   const myParticipant = race?.participants.find(
-    (p) => p.contestant_id === contestant.id
+    (p) => p.station_role === station
   );
 
   if (race && myParticipant) {
@@ -291,7 +292,9 @@ export function StationClient({
       rivalParticipant && !rivalParticipant.first_ac_at && !rivalParticipant.dq && !raceOver
     );
 
-    // Finished (AC) or race fully over → finish screen.
+    // Finished (AC) or race fully over → finish screen. It stays up until
+    // someone presses "Next contestants", which finishes the race and
+    // returns both stations to check-in.
     if (solveMs !== null || raceOver) {
       return (
         <FinishScreen
