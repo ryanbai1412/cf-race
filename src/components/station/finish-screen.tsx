@@ -17,6 +17,7 @@ export function FinishScreen({
   rival,
   rivalSolveMs,
   rivalStillRacing,
+  gennaSolveMs,
   onDone,
 }: {
   eventId: string;
@@ -26,6 +27,7 @@ export function FinishScreen({
   rival: Contestant | undefined;
   rivalSolveMs: number | null;
   rivalStillRacing: boolean;
+  gennaSolveMs: number | null; // per-problem Genna reference solve time
   onDone: () => void;
 }) {
   const solved = solveMs !== null;
@@ -43,9 +45,7 @@ export function FinishScreen({
   const rivalDelta =
     solveMs !== null && rivalSolveMs !== null ? solveMs - rivalSolveMs : null;
   const touristDelta =
-    solveMs !== null && problem.tourist_time_ms != null
-      ? solveMs - problem.tourist_time_ms
-      : null;
+    solveMs !== null && gennaSolveMs !== null ? solveMs - gennaSolveMs : null;
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-8 px-6 py-10">
@@ -89,11 +89,11 @@ export function FinishScreen({
               )}
             </span>
           )}
-          {touristDelta !== null && problem.tourist_time_ms != null && (
+          {touristDelta !== null && gennaSolveMs !== null && (
             <span className="text-muted-foreground">
               tourist 🇧🇾 {" "}
               <span className="text-foreground tabular-nums">
-                {formatMsPrecise(problem.tourist_time_ms)}
+                {formatMsPrecise(gennaSolveMs)}
               </span>{" "}
               ·{" "}
               <span className={touristDelta <= 0 ? "text-green-400" : "text-red-400"}>
@@ -112,7 +112,7 @@ export function FinishScreen({
         <LeaderboardTable
           eventId={eventId}
           problemId={problem.id}
-          touristTimeMs={problem.tourist_time_ms}
+          touristTimeMs={gennaSolveMs}
           highlightContestantId={contestant.id}
         />
       </div>

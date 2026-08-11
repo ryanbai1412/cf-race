@@ -326,6 +326,7 @@ export function StationClient({
           rival={rival}
           rivalSolveMs={rivalSolveMs}
           rivalStillRacing={rivalStillRacing}
+          gennaSolveMs={state.gennaSolveMs}
           onDone={() => {
             setDismissedFinish(race.id);
             setDismissedReview(race.id);
