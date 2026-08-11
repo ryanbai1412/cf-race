@@ -18,28 +18,22 @@ recorded log instead of realtime broadcasts.
 
 ## Right monitor — the race (three columns)
 
-Layout: full-height three equal columns, one per racer. A header bar spans the
-top with the event name and the **race timer** (giant, mm:ss, centered).
-
-Each column, top to bottom:
-1. **Label bar** — "CONTESTANT A" / "CONTESTANT B" / "tourist" (LGM-styled:
-   first letter black, rest red, on a light chip so it reads from afar), plus
-   the checked-in name + country flag once known. Right-aligned **status
-   chip**: `WORKING` (default during race) → `AC mm:ss` (green) or
-   `TIME UP` (gray).
-2. **Webcam** (~40% of column height) — 16:9 video.
-   - Contestants: **continuously streamed live** (LiveKit), independent of the
-     save-to-session recording which keeps happening as today. Streams run
-     whenever the station has camera access — even before/between races.
-   - Genna: blank/empty placeholder for now (dark card with the tourist mark).
-3. **Activity feed** (thin strip next to/under the webcam) — most recent
-   submission/run events, newest first, e.g. `ran samples ✓`, `submitted…`,
-   `submission AC` (green), `submission WA` (red). Genna's feed is driven by
-   his replay log (run/submit/verdict events) synced to the race clock.
-4. **Code editor** (rest of the column) — read-only Monaco.
-   - Contestants: live mirror from realtime editor broadcasts.
-   - Genna: replayed from the reference session's `session_events`, synced to
-     the race clock.
+Layout, top to bottom:
+1. **Header row** — the CF problem id (e.g. `1758B`) and the **race timer**
+   (giant, mm:ss).
+2. **Three equal columns**, one per racer. Each column:
+   1. **Name row** — country flag + full name (fallback "Contestant A" /
+      "Contestant B"; Genna shows "tourist" LGM-styled and **no Belarus
+      flag**), with a status chip: `WORKING` → `AC mm:ss` (green) or
+      `TIME UP` (gray).
+   2. **Webcam row** — kept small so code stays visible: webcam video on the
+      left, **submission log** on the right (newest first: `ran samples ✓`,
+      `submitted…`, `submission AC`/`WA`). Contestant webcams are
+      **continuously streamed** (LiveKit) independent of session recording;
+      Genna's webcam is blank for now. Genna's log replays his reference
+      session's run/submit/verdict events on the race clock.
+   3. **Code** — read-only Monaco filling the rest: live mirror for
+      contestants, replayed `session_events` for Genna.
 
 ### AC moment
 When a racer ACs: status chip flips to green `AC mm:ss`, and **confetti
@@ -66,12 +60,11 @@ Layout: 50/50 split.
 
 ## Phase-by-phase flows
 
-### 1. Idle (no one checked in / nothing happening)
-- Right monitor: three columns in resting state — labels shown, webcams
-  streaming if a station's camera is live (else blank card), editors show
-  template code (or last race's final code), status chips hidden.
-- Left monitor: leaderboard on the left; statement half **hidden/dimmed**
-  (show a subtle "waiting for the next race" card instead of an empty pane).
+The monitors are always in one of two primary states: **racing** or
+**reviewing** (the previous race). Before the first race ever, show a minimal
+"waiting for contestants" resting view — don't over-design it: labels shown,
+webcams streaming if live (else blank card), editors show template or last
+code, statement half dimmed on the left monitor.
 
 ### 2. Warm-up (contestants entered, readying up)
 Entering a station puts the contestant into warm-up mode (existing sandbox).
@@ -81,10 +74,11 @@ Entering a station puts the contestant into warm-up mode (existing sandbox).
 - Left monitor: right half shows the **warm-up problem** while they ready up;
   leaderboard stays.
 
-### 3. Start — server-negotiated timestamp
-When all required contestants are ready, the **server picks a single start
-timestamp** (now + a few seconds) and broadcasts it with the problem payload
-early; every surface (stations, monitors) counts down to that shared
+### 3. Start — auto, server-negotiated timestamp
+When all required contestants are ready, the server **randomly selects an
+unplayed Genna problem** and auto-starts the race — no admin intervention.
+It picks a single start timestamp (now + a few seconds) and broadcasts it
+with the problem payload early; every surface (stations, monitors) counts down to that shared
 timestamp locally against the server-synced clock. This kills the duel-style
 latency skew — nobody starts a second early.
 - Right monitor: full-screen **3-2-1** overlay, then the race timer starts.
@@ -134,7 +128,7 @@ problem** / **Go to warm-up**.
   (countdown); extend the same mechanism so stations receive the problem
   payload at ready-time and gate the editor until `started_at`.
 - Ready-up state: reuse warm-up ready flags; race auto-starts when all
-  stations are ready (or admin forces start from the console).
+  occupied stations are ready (admin console keeps a manual override).
 - Timer default: 180s; editable in event admin settings.
 - Game-over rank includes Genna as a first-class row.
 
@@ -146,9 +140,9 @@ styling: first letter black (on light chip) or white (on dark), remainder
 `#ff0000` red, bold.
 
 ## Open questions
-1. Auto-start when both stations are ready, or admin always pulls the
-   trigger? (Proposed: auto when both ready AND admin has armed a problem.)
-2. If only one station is occupied, race solo vs Genna? (Proposed: yes —
+1. If only one station is occupied, race solo vs Genna? (Proposed: yes —
    "all racers done" = occupied stations + Genna.)
-3. Game-over hold time: stay until next warm-up starts? (Proposed: yes, no
+2. Game-over hold time: stay until next warm-up starts? (Proposed: yes, no
    auto-timeout.)
+3. Random pick pool: exclude problems already raced at this event?
+   (Proposed: yes, cycle before repeating.)
