@@ -32,6 +32,7 @@ export type Contestant = {
   name: string;
   country: string | null;
   retired_at: string | null;
+  ready_at: string | null;
 };
 
 export type StationRole = "station1" | "station2";
@@ -70,8 +71,10 @@ export type RunResult = RunResponse;
 /** Full state for a station/monitor client, returned by GET /api/state. */
 export type ClientState = {
   serverNow: number; // epoch ms, for clock sync
-  event: { id: string; name: string; requireWebcam: boolean };
+  event: { id: string; name: string; requireWebcam: boolean; selfServe: boolean };
   contestants: Partial<Record<StationRole, Contestant>>;
+  /** Self-serve auto-start moment (epoch ms) while both stations are ready. */
+  autoStartAt: number | null;
   race:
     | (Race & {
         problem: Problem;

@@ -41,6 +41,7 @@ const SOLO_CONTESTANT: Contestant = {
   name: "Solo run",
   country: null,
   retired_at: null,
+  ready_at: null,
 };
 
 type Phase = "idle" | "racing" | "finished";

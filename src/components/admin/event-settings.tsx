@@ -10,13 +10,16 @@ import { Label } from "@/components/ui/label";
 export function EventSettings({
   eventId,
   initialRequireWebcam,
+  initialSelfServe,
   initialGennaOnly,
 }: {
   eventId: string;
   initialRequireWebcam: boolean;
+  initialSelfServe: boolean;
   initialGennaOnly: boolean;
 }) {
   const [requireWebcam, setRequireWebcam] = useState(initialRequireWebcam);
+  const [selfServe, setSelfServe] = useState(initialSelfServe);
   const [gennaOnly, setGennaOnly] = useState(initialGennaOnly);
   const [saving, setSaving] = useState(false);
 
@@ -39,6 +42,15 @@ export function EventSettings({
       return;
     }
     toast.success(next ? "Webcam required at stations" : "Webcam optional");
+  };
+
+  const toggleSelfServe = async (next: boolean) => {
+    setSelfServe(next);
+    if (!(await save({ selfServe: next }))) {
+      setSelfServe(!next);
+      return;
+    }
+    toast.success(next ? "Self-serve: races auto-start" : "Races start from admin");
   };
 
   const toggleGenna = async (next: boolean) => {
@@ -65,6 +77,18 @@ export function EventSettings({
           />
           <Label htmlFor="require-webcam" className="cursor-pointer">
             Require webcam — stations must grant camera access before racing
+          </Label>
+        </div>
+        <div className="flex items-center gap-3">
+          <Switch
+            id="self-serve"
+            checked={selfServe}
+            onCheckedChange={toggleSelfServe}
+            disabled={saving}
+          />
+          <Label htmlFor="self-serve" className="cursor-pointer">
+            Self-serve — auto-start a random problem 10s after both stations
+            ready up
           </Label>
         </div>
         <div className="flex items-center gap-3">

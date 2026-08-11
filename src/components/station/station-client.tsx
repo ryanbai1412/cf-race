@@ -46,7 +46,6 @@ export function StationClient({
 
   const { state, refetch, serverNow } = useEventState(eventId, onMessage);
   const [warmupProblem, setWarmupProblem] = useState<Problem | null>(null);
-  const [ready, setReady] = useState(false);
   const [switchingContestant, setSwitchingContestant] = useState(false);
   const [camReady, setCamReady] = useState(false);
   const chRef = useRef<RealtimeChannel | null>(null);
@@ -207,18 +206,19 @@ export function StationClient({
     }
   }, [activeRecRaceId, activeRecStartMs, eventId, station]);
 
-  const markReady = useCallback(() => {
-    setReady((r) => !r);
+  // Readiness lives on the contestant row so the admin, the rival station,
+  // and self-serve auto-start all see it.
+  const me = state?.contestants[station];
+  const ready = Boolean(me?.ready_at);
+  const markReady = useCallback(async () => {
+    if (!me) return;
+    await fetch("/api/ready", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ eventId, contestantId: me.id, ready: !ready }),
+    }).catch(() => {});
     void refetch();
-  }, [refetch]);
-
-  // Readiness belongs to one player's warm-up: clear it whenever the
-  // contestant changes or a race starts.
-  const contestantId = state?.contestants[station]?.id ?? null;
-  const raceActive = Boolean(state?.race && state.race.state !== "finished");
-  useEffect(() => {
-    setReady(false);
-  }, [contestantId, raceActive]);
+  }, [eventId, me, ready, refetch]);
 
   if (!state) {
     return (
@@ -361,6 +361,10 @@ export function StationClient({
             ? "This event requires a webcam — allow camera access to ready up"
             : null
         }
+        rivalName={rival?.name}
+        rivalReady={rival ? Boolean(rival.ready_at) : null}
+        selfServe={state.event.selfServe}
+        autoStartAtMs={state.autoStartAt}
         onEditorChange={broadcastEditor}
         onSwitchContestant={() => setSwitchingContestant(true)}
       />
