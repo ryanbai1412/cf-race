@@ -5,6 +5,8 @@ import { useEventState } from "@/hooks/use-event-state";
 import { useReplayRecorder } from "@/hooks/use-replay-recorder";
 import { eventChannel, sendBroadcast } from "@/lib/realtime";
 import { CheckinForm } from "./checkin-form";
+import { Button } from "@/components/ui/button";
+import { RaceReview } from "@/components/monitor/race-review";
 import { CountdownOverlay } from "./countdown-overlay";
 import { FinishScreen } from "./finish-screen";
 import { RaceScreen } from "@/components/race/race-screen";
@@ -47,6 +49,7 @@ export function StationClient({
   const { state, refetch, serverNow } = useEventState(eventId, onMessage);
   const [warmupProblem, setWarmupProblem] = useState<Problem | null>(null);
   const [switchingContestant, setSwitchingContestant] = useState(false);
+  const [dismissedReview, setDismissedReview] = useState<string | null>(null);
   const [camReady, setCamReady] = useState(false);
   const chRef = useRef<RealtimeChannel | null>(null);
 
@@ -330,6 +333,22 @@ export function StationClient({
           rivalSolveMs={rivalSolveMs}
         />
       </>
+    );
+  }
+
+  // Just-finished race → review until the contestant heads to warm-up.
+  const lastRace = state.lastRace;
+  if (!race && lastRace && lastRace.id !== dismissedReview) {
+    return (
+      <main className="flex h-screen flex-col">
+        {webcam}
+        <RaceReview eventId={eventId} race={lastRace} />
+        <div className="flex justify-center border-t border-border/60 px-6 py-4">
+          <Button size="lg" onClick={() => setDismissedReview(lastRace.id)}>
+            Go to warm-up
+          </Button>
+        </div>
+      </main>
     );
   }
 

@@ -5,6 +5,8 @@ import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 /** Event-level settings block on the admin console. */
 export function EventSettings({
@@ -12,18 +14,21 @@ export function EventSettings({
   initialRequireWebcam,
   initialSelfServe,
   initialGennaOnly,
+  initialTimerSec,
 }: {
   eventId: string;
   initialRequireWebcam: boolean;
   initialSelfServe: boolean;
   initialGennaOnly: boolean;
+  initialTimerSec: number;
 }) {
   const [requireWebcam, setRequireWebcam] = useState(initialRequireWebcam);
   const [selfServe, setSelfServe] = useState(initialSelfServe);
   const [gennaOnly, setGennaOnly] = useState(initialGennaOnly);
+  const [timerSec, setTimerSec] = useState(String(initialTimerSec));
   const [saving, setSaving] = useState(false);
 
-  const save = async (patch: Record<string, boolean>): Promise<boolean> => {
+  const save = async (patch: Record<string, boolean | number>): Promise<boolean> => {
     setSaving(true);
     const res = await fetch("/api/events/settings", {
       method: "POST",
@@ -102,6 +107,35 @@ export function EventSettings({
             Genna problems only — races limited to problems with a Genna
             reference solve
           </Label>
+        </div>
+        <div className="flex items-center gap-3">
+          <Label htmlFor="timer-sec">Race timer (seconds)</Label>
+          <Input
+            id="timer-sec"
+            type="number"
+            min={30}
+            max={3600}
+            value={timerSec}
+            onChange={(e) => setTimerSec(e.target.value)}
+            className="w-28"
+          />
+          <Button
+            size="sm"
+            variant="secondary"
+            disabled={saving || Number(timerSec) === initialTimerSec}
+            onClick={async () => {
+              const n = Number(timerSec);
+              if (!Number.isFinite(n) || n < 30 || n > 3600) {
+                toast.error("Timer must be 30–3600 seconds");
+                return;
+              }
+              if (await save({ timerSec: n })) {
+                toast.success(`Race timer: ${n}s`);
+              }
+            }}
+          >
+            Save
+          </Button>
         </div>
       </CardContent>
     </Card>

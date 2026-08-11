@@ -68,6 +68,18 @@ export type Submission = {
 export type RunTestResult = TestResult;
 export type RunResult = RunResponse;
 
+export type RaceParticipantState = {
+  contestant_id: string;
+  station_role: StationRole;
+  first_ac_at: string | null;
+  dq: boolean;
+};
+
+export type RaceWithProblem = Race & {
+  problem: Problem;
+  participants: RaceParticipantState[];
+};
+
 /** Full state for a station/monitor client, returned by GET /api/state. */
 export type ClientState = {
   serverNow: number; // epoch ms, for clock sync
@@ -75,17 +87,18 @@ export type ClientState = {
   contestants: Partial<Record<StationRole, Contestant>>;
   /** Self-serve auto-start moment (epoch ms) while both stations are ready. */
   autoStartAt: number | null;
-  race:
-    | (Race & {
-        problem: Problem;
-        participants: {
-          contestant_id: string;
-          station_role: StationRole;
-          first_ac_at: string | null;
-          dq: boolean;
-        }[];
+  race: RaceWithProblem | null;
+  /** Most recent finished race, for the REVIEWING monitor/station state. */
+  lastRace:
+    | (RaceWithProblem & {
+        /** Names/countries of that race's participants, keyed by contestant. */
+        contestants: Record<string, { name: string; country: string | null }>;
+        /** Genna reference time for the raced problem, if any. */
+        gennaSolveMs: number | null;
       })
     | null;
+  /** Genna reference time for the active race problem, if any. */
+  gennaSolveMs: number | null;
 };
 
 /** Realtime broadcast payloads on channel `event:<eventId>`. */

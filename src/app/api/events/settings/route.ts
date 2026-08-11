@@ -11,6 +11,7 @@ export async function POST(req: NextRequest) {
     requireWebcam?: boolean;
     selfServe?: boolean;
     gennaOnly?: boolean;
+    timerSec?: number;
   } | null;
   const eventId = body?.eventId ?? "";
   const event = await requireEvent(eventId);
@@ -24,6 +25,14 @@ export async function POST(req: NextRequest) {
       : {}),
     ...(typeof body?.gennaOnly === "boolean"
       ? { gennaOnly: body.gennaOnly }
+      : {}),
+    ...(typeof body?.selfServe === "boolean"
+      ? { selfServe: body.selfServe }
+      : {}),
+    ...(typeof body?.timerSec === "number" &&
+    body.timerSec >= 30 &&
+    body.timerSec <= 3600
+      ? { timerSec: Math.round(body.timerSec) }
       : {}),
   };
   const { error } = await db()

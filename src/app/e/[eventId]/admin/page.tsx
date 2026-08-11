@@ -4,7 +4,7 @@ import { DeviceLinks } from "@/components/admin/device-links";
 import { RaceControl } from "@/components/admin/race-control";
 import { RaceHistory } from "@/components/admin/race-history";
 import { EventSettings } from "@/components/admin/event-settings";
-import { gennaOnly, requireWebcam, selfServe } from "@/lib/event-settings";
+import { eventTimerSec, gennaOnly, requireWebcam, selfServe } from "@/lib/event-settings";
 import { PageHeader, PageShell } from "@/components/shell/page";
 
 export default async function AdminPage({
@@ -24,6 +24,7 @@ export default async function AdminPage({
         initialRequireWebcam={requireWebcam(event.settings)}
         initialSelfServe={selfServe(event.settings)}
         initialGennaOnly={gennaOnly(event.settings)}
+        initialTimerSec={eventTimerSec(event.settings)}
       />
       <RaceHistory eventId={event.id} />
       <DeviceLinks eventId={event.id} secret={event.secret} />
