@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useEventState } from "@/hooks/use-event-state";
 import { TouristName } from "./racer-column";
 import { StatementPane } from "@/components/race/statement-pane";
-import { formatMsPrecise } from "@/lib/templates";
+import { displayDeltaMs, formatMsPrecise } from "@/lib/templates";
 import { flagEmoji } from "@/lib/countries";
 import { cn } from "@/lib/utils";
 import type { GennaLeaderboardRow } from "@/app/api/leaderboard/genna/route";
@@ -85,12 +85,14 @@ export function LeftMonitor({ eventId }: { eventId: string }) {
                 <span className="w-24 text-right">tourist</span>
                 <span className="w-24 text-right">delta</span>
               </div>
-              {rows.slice(0, 12).map((r, i) => (
+              {rows.slice(0, 12).map((r, i) => {
+                const delta = displayDeltaMs(r.solve_ms, r.genna_ms);
+                return (
                 <div
                   key={`${r.contestant_id}:${r.problem_id}`}
                   className={cn(
                     "flex items-center gap-4 rounded-md px-4 py-2.5",
-                    r.delta_ms <= 0 && "bg-green-500/10"
+                    delta <= 0 && "bg-green-500/10"
                   )}
                 >
                   <span className="w-8 font-mono text-lg text-muted-foreground">
@@ -114,14 +116,15 @@ export function LeftMonitor({ eventId }: { eventId: string }) {
                   <span
                     className={cn(
                       "w-24 text-right font-mono text-lg font-bold tabular-nums",
-                      r.delta_ms <= 0 ? "text-green-400" : "text-red-400"
+                      delta <= 0 ? "text-green-400" : "text-red-400"
                     )}
                   >
-                    {r.delta_ms <= 0 ? "−" : "+"}
-                    {formatMsPrecise(Math.abs(r.delta_ms))}
+                    {delta <= 0 ? "−" : "+"}
+                    {formatMsPrecise(Math.abs(delta))}
                   </span>
                 </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
