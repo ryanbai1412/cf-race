@@ -10,28 +10,44 @@ import { Label } from "@/components/ui/label";
 export function EventSettings({
   eventId,
   initialRequireWebcam,
+  initialGennaOnly,
 }: {
   eventId: string;
   initialRequireWebcam: boolean;
+  initialGennaOnly: boolean;
 }) {
   const [requireWebcam, setRequireWebcam] = useState(initialRequireWebcam);
+  const [gennaOnly, setGennaOnly] = useState(initialGennaOnly);
   const [saving, setSaving] = useState(false);
 
-  const toggle = async (next: boolean) => {
+  const save = async (patch: Record<string, boolean>): Promise<boolean> => {
     setSaving(true);
-    setRequireWebcam(next);
     const res = await fetch("/api/events/settings", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ eventId, requireWebcam: next }),
+      body: JSON.stringify({ eventId, ...patch }),
     }).catch(() => null);
     setSaving(false);
-    if (!res?.ok) {
+    if (!res?.ok) toast.error("Could not save setting");
+    return Boolean(res?.ok);
+  };
+
+  const toggle = async (next: boolean) => {
+    setRequireWebcam(next);
+    if (!(await save({ requireWebcam: next }))) {
       setRequireWebcam(!next);
-      toast.error("Could not save setting");
       return;
     }
     toast.success(next ? "Webcam required at stations" : "Webcam optional");
+  };
+
+  const toggleGenna = async (next: boolean) => {
+    setGennaOnly(next);
+    if (!(await save({ gennaOnly: next }))) {
+      setGennaOnly(!next);
+      return;
+    }
+    toast.success(next ? "Genna problems only" : "All problems allowed");
   };
 
   return (
@@ -39,7 +55,7 @@ export function EventSettings({
       <CardHeader>
         <CardTitle className="text-lg">Settings</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-3">
         <div className="flex items-center gap-3">
           <Switch
             id="require-webcam"
@@ -49,6 +65,18 @@ export function EventSettings({
           />
           <Label htmlFor="require-webcam" className="cursor-pointer">
             Require webcam — stations must grant camera access before racing
+          </Label>
+        </div>
+        <div className="flex items-center gap-3">
+          <Switch
+            id="genna-only"
+            checked={gennaOnly}
+            onCheckedChange={toggleGenna}
+            disabled={saving}
+          />
+          <Label htmlFor="genna-only" className="cursor-pointer">
+            Genna problems only — races limited to problems with a Genna
+            reference solve
           </Label>
         </div>
       </CardContent>

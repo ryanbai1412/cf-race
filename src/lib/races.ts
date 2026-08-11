@@ -1,5 +1,6 @@
 import { activeContestants } from "./contestants";
 import { db, logDbError } from "./db";
+import { gennaOnly } from "./event-settings";
 import { notifyEvent } from "./notify";
 import type { StationRole } from "./types";
 
@@ -40,6 +41,22 @@ export async function startRace(args: {
     .eq("id", problemId)
     .maybeSingle();
   if (!problem) return fail("unknown problem", 400);
+
+  const { data: event } = await db()
+    .from("events")
+    .select("settings")
+    .eq("id", eventId)
+    .maybeSingle();
+  if (gennaOnly(event?.settings)) {
+    const { data: ref } = await db()
+      .from("genna_problems")
+      .select("problem_id")
+      .eq("problem_id", problemId)
+      .maybeSingle();
+    if (!ref) {
+      return fail("problem has no Genna reference session", 400);
+    }
+  }
 
   const { data: existing } = await db()
     .from("races")
