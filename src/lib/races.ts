@@ -1,5 +1,6 @@
 import { activeContestants } from "./contestants";
 import { db, logDbError } from "./db";
+import { gennaOnly } from "./event-settings";
 import { notifyEvent } from "./notify";
 import { pickPracticeProblem } from "./problem-bank";
 import type { Contestant, StationRole } from "./types";
@@ -44,6 +45,22 @@ export async function startRace(args: {
     .eq("id", problemId)
     .maybeSingle();
   if (!problem) return fail("unknown problem", 400);
+
+  const { data: event } = await db()
+    .from("events")
+    .select("settings")
+    .eq("id", eventId)
+    .maybeSingle();
+  if (gennaOnly(event?.settings)) {
+    const { data: ref } = await db()
+      .from("genna_problems")
+      .select("problem_id")
+      .eq("problem_id", problemId)
+      .maybeSingle();
+    if (!ref) {
+      return fail("problem has no Genna reference session", 400);
+    }
+  }
 
   const { data: existing } = await db()
     .from("races")
@@ -132,6 +149,7 @@ export async function startRace(args: {
  */
 export async function selfServeAutoStart(
   eventId: string,
+  settings: unknown,
   contestants: Partial<Record<StationRole, Contestant>>
 ): Promise<{ autoStartAt: number | null; started: boolean }> {
   const s1 = contestants.station1;
@@ -141,7 +159,14 @@ export async function selfServeAutoStart(
     Math.max(new Date(s1.ready_at).getTime(), new Date(s2.ready_at).getTime()) +
     SELF_SERVE_START_DELAY_MS;
   if (Date.now() < autoStartAt) return { autoStartAt, started: false };
-  const problemId = await pickPracticeProblem(null);
+  let problemId: string | null = null;
+  if (gennaOnly(settings)) {
+    const { data } = await db().from("genna_problems").select("problem_id");
+    const ids = (data ?? []).map((r) => r.problem_id as string);
+    problemId = ids.length > 0 ? ids[Math.floor(Math.random() * ids.length)] : null;
+  } else {
+    problemId = await pickPracticeProblem(null);
+  }
   if (!problemId) return { autoStartAt: null, started: false };
   // Concurrent polls may race here; the one-active-race unique index makes
   // the duplicate start a harmless 409.

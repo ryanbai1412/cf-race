@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
 
   let autoStartAt: number | null = null;
   if (!race && selfServe(event.settings)) {
-    const auto = await selfServeAutoStart(eventId, active);
+    const auto = await selfServeAutoStart(eventId, event.settings, active);
     autoStartAt = auto.autoStartAt;
     if (auto.started) race = await activeRace(eventId);
   }

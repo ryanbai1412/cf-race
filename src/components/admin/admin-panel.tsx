@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PageHeader, PageShell } from "@/components/shell/page";
+import { GennaTab } from "@/components/admin/genna-tab";
 import { toast } from "sonner";
 
 export type AdminUserRow = {
@@ -39,6 +40,7 @@ export type AdminOverview = {
   problemsVisible: number;
   problemsHidden: number;
   duels: number;
+  gennaProblems: number;
 };
 
 function fmt(date: string | null): string {
@@ -125,6 +127,7 @@ export function AdminPanel({
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="users">Users</TabsTrigger>
+          <TabsTrigger value="genna">Genna</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="mt-4">
@@ -133,6 +136,7 @@ export function AdminPanel({
               { label: "Users", value: overview.users },
               { label: "Sessions", value: overview.sessions },
               { label: "Duels", value: overview.duels },
+              { label: "Genna problems", value: overview.gennaProblems },
               {
                 label: "Problems (visible / hidden)",
                 value: `${overview.problemsVisible} / ${overview.problemsHidden}`,
@@ -274,6 +278,10 @@ export function AdminPanel({
               </p>
             )}
           </div>
+        </TabsContent>
+
+        <TabsContent value="genna" className="mt-4">
+          <GennaTab users={users} />
         </TabsContent>
       </Tabs>
 

@@ -11,20 +11,19 @@ export function EventSettings({
   eventId,
   initialRequireWebcam,
   initialSelfServe,
+  initialGennaOnly,
 }: {
   eventId: string;
   initialRequireWebcam: boolean;
   initialSelfServe: boolean;
+  initialGennaOnly: boolean;
 }) {
   const [requireWebcam, setRequireWebcam] = useState(initialRequireWebcam);
   const [selfServe, setSelfServe] = useState(initialSelfServe);
+  const [gennaOnly, setGennaOnly] = useState(initialGennaOnly);
   const [saving, setSaving] = useState(false);
 
-  const save = async (
-    patch: { requireWebcam?: boolean; selfServe?: boolean },
-    rollback: () => void,
-    okMsg: string
-  ) => {
+  const save = async (patch: Record<string, boolean>): Promise<boolean> => {
     setSaving(true);
     const res = await fetch("/api/events/settings", {
       method: "POST",
@@ -32,12 +31,35 @@ export function EventSettings({
       body: JSON.stringify({ eventId, ...patch }),
     }).catch(() => null);
     setSaving(false);
-    if (!res?.ok) {
-      rollback();
-      toast.error("Could not save setting");
+    if (!res?.ok) toast.error("Could not save setting");
+    return Boolean(res?.ok);
+  };
+
+  const toggle = async (next: boolean) => {
+    setRequireWebcam(next);
+    if (!(await save({ requireWebcam: next }))) {
+      setRequireWebcam(!next);
       return;
     }
-    toast.success(okMsg);
+    toast.success(next ? "Webcam required at stations" : "Webcam optional");
+  };
+
+  const toggleSelfServe = async (next: boolean) => {
+    setSelfServe(next);
+    if (!(await save({ selfServe: next }))) {
+      setSelfServe(!next);
+      return;
+    }
+    toast.success(next ? "Self-serve: races auto-start" : "Races start from admin");
+  };
+
+  const toggleGenna = async (next: boolean) => {
+    setGennaOnly(next);
+    if (!(await save({ gennaOnly: next }))) {
+      setGennaOnly(!next);
+      return;
+    }
+    toast.success(next ? "Genna problems only" : "All problems allowed");
   };
 
   return (
@@ -50,14 +72,7 @@ export function EventSettings({
           <Switch
             id="require-webcam"
             checked={requireWebcam}
-            onCheckedChange={(next) => {
-              setRequireWebcam(next);
-              void save(
-                { requireWebcam: next },
-                () => setRequireWebcam(!next),
-                next ? "Webcam required at stations" : "Webcam optional"
-              );
-            }}
+            onCheckedChange={toggle}
             disabled={saving}
           />
           <Label htmlFor="require-webcam" className="cursor-pointer">
@@ -68,19 +83,24 @@ export function EventSettings({
           <Switch
             id="self-serve"
             checked={selfServe}
-            onCheckedChange={(next) => {
-              setSelfServe(next);
-              void save(
-                { selfServe: next },
-                () => setSelfServe(!next),
-                next ? "Self-serve: races auto-start" : "Races start from admin"
-              );
-            }}
+            onCheckedChange={toggleSelfServe}
             disabled={saving}
           />
           <Label htmlFor="self-serve" className="cursor-pointer">
             Self-serve — auto-start a random problem 10s after both stations
             ready up
+          </Label>
+        </div>
+        <div className="flex items-center gap-3">
+          <Switch
+            id="genna-only"
+            checked={gennaOnly}
+            onCheckedChange={toggleGenna}
+            disabled={saving}
+          />
+          <Label htmlFor="genna-only" className="cursor-pointer">
+            Genna problems only — races limited to problems with a Genna
+            reference solve
           </Label>
         </div>
       </CardContent>

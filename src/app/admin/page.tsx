@@ -51,6 +51,10 @@ export default async function AdminPage() {
   }));
   users.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
 
+  const { count: gennaCount } = await db()
+    .from("genna_problems")
+    .select("problem_id", { count: "exact", head: true });
+
   const overview: AdminOverview = {
     users: users.length,
     sessions: (sessions ?? []).length,
@@ -59,6 +63,7 @@ export default async function AdminPage() {
     problemsVisible: (problems ?? []).length - hiddenProblems,
     problemsHidden: hiddenProblems,
     duels: duelCount ?? 0,
+    gennaProblems: gennaCount ?? 0,
   };
 
   return (

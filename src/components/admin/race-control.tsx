@@ -20,9 +20,17 @@ type ProblemMeta = {
   race_timer_sec: number;
   tourist_time_ms: number | null;
   special_judge: boolean;
+  genna_ref: boolean;
+  genna_solve_ms: number | null;
 };
 
-export function RaceControl({ eventId }: { eventId: string }) {
+export function RaceControl({
+  eventId,
+  gennaOnly = false,
+}: {
+  eventId: string;
+  gennaOnly?: boolean;
+}) {
   const { state, refetch, serverNow } = useEventState(eventId);
   const [problems, setProblems] = useState<ProblemMeta[]>([]);
   const [problemId, setProblemId] = useState("");
@@ -41,6 +49,11 @@ export function RaceControl({ eventId }: { eventId: string }) {
     const iv = setInterval(() => forceTick((n) => n + 1), 1000);
     return () => clearInterval(iv);
   }, []);
+
+  const eligible = useMemo(
+    () => (gennaOnly ? problems.filter((p) => p.genna_ref) : problems),
+    [problems, gennaOnly]
+  );
 
   const selected = useMemo(
     () => problems.find((p) => p.id === problemId),
@@ -203,17 +216,25 @@ export function RaceControl({ eventId }: { eventId: string }) {
                   onChange={(e) => setProblemId(e.target.value)}
                 >
                   <option value="">Select a problem…</option>
-                  {problems.map((p) => (
+                  {eligible.map((p) => (
                     <option key={p.id} value={p.id}>
                       {p.id} — {p.name}
                       {p.rating ? ` (*${p.rating})` : ""}
-                      {p.tourist_time_ms
-                        ? ` · tourist ${formatMsPrecise(p.tourist_time_ms)}`
-                        : ""}
+                      {p.genna_solve_ms !== null
+                        ? ` · genna ${formatMsPrecise(p.genna_solve_ms)}`
+                        : p.tourist_time_ms
+                          ? ` · tourist ${formatMsPrecise(p.tourist_time_ms)}`
+                          : ""}
                       {p.special_judge ? " · special judge" : ""}
                     </option>
                   ))}
                 </select>
+                {problems.length > 0 && eligible.length === 0 && (
+                  <p className="text-xs text-muted-foreground">
+                    No problems have a Genna reference yet — set them in /admin
+                    or turn off “Genna problems only” below.
+                  </p>
+                )}
                 {problems.length === 0 && (
                   <p className="text-xs text-muted-foreground">
                     Problem bank is empty — the pipeline hasn&apos;t delivered problems yet.
