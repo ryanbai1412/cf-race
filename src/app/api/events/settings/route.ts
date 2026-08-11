@@ -9,6 +9,7 @@ export async function POST(req: NextRequest) {
   const body = (await req.json().catch(() => null)) as {
     eventId?: string;
     requireWebcam?: boolean;
+    selfServe?: boolean;
   } | null;
   const eventId = body?.eventId ?? "";
   const event = await requireEvent(eventId);

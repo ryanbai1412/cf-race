@@ -92,6 +92,7 @@ const DUEL_CONTESTANT: Contestant = {
   name: "Duel",
   country: null,
   retired_at: null,
+  ready_at: null,
 };
 
 export function DuelRoom({ roomId }: { roomId: string }) {

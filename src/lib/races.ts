@@ -1,10 +1,14 @@
 import { activeContestants } from "./contestants";
 import { db, logDbError } from "./db";
 import { notifyEvent } from "./notify";
-import type { StationRole } from "./types";
+import { pickPracticeProblem } from "./problem-bank";
+import type { Contestant, StationRole } from "./types";
 
 /** 5-4-3-2-1 plus a "GO!" beat; the race clock starts when the overlay clears. */
 export const RACE_COUNTDOWN_MS = 6000;
+
+/** Self-serve mode: un-ready window between both-ready and race start. */
+export const SELF_SERVE_START_DELAY_MS = 10000;
 
 export type ServiceError = { ok: false; error: string; status: number };
 const fail = (error: string, status: number): ServiceError => ({
@@ -109,8 +113,40 @@ export async function startRace(args: {
     return fail(pErr.message, 500);
   }
 
+  const { error: readyErr } = await db()
+    .from("contestants")
+    .update({ ready_at: null })
+    .eq("event_id", eventId)
+    .not("ready_at", "is", null);
+  logDbError(`startRace: clear ready ${eventId}`, readyErr);
+
   await notifyEvent(eventId, { type: "state_changed" });
   return { ok: true, race };
+}
+
+/**
+ * Self-serve auto-start: while both stations are ready and no race is active,
+ * the race starts SELF_SERVE_START_DELAY_MS after the last ready-up (players
+ * can un-ready during that window). Returns the pending start moment, plus
+ * the race if the deadline has passed and one was just started.
+ */
+export async function selfServeAutoStart(
+  eventId: string,
+  contestants: Partial<Record<StationRole, Contestant>>
+): Promise<{ autoStartAt: number | null; started: boolean }> {
+  const s1 = contestants.station1;
+  const s2 = contestants.station2;
+  if (!s1?.ready_at || !s2?.ready_at) return { autoStartAt: null, started: false };
+  const autoStartAt =
+    Math.max(new Date(s1.ready_at).getTime(), new Date(s2.ready_at).getTime()) +
+    SELF_SERVE_START_DELAY_MS;
+  if (Date.now() < autoStartAt) return { autoStartAt, started: false };
+  const problemId = await pickPracticeProblem(null);
+  if (!problemId) return { autoStartAt: null, started: false };
+  // Concurrent polls may race here; the one-active-race unique index makes
+  // the duplicate start a harmless 409.
+  const result = await startRace({ eventId, problemId, timerSec: null });
+  return { autoStartAt: null, started: result.ok };
 }
 
 /**

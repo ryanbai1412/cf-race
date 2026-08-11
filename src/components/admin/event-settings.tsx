@@ -10,28 +10,34 @@ import { Label } from "@/components/ui/label";
 export function EventSettings({
   eventId,
   initialRequireWebcam,
+  initialSelfServe,
 }: {
   eventId: string;
   initialRequireWebcam: boolean;
+  initialSelfServe: boolean;
 }) {
   const [requireWebcam, setRequireWebcam] = useState(initialRequireWebcam);
+  const [selfServe, setSelfServe] = useState(initialSelfServe);
   const [saving, setSaving] = useState(false);
 
-  const toggle = async (next: boolean) => {
+  const save = async (
+    patch: { requireWebcam?: boolean; selfServe?: boolean },
+    rollback: () => void,
+    okMsg: string
+  ) => {
     setSaving(true);
-    setRequireWebcam(next);
     const res = await fetch("/api/events/settings", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ eventId, requireWebcam: next }),
+      body: JSON.stringify({ eventId, ...patch }),
     }).catch(() => null);
     setSaving(false);
     if (!res?.ok) {
-      setRequireWebcam(!next);
+      rollback();
       toast.error("Could not save setting");
       return;
     }
-    toast.success(next ? "Webcam required at stations" : "Webcam optional");
+    toast.success(okMsg);
   };
 
   return (
@@ -39,16 +45,42 @@ export function EventSettings({
       <CardHeader>
         <CardTitle className="text-lg">Settings</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-3">
         <div className="flex items-center gap-3">
           <Switch
             id="require-webcam"
             checked={requireWebcam}
-            onCheckedChange={toggle}
+            onCheckedChange={(next) => {
+              setRequireWebcam(next);
+              void save(
+                { requireWebcam: next },
+                () => setRequireWebcam(!next),
+                next ? "Webcam required at stations" : "Webcam optional"
+              );
+            }}
             disabled={saving}
           />
           <Label htmlFor="require-webcam" className="cursor-pointer">
             Require webcam — stations must grant camera access before racing
+          </Label>
+        </div>
+        <div className="flex items-center gap-3">
+          <Switch
+            id="self-serve"
+            checked={selfServe}
+            onCheckedChange={(next) => {
+              setSelfServe(next);
+              void save(
+                { selfServe: next },
+                () => setSelfServe(!next),
+                next ? "Self-serve: races auto-start" : "Races start from admin"
+              );
+            }}
+            disabled={saving}
+          />
+          <Label htmlFor="self-serve" className="cursor-pointer">
+            Self-serve — auto-start a random problem 10s after both stations
+            ready up
           </Label>
         </div>
       </CardContent>

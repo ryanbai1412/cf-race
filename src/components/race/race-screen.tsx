@@ -48,6 +48,9 @@ export function RaceScreen({
   initialLang,
   rivalName,
   rivalSolveMs,
+  rivalReady,
+  selfServe,
+  autoStartAtMs,
   onSwitchContestant,
   maxSubmissions = MAX_SUBMISSIONS,
 }: {
@@ -75,6 +78,9 @@ export function RaceScreen({
   initialLang?: Lang;
   rivalName?: string;
   rivalSolveMs?: number | null;
+  rivalReady?: boolean | null; // warm-up: rival's ready state (null = no rival yet)
+  selfServe?: boolean; // warm-up: race auto-starts when both stations are ready
+  autoStartAtMs?: number | null; // warm-up: pending self-serve start (epoch ms)
   onSwitchContestant?: () => void;
   maxSubmissions?: number; // per-mode submission cap (duels are tighter)
 }) {
@@ -90,6 +96,7 @@ export function RaceScreen({
   });
   const code = codes[lang];
   const [remaining, setRemaining] = useState<number | null>(null);
+  const [autoRemaining, setAutoRemaining] = useState<number | null>(null);
 
   const [runResult, setRunResult] = useState<RunResult | null>(null);
   const [runBusy, setRunBusy] = useState(false);
@@ -147,6 +154,16 @@ export function RaceScreen({
     const iv = setInterval(() => setRemaining(endAtMs - serverNow()), 200);
     return () => clearInterval(iv);
   }, [endAtMs, serverNow]);
+
+  // Self-serve pre-race countdown (both stations ready, un-ready to cancel).
+  useEffect(() => {
+    if (autoStartAtMs == null) {
+      setAutoRemaining(null);
+      return;
+    }
+    const iv = setInterval(() => setAutoRemaining(autoStartAtMs - serverNow()), 200);
+    return () => clearInterval(iv);
+  }, [autoStartAtMs, serverNow]);
 
   const timeUp = remaining !== null && remaining <= 0;
 
@@ -452,17 +469,49 @@ export function RaceScreen({
                 Not {contestant.name}? Switch player
               </Button>
             )}
-            {onReady && readyBlockedReason ? (
-              <span className="font-mono text-xs text-amber-400">
+          </div>
+        </div>
+      )}
+
+      {/* Warm-up ready panel: readiness is the gate into the race, so it gets
+          a prominent floating card instead of a small banner button. */}
+      {warmup && onReady && (
+        <div className="pointer-events-none fixed bottom-6 left-1/2 z-40 -translate-x-1/2">
+          <div className="pointer-events-auto flex flex-col items-center gap-2 rounded-xl border border-primary/40 bg-card/95 px-8 py-4 shadow-2xl backdrop-blur">
+            {readyBlockedReason ? (
+              <span className="font-mono text-sm text-amber-400">
                 {readyBlockedReason}
               </span>
             ) : (
-              onReady && (
-                <Button size="sm" variant={ready ? "secondary" : "default"} onClick={onReady}>
-                  {ready ? "Ready ✓ (waiting for start)" : "I'm ready"}
-                </Button>
-              )
+              <Button
+                size="lg"
+                variant={ready ? "secondary" : "default"}
+                className="h-12 px-10 text-lg font-bold"
+                onClick={onReady}
+              >
+                {ready ? "Ready ✓ — click to un-ready" : "I'm ready"}
+              </Button>
             )}
+            <span className="font-mono text-xs text-muted-foreground">
+              {rivalReady == null
+                ? "Waiting for an opponent to check in…"
+                : rivalReady
+                  ? `${rivalName ?? "Opponent"} is ready ✓`
+                  : `${rivalName ?? "Opponent"} is not ready yet`}
+            </span>
+            {ready &&
+              rivalReady &&
+              (selfServe ? (
+                <span className="font-mono text-sm font-bold text-primary">
+                  {autoRemaining !== null && autoRemaining > 0
+                    ? `Race starts in ${Math.ceil(autoRemaining / 1000)}s — un-ready to cancel`
+                    : "Starting…"}
+                </span>
+              ) : (
+                <span className="font-mono text-sm text-primary">
+                  Both ready — waiting for the organizer to start…
+                </span>
+              ))}
           </div>
         </div>
       )}

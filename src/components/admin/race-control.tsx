@@ -116,6 +116,16 @@ export function RaceControl({ eventId }: { eventId: string }) {
                   <div className="flex items-center gap-2">
                     <span className="text-xl">{c.country ? flagEmoji(c.country) : "🏳️"}</span>
                     <span className="text-lg font-semibold">{c.name}</span>
+                    {!race && (
+                      <span
+                        className={cn(
+                          "ml-auto font-mono text-sm",
+                          c.ready_at ? "text-green-400" : "text-muted-foreground"
+                        )}
+                      >
+                        {c.ready_at ? "ready ✓" : "not ready"}
+                      </span>
+                    )}
                     {p?.first_ac_at && startMs !== null && (
                       <span className="ml-auto font-mono text-green-400">
                         AC {formatMsPrecise(new Date(p.first_ac_at).getTime() - startMs)}
