@@ -43,12 +43,23 @@ export function RightMonitor({ eventId }: { eventId: string }) {
     station2: { code: STARTER_TEMPLATES.cpp, lang: "cpp" },
   });
   const [, forceTick] = useState(0);
+  const [activities, setActivities] = useState<
+    Record<StationRole, { atMs: number; label: string; tone: LogEntry["tone"] }[]>
+  >({ station1: [], station2: [] });
 
   const onMessage = useCallback((msg: BroadcastMsg) => {
     if (msg.type === "editor") {
       setMirrors((m) => ({
         ...m,
         [msg.station]: { code: msg.code, lang: msg.lang },
+      }));
+    } else if (msg.type === "activity") {
+      setActivities((a) => ({
+        ...a,
+        [msg.station]: [
+          { atMs: Date.now(), label: msg.label, tone: msg.tone },
+          ...a[msg.station],
+        ].slice(0, 12),
       }));
     }
   }, []);
@@ -75,24 +86,24 @@ export function RightMonitor({ eventId }: { eventId: string }) {
   );
   useEffect(() => {
     if (!problemId) return;
-    if (genna?.problemId === problemId) return;
     let cancelled = false;
     setGenna({ problemId, log: null });
     fetch(`/api/genna/replay?eventId=${eventId}&problemId=${problemId}`, {
       cache: "no-store",
     })
       .then((r) => (r.ok ? r.json() : null))
-      .then((d) => !cancelled && setGenna({ problemId, log: d }))
-      .catch(() => !cancelled && setGenna({ problemId, log: null }));
+      .then((d) => !cancelled && d && setGenna({ problemId, log: d }))
+      .catch(() => {});
     return () => {
       cancelled = true;
     };
-  }, [eventId, problemId, genna?.problemId]);
+  }, [eventId, problemId]);
 
   // Poll official submissions for the active race (feeds the per-column log).
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const raceId = race?.id ?? null;
   useEffect(() => {
+    setActivities({ station1: [], station2: [] });
     if (!raceId) {
       setSubmissions([]);
       return;
@@ -172,9 +183,17 @@ export function RightMonitor({ eventId }: { eventId: string }) {
         : timeUp
           ? "timeup"
           : "working";
+    const clockSkew = now - Date.now();
     const entries: LogEntry[] = submissions
       .filter((s) => s.contestant_id === participant?.contestant_id)
       .map((s) => submissionLogEntry(s, startMs))
+      .concat(
+        activities[station].map((a) => ({
+          t: a.atMs + clockSkew - startMs,
+          label: a.label,
+          tone: a.tone,
+        }))
+      )
       .sort((a, b) => b.t - a.t);
     return (
       <LiveRacerColumn

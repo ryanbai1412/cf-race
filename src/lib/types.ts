@@ -112,6 +112,13 @@ export type BroadcastMsg =
       cursorLine: number;
     }
   | { type: "confetti"; station: StationRole }
+  // Live activity for the monitor submission log (sample runs + submissions).
+  | {
+      type: "activity";
+      station: StationRole;
+      label: string;
+      tone: "neutral" | "green" | "red";
+    }
   // A monitor asks the station to rebroadcast its current editor snapshot
   // (e.g. after a monitor refresh mid-race).
   | { type: "request_editor"; station: StationRole };

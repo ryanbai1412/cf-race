@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 /** Only the fixed set of event devices can appear in a room. */
 const STATION_IDENTITY = /^station[12]$/;
-const MONITOR_IDENTITY = /^monitor-[ab]$/;
+const MONITOR_IDENTITY = /^monitor-[a-z0-9-]{1,40}$/;
 
 /**
  * Mint a LiveKit token for an event room. Stations publish their webcam;

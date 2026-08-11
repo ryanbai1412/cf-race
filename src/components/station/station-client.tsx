@@ -16,6 +16,7 @@ import {
   startWebcamRecording,
   type WebcamRecording,
 } from "@/lib/webcam-recorder";
+import { summarizeRun } from "@/lib/tourist";
 import type { BroadcastMsg, Lang, Problem, StationRole } from "@/lib/types";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 
@@ -50,6 +51,15 @@ export function StationClient({
   const [warmupProblem, setWarmupProblem] = useState<Problem | null>(null);
   const [switchingContestant, setSwitchingContestant] = useState(false);
   const [dismissedReview, setDismissedReview] = useState<string | null>(null);
+
+  const broadcastActivity = useCallback(
+    (label: string, tone: "neutral" | "green" | "red") => {
+      if (chRef.current) {
+        sendBroadcast(chRef.current, { type: "activity", station, label, tone });
+      }
+    },
+    [station]
+  );
   const [camReady, setCamReady] = useState(false);
   const chRef = useRef<RealtimeChannel | null>(null);
 
@@ -213,15 +223,21 @@ export function StationClient({
   // and self-serve auto-start all see it.
   const me = state?.contestants[station];
   const ready = Boolean(me?.ready_at);
+  const [readyPending, setReadyPending] = useState(false);
   const markReady = useCallback(async () => {
-    if (!me) return;
-    await fetch("/api/ready", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ eventId, contestantId: me.id, ready: !ready }),
-    }).catch(() => {});
-    void refetch();
-  }, [eventId, me, ready, refetch]);
+    if (!me || readyPending) return;
+    setReadyPending(true);
+    try {
+      await fetch("/api/ready", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ eventId, contestantId: me.id, ready: !ready }),
+      }).catch(() => {});
+      await refetch();
+    } finally {
+      setReadyPending(false);
+    }
+  }, [eventId, me, ready, readyPending, refetch]);
 
   if (!state) {
     return (
@@ -327,8 +343,20 @@ export function StationClient({
           onEditorChange={broadcastEditor}
           onEditorDelta={editorRecorder.delta}
           onEditorSnapshot={editorRecorder.snapshot}
-          onRun={recordRun}
-          onRunResult={recordRunResult}
+          onRun={(lang) => {
+            recordRun(lang);
+            broadcastActivity("ran samples…", "neutral");
+          }}
+          onRunResult={(result, target, lang) => {
+            recordRunResult(result, target, lang);
+            if (target === "samples") {
+              const ok = summarizeRun(result, target).verdict === "AC";
+              broadcastActivity(
+                ok ? "samples passed ✓" : "samples failed",
+                ok ? "green" : "red"
+              );
+            }
+          }}
           onTabChange={recordTab}
           onStatementScroll={recordScroll}
           onSubmitAccepted={refetch}
@@ -377,6 +405,7 @@ export function StationClient({
         serverNow={serverNow}
         warmup
         ready={ready}
+        readyPending={readyPending}
         onReady={markReady}
         readyBlockedReason={
           state.event.requireWebcam && !camReady

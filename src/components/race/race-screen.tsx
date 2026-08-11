@@ -35,6 +35,7 @@ export function RaceScreen({
   apiBase,
   label,
   onReady,
+  readyPending,
   readyBlockedReason,
   ready,
   onEditorChange,
@@ -67,6 +68,7 @@ export function RaceScreen({
   onReady?: () => void;
   readyBlockedReason?: string | null;
   ready?: boolean;
+  readyPending?: boolean;
   onEditorChange?: (code: string, lang: Lang, cursorLine: number) => void;
   onEditorDelta?: (changes: EditorDeltaChange[], code: string, lang: Lang) => void; // per-keystroke Monaco changes (for replay recording)
   onEditorSnapshot?: (code: string, lang: Lang) => void; // full-code keyframe (mount, language switch, template reset)
@@ -496,8 +498,13 @@ export function RaceScreen({
                   variant={ready ? "secondary" : "default"}
                   className="h-12 px-10 text-lg font-bold"
                   onClick={onReady}
+                  disabled={readyPending}
                 >
-                  {ready ? "Ready ✓ — click to un-ready" : "I'm ready"}
+                  {readyPending
+                    ? "Confirming…"
+                    : ready
+                      ? "Ready ✓ — click to un-ready"
+                      : "I'm ready"}
                 </Button>
               )}
               <span className="font-mono text-xs text-muted-foreground">
