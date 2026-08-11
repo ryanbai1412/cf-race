@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getEffectiveUser } from "@/lib/impersonation";
 import { db } from "@/lib/db";
+import { adminEventIds } from "@/lib/event-admins";
 import { CreateEventCard } from "@/components/create-event-card";
 import { EventList, type EventListRow } from "@/components/events/event-list";
 import { PageHeader, PageShell } from "@/components/shell/page";
@@ -11,10 +12,15 @@ export default async function EventsPage() {
   const user = await getEffectiveUser();
   if (!user) redirect("/?next=/events");
 
+  const adminIds = await adminEventIds(user.id);
+  const filter = [
+    `created_by.eq.${user.id}`,
+    ...(adminIds.length ? [`id.in.(${adminIds.join(",")})`] : []),
+  ].join(",");
   const { data: events } = await db()
     .from("events")
     .select("id, name, secret, created_at")
-    .eq("created_by", user.id)
+    .or(filter)
     .order("created_at", { ascending: false });
 
   const rows: EventListRow[] = (events ?? []).map((e) => ({

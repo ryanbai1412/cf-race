@@ -1,5 +1,7 @@
 import { authorizeEvent } from "@/lib/event-auth";
+import { listEventAdmins } from "@/lib/event-admins";
 import { redirect } from "next/navigation";
+import { EventAdmins } from "@/components/admin/event-admins";
 import { DeviceLinks } from "@/components/admin/device-links";
 import { RaceControl } from "@/components/admin/race-control";
 import { RaceHistory } from "@/components/admin/race-history";
@@ -14,6 +16,7 @@ export default async function AdminPage({
 }) {
   const event = await authorizeEvent(params.eventId);
   if (!event) redirect("/invalid-link");
+  const admins = await listEventAdmins(event);
 
   return (
     <PageShell>
@@ -27,6 +30,7 @@ export default async function AdminPage({
         initialTimerSec={eventTimerSec(event.settings)}
       />
       <RaceHistory eventId={event.id} />
+      <EventAdmins eventId={event.id} initialAdmins={admins} />
       <DeviceLinks eventId={event.id} secret={event.secret} />
     </PageShell>
   );
