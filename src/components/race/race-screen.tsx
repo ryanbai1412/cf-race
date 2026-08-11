@@ -473,55 +473,56 @@ export function RaceScreen({
         </div>
       )}
 
-      {/* Warm-up ready panel: readiness is the gate into the race, so it gets
-          a prominent floating card instead of a small banner button. */}
-      {warmup && onReady && (
-        <div className="pointer-events-none fixed bottom-6 left-1/2 z-40 -translate-x-1/2">
-          <div className="pointer-events-auto flex flex-col items-center gap-2 rounded-xl border border-primary/40 bg-card/95 px-8 py-4 shadow-2xl backdrop-blur">
-            {readyBlockedReason ? (
-              <span className="font-mono text-sm text-amber-400">
-                {readyBlockedReason}
-              </span>
-            ) : (
-              <Button
-                size="lg"
-                variant={ready ? "secondary" : "default"}
-                className="h-12 px-10 text-lg font-bold"
-                onClick={onReady}
-              >
-                {ready ? "Ready ✓ — click to un-ready" : "I'm ready"}
-              </Button>
-            )}
-            <span className="font-mono text-xs text-muted-foreground">
-              {rivalReady == null
-                ? "Waiting for an opponent to check in…"
-                : rivalReady
-                  ? `${rivalName ?? "Opponent"} is ready ✓`
-                  : `${rivalName ?? "Opponent"} is not ready yet`}
-            </span>
-            {ready &&
-              rivalReady &&
-              (selfServe ? (
-                <span className="font-mono text-sm font-bold text-primary">
-                  {autoRemaining !== null && autoRemaining > 0
-                    ? `Race starts in ${Math.ceil(autoRemaining / 1000)}s — un-ready to cancel`
-                    : "Starting…"}
-                </span>
-              ) : (
-                <span className="font-mono text-sm text-primary">
-                  Both ready — waiting for the organizer to start…
-                </span>
-              ))}
-          </div>
-        </div>
-      )}
-
       {/* Main panes */}
       <div className="grid min-h-0 flex-1 grid-cols-[45%_55%]">
-        <StatementPane
-          problem={problem}
-          onScrollFrac={onStatementScroll && ((frac) => onStatementScroll(frac, lang))}
-        />
+        <div className="flex min-h-0 flex-col">
+          <div className="min-h-0 flex-1">
+            <StatementPane
+              problem={problem}
+              onScrollFrac={onStatementScroll && ((frac) => onStatementScroll(frac, lang))}
+            />
+          </div>
+          {/* Warm-up ready panel: readiness is the gate into the race, so it
+              gets a prominent card under the statement. */}
+          {warmup && onReady && (
+            <div className="flex flex-col items-center gap-2 border-t border-primary/40 bg-card/95 px-8 py-4">
+              {readyBlockedReason ? (
+                <span className="font-mono text-sm text-amber-400">
+                  {readyBlockedReason}
+                </span>
+              ) : (
+                <Button
+                  size="lg"
+                  variant={ready ? "secondary" : "default"}
+                  className="h-12 px-10 text-lg font-bold"
+                  onClick={onReady}
+                >
+                  {ready ? "Ready ✓ — click to un-ready" : "I'm ready"}
+                </Button>
+              )}
+              <span className="font-mono text-xs text-muted-foreground">
+                {rivalReady == null
+                  ? "Waiting for an opponent to check in…"
+                  : rivalReady
+                    ? `${rivalName ?? "Opponent"} is ready ✓`
+                    : `${rivalName ?? "Opponent"} is not ready yet`}
+              </span>
+              {ready &&
+                rivalReady &&
+                (selfServe ? (
+                  <span className="font-mono text-sm font-bold text-primary">
+                    {autoRemaining !== null && autoRemaining > 0
+                      ? `Race starts in ${Math.ceil(autoRemaining / 1000)}s — un-ready to cancel`
+                      : "Starting…"}
+                  </span>
+                ) : (
+                  <span className="font-mono text-sm text-primary">
+                    Both ready — waiting for the organizer to start…
+                  </span>
+                ))}
+            </div>
+          )}
+        </div>
         <div className="flex min-h-0 flex-col">
           <div className="min-h-0 flex-[3]">
             <MonacoEditor
