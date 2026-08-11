@@ -51,6 +51,9 @@ export function StationClient({
   const [warmupProblem, setWarmupProblem] = useState<Problem | null>(null);
   const [switchingContestant, setSwitchingContestant] = useState(false);
   const [dismissedReview, setDismissedReview] = useState<string | null>(null);
+  // "Done — next contestant" is per-station: it hides this station's finish
+  // screen without ending the race for the other station.
+  const [dismissedFinish, setDismissedFinish] = useState<string | null>(null);
 
   const broadcastActivity = useCallback(
     (label: string, tone: "neutral" | "green" | "red") => {
@@ -263,7 +266,9 @@ export function StationClient({
   const rival = state.contestants[rivalRole];
   const race = state.race;
 
-  if (!contestant || (switchingContestant && !race)) {
+  const raceDismissed = race != null && race.id === dismissedFinish;
+
+  if (!contestant || (switchingContestant && (!race || raceDismissed))) {
     return (
       <>
         {webcam}
@@ -287,7 +292,7 @@ export function StationClient({
     (p) => p.station_role === station
   );
 
-  if (race && myParticipant) {
+  if (race && myParticipant && !raceDismissed) {
     const startMs = race.started_at ? new Date(race.started_at).getTime() : null;
     const now = serverNow();
     const endMs = startMs !== null ? startMs + race.timer_sec * 1000 : null;
@@ -321,6 +326,11 @@ export function StationClient({
           rival={rival}
           rivalSolveMs={rivalSolveMs}
           rivalStillRacing={rivalStillRacing}
+          onDone={() => {
+            setDismissedFinish(race.id);
+            setDismissedReview(race.id);
+            setSwitchingContestant(true);
+          }}
         />
       );
     }

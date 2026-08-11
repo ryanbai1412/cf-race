@@ -265,7 +265,10 @@ export async function pickDuelProblem(
 ): Promise<string | null> {
   const [{ data: problems }, invalidated, { data: solved }, { data: aMatches }] =
     await Promise.all([
-      db().from("problems").select("id").neq("id", "warmup-sum"),
+      db()
+        .from("problems")
+        .select("id, tags")
+        .neq("id", "warmup-sum"),
       invalidatedProblemIds([userA, userB]),
       db()
         .from("sessions")
@@ -296,6 +299,7 @@ export async function pickDuelProblem(
 
   const solvedIds = new Set((solved ?? []).map((s) => s.problem_id as string));
   const pool = (problems ?? [])
+    .filter((p) => !((p.tags as string[] | null) ?? []).includes("hidden"))
     .map((p) => p.id as string)
     .filter(
       (id) => !solvedIds.has(id) && !invalidated.has(id) && !usedByPair.has(id)

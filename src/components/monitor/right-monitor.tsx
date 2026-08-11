@@ -11,6 +11,7 @@ import {
   type RacerStatus,
 } from "./racer-column";
 import { RaceReview } from "./race-review";
+import { WebcamView } from "./webcam";
 import { CountdownOverlay } from "@/components/station/countdown-overlay";
 import { STARTER_TEMPLATES, formatMs } from "@/lib/templates";
 import { cn } from "@/lib/utils";
@@ -138,8 +139,21 @@ export function RightMonitor({ eventId }: { eventId: string }) {
   if (!race || !race.started_at) {
     if (state.lastRace) {
       return (
-        <main className="flex h-screen flex-col bg-background">
+        <main className="relative flex h-screen flex-col bg-background">
           <RaceReview eventId={eventId} race={state.lastRace} size="lg" />
+          {/* Live station webcams stay streaming through review. */}
+          <div className="pointer-events-none absolute bottom-4 right-4 flex gap-3">
+            {STATIONS.map((s) => (
+              <WebcamView
+                key={s}
+                eventId={eventId}
+                identity={`monitor-right-review-${s}`}
+                publisherIdentity={s}
+                wrapperClassName="h-28 w-40 overflow-hidden rounded-md border border-border/60 bg-black/60"
+                className="h-full w-full object-cover"
+              />
+            ))}
+          </div>
         </main>
       );
     }
