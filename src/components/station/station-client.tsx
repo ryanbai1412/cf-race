@@ -378,8 +378,8 @@ export function StationClient({
     );
   }
 
-  // Just-finished race → review until someone hands the station to the next
-  // pair: the button retires both contestants and returns to check-in.
+  // Just-finished race → review until this station is handed to the next
+  // contestant: retiring is per-station and never touches the other one.
   const lastRace = state.lastRace;
   if (!race && lastRace && lastRace.id !== dismissedReview) {
     return (
@@ -391,15 +391,16 @@ export function StationClient({
             size="lg"
             onClick={async () => {
               setDismissedReview(lastRace.id);
-              await fetch("/api/race/finish", {
+              setSwitchingContestant(true);
+              await fetch("/api/contestants/retire", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ eventId }),
+                body: JSON.stringify({ eventId, contestantId: contestant.id }),
               }).catch(() => {});
               void refetch();
             }}
           >
-            Done — next contestants →
+            Done — next contestant →
           </Button>
         </div>
       </main>
