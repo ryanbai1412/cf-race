@@ -1,15 +1,23 @@
 import { authorizeEvent } from "@/lib/event-auth";
 import { notFound, redirect } from "next/navigation";
-import { MonitorClient } from "@/components/monitor/monitor-client";
+import { LeftMonitor } from "@/components/monitor/left-monitor";
+import { RightMonitor } from "@/components/monitor/right-monitor";
 
 export default async function MonitorPage({
   params,
 }: {
   params: { eventId: string; m: string };
 }) {
-  if (params.m !== "a" && params.m !== "b") notFound();
+  // Legacy monitor names: a = the race monitor, b = the leaderboard monitor.
+  const m =
+    params.m === "a" ? "right" : params.m === "b" ? "left" : params.m;
+  if (m !== "left" && m !== "right") notFound();
   const event = await authorizeEvent(params.eventId);
   if (!event) redirect("/invalid-link");
 
-  return <MonitorClient eventId={event.id} monitor={params.m} />;
+  return m === "right" ? (
+    <RightMonitor eventId={event.id} />
+  ) : (
+    <LeftMonitor eventId={event.id} />
+  );
 }

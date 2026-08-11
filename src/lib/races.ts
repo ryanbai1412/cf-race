@@ -1,6 +1,6 @@
 import { activeContestants } from "./contestants";
 import { db, logDbError } from "./db";
-import { gennaOnly } from "./event-settings";
+import { eventTimerSec, gennaOnly } from "./event-settings";
 import { notifyEvent } from "./notify";
 import { pickPracticeProblem } from "./problem-bank";
 import type { Contestant, StationRole } from "./types";
@@ -41,7 +41,7 @@ export async function startRace(args: {
 
   const { data: problem } = await db()
     .from("problems")
-    .select("id, race_timer_sec")
+    .select("id")
     .eq("id", problemId)
     .maybeSingle();
   if (!problem) return fail("unknown problem", 400);
@@ -86,7 +86,7 @@ export async function startRace(args: {
       problem_id: problemId,
       state: "countdown",
       started_at: startedAt,
-      timer_sec: timerSec ?? problem.race_timer_sec,
+      timer_sec: timerSec ?? eventTimerSec(event?.settings),
     })
     .select("*")
     .single();
@@ -161,8 +161,15 @@ export async function selfServeAutoStart(
   if (Date.now() < autoStartAt) return { autoStartAt, started: false };
   let problemId: string | null = null;
   if (gennaOnly(settings)) {
-    const { data } = await db().from("genna_problems").select("problem_id");
-    const ids = (data ?? []).map((r) => r.problem_id as string);
+    const [{ data: refs }, { data: played }] = await Promise.all([
+      db().from("genna_problems").select("problem_id"),
+      db().from("races").select("problem_id").eq("event_id", eventId),
+    ]);
+    const all = (refs ?? []).map((r) => r.problem_id as string);
+    const used = new Set((played ?? []).map((r) => r.problem_id as string));
+    // Prefer problems this event hasn't raced yet; cycle when exhausted.
+    const pool = all.filter((id) => !used.has(id));
+    const ids = pool.length > 0 ? pool : all;
     problemId = ids.length > 0 ? ids[Math.floor(Math.random() * ids.length)] : null;
   } else {
     problemId = await pickPracticeProblem(null);
@@ -224,7 +231,9 @@ export async function finishRace(eventId: string): Promise<void> {
 
 /**
  * The event's active race (with problem + participants), lazily transitioning
- * countdown → running once the start time has passed.
+ * countdown → running once the start time has passed and running → finished
+ * once every participant is done (AC) or the timer has expired. Contestants
+ * are NOT retired on auto-finish — they go back to warm-up for the next race.
  */
 export async function activeRace(eventId: string) {
   const { data: race } = await db()
@@ -235,15 +244,61 @@ export async function activeRace(eventId: string) {
     .order("created_at", { ascending: false })
     .limit(1)
     .maybeSingle();
-  if (
-    race &&
-    race.state === "countdown" &&
-    race.started_at &&
-    new Date(race.started_at).getTime() <= Date.now()
-  ) {
+  if (!race) return null;
+  const startMs = race.started_at ? new Date(race.started_at).getTime() : null;
+  if (race.state === "countdown" && startMs !== null && startMs <= Date.now()) {
     race.state = "running";
     await db().from("races").update({ state: "running" }).eq("id", race.id);
   }
+  if (race.state === "running" && startMs !== null) {
+    const participants = race.participants as RaceParticipantRow[];
+    const timeUp = Date.now() > startMs + race.timer_sec * 1000;
+    const allDone =
+      participants.length > 0 &&
+      participants.every((p) => p.first_ac_at || p.dq);
+    if (timeUp || allDone) {
+      await autoFinishRace(race.id, participants);
+      race.state = "finished";
+      await notifyEvent(eventId, { type: "state_changed" });
+      return null;
+    }
+  }
+  return race;
+}
+
+/** Close a race without retiring contestants (self-serve flow). */
+async function autoFinishRace(raceId: string, participants: RaceParticipantRow[]) {
+  const { error: finishErr } = await db()
+    .from("races")
+    .update({ state: "finished" })
+    .eq("id", raceId);
+  logDbError(`autoFinishRace: finish ${raceId}`, finishErr);
+  const unsolved = participants
+    .filter((p) => p.session_id && !p.first_ac_at)
+    .map((p) => p.session_id as string);
+  if (unsolved.length > 0) {
+    const { error: timeoutErr } = await db()
+      .from("sessions")
+      .update({ outcome: "timeout" })
+      .in("id", unsolved)
+      .is("outcome", null);
+    logDbError(`autoFinishRace: timeout sessions ${raceId}`, timeoutErr);
+  }
+}
+
+/**
+ * The event's most recent finished race (with problem + participants), for
+ * the REVIEWING state on monitors and stations.
+ */
+export async function lastFinishedRace(eventId: string) {
+  const { data: race } = await db()
+    .from("races")
+    .select("*, problem:problems(*), participants:race_participants(*)")
+    .eq("event_id", eventId)
+    .eq("state", "finished")
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
   return race ?? null;
 }
 

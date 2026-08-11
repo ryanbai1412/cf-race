@@ -4,7 +4,18 @@ export type EventSettings = {
   selfServe?: boolean;
   /** Only allow races on problems with a Genna reference session (default on). */
   gennaOnly?: boolean;
+  /** Race timer in seconds (default 180). */
+  timerSec?: number;
 };
+
+export const DEFAULT_TIMER_SEC = 180;
+
+export function eventTimerSec(settings: unknown): number {
+  const raw = (settings as EventSettings | null)?.timerSec;
+  return typeof raw === "number" && raw >= 30 && raw <= 3600
+    ? Math.round(raw)
+    : DEFAULT_TIMER_SEC;
+}
 
 export function requireWebcam(settings: unknown): boolean {
   return Boolean((settings as EventSettings | null)?.requireWebcam);
