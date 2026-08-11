@@ -259,8 +259,11 @@ async function storedSize(path: string): Promise<number | null> {
   const name = path.slice(slash + 1);
   const { data } = await db()
     .storage.from("recordings")
-    .list(dir, { limit: 1, search: name });
-  const size = (data?.[0]?.metadata as { size?: number } | null)?.size;
+    .list(dir, { limit: 100, search: name });
+  // `search` is a substring match, so the exact name still has to be picked
+  // out — a near-miss object's size would wrongly confirm this one.
+  const found = (data ?? []).find((f) => f.name === name);
+  const size = (found?.metadata as { size?: number } | null)?.size;
   return typeof size === "number" ? size : null;
 }
 

@@ -36,25 +36,34 @@ async function list(
     metadata?: { eTag?: string; size?: number };
   }[]
 > {
-  const res = await fetch(`${url}/storage/v1/object/list/${BUCKET}`, {
-    method: "POST",
-    headers: {
-      apikey: key,
-      authorization: `Bearer ${key}`,
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({ prefix, limit: 10000, offset: 0 }),
-    signal: AbortSignal.timeout(LIST_TIMEOUT_MS),
-  });
-  if (!res.ok) {
-    throw new Error(`list ${prefix} failed: ${res.status} ${await res.text()}`);
-  }
-  return (await res.json()) as {
+  type Entry = {
     name: string;
     id: string | null;
     updated_at?: string;
     metadata?: { eTag?: string; size?: number };
-  }[];
+  };
+  // Paged: a silently truncated listing would leave test files undownloaded,
+  // and a submission judged against a partial test set can pass wrongly.
+  const all: Entry[] = [];
+  const pageSize = 1000;
+  for (let offset = 0; ; offset += pageSize) {
+    const res = await fetch(`${url}/storage/v1/object/list/${BUCKET}`, {
+      method: "POST",
+      headers: {
+        apikey: key,
+        authorization: `Bearer ${key}`,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ prefix, limit: pageSize, offset }),
+      signal: AbortSignal.timeout(LIST_TIMEOUT_MS),
+    });
+    if (!res.ok) {
+      throw new Error(`list ${prefix} failed: ${res.status} ${await res.text()}`);
+    }
+    const page = (await res.json()) as Entry[];
+    all.push(...page);
+    if (page.length < pageSize) return all;
+  }
 }
 
 async function walk(
@@ -140,30 +149,40 @@ export async function syncProblems(): Promise<number> {
     return true;
   });
   if (changed.length === 0) {
-    if (seeded) {
-      await fs.promises.mkdir(config.problemsDir, { recursive: true });
-      await fs.promises.writeFile(statePath(), JSON.stringify(state));
-    }
+    if (seeded) await saveState(state);
     return 0;
   }
 
   console.log(`sync: downloading ${changed.length}/${remote.length} objects`);
   const CONC = 16;
   let i = 0;
-  await Promise.all(
-    Array.from({ length: CONC }, async () => {
-      while (i < changed.length) {
-        const o = changed[i++];
-        await download(c.url, c.key, o.path);
-        state[o.path] = o.version;
-      }
-    })
-  );
-
-  await fs.promises.mkdir(config.problemsDir, { recursive: true });
-  await fs.promises.writeFile(statePath(), JSON.stringify(state));
-  clearProblemCache();
+  let downloaded = 0;
+  try {
+    await Promise.all(
+      Array.from({ length: CONC }, async () => {
+        while (i < changed.length) {
+          const o = changed[i++];
+          await download(c.url, c.key, o.path);
+          state[o.path] = o.version;
+          downloaded++;
+        }
+      })
+    );
+  } finally {
+    // A failed tick still recorded whatever landed, so the next one resumes
+    // instead of starting over; the cache must forget lists read before them.
+    await saveState(state);
+    if (downloaded > 0) clearProblemCache();
+  }
   return changed.length;
+}
+
+/** Persist the sync state atomically: a torn state file resets the sync. */
+async function saveState(state: SyncState): Promise<void> {
+  await fs.promises.mkdir(config.problemsDir, { recursive: true });
+  const tmp = `${statePath()}.tmp-${process.pid}`;
+  await fs.promises.writeFile(tmp, JSON.stringify(state));
+  await fs.promises.rename(tmp, statePath());
 }
 
 /**

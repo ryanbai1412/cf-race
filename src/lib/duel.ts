@@ -143,17 +143,22 @@ export async function resolveMatch(roomId: string): Promise<DuelMatchRow | null>
     .select("*")
     .maybeSingle<DuelMatchRow>();
   logDbError(`resolveMatch: finish match ${match.id}`, finishErr);
-  const { error: roomErr } = await db()
-    .from("duel_rooms")
-    .update({ status: "lobby" })
-    .eq("id", roomId)
-    .eq("status", "racing");
-  logDbError(`resolveMatch: reset room ${roomId}`, roomErr);
-  const { error: readyErr } = await db()
-    .from("duel_room_players")
-    .update({ ready_at: null })
-    .eq("room_id", roomId);
-  logDbError(`resolveMatch: clear ready ${roomId}`, readyErr);
+  // Both players poll this concurrently, so only the caller that actually
+  // stamped finished_at returns the room to the lobby: a late loser must not
+  // wipe ready flags the players have already set for the rematch.
+  if (updated) {
+    const { error: roomErr } = await db()
+      .from("duel_rooms")
+      .update({ status: "lobby" })
+      .eq("id", roomId)
+      .eq("status", "racing");
+    logDbError(`resolveMatch: reset room ${roomId}`, roomErr);
+    const { error: readyErr } = await db()
+      .from("duel_room_players")
+      .update({ ready_at: null })
+      .eq("room_id", roomId);
+    logDbError(`resolveMatch: clear ready ${roomId}`, readyErr);
+  }
   return updated ?? { ...match, finished_at: new Date().toISOString(), winner_user_id: winner };
 }
 
@@ -169,16 +174,7 @@ export async function startDuelMatch(
   const [userA, userB] = playerIds;
   const problemId = await pickDuelProblem(userA, userB);
   if (!problemId) {
-    const { error: roomErr } = await db()
-      .from("duel_rooms")
-      .update({ status: "lobby" })
-      .eq("id", room.id);
-    logDbError(`startDuelMatch: reset room ${room.id}`, roomErr);
-    const { error: readyErr } = await db()
-      .from("duel_room_players")
-      .update({ ready_at: null })
-      .eq("room_id", room.id);
-    logDbError(`startDuelMatch: clear ready ${room.id}`, readyErr);
+    await releaseRoom(room.id);
     return { ok: false, error: "no eligible problems left for this pair", status: 409 };
   }
 
@@ -194,31 +190,84 @@ export async function startDuelMatch(
     })
     .select("id")
     .single();
-  if (error) return { ok: false, error: error.message, status: 500 };
+  if (error) {
+    await releaseRoom(room.id);
+    return { ok: false, error: error.message, status: 500 };
+  }
 
+  // Session ids are minted here so a failure halfway through can be undone
+  // precisely, and so no player is left in a racing room without a session.
+  const sessionIds: string[] = [];
   for (const uid of playerIds) {
-    const { data: session, error: sErr } = await db()
-      .from("sessions")
-      .insert({
-        kind: "duel",
-        user_id: uid,
-        problem_id: problemId,
-        started_at: startAt,
-        timer_sec: room.total_time_sec,
-      })
-      .select("id")
-      .single();
-    if (sErr || !session) {
-      return { ok: false, error: sErr?.message ?? "failed to create session", status: 500 };
+    const sessionId = crypto.randomUUID();
+    const { error: sErr } = await db().from("sessions").insert({
+      id: sessionId,
+      kind: "duel",
+      user_id: uid,
+      problem_id: problemId,
+      started_at: startAt,
+      timer_sec: room.total_time_sec,
+    });
+    if (sErr) {
+      await abandonPartialMatch(room.id, match.id, sessionIds);
+      return { ok: false, error: sErr.message, status: 500 };
     }
+    sessionIds.push(sessionId);
     const { error: pErr } = await db().from("duel_players").insert({
       match_id: match.id,
       user_id: uid,
-      session_id: session.id,
+      session_id: sessionId,
     });
-    if (pErr) return { ok: false, error: pErr.message, status: 500 };
+    if (pErr) {
+      await abandonPartialMatch(room.id, match.id, sessionIds);
+      return { ok: false, error: pErr.message, status: 500 };
+    }
   }
   return { ok: true };
+}
+
+/** Undo a start claim: back to the lobby with everyone un-readied. */
+async function releaseRoom(roomId: string): Promise<void> {
+  const { error: roomErr } = await db()
+    .from("duel_rooms")
+    .update({ status: "lobby" })
+    .eq("id", roomId);
+  logDbError(`releaseRoom: reset room ${roomId}`, roomErr);
+  const { error: readyErr } = await db()
+    .from("duel_room_players")
+    .update({ ready_at: null })
+    .eq("room_id", roomId);
+  logDbError(`releaseRoom: clear ready ${roomId}`, readyErr);
+}
+
+/**
+ * A match that failed to get a session for every player can never be raced or
+ * resolved, and would strand the room in `racing` — drop it and reopen the
+ * lobby so the players can ready up again.
+ */
+async function abandonPartialMatch(
+  roomId: string,
+  matchId: string,
+  sessionIds: string[]
+): Promise<void> {
+  const { error: playersErr } = await db()
+    .from("duel_players")
+    .delete()
+    .eq("match_id", matchId);
+  logDbError(`abandonPartialMatch: players ${matchId}`, playersErr);
+  const { error: matchErr } = await db()
+    .from("duel_matches")
+    .delete()
+    .eq("id", matchId);
+  logDbError(`abandonPartialMatch: match ${matchId}`, matchErr);
+  if (sessionIds.length > 0) {
+    const { error: sessionsErr } = await db()
+      .from("sessions")
+      .delete()
+      .in("id", sessionIds);
+    logDbError(`abandonPartialMatch: sessions ${matchId}`, sessionsErr);
+  }
+  await releaseRoom(roomId);
 }
 
 /**

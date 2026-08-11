@@ -135,7 +135,12 @@ export function startWebcamRecording(
     const chunk = e.data;
     pump = pump.then(async () => {
       await uploadReady;
-      if (upload) await upload.addChunk(chunk);
+      if (upload) {
+        // The streamed upload owns the chunks from here on; keeping the
+        // fallback copies would grow the tab's memory for the whole run.
+        buffered.length = 0;
+        await upload.addChunk(chunk);
+      }
     });
   };
   recorder.start(CHUNK_MS);
