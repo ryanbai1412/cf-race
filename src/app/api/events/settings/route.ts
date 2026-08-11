@@ -25,6 +25,9 @@ export async function POST(req: NextRequest) {
     ...(typeof body?.gennaOnly === "boolean"
       ? { gennaOnly: body.gennaOnly }
       : {}),
+    ...(typeof body?.selfServe === "boolean"
+      ? { selfServe: body.selfServe }
+      : {}),
   };
   const { error } = await db()
     .from("events")
