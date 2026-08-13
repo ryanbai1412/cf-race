@@ -72,6 +72,16 @@ export async function startRace(args: {
     return fail("a race is already active", 409);
   }
 
+  const { data: played } = await db()
+    .from("races")
+    .select("id")
+    .eq("event_id", eventId)
+    .eq("problem_id", problemId)
+    .limit(1);
+  if (played && played.length > 0) {
+    return fail("problem already raced in this event", 409);
+  }
+
   const active = await activeContestants(eventId);
   const participants = Object.values(active);
   if (participants.length === 0) {
@@ -167,12 +177,16 @@ export async function selfServeAutoStart(
     ]);
     const all = (refs ?? []).map((r) => r.problem_id as string);
     const used = new Set((played ?? []).map((r) => r.problem_id as string));
-    // Prefer problems this event hasn't raced yet; cycle when exhausted.
+    // Only problems this event hasn't raced yet — never repeat a problem.
     const pool = all.filter((id) => !used.has(id));
-    const ids = pool.length > 0 ? pool : all;
-    problemId = ids.length > 0 ? ids[Math.floor(Math.random() * ids.length)] : null;
+    problemId = pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : null;
   } else {
-    problemId = await pickPracticeProblem(null);
+    const { data: played } = await db()
+      .from("races")
+      .select("problem_id")
+      .eq("event_id", eventId);
+    const used = new Set((played ?? []).map((r) => r.problem_id as string));
+    problemId = await pickPracticeProblem(null, used);
   }
   if (!problemId) return { autoStartAt: null, started: false };
   // Concurrent polls may race here; the one-active-race unique index makes

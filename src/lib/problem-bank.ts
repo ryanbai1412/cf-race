@@ -35,13 +35,16 @@ export const visibleProblems = unstable_cache(
  * invalidated yet (falls back to any eligible problem).
  */
 export async function pickPracticeProblem(
-  userId?: string | null
+  userId?: string | null,
+  exclude?: ReadonlySet<string>
 ): Promise<string | null> {
   const [problems, invalidated] = await Promise.all([
     visibleProblems(),
     invalidatedProblemIds([userId]),
   ]);
-  let eligible = problems.filter((p) => !invalidated.has(p.id));
+  let eligible = problems.filter(
+    (p) => !invalidated.has(p.id) && !exclude?.has(p.id)
+  );
 
   if (userId) {
     const { data: solved } = await db()
