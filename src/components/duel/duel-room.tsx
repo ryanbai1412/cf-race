@@ -127,6 +127,10 @@ export function DuelRoom({ roomId }: { roomId: string }) {
   const stateRef = useRef<RoomState | null>(null);
   stateRef.current = state;
 
+  // Polls, realtime nudges and post-action refreshes overlap, so responses
+  // can arrive out of order; only the newest snapshot may be applied.
+  const appliedNow = useRef(0);
+
   const refresh = useCallback(async () => {
     try {
       const res = await fetch(`/api/duel/state?roomId=${roomId}`, {
@@ -138,6 +142,8 @@ export function DuelRoom({ roomId }: { roomId: string }) {
       }
       if (!res.ok) return;
       const d: RoomState = await res.json();
+      if (d.serverNow < appliedNow.current) return;
+      appliedNow.current = d.serverNow;
       clockOffset.current = d.serverNow - Date.now();
       setState(d);
     } catch {}
@@ -360,13 +366,16 @@ export function DuelRoom({ roomId }: { roomId: string }) {
     return end;
   }, [match]);
 
-  // Timer watchdog → timeout finish.
+  // Timer watchdog → timeout finish. `timedOut` keeps the 250ms tick from
+  // posting again in the frames before `racing` flips false.
+  const timedOut = useRef<string | null>(null);
   useEffect(() => {
     if (!racing || endAtMs === null) return;
     const iv = setInterval(() => {
       if (serverNow() > endAtMs) {
         const sid = sessionIdRef.current;
-        if (sid) {
+        if (sid && timedOut.current !== sid) {
+          timedOut.current = sid;
           void fetch("/api/duel/finish", {
             method: "POST",
             headers: { "content-type": "application/json" },

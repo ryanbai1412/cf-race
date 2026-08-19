@@ -420,7 +420,10 @@ async function dropUpload(uploadId: string): Promise<void> {
  * chunks still in IndexedDB, then finalize against the stored manifest.
  */
 async function resumeUpload(record: UploadRecord): Promise<boolean> {
-  if (active.has(record.id)) return false;
+  // A recording this page load is still writing into must never be closed and
+  // finalized from under it — that would stitch a truncated video and delete
+  // the chunks the recorder is about to upload.
+  if (active.has(record.id) || liveUploads.has(record.id)) return false;
   active.add(record.id);
   setStatus(record.id, {
     state: "uploading",
@@ -540,7 +543,7 @@ export async function enqueueRecording(
  * background loop would eventually pick it up too; this just makes it now.
  */
 export async function retryUpload(id: string): Promise<boolean> {
-  if (active.has(id)) return false;
+  if (active.has(id) || liveUploads.has(id)) return false;
   try {
     const record = ((await idbAll<UploadRecord>(UPLOADS)) ?? []).find(
       (r) => r.id === id

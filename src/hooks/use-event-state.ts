@@ -23,6 +23,10 @@ export function useEventState(
   onMessageRef.current = onMessage;
   const onSubscribedRef = useRef(onSubscribed);
   onSubscribedRef.current = onSubscribed;
+  // The poll interval, realtime nudges and manual refetches overlap, so
+  // responses can arrive out of order. Only apply the newest one, or a slow
+  // reply would resurrect state the app has already moved past.
+  const appliedNow = useRef(0);
 
   const refetch = useCallback(async () => {
     try {
@@ -32,12 +36,19 @@ export function useEventState(
       });
       if (!res.ok) return;
       const data: ClientState = await res.json();
+      if (data.serverNow < appliedNow.current) return;
+      appliedNow.current = data.serverNow;
       const rtt = Date.now() - t0;
       setClockOffset(data.serverNow + rtt / 2 - Date.now());
       setState(data);
     } catch {
       // transient network error; next poll will retry
     }
+  }, [eventId]);
+
+  // A new event means a fresh state stream; don't hold the old one's clock.
+  useEffect(() => {
+    appliedNow.current = 0;
   }, [eventId]);
 
   useEffect(() => {

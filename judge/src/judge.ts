@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import { check } from "./checker.js";
-import { compile, CompileMode } from "./compile.js";
+import { compile, CompileMode, withBinary } from "./compile.js";
 import { config } from "./config.js";
 import { loadFullTests, loadMeta, loadSamples } from "./problems.js";
 import { sandboxRun } from "./sandbox.js";
@@ -163,23 +163,25 @@ export async function handleRun(
   }
 
   const results: TestResult[] = new Array(tests.length);
-  await Promise.all(
-    tests.map((t, i) =>
-      pool.run(async () => {
-        const r = await runOneTest(
-          req.lang,
-          compiled.binPath,
-          req.source,
-          t,
-          timeLimitMs,
-          memoryLimitMb,
-          meta?.floatEps,
-          meta?.specialJudge ?? false,
-          req.lang === "cpp"
-        );
-        results[i] = r;
-        onUpdate?.({ runId: req.runId, compile: compileInfo, results: [r] });
-      })
+  await withBinary(compiled.binPath, () =>
+    Promise.all(
+      tests.map((t, i) =>
+        pool.run(async () => {
+          const r = await runOneTest(
+            req.lang,
+            compiled.binPath,
+            req.source,
+            t,
+            timeLimitMs,
+            memoryLimitMb,
+            meta?.floatEps,
+            meta?.specialJudge ?? false,
+            req.lang === "cpp"
+          );
+          results[i] = r;
+          onUpdate?.({ runId: req.runId, compile: compileInfo, results: [r] });
+        })
+      )
     )
   );
   prewarmSubmitBinary(req.lang, req.source);
@@ -245,36 +247,38 @@ export async function handleSubmit(
     return n;
   }
 
-  await Promise.all(
-    tests.map((t, i) =>
-      pool.run(async () => {
-        if (i > firstFailure) return;
-        const r = await runOneTest(
-          req.lang,
-          compiled.binPath,
-          req.source,
-          t,
-          meta.timeLimitMs,
-          meta.memoryLimitMb,
-          meta.floatEps,
-          false,
-          false
-        );
-        results[i] = r;
-        if (r.verdict !== "AC") firstFailure = Math.min(firstFailure, i);
-        const prefix = acPrefix();
-        if (prefix > passedCount) {
-          passedCount = prefix;
-          onUpdate?.({
-            submissionId: req.submissionId,
-            verdict: "AC",
-            failedTest: null,
-            passedCount,
-            totalCount,
-            timeMsMax: maxTimeMs(results, firstFailure),
-          });
-        }
-      })
+  await withBinary(compiled.binPath, () =>
+    Promise.all(
+      tests.map((t, i) =>
+        pool.run(async () => {
+          if (i > firstFailure) return;
+          const r = await runOneTest(
+            req.lang,
+            compiled.binPath,
+            req.source,
+            t,
+            meta.timeLimitMs,
+            meta.memoryLimitMb,
+            meta.floatEps,
+            false,
+            false
+          );
+          results[i] = r;
+          if (r.verdict !== "AC") firstFailure = Math.min(firstFailure, i);
+          const prefix = acPrefix();
+          if (prefix > passedCount) {
+            passedCount = prefix;
+            onUpdate?.({
+              submissionId: req.submissionId,
+              verdict: "AC",
+              failedTest: null,
+              passedCount,
+              totalCount,
+              timeMsMax: maxTimeMs(results, firstFailure),
+            });
+          }
+        })
+      )
     )
   );
 

@@ -107,20 +107,25 @@ export async function startRace(args: {
     return fail(error.message, 500);
   }
 
-  const { data: sessions, error: sErr } = await db()
+  // Session ids are minted here rather than read back from the insert: a
+  // multi-row INSERT … RETURNING gives no ordering guarantee, so pairing
+  // participants with returned rows positionally could hand a station the
+  // other station's session (and with it its replay and recording).
+  const sessionIds = participants.map(() => crypto.randomUUID());
+  const { error: sErr } = await db()
     .from("sessions")
     .insert(
-      participants.map(() => ({
+      participants.map((_c, i) => ({
+        id: sessionIds[i],
         kind: "event",
         problem_id: problemId,
         started_at: startedAt,
         timer_sec: race.timer_sec,
       }))
-    )
-    .select("id");
-  if (sErr || !sessions || sessions.length !== participants.length) {
+    );
+  if (sErr) {
     await db().from("races").delete().eq("id", race.id);
-    return fail(sErr?.message ?? "failed to create sessions", 500);
+    return fail(sErr.message, 500);
   }
 
   const { error: pErr } = await db()
@@ -130,13 +135,14 @@ export async function startRace(args: {
         race_id: race.id,
         contestant_id: c.id,
         station_role: c.station_role,
-        session_id: sessions[i].id,
+        session_id: sessionIds[i],
       }))
     );
   if (pErr) {
     // Don't leave an active race without participants — it would block
     // future starts and no station would ever join it.
     await db().from("races").delete().eq("id", race.id);
+    await db().from("sessions").delete().in("id", sessionIds);
     return fail(pErr.message, 500);
   }
 
@@ -262,7 +268,13 @@ export async function activeRace(eventId: string) {
   const startMs = race.started_at ? new Date(race.started_at).getTime() : null;
   if (race.state === "countdown" && startMs !== null && startMs <= Date.now()) {
     race.state = "running";
-    await db().from("races").update({ state: "running" }).eq("id", race.id);
+    // Guarded on the state we read: two polls overlap here, and an
+    // unconditional write could put a just-finished race back to running.
+    await db()
+      .from("races")
+      .update({ state: "running" })
+      .eq("id", race.id)
+      .eq("state", "countdown");
   }
   if (race.state === "running" && startMs !== null) {
     const participants = race.participants as RaceParticipantRow[];
@@ -271,21 +283,32 @@ export async function activeRace(eventId: string) {
       participants.length > 0 &&
       participants.every((p) => p.first_ac_at || p.dq);
     if (timeUp || allDone) {
-      await autoFinishRace(race.id, participants);
+      const closed = await autoFinishRace(race.id, participants);
       race.state = "finished";
-      await notifyEvent(eventId, { type: "state_changed" });
+      // Only the poll that actually closed the race announces it, so both
+      // stations' polls don't each fan out a state change.
+      if (closed) await notifyEvent(eventId, { type: "state_changed" });
       return null;
     }
   }
   return race;
 }
 
-/** Close a race without retiring contestants (self-serve flow). */
-async function autoFinishRace(raceId: string, participants: RaceParticipantRow[]) {
-  const { error: finishErr } = await db()
+/**
+ * Close a race without retiring contestants (self-serve flow). Returns true
+ * for the caller that actually closed it.
+ */
+async function autoFinishRace(
+  raceId: string,
+  participants: RaceParticipantRow[]
+): Promise<boolean> {
+  const { data: closed, error: finishErr } = await db()
     .from("races")
     .update({ state: "finished" })
-    .eq("id", raceId);
+    .eq("id", raceId)
+    .neq("state", "finished")
+    .select("id")
+    .maybeSingle();
   logDbError(`autoFinishRace: finish ${raceId}`, finishErr);
   const unsolved = participants
     .filter((p) => p.session_id && !p.first_ac_at)
@@ -298,6 +321,7 @@ async function autoFinishRace(raceId: string, participants: RaceParticipantRow[]
       .is("outcome", null);
     logDbError(`autoFinishRace: timeout sessions ${raceId}`, timeoutErr);
   }
+  return closed !== null;
 }
 
 /**

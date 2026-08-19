@@ -40,6 +40,49 @@ function pchArgs(mode: CompileMode): string[] {
 
 const inflight = new Map<string, Promise<Compiled>>();
 
+/** Cache entries a judging run is currently executing from, by refcount. */
+const inUse = new Map<string, number>();
+
+/**
+ * Pin the cache entry a compiled binary lives in for the duration of `fn`, so
+ * LRU eviction can't delete the executable out from under a running judge.
+ */
+export async function withBinary<T>(
+  binPath: string | undefined,
+  fn: () => Promise<T>
+): Promise<T> {
+  const key = binPath ? path.basename(path.dirname(binPath)) : null;
+  if (key) inUse.set(key, (inUse.get(key) ?? 0) + 1);
+  try {
+    return await fn();
+  } finally {
+    if (key) {
+      const n = (inUse.get(key) ?? 1) - 1;
+      if (n > 0) inUse.set(key, n);
+      else inUse.delete(key);
+    }
+  }
+}
+
+/**
+ * Publish a cache file atomically: a concurrent `compile` decides an entry is
+ * ready by the file's existence, so it must never observe a partial write.
+ */
+async function publish(
+  filePath: string,
+  data: Buffer | string,
+  mode?: number
+): Promise<void> {
+  const tmp = `${filePath}.${crypto.randomBytes(6).toString("hex")}.tmp`;
+  try {
+    await fs.promises.writeFile(tmp, data, mode === undefined ? {} : { mode });
+    await fs.promises.rename(tmp, filePath);
+  } catch (e) {
+    await fs.promises.rm(tmp, { force: true }).catch(() => {});
+    throw e;
+  }
+}
+
 // LRU eviction for the compile cache, keyed on binary mtime (touched on every
 // cache hit). Serialized so concurrent compiles trigger at most one pass.
 let evictChain: Promise<void> = Promise.resolve();
@@ -86,7 +129,7 @@ async function evictOnce(): Promise<void> {
   const target = config.cacheMaxBytes * 0.8;
   for (const e of entries) {
     if (total <= target) break;
-    if (inflight.has(e.name)) continue;
+    if (inflight.has(e.name) || inUse.has(e.name)) continue;
     await fs.promises.rm(e.dir, { recursive: true, force: true });
     total -= e.size;
   }
@@ -140,9 +183,9 @@ export async function compile(
     if (res.status === "OK" && res.exitCode === 0 && res.outFiles?.["prog"]) {
       try {
         await fs.promises.mkdir(dir, { recursive: true });
-        if (stderr)
-          await fs.promises.writeFile(path.join(dir, "compile.warnings"), stderr);
-        await fs.promises.writeFile(binPath, res.outFiles["prog"], { mode: 0o755 });
+        if (stderr) await publish(path.join(dir, "compile.warnings"), stderr);
+        // Published last: binPath's existence is what makes the entry a hit.
+        await publish(binPath, res.outFiles["prog"], 0o755);
       } catch (e) {
         // Cache write failure (e.g. ENOSPC) is a judge problem, not a CE;
         // surface it as a transient error and never persist it.
@@ -162,7 +205,7 @@ export async function compile(
       stderr ||
       (res.status === "TLE" ? "compiler time limit exceeded" : "compilation failed");
     await fs.promises.mkdir(dir, { recursive: true });
-    await fs.promises.writeFile(errPath, msg);
+    await publish(errPath, msg);
     return { ok: false, stderr: msg };
   })().finally(() => inflight.delete(key));
   inflight.set(key, p);
