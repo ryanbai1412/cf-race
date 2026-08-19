@@ -12,6 +12,9 @@ import { sanitizeStatementHtml } from "@/lib/statement-html";
 const TEX_ENTITIES: [RegExp, string][] = [
   [/&lt;/g, "<"],
   [/&gt;/g, ">"],
+  [/&quot;/g, '"'],
+  [/&#x27;/g, "'"],
+  [/&#39;/g, "'"],
   [/&amp;/g, "&"],
 ];
 
