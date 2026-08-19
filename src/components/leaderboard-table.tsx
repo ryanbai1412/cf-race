@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { flagEmoji } from "@/lib/countries";
-import { formatMsPrecise } from "@/lib/templates";
+import { displayDeltaMs, formatMsPrecise } from "@/lib/templates";
 import { cn } from "@/lib/utils";
 
 export type LeaderboardRow = {
@@ -72,7 +72,10 @@ export function LeaderboardTable({
   const lg = size === "lg";
 
   function Row({ e, rank }: { e: Entry; rank: number }) {
-    const delta = touristTimeMs != null && !e.tourist ? e.solve_ms - touristTimeMs : null;
+    const delta =
+      touristTimeMs != null && !e.tourist
+        ? displayDeltaMs(e.solve_ms, touristTimeMs)
+        : null;
     return (
       <div
         className={cn(
