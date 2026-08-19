@@ -19,9 +19,10 @@ UA = (
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"
 )
-PROXY_COOKIE = {
-    "CF_PROXY_AUTH_TOKEN": "0c87d670f6808e0f1c5cc6117052e06e4bdd7d66e78c791f7c16d487a08a2d56"
-}
+_proxy_auth_token = os.environ.get("CF_PROXY_AUTH_TOKEN", "").strip()
+PROXY_COOKIE = (
+    {"CF_PROXY_AUTH_TOKEN": _proxy_auth_token} if _proxy_auth_token else {}
+)
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROBLEMS_DIR = os.path.join(REPO_ROOT, "problems")
@@ -33,6 +34,10 @@ _session.headers["User-Agent"] = UA
 
 def fetch_proxy(path: str, retries: int = 4, sleep: float = 2.0) -> str:
     """Fetch an HTML page from the CF proxy. `path` is a codeforces.com path."""
+    if not PROXY_COOKIE:
+        raise RuntimeError(
+            "CF_PROXY_AUTH_TOKEN must be set to fetch HTML through the proxy"
+        )
     url = PROXY_BASE + path
     last = None
     for attempt in range(retries):

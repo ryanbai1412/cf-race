@@ -8,6 +8,8 @@
 # container, so everything under problems/ is available without a Supabase sync.
 #
 # For a no-Docker judge (unsafe plain-subprocess sandbox), use `make judge-dev`.
+# To explicitly use that mode in Compose, set
+# JUDGE_SANDBOX=none ALLOW_UNSAFE_SANDBOX=1.
 services:
   judge:
     build:
@@ -18,6 +20,8 @@ services:
       - "8080:8080"
     environment:
       JUDGE_TOKEN: ${JUDGE_TOKEN:-dev}
+      JUDGE_SANDBOX: ${JUDGE_SANDBOX:-isolate}
+      ALLOW_UNSAFE_SANDBOX: ${ALLOW_UNSAFE_SANDBOX:-0}
       PROBLEMS_DIR: /data/problems
     volumes:
       - ./problems:/data/problems

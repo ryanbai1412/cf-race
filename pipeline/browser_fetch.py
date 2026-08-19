@@ -21,6 +21,10 @@ _state = {}
 
 
 def _page():
+    if not PROXY_COOKIE:
+        raise RuntimeError(
+            "CF_PROXY_AUTH_TOKEN must be set to fetch HTML through the proxy"
+        )
     if "page" in _state and not _state["page"].is_closed():
         return _state["page"]
     if "pw" not in _state:

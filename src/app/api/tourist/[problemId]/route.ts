@@ -29,7 +29,7 @@ export async function GET(
   return new NextResponse(text, {
     headers: {
       "Content-Type": "application/json",
-      "Cache-Control": "public, max-age=300",
+      "Cache-Control": "private, max-age=300",
     },
   });
 }
