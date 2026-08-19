@@ -22,7 +22,7 @@ seed: ## upload problems/ packages to Supabase Storage + upsert problems table
 	pnpm seed
 
 judge-dev: ## local judge, no sandbox (unsafe, dev only) on http://localhost:8080
-	cd judge && JUDGE_TOKEN=dev JUDGE_SANDBOX=none PROBLEMS_DIR=../problems pnpm run dev
+	cd judge && JUDGE_TOKEN=dev JUDGE_SANDBOX=none ALLOW_UNSAFE_SANDBOX=1 PROBLEMS_DIR=../problems pnpm run dev
 
 judge-test:
 	cd judge && pnpm test

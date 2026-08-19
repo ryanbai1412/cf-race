@@ -6,12 +6,13 @@ import {
   browserId,
   clearAnonSessions,
 } from "@/lib/anon-sessions";
+import { safeRedirectPath } from "@/lib/safe-redirect";
 
 /** OAuth code exchange for Supabase Auth (Google login). */
 export async function GET(req: NextRequest) {
   const code = req.nextUrl.searchParams.get("code");
   const next = req.nextUrl.searchParams.get("next") ?? "/";
-  const safeNext = next.startsWith("/") ? next : "/";
+  const safeNext = safeRedirectPath(next);
 
   if (code) {
     const { data, error } = await supabaseServer().auth.exchangeCodeForSession(code);

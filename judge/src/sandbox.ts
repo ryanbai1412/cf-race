@@ -325,7 +325,11 @@ async function runPlain(spec: ExecSpec, opts: RunOptions): Promise<ExecResult> {
       stdinFile: spec.stdinFile,
       cwd: dir,
       killAfterMs: spec.wallTimeMs ?? spec.timeLimitMs * 2 + 2000,
-      env: { ...process.env, ...spec.env },
+      env: {
+        PATH: "/usr/local/bin:/usr/bin:/bin",
+        HOME: dir,
+        ...spec.env,
+      },
     });
     const timeMs = Number(process.hrtime.bigint() - start) / 1e6;
     let status: ExecStatus = "OK";

@@ -5,10 +5,9 @@ export const config = {
   judgeToken: process.env.JUDGE_TOKEN ?? "",
   problemsDir: process.env.PROBLEMS_DIR ?? "/data/problems",
   cacheDir: process.env.CACHE_DIR ?? "/tmp/judge-cache",
-  // "isolate" (cgroup v2), "isolate-nocg" (isolate with rlimits only, for
-  // hosts without cgroup v2 controllers; multi-process runs like compiles
-  // fall back to plain subprocesses), or "none" (dev fallback, plain
-  // subprocesses — NOT safe for untrusted code).
+  // "isolate" (cgroup v1), "isolate-nocg" (isolate with rlimits only; unsafe),
+  // or "none" (plain subprocesses; unsafe). The entrypoint requires an
+  // explicit ALLOW_UNSAFE_SANDBOX=1 opt-in for the unsafe modes.
   sandbox: (process.env.JUDGE_SANDBOX ?? "isolate") as
     | "isolate"
     | "isolate-nocg"

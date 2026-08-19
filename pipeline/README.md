@@ -3,6 +3,9 @@
 Offline pipeline that builds problem packages (see `docs/JUDGE_API.md`,
 "Problem package format") for Code Voices Racing.
 
+Set `CF_PROXY_AUTH_TOKEN` in the environment before running scripts that fetch
+HTML through `cf-p.vercel.app`. Do not commit this credential.
+
 ## Scripts
 - `select_problems.py` — pick random rated-800 problems from the last ~3 years
   (official CF API), skipping constructive-tagged problems.

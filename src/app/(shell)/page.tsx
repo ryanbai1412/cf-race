@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { EmptyState, PageHeader, SectionTitle } from "@/components/shell/page";
 import { formatMsPrecise } from "@/lib/templates";
+import { safeRedirectPath } from "@/lib/safe-redirect";
 import { Video } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -34,10 +35,7 @@ export default async function HomePage({
 
   if (!user) {
     const practiceProblemId = await pickPracticeProblem(null);
-    const next =
-      typeof searchParams.next === "string" && searchParams.next.startsWith("/")
-        ? searchParams.next
-        : "/";
+    const next = safeRedirectPath(searchParams.next);
     return <Landing next={next} practiceProblemId={practiceProblemId} />;
   }
 

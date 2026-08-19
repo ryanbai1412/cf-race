@@ -1,13 +1,25 @@
 #!/bin/bash
 set -e
 
-# isolate v1 --cg needs cgroup v1 controllers (memory + cpuset). If they are
-# not available (e.g. cgroup v2-only hosts without v1 mounts), fall back to
-# rlimit-only sandboxing.
-if [ "${JUDGE_SANDBOX:-isolate}" = "isolate" ] && [ ! -d /sys/fs/cgroup/memory ]; then
-  echo "cgroup v1 memory controller unavailable; falling back to JUDGE_SANDBOX=isolate-nocg"
-  export JUDGE_SANDBOX=isolate-nocg
-fi
+SANDBOX="${JUDGE_SANDBOX:-isolate}"
+case "$SANDBOX" in
+  isolate)
+    if [ ! -d /sys/fs/cgroup/memory ]; then
+      echo "error: JUDGE_SANDBOX=isolate requires the cgroup v1 memory controller; refusing to start" >&2
+      exit 1
+    fi
+    ;;
+  none|isolate-nocg)
+    if [ "${ALLOW_UNSAFE_SANDBOX:-}" != "1" ]; then
+      echo "error: JUDGE_SANDBOX=$SANDBOX is unsafe; set ALLOW_UNSAFE_SANDBOX=1 for an explicit opt-in" >&2
+      exit 1
+    fi
+    ;;
+  *)
+    echo "error: unsupported JUDGE_SANDBOX=$SANDBOX" >&2
+    exit 1
+    ;;
+esac
 
 # isolate's box-tree walk requires a uniform st_dev, which overlayfs (the
 # container rootfs) does not guarantee — put the box root on a tmpfs.
