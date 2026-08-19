@@ -19,6 +19,7 @@ const nextConfig = {
             key: "Permissions-Policy",
             value: "camera=(self), microphone=(self)",
           },
+          // Report-only violations are console-only until a collector exists.
           {
             key: "Content-Security-Policy-Report-Only",
             value: [

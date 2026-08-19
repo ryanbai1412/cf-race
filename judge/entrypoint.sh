@@ -21,10 +21,6 @@ case "$SANDBOX" in
     ;;
 esac
 
-if [ "$SANDBOX" != "${JUDGE_SANDBOX:-isolate}" ]; then
-  export JUDGE_SANDBOX="$SANDBOX"
-fi
-
 # isolate's box-tree walk requires a uniform st_dev, which overlayfs (the
 # container rootfs) does not guarantee — put the box root on a tmpfs.
 if ! mountpoint -q /var/local/lib/isolate 2>/dev/null; then

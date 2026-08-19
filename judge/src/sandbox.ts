@@ -327,7 +327,7 @@ async function runPlain(spec: ExecSpec, opts: RunOptions): Promise<ExecResult> {
       killAfterMs: spec.wallTimeMs ?? spec.timeLimitMs * 2 + 2000,
       env: {
         PATH: "/usr/local/bin:/usr/bin:/bin",
-        HOME: "/box",
+        HOME: dir,
         ...spec.env,
       },
     });
