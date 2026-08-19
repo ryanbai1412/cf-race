@@ -32,6 +32,11 @@ export const maxDuration = 300;
 const STEPS = ["sign", "confirm", "chunk-confirm", "finalize"] as const;
 type Step = (typeof STEPS)[number];
 
+// Finalize concatenates every chunk in memory, so the manifest must be
+// bounded: the longest legitimate recording is a few hundred MB.
+const MAX_CHUNKS = 10_000;
+const MAX_RECORDING_BYTES = 1024 * 1024 * 1024;
+
 /**
  * `solo/<id>.webm` → `solo/<id>/chunks/<uploadId>/000007.webm`. Chunks are
  * namespaced per upload attempt: a reload starts a new recorder whose indices
@@ -150,10 +155,12 @@ export async function POST(req: NextRequest) {
     }
     if (
       manifest.length === 0 ||
+      manifest.length > MAX_CHUNKS ||
       manifest.some(
         (c, i) =>
           c.index !== i || !Number.isFinite(c.size) || c.size <= 0
-      )
+      ) ||
+      manifest.reduce((n, c) => n + c.size, 0) > MAX_RECORDING_BYTES
     ) {
       return NextResponse.json({ error: "bad manifest" }, { status: 400 });
     }
