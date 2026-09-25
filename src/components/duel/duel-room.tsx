@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { CountdownOverlay } from "@/components/station/countdown-overlay";
+import { DuelReview } from "@/components/duel/duel-review";
 import { RaceScreen } from "@/components/race/race-screen";
 import { SoloAuthButton, useSoloAuth } from "@/components/solo/auth-button";
 import { Eyebrow } from "@/components/shell/page";
@@ -40,6 +41,7 @@ import {
   CameraOff,
   Check,
   Copy,
+  Eye,
   Loader2,
   Swords,
   Video,
@@ -116,6 +118,9 @@ export function DuelRoom({ roomId }: { roomId: string }) {
     solveMs: number | null;
     matchId: string;
   } | null>(null);
+  // Non-members watch the match live; the view stays up after the finish
+  // (rolling into the review) until they leave or a rematch starts.
+  const [spectatingMatchId, setSpectatingMatchId] = useState<string | null>(null);
 
   const clockOffset = useRef(0);
   const serverNow = useCallback(() => Date.now() + clockOffset.current, []);
@@ -193,6 +198,11 @@ export function DuelRoom({ roomId }: { roomId: string }) {
     match.finishedAtMs === null &&
     finishedLocal?.matchId !== match.id &&
     myMatchPlayer?.outcome === null;
+
+  useEffect(() => {
+    if (isMember || !match || match.finishedAtMs !== null) return;
+    setSpectatingMatchId(match.id);
+  }, [isMember, match]);
 
   // Webcam (members only; preview + recording).
   useEffect(() => {
@@ -314,9 +324,10 @@ export function DuelRoom({ roomId }: { roomId: string }) {
     }).catch(() => {});
   }, []);
 
+  // Short cadence: spectators mirror the editor from these flushes.
   useEffect(() => {
     if (!racing) return;
-    const id = setInterval(flushEvents, 5000);
+    const id = setInterval(flushEvents, 2000);
     return () => clearInterval(id);
   }, [racing, flushEvents]);
 
@@ -547,29 +558,24 @@ export function DuelRoom({ roomId }: { roomId: string }) {
     );
   }
 
-  // Full room (2 players, I'm not one of them).
-  if (!isMember && state.players.length >= 2) {
+  // ── Spectating (not a player; a match is live or was just watched) ───────
+  if (!isMember && spectatingMatchId && match) {
     return (
-      <>
+      <div className="flex h-screen flex-col">
         <Navbar />
-        <main className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center gap-4 px-6">
-        <Card className="w-full max-w-md border-border/60 bg-card/60 text-center">
-          <CardHeader>
-            <CardTitle>Room is full</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              {state.players.map((p) => p.name).join(" vs ")} are already dueling
-              here. There is no spectator mode — ask for the review link after
-              the match.
-            </p>
-            <Button asChild size="sm" variant="secondary">
-              <Link href="/duels">Back to duels</Link>
-            </Button>
-          </CardContent>
-        </Card>
-        </main>
-      </>
+        {match.finishedAtMs === null && serverNow() < match.startAtMs && (
+          <CountdownOverlay startAtMs={match.startAtMs} serverNow={serverNow} />
+        )}
+        <div className="min-h-0 flex-1">
+          <DuelReview
+            key={spectatingMatchId}
+            apiUrl={`/api/duel/spectate?roomId=${roomId}`}
+            readOnly
+            live
+            onExit={() => setSpectatingMatchId(null)}
+          />
+        </div>
+      </div>
     );
   }
 
@@ -801,10 +807,16 @@ export function DuelRoom({ roomId }: { roomId: string }) {
                 Waiting for an opponent — send them the invite link.
               </p>
             )}
-            {!isMember && (
+            {!isMember && state.players.length < 2 && (
               <Button className="w-full" onClick={join} disabled={joining}>
                 {joining ? "Joining…" : "Join duel"}
               </Button>
+            )}
+            {!isMember && state.players.length >= 2 && (
+              <p className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
+                <Eye className="h-3.5 w-3.5" />
+                You&apos;re spectating — the live view opens when the duel starts.
+              </p>
             )}
           </CardContent>
         </Card>
@@ -929,12 +941,24 @@ export function DuelRoom({ roomId }: { roomId: string }) {
                     } won`
                   : "Both DNF"}
               </span>
-              <Button asChild size="sm" variant="ghost" className="ml-auto">
-                <Link href={`/duel/review/${lastMatch.id}`}>
+              {isMember ? (
+                <Button asChild size="sm" variant="ghost" className="ml-auto">
+                  <Link href={`/duel/review/${lastMatch.id}`}>
+                    <Video className="mr-1.5 h-3.5 w-3.5" />
+                    Review
+                  </Link>
+                </Button>
+              ) : (
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="ml-auto"
+                  onClick={() => setSpectatingMatchId(lastMatch.id)}
+                >
                   <Video className="mr-1.5 h-3.5 w-3.5" />
                   Review
-                </Link>
-              </Button>
+                </Button>
+              )}
             </CardContent>
           </Card>
         )}

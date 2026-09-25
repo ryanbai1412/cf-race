@@ -170,6 +170,22 @@ export class TouristPlayer {
     this.events = events;
   }
 
+  /**
+   * Swap in a longer event list that begins with the current one (a live
+   * log growing at the tail) without losing playback position. Returns false
+   * when the lists diverge and the caller should start a fresh player.
+   */
+  extend(events: TouristEvent[]): boolean {
+    if (events.length < this.events.length) return false;
+    for (let i = 0; i < this.events.length; i++) {
+      const a = this.events[i];
+      const b = events[i];
+      if (a.t !== b.t || a.type !== b.type) return false;
+    }
+    this.events = events;
+    return true;
+  }
+
   /** Advance (or seek) to `clockMs` and describe how to update the view. */
   advance(clockMs: number): ReplayFrame {
     let reset = this.idx === 0;

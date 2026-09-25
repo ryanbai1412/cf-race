@@ -51,8 +51,8 @@ screen is a side-by-side review of both players.
 
 ### 3. Room lobby (`/duel/room/[roomId]`)
 1. Creator waits in the lobby; opponent opens the link and joins (must be
-   logged in; room holds max 2 players; extra visitors get a spectate-less
-   "room full" card).
+   logged in; room holds max 2 players; anyone else with the link spectates:
+   they see the lobby, then the live side-by-side view once the duel starts).
 2. Both players see each other's name/avatar + webcam preview (getUserMedia,
    same optional-camera semantics as solo mode).
 3. **Async ready-up**: each player clicks "Ready". State is per-player;
@@ -87,6 +87,16 @@ screen is a side-by-side review of both players.
   in-app modal blocks navigation ("Uploading recording — 63%") until done or
   explicitly abandoned. The review screen link unlocks after upload finishes.
 
+### 5b. Spectating (`/duel/room/[roomId]`, non-players)
+- Same side-by-side screen as the review, driven live: editor mirrors from
+  the players' event flushes (2s cadence), statement scroll-synced to either
+  player, verdict badges. The clock runs ~5s behind wall time so events have
+  landed; scrubbing back works like a DVR with a "Go live" button.
+- Webcams are not streamed; they appear once the match ends and uploads land
+  (the view rolls into the ordinary review).
+- Data: `GET /api/duel/spectate?roomId=` — any signed-in user; nothing is
+  returned before GO so the problem cannot leak early.
+
 ### 6. Review (`/duel/review/[matchId]`)
 - Side-by-side: two replay players (editor + mini console + statement scroll)
   with both webcams, all driven by ONE shared clock/scrubber — play, pause,
@@ -106,7 +116,7 @@ screen is a side-by-side review of both players.
 - Event logs reuse the existing session-event tables keyed per player-match.
 
 ## Out of scope (v1)
-- Spectator/monitor view of a duel; ratings/ELO; more than 2 players;
+- Live webcam streaming to spectators; ratings/ELO; more than 2 players;
   in-race chat.
 
 ## Decisions (from review)

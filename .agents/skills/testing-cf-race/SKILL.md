@@ -246,6 +246,15 @@ description: How to run and end-to-end test the cf-race booth app locally (dev s
   counted" text and that the Submissions counter stays `0/50` and `session_submissions` has 0 rows,
   then **restore the tag** (`array_append(tags,'hidden')`).
 
+## Simulating a live duel without browsers (spectator mode)
+- Spectator mode = a signed-in non-member opening `/duel/room/<roomId>`. To exercise it, drive
+  both players purely over HTTP with password-grant cookies (test users above): `POST
+  /api/duel/create` → `/api/duel/join` → `/api/duel/ready` (both) → poll `/api/duel/state`
+  until `match.problem` appears → post `kind:"snapshot"` batches to `/api/duel/events` every
+  2s for each `sessionId` (`t` = ms since `match.startAtMs`). `POST /api/duel/finish
+  {sessionId, outcome:"timeout"}` for both ends the match. Watch it as a third user
+  (`duel-tester-c@example.com`) in the browser; the live view lags ~5s by design.
+
 ## Swapping the signed-in user without Google OAuth (per-user features)
 - Mint a Supabase session with the password grant and write it as the
   `sb-<project-ref>-auth-token` cookie via CDP `Network.setCookie` (base64- prefixed, URL-safe,

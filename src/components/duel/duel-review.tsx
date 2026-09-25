@@ -20,10 +20,16 @@ import { formatMsPrecise } from "@/lib/templates";
 import { TouristPlayer, type TouristLog, type TouristEvent } from "@/lib/tourist";
 import type { SessionReplayResponse } from "@/lib/session-log";
 import { cn } from "@/lib/utils";
-import { Ban, FileText, Pause, Play, RotateCcw, Trophy } from "lucide-react";
+import { Ban, FileText, Pause, Play, Radio, RotateCcw, Trophy } from "lucide-react";
 import { toast } from "sonner";
 
 const SPEEDS = [1, 2, 4, 8];
+
+/** How far behind wall-clock the live view runs, covering the players' event flush cadence. */
+const LIVE_LAG_MS = 5000;
+const LIVE_POLL_MS = 2500;
+/** After the match ends, keep polling this long for webcam uploads to land. */
+const POST_MATCH_POLL_MS = 3 * 60 * 1000;
 
 type ReviewPlayer = {
   userId: string;
@@ -48,6 +54,8 @@ type ReviewData = {
   invalidated: boolean;
   invalidReason: string | null;
   players: ReviewPlayer[];
+  /** Present on the live (spectator) endpoint. */
+  serverNow?: number;
 };
 
 /** One player's synced pane: webcam + replay editor + verdict badges. */
@@ -56,11 +64,13 @@ function ReviewPane({
   clockMs,
   playing,
   speed,
+  live,
 }: {
   player: ReviewPlayer;
   clockMs: number;
   playing: boolean;
   speed: number;
+  live: boolean;
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const replay = player.replay;
@@ -76,10 +86,17 @@ function ReviewPane({
         : null,
     [replay]
   );
-  const touristPlayer = useMemo(
-    () => (log ? new TouristPlayer(log.events) : null),
-    [log]
-  );
+  // A live log grows at the tail on every poll; extending the existing player
+  // keeps Monaco's document (and the viewer's scroll) instead of re-seeking.
+  const playerRef = useRef<TouristPlayer | null>(null);
+  const touristPlayer = useMemo(() => {
+    if (!log) return null;
+    const cur = playerRef.current;
+    if (cur?.extend(log.events)) return cur;
+    const next = new TouristPlayer(log.events);
+    playerRef.current = next;
+    return next;
+  }, [log]);
 
   const offsetMs = replay?.recordingOffsetMs ?? 0;
   useEffect(() => {
@@ -143,7 +160,7 @@ function ReviewPane({
           preload="auto"
           className="aspect-video w-full shrink-0 border-b border-border/60 bg-black object-cover"
         />
-      ) : (
+      ) : live ? null : (
         <div className="flex aspect-video w-full shrink-0 items-center justify-center border-b border-border/60 bg-black/50">
           <p className="font-mono text-xs text-muted-foreground">
             No webcam recording
@@ -232,12 +249,14 @@ function ReviewPanels({
   playing,
   speed,
   showStatement,
+  live,
 }: {
   players: ReviewPlayer[];
   clockMs: number;
   playing: boolean;
   speed: number;
   showStatement: boolean;
+  live: boolean;
 }) {
   const layout = useResizableLayout("cfr-duel-review-h");
   return (
@@ -263,6 +282,7 @@ function ReviewPanels({
             clockMs={clockMs}
             playing={playing}
             speed={speed}
+            live={live}
           />
         ))}
       </ResizablePanel>
@@ -273,37 +293,85 @@ function ReviewPanels({
 /**
  * Side-by-side duel review: both players' editor replays and webcams driven
  * by ONE shared clock/scrubber with play/pause, speeds, and jump-to-event.
+ *
+ * With `live`, the same screen spectates a match in progress: the data is
+ * polled, the clock follows wall time (a few seconds behind, so events have
+ * landed), scrubbing back works like a DVR, and the match rolls into the
+ * ordinary review once it ends.
  */
 export function DuelReview({
   matchId,
   apiUrl,
   readOnly = false,
+  live = false,
+  onExit,
 }: {
   matchId?: string;
   /** Override the review data endpoint (e.g. public share tokens). */
   apiUrl?: string;
   /** Public share view: no invalidate/share controls. */
   readOnly?: boolean;
+  /** Spectate a match in progress (apiUrl must return `serverNow`). */
+  live?: boolean;
+  /** Embedded in another screen: render a back control that calls this. */
+  onExit?: () => void;
 }) {
   const [data, setData] = useState<ReviewData | null | undefined>(undefined);
   const [clockMs, setClockMs] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [speed, setSpeed] = useState(1);
+  const [following, setFollowing] = useState(live);
   const [invalidating, setInvalidating] = useState(false);
   const [showStatement, setShowStatement] = useState(true);
   const raf = useRef<number>();
   const last = useRef<number>(0);
+  const clockRef = useRef(0);
+  clockRef.current = clockMs;
+  const clockOffset = useRef(0);
+  const startAtRef = useRef<number | null>(null);
 
   const refresh = useCallback(() => {
     fetch(apiUrl ?? `/api/duel/review?matchId=${matchId}`, { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : null))
-      .then(setData)
-      .catch(() => setData(null));
-  }, [matchId, apiUrl]);
+      .then((d: ReviewData | null) => {
+        // A live match that hasn't produced data yet keeps loading (and polling).
+        if (d === null && live) return;
+        if (d?.serverNow != null) clockOffset.current = d.serverNow - Date.now();
+        if (d) startAtRef.current = new Date(d.match.startedAt).getTime();
+        setData(d);
+      })
+      .catch(() => {
+        if (!live) setData(null);
+      });
+  }, [matchId, apiUrl, live]);
 
   useEffect(() => {
     refresh();
   }, [refresh]);
+
+  const isLive = live && data != null && data.match.finishedAt === null;
+
+  // Live polling: fast while racing; slower after the finish until both
+  // webcam uploads have landed (or long enough that they won't).
+  useEffect(() => {
+    if (!live || data === null) return;
+    let every = LIVE_POLL_MS;
+    if (data?.match.finishedAt) {
+      const sinceFinish = Date.now() - new Date(data.match.finishedAt).getTime();
+      const allUploaded = data.players.every((p) => p.replay?.recordingUrl);
+      if (allUploaded || sinceFinish > POST_MATCH_POLL_MS) return;
+      every = 10_000;
+    }
+    const iv = setInterval(refresh, every);
+    return () => clearInterval(iv);
+  }, [live, data, refresh]);
+
+  /** Where "now" is on the replay clock for a live match. */
+  const liveEdge = useCallback(() => {
+    const startAt = startAtRef.current;
+    if (startAt === null) return 0;
+    return Math.max(0, Date.now() + clockOffset.current - startAt - LIVE_LAG_MS);
+  }, []);
 
   // Autoplay once the replay data is actually loaded (not against the
   // placeholder duration).
@@ -333,21 +401,28 @@ export function DuelReview({
     const tick = (now: number) => {
       const dt = (now - last.current) * speed;
       last.current = now;
-      setClockMs((c) => {
-        const next = c + dt;
-        if (next >= durationMs) {
-          setPlaying(false);
-          return durationMs;
+      if (isLive && following) {
+        setClockMs(liveEdge());
+      } else {
+        const cap = isLive ? liveEdge() : durationMs;
+        const next = clockRef.current + dt;
+        if (next >= cap) {
+          // Catching up to the live edge resumes following; a finished
+          // replay simply stops at the end.
+          if (isLive) setFollowing(true);
+          else setPlaying(false);
+          setClockMs(cap);
+        } else {
+          setClockMs(next);
         }
-        return next;
-      });
+      }
       raf.current = requestAnimationFrame(tick);
     };
     raf.current = requestAnimationFrame(tick);
     return () => {
       if (raf.current) cancelAnimationFrame(raf.current);
     };
-  }, [playing, speed, durationMs]);
+  }, [playing, speed, durationMs, isLive, following, liveEdge]);
 
   // Shared jump-to-event markers: submits/verdicts/ACs from both players.
   const markers = useMemo(() => {
@@ -431,14 +506,32 @@ export function DuelReview({
 
   const winner = data.players.find((p) => p.isWinner) ?? null;
   const hasStatement = data.players.some((p) => p.replay?.problem?.statement_html);
+  // Live: the scrubber ends at the (lagged) present, so the thumb is pinned
+  // right while following; events already stored past that point stay hidden
+  // until the clock reaches them.
+  const endMs = isLive ? Math.max(1000, liveEdge()) : durationMs;
+  const goLive = () => {
+    setFollowing(true);
+    setSpeed(1);
+    setPlaying(true);
+  };
 
   return (
     <main className="flex h-full min-h-0 flex-col bg-background">
       <header className="flex flex-wrap items-center gap-3 border-b border-border/60 px-5 py-3">
-        {!readOnly && (
-          <Link href="/duels" className="font-mono text-xs text-primary hover:underline">
-            ← duels
-          </Link>
+        {onExit ? (
+          <button
+            onClick={onExit}
+            className="font-mono text-xs text-primary hover:underline"
+          >
+            ← lobby
+          </button>
+        ) : (
+          !readOnly && (
+            <Link href="/duels" className="font-mono text-xs text-primary hover:underline">
+              ← duels
+            </Link>
+          )
         )}
         <span className="font-mono text-sm text-primary">
           {data.match.problemId}
@@ -457,6 +550,11 @@ export function DuelReview({
             {winner.name} won
             {winner.replay?.solveMs != null &&
               ` · ${formatMsPrecise(winner.replay.solveMs)}`}
+          </span>
+        ) : isLive ? (
+          <span className="flex items-center gap-1.5 rounded bg-red-500/15 px-2 py-0.5 font-mono text-xs text-red-400">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-400" />
+            live
           </span>
         ) : (
           <span className="rounded bg-muted px-2 py-0.5 font-mono text-xs text-muted-foreground">
@@ -507,6 +605,7 @@ export function DuelReview({
         playing={playing}
         speed={speed}
         showStatement={hasStatement && showStatement}
+        live={isLive}
       />
 
       <footer className="flex items-center gap-3 border-t border-border/60 px-5 py-3">
@@ -514,7 +613,8 @@ export function DuelReview({
           size="icon"
           variant="secondary"
           onClick={() => {
-            if (clockMs >= durationMs) setClockMs(0);
+            if (!isLive && clockMs >= durationMs) setClockMs(0);
+            if (playing) setFollowing(false);
             setPlaying((p) => !p);
           }}
         >
@@ -524,6 +624,7 @@ export function DuelReview({
           size="icon"
           variant="ghost"
           onClick={() => {
+            setFollowing(false);
             setClockMs(0);
             setPlaying(true);
           }}
@@ -536,36 +637,55 @@ export function DuelReview({
             className="w-full accent-primary"
             value={clockMs}
             min={0}
-            max={durationMs}
+            max={endMs}
             step={100}
-            onChange={(e) => setClockMs(Number(e.target.value))}
+            onChange={(e) => {
+              setFollowing(false);
+              setClockMs(Number(e.target.value));
+            }}
           />
-          {markers.map((m, i) => (
+          {markers.filter((m) => m.t <= endMs).map((m, i) => (
             <button
               key={i}
               title={`${m.label} · ${formatMsPrecise(m.t)}`}
-              onClick={() => setClockMs(m.t)}
+              onClick={() => {
+                setFollowing(false);
+                setClockMs(m.t);
+              }}
               className={cn(
                 "absolute top-0 h-1.5 w-1.5 -translate-x-1/2 rounded-full",
                 m.color
               )}
-              style={{ left: `${(m.t / durationMs) * 100}%` }}
+              style={{ left: `${(m.t / endMs) * 100}%` }}
             />
           ))}
         </div>
-        <div className="flex gap-1">
-          {SPEEDS.map((s) => (
-            <Button
-              key={s}
-              size="sm"
-              variant={speed === s ? "default" : "ghost"}
-              className="font-mono"
-              onClick={() => setSpeed(s)}
-            >
-              {s}×
-            </Button>
-          ))}
-        </div>
+        {isLive && following ? (
+          <span className="flex items-center gap-1.5 px-2 font-mono text-xs text-red-400">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-400" />
+            LIVE
+          </span>
+        ) : (
+          <div className="flex gap-1">
+            {SPEEDS.map((s) => (
+              <Button
+                key={s}
+                size="sm"
+                variant={speed === s ? "default" : "ghost"}
+                className="font-mono"
+                onClick={() => setSpeed(s)}
+              >
+                {s}×
+              </Button>
+            ))}
+            {isLive && (
+              <Button size="sm" variant="secondary" className="font-mono" onClick={goLive}>
+                <Radio className="mr-1.5 h-3.5 w-3.5" />
+                Go live
+              </Button>
+            )}
+          </div>
+        )}
       </footer>
     </main>
   );
