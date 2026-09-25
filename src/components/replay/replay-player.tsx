@@ -52,7 +52,7 @@ function feedbackT(item: ActivityItem): number {
   return item.verdictT ?? item.t;
 }
 
-type ScrollEvent = { t: number; frac: number };
+export type ScrollEvent = { t: number; frac: number };
 
 /**
  * Target scroll fraction at a given replay clock: the last scroll event at or
@@ -83,7 +83,7 @@ function scrollFracAt(events: ScrollEvent[], t: number): number {
  * toward it each animation frame (exponential smoothing) so playback,
  * scrubbing, and high speeds all glide instead of jump-cutting.
  */
-function ReplayStatement({
+export function ReplayStatement({
   problem,
   events,
   clockMs,

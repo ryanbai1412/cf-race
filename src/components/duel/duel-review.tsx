@@ -3,14 +3,24 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { ReplayEditor } from "@/components/replay/replay-editor";
-import { ReplayBadges } from "@/components/replay/replay-player";
+import {
+  ReplayBadges,
+  ReplayStatement,
+  type ScrollEvent,
+} from "@/components/replay/replay-player";
 import { ShareButton } from "@/components/shell/share-button";
 import { Button } from "@/components/ui/button";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+  useResizableLayout,
+} from "@/components/ui/resizable";
 import { formatMsPrecise } from "@/lib/templates";
 import { TouristPlayer, type TouristLog, type TouristEvent } from "@/lib/tourist";
 import type { SessionReplayResponse } from "@/lib/session-log";
 import { cn } from "@/lib/utils";
-import { Ban, Pause, Play, RotateCcw, Trophy } from "lucide-react";
+import { Ban, FileText, Pause, Play, RotateCcw, Trophy } from "lucide-react";
 import { toast } from "sonner";
 
 const SPEEDS = [1, 2, 4, 8];
@@ -160,6 +170,107 @@ function ReviewPane({
 }
 
 /**
+ * Problem statement beside the review, scroll-synced to one player's recorded
+ * view (switchable) until the viewer scrolls it themselves.
+ */
+function ReviewStatement({
+  players,
+  clockMs,
+}: {
+  players: ReviewPlayer[];
+  clockMs: number;
+}) {
+  const withProblem = players.filter((p) => p.replay?.problem);
+  const [followId, setFollowId] = useState(withProblem[0]?.userId ?? null);
+  const followed = withProblem.find((p) => p.userId === followId) ?? withProblem[0];
+  const scrollEvents = useMemo(
+    () =>
+      (followed?.replay?.events ?? []).filter(
+        (ev): ev is ScrollEvent & { type: "scroll" } => ev.type === "scroll"
+      ),
+    [followed]
+  );
+  const problem = followed?.replay?.problem;
+  if (!followed || !problem) return null;
+
+  return (
+    <div className="flex h-full min-h-0 flex-col">
+      {withProblem.length > 1 && (
+        <div className="flex items-center gap-1 border-b border-border/60 px-3 py-1.5">
+          <span className="mr-1 font-mono text-xs text-muted-foreground">
+            follow
+          </span>
+          {withProblem.map((p) => (
+            <Button
+              key={p.userId}
+              size="sm"
+              variant={p.userId === followed.userId ? "secondary" : "ghost"}
+              className="h-6 px-2 text-xs"
+              onClick={() => setFollowId(p.userId)}
+            >
+              {p.name}
+            </Button>
+          ))}
+        </div>
+      )}
+      <div className="min-h-0 flex-1">
+        <ReplayStatement
+          key={followed.userId}
+          problem={problem}
+          events={scrollEvents}
+          clockMs={clockMs}
+        />
+      </div>
+    </div>
+  );
+}
+
+/** Mounted only once review data has loaded: the persisted layout reads localStorage. */
+function ReviewPanels({
+  players,
+  clockMs,
+  playing,
+  speed,
+  showStatement,
+}: {
+  players: ReviewPlayer[];
+  clockMs: number;
+  playing: boolean;
+  speed: number;
+  showStatement: boolean;
+}) {
+  const layout = useResizableLayout("cfr-duel-review-h");
+  return (
+    <ResizablePanelGroup
+      orientation="horizontal"
+      className="min-h-0 flex-1"
+      defaultLayout={layout.defaultLayout}
+      onLayoutChanged={layout.onLayoutChanged}
+    >
+      {showStatement && (
+        <>
+          <ResizablePanel id="statement" defaultSize="28%" minSize="15%">
+            <ReviewStatement players={players} clockMs={clockMs} />
+          </ResizablePanel>
+          <ResizableHandle />
+        </>
+      )}
+      <ResizablePanel id="players" minSize="40%" className="flex min-h-0 min-w-0">
+        {players.map((p) => (
+          <ReviewPane
+            key={p.sessionId}
+            player={p}
+            clockMs={clockMs}
+            playing={playing}
+            speed={speed}
+          />
+        ))}
+      </ResizablePanel>
+    </ResizablePanelGroup>
+  );
+}
+
+/**
  * Side-by-side duel review: both players' editor replays and webcams driven
  * by ONE shared clock/scrubber with play/pause, speeds, and jump-to-event.
  */
@@ -179,6 +290,7 @@ export function DuelReview({
   const [playing, setPlaying] = useState(false);
   const [speed, setSpeed] = useState(1);
   const [invalidating, setInvalidating] = useState(false);
+  const [showStatement, setShowStatement] = useState(true);
   const raf = useRef<number>();
   const last = useRef<number>(0);
 
@@ -318,6 +430,7 @@ export function DuelReview({
   }
 
   const winner = data.players.find((p) => p.isWinner) ?? null;
+  const hasStatement = data.players.some((p) => p.replay?.problem?.statement_html);
 
   return (
     <main className="flex h-full min-h-0 flex-col bg-background">
@@ -351,6 +464,16 @@ export function DuelReview({
           </span>
         )}
         <span className="ml-auto flex items-center gap-2">
+          {hasStatement && (
+            <Button
+              size="sm"
+              variant={showStatement ? "secondary" : "ghost"}
+              onClick={() => setShowStatement((v) => !v)}
+            >
+              <FileText className="mr-1.5 h-3.5 w-3.5" />
+              Statement
+            </Button>
+          )}
           {!readOnly && matchId && <ShareButton matchId={matchId} />}
           {!readOnly && (
             <Button
@@ -378,17 +501,13 @@ export function DuelReview({
         </span>
       </header>
 
-      <div className="flex min-h-0 flex-1">
-        {data.players.map((p) => (
-          <ReviewPane
-            key={p.sessionId}
-            player={p}
-            clockMs={clockMs}
-            playing={playing}
-            speed={speed}
-          />
-        ))}
-      </div>
+      <ReviewPanels
+        players={data.players}
+        clockMs={clockMs}
+        playing={playing}
+        speed={speed}
+        showStatement={hasStatement && showStatement}
+      />
 
       <footer className="flex items-center gap-3 border-t border-border/60 px-5 py-3">
         <Button
