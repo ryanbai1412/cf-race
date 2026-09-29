@@ -59,12 +59,12 @@ const REJECTION_TTL_MS = 10 * 60_000;
 const MAX_REJECTIONS = 5_000;
 
 function manifestKey(
-  path: string,
+  subject: string,
   uploadId: string,
   manifest: { index: number; size: number }[]
 ): string {
   const total = manifest.reduce((n, c) => n + c.size, 0);
-  return `${path}|${uploadId}|${manifest.length}|${total}`;
+  return `${subject}|${uploadId}|${manifest.length}|${total}`;
 }
 
 function rememberRejection(key: string, missing: number[]) {
@@ -104,6 +104,44 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "bad chunk" }, { status: 400 });
   }
 
+  // Finalize is answered from memory when its manifest was recently rejected,
+  // before the session lookup: stale clients retry those unsatisfiable
+  // manifests from every open tab, and the point is to spare the database.
+  const subject = sessionId || `${eventId}/${raceId}/${station}`;
+  let parsed: { index: number; size: number }[] | null = null;
+  if (step === "finalize") {
+    try {
+      const body = (await req.json()) as { chunks?: { index: number; size: number }[] };
+      parsed = body.chunks ?? [];
+    } catch {
+      return NextResponse.json({ error: "bad request" }, { status: 400 });
+    }
+    if (
+      parsed.length === 0 ||
+      parsed.some(
+        (c, i) => c.index !== i || !Number.isFinite(c.size) || c.size <= 0
+      )
+    ) {
+      return NextResponse.json({ error: "bad manifest" }, { status: 400 });
+    }
+    const rejected = recentRejection(manifestKey(subject, uploadId, parsed));
+    if (rejected) {
+      return NextResponse.json(
+        { error: "chunks incomplete", missing: rejected },
+        { status: 409 }
+      );
+    }
+  }
+
+  // Chunked uploads sign one URL per chunk, so the ceiling has to be roomy;
+  // a recording is finalized once, so that step's is not.
+  const limited = rateLimit(req, {
+    name: `recordings-${step}`,
+    limit: step === "finalize" ? 20 : 600,
+    subject,
+  });
+  if (limited) return limited;
+
   // Both flows end up writing to the participant's universal session; the
   // event-race branch just resolves the session through the race + station.
   let targetSessionId: string;
@@ -125,15 +163,6 @@ export async function POST(req: NextRequest) {
   } else {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
   }
-
-  // Chunked uploads sign one URL per chunk, so the ceiling has to be roomy;
-  // a recording is finalized once, so that step's is not.
-  const limited = rateLimit(req, {
-    name: `recordings-${step}`,
-    limit: step === "finalize" ? 20 : 600,
-    subject: targetSessionId,
-  });
-  if (limited) return limited;
 
   if (step === "sign") {
     const target =
@@ -177,32 +206,8 @@ export async function POST(req: NextRequest) {
   }
 
   if (step === "finalize") {
-    let manifest: { index: number; size: number }[];
-    try {
-      const body = (await req.json()) as { chunks?: { index: number; size: number }[] };
-      manifest = body.chunks ?? [];
-    } catch {
-      return NextResponse.json({ error: "bad request" }, { status: 400 });
-    }
-    if (
-      manifest.length === 0 ||
-      manifest.some(
-        (c, i) =>
-          c.index !== i || !Number.isFinite(c.size) || c.size <= 0
-      )
-    ) {
-      return NextResponse.json({ error: "bad manifest" }, { status: 400 });
-    }
-
-    const key = manifestKey(path, uploadId, manifest);
-    const rejected = recentRejection(key);
-    if (rejected) {
-      return NextResponse.json(
-        { error: "chunks incomplete", missing: rejected },
-        { status: 409 }
-      );
-    }
-
+    const manifest = parsed!;
+    const key = manifestKey(subject, uploadId, manifest);
     // Every chunk must be present with exactly the byte size the browser
     // recorded, or the concatenation would produce a corrupt video.
     const startedAt = Date.now();
