@@ -255,55 +255,32 @@ export async function invalidationFor(
 }
 
 /**
- * Server-side random pick: a uniformly random problem that (a) neither player
- * has solved, (b) is not invalidated, (c) was not used in a previous match
- * between this pair.
+ * Server-side random pick: a uniformly random problem that neither player
+ * has ever raced — in a duel, solo run or event, solved or not — and that
+ * neither has invalidated. A problem seen once is spoiled for good, even if
+ * the player ran out of time on it.
  */
 export async function pickDuelProblem(
   userA: string,
   userB: string
 ): Promise<string | null> {
-  const [{ data: problems }, invalidated, { data: solved }, { data: aMatches }] =
-    await Promise.all([
-      db()
-        .from("problems")
-        .select("id, tags")
-        .neq("id", "warmup-sum"),
-      invalidatedProblemIds([userA, userB]),
-      db()
-        .from("sessions")
-        .select("problem_id, user_id")
-        .in("user_id", [userA, userB])
-        .eq("outcome", "solved"),
-      db().from("duel_players").select("match_id").eq("user_id", userA),
-    ]);
+  const [{ data: problems }, invalidated, { data: seen }] = await Promise.all([
+    db()
+      .from("problems")
+      .select("id, tags")
+      .neq("id", "warmup-sum"),
+    invalidatedProblemIds([userA, userB]),
+    db()
+      .from("sessions")
+      .select("problem_id")
+      .in("user_id", [userA, userB]),
+  ]);
 
-  // Matches involving both players (any room).
-  const aMatchIds = (aMatches ?? []).map((m) => m.match_id);
-  let usedByPair = new Set<string>();
-  if (aMatchIds.length > 0) {
-    const { data: shared } = await db()
-      .from("duel_players")
-      .select("match_id")
-      .eq("user_id", userB)
-      .in("match_id", aMatchIds);
-    const sharedIds = (shared ?? []).map((m) => m.match_id);
-    if (sharedIds.length > 0) {
-      const { data: used } = await db()
-        .from("duel_matches")
-        .select("problem_id")
-        .in("id", sharedIds);
-      usedByPair = new Set((used ?? []).map((m) => m.problem_id as string));
-    }
-  }
-
-  const solvedIds = new Set((solved ?? []).map((s) => s.problem_id as string));
+  const seenIds = new Set((seen ?? []).map((s) => s.problem_id as string));
   const pool = (problems ?? [])
     .filter((p) => !((p.tags as string[] | null) ?? []).includes("hidden"))
     .map((p) => p.id as string)
-    .filter(
-      (id) => !solvedIds.has(id) && !invalidated.has(id) && !usedByPair.has(id)
-    );
+    .filter((id) => !seenIds.has(id) && !invalidated.has(id));
   if (pool.length === 0) return null;
   return pool[Math.floor(Math.random() * pool.length)];
 }

@@ -41,9 +41,9 @@ screen is a side-by-side review of both players.
   outcome='solved'. Replays are always per-session, so solo and duel replays
   share one player and one URL scheme.
 - **Random pick**: when a match starts, the server picks a uniformly random
-  problem from the bank that (a) neither player has solved, (b) is not
-  invalidated, (c) has not been used in a previous match between these two
-  players.
+  problem from the bank that (a) neither player has ever raced — any
+  session of theirs (duel, solo or event), whatever its outcome — and (b)
+  neither has invalidated.
 - **Invalidate button**: on a problem's detail view (and on the match review
   screen), "Mark invalid" sets `problems.invalidated_at` + `reason`
   (free-text, e.g. "Genna got distracted"). Invalidated problems are excluded
