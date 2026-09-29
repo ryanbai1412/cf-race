@@ -47,6 +47,41 @@ function chunkPath(path: string, uploadId: string, index: number): string {
   return `${chunkDir(path, uploadId)}/${String(index).padStart(6, "0")}.webm`;
 }
 
+/**
+ * Finalize rejections, remembered per manifest. A client whose manifest can
+ * no longer be satisfied (its chunks were superseded by a later recording
+ * attempt) keeps retrying from every open tab; answering those from memory
+ * spares storage the listings — each one is a `storage.search` on the
+ * database — that were the bulk of its load.
+ */
+const rejectedManifests = new Map<string, { missing: number[]; until: number }>();
+const REJECTION_TTL_MS = 10 * 60_000;
+const MAX_REJECTIONS = 5_000;
+
+function manifestKey(
+  path: string,
+  uploadId: string,
+  manifest: { index: number; size: number }[]
+): string {
+  const total = manifest.reduce((n, c) => n + c.size, 0);
+  return `${path}|${uploadId}|${manifest.length}|${total}`;
+}
+
+function rememberRejection(key: string, missing: number[]) {
+  if (rejectedManifests.size >= MAX_REJECTIONS) rejectedManifests.clear();
+  rejectedManifests.set(key, { missing, until: Date.now() + REJECTION_TTL_MS });
+}
+
+function recentRejection(key: string): number[] | null {
+  const hit = rejectedManifests.get(key);
+  if (!hit) return null;
+  if (hit.until <= Date.now()) {
+    rejectedManifests.delete(key);
+    return null;
+  }
+  return hit.missing;
+}
+
 export async function POST(req: NextRequest) {
   const q = req.nextUrl.searchParams;
   const step = (q.get("step") ?? "") as Step;
@@ -91,10 +126,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
   }
 
-  // Chunked uploads sign one URL per chunk, so the ceiling has to be roomy.
+  // Chunked uploads sign one URL per chunk, so the ceiling has to be roomy;
+  // a recording is finalized once, so that step's is not.
   const limited = rateLimit(req, {
     name: `recordings-${step}`,
-    limit: 600,
+    limit: step === "finalize" ? 20 : 600,
     subject: targetSessionId,
   });
   if (limited) return limited;
@@ -158,6 +194,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "bad manifest" }, { status: 400 });
     }
 
+    const key = manifestKey(path, uploadId, manifest);
+    const rejected = recentRejection(key);
+    if (rejected) {
+      return NextResponse.json(
+        { error: "chunks incomplete", missing: rejected },
+        { status: 409 }
+      );
+    }
+
     // Every chunk must be present with exactly the byte size the browser
     // recorded, or the concatenation would produce a corrupt video.
     const startedAt = Date.now();
@@ -171,13 +216,15 @@ export async function POST(req: NextRequest) {
       if ((await storedSize(path)) === total) {
         return NextResponse.json({ ok: true, path });
       }
+      const missingIdx = missing.map((c) => c.index);
+      rememberRejection(key, missingIdx);
       console.warn(
-        `[recordings] finalize ${path}: missing chunks ${missing
-          .map((c) => c.index)
-          .join(",")} of ${manifest.length}`
+        `[recordings] finalize ${path}: missing chunks ${missingIdx.join(",")} of ${
+          manifest.length
+        }`
       );
       return NextResponse.json(
-        { error: "chunks incomplete", missing: missing.map((c) => c.index) },
+        { error: "chunks incomplete", missing: missingIdx },
         { status: 409 }
       );
     }

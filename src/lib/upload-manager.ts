@@ -54,6 +54,11 @@ type UploadRecord = {
   /** True once the recorder stopped and the manifest is complete. */
   closed: boolean;
   createdAt: number;
+  /** Consecutive failed attempts to finish this upload (drives the backoff). */
+  failures?: number;
+  lastAttemptAt?: number;
+  /** Finalize attempts the server rejected as never able to succeed. */
+  unrecoverable?: number;
 };
 
 type ChunkRecord = {
@@ -85,6 +90,27 @@ const UPLOAD_CONCURRENCY = 5;
 
 /** Ceiling for progress while the recording is still producing chunks. */
 const LIVE_SHARE = 0.5;
+
+/**
+ * Background retries back off per recording: 30s, 1m, 2m, … up to this. The
+ * Retry button ignores the backoff.
+ */
+const MAX_RETRY_BACKOFF_MS = 30 * 60_000;
+const BASE_RETRY_BACKOFF_MS = 30_000;
+
+/**
+ * A recording that still hasn't uploaded after this long is abandoned. Its
+ * session has long since ended; the chunks would only be recovered by a page
+ * load that happens to come this late.
+ */
+const MAX_PENDING_AGE_MS = 7 * 24 * 60 * 60_000;
+
+/**
+ * How many times the server may reject a manifest as unsatisfiable before the
+ * recording is given up. One rejection could still be storage listing lag right
+ * after the chunks landed; a second, on a later pass, cannot.
+ */
+const MAX_UNRECOVERABLE = 2;
 
 /** Stable key for a recording, so a UI can find its own upload. */
 export function recordingKey(query: RecordingQuery): string {
@@ -380,15 +406,8 @@ export async function createStreamingUpload(
       }
       setStatus(record.id, { state: "stitching", progress: UPLOAD_SHARE });
       onProgress?.(UPLOAD_SHARE);
-      const ok = await finalizeRecording(record.query, record.chunks);
-      if (ok) {
-        await dropUpload(record.id);
-        setStatus(record.id, { progress: 1 });
-        setStatus(record.id, null);
-        onProgress?.(1);
-      } else {
-        setStatus(record.id, { state: "failed" });
-      }
+      const ok = await finalize(record);
+      if (ok) onProgress?.(1);
       return ok;
     } finally {
       liveUploads.delete(record.id);
@@ -447,7 +466,7 @@ async function resumeUpload(record: UploadRecord): Promise<boolean> {
     setStatus(record.id, { progress: (uploaded / total) * UPLOAD_SHARE });
     for (const c of stored) {
       if (!(await uploadChunk(record.query, c.index, c.blob))) {
-        setStatus(record.id, { state: "failed" });
+        await noteFailure(record);
         return false;
       }
       uploaded += c.blob.size;
@@ -455,20 +474,63 @@ async function resumeUpload(record: UploadRecord): Promise<boolean> {
       await idbDelete(CHUNKS, c.id);
     }
     setStatus(record.id, { state: "stitching", progress: UPLOAD_SHARE });
-    const ok = await finalizeRecording(record.query, record.chunks);
-    if (ok) {
-      await dropUpload(record.id);
-      setStatus(record.id, null);
-    } else {
-      setStatus(record.id, { state: "failed" });
-    }
-    return ok;
+    return await finalize(record);
   } catch {
-    setStatus(record.id, { state: "failed" });
+    await noteFailure(record);
     return false;
   } finally {
     active.delete(record.id);
   }
+}
+
+/**
+ * Finalize against the stored manifest; on success the local record goes
+ * away, on failure the record remembers the attempt so the background loop
+ * backs off — and drops the recording once the server has said, repeatedly,
+ * that these chunks can never be stitched.
+ */
+async function finalize(record: UploadRecord): Promise<boolean> {
+  const result = await finalizeRecording(record.query, record.chunks);
+  if (result.ok) {
+    await dropUpload(record.id);
+    setStatus(record.id, { progress: 1 });
+    setStatus(record.id, null);
+    return true;
+  }
+  if (result.unrecoverable) {
+    record.unrecoverable = (record.unrecoverable ?? 0) + 1;
+    if (record.unrecoverable >= MAX_UNRECOVERABLE) {
+      await abandon(record);
+      return false;
+    }
+  }
+  await noteFailure(record);
+  return false;
+}
+
+async function noteFailure(record: UploadRecord): Promise<void> {
+  record.failures = (record.failures ?? 0) + 1;
+  record.lastAttemptAt = Date.now();
+  try {
+    await idbPut(UPLOADS, record);
+  } catch {}
+  setStatus(record.id, { state: "failed" });
+}
+
+/** Forget a recording that will never upload, so nothing keeps retrying it. */
+async function abandon(record: UploadRecord): Promise<void> {
+  await dropUpload(record.id);
+  setStatus(record.id, null);
+}
+
+function retryDue(record: UploadRecord, now: number): boolean {
+  const failures = record.failures ?? 0;
+  if (failures === 0 || !record.lastAttemptAt) return true;
+  const backoff = Math.min(
+    BASE_RETRY_BACKOFF_MS * 2 ** (failures - 1),
+    MAX_RETRY_BACKOFF_MS
+  );
+  return now - record.lastAttemptAt >= backoff;
 }
 
 // ── Single-blob uploads (fallback + legacy queue) ───────────────────────────
@@ -560,8 +622,14 @@ export async function retryPendingRecordings(): Promise<void> {
     for (const entry of (await idbAll<PendingRecording>(STORE)) ?? []) {
       if (!active.has(entry.id)) void uploadEntry(entry);
     }
+    const now = Date.now();
     for (const record of (await idbAll<UploadRecord>(UPLOADS)) ?? []) {
       if (liveUploads.has(record.id) || active.has(record.id)) continue;
+      if (now - record.createdAt > MAX_PENDING_AGE_MS) {
+        void abandon(record);
+        continue;
+      }
+      if (!retryDue(record, now)) continue;
       void resumeUpload(record);
     }
   } catch {}

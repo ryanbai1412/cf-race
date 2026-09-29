@@ -94,6 +94,17 @@ export async function uploadChunk(
   }
 }
 
+export type FinalizeResult =
+  | { ok: true }
+  | {
+      ok: false;
+      /**
+       * The server rejected the manifest itself (chunks gone from storage, or
+       * malformed): no retry with the same chunks can ever succeed.
+       */
+      unrecoverable: boolean;
+    };
+
 /**
  * Ask the server to stitch the uploaded chunks into the final recording
  * object and record it in the DB. Only a matching manifest is accepted.
@@ -101,16 +112,17 @@ export async function uploadChunk(
 export async function finalizeRecording(
   query: RecordingQuery,
   chunks: ChunkManifestEntry[]
-): Promise<boolean> {
+): Promise<FinalizeResult> {
   try {
     const res = await fetch(`/api/recordings?${qs(query, { step: "finalize" })}`, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ chunks }),
     });
-    return res.ok;
+    if (res.ok) return { ok: true };
+    return { ok: false, unrecoverable: res.status === 400 || res.status === 409 };
   } catch {
-    return false;
+    return { ok: false, unrecoverable: false };
   }
 }
 
