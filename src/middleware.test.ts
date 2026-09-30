@@ -86,7 +86,10 @@ describe("auth middleware", () => {
       expect(response.headers.get("x-middleware-next")).toBe("1");
     }
     expect(fetch).toHaveBeenCalledTimes(1);
-    expect(String(fetch.mock.calls[0][0])).toContain("/.well-known/jwks.json");
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining("/.well-known/jwks.json"),
+      expect.objectContaining({ signal: expect.any(AbortSignal) })
+    );
     expect(vi.getTimerCount()).toBe(0);
   });
 
