@@ -306,13 +306,10 @@ export async function POST(req: NextRequest) {
 
 /** Byte size of a stored object, or null when it doesn't exist. */
 async function storedSize(path: string): Promise<number | null> {
-  const slash = path.lastIndexOf("/");
-  const dir = slash === -1 ? "" : path.slice(0, slash);
-  const name = path.slice(slash + 1);
   const { data } = await db()
     .storage.from("recordings")
-    .list(dir, { limit: 1, search: name });
-  const size = (data?.[0]?.metadata as { size?: number } | null)?.size;
+    .info(path);
+  const size = data?.size;
   return typeof size === "number" ? size : null;
 }
 

@@ -24,56 +24,46 @@ function creds(): { url: string; key: string } | null {
   return url && key ? { url, key } : null;
 }
 
-async function list(
-  url: string,
-  key: string,
-  prefix: string
-): Promise<
-  {
-    name: string;
-    id: string | null;
-    updated_at?: string;
-    metadata?: { eTag?: string; size?: number };
-  }[]
-> {
-  const res = await fetch(`${url}/storage/v1/object/list/${BUCKET}`, {
-    method: "POST",
-    headers: {
-      apikey: key,
-      authorization: `Bearer ${key}`,
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({ prefix, limit: 10000, offset: 0 }),
-    signal: AbortSignal.timeout(LIST_TIMEOUT_MS),
-  });
-  if (!res.ok) {
-    throw new Error(`list ${prefix} failed: ${res.status} ${await res.text()}`);
-  }
-  return (await res.json()) as {
-    name: string;
-    id: string | null;
-    updated_at?: string;
-    metadata?: { eTag?: string; size?: number };
-  }[];
-}
-
-async function walk(
-  url: string,
-  key: string,
-  prefix: string,
-  out: RemoteObject[]
-): Promise<void> {
-  const entries = await list(url, key, prefix);
-  for (const e of entries) {
-    const full = prefix ? `${prefix}/${e.name}` : e.name;
-    // Folders come back with id === null in Supabase Storage listings.
-    if (e.id === null) await walk(url, key, full, out);
-    else
-      out.push({
-        path: full,
-        version: e.metadata?.eTag ?? e.updated_at ?? "",
-        size: e.metadata?.size ?? null,
+async function listObjects(url: string, key: string): Promise<RemoteObject[]> {
+  const objects: RemoteObject[] = [];
+  const cursors = new Set<string>();
+  let cursor: string | undefined;
+  for (;;) {
+    const res = await fetch(`${url}/storage/v1/object/list-v2/${BUCKET}`, {
+      method: "POST",
+      headers: {
+        apikey: key,
+        authorization: `Bearer ${key}`,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ prefix: "", limit: 1000, with_delimiter: false, cursor }),
+      signal: AbortSignal.timeout(LIST_TIMEOUT_MS),
+    });
+    if (!res.ok) {
+      throw new Error(`list ${BUCKET} failed: ${res.status} ${await res.text()}`);
+    }
+    const page = (await res.json()) as {
+      objects: {
+        name: string;
+        updated_at?: string;
+        metadata?: { eTag?: string; size?: number } | null;
+      }[];
+      hasNext: boolean;
+      nextCursor?: string;
+    };
+    for (const object of page.objects) {
+      objects.push({
+        path: object.name,
+        version: object.metadata?.eTag ?? object.updated_at ?? "",
+        size: object.metadata?.size ?? null,
       });
+    }
+    if (!page.hasNext) return objects;
+    if (!page.nextCursor || cursors.has(page.nextCursor)) {
+      throw new Error("Storage listing did not advance its cursor");
+    }
+    cursor = page.nextCursor;
+    cursors.add(cursor);
   }
 }
 
@@ -117,8 +107,7 @@ export async function syncProblems(): Promise<number> {
   const c = creds();
   if (!c) return 0;
 
-  const remote: RemoteObject[] = [];
-  await walk(c.url, c.key, "", remote);
+  const remote = await listObjects(c.url, c.key);
   for (const o of remote) {
     if (!safeObjectPath(o.path)) throw new Error(`unsafe object path: ${o.path}`);
   }
