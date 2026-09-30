@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
+
 const AUTH_TIMEOUT_MS = 5000;
 
 /** Refresh Supabase auth sessions on solo/duel/auth routes (@supabase/ssr). */
@@ -53,13 +54,15 @@ export async function middleware(request: NextRequest) {
   } catch (error) {
     if (!controller.signal.aborted) throw error;
     console.warn(timeoutError.message);
-    return NextResponse.json(
+    const unavailable = NextResponse.json(
       { error: "Authentication is temporarily unavailable. Please retry." },
       {
         status: 503,
         headers: { "Cache-Control": "no-store", "Retry-After": "5" },
       }
     );
+    response.cookies.getAll().forEach((cookie) => unavailable.cookies.set(cookie));
+    return unavailable;
   } finally {
     clearTimeout(timer!);
   }

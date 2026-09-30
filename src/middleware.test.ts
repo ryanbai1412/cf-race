@@ -1,4 +1,5 @@
 import { webcrypto } from "node:crypto";
+import { AuthClient } from "@supabase/supabase-js";
 import { NextRequest } from "next/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { middleware } from "./middleware";
@@ -64,13 +65,13 @@ afterEach(() => {
 });
 
 describe("auth middleware", () => {
-  it.each(["", "theme=dark", "sb-other-auth-token=invalid", "sb-test-1-auth-token-code-verifier=pkce"])(
+  it.each(["", "theme=dark", "sb-other-auth-token=invalid", "pkce"])(
     "does not contact Supabase without a session (%s)",
     async (cookie) => {
       const fetch = vi.fn(() => new Promise<Response>(() => {}));
       vi.stubGlobal("fetch", fetch);
       const response = await middleware(new NextRequest("https://example.com/", {
-        headers: { cookie },
+        headers: { cookie: cookie === "pkce" ? `${cookieName}-code-verifier=pkce` : cookie },
       }));
       expect(response.headers.get("x-middleware-next")).toBe("1");
       expect(fetch).not.toHaveBeenCalled();
@@ -79,6 +80,7 @@ describe("auth middleware", () => {
   );
 
   it("verifies signed JWTs and reuses the SDK's JWKS cache across requests", async () => {
+    const getClaims = vi.spyOn(AuthClient.prototype, "getClaims");
     const fetch = vi.fn(async () => Response.json({ keys: [signingKey] }));
     vi.stubGlobal("fetch", fetch);
     for (let i = 0; i < 2; i++) {
@@ -91,6 +93,25 @@ describe("auth middleware", () => {
       expect.objectContaining({ signal: expect.any(AbortSignal) })
     );
     expect(vi.getTimerCount()).toBe(0);
+    for (const result of getClaims.mock.results) {
+      const { data, error } = await result.value;
+      expect(error).toBeNull();
+      expect(data?.claims.sub).toBe(user.id);
+    }
+  });
+
+  it("does not treat invalid signatures as verified claims", async () => {
+    const getClaims = vi.spyOn(AuthClient.prototype, "getClaims");
+    vi.stubGlobal("fetch", vi.fn(async () => Response.json({ keys: [signingKey] })));
+    const parts = accessToken.split(".");
+    const signature = Buffer.from(parts[2], "base64url");
+    signature[0] ^= 1;
+    parts[2] = signature.toString("base64url");
+    accessToken = parts.join(".");
+    await middleware(request());
+    const { data, error } = await getClaims.mock.results[0].value;
+    expect(data).toBeNull();
+    expect(error?.message).toContain("Invalid JWT signature");
   });
 
   it("forwards refreshed session cookies and anti-cache headers", async () => {
@@ -143,6 +164,31 @@ describe("auth middleware", () => {
     const pending = middleware(request());
     await vi.advanceTimersByTimeAsync(5000);
     expect((await pending).status).toBe(503);
+  });
+
+  it("preserves a completed refresh if subsequent JWKS verification times out", async () => {
+    vi.stubGlobal("fetch", vi.fn(async (input: RequestInfo | URL) => {
+      if (String(input).includes("/token?")) {
+        return Response.json({
+          access_token: accessToken,
+          refresh_token: "completed-test-refresh-token",
+          token_type: "bearer",
+          expires_in: 3600,
+          user,
+        });
+      }
+      return new Promise<Response>(() => {});
+    }));
+    const incoming = request(Math.floor(Date.now() / 1000) - 1);
+    const originalCookie = incoming.cookies.get(cookieName)?.value;
+    const pending = middleware(incoming);
+    await vi.advanceTimersByTimeAsync(5000);
+    const response = await pending;
+    expect(response.status).toBe(503);
+    expect(response.headers.get("x-middleware-next")).toBeNull();
+    expect(response.cookies.get(cookieName)?.value).not.toBe(originalCookie);
+    expect(response.cookies.get(cookieName)?.value).toBe(incoming.cookies.get(cookieName)?.value);
+    expect(response.headers.get("cache-control")).toBe("no-store");
   });
 
   it("bounds refresh retries without clearing the existing session", async () => {
