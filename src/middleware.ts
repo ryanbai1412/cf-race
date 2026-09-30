@@ -1,43 +1,26 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
-import type { JWK } from "@supabase/supabase-js";
-
-const JWKS_TTL_MS = 10 * 60 * 1000;
-type Jwks = { keys: JWK[] };
-let jwks: Jwks | null = null;
-let jwksFetchedAt = 0;
-
-/**
- * The project's JWT signing keys, cached at module scope so verification in
- * getClaims() stays local across invocations (a fresh client per request
- * would otherwise refetch them every time).
- */
-async function signingKeys(): Promise<Jwks | undefined> {
-  if (jwks && Date.now() - jwksFetchedAt < JWKS_TTL_MS) return jwks;
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/.well-known/jwks.json`
-    );
-    if (!res.ok) return jwks ?? undefined;
-    jwks = (await res.json()) as Jwks;
-    jwksFetchedAt = Date.now();
-    return jwks;
-  } catch {
-    return jwks ?? undefined;
-  }
-}
+const AUTH_TIMEOUT_MS = 5000;
 
 /** Refresh Supabase auth sessions on solo/duel/auth routes (@supabase/ssr). */
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request });
+  const controller = new AbortController();
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
+      global: {
+        fetch: (input, init) => {
+          controller.signal.throwIfAborted();
+          return fetch(input, { ...init, signal: controller.signal });
+        },
+      },
       cookies: {
         getAll: () => request.cookies.getAll(),
-        setAll: (cookiesToSet) => {
+        setAll: (cookiesToSet, headers) => {
+          if (controller.signal.aborted) return;
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           );
@@ -45,15 +28,41 @@ export async function middleware(request: NextRequest) {
           cookiesToSet.forEach(({ name, value, options }) =>
             response.cookies.set(name, value, options)
           );
+          Object.entries(headers).forEach(([name, value]) =>
+            response.headers.set(name, value)
+          );
         },
       },
     }
   );
 
-  // Verifies the JWT locally (JWKS) and refreshes expired sessions; avoids
-  // a per-request round-trip to the auth server that getUser() would make.
-  await supabase.auth.getClaims(undefined, { jwks: await signingKeys() });
-  return response;
+  const timeoutError = new Error("Middleware auth timed out");
+  let timer: ReturnType<typeof setTimeout>;
+  const deadline = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => {
+      controller.abort();
+      reject(timeoutError);
+    }, AUTH_TIMEOUT_MS);
+  });
+
+  try {
+    // getClaims skips JWKS for guests and shares its key cache across clients.
+    // The overall deadline also bounds SDK refresh retries and response bodies.
+    await Promise.race([supabase.auth.getClaims(), deadline]);
+    return response;
+  } catch (error) {
+    if (!controller.signal.aborted) throw error;
+    console.warn(timeoutError.message);
+    return NextResponse.json(
+      { error: "Authentication is temporarily unavailable. Please retry." },
+      {
+        status: 503,
+        headers: { "Cache-Control": "no-store", "Retry-After": "5" },
+      }
+    );
+  } finally {
+    clearTimeout(timer!);
+  }
 }
 
 export const config = {
