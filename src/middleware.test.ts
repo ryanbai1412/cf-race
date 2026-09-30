@@ -161,4 +161,27 @@ describe("auth middleware", () => {
     expect(fetch).toHaveBeenCalledTimes(attempts);
     expect(incoming.cookies.get(cookieName)?.value).toBe(originalCookie);
   });
+
+  it("ignores a refresh that completes after the auth deadline", async () => {
+    let completeRefresh!: (response: Response) => void;
+    vi.stubGlobal("fetch", vi.fn(() => new Promise<Response>((resolve) => {
+      completeRefresh = resolve;
+    })));
+    const incoming = request(Math.floor(Date.now() / 1000) - 1);
+    const originalCookie = incoming.cookies.get(cookieName)?.value;
+    const pending = middleware(incoming);
+    await vi.advanceTimersByTimeAsync(5000);
+    const response = await pending;
+    expect(response.status).toBe(503);
+    completeRefresh(Response.json({
+      access_token: accessToken,
+      refresh_token: "late-test-refresh-token",
+      token_type: "bearer",
+      expires_in: 3600,
+      user,
+    }));
+    await vi.advanceTimersByTimeAsync(0);
+    expect(incoming.cookies.get(cookieName)?.value).toBe(originalCookie);
+    expect(response.cookies.getAll()).toEqual([]);
+  });
 });
