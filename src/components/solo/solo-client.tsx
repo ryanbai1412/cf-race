@@ -10,7 +10,7 @@ import { CountdownOverlay } from "@/components/station/countdown-overlay";
 import { RaceScreen } from "@/components/race/race-screen";
 import { Eyebrow } from "@/components/shell/page";
 import { Segmented } from "@/components/ui/segmented";
-import { formatMsPrecise } from "@/lib/templates";
+import { displayDeltaMs, formatMsPrecise } from "@/lib/templates";
 import { loadSoloHistory, upsertSoloHistory, bestSolve } from "@/lib/solo";
 import { preferredLang, setPreferredLang } from "@/lib/lang-preference";
 import {
@@ -373,7 +373,7 @@ export function SoloClient({
     const solved = result.outcome === "solved";
     const touristDelta =
       solved && result.solveMs !== null && problem.tourist_time_ms !== null
-        ? result.solveMs - problem.tourist_time_ms
+        ? displayDeltaMs(result.solveMs, problem.tourist_time_ms)
         : null;
     return (
       <main className="flex min-h-screen items-center justify-center px-6">

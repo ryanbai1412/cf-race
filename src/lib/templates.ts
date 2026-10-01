@@ -43,3 +43,12 @@ export function formatMsPrecise(ms: number): string {
   const d = Math.floor((total % 1000) / 100);
   return `${m}:${String(s).padStart(2, "0")}.${d}`;
 }
+
+/**
+ * Delta between two times computed on the tenth-of-a-second values that
+ * formatMsPrecise displays, so the shown time + delta always add up exactly.
+ */
+export function displayDeltaMs(aMs: number, bMs: number): number {
+  const tenth = (ms: number) => Math.floor(Math.max(0, ms) / 100) * 100;
+  return tenth(aMs) - tenth(bMs);
+}

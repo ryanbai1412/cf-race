@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import confetti from "canvas-confetti";
 import { Button } from "@/components/ui/button";
 import { LeaderboardTable } from "@/components/leaderboard-table";
-import { formatMsPrecise } from "@/lib/templates";
+import { displayDeltaMs, formatMsPrecise } from "@/lib/templates";
 import { flagEmoji } from "@/lib/countries";
 import type { Contestant, Problem } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -43,9 +43,13 @@ export function FinishScreen({
   }, [solved]);
 
   const rivalDelta =
-    solveMs !== null && rivalSolveMs !== null ? solveMs - rivalSolveMs : null;
+    solveMs !== null && rivalSolveMs !== null
+      ? displayDeltaMs(solveMs, rivalSolveMs)
+      : null;
   const touristDelta =
-    solveMs !== null && gennaSolveMs !== null ? solveMs - gennaSolveMs : null;
+    solveMs !== null && gennaSolveMs !== null
+      ? displayDeltaMs(solveMs, gennaSolveMs)
+      : null;
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-8 px-6 py-10">
