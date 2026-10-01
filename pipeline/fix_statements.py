@@ -31,24 +31,47 @@ PARA_RE = re.compile(r"<p>((?:[^<]|<(?!/p>))*)</p>")
 
 
 def _split_list(text: str) -> str | None:
-    """Turn a paragraph whose lines are markdown list items into <ul>/<ol>.
+    """Split a paragraph into leading prose plus <ul>/<ol> blocks.
 
-    Returns None when the paragraph is not a list.
+    Returns None when the paragraph holds no markdown list item.
     """
-    lines = text.split("\n")
-    items: list[tuple[str, str]] = []
-    for line in lines:
+    out: list[str] = []
+    prose: list[str] = []
+    items: list[str] = []
+    kind = "ul"
+    found = False
+
+    def flush_prose() -> None:
+        text = "\n".join(prose).strip()
+        prose.clear()
+        if text:
+            out.append(f"<p>{text}</p>")
+
+    def flush_items() -> None:
+        if items:
+            body = "".join(f"<li>{t}</li>\n" for t in items)
+            out.append(f"<{kind}>\n{body}</{kind}>")
+            items.clear()
+
+    for line in text.split("\n"):
         m = ITEM_RE.match(line)
-        if not m:
-            return None
-        items.append(("ul" if m.group(1) else "ol", m.group(3).rstrip()))
-    if len(items) < 2 and not items:
-        return None
-    kind = items[0][0]
-    if any(k != kind for k, _ in items):
-        return None
-    body = "".join(f"<li>{t}</li>\n" for _, t in items)
-    return f"<{kind}>\n{body}</{kind}>"
+        if m:
+            found = True
+            this_kind = "ul" if m.group(1) else "ol"
+            if items and this_kind != kind:
+                flush_items()
+            if not items:
+                flush_prose()
+                kind = this_kind
+            items.append(m.group(3).rstrip())
+        elif items and line.strip():
+            items[-1] += " " + line.strip()  # continuation of the previous item
+        else:
+            flush_items()
+            prose.append(line)
+    flush_items()
+    flush_prose()
+    return "".join(out) if found else None
 
 
 def fix_markdown_lists(html: str) -> str:
@@ -70,13 +93,51 @@ def fix_display_math(html: str) -> str:
     r"""Repair display math mangled into ``\(\)...\(\)\)``.
 
     A source ``$$...$$`` block had each ``$`` rewritten to ``\(...\)``, which
-    leaves the delimiters themselves inside the math and makes KaTeX bail.
+    leaves the delimiters themselves inside the math and makes KaTeX bail. The
+    block may or may not come out wrapped in an extra inline pair.
     """
+    html = re.sub(r"\\\(\\\(\s*\\\)", r"\\(\\)", html)
+    html = re.sub(r"\\\(\s*\\\)\\\)", r"\\(\\)", html)
     return re.sub(
-        r"\\\(\\\(\\\)([\s\S]*?)\\\(\\\)\\\)",
+        r"\\\(\s*\\\)([\s\S]+?)\\\(\s*\\\)",
         lambda m: "\\[" + m.group(1).strip() + "\\]",
         html,
     )
+
+
+MATH_SPAN = re.compile(r"\\\(([\s\S]*?)\\\)")
+
+
+def _unbalanced(tex: str) -> bool:
+    depth = 0
+    for i, ch in enumerate(tex):
+        if i and tex[i - 1] == "\\":
+            continue
+        if ch == "{":
+            depth += 1
+        elif ch == "}":
+            depth -= 1
+    return depth != 0
+
+
+def fix_nested_math_delims(html: str) -> str:
+    r"""Rejoin math split by a nested ``$...$`` inside a ``$$$...$$$`` span.
+
+    ``$$$\text{a $x$ b}$$$`` is imported as ``\(\text{a \)x\( b}\)``: a span
+    whose braces never close. Merge it with the following span, restoring the
+    text in between as inline math.
+    """
+    while True:
+        spans = list(MATH_SPAN.finditer(html))
+        for i, m in enumerate(spans):
+            if not _unbalanced(m.group(1)) or i + 1 >= len(spans):
+                continue
+            nxt = spans[i + 1]
+            merged = m.group(1) + "$" + html[m.end() : nxt.start()] + "$" + nxt.group(1)
+            html = html[: m.start()] + "\\(" + merged + "\\)" + html[nxt.end() :]
+            break
+        else:
+            return html
 
 
 # Entities that must be decoded inside math: KaTeX only decodes &lt; &gt; &amp;.
@@ -126,6 +187,7 @@ def fix_statement(html: str) -> str:
         return html
     out = fix_figure_urls(html)
     out = fix_display_math(out)
+    out = fix_nested_math_delims(out)
     out = fix_math_entities(out)
     out = fix_texttt_underscores(out)
     out = fix_markdown_lists(out)
