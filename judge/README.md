@@ -21,6 +21,8 @@ HTTP+WS code-execution judge for Code Voices Racing. Implements the contract in
 | `JUDGE_SANDBOX` | `isolate` | `isolate` requires the cgroup v1 memory controller; `isolate-nocg` and `none` are unsafe modes and require `ALLOW_UNSAFE_SANDBOX=1` |
 | `ALLOW_UNSAFE_SANDBOX` | — | Must be `1` to explicitly enable `isolate-nocg` or `none`; never use those modes for untrusted code |
 | `JUDGE_WORKERS` | CPU count | max concurrent sandbox runs |
+| `CACHE_MAX_BYTES` | 7 GiB | LRU cache eviction threshold; evicts down to 80% |
+| `CACHE_TMPFS_SIZE` | `8g` | cache tmpfs ceiling in the entrypoint; leave headroom above `CACHE_MAX_BYTES` for concurrent writes |
 | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | — | if set, problems synced from Storage bucket `problems` on boot |
 
 ## Local dev
@@ -64,7 +66,12 @@ docker run --privileged -p 8080:8080 -e JUDGE_TOKEN=dev cf-race-judge
 
 ## Deploy (Fly.io)
 
-App `cf-race-judge`, org `cf-racing-129`, region `ams`, `performance-4x`.
+App `cf-race-judge`, org `cf-racing-129`, region `ams`, `performance-4x`
+(4 performance vCPUs / 8 GB RAM). The Fly profile caps the shared compile/run
+pool at two workers and the compile cache at 512 MiB on a 1 GiB tmpfs. Each
+compiler can use up to 2 GiB, so four simultaneous compilers would leave no
+memory for the server, cache, or scratch space. Other deployment defaults
+remain unchanged.
 
 ```bash
 fly secrets set JUDGE_TOKEN=... SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... -a cf-race-judge

@@ -9,6 +9,9 @@ primary_region = "ams"
   PROBLEMS_DIR = "/data/problems"
   CACHE_DIR = "/data/cache"
   JUDGE_SANDBOX = "isolate"
+  JUDGE_WORKERS = "2"
+  CACHE_MAX_BYTES = "536870912"
+  CACHE_TMPFS_SIZE = "1g"
 
 [http_service]
   internal_port = 8080
@@ -28,4 +31,4 @@ primary_region = "ams"
 # balances by load rather than pinning a client, so a second machine would make
 # a submit re-pay the ~650ms cold compile whenever it landed on the other one.
 [[vm]]
-  size = "performance-16x"
+  size = "performance-4x"
