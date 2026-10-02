@@ -21,7 +21,7 @@ HTTP+WS code-execution judge for Code Voices Racing. Implements the contract in
 | `JUDGE_SANDBOX` | `isolate` | `isolate` requires the cgroup v1 memory controller; `isolate-nocg` and `none` are unsafe modes and require `ALLOW_UNSAFE_SANDBOX=1` |
 | `ALLOW_UNSAFE_SANDBOX` | — | Must be `1` to explicitly enable `isolate-nocg` or `none`; never use those modes for untrusted code |
 | `JUDGE_WORKERS` | CPU count | max concurrent sandbox runs |
-| `COMPILE_WORKERS` | `JUDGE_WORKERS` | max concurrent C++ compiles within the shared worker pool |
+| `COMPILE_MEMORY_MB` | 2048 | per-compiler sandbox memory limit in MiB |
 | `CACHE_MAX_BYTES` | 7 GiB | LRU cache eviction threshold; evicts down to 80% |
 | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | — | if set, problems synced from Storage bucket `problems` on boot |
 
@@ -68,12 +68,11 @@ docker run --privileged -p 8080:8080 -e JUDGE_TOKEN=dev cf-race-judge
 
 App `cf-race-judge`, org `cf-racing-129`, region `ams`, `performance-4x`
 (4 performance vCPUs / 8 GB RAM). The Fly profile has four shared compile/run
-workers, with at most two compiling simultaneously. Compiles waiting for that
-limit do not occupy shared worker slots. Each compiler is sandboxed with a
-2 GiB memory limit; four simultaneous compilers would leave no memory for the
-server or scratch space. The compile cache uses the root disk with a 512 MiB
-LRU threshold, not tmpfs. It is disposable across image deployments. Sandbox
-scratch space remains on tmpfs and other deployment defaults remain unchanged.
+workers, each compiler sandbox capped at 1536 MiB (6 GiB across four compiles).
+The compile cache uses the root disk with a 512 MiB LRU threshold, not tmpfs.
+It is disposable across image deployments. Sandbox scratch space remains on
+tmpfs and test-execution memory limits remain unchanged. Memory-heavy compiles
+that previously fit in 2 GiB may fail at this smaller compiler limit.
 
 ```bash
 fly secrets set JUDGE_TOKEN=... SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... -a cf-race-judge

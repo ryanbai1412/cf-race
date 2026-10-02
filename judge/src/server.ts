@@ -2,7 +2,7 @@ import http from "node:http";
 import crypto from "node:crypto";
 import { WebSocketServer, WebSocket } from "ws";
 import { config } from "./config.js";
-import { handleRun, handleSubmit, internalError, pool, compilePool } from "./judge.js";
+import { handleRun, handleSubmit, internalError, pool } from "./judge.js";
 import { ProblemNotFoundError } from "./problems.js";
 import { scheduleProblemSync } from "./sync.js";
 import { RunRequest, SubmitRequest } from "./types.js";
@@ -80,7 +80,7 @@ function json(res: http.ServerResponse, status: number, body: unknown) {
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url ?? "/", "http://localhost");
   if (req.method === "GET" && url.pathname === "/healthz") {
-    return json(res, 200, { ok: true, queue: pool.pending + compilePool.pending });
+    return json(res, 200, { ok: true, queue: pool.pending });
   }
 
   const auth = req.headers.authorization;

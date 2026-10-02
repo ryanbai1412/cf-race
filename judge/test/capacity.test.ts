@@ -21,18 +21,18 @@ afterEach(() => {
 async function capacity() {
   vi.stubEnv("JUDGE_TOKEN", "test");
   vi.stubEnv("JUDGE_WORKERS", "4");
-  vi.stubEnv("COMPILE_WORKERS", "2");
+  vi.stubEnv("COMPILE_MEMORY_MB", "1536");
   vi.stubEnv("CACHE_MAX_BYTES", "536870912");
   const { config } = await import("../src/config.js");
-  const { pool, compilePool, handleRun } = await import("../src/judge.js");
-  return { config, pool, compilePool, handleRun };
+  const { pool, handleRun } = await import("../src/judge.js");
+  return { config, pool, handleRun };
 }
 
 describe("8 GB capacity settings", () => {
   it("applies the worker and compile-cache overrides", async () => {
     const { config } = await capacity();
     expect(config.workers).toBe(4);
-    expect(config.compileWorkers).toBe(2);
+    expect(config.compileMemoryMb).toBe(1536);
     expect(config.cacheMaxBytes).toBe(512 * 1024 * 1024);
   });
 
@@ -80,10 +80,10 @@ describe("8 GB capacity settings", () => {
     expect(pool.pending).toBe(0);
   });
 
-  it("caps compilation at two without blocking the other execution slots", async () => {
-    const { pool, compilePool, handleRun } = await capacity();
+  it("allows four compiles and queues further requests", async () => {
+    const { pool, handleRun } = await capacity();
     const { compile } = await import("../src/compile.js");
-    const gates = Array.from({ length: 4 }, deferred);
+    const gates = Array.from({ length: 6 }, deferred);
     vi.mocked(compile).mockImplementation(async (_lang, _mode, source) => {
       await gates[Number(source)].promise;
       return { ok: false, stderr: "compile error" };
@@ -91,21 +91,16 @@ describe("8 GB capacity settings", () => {
     const jobs = gates.map((_, i) =>
       handleRun({ runId: `r${i}`, lang: "cpp", source: String(i), tests: [] })
     );
-    await vi.waitFor(() => expect(compile).toHaveBeenCalledTimes(2));
-    expect(compilePool.pending).toBe(2);
-    expect(pool.pending).toBe(0);
-
-    const execution = vi.fn(async () => {});
-    await Promise.all([pool.run(execution), pool.run(execution)]);
-    expect(execution).toHaveBeenCalledTimes(2);
+    await vi.waitFor(() => expect(compile).toHaveBeenCalledTimes(4));
+    expect(pool.pending).toBe(2);
     gates[0].resolve();
     await jobs[0];
-    await vi.waitFor(() => expect(compile).toHaveBeenCalledTimes(3));
+    await vi.waitFor(() => expect(compile).toHaveBeenCalledTimes(5));
     gates[1].resolve();
     await jobs[1];
-    await vi.waitFor(() => expect(compile).toHaveBeenCalledTimes(4));
+    await vi.waitFor(() => expect(compile).toHaveBeenCalledTimes(6));
     gates.slice(2).forEach((gate) => gate.resolve());
     await Promise.all(jobs);
-    expect(compilePool.pending + pool.pending).toBe(0);
+    expect(pool.pending).toBe(0);
   });
 });

@@ -125,7 +125,7 @@ export async function compile(
         dirs: fs.existsSync(PCH_ROOT) ? [PCH_ROOT] : undefined,
         timeLimitMs: 20000,
         wallTimeMs: 30000,
-        memoryLimitMb: 2048,
+        memoryLimitMb: config.compileMemoryMb,
         procs: 16,
         fsizeKb: 262144,
         env: { TMPDIR: "/tmp" },

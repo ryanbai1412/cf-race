@@ -15,7 +15,7 @@ export const config = {
     | "isolate-nocg"
     | "none",
   workers,
-  compileWorkers: Number(process.env.COMPILE_WORKERS ?? workers),
+  compileMemoryMb: Number(process.env.COMPILE_MEMORY_MB ?? 2048),
   cacheMaxBytes: Number(process.env.CACHE_MAX_BYTES ?? 7 * 1024 * 1024 * 1024),
   outputCapBytes: Number(process.env.OUTPUT_CAP_BYTES ?? 64 * 1024),
   // How much of a program's stdout is captured for checking (display is
