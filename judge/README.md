@@ -6,7 +6,7 @@ HTTP+WS code-execution judge for Code Voices Racing. Implements the contract in
 
 - Languages: `cpp` (g++ C++20; debug `-O1 -g -fsanitize=address,undefined`, submit `-O2`) and `py` (CPython 3).
 - Sandboxing: [ioi/isolate](https://github.com/ioi/isolate) v1.10.1 (cgroup v1 required for the default mode), no network, time/memory limits.
-- Compile cache keyed by sha256(lang, flags, source); concurrent identical compiles are deduplicated.
+- Compile cache keyed by sha256(lang, flags, source); concurrent identical compiles are deduplicated. Failed compilations are cached per compiler memory limit.
 - Worker pool sized to CPU count (`JUDGE_WORKERS` to override); sample tests run in parallel, submissions run sequentially with CF-style short-circuit.
 - CF-style checker: token compare, trailing whitespace ignored, case-insensitive YES/NO, optional `floatEps` (abs/rel).
 
@@ -70,6 +70,9 @@ App `cf-race-judge`, org `cf-racing-129`, region `ams`, `performance-4x`
 (4 performance vCPUs / 8 GB RAM). The Fly profile has four shared compile/run
 workers, each compiler sandbox capped at 1536 MiB (6 GiB across four compiles).
 The compile cache uses the root disk with a 512 MiB LRU threshold, not tmpfs.
+Both binaries and compiler diagnostics count toward eviction. Entries stay
+pinned through queued and running tests, including after a sibling test fails;
+the cache may temporarily exceed its threshold until those requests finish.
 It is disposable across image deployments. Sandbox scratch space remains on
 tmpfs and test-execution memory limits remain unchanged. Memory-heavy compiles
 that previously fit in 2 GiB may fail at this smaller compiler limit.

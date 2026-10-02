@@ -39,6 +39,27 @@ function pchArgs(mode: CompileMode): string[] {
 }
 
 const inflight = new Map<string, Promise<Compiled>>();
+const pins = new Map<string, number>();
+const evictions = new Map<string, Promise<void>>();
+
+export async function withPinnedCompile<T>(
+  lang: Lang,
+  mode: CompileMode,
+  source: string,
+  fn: () => Promise<T>
+): Promise<T> {
+  if (lang === "py") return fn();
+  const key = cacheKey(lang, mode, source);
+  pins.set(key, (pins.get(key) ?? 0) + 1);
+  try {
+    return await fn();
+  } finally {
+    const remaining = pins.get(key)! - 1;
+    if (remaining) pins.set(key, remaining);
+    else pins.delete(key);
+    scheduleEviction();
+  }
+}
 
 // LRU eviction for the compile cache, keyed on binary mtime (touched on every
 // cache hit). Serialized so concurrent compiles trigger at most one pass.
@@ -86,8 +107,14 @@ async function evictOnce(): Promise<void> {
   const target = config.cacheMaxBytes * 0.8;
   for (const e of entries) {
     if (total <= target) break;
-    if (inflight.has(e.name)) continue;
-    await fs.promises.rm(e.dir, { recursive: true, force: true });
+    if (inflight.has(e.name) || pins.has(e.name)) continue;
+    const deletion = fs.promises.rm(e.dir, { recursive: true, force: true });
+    evictions.set(e.name, deletion);
+    try {
+      await deletion;
+    } finally {
+      evictions.delete(e.name);
+    }
     total -= e.size;
   }
 }
@@ -100,9 +127,14 @@ export async function compile(
   if (lang === "py") return { ok: true, stderr: "" };
 
   const key = cacheKey(lang, mode, source);
+  const deletion = evictions.get(key);
+  if (deletion) await deletion;
+  const existing = inflight.get(key);
+  if (existing) return existing;
+
   const dir = path.join(config.cacheDir, key);
   const binPath = path.join(dir, "prog");
-  const errPath = path.join(dir, "compile.stderr");
+  const errPath = path.join(dir, `compile.${config.compileMemoryMb}.stderr`);
   if (fs.existsSync(binPath)) {
     const now = new Date();
     fs.promises.utimes(binPath, now, now).catch(() => {});
@@ -113,9 +145,6 @@ export async function compile(
   if (fs.existsSync(errPath)) {
     return { ok: false, stderr: fs.readFileSync(errPath, "utf8") };
   }
-
-  const existing = inflight.get(key);
-  if (existing) return existing;
 
   const p = (async (): Promise<Compiled> => {
     const res = await sandboxRun(
@@ -147,10 +176,8 @@ export async function compile(
         // Cache write failure (e.g. ENOSPC) is a judge problem, not a CE;
         // surface it as a transient error and never persist it.
         await fs.promises.rm(dir, { recursive: true, force: true }).catch(() => {});
-        scheduleEviction();
         throw new Error(`compile cache write failed: ${String(e)}`);
       }
-      scheduleEviction();
       return { ok: true, stderr, binPath };
     }
     if (res.exitCode === 0 && res.status === "OK") {
@@ -161,10 +188,18 @@ export async function compile(
     const msg =
       stderr ||
       (res.status === "TLE" ? "compiler time limit exceeded" : "compilation failed");
-    await fs.promises.mkdir(dir, { recursive: true });
-    await fs.promises.writeFile(errPath, msg);
+    try {
+      await fs.promises.mkdir(dir, { recursive: true });
+      await fs.promises.writeFile(errPath, msg);
+    } catch (e) {
+      await fs.promises.rm(dir, { recursive: true, force: true }).catch(() => {});
+      throw new Error(`compile cache write failed: ${String(e)}`);
+    }
     return { ok: false, stderr: msg };
-  })().finally(() => inflight.delete(key));
+  })().finally(() => {
+    inflight.delete(key);
+    scheduleEviction();
+  });
   inflight.set(key, p);
   return p;
 }

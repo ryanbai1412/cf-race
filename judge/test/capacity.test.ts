@@ -1,6 +1,9 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("../src/compile.js", () => ({ compile: vi.fn() }));
+vi.mock("../src/compile.js", () => ({
+  compile: vi.fn(),
+  withPinnedCompile: (_lang: unknown, _mode: unknown, _source: unknown, fn: () => Promise<unknown>) => fn(),
+}));
 
 function deferred() {
   let resolve!: () => void;
