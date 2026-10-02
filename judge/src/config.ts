@@ -1,5 +1,7 @@
 import os from "node:os";
 
+const workers = Number(process.env.JUDGE_WORKERS ?? os.cpus().length);
+
 export const config = {
   port: Number(process.env.PORT ?? 8080),
   judgeToken: process.env.JUDGE_TOKEN ?? "",
@@ -12,9 +14,8 @@ export const config = {
     | "isolate"
     | "isolate-nocg"
     | "none",
-  workers: Number(process.env.JUDGE_WORKERS ?? os.cpus().length),
-  // LRU-evict the compile cache above this size (the cache tmpfs is 8g;
-  // leave headroom so writes never hit ENOSPC).
+  workers,
+  compileMemoryMb: Number(process.env.COMPILE_MEMORY_MB ?? 2048),
   cacheMaxBytes: Number(process.env.CACHE_MAX_BYTES ?? 7 * 1024 * 1024 * 1024),
   outputCapBytes: Number(process.env.OUTPUT_CAP_BYTES ?? 64 * 1024),
   // How much of a program's stdout is captured for checking (display is
