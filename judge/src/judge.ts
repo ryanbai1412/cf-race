@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import { check } from "./checker.js";
-import { compile, CompileMode } from "./compile.js";
+import { compile, CompileMode, withPinnedCompile } from "./compile.js";
 import { config } from "./config.js";
 import { loadFullTests, loadMeta, loadSamples } from "./problems.js";
 import { sandboxRun } from "./sandbox.js";
@@ -54,6 +54,13 @@ function truncateText(buf: Buffer): { text: string; truncated: boolean } {
     text: buf.subarray(0, config.outputCapBytes).toString("utf8"),
     truncated,
   };
+}
+
+async function finishTests(jobs: Promise<void>[]): Promise<void> {
+  // A rejected test does not cancel its siblings or their queued sandbox work.
+  const results = await Promise.allSettled(jobs);
+  const failed = results.find((r) => r.status === "rejected");
+  if (failed?.status === "rejected") throw failed.reason;
 }
 
 async function runOneTest(
@@ -145,45 +152,47 @@ export async function handleRun(
   const tests: JudgeTest[] =
     req.tests ?? (req.problemId ? await loadSamples(req.problemId) : []);
 
-  const compiled = await pool.run(() => compile(req.lang, "debug", req.source));
-  const compileInfo = { ok: compiled.ok, stderr: compiled.stderr };
-  onUpdate?.({ runId: req.runId, compile: compileInfo });
-  if (!compiled.ok) {
-    return {
-      runId: req.runId,
-      compile: compileInfo,
-      results: tests.map((t) => ({
-        name: t.name,
-        verdict: "SKIP" as Verdict,
-        timeMs: 0,
-        stdout: "",
-        stderr: "",
-      })),
-    };
-  }
+  return withPinnedCompile(req.lang, "debug", req.source, async () => {
+    const compiled = await pool.run(() => compile(req.lang, "debug", req.source));
+    const compileInfo = { ok: compiled.ok, stderr: compiled.stderr };
+    onUpdate?.({ runId: req.runId, compile: compileInfo });
+    if (!compiled.ok) {
+      return {
+        runId: req.runId,
+        compile: compileInfo,
+        results: tests.map((t) => ({
+          name: t.name,
+          verdict: "SKIP" as Verdict,
+          timeMs: 0,
+          stdout: "",
+          stderr: "",
+        })),
+      };
+    }
 
-  const results: TestResult[] = new Array(tests.length);
-  await Promise.all(
-    tests.map((t, i) =>
-      pool.run(async () => {
-        const r = await runOneTest(
-          req.lang,
-          compiled.binPath,
-          req.source,
-          t,
-          timeLimitMs,
-          memoryLimitMb,
-          meta?.floatEps,
-          meta?.specialJudge ?? false,
-          req.lang === "cpp"
-        );
-        results[i] = r;
-        onUpdate?.({ runId: req.runId, compile: compileInfo, results: [r] });
-      })
-    )
-  );
-  prewarmSubmitBinary(req.lang, req.source);
-  return { runId: req.runId, compile: compileInfo, results };
+    const results: TestResult[] = new Array(tests.length);
+    await finishTests(
+      tests.map((t, i) =>
+        pool.run(async () => {
+          const r = await runOneTest(
+            req.lang,
+            compiled.binPath,
+            req.source,
+            t,
+            timeLimitMs,
+            memoryLimitMb,
+            meta?.floatEps,
+            meta?.specialJudge ?? false,
+            req.lang === "cpp"
+          );
+          results[i] = r;
+          onUpdate?.({ runId: req.runId, compile: compileInfo, results: [r] });
+        })
+      )
+    );
+    prewarmSubmitBinary(req.lang, req.source);
+    return { runId: req.runId, compile: compileInfo, results };
+  });
 }
 
 /**
@@ -215,92 +224,94 @@ export async function handleSubmit(
     );
   }
 
-  const compiled = await pool.run(() =>
-    compile(req.lang, "submit" as CompileMode, req.source)
-  );
-  if (!compiled.ok) {
-    return {
-      submissionId: req.submissionId,
-      verdict: "CE",
-      failedTest: null,
-      passedCount: 0,
-      totalCount,
-      timeMsMax: 0,
-      compileStderr: compiled.stderr,
-    };
-  }
-
-  // Tests run concurrently (bounded by the worker pool), but the reported
-  // verdict is the one of the lowest-indexed failing test, so results match
-  // sequential CF-style judging. Tests queued after that failure is known are
-  // skipped.
-  const results: (TestResult | undefined)[] = new Array(tests.length);
-  let firstFailure = Number.POSITIVE_INFINITY;
-  let passedCount = 0;
-
-  /** Number of leading tests that finished AC, for monotonic progress. */
-  function acPrefix(): number {
-    let n = 0;
-    while (n < results.length && results[n]?.verdict === "AC") n++;
-    return n;
-  }
-
-  await Promise.all(
-    tests.map((t, i) =>
-      pool.run(async () => {
-        if (i > firstFailure) return;
-        const r = await runOneTest(
-          req.lang,
-          compiled.binPath,
-          req.source,
-          t,
-          meta.timeLimitMs,
-          meta.memoryLimitMb,
-          meta.floatEps,
-          false,
-          false
-        );
-        results[i] = r;
-        if (r.verdict !== "AC") firstFailure = Math.min(firstFailure, i);
-        const prefix = acPrefix();
-        if (prefix > passedCount) {
-          passedCount = prefix;
-          onUpdate?.({
-            submissionId: req.submissionId,
-            verdict: "AC",
-            failedTest: null,
-            passedCount,
-            totalCount,
-            timeMsMax: maxTimeMs(results, firstFailure),
-          });
-        }
-      })
-    )
-  );
-
-  passedCount = acPrefix();
-  const timeMsMax = maxTimeMs(results, firstFailure);
-  const failed = Number.isFinite(firstFailure) ? results[firstFailure] : undefined;
-  const resp: SubmitResponse = failed
-    ? {
+  return withPinnedCompile(req.lang, "submit", req.source, async () => {
+    const compiled = await pool.run(() =>
+      compile(req.lang, "submit" as CompileMode, req.source)
+    );
+    if (!compiled.ok) {
+      return {
         submissionId: req.submissionId,
-        // Judging never yields SKIP here, but the per-test type allows it.
-        verdict: failed.verdict === "SKIP" ? "RE" : failed.verdict,
-        failedTest: failed.name,
-        passedCount,
-        totalCount,
-        timeMsMax,
-      }
-    : {
-        submissionId: req.submissionId,
-        verdict: "AC",
+        verdict: "CE",
         failedTest: null,
-        passedCount,
+        passedCount: 0,
         totalCount,
-        timeMsMax,
+        timeMsMax: 0,
+        compileStderr: compiled.stderr,
       };
-  if (failed) onUpdate?.(resp);
-  return resp;
+    }
+
+    // Tests run concurrently (bounded by the worker pool), but the reported
+    // verdict is the one of the lowest-indexed failing test, so results match
+    // sequential CF-style judging. Tests queued after that failure is known are
+    // skipped.
+    const results: (TestResult | undefined)[] = new Array(tests.length);
+    let firstFailure = Number.POSITIVE_INFINITY;
+    let passedCount = 0;
+
+    /** Number of leading tests that finished AC, for monotonic progress. */
+    function acPrefix(): number {
+      let n = 0;
+      while (n < results.length && results[n]?.verdict === "AC") n++;
+      return n;
+    }
+
+    await finishTests(
+      tests.map((t, i) =>
+        pool.run(async () => {
+          if (i > firstFailure) return;
+          const r = await runOneTest(
+            req.lang,
+            compiled.binPath,
+            req.source,
+            t,
+            meta.timeLimitMs,
+            meta.memoryLimitMb,
+            meta.floatEps,
+            false,
+            false
+          );
+          results[i] = r;
+          if (r.verdict !== "AC") firstFailure = Math.min(firstFailure, i);
+          const prefix = acPrefix();
+          if (prefix > passedCount) {
+            passedCount = prefix;
+            onUpdate?.({
+              submissionId: req.submissionId,
+              verdict: "AC",
+              failedTest: null,
+              passedCount,
+              totalCount,
+              timeMsMax: maxTimeMs(results, firstFailure),
+            });
+          }
+        })
+      )
+    );
+
+    passedCount = acPrefix();
+    const timeMsMax = maxTimeMs(results, firstFailure);
+    const failed = Number.isFinite(firstFailure) ? results[firstFailure] : undefined;
+    const resp: SubmitResponse = failed
+      ? {
+          submissionId: req.submissionId,
+          // Judging never yields SKIP here, but the per-test type allows it.
+          verdict: failed.verdict === "SKIP" ? "RE" : failed.verdict,
+          failedTest: failed.name,
+          passedCount,
+          totalCount,
+          timeMsMax,
+        }
+      : {
+          submissionId: req.submissionId,
+          verdict: "AC",
+          failedTest: null,
+          passedCount,
+          totalCount,
+          timeMsMax,
+        };
+    if (failed) onUpdate?.(resp);
+    return resp;
+  });
 }
 
 /**
