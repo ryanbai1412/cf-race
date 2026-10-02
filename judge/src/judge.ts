@@ -47,6 +47,12 @@ class Semaphore {
 }
 
 export const pool = new Semaphore(config.workers);
+export const compilePool = new Semaphore(config.compileWorkers);
+
+function compileWithLimit(lang: Lang, mode: CompileMode, source: string) {
+  const run = () => pool.run(() => compile(lang, mode, source));
+  return lang === "cpp" ? compilePool.run(run) : run();
+}
 
 function truncateText(buf: Buffer): { text: string; truncated: boolean } {
   const truncated = buf.length > config.outputCapBytes;
@@ -145,7 +151,7 @@ export async function handleRun(
   const tests: JudgeTest[] =
     req.tests ?? (req.problemId ? await loadSamples(req.problemId) : []);
 
-  const compiled = await pool.run(() => compile(req.lang, "debug", req.source));
+  const compiled = await compileWithLimit(req.lang, "debug", req.source);
   const compileInfo = { ok: compiled.ok, stderr: compiled.stderr };
   onUpdate?.({ runId: req.runId, compile: compileInfo });
   if (!compiled.ok) {
@@ -193,8 +199,7 @@ export async function handleRun(
  */
 function prewarmSubmitBinary(lang: Lang, source: string): void {
   if (lang !== "cpp") return;
-  void pool
-    .run(() => compile(lang, "submit", source))
+  void compileWithLimit(lang, "submit", source)
     .catch((e) => console.error("submit prewarm failed:", e));
 }
 
@@ -215,9 +220,7 @@ export async function handleSubmit(
     );
   }
 
-  const compiled = await pool.run(() =>
-    compile(req.lang, "submit" as CompileMode, req.source)
-  );
+  const compiled = await compileWithLimit(req.lang, "submit", req.source);
   if (!compiled.ok) {
     return {
       submissionId: req.submissionId,
