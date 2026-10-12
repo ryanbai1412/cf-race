@@ -118,11 +118,12 @@ def build(pid, base, cache):
         if pid == "626A":
             return int(text.split()[0])
         return max(map(abs,map(int,text.split())))
-    largest = max(range(len(inputs)),key=lambda i:max_score(inputs[i]))
+    largest_score = max(map(max_score,inputs))
+    largest = [i for i,pair in enumerate(inputs) if max_score(pair) == largest_score]
     coverage = {"packageHash":generated["packageHash"],
                 "boundary":[{"test":extra_names[0],"reason":"Authored minimum/small boundary case; all supplied inputs and outputs checked against strict recipe."}],
                 "adversarial":[{"test":name,"reason":"Deterministic parity/order/carry/tie/transition case; see retained recipe and semantic checks."} for name in extra_names],
-                "maxSize":[{"test":extra_names[largest],"reason":"A legal maximum numeric or structural limit; see exact inputs and recipe's complete endpoint cases."}],
+                "maxSize":[{"test":extra_names[i],"reason":"A legal maximum numeric or structural limit; see exact inputs and recipe's complete endpoint cases."} for i in largest],
                 "inputConstraints":RULES[pid],"checkerSemantics":"Unique answer per rules; existing token checker, YES/NO case folding only. No downloaded checker executed.",
                 "statementComplete":"Pinned description,input_format,output_format and all examples preserved by foundation build_statement; reviewed source prose against recipe. Required figures not used for these recipes; source-dependent1182A deliberately excluded."}
     write_json(base/"coverage"/f"{pid}.json",coverage)
