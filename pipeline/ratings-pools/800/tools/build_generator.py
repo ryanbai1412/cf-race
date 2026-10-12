@@ -35,7 +35,10 @@ def _main():
         if attempts > 200000:
             raise SystemExit("could not reach target distinct inputs")
         add(gen(rng))
-    sys.stdout.write(json.dumps(out))
+    text = json.dumps(out)
+    if len(text) > 7_000_000:
+        raise SystemExit("generated suite exceeds the 8MB harness output bound")
+    sys.stdout.write(text)
 
 
 _main()
