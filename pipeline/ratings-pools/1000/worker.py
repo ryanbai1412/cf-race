@@ -16,23 +16,30 @@ from pool_sources import download, PINS, sha_file, submissions, tree
 import rated_pool
 import recipes
 import additional
+import generated_recipes
 
-IDS = recipes.IDS + additional.IDS
-RULES = recipes.RULES | additional.RULES
+IDS = recipes.IDS + additional.IDS + generated_recipes.IDS
+RULES = recipes.RULES | additional.RULES | generated_recipes.RULES
+
+
+def recipe_module(pid):
+    return generated_recipes if pid in generated_recipes.IDS else additional if pid in additional.IDS else recipes
 
 
 def extras(pid):
-    return (additional if pid in additional.IDS else recipes).extras(pid)
+    return recipe_module(pid).extras(pid)
 
 
 def output(pid,text):
-    return (additional if pid in additional.IDS else recipes).output(pid,text)
+    return recipe_module(pid).output(pid,text)
 
 
 def recipe_hash(pid):
+    if pid in generated_recipes.IDS:
+        return digest({p:sha_file(HERE/p) for p in ("generated_recipes.py","additional.py","recipes.py","statement-review.json","input_layout.py")})
     if pid in additional.IDS:
-        return digest({p:sha_file(HERE/p) for p in ("additional.py","statement-review.json")})
-    return sha_file(HERE/"recipes.py")
+        return digest({p:sha_file(HERE/p) for p in ("additional.py","statement-review.json","input_layout.py")})
+    return digest({p:sha_file(HERE/p) for p in ("recipes.py","input_layout.py")})
 
 
 def arguments(pid, base, cache):
@@ -136,7 +143,7 @@ def build(pid, base, cache):
         if pid == "626A":
             return int(text.split()[0])
         return max(map(abs,map(int,text.split())))
-    if pid in additional.IDS:
+    if pid in additional.IDS or pid in generated_recipes.IDS:
         largest = [i for i,pair in enumerate(inputs) if pair.get("caseKind") == "max-size"]
     else:
         largest_score = max(map(max_score,inputs))

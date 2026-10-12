@@ -4,6 +4,7 @@ import itertools
 import math
 import random
 import re
+from input_layout import layout
 
 IDS = ("139A", "108A", "742A", "626A", "450A", "979A", "114A", "680B",
        "622A", "777A", "479A", "75A", "131A", "17A", "515A", "577A",
@@ -383,4 +384,4 @@ def extra_inputs(pid):
 
 
 def extras(pid):
-    return [{"input": text,"output":output(pid,text)} for text in extra_inputs(pid)]
+    return [{"input": layout(pid,text),"output":output(pid,text)} for text in extra_inputs(pid)]

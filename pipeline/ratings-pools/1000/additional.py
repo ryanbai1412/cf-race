@@ -9,6 +9,7 @@ import random
 import re
 
 from recipes import integers, within
+from input_layout import layout
 
 IDS = tuple("1A 13A 90A 106A 109A 118A 118B 122A 122B 195A 259A 268B 272A 368A 371A 379A 385A 389A 435A 535A 579A 604A 610A 620B 628A 660B 724A 733A 761A 779A 798A 804A 816A 831A 847M 849A 862A 864B 886A 887A 888B 893B 909A 990A 991A".split())
 REVIEW = json.loads(Path(__file__).with_name("statement-review.json").read_text())
@@ -411,6 +412,6 @@ def extras(pid):
     result = []
     for s in cases:
         if s not in seen:
-            result.append({"input":s,"output":output(pid,s),"caseKind":"max-size" if s in maximum else "boundary-adversarial"})
+            result.append({"input":layout(pid,s),"output":output(pid,s),"caseKind":"max-size" if s in maximum else "boundary-adversarial"})
             seen.add(s)
     return result
