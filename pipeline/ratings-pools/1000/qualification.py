@@ -52,7 +52,7 @@ def qualify(pid,base,cache,here):
     tests = [{"name":p.stem,"input":p.read_bytes(),"output":p.with_suffix('.out').read_bytes()} for p in sorted((base/"packages"/pid/"tests").glob('*.in'))]
     attempts = []
     oracle = None
-    for s in sorted(candidates,key=lambda x:int(x["submission_id"]),reverse=True)[:8]:
+    for s in sorted(candidates,key=lambda x:(not s["programmingLanguage"].startswith("GNU C++"),-int(x["submission_id"])))[:8]:
         result = run(s["source"],s["programmingLanguage"],tests,row["time_limit"],int(row["memory_limit"]))
         record = {"submissionId":s["submission_id"],"sourceHash":hashlib.sha256(s["source"].encode()).hexdigest(),
                   "language":s["programmingLanguage"],"source":s["provenance"],"result":result}
