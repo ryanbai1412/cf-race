@@ -1,0 +1,50 @@
+{
+ "adversarial": [
+  {
+   "reason": "all know zero except n=100",
+   "test": "0035"
+  },
+  {
+   "reason": "disjoint language islands",
+   "test": "0036"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "nobody knows any language",
+   "test": "0031"
+  },
+  {
+   "reason": "one knows, one not",
+   "test": "0032"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 2,
+   "boundary": 2,
+   "maxSize": 2,
+   "random": 144
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "n,m in [2,100]; each employee: k in [0,m] then k distinct languages in [1,m]",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_f.P277A.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "100x100 everybody knows everything",
+   "test": "0033"
+  },
+  {
+   "reason": "100x100 sparse random",
+   "test": "0034"
+  }
+ ],
+ "packageHash": "5e56b7be4eafa7211ad99cf76cbcc44762abfea231daadc3a4ebb5361a771674",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

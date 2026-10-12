@@ -41,3 +41,12 @@ Owned paths only: pipeline/ratings-pools/1400/, pipeline/problems/<ids>/, proble
 - probs_h.py has 29 recipes; check_h.log + check_h2.log.
 - 23:49: batch 8 oracles (518B,602B,632B,710B,757B,799B,81A,928B,958D1,995B) sha 0dfb04b3... verified, integrated.
 - 23:49: batch 8 oracles (518B,602B,632B,710B,757B,799B,81A,928B,958D1,995B) sha 0dfb04b3... verified, integrated.
+
+## Status 23:55 UTC (execution v2, generated basis)
+- execution-passed 5 AC / 5 incorrect, NOT independently audited: 125A 107A 152C 175A 197B 198B 233B 245E 248B (9). Independently validated: 0.
+- incomplete, accepted contradiction on official tests (preserved, not repaired):
+  159C 1316357 RE(-11) on 0001; 131C 891836 WA 0005, 892514 TLE 0001; 219B 2053200 WA 0002, 2053245/2053542 WA 0010; 180C 1608245 WA 0001 (1608242 no result).
+- blocked: 124B independent oracle disagrees with official 0006.
+- quarantined, upstream open-r1 generated inputs violate statement bounds: 514B 670D1 632B 797B. Truncated: 745B. Earlier: 108B 205B 24A 1009B 413C 479C 493B.
+- excluded, output not unique / case-insensitive: 675B 851B 868B 955B.
+- Per-package archives: `python3 pipeline/rated_pool.py archive --rating 1400 --id PID ...` (verified byte-reproducible for 125A); SHA256SUMS bundled in rating1400-execution-passed-audit.tar.gz.
