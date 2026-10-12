@@ -14,4 +14,4 @@ def solve(inp):
 
 
 def extra():
-    return [("boundary", "n=1", "1\n"), ("boundary", "n=2", "2\n"), ("maxSize", "n=10^9", "1000000000\n"), ("maxSize", "n=999999999", "999999999\n")]
+    return [("boundary", "n=1", "1\n"), ("boundary", "n=2", "2\n"), ("maxSize", "n=10^9", "1000000000\n"), ("maxSize", "n=999999999", "999999999\n"), ("adversarial", "n=3 odd small", "3\n")]

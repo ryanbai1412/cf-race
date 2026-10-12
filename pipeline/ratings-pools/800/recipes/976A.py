@@ -18,5 +18,5 @@ def solve(inp):
 
 
 def extra():
-    return [("boundary", "single 0", "1\n0\n"), ("boundary", "single 1", "1\n1\n"),
+    return [("boundary", "single 0", "1\n0\n"), ("boundary", "single 1", "1\n1\n"), ("adversarial", "many ones merge to one", "6\n111010\n"),
             ("maxSize", "n=100 1 then 99 zeros", "100\n1" + "0" * 99 + "\n"), ("maxSize", "n=100 alternating", "100\n" + "10" * 50 + "\n")]
