@@ -159,6 +159,7 @@ def verify_evidence(package, evidence, audit):
         if not isinstance(entries, list) or any(not e.get("reason") or f"tests/{e.get('test')}.in" not in files for e in entries):
             raise ValueError("coverage names unavailable tests")
     runs = evidence.get("submissions", [])
+    from pool_sandbox import IMAGE, COMPILER_FLAGS, EXECUTION_VERSION
     hashes, identities = set(), set()
     for run in runs:
         if run.get("sourceHash") in hashes or run.get("submissionId") in identities:
@@ -171,6 +172,8 @@ def verify_evidence(package, evidence, audit):
             raise ValueError("unpinned submission evidence")
         if run.get("compiled") is not True or run.get("infrastructureError"):
             raise ValueError("compile/infrastructure failure is not validation")
+        if run.get("executionVersion") != EXECUTION_VERSION or run.get("compilerFlags") != COMPILER_FLAGS:
+            raise ValueError("stale submission execution/compiler context")
         results = run.get("runs", [])
         if len(results) != evidence["testCount"] or [r.get("test") for r in results] != [r["name"] for r in records]:
             raise ValueError("incomplete per-test run evidence")
@@ -191,7 +194,6 @@ def verify_evidence(package, evidence, audit):
     if sum(r["expected"] == "OK" for r in runs) < 5 or sum(r["expected"] != "OK" for r in runs) < 5:
         raise ValueError("fewer than 5 accepted/5 incorrect independent sources")
     sandbox = evidence.get("sandbox", {})
-    from pool_sandbox import IMAGE, COMPILER_FLAGS, EXECUTION_VERSION
     if sandbox.get("image") != IMAGE or sandbox.get("network") != "none" or sandbox.get("bounded") is not True:
         raise ValueError("missing isolated bounded sandbox evidence")
     if sandbox.get("executionVersion") != EXECUTION_VERSION or sandbox.get("compilerFlags") != COMPILER_FLAGS:
