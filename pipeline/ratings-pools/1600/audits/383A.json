@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "id": "383A",
+  "rating": 1600,
+  "approved": true,
+  "reviewer": "devin-f2823eddff2b4a639d38c7c49d347210",
+  "reviewUrl": "https://staging.itsdev.in/sessions/f2823eddff2b4a639d38c7c49d347210",
+  "workerCommit": "f52f84d5f1bbbcecaf2fb0ca58cab29b44c5f4b3",
+  "archiveHash": "70a44f9e2c13985238dd0c58d4a2d605d3645114ce24b1ae04b0e3dacee4bc56",
+  "qualificationBasis": "generated",
+  "packageHash": "16831d1303040314127d9359482d72a2486ff1cf51d73e698fe878c55753b67f",
+  "evidenceHash": "ac737d2a36226809ea9ebec86f66105ac0331beb3f8d4db1b76aa21cd50cb9e2",
+  "coverageHash": "26415aa828b22446401428e204e6e5eb5329d6e556ef3a4d87529e2d73fe2bcb",
+  "semanticHash": "3d3bf3d1a1d2924b4a87b48f918ec706a601c7e725102bbc8726b3a8f237e162",
+  "testPairsHash": "d38fac58eaa97969701b8d95caed47256cd78fe2b73159b761647d9798327b12",
+  "generatorProofHash": "78f2b2e96411a6f2bbb6d59e52d2cb49d74444032f2ea008f42f6eaef50da552",
+  "oracleProofHash": "e2a80ac6e6192050f13fd81e28bf55ecc1d58d450c45bb7d9254d96db032f4ae",
+  "checks": {
+    "sourceAttribution": true,
+    "fullTests": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "noSpecialChecker": true,
+    "hashes": true,
+    "statementComplete": true,
+    "inputConstraints": true,
+    "deterministicGeneration": true,
+    "independentOracle": true,
+    "generatedBasis": true,
+    "algorithmicallyWrong": true,
+    "independentOutputs": true,
+    "sandboxReplay": true
+  },
+  "independentAssessment": {
+    "statement": "Read exact pinned description/input/output/examples/notes and rendered statement.html. Ordinary decimal n<=200000 and binary directions agree with every supplied pair; all necessary definitions and sample explanation are present. No required image, interaction, float epsilon or special checker.",
+    "officialRole": "11 of 42 advertised official pairs are supplementary, not a complete official suite. All 15 advertised upstream-generated pairs and all 157 worker-generated pairs are present unchanged. Qualification is extensive generated basis, not official completeness.",
+    "generatedDiversity": "157 authored pairs, 153 distinct inputs; two fresh offline generator executions reproduced exact recorded output SHA256 625b3df4f279f8c572de1fb259cf7221451148855b50642da8ab2b48910dd4d6 and every authored pair byte-for-byte.",
+    "derivation": "A right-facing cow before a left-facing cow creates one unavoidable loss whichever is milked first. Milk left-facing cows left-to-right, then right-facing cows right-to-left to avoid all other losses. Independently compute losses from right-facing position sums: m*n - sum(1-based positions) - m*(m-1)/2, not the worker prefix loop.",
+    "bruteCrossCheck": "Physical visibility subset DP minimizes over every milking order for all 510 binary rows of lengths 1..8. All agree with the independently derived position-sum formula.",
+    "testsChecked": 183,
+    "samplesChecked": 2,
+    "independentOracleSourceHash": "5d110d0775bdb2a5fc3f04a01fe71fe4dc9c5e320ede1bdd68b6294c1dc72425",
+    "sampleMeanings": "0,0,1,0 contains one opposing pair, giving 1; 1,0,1,0,1 contains three, giving 3. Sample cow order 3,4,2,1 indeed loses only one unit.",
+    "coverage": "Authored 0027/0028 cover singleton directions; 0029/0030 cover opposite orientations and the zero-loss order; 0031 covers two ones before two zeros. 0032 is n=200000 all zeros with loss 0; 0033 is 100000 ones then 100000 zeros with loss 10000000000, covering maximum length, maximum answer and 64-bit accumulation. All 150 fixed-seed adversarial rows and supplied official/upstream-generated rows were independently parsed and solved.",
+    "authenticity": "Five distinct counted public accepted sources, five distinct counted public incorrect sources, and disjoint sixth accepted oracle 5747800 match exact rows/source SHA256s in freshly hash-verified pinned public submission shard train-00023-of-00036.parquet. All have TESTS testset. Dataset compatibility-adjusted source bytes, not an assertion of live original Codeforces bytes.",
+    "sandbox": "Fresh workdirs; pinned image digest, network-none, nonroot, read-only root/payload/harness, dropped capabilities, no-new-privileges, bounded CPU/address-space/wall-time/files/pids/tmpfs, and v2 -O2 -std=c++17 -DONLINE_JUDGE compile context. No public program or embedded generator was executed on the host.",
+    "replay": "All 1830 counted-source verdict/exitCode/timeout tuples and all 185 sixth-oracle test/sample tuples match recorded evidence. Two timed-out partial stdout hashes for source 16841684 differ on 0015/0018; both old and fresh results are TLE, SIGXCPU exit -24, timeout=true. Partial output at CPU interruption is not byte-deterministic; this is not an accepted-output contradiction and evidence bytes were not changed. Generator output hashes are byte-identical.",
+    "publication": "Only independent signoff; publication_gate(require_approval=False) verified without publication or production mutations."
+  },
+  "incorrectAnalysis": {
+    "5826106": {
+      "kind": "wrong-answer",
+      "test": "0002",
+      "reason": "Always prints 1 instead of computing losses. The valid row 1,0,1,0,1 has three unavoidable opposing pairs; unchanged source prints 1 rather than 3.",
+      "actual": "1\n",
+      "expected": "3"
+    },
+    "6369807": {
+      "kind": "wrong-answer",
+      "test": "0002",
+      "reason": "Minimizes an orientation-dependent cost for a single chosen cow, not the accumulated losses of milking all cows. On 1,0,1,0,1 returns 2 while exhaustive order DP and opposing-pair proof give 3.",
+      "actual": "2\n",
+      "expected": "3"
+    },
+    "6369833": {
+      "kind": "wrong-answer",
+      "test": "0002",
+      "reason": "Returns only the minimum immediate first-milking cost (ones left plus zeros right), omitting unavoidable later losses. On 1,0,1,0,1 prints 2 rather than 3.",
+      "actual": "2\n",
+      "expected": "3"
+    },
+    "16841684": {
+      "kind": "wrong-answer",
+      "test": "0001",
+      "reason": "Recorded first WA 0001 prints debug directions 0,0 and omits the final answer; that alone is NOT its algorithmic qualification. The source additionally has genuinely reversed visibility accounting in its zero-removal branch and quadratic list.index/slicing/scanning/remove work. On authored maximum-size 0033 (100000 ones then 100000 zeros), the zero-removal branch would accumulate 0 rather than 10000000000 and requires quadratic work; the unchanged source actually hits CPU TLE in both recorded and fresh bounded runs. This valid computational-complexity counterexample, not debug formatting or a Python-version/compile failure, qualifies the fifth algorithmically defective source.",
+      "actual": "0\n0\n",
+      "expected": "1",
+      "algorithmicWitness": {
+        "kind": "complexity",
+        "test": "0033",
+        "expected": "10000000000",
+        "verdict": "TLE",
+        "exitCode": -24,
+        "timeout": true,
+        "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "46010328": {
+      "kind": "wrong-answer",
+      "test": "0003",
+      "reason": "Greedy lowest immediate scare cost with largest-effect tie break is not globally optimal; valid supplied 50-cow row has 416 unavoidable opposing pairs, but this recursive greedy ordering loses 480. Independently derived optimum agrees with all six accepted sources.",
+      "actual": "480\n",
+      "expected": "416"
+    }
+  }
+}
