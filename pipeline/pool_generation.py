@@ -10,7 +10,8 @@ from pool_sources import sha_file
 
 
 def stable_result(result):
-    return {"compiled": result["compiled"], "verdict": result["verdict"],
+    return {"executionVersion": result["executionVersion"], "compilerFlags": result["compilerFlags"],
+            "compiled": result["compiled"], "verdict": result["verdict"],
             "testsRun": result["testsRun"], "failedTest": result.get("failedTest"),
             "runs": [{key: record[key] for key in ("test", "exitCode", "timeout", "verdict", "outputHash")}
                      for record in result["runs"]]}
@@ -86,6 +87,8 @@ def verify_generated(package, files, records, evidence, audit):
             oracle["author"] == evidence.get("validator") or not oracle.get("reviewUrl") or
             oracle["sourceHash"] == gen["sourceHash"] or any(r["sourceHash"] == oracle["sourceHash"] for r in evidence["submissions"])):
         raise ValueError("oracle is not independent from generator/validator/external references")
+    if audit.get("reviewer") in (gen["author"], oracle["author"], evidence.get("validator")):
+        raise ValueError("generated package auditor must differ from generator/oracle/validator")
     authored = [r for r in records if r.get("origin") == "worker-generated"]
     extra = [{"input": (package / f"tests/{r['name']}.in").read_bytes().decode("utf-8"),
               "output": (package / f"tests/{r['name']}.out").read_bytes().decode("utf-8")} for r in authored]
@@ -107,10 +110,15 @@ def verify_generated(package, files, records, evidence, audit):
     if len(hashes) != 2 or any(not isinstance(h, str) or not re.fullmatch(r"[a-f0-9]{64}", h) for h in hashes) or hashes[0] != hashes[1] or len(executions) != 2:
         raise ValueError("missing reproducible generator executions")
     for expected, execution in zip(hashes, executions):
+        if execution.get("executionVersion") != EXECUTION_VERSION or execution.get("compilerFlags") != COMPILER_FLAGS:
+            raise ValueError("stale generator execution/compiler context")
         results = execution.get("runs", [])
         if execution.get("compiled") is not True or execution.get("testsRun") != 1 or len(results) != 1 or results[0].get("test") != "seed" or results[0].get("outputHash") != expected or results[0].get("exitCode") != 0 or results[0].get("timeout") is not False:
             raise ValueError("generator execution failure/hash mismatch")
     result = oracle.get("result", {})
+    for checked in (result, oracle.get("sampleResult", {})):
+        if checked.get("executionVersion") != EXECUTION_VERSION or checked.get("compilerFlags") != COMPILER_FLAGS:
+            raise ValueError("stale oracle execution/compiler context")
     if (result.get("compiled") is not True or result.get("verdict") != "AC" or result.get("testsRun") != len(records) or
             [r.get("test") for r in result.get("runs", [])] != [r["name"] for r in records] or
             any(r.get("verdict") != "AC" or r.get("exitCode") != 0 or r.get("timeout") is not False or not re.fullmatch(r"[a-f0-9]{64}", r.get("outputHash", "")) for r in result.get("runs", []))):

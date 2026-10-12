@@ -83,8 +83,10 @@ The53 missing official pairs prevent the official path, not the generated path.
 Pilot27A (API1200) retained malformed upstream generated input unchanged;
 accepted-source contradictions make it incomplete (3 accepted,0 incorrect,
 12 excluded). Never repair or truncate upstream bytes silently to claim success.
-Final validated counts are **0/0/0/0/0**, and publication dry-run fails closed.
-The attached reproducible artifacts retain both diagnostics and exact evidence.
+At the original diagnostic snapshot, validated counts were **0/0/0/0/0**.
+The current per-rating report is authoritative after regeneration and independent
+audit; historical snapshots never upgrade automatically. Reproducible artifacts
+retain both diagnostics and exact evidence.
 
 ## Commands (one worker per R)
 
@@ -242,6 +244,7 @@ The operator must verify the linked independent reviewer and approval were
 actually authorized; do not author your own purported independent signoff.
 
 Generated audits additionally declare `qualificationBasis: "generated"`, and
+their reviewer must differ from the generator, oracle author and validator.
 checks `deterministicGeneration`, `independentOracle`, `generatedBasis`,
 `algorithmicallyWrong`, `inputConstraints` must each be true. In
 `incorrectAnalysis`, include **every** counted incorrect submission ID as key:
@@ -273,6 +276,8 @@ supported; PyPy is excluded rather than pretending timing equivalence.
 Execution context v2 records `executionVersion:2` and `compilerFlags` exactly
 `["-O2","-std=c++17","-DONLINE_JUDGE"]` in each result and sandbox evidence.
 ONLINE_JUDGE matches CF's compile context without changing public source bytes.
+The fields are retained and checked in each submission and generator/oracle proof,
+not only the global sandbox header; mixed or relabelled old results fail closed.
 Old context evidence fails closed; regeneration/validation and fresh audit are
 required. Run cache names include submission ID **and** runKey; old results remain
 available. Previous full evidence is archived under `state/ID/evidence-history/`
