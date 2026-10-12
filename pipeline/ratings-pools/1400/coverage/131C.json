@@ -1,0 +1,50 @@
+{
+ "adversarial": [
+  {
+   "reason": "t=n+m-1",
+   "test": "0043"
+  },
+  {
+   "reason": "only girls bounded",
+   "test": "0044"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "minimum n,m,t",
+   "test": "0040"
+  },
+  {
+   "reason": "t=5 n=4 m=30",
+   "test": "0045"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 2,
+   "boundary": 2,
+   "maxSize": 2,
+   "random": 144
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "one line n m t; 4<=n<=30, 1<=m<=30, 5<=t<=n+m",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_a.P131C.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "all maximum, t=n+m",
+   "test": "0041"
+  },
+  {
+   "reason": "largest count n=m=30 t=30 (exceeds 32-bit)",
+   "test": "0042"
+  }
+ ],
+ "packageHash": "2be2d368566526d4bb97cef662e0844de7d64436d123d9dde5dc259b83f579e9",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

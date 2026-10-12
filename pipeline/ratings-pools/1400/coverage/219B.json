@@ -1,0 +1,58 @@
+{
+ "adversarial": [
+  {
+   "reason": "p already all nines max",
+   "test": "0107"
+  },
+  {
+   "reason": "reduction lands exactly on lower bound",
+   "test": "0108"
+  },
+  {
+   "reason": "reduction misses by one",
+   "test": "0109"
+  },
+  {
+   "reason": "p ends with 9s but more available",
+   "test": "0110"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "p=1 d=0",
+   "test": "0103"
+  },
+  {
+   "reason": "d=0 keeps p",
+   "test": "0104"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 4,
+   "boundary": 2,
+   "maxSize": 2,
+   "random": 142
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "one line p d; 1<=p<=1e18; 0<=d<p",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_b.P219B.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "p=1e18, d=p-1 -> 999999999999999999",
+   "test": "0105"
+  },
+  {
+   "reason": "p=1e18 small d",
+   "test": "0106"
+  }
+ ],
+ "packageHash": "6df5fa94f830837cc5c4ca7be5889de813c1a5adcb039706abd4ceb058354864",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

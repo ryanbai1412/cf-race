@@ -1,0 +1,46 @@
+{
+ "adversarial": [
+  {
+   "reason": "identical names",
+   "test": "0033"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "1x1",
+   "test": "0029"
+  },
+  {
+   "reason": "one name m=100",
+   "test": "0030"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 1,
+   "boundary": 2,
+   "maxSize": 2,
+   "random": 145
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "n,m in [1,100]; n names of exactly m uppercase letters",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_e.P152C.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "100x100 random (mod wraps)",
+   "test": "0031"
+  },
+  {
+   "reason": "100x100 all 26 letters per column",
+   "test": "0032"
+  }
+ ],
+ "packageHash": "f7bfc82a3b02fe278b6a1da326f74a49196e2fb86391198691a5c87c91fa17df",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

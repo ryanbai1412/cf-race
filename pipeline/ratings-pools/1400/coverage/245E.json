@@ -1,0 +1,46 @@
+{
+ "adversarial": [
+  {
+   "reason": "oscillating",
+   "test": "0055"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "single +",
+   "test": "0051"
+  },
+  {
+   "reason": "single -",
+   "test": "0052"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 1,
+   "boundary": 2,
+   "maxSize": 2,
+   "random": 145
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "one line of '+'/'-', length 1..300",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_e.P245E.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "300 pluses",
+   "test": "0053"
+  },
+  {
+   "reason": "150 - then 150 +",
+   "test": "0054"
+  }
+ ],
+ "packageHash": "bcf8733144e378d6bd95723401411694d51015708550107be87a0cf705268aec",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

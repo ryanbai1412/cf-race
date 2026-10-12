@@ -1,0 +1,61 @@
+<div class="problem-statement">
+<div class="header"><div class="title">Bear and Prime 100</div>
+<div class="time-limit">time limit per test: 1.0 s</div>
+<div class="memory-limit">memory limit per test: 256 MB</div>
+</div>
+<p>This is an interactive problem. In the output section below you will see the information about flushing the output.</p>
+<p>Bear Limak thinks of some hidden number — an integer from interval [2, 100]. Your task is to say if the hidden number is prime or composite.</p>
+<p>Integer x &gt; 1 is called prime if it has exactly two distinct divisors, 1 and x. If integer x &gt; 1 is not prime, it&#x27;s called composite.</p>
+<p>You can ask up to 20 queries about divisors of the hidden number. In each query you should print an integer from interval [2, 100]. The system will answer &quot;yes&quot; if your integer is a divisor of the hidden number. Otherwise, the answer will be &quot;no&quot;.</p>
+<p>For example, if the hidden number is 14 then the system will answer &quot;yes&quot; only if you print 2, 7 or 14.</p>
+<p>When you are done asking queries, print &quot;prime&quot; or &quot;composite&quot; and terminate your program.</p>
+<p>You will get the Wrong Answer verdict if you ask more than 20 queries, or if you print an integer not from the range [2, 100]. Also, you will get the Wrong Answer verdict if the printed answer isn&#x27;t correct.</p>
+<p>You will get the Idleness Limit Exceeded verdict if you don&#x27;t print anything (but you should) or if you forget about flushing the output (more info below).</p>
+<div class="input-specification"><div class="section-title">Input</div>
+<p>After each query you should read one string from the input. It will be &quot;yes&quot; if the printed integer is a divisor of the hidden number, and &quot;no&quot; otherwise.</p>
+</div>
+<div class="output-specification"><div class="section-title">Output</div>
+<p>Up to 20 times you can ask a query — print an integer from interval [2, 100] in one line. You have to both print the end-of-line character and flush the output. After flushing you should read a response from the input.</p>
+<p>In any moment you can print the answer &quot;prime&quot; or &quot;composite&quot; (without the quotes). After that, flush the output and terminate your program.</p>
+<p>To flush you can use (just after printing an integer and end-of-line):</p>
+<p>- fflush(stdout) in C++;
+- System.out.flush() in Java;
+- stdout.flush() in Python;
+- flush(output) in Pascal;
+- See the documentation for other languages.</p>
+<p>Hacking. To hack someone, as the input you should print the hidden number — one integer from the interval [2, 100]. Of course, his/her solution won&#x27;t be able to read the hidden number from the input.</p>
+</div>
+<div class="note"><div class="section-title">Note</div>
+<p>The hidden number in the first query is 30. In a table below you can see a better form of the provided example of the communication process.</p>
+<p>\(\begin{array}{|c|c|}
+\hline
+\text{solution} &amp; \text{system} \\
+\hline
+2 &amp; \text{yes} \\
+80 &amp; \text{no} \\
+5 &amp; \text{yes} \\
+\hline
+\text{composite} &amp; \\
+\hline
+\end{array}\)</p>
+<p>The hidden number is divisible by both 2 and 5. Thus, it must be composite. Note that it isn&#x27;t necessary to know the exact value of the hidden number. In this test, the hidden number is 30.</p>
+<p>\(\begin{array}{|c|c|}
+\hline
+\text{solution} &amp; \text{system} \\
+\hline
+58 &amp; \text{no} \\
+\hline
+59 &amp; \text{yes} \\
+\hline
+78 &amp; \text{no} \\
+\hline
+78 &amp; \text{no} \\
+\hline
+2 &amp; \text{no} \\
+\hline
+\text{prime} &amp; \\
+\hline
+\end{array}\)</p>
+<p>59 is a divisor of the hidden number. In the interval [2, 100] there is only one number with this divisor. The hidden number must be 59, which is prime. Note that the answer is known even after the second query and you could print it then and terminate. Though, it isn&#x27;t forbidden to ask unnecessary queries (unless you exceed the limit of 20 queries).</p>
+</div>
+</div>

@@ -1,0 +1,32 @@
+<div class="problem-statement">
+<div class="header"><div class="title">Shopping</div>
+<div class="time-limit">time limit per test: 1.0 s</div>
+<div class="memory-limit">memory limit per test: 256 MB</div>
+</div>
+<p>Ayush is a cashier at the shopping center. Recently his department has started a &#x27;&#x27;click and collect&quot; service which allows users to shop online.</p>
+<p>The store contains k items. n customers have already used the above service. Each user paid for m items. Let aij denote the j-th item in the i-th person&#x27;s order.</p>
+<p>Due to the space limitations all the items are arranged in one single row. When Ayush receives the i-th order he will find one by one all the items aij (1 ≤ j ≤ m) in the row. Let pos(x) denote the position of the item x in the row at the moment of its collection. Then Ayush takes time equal to pos(ai1) + pos(ai2) + ... + pos(aim) for the i-th customer.</p>
+<p>When Ayush accesses the x-th element he keeps a new stock in the front of the row and takes away the x-th element. Thus the values are updating.</p>
+<p>Your task is to calculate the total time it takes for Ayush to process all the orders.</p>
+<p>You can assume that the market has endless stock.</p>
+<div class="input-specification"><div class="section-title">Input</div>
+<p>The first line contains three integers n, m and k (1 ≤ n, k ≤ 100, 1 ≤ m ≤ k) — the number of users, the number of items each user wants to buy and the total number of items at the market.</p>
+<p>The next line contains k distinct integers pl (1 ≤ pl ≤ k) denoting the initial positions of the items in the store. The items are numbered with integers from 1 to k.</p>
+<p>Each of the next n lines contains m distinct integers aij (1 ≤ aij ≤ k) — the order of the i-th person.</p>
+</div>
+<div class="output-specification"><div class="section-title">Output</div>
+<p>Print the only integer t — the total time needed for Ayush to process all the orders.</p>
+</div>
+<div class="note"><div class="section-title">Note</div>
+<p>Customer 1 wants the items 1 and 5.</p>
+<p>pos(1) = 3, so the new positions are: [1, 3, 4, 2, 5].</p>
+<p>pos(5) = 5, so the new positions are: [5, 1, 3, 4, 2].</p>
+<p>Time taken for the first customer is 3 + 5 = 8.</p>
+<p>Customer 2 wants the items 3 and 1.</p>
+<p>pos(3) = 3, so the new positions are: [3, 5, 1, 4, 2].</p>
+<p>pos(1) = 3, so the new positions are: [1, 3, 5, 4, 2].</p>
+<p>Time taken for the second customer is 3 + 3 = 6.</p>
+<p>Total time is 8 + 6 = 14.</p>
+<p>Formally pos(x) is the index of x in the current row.</p>
+</div>
+</div>

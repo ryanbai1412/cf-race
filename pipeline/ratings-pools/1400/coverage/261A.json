@@ -1,0 +1,42 @@
+{
+ "adversarial": [
+  {
+   "reason": "discount larger than item count",
+   "test": "0034"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "n=1 m=1",
+   "test": "0031"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 1,
+   "boundary": 1,
+   "maxSize": 2,
+   "random": 146
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "m in [1,1e5]; q_i in [1,1e5]; n in [1,1e5]; a_i in [1,1e4]",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_e.P261A.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "q=1 n=1e5",
+   "test": "0032"
+  },
+  {
+   "reason": "q=1e5 > n useless",
+   "test": "0033"
+  }
+ ],
+ "packageHash": "cc5d9e2297411bbf5af2077d7953dd0a545e17f6a3e1f071f98de493db4e3d51",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

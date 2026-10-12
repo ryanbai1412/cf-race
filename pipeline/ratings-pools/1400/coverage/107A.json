@@ -1,0 +1,50 @@
+{
+ "adversarial": [
+  {
+   "reason": "cycle plus chain",
+   "test": "0035"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "n=1 p=0",
+   "test": "0030"
+  },
+  {
+   "reason": "single pipe",
+   "test": "0031"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 1,
+   "boundary": 2,
+   "maxSize": 3,
+   "random": 144
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "n in [1,1000], 0<=p<=n, pipes a b d (a!=b, d in [1,1e6]), indeg/outdeg <= 1",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_e.P107A.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "single chain of 1000 random order",
+   "test": "0032"
+  },
+  {
+   "reason": "full cycle -> 0",
+   "test": "0033"
+  },
+  {
+   "reason": "500 disjoint pipes",
+   "test": "0034"
+  }
+ ],
+ "packageHash": "c82dbd5e3ff41403997cbf9463e9d8d56fbbae614e2aee661b2164d89e3dd997",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}
