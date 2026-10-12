@@ -19,6 +19,17 @@ import additional
 import generated_recipes
 import replenish
 
+
+def source_submissions(pid,cache,all_submissions=False,index_root=None,problem_ids=None):
+    primary,files = submissions(pid,cache,all_submissions,index_root,problem_ids)
+    if all_submissions:
+        selected,selected_files = submissions(pid,cache,False,index_root,problem_ids)
+        return primary+selected,files+selected_files
+    return primary,files
+
+
+rated_pool.submissions = source_submissions
+
 IDS = recipes.IDS + additional.IDS + generated_recipes.IDS + replenish.IDS
 RULES = recipes.RULES | additional.RULES | generated_recipes.RULES | replenish.RULES
 
@@ -53,15 +64,15 @@ def arguments(pid, base, cache):
 
 
 def source_index(base, cache):
-    entries = tree("open-r1/codeforces-submissions", "data")
+    entries = [entry for prefix in ("data","selected_accepted","selected_incorrect") for entry in tree("open-r1/codeforces-submissions",prefix)]
     def fetch(entry):
         download("open-r1/codeforces-submissions", entry, cache)
         print("verified", entry["path"], flush=True)
     with ThreadPoolExecutor(max_workers=4) as executor:
         list(executor.map(fetch, entries))
     inventory = read_json(base / "inventory.json")
-    source_ids = [i["sourceId"] for i in inventory["items"] if not i["exclusions"]]
-    submissions(source_ids[0],cache,True,base/"submissions",source_ids)
+    source_ids = [i["sourceId"] for i in inventory["items"] if not rated_pool.inventory_blockers(i)]
+    source_submissions(source_ids[0],cache,True,base/"submissions",source_ids)
     from pool_sandbox import kind
     entries_by_id = {i["sourceId"]: i for i in inventory["items"]}
     counts, hashes, identities = {}, {}, {}
@@ -111,7 +122,9 @@ def source_index(base, cache):
              "files":[read_json(p)["source"] for p in sorted((base/"submissions").glob("*/complete.json"))],
              "items":rows,"exclusions":dict(exclusions),"validatedCount":0,
              "completeAndFiveEach":sum(not r["preExecutionBlockers"] for r in rows)}
+    value["scope"] = "all-default-plus-selected-accepted-and-incorrect-shards"
     write_json(base/"source-scan.json",value)
+    write_json(base/"index-complete.json",{"inventoryHash":digest(inventory),"sourceIds":sorted(source_ids),"scope":value["scope"]})
     return {k:v for k,v in value.items() if k not in ("items","files")}
 
 
