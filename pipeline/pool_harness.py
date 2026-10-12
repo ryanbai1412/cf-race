@@ -9,6 +9,9 @@ import signal
 import subprocess
 import time
 
+EXECUTION_VERSION = 2
+COMPILER_FLAGS = ["-O2", "-std=c++17", "-DONLINE_JUDGE"]
+
 
 def execute(command, data, cpu, memory, wall):
     def limits():
@@ -51,9 +54,9 @@ def main():
     source = Path(f"/work/main.{ext}")
     source.write_text(request["source"])
     if ext == "cpp":
-        compile_result = execute(["g++", "-O2", "-std=c++17", str(source), "-o", "/work/main"], b"", 30, 1024, 60)
+        compile_result = execute(["g++", *COMPILER_FLAGS, str(source), "-o", "/work/main"], b"", 30, 1024, 60)
         if compile_result["exitCode"] != 0 or compile_result["timeout"]:
-            print(json.dumps({"compiled": False, "compile": compile_result, "runs": []}))
+            print(json.dumps({"executionVersion": EXECUTION_VERSION, "compilerFlags": COMPILER_FLAGS, "compiled": False, "compile": compile_result, "runs": []}))
             return
         command = ["/work/main"]
     else:
@@ -63,7 +66,7 @@ def main():
         result = execute(command, base64.b64decode(test["input"]), request["cpu"], request["memory"], request["cpu"] * 2 + 2)
         result["test"] = test["name"]
         runs.append(result)
-    print(json.dumps({"compiled": True, "runs": runs}))
+    print(json.dumps({"executionVersion": EXECUTION_VERSION, "compilerFlags": COMPILER_FLAGS, "compiled": True, "runs": runs}))
 
 
 if __name__ == "__main__":

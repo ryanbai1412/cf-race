@@ -5,7 +5,7 @@ import re
 from pathlib import Path
 
 from pool_contract import digest, pairs, read_json
-from pool_sandbox import IMAGE, kind, run
+from pool_sandbox import IMAGE, COMPILER_FLAGS, EXECUTION_VERSION, kind, run
 from pool_sources import sha_file
 
 
@@ -18,6 +18,7 @@ def stable_result(result):
 
 def sandbox():
     return {"image": IMAGE, "network": "none", "bounded": True,
+            "executionVersion": EXECUTION_VERSION, "compilerFlags": COMPILER_FLAGS,
             **{key: sha_file(Path(__file__).with_name(name)) for key, name in
                (("harnessHash", "pool_harness.py"), ("runnerHash", "pool_sandbox.py"), ("checkerHash", "checker.py"))}}
 
