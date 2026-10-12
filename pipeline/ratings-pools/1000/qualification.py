@@ -53,7 +53,7 @@ def qualify(pid,base,cache,here):
     attempts = []
     oracle = None
     for s in sorted(candidates,key=lambda x:int(x["submission_id"]),reverse=True)[:8]:
-        result = run(s["source"],s["programmingLanguage"],tests,row["time_limit"],row["memory_limit"])
+        result = run(s["source"],s["programmingLanguage"],tests,row["time_limit"],int(row["memory_limit"]))
         record = {"submissionId":s["submission_id"],"sourceHash":hashlib.sha256(s["source"].encode()).hexdigest(),
                   "language":s["programmingLanguage"],"source":s["provenance"],"result":result}
         attempts.append(record)
