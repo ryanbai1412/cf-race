@@ -26,8 +26,9 @@ def action(kind, user=A, patch=None):
     return f"select public.duel_lobby_action('{ROOM}', '{user}', '{kind}', '{payload}'::jsonb);"
 
 
-def start_match(problem="123A"):
-    return f"select public.duel_start_match('{ROOM}', '{A}', '{B}', '{problem}');"
+def start_match(problem="123A", claim=None):
+    claim_sql = f"'{claim}'::timestamptz" if claim else f"(select start_claimed_at from public.duel_rooms where id='{ROOM}')"
+    return f"select public.duel_start_match('{ROOM}', '{A}', '{B}', '{problem}', {claim_sql});"
 
 
 def main():
@@ -90,7 +91,8 @@ def main():
         assert sql(f"select problem_rating from public.duel_rooms where id='{ROOM}'") == "800"
         for role, expected in [("anon", "f"), ("authenticated", "f"), ("service_role", "t")]:
             assert sql(f"select has_function_privilege('{role}', 'public.duel_lobby_action(uuid, uuid, text, jsonb)', 'EXECUTE')") == expected
-            assert sql(f"select has_function_privilege('{role}', 'public.duel_start_match(uuid, uuid, uuid, text)', 'EXECUTE')") == expected
+            assert sql(f"select has_function_privilege('{role}', 'public.duel_start_match(uuid, uuid, uuid, text, timestamptz)', 'EXECUTE')") == expected
+        assert sql("select to_regprocedure('public.duel_start_match(uuid,uuid,uuid,text)') is null") == "t"
         assert json.loads(sql(action("settings", OUTSIDER, {"rating": 1600})))["status"] == 403
         assert json.loads(sql(action("settings", patch={"rating": 900})))["status"] == 400
         assert json.loads(sql(action("settings", patch={"rating": 1000})))["ok"]
@@ -108,8 +110,19 @@ def main():
         assert claimed["room"]["total_time_sec"] == 600 and set(claimed["playerIds"]) == {A, B}
         assert json.loads(sql(action("settings", patch={"rating": 1600})))["status"] == 409
         assert json.loads(sql(action("ready", B, {"ready": True, "settingsVersion": 2})))["status"] == 409
-        sql(action("reset"))
+        sql(action("reset", patch={"startClaimedAt": claimed["room"]["start_claimed_at"]}))
         assert sql("select count(*) from public.duel_room_players where ready_at is not null") == "0"
+
+        sql(f"update public.duel_rooms set status='racing', start_claimed_at=clock_timestamp() where id='{ROOM}'; update public.duel_room_players set ready_at=now();")
+        stale_claim = sql(f"select start_claimed_at from public.duel_rooms where id='{ROOM}'")
+        sql(f"update public.duel_rooms set start_claimed_at=start_claimed_at+interval '1 microsecond' where id='{ROOM}';")
+        assert json.loads(sql(start_match('123C', stale_claim)))["status"] == 409
+        assert json.loads(sql(action('reset', patch={"startClaimedAt": stale_claim})))["status"] == 409
+        assert sql(f"select status from public.duel_rooms where id='{ROOM}'") == "racing"
+        assert sql("select count(*) from public.duel_room_players where ready_at is not null") == "2"
+        assert sql("select count(*) from public.duel_matches") == "1"
+        current_claim = sql(f"select start_claimed_at from public.duel_rooms where id='{ROOM}'")
+        sql(action('reset', patch={"startClaimedAt": current_claim}))
 
         sql("insert into public.problems (id, rating) values ('123A', 1000), ('123B', 1200), ('123C', 1000);")
         sql(f"update public.duel_rooms set status='racing' where id='{ROOM}'; update public.duel_room_players set ready_at=now();")

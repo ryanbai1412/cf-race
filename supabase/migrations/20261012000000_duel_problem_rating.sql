@@ -36,6 +36,9 @@ begin
     return jsonb_build_object('ok', true, 'activeMatch', false);
   end if;
   if p_action in ('reset', 'recover') and r.status = 'racing' then
+    if p_action = 'reset' and r.start_claimed_at is distinct from (p_patch->>'startClaimedAt')::timestamptz then
+      return jsonb_build_object('ok', false, 'status', 409, 'error', 'Race attempt changed');
+    end if;
     if exists (select 1 from public.duel_matches where room_id = p_room_id and finished_at is null) then
       return jsonb_build_object('ok', true, 'activeMatch', true);
     end if;
@@ -85,8 +88,10 @@ end $$;
 revoke all on function public.duel_lobby_action(uuid, uuid, text, jsonb) from public, anon, authenticated;
 grant execute on function public.duel_lobby_action(uuid, uuid, text, jsonb) to service_role;
 
+drop function if exists public.duel_start_match(uuid, uuid, uuid, text);
+
 create or replace function public.duel_start_match(
-  p_room_id uuid, p_user_a uuid, p_user_b uuid, p_problem_id text
+  p_room_id uuid, p_user_a uuid, p_user_b uuid, p_problem_id text, p_claim_time timestamptz
 ) returns jsonb
 language plpgsql security invoker set search_path = ''
 as $$
@@ -103,6 +108,9 @@ begin
   select * into r from public.duel_rooms where id = p_room_id for update;
   if not found or r.status <> 'racing' then
     return jsonb_build_object('ok', false, 'status', 409, 'error', 'Room is not starting a race');
+  end if;
+  if r.start_claimed_at is distinct from p_claim_time then
+    return jsonb_build_object('ok', false, 'status', 409, 'error', 'Race attempt changed. Refresh the lobby.');
   end if;
   if exists (select 1 from public.duel_matches where room_id = p_room_id and finished_at is null) then
     return jsonb_build_object('ok', true);
@@ -148,5 +156,5 @@ begin
   return jsonb_build_object('ok', true);
 end $$;
 
-revoke all on function public.duel_start_match(uuid, uuid, uuid, text) from public, anon, authenticated;
-grant execute on function public.duel_start_match(uuid, uuid, uuid, text) to service_role;
+revoke all on function public.duel_start_match(uuid, uuid, uuid, text, timestamptz) from public, anon, authenticated;
+grant execute on function public.duel_start_match(uuid, uuid, uuid, text, timestamptz) to service_role;

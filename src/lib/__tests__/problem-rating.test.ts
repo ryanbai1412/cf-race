@@ -47,6 +47,7 @@ const claimedRoom: DuelRoomRow = {
   id: "room", created_by: "a", created_at: "2026-01-01T00:00:00Z",
   status: "racing", total_time_sec: 180, grace_after_ac_sec: null,
   problem_rating: 800, settings_version: 0,
+  start_claimed_at: "2026-01-01T00:00:00.123456Z",
 };
 
 describe("lost duel start responses", () => {
@@ -56,6 +57,8 @@ describe("lost duel start responses", () => {
     expect(await startDuelMatch(claimedRoom, ["a", "b"])).toEqual({ ok: true });
     expect(store.rpc.mock.calls.map((call) => call[0])).toEqual(["duel_start_match", "duel_lobby_action"]);
     expect(store.rpc.mock.calls[1][1].p_action).toBe("reset");
+    expect(store.rpc.mock.calls[0][1].p_claim_time).toBe(claimedRoom.start_claimed_at);
+    expect(store.rpc.mock.calls[1][1].p_patch.startClaimedAt).toBe(claimedRoom.start_claimed_at);
   });
 
   it("resets an uncommitted claim after a failed RPC", async () => {

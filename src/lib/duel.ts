@@ -176,7 +176,8 @@ export async function startDuelMatch(
   }
   if (!problemId) {
     const { error: resetErr } = await db().rpc("duel_lobby_action", {
-      p_room_id: room.id, p_user_id: userA, p_action: "reset", p_patch: {},
+      p_room_id: room.id, p_user_id: userA, p_action: "reset",
+      p_patch: { startClaimedAt: room.start_claimed_at ?? null },
     });
     logDbError(`startDuelMatch: reset room ${room.id}`, resetErr);
     if (pickFailed) return { ok: false, error: "Could not load eligible problems. Try again.", status: 503 };
@@ -186,6 +187,7 @@ export async function startDuelMatch(
   try {
     const { data, error } = await db().rpc("duel_start_match", {
       p_room_id: room.id, p_user_a: userA, p_user_b: userB, p_problem_id: problemId,
+      p_claim_time: room.start_claimed_at ?? null,
     });
     if (!error && data?.ok) return { ok: true };
     if (!error && data) return { ok: false, error: data.error, status: data.status ?? 500 };
@@ -194,7 +196,8 @@ export async function startDuelMatch(
   }
   try {
     const { data: recovered, error: recoveryError } = await db().rpc("duel_lobby_action", {
-      p_room_id: room.id, p_user_id: userA, p_action: "reset", p_patch: {},
+      p_room_id: room.id, p_user_id: userA, p_action: "reset",
+      p_patch: { startClaimedAt: room.start_claimed_at ?? null },
     });
     logDbError(`startDuelMatch: recover room ${room.id}`, recoveryError);
     if (!recoveryError && recovered?.activeMatch) return { ok: true };
