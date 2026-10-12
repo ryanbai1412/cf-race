@@ -36,7 +36,9 @@ def gen(rng):
     out = set()
     while len(out) < n:
         out.add(pre + "".join(rng.choice(DIGITS) for _ in range(L - p)))
-    return f"{n}\n" + "\n".join(sorted(out, key=lambda _: rng.random())) + "\n"
+    out = sorted(out)
+    rng.shuffle(out)
+    return f"{n}\n" + "\n".join(out) + "\n"
 
 
 def extra():
