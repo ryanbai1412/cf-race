@@ -170,8 +170,12 @@ def verify_evidence(package, evidence, audit):
     if sum(r["expected"] == "OK" for r in runs) < 5 or sum(r["expected"] != "OK" for r in runs) < 5:
         raise ValueError("fewer than 5 accepted/5 incorrect independent sources")
     sandbox = evidence.get("sandbox", {})
-    if not sandbox.get("image", "").startswith("python@sha256:") or sandbox.get("network") != "none" or sandbox.get("bounded") is not True:
+    from pool_sandbox import IMAGE
+    if sandbox.get("image") != IMAGE or sandbox.get("network") != "none" or sandbox.get("bounded") is not True:
         raise ValueError("missing isolated bounded sandbox evidence")
+    for key in ("harnessHash", "runnerHash", "checkerHash"):
+        if not re.fullmatch(r"[a-f0-9]{64}", sandbox.get(key, "")):
+            raise ValueError(f"missing validation implementation checksum: {key}")
     if audit.get("evidenceHash") != digest(evidence) or audit.get("packageHash") != evidence["packageHash"]:
         raise ValueError("audit is stale")
     if (audit.get("approved") is not True or not audit.get("reviewer") or

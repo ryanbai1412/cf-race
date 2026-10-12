@@ -230,6 +230,7 @@ def validate(args):
         cache_path = state / "runs" / f"{s['submission_id']}.json"
         run_key = digest({"packageHash": digest(files), "sourceHash": source_hash, "image": IMAGE,
                           "harnessHash": sha_file(Path(__file__).with_name("pool_harness.py")),
+                          "checkerHash": sha_file(Path(__file__).with_name("checker.py")),
                           "runnerHash": sha_file(Path(__file__).with_name("pool_sandbox.py"))})
         cached = read_json(cache_path) if cache_path.exists() else None
         try:
@@ -255,6 +256,7 @@ def validate(args):
                 "sourceFiles": source_files, "stages": ["prepare", "generate", "validate"],
                 "sandbox": {"image": IMAGE, "network": "none", "bounded": True,
                             "harnessHash": sha_file(Path(__file__).with_name("pool_harness.py")),
+                            "checkerHash": sha_file(Path(__file__).with_name("checker.py")),
                             "runnerHash": sha_file(Path(__file__).with_name("pool_sandbox.py"))},
                 "acceptedContradiction": accepted_contradiction,
                 "status": "execution-passed" if len(accepted) == 5 and len(incorrect) == 5 and not accepted_contradiction else "incomplete"}
@@ -263,7 +265,8 @@ def validate(args):
     write_json(base / "evidence" / f"{args.id}.json", evidence)
     return {"id": args.id, "status": evidence["status"], "accepted": len(accepted), "incorrect": len(incorrect),
             "excluded": len(skipped), "evidenceHash": digest(evidence), "validated": False,
-            "next": "independent audit signoff required"}
+            "officialComplete": row["official_tests_complete"],
+            "next": "independent audit signoff required" if row["official_tests_complete"] else "complete official tests and independent audit signoff required"}
 
 
 def report(args):
