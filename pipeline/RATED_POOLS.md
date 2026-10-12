@@ -86,8 +86,11 @@ Inventory is sorted/deduplicated by canonical source IDs and aliases. Its
 metadata-eligible count is only a shortlist. `prepare` checks nonempty full
 statement/input/output/examples and nontruncated official pairs; `generate`
 imports **every** available official pair and **all** advertised generated
-pairs. Incomplete official sets need the complete generated suite plus
-independently reviewed boundary/adversarial/max-size coverage. Special-checker,
+pairs. Incomplete official sets may be ingested/executed diagnostically, but
+**cannot be validated or published**, even with a complete generated suite and
+authored coverage. The gate requires `officialComplete=true` and exact official
+counts. `completeSourceEligible` reports this stricter shortlist independently
+of `metadataEligible`; neither implies validation. Special-checker,
 interactive/file-IO and samples-only packages fail closed. Numeric/float and
 multiple-answer tasks need a separate audited judge-compatible checker design;
 there is no automatic special-checker execution or constructive-tag shortcut.
@@ -205,10 +208,11 @@ cannot grant publication: use the rated workflow to generate evidence.
 
 ## Artifact reproduction
 
-`archive` includes the full package/test pairs, source row, exact external
+`archive` is byte-deterministic (sorted paths, normalized tar metadata, zero
+gzip timestamp) and includes the full package/test pairs, source row, exact external
 reference/submission source code, resume state, evidence and optional audit.
 Its companion `.provenance.json` has archive SHA256, size, complete per-byte
-package manifest and dataset revisions. Deliver both through attachment URLs.
+package **and archive** manifests and dataset revisions. Deliver both through attachment URLs.
 Verify `sha256sum archive.tar.gz` before extraction. A worker must attach its
 deterministic extra-test generator/coverage review too. Unit tests are delivered
 as a gitignored test archive rather than force-added to Git. Archive creation

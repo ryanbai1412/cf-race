@@ -119,11 +119,14 @@ def verify_evidence(package, evidence, audit):
                 raise ValueError("test pair/provenance mismatch")
     if not suite.get("officialIncluded") or suite.get("generatedIncluded") != suite.get("generatedAdvertised"):
         raise ValueError("incomplete source test suite")
-    if suite.get("officialComplete"):
-        if suite["officialIncluded"] != suite.get("officialAdvertised"):
-            raise ValueError("official test count mismatch")
-    elif not suite.get("generatedIncluded"):
-        raise ValueError("incomplete official tests require full generated suite")
+    origins = {key: sum(r.get("origin") == key for r in records) for key in ("official", "open-r1-generated", "worker-generated")}
+    if (origins["official"] != suite["officialIncluded"] or
+            origins["open-r1-generated"] != suite["generatedIncluded"] or sum(origins.values()) != len(records)):
+        raise ValueError("test origin/count mismatch")
+    if suite.get("officialComplete") is not True:
+        raise ValueError("incomplete official tests; generated coverage cannot replace missing official pairs")
+    if suite["officialIncluded"] != suite.get("officialAdvertised"):
+        raise ValueError("official test count mismatch")
     coverage = evidence.get("coverage", {})
     for key in ("boundary", "adversarial", "maxSize", "inputConstraints", "checkerSemantics", "statementComplete"):
         if not coverage.get(key):
@@ -183,7 +186,7 @@ def verify_evidence(package, evidence, audit):
 def publication_gate(package, evidence_root=None, approval_path=None, require_approval=True):
     package = Path(package)
     meta = read_json(package / "meta.json")
-    if package.is_relative_to(ROOT / "problems" / "dev"):
+    if meta.get("rating") is None and package.resolve().is_relative_to(ROOT / "problems" / "dev"):
         return {"legacy": True}
     if meta.get("rating") == 800 and meta["id"] in read_json(LEGACY) and not meta.get("poolPipeline"):
         return {"legacy": True}
