@@ -45,5 +45,6 @@ jobs:
         with:
           python-version: "3.11"
       - run: python -m pip install requests==2.32.5
+      - run: docker pull python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3
       - run: python -m unittest discover -s pipeline -p 'test_*.py' -v
       - run: python scripts/test-duel-rating.py

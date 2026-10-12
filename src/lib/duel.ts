@@ -14,6 +14,7 @@ export type DuelRoomRow = {
   grace_after_ac_sec: number | null;
   problem_rating: ProblemRating;
   settings_version: number;
+  start_claimed_at?: string | null;
   created_at: string;
 };
 
@@ -147,7 +148,7 @@ export async function resolveMatch(roomId: string): Promise<DuelMatchRow | null>
   logDbError(`resolveMatch: finish match ${match.id}`, finishErr);
   const { error: roomErr } = await db()
     .from("duel_rooms")
-    .update({ status: "lobby" })
+    .update({ status: "lobby", start_claimed_at: null })
     .eq("id", roomId)
     .eq("status", "racing");
   logDbError(`resolveMatch: reset room ${roomId}`, roomErr);
@@ -182,12 +183,25 @@ export async function startDuelMatch(
     return { ok: false, error: `No unseen ${room.problem_rating ?? DEFAULT_PROBLEM_RATING}-rated problems left for this pair. Try another rating.`, status: 409 };
   }
 
-  const { data, error } = await db().rpc("duel_start_match", {
-    p_room_id: room.id, p_user_a: userA, p_user_b: userB, p_problem_id: problemId,
-  });
-  if (error || !data) return { ok: false, error: "Could not create duel. Please retry.", status: 503 };
-  if (!data.ok) return { ok: false, error: data.error, status: data.status ?? 500 };
-  return { ok: true };
+  try {
+    const { data, error } = await db().rpc("duel_start_match", {
+      p_room_id: room.id, p_user_a: userA, p_user_b: userB, p_problem_id: problemId,
+    });
+    if (!error && data?.ok) return { ok: true };
+    if (!error && data) return { ok: false, error: data.error, status: data.status ?? 500 };
+  } catch {
+    // A lost RPC response may follow a committed match; check before resetting.
+  }
+  try {
+    const { data: recovered, error: recoveryError } = await db().rpc("duel_lobby_action", {
+      p_room_id: room.id, p_user_id: userA, p_action: "reset", p_patch: {},
+    });
+    logDbError(`startDuelMatch: recover room ${room.id}`, recoveryError);
+    if (!recoveryError && recovered?.activeMatch) return { ok: true };
+  } catch {
+    // The state poll recovers a stale claim after the database comes back.
+  }
+  return { ok: false, error: "Could not create duel. Please retry.", status: 503 };
 }
 
 /**

@@ -1,6 +1,7 @@
 alter table public.duel_rooms
   add column if not exists problem_rating integer not null default 800,
-  add column if not exists settings_version integer not null default 0;
+  add column if not exists settings_version integer not null default 0,
+  add column if not exists start_claimed_at timestamptz;
 
 do $$
 begin
@@ -31,10 +32,19 @@ begin
   if not exists (select 1 from public.duel_room_players where room_id = p_room_id and user_id = p_user_id) then
     return jsonb_build_object('ok', false, 'status', 403, 'error', 'Not in room');
   end if;
-  if p_action = 'reset' and r.status = 'racing' then
+  if p_action = 'reset' and r.status = 'lobby' then
+    return jsonb_build_object('ok', true, 'activeMatch', false);
+  end if;
+  if p_action in ('reset', 'recover') and r.status = 'racing' then
+    if exists (select 1 from public.duel_matches where room_id = p_room_id and finished_at is null) then
+      return jsonb_build_object('ok', true, 'activeMatch', true);
+    end if;
+    if p_action = 'recover' and r.start_claimed_at > clock_timestamp() - interval '30 seconds' then
+      return jsonb_build_object('ok', false, 'status', 409, 'error', 'Race is still starting');
+    end if;
     update public.duel_room_players set ready_at = null where room_id = p_room_id;
-    update public.duel_rooms set status = 'lobby' where id = p_room_id;
-    return jsonb_build_object('ok', true);
+    update public.duel_rooms set status = 'lobby', start_claimed_at = null where id = p_room_id;
+    return jsonb_build_object('ok', true, 'activeMatch', false);
   end if;
   if r.status <> 'lobby' then
     return jsonb_build_object('ok', false, 'status', 409, 'error', 'Room is not in the lobby');
@@ -64,7 +74,8 @@ begin
     select array_agg(user_id order by joined_at, user_id), count(*) = 2 and bool_and(ready_at is not null)
       into player_ids, both_ready from public.duel_room_players where room_id = p_room_id;
     if both_ready then
-      update public.duel_rooms set status = 'racing' where id = p_room_id returning * into r;
+      update public.duel_rooms set status = 'racing', start_claimed_at = clock_timestamp()
+        where id = p_room_id returning * into r;
     end if;
     return jsonb_build_object('ok', true, 'claimed', coalesce(both_ready, false), 'room', to_jsonb(r), 'playerIds', player_ids);
   end if;
@@ -101,7 +112,7 @@ begin
   if p_user_a = p_user_b or p_user_a is null or p_user_b is null or v_members <> 2 or
     (select count(*) from public.duel_room_players where room_id = p_room_id) <> 2 then
     update public.duel_room_players set ready_at = null where room_id = p_room_id;
-    update public.duel_rooms set status = 'lobby' where id = p_room_id;
+    update public.duel_rooms set status = 'lobby', start_claimed_at = null where id = p_room_id;
     return jsonb_build_object('ok', false, 'status', 409, 'error', 'Players changed. Please ready up again.');
   end if;
 
@@ -113,7 +124,7 @@ begin
     exists (select 1 from public.problem_invalidations
       where by_user in (p_user_a, p_user_b) and problem_id = p_problem_id and revoked_at is null) then
     update public.duel_room_players set ready_at = null where room_id = p_room_id;
-    update public.duel_rooms set status = 'lobby' where id = p_room_id;
+    update public.duel_rooms set status = 'lobby', start_claimed_at = null where id = p_room_id;
     return jsonb_build_object('ok', false, 'status', 409, 'error', 'Problem is no longer eligible. Please ready up again.');
   end if;
 
@@ -131,7 +142,7 @@ begin
     end loop;
   exception when others then
     update public.duel_room_players set ready_at = null where room_id = p_room_id;
-    update public.duel_rooms set status = 'lobby' where id = p_room_id;
+    update public.duel_rooms set status = 'lobby', start_claimed_at = null where id = p_room_id;
     return jsonb_build_object('ok', false, 'status', 500, 'error', 'Could not start duel. Please ready up again.');
   end;
   return jsonb_build_object('ok', true);

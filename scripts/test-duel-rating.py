@@ -104,6 +104,7 @@ def main():
         sql(action("ready", patch={"ready": True, "settingsVersion": 2}))
         claimed = json.loads(sql("set role service_role; " + action("ready", B, {"ready": True, "settingsVersion": 2})).splitlines()[-1])
         assert claimed["claimed"] and claimed["room"]["problem_rating"] == 1000
+        assert claimed["room"]["start_claimed_at"] is not None
         assert claimed["room"]["total_time_sec"] == 600 and set(claimed["playerIds"]) == {A, B}
         assert json.loads(sql(action("settings", patch={"rating": 1600})))["status"] == 409
         assert json.loads(sql(action("ready", B, {"ready": True, "settingsVersion": 2})))["status"] == 409
@@ -122,6 +123,8 @@ def main():
         assert sql("select count(*) from public.duel_matches") == "1"
         assert sql("select count(*) from public.sessions") == "2"
         assert sql("select count(*) from public.duel_players") == "2"
+        assert json.loads(sql(action("reset")))["activeMatch"]
+        assert sql(f"select status from public.duel_rooms where id='{ROOM}'") == "racing"
         assert sql("select count(distinct started_at) from public.sessions") == "1"
         assert sql("select count(*) from public.duel_matches where started_at > now()") == "1"
 
@@ -146,6 +149,14 @@ def main():
         assert sql("select status from public.duel_rooms where id='" + ROOM + "'") == "lobby"
         assert sql("select count(*) from public.duel_room_players where ready_at is not null") == "0"
         sql("drop trigger fail_second_session on public.sessions;")
+
+        sql(f"update public.duel_rooms set status='racing', start_claimed_at=clock_timestamp() where id='{ROOM}'; update public.duel_room_players set ready_at=now();")
+        assert json.loads(sql(action("recover")))["status"] == 409
+        assert sql(f"select status from public.duel_rooms where id='{ROOM}'") == "racing"
+        sql(f"update public.duel_rooms set start_claimed_at=clock_timestamp()-interval '31 seconds' where id='{ROOM}';")
+        assert not json.loads(sql(action("recover")))["activeMatch"]
+        assert sql(f"select status from public.duel_rooms where id='{ROOM}'") == "lobby"
+        assert sql("select count(*) from public.duel_room_players where ready_at is not null") == "0"
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
             for _ in range(20):

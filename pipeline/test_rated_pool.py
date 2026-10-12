@@ -186,7 +186,7 @@ class PipelineTests(unittest.TestCase):
             write_json(p/'meta.json',{'id':'999999A','rating':1200})
             with self.assertRaises(OSError):publication_gate(p,self.base,require_approval=False)
             write_json(p/'meta.json',{'id':'dev/fake','rating':None})
-            self.assertTrue(publication_gate(p,self.base,require_approval=False)['legacy'])
+            with self.assertRaises(OSError):publication_gate(p,self.base,require_approval=False)
 
     def test_archive_byte_reproducible(self):
         import os
