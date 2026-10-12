@@ -140,6 +140,10 @@ def verify_evidence(package, evidence, audit):
         raise ValueError("test origin/count mismatch")
     qualification = provenance.get("qualification", {})
     basis = qualification.get("basis", "official" if suite.get("officialComplete") is True else "unqualified")
+    if suite.get("officialComplete") is True and suite["officialIncluded"] != suite.get("officialAdvertised"):
+        raise ValueError("official completeness claim contradicts supplied count")
+    if basis == "generated" and suite.get("officialRole") != "supplementary":
+        raise ValueError("generated basis must label official pairs supplementary")
     if basis == "official" and (suite.get("officialComplete") is not True or not suite.get("officialIncluded") or suite["officialIncluded"] != suite.get("officialAdvertised")):
         raise ValueError("official test count mismatch")
     if basis not in ("official", "generated"):

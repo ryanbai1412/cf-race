@@ -302,6 +302,11 @@ def report(args):
               "validatedCount": 0, "executionPassed": 0, "exclusions": inv["exclusionCounts"], "packages": [],
               "completeSourceEligible": sum(not i["exclusions"] and i["officialComplete"] is True for i in inv["items"]),
               "incompleteOfficialCandidates": sum(not i["exclusions"] and i["officialComplete"] is not True for i in inv["items"])}
+    result["qualificationAvailability"] = {
+        "officialCandidates": result["completeSourceEligible"],
+        "generatedCandidates": sum(not [r for r in i["exclusions"] if r != "incomplete-tests-no-generated-suite"] for i in inv["items"]),
+        "note": "Availability only; generated candidates need authored coverage/oracle,5AC/5incorrect and independent audit."}
+    result["validatedByBasis"] = {"official": 0, "generated": 0}
     for item in inv["items"]:
         if not (base / "packages" / item["id"]).exists():
             continue
@@ -314,6 +319,7 @@ def report(args):
             verify_evidence(base / "packages" / item["id"], evidence, read_json(base / "audits" / f"{item['id']}.json"))
             entry["validated"] = True
             result["validatedCount"] += 1
+            result["validatedByBasis"][entry["qualificationBasis"]] += 1
         except (OSError, ValueError, KeyError) as exc:
             entry["reason"] = str(exc)
         result["packages"].append(entry)
