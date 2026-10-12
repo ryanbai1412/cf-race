@@ -12,6 +12,13 @@
   },
   "evidenceHash": "b3649c9a04c3a84954eb792218c5a82d9f68688f48d001015652a8af11e2dc69",
   "id": "55B",
+  "incorrectAnalysis": {
+    "12981545": "Greedy: multiply two smallest / add two largest after sorting; wrong for \"* * +\" (0012: expected 445884, got 636756). 49 single-integer WA. Algorithmic defect.",
+    "4652420": "Initial minimum hard-coded to 4000; outputs 4000 whenever the true minimum exceeds 4000 (183 single-integer WA, first 0007: expected 76908, got 4000). Algorithmic defect.",
+    "5592269": "Case-split over sorted values. On \"* + +\" / \"* * *\" branches it prints a debug tuple (65 failures, including recorded failedTest 0003). It also gives wrong single-integer answers on 0087 (\"1 1000 0 2 / + * +\": expected 1, got 1002), 0091 (expected 1, got 2) and 0222 (expected 428, got 1419), so the defect is algorithmic and not only debug output.",
+    "6993846": "Initial minimum hard-coded to 2**12=4096; outputs 4096 whenever the true minimum exceeds it (183 WA, first 0007). Algorithmic defect.",
+    "9391707": "Ignores operation order and uses fixed formulas by multiplication count (e.g. 0008 \"7 0 8 15 / + + *\": expected 0, got 23). 81 single-integer WA. Algorithmic defect."
+  },
   "packageHash": "b58d2f3898bc2844eed05ad8d0a7d1671680c797f9564cea88d7969d3d81d6f4",
   "qualificationBasis": "official",
   "rating": 1600,
@@ -24,6 +31,7 @@
     "sandbox": "Own harness (not worker pool_harness): pinned python@sha256:5887f265...05d3, --network=none, --read-only, --user=65534, --cap-drop=ALL, no-new-privileges, pids<=32, 1 CPU, RLIMIT_CPU/AS at problem limits, 16MiB output cap, run from an env -i shell without credentials; g++ -O2 -std=c++17 -DONLINE_JUDGE.",
     "singleAnswer": "Output is one integer uniquely determined by the input; token comparison is correct, no special checker, no float tolerance.",
     "statement": "Read pinned open-r1/codeforces row (description, input/output format, examples); row bytes equal pinned parquet row exactly and statementRowHash matches.",
+    "statementRendering": "Packaged statement.html constraints are \"0 ≤ a, b, c, d ≤ 1000\"; no exponent or superscript formatting is involved, so there is no rendering ambiguity.",
     "submissionProvenance": "All 10 sources byte-identical (sha256) to rows in pinned open-r1/codeforces-submissions parquet shards (shard sha256 verified); upstream verdicts OK/WRONG_ANSWER; for every incorrect source the first failing test index equals upstream passedTestCount+1.",
     "submissions": [
       {
