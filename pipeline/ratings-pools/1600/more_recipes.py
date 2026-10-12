@@ -41,7 +41,7 @@ def parse(pid, text):
         if len(v) != 5 or len(v[4]) != 5 or v[4][2] != ':' or not (v[4][:2]+v[4][3:]).isdigit():
             raise ValueError('bus fields/time layout')
         a, ta, b, tb = map(int, v[:4]); hour, minute = int(v[4][:2]), int(v[4][3:]); t = hour*60+minute
-        if not all(1 <= x <= 120 for x in (a,ta,b,tb)) or not 300 <= t < 1440 or (t-300)%a:
+        if not all(1 <= x <= 120 for x in (a,ta,b,tb)) or not 5 <= hour <= 23 or not 0 <= minute < 60 or (t-300)%a:
             raise ValueError('bus bounds/departure')
         return a,ta,b,tb,t
     if pid == '319A':
@@ -183,7 +183,7 @@ def answer(pid, value):
     if pid=='678B':
         y=value[0];leap=lambda x:x%400==0 or x%4==0 and x%100!=0
         same=leap(y);weekday=0
-        for next_year in range(y+1,y+31):
+        for next_year in range(y+1,y+401):
             weekday=(weekday+365+leap(next_year-1))%7
             if weekday==0 and leap(next_year)==same:return [next_year]
         raise ValueError('calendar recurrence failed')
