@@ -1,5 +1,6 @@
 """Report current-byte mechanical gates without creating or impersonating an audit."""
 from collections import Counter
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -8,7 +9,7 @@ HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1])]
 from pool_contract import digest, manifest, read_json, verify_evidence, write_json
 from pool_generation import sandbox, verify_generated
-from pool_sources import PINS, sha_file
+from pool_sources import PINS
 import worker
 
 
@@ -47,7 +48,12 @@ def main():
                       "semanticPassed": semantic["passed"], "sourceBytes": True}
             for submission in evidence["submissions"]:
                 paths = list((HERE / "state" / pid / "sources").glob(str(submission["submissionId"]) + ".*"))
-                checks["sourceBytes"] &= len(paths) == 1 and sha_file(paths[0]) == submission["sourceHash"]
+                if len(paths) != 1:
+                    checks["sourceBytes"] = False
+                    continue
+                source = read_json(paths[0])
+                checks["sourceBytes"] &= (hashlib.sha256(source["code"].encode()).hexdigest() == submission["sourceHash"]
+                                          and all(source[key] == submission[key] for key in ("submissionId", "expected", "source", "sourceHash", "url")))
             checks["preAuditEvidence"], record["evidenceGate"] = expected_missing_audit(
                 lambda: verify_evidence(package, evidence, {}), "audit is stale")
             if basis == "generated":
@@ -60,7 +66,7 @@ def main():
                 ready.append(pid)
         record["deduplicatedExternal691A"] = pid == "691A"
         records.append(record)
-    source_eligible = [p["id"] for p in scan["items"] if p["accepted"] >= 5 and p["incorrect"] >= 5]
+    source_eligible = [p["id"] for p in scan["items"] if p["sourceCounts"].get("accepted", 0) >= 5 and p["sourceCounts"].get("incorrect", 0) >= 5]
     reports = [read_json(HERE / name) for name in ("selfcheck-report.json", "extended-selfcheck-report.json", "further-selfcheck-report.json")]
     summary = {"rating": 1000, "target": 100, "apiCandidates": len(inventory["items"]),
                "metadataEligible": inventory["metadataEligible"], "completeSourceEligible": inventory["completeSourceEligible"],
