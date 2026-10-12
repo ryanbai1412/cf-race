@@ -10,8 +10,6 @@ import os
 import re
 import sys
 
-import datasets
-
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from common import PROBLEMS_DIR
 
@@ -55,12 +53,24 @@ def build_statement(row) -> str:
     return "\n".join(parts)
 
 
-def import_row(row):
+def import_row(row, api_problem=None, cache=None):
+    from pool_contract import row_gate
+    from pool_sources import PINS, generated_tests
+    row_gate(row)
+    if api_problem is None or api_problem.get("rating") is None:
+        raise ValueError("official API rating required for import")
+    row = {**row, "rating": api_problem["rating"], "tags": api_problem.get("tags", [])}
+    full_generated, generated_source = generated_tests(row, cache or os.path.expanduser("~/.cache/cf-race-pool"))
     pid = f"{row['contest_id']}{row['index']}"
     pdir = os.path.join(PROBLEMS_DIR, pid)
     if os.path.exists(os.path.join(pdir, "meta.json")):
         return "exists"
     os.makedirs(os.path.join(pdir, "samples"), exist_ok=True)
+    os.makedirs(os.path.join(pdir, "tests"), exist_ok=True)
+    for i, pair in enumerate(row["official_tests"] + full_generated, 1):
+        for ext, key in (("in", "input"), ("out", "output")):
+            with open(os.path.join(pdir, "tests", f"{i:04d}.{ext}"), "w") as f:
+                f.write(pair[key])
     with open(os.path.join(pdir, "statement.html"), "w") as f:
         f.write(build_statement(row))
     samples = row.get("examples") or []
@@ -83,6 +93,9 @@ def import_row(row):
         "raceTimerSec": 180,
         "touristTimeMs": None,
         "source": "open-r1/codeforces",
+        "poolPipeline": 1,
+        "datasetPins": PINS,
+        "generatedTestsSource": generated_source,
     }
     with open(os.path.join(pdir, "meta.json"), "w") as f:
         json.dump(meta, f, indent=2)
@@ -91,13 +104,17 @@ def import_row(row):
 
 
 def main():
+    import datasets
+    from common import api
+    from pool_sources import PROBLEMS_REVISION
     want = set(json.load(open(sys.argv[1])))
-    ds = datasets.load_dataset("open-r1/codeforces", split="train")
+    api_lookup = {f"{p.get('contestId')}{p['index']}": p for p in api("problemset.problems")["problems"]}
+    ds = datasets.load_dataset("open-r1/codeforces", split="train", revision=PROBLEMS_REVISION)
     seen = {}
     for row in ds:
         pid = f"{row['contest_id']}{row['index']}"
         if pid in want and pid not in seen:
-            seen[pid] = import_row(row)
+            seen[pid] = import_row(row, api_lookup.get(pid))
     counts = {}
     for v in seen.values():
         counts[v] = counts.get(v, 0) + 1

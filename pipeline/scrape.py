@@ -10,7 +10,7 @@ import sys
 
 from bs4 import BeautifulSoup
 
-from common import PROBLEMS_DIR, fetch_proxy, split_problem_id
+from common import PROBLEMS_DIR, api, fetch_proxy, split_problem_id
 
 
 def _pre_text(pre) -> str:
@@ -55,6 +55,10 @@ def _fix_urls(soup) -> None:
 
 def scrape(problem_id: str) -> dict:
     contest_id, index = split_problem_id(problem_id)
+    api_problem = next((p for p in api("problemset.problems")["problems"]
+                        if p.get("contestId") == contest_id and p["index"] == index), None)
+    if api_problem is None or api_problem.get("rating") is None:
+        raise RuntimeError(f"no API rating for {problem_id}; refusing an invented rating")
     html = fetch_proxy(f"/problemset/problem/{contest_id}/{index}")
     soup = BeautifulSoup(html, "html.parser")
     stmt = soup.find("div", class_="problem-statement")
@@ -103,7 +107,8 @@ def scrape(problem_id: str) -> dict:
     meta = {
         "id": problem_id,
         "name": name,
-        "rating": meta.get("rating", 800),
+        "rating": api_problem["rating"],
+        "tags": api_problem.get("tags", []),
         "timeLimitMs": tl_ms,
         "memoryLimitMb": ml_mb,
         "multiTest": multi_test,
