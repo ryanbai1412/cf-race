@@ -116,9 +116,14 @@ def main():
     elif args.stage == 'refresh':
         for pid in selected:
             prepared = {'officialCount': len(read_json(BASE / 'state' / pid / 'source-row.json')['official_tests'])}
-            generated = read_json(BASE / 'state' / pid / 'generate.json')
-            if generated['packageHash'] != digest(manifest(BASE / 'packages' / pid)):
+            generated_state = read_json(BASE / 'state' / pid / 'generate.json')
+            if generated_state['packageHash'] != digest(manifest(BASE / 'packages' / pid)):
                 raise ValueError('refresh refuses changed package bytes')
+            provenance = read_json(BASE / 'packages' / pid / 'provenance.json')
+            generated = {'id': pid, 'status': 'semantic-refreshed', 'packageHash': generated_state['packageHash'],
+                         'official': provenance['tests']['officialIncluded'],
+                         'openR1Generated': provenance['tests']['generatedIncluded'],
+                         'qualificationBasis': provenance['qualification']['basis']}
             try:
                 review_generated(pid, recipe(pid).extras(pid), prepared, generated)
             except (ValueError, RuntimeError, IndexError) as exc:
