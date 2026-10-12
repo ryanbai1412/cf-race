@@ -16,7 +16,7 @@ from pool_contract import (RATINGS, VERSION, digest, manifest, pairs, publicatio
                            read_json, row_gate, verify_evidence, write_json)
 from pool_sources import (PINS, download, generated_tests, parquet_rows, provenance,
                           sha_file, submissions, tree)
-from pool_sandbox import IMAGE, kind, run
+from pool_sandbox import IMAGE, COMPILER_FLAGS, EXECUTION_VERSION, kind, run
 
 METADATA_COLUMNS = ["id", "aliases", "contest_id", "index", "rating", "title", "tags",
                     "generated_checker", "generated_tests", "official_tests_complete",
@@ -256,11 +256,12 @@ def validate(args):
                          "language": s["programmingLanguage"], "source": s["provenance"],
                          "url": f"https://codeforces.com/contest/{s['contestId']}/submission/{s['submission_id']}"}
         write_json(state / "sources" / f"{s['submission_id']}.json", {**source_record, "code": s["source"]})
-        cache_path = state / "runs" / f"{s['submission_id']}.json"
         run_key = digest({"packageHash": digest(files), "sourceHash": source_hash, "image": IMAGE,
+                          "executionVersion": EXECUTION_VERSION, "compilerFlags": COMPILER_FLAGS,
                           "harnessHash": sha_file(Path(__file__).with_name("pool_harness.py")),
                           "checkerHash": sha_file(Path(__file__).with_name("checker.py")),
                           "runnerHash": sha_file(Path(__file__).with_name("pool_sandbox.py"))})
+        cache_path = state / "runs" / f"{s['submission_id']}-{run_key}.json"
         cached = read_json(cache_path) if cache_path.exists() else None
         try:
             if cached and cached.get("runKey") == run_key:
@@ -285,6 +286,7 @@ def validate(args):
                 "coverage": coverage, "submissions": accepted + incorrect, "excludedSubmissions": skipped,
                 "sourceFiles": source_files, "stages": ["prepare", "generate", "validate"],
                 "sandbox": {"image": IMAGE, "network": "none", "bounded": True,
+                            "executionVersion": EXECUTION_VERSION, "compilerFlags": COMPILER_FLAGS,
                             "harnessHash": sha_file(Path(__file__).with_name("pool_harness.py")),
                             "checkerHash": sha_file(Path(__file__).with_name("checker.py")),
                             "runnerHash": sha_file(Path(__file__).with_name("pool_sandbox.py"))},
@@ -292,7 +294,11 @@ def validate(args):
                 "status": "execution-passed" if len(accepted) == 5 and len(incorrect) == 5 and not accepted_contradiction else "incomplete"}
     if manifest(package) != files:
         raise ValueError("package changed during validation")
-    write_json(base / "evidence" / f"{args.id}.json", evidence)
+    evidence_path = base / "evidence" / f"{args.id}.json"
+    if evidence_path.exists():
+        previous = read_json(evidence_path)
+        write_json(state / "evidence-history" / f"{digest(previous)}.json", previous)
+    write_json(evidence_path, evidence)
     return {"id": args.id, "status": evidence["status"], "accepted": len(accepted), "incorrect": len(incorrect),
             "excluded": len(skipped), "evidenceHash": digest(evidence), "validated": False,
             "officialComplete": row["official_tests_complete"],
