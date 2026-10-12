@@ -100,9 +100,13 @@ def review_generated(pid, extra, prepared, generated):
     if failures:
         print(semantic, flush=True)
         raise ValueError('invalid input or conflicting expected output; original bytes retained')
+    normalization = read_json(package / 'provenance.json').get('statementNormalization')
+    statement_review = 'Manually read full pinned description/input/output/examples; no question or required image omitted for this problem. '
+    statement_review += ('Exponent markup restored from attributed public English statement; original statement, source row and tests preserved. See statementNormalization provenance.'
+                         if normalization else 'No statement bytes changed.')
     coverage = {'packageHash': digest(manifest(package)), 'inputConstraints': 'Every supplied official, authored, and sample pair parsed with exact arity/ranges by recipes.parse; integer outputs checked by recipes.answer. ' + SEMANTICS[pid],
                 'checkerSemantics': SEMANTICS[pid] + ' Token comparison is appropriate; no floating/multiple-answer/special checker.',
-                'statementComplete': 'Manually read full pinned description/input/output/examples; no question or required image omitted for this problem. Superscript constraints are normalized to powers of10 by the recipe; no statement bytes changed.'}
+                'statementComplete': statement_review}
     for category in ('boundary', 'adversarial', 'maxSize'):
         coverage[category] = [{'test': f'{generated["official"] + generated["openR1Generated"] + index:04d}', 'reason': pair['reason']}
                               for index, pair in enumerate(extra, 1) if pair['category'] == category]

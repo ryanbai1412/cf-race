@@ -14,6 +14,8 @@ from pool_contract import digest, manifest, read_json, write_json
 REPAIRS = {
     '235A': ('≤ 106)', '≤ 10<sup>6</sup>)', '10^{6}'),
     '322B': ('≤ 109)', '≤ 10<sup>9</sup>)', '10^{9}'),
+    '11B': ('- 109 ≤ x ≤ 109)', '- 10<sup>9</sup> ≤ x ≤ 10<sup>9</sup>)', '10<sup class="upper-index">9</sup>'),
+    '40B': ('≤ 109)', '≤ 10<sup>9</sup>)', '10<sup class="upper-index">9</sup>'),
 }
 
 
