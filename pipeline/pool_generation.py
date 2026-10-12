@@ -50,7 +50,9 @@ def build_generated(args, row, supplemental):
         raise ValueError("exhaustive basis requires exact declared domain size and independently auditable domain description")
     tests = [{"name": f"{i:04d}", "input": p["input"].encode(), "output": p["output"].encode()}
              for i, p in enumerate([p for _, p in supplemental] + extra, 1)]
-    checked = run(oracle.decode("utf-8"), args.oracle_language, tests, row["time_limit"], row["memory_limit"])
+    samples = [{"name": f"sample-{i:04d}", "input": p["input"].encode(), "output": p["output"].encode()}
+               for i, p in enumerate(pairs(row["examples"]), 1)]
+    checked = run(oracle.decode("utf-8"), args.oracle_language, tests + samples, row["time_limit"], row["memory_limit"])
     if checked["compiled"] is not True or checked["verdict"] != "AC":
         raise ValueError(f"oracle/constraint contradiction quarantined at {checked.get('failedTest')}; do not repair upstream tests silently")
     generation = {"schemaVersion": 1, "seed": args.seed, "author": args.generator_author,
@@ -59,9 +61,11 @@ def build_generated(args, row, supplemental):
                   "mode": mode, "domainSize": args.exhaustive_domain_size, "domain": args.exhaustive_domain,
                   "repeatOutputHashes": [hashlib.sha256(o).hexdigest() for o in outputs],
                   "executions": executions, "sandbox": sandbox()}
+    stable = stable_result(checked)
     reference = {"schemaVersion": 1, "author": args.oracle_author, "reviewUrl": args.oracle_review_url,
                  "sourceHash": hashlib.sha256(oracle).hexdigest(), "language": args.oracle_language,
-                 "result": stable_result(checked), "sandbox": sandbox()}
+                 "result": {**stable, "testsRun": len(tests), "runs": stable["runs"][:len(tests)]},
+                 "sampleResult": {**stable, "testsRun": len(samples), "runs": stable["runs"][len(tests):]}, "sandbox": sandbox()}
     return extra, generation, reference, generator, oracle
 
 
@@ -83,8 +87,8 @@ def verify_generated(package, files, records, evidence, audit):
             oracle["sourceHash"] == gen["sourceHash"] or any(r["sourceHash"] == oracle["sourceHash"] for r in evidence["submissions"])):
         raise ValueError("oracle is not independent from generator/validator/external references")
     authored = [r for r in records if r.get("origin") == "worker-generated"]
-    extra = [{"input": (package / f"tests/{r['name']}.in").read_text(),
-              "output": (package / f"tests/{r['name']}.out").read_text()} for r in authored]
+    extra = [{"input": (package / f"tests/{r['name']}.in").read_bytes().decode("utf-8"),
+              "output": (package / f"tests/{r['name']}.out").read_bytes().decode("utf-8")} for r in authored]
     if gen.get("count") != len(extra) or gen.get("pairsHash") != digest(extra):
         raise ValueError("generator proof does not bind every authored pair")
     distinct = len({p["input"] for p in extra})
@@ -111,6 +115,12 @@ def verify_generated(package, files, records, evidence, audit):
             [r.get("test") for r in result.get("runs", [])] != [r["name"] for r in records] or
             any(r.get("verdict") != "AC" or r.get("exitCode") != 0 or r.get("timeout") is not False or not re.fullmatch(r"[a-f0-9]{64}", r.get("outputHash", "")) for r in result.get("runs", []))):
         raise ValueError("independent oracle did not check every supplied pair")
+    samples = sorted(p[len("samples/"):-3] for p in files if p.startswith("samples/") and p.endswith(".in"))
+    sample_result = oracle.get("sampleResult", {})
+    if (sample_result.get("compiled") is not True or sample_result.get("verdict") != "AC" or sample_result.get("testsRun") != len(samples) or
+            [r.get("test") for r in sample_result.get("runs", [])] != [f"sample-{name}" for name in samples] or
+            any(r.get("verdict") != "AC" or r.get("exitCode") != 0 or r.get("timeout") is not False or not re.fullmatch(r"[a-f0-9]{64}", r.get("outputHash", "")) for r in sample_result.get("runs", []))):
+        raise ValueError("independent oracle did not check every supplied sample")
     authored_names = {r["name"] for r in authored}
     for key in ("boundary", "adversarial", "maxSize"):
         if not any(c["test"] in authored_names for c in evidence["coverage"][key]):

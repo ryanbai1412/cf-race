@@ -161,7 +161,7 @@ The generator reads that integer from stdin and emits a JSON list of complete `{
 on stdout. It runs **twice**, offline/resource-bounded; bytes must match exactly.
 The oracle reads one full test on stdin and returns the expected answer on stdout;
 it must check input constraints and have an independent brute/reference algorithm.
-All imported pairs also pass it; contradictions quarantine generation rather than
+All imported pairs and supplied examples also pass it; contradictions quarantine generation rather than
 silently dropping/fixing data. Programs must be self-contained Python3 or C++;
 `--generator-language 'GNU C++17'` / `--oracle-language 'GNU C++17'` select C++.
 Python3 is default. Generator CPU is10s/memory1024MB; output is bounded to8MB by
@@ -269,6 +269,17 @@ on the host on returned output hashes, matching the existing token/YES-NO judge.
 Floating checks are not enabled. Compile/runtime/infrastructure failures do
 not count as a successfully killed incorrect solution. CPython and C++ are
 supported; PyPy is excluded rather than pretending timing equivalence.
+
+Execution context v2 records `executionVersion:2` and `compilerFlags` exactly
+`["-O2","-std=c++17","-DONLINE_JUDGE"]` in each result and sandbox evidence.
+ONLINE_JUDGE matches CF's compile context without changing public source bytes.
+Old context evidence fails closed; regeneration/validation and fresh audit are
+required. Run cache names include submission ID **and** runKey; old results remain
+available. Previous full evidence is archived under `state/ID/evidence-history/`
+before a rerun replaces current evidence. Do not erase genuine contradictions:
+inspect whether a contextual/compiler change explains a failure, then rerun against
+the unchanged suites under the documented context. V2 is not permission to repair
+malformed tests or alter downloaded sources silently.
 
 Docker is a resource/security boundary for public contest code, not a promise
 to safely run deliberately hostile malware. Kernel/runtime must be trusted

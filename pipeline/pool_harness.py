@@ -17,7 +17,7 @@ def execute(command, data, cpu, memory, wall):
     def limits():
         os.setsid()
         resource.setrlimit(resource.RLIMIT_CPU, (math.ceil(cpu), math.ceil(cpu) + 1))
-        resource.setrlimit(resource.RLIMIT_AS, (memory * 1024 * 1024,) * 2)
+        resource.setrlimit(resource.RLIMIT_AS, (int(memory * 1024 * 1024),) * 2)
         resource.setrlimit(resource.RLIMIT_FSIZE, (8 * 1024 * 1024,) * 2)
         resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
         resource.setrlimit(resource.RLIMIT_NOFILE, (64, 64))
