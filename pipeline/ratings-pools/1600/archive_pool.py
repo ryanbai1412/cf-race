@@ -5,10 +5,13 @@ import hashlib
 import io
 import json
 from pathlib import Path
+import sys
 import tarfile
 
 
 BASE = Path(__file__).resolve().parent
+sys.path.insert(0, str(BASE.parents[1]))
+from pool_contract import publication_gate
 
 
 def sha(data):
@@ -33,11 +36,18 @@ def build(output, ids):
         if path.is_file() and not path.name.endswith('.partial'):
             contents['1600/' + path.relative_to(BASE).as_posix()] = path.read_bytes()
     manifest = {name: {'sha256': sha(data), 'bytes': len(data)} for name, data in contents.items()}
+    validated = []
+    for pid in ids:
+        try:
+            publication_gate(BASE / 'packages' / pid, BASE.parent, require_approval=False)
+            validated.append(pid)
+        except (OSError, ValueError, KeyError, RuntimeError):
+            pass
     metadata = {'problemIds': sorted(ids), 'sourceCards': {
                     'statements': 'https://huggingface.co/datasets/open-r1/codeforces',
                     'submissions': 'https://huggingface.co/datasets/open-r1/codeforces-submissions'},
                 'upstreamShards': 'Pinned shard URLs/checksums recorded in inventory and submission-report; shard binaries are not embedded.',
-                'files': manifest, 'validatedCount': 0,
+                'files': manifest, 'validatedCount': len(validated), 'validatedIds': sorted(validated),
                 'notes': 'Archive contains current evidence and superseded diagnostics; archival completeness is not qualification.'}
     contents['1600/ARCHIVE-MANIFEST.json'] = (json.dumps(metadata, sort_keys=True, indent=2) + '\n').encode()
     with output.open('wb') as raw, gzip.GzipFile(fileobj=raw, filename='', mtime=0) as zipped, tarfile.open(fileobj=zipped, mode='w') as tar:

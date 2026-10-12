@@ -97,7 +97,7 @@ def review_generated(pid, extra, prepared, generated):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('stage', choices=('build', 'validate', 'qualify', 'report'))
+    parser.add_argument('stage', choices=('build', 'refresh', 'validate', 'qualify', 'report'))
     parser.add_argument('--id', choices=IDS)
     parser.add_argument('--ids', nargs='+', choices=IDS)
     parser.add_argument('--cache', default=str(Path.home() / '.cache' / 'cf-race-pool'))
@@ -113,6 +113,16 @@ def main():
             except (ValueError,RuntimeError,IndexError) as exc:
                 write_json(BASE / 'build-gaps' / (pid + '.json'), {'id':pid,'status':'blocked','reason':str(exc),'validated':False})
                 print({'id':pid,'status':'blocked','reason':str(exc)}, flush=True)
+    elif args.stage == 'refresh':
+        for pid in selected:
+            prepared = {'officialCount': len(read_json(BASE / 'state' / pid / 'source-row.json')['official_tests'])}
+            generated = read_json(BASE / 'state' / pid / 'generate.json')
+            if generated['packageHash'] != digest(manifest(BASE / 'packages' / pid)):
+                raise ValueError('refresh refuses changed package bytes')
+            try:
+                review_generated(pid, recipe(pid).extras(pid), prepared, generated)
+            except (ValueError, RuntimeError, IndexError) as exc:
+                print({'id': pid, 'status': 'blocked', 'reason': str(exc)}, flush=True)
     elif args.stage == 'qualify':
         for pid in selected:
             try:
