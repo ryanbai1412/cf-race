@@ -15,6 +15,8 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { loadDotEnvLocal } from "./env";
 import { ensureBucket, uploadObject, upsertRows } from "./supabase";
 
@@ -33,6 +35,7 @@ type Meta = {
   floatEps: number | null;
   raceTimerSec: number;
   touristTimeMs: number | null;
+  tags?: string[];
 };
 
 function findPackages(dir: string, out: string[] = []): string[] {
@@ -55,25 +58,6 @@ function listFiles(dir: string, out: string[] = []): string[] {
   return out;
 }
 
-function readSamples(pkgDir: string): { input: string; output: string }[] {
-  const dir = path.join(pkgDir, "samples");
-  if (!fs.existsSync(dir)) return [];
-  const samples: { input: string; output: string }[] = [];
-  const ins = fs
-    .readdirSync(dir)
-    .filter((f) => f.endsWith(".in"))
-    .sort();
-  for (const inFile of ins) {
-    const outFile = inFile.replace(/\.in$/, ".out");
-    if (!fs.existsSync(path.join(dir, outFile))) continue;
-    samples.push({
-      input: fs.readFileSync(path.join(dir, inFile), "utf8"),
-      output: fs.readFileSync(path.join(dir, outFile), "utf8"),
-    });
-  }
-  return samples;
-}
-
 async function main() {
   loadDotEnvLocal(ROOT);
   const only = process.argv.includes("--only")
@@ -92,30 +76,56 @@ async function main() {
     }
   }
 
+  const gates = pkgs.map((pkgDir) => JSON.parse(execFileSync("python3", [
+    path.join(ROOT, "pipeline", "pool_contract.py"), pkgDir,
+    ...(dryRun ? ["--dry-run"] : []),
+  ], { encoding: "utf8" })) as {
+    legacy: boolean;
+    files?: Record<string, { sha256: string; bytes: number }>;
+  });
+  const snapshots = pkgs.map((pkgDir, i) => {
+    const files = listFiles(pkgDir).map((file) => ({
+      rel: path.relative(pkgDir, file).split(path.sep).join("/"),
+      data: fs.readFileSync(file),
+    }));
+    const gate = gates[i];
+    if (!gate.legacy) {
+      if (files.length !== Object.keys(gate.files!).length) throw new Error("changed package file set");
+      for (const file of files) {
+        const expected = gate.files![file.rel];
+        if (!expected || file.data.length !== expected.bytes ||
+            createHash("sha256").update(file.data).digest("hex") !== expected.sha256) {
+          throw new Error(`changed approved bytes: ${file.rel}`);
+        }
+      }
+    }
+    return files;
+  });
+
   if (!dryRun) {
     for (const bucket of ["problems", "tourist"]) await ensureBucket(bucket);
   }
 
-  for (const pkgDir of pkgs) {
+  for (const [i, pkgDir] of pkgs.entries()) {
+    const snapshot = snapshots[i];
     const meta = JSON.parse(
-      fs.readFileSync(path.join(pkgDir, "meta.json"), "utf8")
+      snapshot.find((f) => f.rel === "meta.json")!.data.toString("utf8")
     ) as Meta;
-    const files = listFiles(pkgDir);
+    const files = snapshot;
     console.log(`${meta.id}: ${files.length} files${dryRun ? " (dry run)" : ""}`);
     if (dryRun) continue;
 
     for (const file of files) {
-      const rel = path.relative(pkgDir, file).split(path.sep).join("/");
+      const rel = file.rel;
       const objectPath = `${meta.id}/${rel}`;
       const contentType = rel.endsWith(".html")
         ? "text/html"
         : rel.endsWith(".json")
           ? "application/json"
           : "text/plain";
-      await uploadObject(BUCKET, objectPath, fs.readFileSync(file), contentType);
+      await uploadObject(BUCKET, objectPath, file.data, contentType);
     }
 
-    const statementPath = path.join(pkgDir, "statement.html");
     const row = {
       id: meta.id,
       name: meta.name,
@@ -123,12 +133,15 @@ async function main() {
       time_limit_ms: meta.timeLimitMs,
       memory_limit_mb: meta.memoryLimitMb,
       special_judge: meta.specialJudge,
+      multi_test: meta.multiTest,
+      float_eps: meta.floatEps,
       race_timer_sec: meta.raceTimerSec,
       tourist_time_ms: meta.touristTimeMs,
-      statement_html: fs.existsSync(statementPath)
-        ? fs.readFileSync(statementPath, "utf8")
-        : null,
-      samples: readSamples(pkgDir),
+      statement_html: snapshot.find((f) => f.rel === "statement.html")?.data.toString("utf8") ?? null,
+      samples: snapshot.filter((f) => /^samples\/.*\.in$/.test(f.rel)).map((f) => ({
+        input: f.data.toString("utf8"),
+        output: snapshot.find((o) => o.rel === f.rel.replace(/\.in$/, ".out"))!.data.toString("utf8"),
+      })),
     };
     await upsertRows("problems", row);
   }
