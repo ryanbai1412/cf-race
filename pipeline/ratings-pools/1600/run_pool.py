@@ -9,7 +9,10 @@ sys.path.insert(0, str(BASE.parents[1]))
 import rated_pool
 from pool_contract import digest, manifest, read_json, write_json
 from pool_sources import PINS, sha_file
-from recipes import IDS, brute_checks, extras, review
+import recipes
+import extended_recipes
+
+IDS = (*recipes.IDS, *extended_recipes.IDS)
 
 SEMANTICS = {
     '235A': 'Unique integer maximum LCM of three positive integers, repeats allowed. n1..10^6; brute all triples n<=32 checks the parity/divisibility formula; outputs fit signed64-bit.',
@@ -17,11 +20,17 @@ SEMANTICS = {
     '371C': 'Unique integer maximum hamburgers. Nonempty BSC recipe length<=100, stock/prices1..100, money1..10^12. Monotone cost uses only required ingredients; returned x is affordable and x+1 is not; small linear brute validates binary oracle.',
     '888D': 'Unique integer number of permutations with at most k displaced indices. n4..1000,k1..4; choose displaced subset times its derangements. Exhaustive permutations n4..8 confirm all four budgets; integer answer needs no modulus.',
 }
+SEMANTICS.update(extended_recipes.SEMANTICS)
+
+
+def recipe(pid):
+    return recipes if pid in recipes.IDS else extended_recipes
 
 
 def selected_submissions(pid, cache, all_submissions=False, index_root=None, problem_ids=None):
     report = read_json(BASE / 'submission-report.json')
-    if report['pins'] != PINS or report['inventoryHash'] != digest(read_json(BASE / 'inventory.json')):
+    if (report['pins'] != PINS or report['inventoryHash'] != digest(read_json(BASE / 'inventory.json'))
+            or report.get('recipeHash') != sha_file(BASE / 'collect_submissions.py')):
         raise ValueError('submission inventory/pin mismatch')
     name = pid.replace('/', '') + '.json'
     path = BASE / 'submissions' / 'selected' / name
@@ -45,7 +54,7 @@ def arguments(pid, cache):
 def build(pid, cache):
     args = arguments(pid, cache)
     prepared = rated_pool.prepare(args)
-    extra = extras(pid)
+    extra = recipe(pid).extras(pid)
     write_json(args.extra_tests, extra)
     generated = rated_pool.generate(args)
     package = BASE / 'packages' / pid
@@ -53,8 +62,8 @@ def build(pid, cache):
              for p in sorted((package / 'tests').glob('*.in'))]
     samples = [('sample-' + p.stem, {'input': p.read_text(), 'output': p.with_suffix('.out').read_text()})
                for p in sorted((package / 'samples').glob('*.in'))]
-    failures = review(pid, tests, samples)
-    semantic = {'id': pid, 'packageHash': generated['packageHash'], 'recipeHash': sha_file(BASE / 'recipes.py'),
+    failures = recipe(pid).review(pid, tests, samples)
+    semantic = {'id': pid, 'packageHash': generated['packageHash'], 'recipeHash': sha_file(Path(recipe(pid).__file__)),
                 'officialPairs': prepared['officialCount'], 'extraPairs': len(extra),
                 'checkedTests': len(tests), 'checkedSamples': len(samples), 'failures': failures,
                 'semantics': SEMANTICS[pid], 'validated': False,
@@ -67,7 +76,7 @@ def build(pid, cache):
                 'checkerSemantics': SEMANTICS[pid] + ' Token comparison is appropriate; no floating/multiple-answer/special checker.',
                 'statementComplete': 'Manually read full pinned description/input/output/examples; no question or required image omitted for this problem. Superscript constraints are normalized to powers of10 by the recipe; no statement bytes changed.'}
     for category in ('boundary', 'adversarial', 'maxSize'):
-        coverage[category] = [{'test': f'{prepared["officialCount"] + index:04d}', 'reason': pair['reason']}
+        coverage[category] = [{'test': f'{generated["official"] + generated["openR1Generated"] + index:04d}', 'reason': pair['reason']}
                               for index, pair in enumerate(extra, 1) if pair['category'] == category]
     write_json(args.coverage, coverage)
     print(generated, flush=True)
@@ -80,17 +89,23 @@ def main():
     parser.add_argument('--cache', default=str(Path.home() / '.cache' / 'cf-race-pool'))
     args = parser.parse_args()
     if args.stage == 'build':
-        checks = brute_checks()
-        write_json(BASE / 'brute-report.json', {'recipeHash': sha_file(BASE / 'recipes.py'), 'checks': checks,
+        checks = {**recipes.brute_checks(), **extended_recipes.brute_checks()}
+        write_json(BASE / 'brute-report.json', {'recipeHashes': {m.__name__: sha_file(Path(m.__file__)) for m in (recipes, extended_recipes)}, 'checks': checks,
                                              'status': 'passed', 'validatedCount': 0})
         for pid in [args.id] if args.id else IDS:
-            build(pid, args.cache)
+            try:
+                build(pid, args.cache)
+            except (ValueError,RuntimeError,IndexError) as exc:
+                write_json(BASE / 'build-gaps' / (pid + '.json'), {'id':pid,'status':'blocked','reason':str(exc),'validated':False})
+                print({'id':pid,'status':'blocked','reason':str(exc)}, flush=True)
     elif args.stage == 'validate':
         rated_pool.submissions = selected_submissions
         for pid in [args.id] if args.id else IDS:
             semantic = read_json(BASE / 'semantic' / (pid + '.json'))
-            if semantic['status'] != 'oracle-constraints-passed' or semantic['packageHash'] != digest(manifest(BASE / 'packages' / pid)):
-                raise ValueError('semantic review missing or stale')
+            if (semantic['status'] != 'oracle-constraints-passed' or semantic['packageHash'] != digest(manifest(BASE / 'packages' / pid))
+                    or semantic['recipeHash'] != sha_file(Path(recipe(pid).__file__))):
+                print({'id':pid,'status':'blocked','reason':'semantic review missing or stale'}, flush=True)
+                continue
             print(rated_pool.validate(arguments(pid, args.cache)), flush=True)
     else:
         print(rated_pool.report(arguments(args.id, args.cache)), flush=True)
