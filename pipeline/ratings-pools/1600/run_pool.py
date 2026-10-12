@@ -11,8 +11,10 @@ from pool_contract import digest, manifest, read_json, write_json
 from pool_sources import PINS, sha_file
 import recipes
 import extended_recipes
+import additional_recipes
 
-IDS = (*recipes.IDS, *extended_recipes.IDS)
+MODULES = (recipes, extended_recipes, additional_recipes)
+IDS = tuple(pid for module in MODULES for pid in module.IDS)
 
 SEMANTICS = {
     '235A': 'Unique integer maximum LCM of three positive integers, repeats allowed. n1..10^6; brute all triples n<=32 checks the parity/divisibility formula; outputs fit signed64-bit.',
@@ -21,10 +23,11 @@ SEMANTICS = {
     '888D': 'Unique integer number of permutations with at most k displaced indices. n4..1000,k1..4; choose displaced subset times its derangements. Exhaustive permutations n4..8 confirm all four budgets; integer answer needs no modulus.',
 }
 SEMANTICS.update(extended_recipes.SEMANTICS)
+SEMANTICS.update(additional_recipes.SEMANTICS)
 
 
 def recipe(pid):
-    return recipes if pid in recipes.IDS else extended_recipes
+    return next(module for module in MODULES if pid in module.IDS)
 
 
 def selected_submissions(pid, cache, all_submissions=False, index_root=None, problem_ids=None):
@@ -86,13 +89,15 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('stage', choices=('build', 'validate', 'report'))
     parser.add_argument('--id', choices=IDS)
+    parser.add_argument('--ids', nargs='+', choices=IDS)
     parser.add_argument('--cache', default=str(Path.home() / '.cache' / 'cf-race-pool'))
     args = parser.parse_args()
+    selected = [args.id] if args.id else args.ids or IDS
     if args.stage == 'build':
-        checks = {**recipes.brute_checks(), **extended_recipes.brute_checks()}
-        write_json(BASE / 'brute-report.json', {'recipeHashes': {m.__name__: sha_file(Path(m.__file__)) for m in (recipes, extended_recipes)}, 'checks': checks,
+        checks = {pid: count for module in MODULES for pid,count in module.brute_checks().items()}
+        write_json(BASE / 'brute-report.json', {'recipeHashes': {m.__name__: sha_file(Path(m.__file__)) for m in MODULES}, 'checks': checks,
                                              'status': 'passed', 'validatedCount': 0})
-        for pid in [args.id] if args.id else IDS:
+        for pid in selected:
             try:
                 build(pid, args.cache)
             except (ValueError,RuntimeError,IndexError) as exc:
@@ -100,7 +105,7 @@ def main():
                 print({'id':pid,'status':'blocked','reason':str(exc)}, flush=True)
     elif args.stage == 'validate':
         rated_pool.submissions = selected_submissions
-        for pid in [args.id] if args.id else IDS:
+        for pid in selected:
             semantic = read_json(BASE / 'semantic' / (pid + '.json'))
             if (semantic['status'] != 'oracle-constraints-passed' or semantic['packageHash'] != digest(manifest(BASE / 'packages' / pid))
                     or semantic['recipeHash'] != sha_file(Path(recipe(pid).__file__))):
