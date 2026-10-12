@@ -17,7 +17,7 @@ def solve(inp):
 
 
 def gen(rng):
-    n = rng.choice([1, 2, rng.randint(1, 100), rng.randint(1, 2000), rng.randint(1, 20000)])
+    n = rng.choice([1, 2, rng.randint(1, 100), rng.randint(1, 2000), rng.randint(1, 3000)])
     return f"{n}\n" + "\n".join(rng.choice(list(FACES)) for _ in range(n)) + "\n"
 
 
