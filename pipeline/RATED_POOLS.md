@@ -66,9 +66,9 @@ No complete-official shortlisted candidate has supported incorrect sources
 in the selected subsets. Their complete-official **and** 5/5 intersection is
 zero for all five ratings. The larger default submission data was not executed
 in this foundation run. Four complete-source shortlists are already below100;
-more generated tests or submissions alone cannot resolve missing official pairs.
-Additional complete authorized/public test sources are needed without weakening
-the quality bar. CF API metadata is accessible; no CF proxy credential was used.
+These are historical fully-official-path availability counts, not limits on the
+generated qualification path below. Incomplete official suites no longer exclude
+an otherwise eligible candidate. CF API metadata is accessible; no CF proxy credential was used.
 
 Real diagnostic pilot691A (API1000):30 of83 advertised official pairs,
 all9 generated pairs,15 authored boundary/adversarial/max-size pairs. Every
@@ -76,7 +76,9 @@ supplied pair was checked for exact constraints and expected output with an
 authored oracle. Five accepted external programs passed all54 supplied pairs;
 five external incorrect programs failed concrete pairs in the pinned offline
 sandbox. Three duplicate/unsupported/nonfinal sources were excluded. It is
-**not validated**:53 official pairs and independent audit are missing.
+**not validated**: independent generated-basis oracle execution/review and audit
+are missing. Its old15 authored cases are not an extensive generated suite.
+The53 missing official pairs prevent the official path, not the generated path.
 
 Pilot27A (API1200) retained malformed upstream generated input unchanged;
 accepted-source contradictions make it incomplete (3 accepted,0 incorrect,
@@ -121,11 +123,18 @@ Inventory is sorted/deduplicated by canonical source IDs and aliases. Its
 metadata-eligible count is only a shortlist. `prepare` checks nonempty full
 statement/input/output/examples and nontruncated official pairs; `generate`
 imports **every** available official pair and **all** advertised generated
-pairs. Incomplete official sets may be ingested/executed diagnostically, but
-**cannot be validated or published**, even with a complete generated suite and
-authored coverage. The gate requires `officialComplete=true` and exact official
-counts. `completeSourceEligible` reports this stricter shortlist independently
-of `metadataEligible`; neither implies validation. Special-checker,
+pairs. There are two qualification bases, explicitly recorded as
+`provenance.qualification.basis` and `evidence.qualificationBasis`:
+
+* **official**: requires `officialComplete=true` and exact advertised/included
+  official counts. This path and existing complete-official records remain compatible.
+* **generated**: incomplete official pairs are supplementary known-valid pairs,
+  never claimed complete. Require deterministic extensive authored generation,
+  an independently authored constraint-aware oracle/brute checked on every supplied
+  pair, full5AC/5algorithmically-wrong execution and independent hash-bound audit.
+
+`completeSourceEligible` is only the official-path shortlist, not an upper bound
+on generated eligibility. Neither shortlist implies validation. Special-checker,
 interactive/file-IO and samples-only packages fail closed. Numeric/float and
 multiple-answer tasks need a separate audited judge-compatible checker design;
 there is no automatic special-checker execution or constructive-tag shortcut.
@@ -134,9 +143,50 @@ there is no automatic special-checker execution or constructive-tag shortcut.
 the deterministic generator/reference source in the worker's artifact and
 document constraints. Do not execute downloaded generators on the host.
 All extra outputs are checked against five external accepted programs.
-Those programs serve as independent references, with source code retained
+Those programs serve as external references, with source code retained
 in `state/ID/sources/` for reproduction. A bad reference/output is a gap,
 not a reason to weaken checking.
+
+### Generated qualification command and artifacts
+
+```sh
+python3 pipeline/rated_pool.py generate --rating "$R" --id "$PID" --workspace "$W" --cache "$C" \
+  --generator-source generator.py --generator-author "worker-$R" --seed 42 \
+  --oracle-source independent-oracle.py --oracle-author independent-oracle-worker \
+  --oracle-review-url https://example.com/actual-independent-review
+# Author coverage with the newly reported packageHash, then unchanged validate/report/archive stages.
+```
+
+The generator reads that integer from stdin and emits a JSON list of complete `{input,output}` pairs
+on stdout. It runs **twice**, offline/resource-bounded; bytes must match exactly.
+The oracle reads one full test on stdin and returns the expected answer on stdout;
+it must check input constraints and have an independent brute/reference algorithm.
+All imported pairs and supplied examples also pass it; contradictions quarantine generation rather than
+silently dropping/fixing data. Programs must be self-contained Python3 or C++;
+`--generator-language 'GNU C++17'` / `--oracle-language 'GNU C++17'` select C++.
+Python3 is default. Generator CPU is10s/memory1024MB; output is bounded to8MB by
+the harness. Oracle limits are the problem's time/memory limits. No host execution.
+
+Extensive mode requires at least100 distinct authored inputs, plus independently
+reviewed **authored** boundary, maximum-size and adversarial cases named in coverage.
+For a genuinely smaller finite domain, use `--exhaustive-domain-size N
+--exhaustive-domain 'exact legal finite input domain'`: generated distinct inputs
+must equal N and the independent audit must also approve `checks.exhaustiveDomain`.
+The count is a minimum diversity check, not proof of semantic completeness.
+Independent audit must review all constraints, domain enumeration, oracle/brute
+independence, reproducibility and coverage; metadata booleans alone never qualify.
+
+Do not combine `--extra-tests` with generated qualification. Preserve sources and
+proofs in package `qualification/{generator.py|generator.cpp,oracle.py|oracle.cpp,
+generation.json,oracle.json}`. Every byte is in the package manifest and approval;
+these additional files do not change existing tests/judge semantics. Generator
+proof binds source/seed/repeated output hashes and the authored pair digest.
+Oracle proof binds independent identity/review URL/source hash and every actual
+per-test result/output hash. Oracle author differs from generator/validator, and
+oracle source must not duplicate any counted external reference or generator.
+An operator must verify these claimed identities via the review links.
+`--extra-tests` alone is diagnostic unless a complete official suite already exists.
+Never fabricate an independent oracle/audit identity to upgrade the old pilot.
 
 ### Coverage record
 
@@ -191,6 +241,19 @@ approval files are local attestations, not a cryptographic identity system.
 The operator must verify the linked independent reviewer and approval were
 actually authorized; do not author your own purported independent signoff.
 
+Generated audits additionally declare `qualificationBasis: "generated"`, and
+checks `deterministicGeneration`, `independentOracle`, `generatedBasis`,
+`algorithmicallyWrong`, `inputConstraints` must each be true. In
+`incorrectAnalysis`, include **every** counted incorrect submission ID as key:
+`{"reason":"specific algorithmic defect", "kind":"wrong-answer"|"complexity",
+"test":"failedTest from execution"}`. The reviewer must inspect those programs
+and concrete counterexamples; CE/RE/infrastructure failures never count.
+Coverage's `inputConstraints` and the oracle/brute review must explicitly address
+real upstream constraint contradictions; accepted-source contradictions still block
+either path. `fullTests` in a generated audit means the complete explicitly declared
+generated qualification basis plus all supplied supplementary pairs, not all original
+official CF tests. Independent audit/approval and publication rules are unchanged.
+
 ## Sandbox and verdicts
 
 No downloaded code executes on the host. The pinned official Python image
@@ -206,6 +269,17 @@ on the host on returned output hashes, matching the existing token/YES-NO judge.
 Floating checks are not enabled. Compile/runtime/infrastructure failures do
 not count as a successfully killed incorrect solution. CPython and C++ are
 supported; PyPy is excluded rather than pretending timing equivalence.
+
+Execution context v2 records `executionVersion:2` and `compilerFlags` exactly
+`["-O2","-std=c++17","-DONLINE_JUDGE"]` in each result and sandbox evidence.
+ONLINE_JUDGE matches CF's compile context without changing public source bytes.
+Old context evidence fails closed; regeneration/validation and fresh audit are
+required. Run cache names include submission ID **and** runKey; old results remain
+available. Previous full evidence is archived under `state/ID/evidence-history/`
+before a rerun replaces current evidence. Do not erase genuine contradictions:
+inspect whether a contextual/compiler change explains a failure, then rerun against
+the unchanged suites under the documented context. V2 is not permission to repair
+malformed tests or alter downloaded sources silently.
 
 Docker is a resource/security boundary for public contest code, not a promise
 to safely run deliberately hostile malware. Kernel/runtime must be trusted
