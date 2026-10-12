@@ -46,6 +46,8 @@ def output(pid,text):
         lo,hi,alo,ahi = limits[pid]
         within(n,lo,hi)
         a = array(v[1:],n,alo,ahi)
+        if pid=="265B":
+            require(len(text.splitlines())==n+1 and all(len(row.split())==1 for row in text.splitlines()))
         counts = Counter(a)
         if pid=="37A":
             return f"{max(counts.values())} {len(counts)}\n"
@@ -375,7 +377,7 @@ def make_input(pid,rng,mode):
             a = [5*x for x in a]
         if pid=="560A":
             a = list(range(1,n+1)) if mode==-1 else list(range(10**6-n+1,10**6+1)) if mode==-2 else rng.sample(range(1,10**6+1),n)
-        return lines(n,a)
+        return lines(n,*a) if pid=="265B" else lines(n,a)
     if pid in ("102B","688B"):
         s = "1"+"0"*100000 if mode==-1 else "9"*100000 if mode==-2 else "1"+"01"*49999 if mode==-3 else str(rng.randint(0 if pid=="102B" else 1,10**9))
         return s+"\n"
