@@ -22,6 +22,7 @@ sys.path.insert(0, str(HERE.parent))
 from build import build, labelled  # noqa: E402
 from checker import check  # noqa: E402
 from pool_contract import read_json, write_json  # noqa: E402
+import tree_cache  # noqa: E402,F401
 from pool_sources import generated_tests  # noqa: E402
 
 RATING = 1200
@@ -80,7 +81,7 @@ def coverage(pid, recipe, package_hash, offset, oracle):
 
 
 def cli(stage, pid, extra=()):
-    command = [sys.executable, str(PIPELINE / "rated_pool.py"), stage, "--rating", str(RATING), "--id", pid,
+    command = [sys.executable, str(HERE.parent / "tree_cache.py"), stage, "--rating", str(RATING), "--id", pid,
                "--workspace", str(POOL), "--cache", CACHE, *extra]
     proc = subprocess.run(command, capture_output=True, text=True, cwd=PIPELINE)
     try:

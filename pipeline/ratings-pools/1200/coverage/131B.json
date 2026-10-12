@@ -1,0 +1,36 @@
+{
+  "adversarial": [
+    {
+      "reason": "only positives",
+      "test": "0033"
+    }
+  ],
+  "boundary": [
+    {
+      "reason": "n=1 zero",
+      "test": "0031"
+    },
+    {
+      "reason": "n=2 opposite extremes",
+      "test": "0032"
+    }
+  ],
+  "checkerSemantics": "Single integer count; unique, exact token comparison.",
+  "inputConstraints": "Every supplied pair (30 upstream supplementary + 113 authored) was executed by the independently authored oracle (independent-oracle-session https://staging.itsdev.in/sessions/81d487cdde024236b76797c1d414e352), which strictly validates all statement constraints and exits nonzero on violation, and reproduced the expected output under the problem limits in the bounded sandbox (qualification/oracle.json). Authored inputs come from pipeline/problems/131B/recipe.py cases().",
+  "maxSize": [
+    {
+      "reason": "n=1e5 all zeros (64-bit answer)",
+      "test": "0034"
+    },
+    {
+      "reason": "n=1e5 half 10 half -10 (2.5e9)",
+      "test": "0035"
+    },
+    {
+      "reason": "n=1e5 random",
+      "test": "0036"
+    }
+  ],
+  "packageHash": "68bd820f82f9a7199b81eaed310be62d93a9ae228f9006a5c999771cdb4f4cc3",
+  "statementComplete": "Legend (unordered couples with opposite t, 0 pairs with 0), input (1<=n<=1e5, -10<=ti<=10), output present."
+}
