@@ -76,11 +76,15 @@ class StatementNormalizationTests(unittest.TestCase):
         self.addCleanup(self.base_patch.stop)
         self.package = self.base / 'packages' / '235A'
         (self.package / 'tests').mkdir(parents=True)
+        (self.package / 'samples').mkdir()
         (self.base / 'state' / '235A').mkdir(parents=True)
         (self.base / 'statement-sources').mkdir()
         (self.package / 'statement.html').write_text('<p>n (1 ≤ n ≤ 106)</p>')
         (self.package / 'tests' / '0001.in').write_bytes(b'9\r\n')
         (self.package / 'tests' / '0001.out').write_bytes(b'504\r\n')
+        (self.package / 'samples' / '0001.in').write_bytes(b'1\r\n')
+        (self.package / 'samples' / '0001.out').write_bytes(b'1\r\n')
+        write_json(self.package / 'meta.json', {'id': '235A', 'rating': 1600})
         write_json(self.package / 'provenance.json', {'fixture': True})
         write_json(self.base / 'state' / '235A' / 'source-row.json', {'original': '≤ 106'})
         self.state = self.base / 'state' / '235A' / 'generate.json'
