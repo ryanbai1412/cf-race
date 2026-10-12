@@ -73,3 +73,69 @@ end $$;
 
 revoke all on function public.duel_lobby_action(uuid, uuid, text, jsonb) from public, anon, authenticated;
 grant execute on function public.duel_lobby_action(uuid, uuid, text, jsonb) to service_role;
+
+create or replace function public.duel_start_match(
+  p_room_id uuid, p_user_a uuid, p_user_b uuid, p_problem_id text
+) returns jsonb
+language plpgsql security invoker set search_path = ''
+as $$
+declare
+  r public.duel_rooms%rowtype;
+  v_match_id uuid;
+  v_session_id uuid;
+  v_user_id uuid;
+  v_start_at timestamptz;
+  v_rating integer;
+  v_hidden boolean;
+  v_members integer;
+begin
+  select * into r from public.duel_rooms where id = p_room_id for update;
+  if not found or r.status <> 'racing' then
+    return jsonb_build_object('ok', false, 'status', 409, 'error', 'Room is not starting a race');
+  end if;
+  if exists (select 1 from public.duel_matches where room_id = p_room_id and finished_at is null) then
+    return jsonb_build_object('ok', true);
+  end if;
+  select count(*) into v_members from public.duel_room_players
+    where room_id = p_room_id and user_id in (p_user_a, p_user_b) and ready_at is not null;
+  if p_user_a = p_user_b or p_user_a is null or p_user_b is null or v_members <> 2 or
+    (select count(*) from public.duel_room_players where room_id = p_room_id) <> 2 then
+    update public.duel_room_players set ready_at = null where room_id = p_room_id;
+    update public.duel_rooms set status = 'lobby' where id = p_room_id;
+    return jsonb_build_object('ok', false, 'status', 409, 'error', 'Players changed. Please ready up again.');
+  end if;
+
+  select rating, coalesce(to_jsonb(tags) ? 'hidden', false) into v_rating, v_hidden
+    from public.problems where id = p_problem_id;
+  if not found or v_rating is distinct from r.problem_rating or v_hidden or
+    exists (select 1 from public.sessions
+      where user_id in (p_user_a, p_user_b) and problem_id = p_problem_id) or
+    exists (select 1 from public.problem_invalidations
+      where by_user in (p_user_a, p_user_b) and problem_id = p_problem_id and revoked_at is null) then
+    update public.duel_room_players set ready_at = null where room_id = p_room_id;
+    update public.duel_rooms set status = 'lobby' where id = p_room_id;
+    return jsonb_build_object('ok', false, 'status', 409, 'error', 'Problem is no longer eligible. Please ready up again.');
+  end if;
+
+  v_start_at := clock_timestamp() + interval '3 seconds';
+  begin
+    insert into public.duel_matches (room_id, problem_id, started_at, total_time_sec, grace_after_ac_sec)
+      values (p_room_id, p_problem_id, v_start_at, r.total_time_sec, r.grace_after_ac_sec)
+      returning id into v_match_id;
+    foreach v_user_id in array array[p_user_a, p_user_b] loop
+      insert into public.sessions (kind, user_id, problem_id, started_at, timer_sec)
+        values ('duel', v_user_id, p_problem_id, v_start_at, r.total_time_sec)
+        returning id into v_session_id;
+      insert into public.duel_players (match_id, user_id, session_id)
+        values (v_match_id, v_user_id, v_session_id);
+    end loop;
+  exception when others then
+    update public.duel_room_players set ready_at = null where room_id = p_room_id;
+    update public.duel_rooms set status = 'lobby' where id = p_room_id;
+    return jsonb_build_object('ok', false, 'status', 500, 'error', 'Could not start duel. Please ready up again.');
+  end;
+  return jsonb_build_object('ok', true);
+end $$;
+
+revoke all on function public.duel_start_match(uuid, uuid, uuid, text) from public, anon, authenticated;
+grant execute on function public.duel_start_match(uuid, uuid, uuid, text) to service_role;

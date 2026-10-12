@@ -26,6 +26,10 @@ def action(kind, user=A, patch=None):
     return f"select public.duel_lobby_action('{ROOM}', '{user}', '{kind}', '{payload}'::jsonb);"
 
 
+def start_match(problem="123A"):
+    return f"select public.duel_start_match('{ROOM}', '{A}', '{B}', '{problem}');"
+
+
 def main():
     subprocess.run([
         "docker", "run", "--rm", "--detach", "--name", CONTAINER,
@@ -54,8 +58,27 @@ def main():
               room_id uuid, user_id uuid, joined_at timestamptz default now(), ready_at timestamptz,
               primary key (room_id, user_id)
             );
+            create table public.problems (id text primary key, rating integer, tags text[] default '{}');
+            create table public.sessions (
+              id uuid primary key default gen_random_uuid(), kind text, user_id uuid,
+              problem_id text, started_at timestamptz, timer_sec integer
+            );
+            create table public.duel_matches (
+              id uuid primary key default gen_random_uuid(), room_id uuid, problem_id text,
+              started_at timestamptz, total_time_sec integer, grace_after_ac_sec integer,
+              finished_at timestamptz
+            );
+            create table public.duel_players (
+              match_id uuid, user_id uuid, session_id uuid,
+              primary key (match_id, user_id)
+            );
+            create table public.problem_invalidations (
+              problem_id text, by_user uuid, revoked_at timestamptz
+            );
             grant usage on schema public to service_role;
-            grant select, update on public.duel_rooms, public.duel_room_players to service_role;
+            grant select, insert, update on public.duel_rooms, public.duel_room_players,
+              public.problems, public.sessions, public.duel_matches,
+              public.duel_players, public.problem_invalidations to service_role;
         """)
         migration = (ROOT / "supabase/migrations/20261012000000_duel_problem_rating.sql").read_text()
         sql(migration)
@@ -65,6 +88,7 @@ def main():
         assert sql(f"select problem_rating from public.duel_rooms where id='{ROOM}'") == "800"
         for role, expected in [("anon", "f"), ("authenticated", "f"), ("service_role", "t")]:
             assert sql(f"select has_function_privilege('{role}', 'public.duel_lobby_action(uuid, uuid, text, jsonb)', 'EXECUTE')") == expected
+            assert sql(f"select has_function_privilege('{role}', 'public.duel_start_match(uuid, uuid, uuid, text)', 'EXECUTE')") == expected
         assert json.loads(sql(action("settings", OUTSIDER, {"rating": 1600})))["status"] == 403
         assert json.loads(sql(action("settings", patch={"rating": 900})))["status"] == 400
         assert json.loads(sql(action("settings", patch={"rating": 1000})))["ok"]
@@ -84,6 +108,43 @@ def main():
         sql(action("reset"))
         assert sql("select count(*) from public.duel_room_players where ready_at is not null") == "0"
 
+        sql("insert into public.problems (id, rating) values ('123A', 1000), ('123B', 1200), ('123C', 1000);")
+        sql(f"update public.duel_rooms set status='racing' where id='{ROOM}'; update public.duel_room_players set ready_at=now();")
+        assert json.loads(sql(start_match("123B")))["status"] == 409
+        assert sql("select status from public.duel_rooms where id='" + ROOM + "'") == "lobby"
+        assert sql("select count(*) from public.duel_matches") == "0"
+
+        sql(f"update public.duel_rooms set status='racing' where id='{ROOM}'; update public.duel_room_players set ready_at=now();")
+        assert json.loads(sql(start_match()))["ok"]
+        assert json.loads(sql(start_match()))["ok"]
+        assert sql("select count(*) from public.duel_matches") == "1"
+        assert sql("select count(*) from public.sessions") == "2"
+        assert sql("select count(*) from public.duel_players") == "2"
+        assert sql("select count(distinct started_at) from public.sessions") == "1"
+        assert sql("select count(*) from public.duel_matches where started_at > now()") == "1"
+
+        sql(f"update public.duel_matches set finished_at=now(); update public.duel_rooms set status='racing' where id='{ROOM}';")
+        sql(f"insert into public.problem_invalidations (problem_id,by_user) values ('123C','{A}');")
+        assert json.loads(sql(start_match("123C")))["status"] == 409
+        assert sql("select status from public.duel_rooms where id='" + ROOM + "'") == "lobby"
+        sql(f"delete from public.problem_invalidations; update public.duel_rooms set status='racing' where id='{ROOM}'; update public.duel_room_players set ready_at=now();")
+        sql(f"""
+            create function public.fail_second_session() returns trigger language plpgsql as $$
+            begin
+              if new.user_id = '{B}'::uuid then raise exception 'simulated session failure'; end if;
+              return new;
+            end $$;
+            create trigger fail_second_session before insert on public.sessions
+              for each row execute function public.fail_second_session();
+        """)
+        assert json.loads(sql(start_match("123C")))["status"] == 500
+        assert sql("select count(*) from public.duel_matches") == "1"
+        assert sql("select count(*) from public.sessions") == "2"
+        assert sql("select count(*) from public.duel_players") == "2"
+        assert sql("select status from public.duel_rooms where id='" + ROOM + "'") == "lobby"
+        assert sql("select count(*) from public.duel_room_players where ready_at is not null") == "0"
+        sql("drop trigger fail_second_session on public.sessions;")
+
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
             for _ in range(20):
                 sql(f"update public.duel_rooms set status='lobby', problem_rating=800, settings_version=0 where id='{ROOM}'; update public.duel_room_players set ready_at=null;")
@@ -97,7 +158,7 @@ def main():
                 else:
                     assert r["status"] == 409 and s["ok"] and state == {"status": "lobby", "rating": 1600, "version": 1}
                     assert sql("select count(*) from public.duel_room_players where ready_at is not null") == "0"
-        print("PASS: migration idempotency, defaults, grants, membership, rating constraints, stale versions, readiness invalidation, claimed snapshot and20 concurrent ready/settings races")
+        print("PASS: migration idempotency, grants, rating/ready races, atomic match creation and rollback on partial insert failure")
     finally:
         subprocess.run(["docker", "stop", CONTAINER], check=False, capture_output=True)
 

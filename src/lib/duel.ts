@@ -4,7 +4,6 @@ import { DEFAULT_PROBLEM_RATING, type ProblemRating } from "./problem-rating";
 
 /** Latency grace (ms) added to server-side time-window checks. */
 export const SUBMIT_GRACE_MS = 3000;
-export const COUNTDOWN_MS = 3000;
 export const DEFAULT_GRACE_AFTER_AC_SEC = 60;
 
 export type DuelRoomRow = {
@@ -160,11 +159,7 @@ export async function resolveMatch(roomId: string): Promise<DuelMatchRow | null>
   return updated ?? { ...match, finished_at: new Date().toISOString(), winner_user_id: winner };
 }
 
-/**
- * Start a match for a room whose start was already claimed (status flipped
- * lobby → racing): pick the problem, create the match and one session per
- * player with a server-stamped start (now + countdown).
- */
+/** Create both players' runs atomically after the lobby's race claim. */
 export async function startDuelMatch(
   room: DuelRoomRow,
   playerIds: [string, string]
@@ -187,42 +182,11 @@ export async function startDuelMatch(
     return { ok: false, error: `No unseen ${room.problem_rating ?? DEFAULT_PROBLEM_RATING}-rated problems left for this pair. Try another rating.`, status: 409 };
   }
 
-  const startAt = new Date(Date.now() + COUNTDOWN_MS).toISOString();
-  const { data: match, error } = await db()
-    .from("duel_matches")
-    .insert({
-      room_id: room.id,
-      problem_id: problemId,
-      started_at: startAt,
-      total_time_sec: room.total_time_sec,
-      grace_after_ac_sec: room.grace_after_ac_sec,
-    })
-    .select("id")
-    .single();
-  if (error) return { ok: false, error: error.message, status: 500 };
-
-  for (const uid of playerIds) {
-    const { data: session, error: sErr } = await db()
-      .from("sessions")
-      .insert({
-        kind: "duel",
-        user_id: uid,
-        problem_id: problemId,
-        started_at: startAt,
-        timer_sec: room.total_time_sec,
-      })
-      .select("id")
-      .single();
-    if (sErr || !session) {
-      return { ok: false, error: sErr?.message ?? "failed to create session", status: 500 };
-    }
-    const { error: pErr } = await db().from("duel_players").insert({
-      match_id: match.id,
-      user_id: uid,
-      session_id: session.id,
-    });
-    if (pErr) return { ok: false, error: pErr.message, status: 500 };
-  }
+  const { data, error } = await db().rpc("duel_start_match", {
+    p_room_id: room.id, p_user_a: userA, p_user_b: userB, p_problem_id: problemId,
+  });
+  if (error || !data) return { ok: false, error: "Could not create duel. Please retry.", status: 503 };
+  if (!data.ok) return { ok: false, error: data.error, status: data.status ?? 500 };
   return { ok: true };
 }
 

@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
   const roomId = typeof body?.roomId === "string" ? body.roomId : "";
   const ready = body?.ready === true;
-  if (!roomId || (ready && (!Number.isInteger(body?.settingsVersion) || body.settingsVersion < 0))) {
+  if (!roomId || (ready && (!Number.isInteger(body?.settingsVersion) || body.settingsVersion < 0 || body.settingsVersion > 2147483647))) {
     return NextResponse.json({ error: "Invalid request. Refresh the lobby and try again." }, { status: 400 });
   }
   const { data, error } = await db().rpc("duel_lobby_action", {

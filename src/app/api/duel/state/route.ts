@@ -25,14 +25,13 @@ export async function GET(req: NextRequest) {
   const roomId = req.nextUrl.searchParams.get("roomId") ?? "";
   if (!roomId) return NextResponse.json({ error: "bad request" }, { status: 400 });
 
-  const [{ data: room }, { data: players }, problems] = await Promise.all([
+  const [{ data: room }, { data: players }] = await Promise.all([
     db().from("duel_rooms").select("*").eq("id", roomId).maybeSingle<DuelRoomRow>(),
     db()
       .from("duel_room_players")
       .select("*")
       .eq("room_id", roomId)
       .order("joined_at", { ascending: true }),
-    visibleProblems(),
   ]);
   if (!room) return NextResponse.json({ error: "unknown room" }, { status: 404 });
 
@@ -47,6 +46,8 @@ export async function GET(req: NextRequest) {
   }
 
   const cur = await latestMatch(roomId);
+  const ratingCountsForLobby = (freshRoom ?? room).status === "lobby"
+    ? ratingCounts(await visibleProblems()) : undefined;
 
   let match: Record<string, unknown> | null = null;
   if (cur) {
@@ -91,7 +92,7 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({
     serverNow: Date.now(),
     userId: user.id,
-    ratingCounts: ratingCounts(problems),
+    ratingCounts: ratingCountsForLobby,
     room: {
       id: room.id,
       status: (freshRoom ?? room).status,

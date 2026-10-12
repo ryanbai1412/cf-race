@@ -60,6 +60,7 @@ describe("duel ready API", () => {
   it("requires the current server settings version to ready", async () => {
     expect((await ready(request("ready", { ready: true }))).status).toBe(400);
     expect((await ready(request("ready", { ready: true, settingsVersion: -1 }))).status).toBe(400);
+    expect((await ready(request("ready", { ready: true, settingsVersion: 2147483648 }))).status).toBe(400);
     expect(fake.rpc).not.toHaveBeenCalled();
   });
   it("allows unready without a version", async () => {
