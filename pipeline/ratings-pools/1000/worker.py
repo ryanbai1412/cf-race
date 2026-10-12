@@ -20,12 +20,22 @@ import generated_recipes
 import replenish
 
 
-def source_submissions(pid,cache,all_submissions=False,index_root=None,problem_ids=None):
+def all_public_submissions(pid,cache,all_submissions=False,index_root=None,problem_ids=None):
     primary,files = submissions(pid,cache,all_submissions,index_root,problem_ids)
     if all_submissions:
         selected,selected_files = submissions(pid,cache,False,index_root,problem_ids)
         return primary+selected,files+selected_files
     return primary,files
+
+
+def source_submissions(pid,cache,all_submissions=False,index_root=None,problem_ids=None):
+    available,files = all_public_submissions(pid,cache,all_submissions,index_root,problem_ids)
+    if index_root:
+        reserved = Path(index_root).parent/"qualification-sources"/pid.replace('/','')/"source.json"
+        if reserved.exists():
+            oracle_hash = read_json(reserved)["sourceHash"]
+            available = [s for s in available if hashlib.sha256((s.get("source") or "").encode()).hexdigest()!=oracle_hash]
+    return available,files
 
 
 rated_pool.submissions = source_submissions
@@ -72,7 +82,7 @@ def source_index(base, cache):
         list(executor.map(fetch, entries))
     inventory = read_json(base / "inventory.json")
     source_ids = [i["sourceId"] for i in inventory["items"] if not rated_pool.inventory_blockers(i)]
-    source_submissions(source_ids[0],cache,True,base/"submissions",source_ids)
+    all_public_submissions(source_ids[0],cache,True,base/"submissions",source_ids)
     from pool_sandbox import kind
     entries_by_id = {i["sourceId"]: i for i in inventory["items"]}
     counts, hashes, identities = {}, {}, {}

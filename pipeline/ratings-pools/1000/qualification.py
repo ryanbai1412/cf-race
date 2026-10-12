@@ -45,7 +45,7 @@ def qualify(pid,base,cache,here):
     used = {s["sourceHash"] for s in prior.get("submissions",[])}
     inventory = read_json(base/"inventory.json")
     source_ids = [i["sourceId"] for i in inventory["items"] if not worker.rated_pool.inventory_blockers(i)]
-    available,_ = worker.source_submissions(row["id"],str(cache),True,base/"submissions",source_ids)
+    available,_ = worker.all_public_submissions(row["id"],str(cache),True,base/"submissions",source_ids)
     candidates = [s for s in available if s.get("verdict")=="OK" and s.get("testset")=="TESTS" and
                   (s.get("programmingLanguage","").startswith("GNU C++") or s.get("programmingLanguage","").startswith("Python 3")) and
                   s.get("source") and hashlib.sha256(s["source"].encode()).hexdigest() not in used]
