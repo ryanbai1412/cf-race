@@ -31,6 +31,8 @@ def start_match(problem="123A"):
 
 
 def main():
+    if not __debug__:
+        raise RuntimeError("Run this test without Python's -O option")
     subprocess.run([
         "docker", "run", "--rm", "--detach", "--name", CONTAINER,
         "--network", "none", "--memory", "512m", "--cpus", "1", "--pids-limit", "128",
@@ -146,6 +148,13 @@ def main():
         sql("drop trigger fail_second_session on public.sessions;")
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
+            for _ in range(20):
+                sql(f"update public.duel_rooms set status='lobby', problem_rating=800, settings_version=0 where id='{ROOM}'; update public.duel_room_players set ready_at=null;")
+                first = pool.submit(sql, action("ready", A, {"ready": True, "settingsVersion": 0}))
+                second = pool.submit(sql, action("ready", B, {"ready": True, "settingsVersion": 0}))
+                outcomes = [json.loads(first.result()), json.loads(second.result())]
+                assert sum(outcome.get("claimed") is True for outcome in outcomes) == 1
+                assert sql("select count(*) from public.duel_room_players where ready_at is not null") == "2"
             for _ in range(20):
                 sql(f"update public.duel_rooms set status='lobby', problem_rating=800, settings_version=0 where id='{ROOM}'; update public.duel_room_players set ready_at=null;")
                 sql(action("ready", patch={"ready": True, "settingsVersion": 0}))
