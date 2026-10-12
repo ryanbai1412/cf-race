@@ -2,6 +2,7 @@
 import argparse
 from collections import Counter
 import hashlib
+import gzip
 import json
 from pathlib import Path
 import re
@@ -67,7 +68,8 @@ def inventory(args):
                         "tags": sorted(p.get("tags", [])), "source": source,
                         "officialComplete": row["official_tests_complete"],
                         "officialCount": row["testset_size"], "generatedCount": row["generated_tests"],
-                        "exclusions": reasons}
+                        "exclusions": reasons,
+                        "validationBlockers": [] if row["official_tests_complete"] is True else ["incomplete-official-suite"]}
                 items.append(item)
                 counts.update(reasons)
     items.sort(key=lambda r: (bool(r["exclusions"]), not r["officialComplete"],
@@ -75,11 +77,14 @@ def inventory(args):
     value = {"schemaVersion": VERSION, "rating": args.rating, "target": args.target, "pins": PINS,
              "apiSnapshotHash": sha_file(api_path), "sources": source_files, "items": items,
              "metadataEligible": sum(not i["exclusions"] for i in items),
+             "completeSourceEligible": sum(not i["exclusions"] and i["officialComplete"] is True for i in items),
+             "validationBlockerCounts": dict(Counter(b for i in items for b in i["validationBlockers"])),
              "exclusionCounts": dict(counts), "scope": "partial-shards" if args.shards else "all-default-shards",
              "validatedCount": 0}
     write_json(base / "inventory.json", value)
     return {"inventory": str(base / "inventory.json"), "total": len(items),
-            "metadataEligible": value["metadataEligible"], "validatedCount": 0, "exclusions": dict(counts)}
+            "metadataEligible": value["metadataEligible"], "completeSourceEligible": value["completeSourceEligible"],
+            "validatedCount": 0, "exclusions": dict(counts), "validationBlockers": value["validationBlockerCounts"]}
 
 
 def locations(args):
@@ -265,11 +270,16 @@ def report(args):
     base = Path(args.workspace) / str(args.rating)
     inv = read_json(base / "inventory.json")
     result = {"rating": args.rating, "target": inv["target"], "inventoryCount": len(inv["items"]),
-              "validatedCount": 0, "executionPassed": 0, "exclusions": inv["exclusionCounts"], "packages": []}
+              "validatedCount": 0, "executionPassed": 0, "exclusions": inv["exclusionCounts"], "packages": [],
+              "completeSourceEligible": sum(not i["exclusions"] and i["officialComplete"] is True for i in inv["items"]),
+              "incompleteOfficialCandidates": sum(not i["exclusions"] and i["officialComplete"] is not True for i in inv["items"])}
+    if result["completeSourceEligible"] < inv["target"]:
+        result["targetBlocker"] = "pinned source has fewer complete official suites than target; additional complete public sources required"
     for item in inv["items"]:
         if not (base / "packages" / item["id"]).exists():
             continue
-        entry = {"id": item["id"], "validated": False}
+        entry = {"id": item["id"], "validated": False,
+                 "sourceBlockers": [] if item["officialComplete"] is True else ["incomplete-official-suite"]}
         try:
             evidence = read_json(base / "evidence" / f"{item['id']}.json")
             result["executionPassed"] += evidence.get("status") == "execution-passed"
@@ -295,15 +305,33 @@ def archive(args):
     base, package, state = locations(args)
     output = Path(args.output)
     files = manifest(package)
-    with tarfile.open(output, "w:gz") as tar:
-        tar.add(package, arcname=f"{args.rating}/packages/{args.id}")
-        tar.add(state, arcname=f"{args.rating}/state/{args.id}")
-        for category in ("evidence", "audits"):
-            path = base / category / f"{args.id}.json"
-            if path.exists():
-                tar.add(path, arcname=f"{args.rating}/{category}/{args.id}.json")
+    roots = [(package, f"{args.rating}/packages/{args.id}"), (state, f"{args.rating}/state/{args.id}")]
+    for category in ("evidence", "audits"):
+        path = base / category / f"{args.id}.json"
+        if path.exists():
+            roots.append((path, f"{args.rating}/{category}/{args.id}.json"))
+    archived = {}
+    with output.open("wb") as raw, gzip.GzipFile(filename="", fileobj=raw, mode="wb", mtime=0) as zipped, tarfile.open(fileobj=zipped, mode="w") as tar:
+        for root, name in roots:
+            for path in [root, *sorted(root.rglob("*"))] if root.is_dir() else [root]:
+                if path.is_symlink():
+                    raise ValueError("symlinks forbidden in reproducible archive")
+                rel = path.relative_to(root).as_posix()
+                arcname = name if rel == "." else f"{name}/{rel}"
+                info = tar.gettarinfo(str(path), arcname=arcname)
+                info.mtime = info.uid = info.gid = 0
+                info.uname = info.gname = ""
+                info.mode = 0o755 if path.is_dir() else 0o644
+                if path.is_file():
+                    archived[arcname] = {"sha256": sha_file(path), "bytes": path.stat().st_size}
+                    with path.open("rb") as content:
+                        tar.addfile(info, content)
+                elif path.is_dir():
+                    tar.addfile(info)
+                else:
+                    raise ValueError("nonregular file forbidden in archive")
     value = {"archive": output.name, "sha256": sha_file(output), "bytes": output.stat().st_size,
-             "packageHash": digest(files), "files": files, "pins": PINS}
+             "packageHash": digest(files), "files": files, "archiveFiles": archived, "pins": PINS}
     write_json(str(output) + ".provenance.json", value)
     return value
 
