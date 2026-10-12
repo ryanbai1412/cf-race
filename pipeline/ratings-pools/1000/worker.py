@@ -17,13 +17,14 @@ import rated_pool
 import recipes
 import additional
 import generated_recipes
+import replenish
 
-IDS = recipes.IDS + additional.IDS + generated_recipes.IDS
-RULES = recipes.RULES | additional.RULES | generated_recipes.RULES
+IDS = recipes.IDS + additional.IDS + generated_recipes.IDS + replenish.IDS
+RULES = recipes.RULES | additional.RULES | generated_recipes.RULES | replenish.RULES
 
 
 def recipe_module(pid):
-    return generated_recipes if pid in generated_recipes.IDS else additional if pid in additional.IDS else recipes
+    return replenish if pid in replenish.IDS else generated_recipes if pid in generated_recipes.IDS else additional if pid in additional.IDS else recipes
 
 
 def extras(pid):
@@ -35,10 +36,12 @@ def output(pid,text):
 
 
 def recipe_hash(pid):
+    if pid in replenish.IDS:
+        return digest({p:sha_file(HERE/p) for p in ("replenish.py","generated_recipes.py","additional.py","recipes.py","input_layout.py")}|{"statement":digest(additional.REVIEW[pid])})
     if pid in generated_recipes.IDS:
-        return digest({p:sha_file(HERE/p) for p in ("generated_recipes.py","additional.py","recipes.py","statement-review.json","input_layout.py")})
+        return digest({p:sha_file(HERE/p) for p in ("generated_recipes.py","additional.py","recipes.py","input_layout.py")}|{"statement":digest(additional.REVIEW[pid])})
     if pid in additional.IDS:
-        return digest({p:sha_file(HERE/p) for p in ("additional.py","statement-review.json","input_layout.py")})
+        return digest({p:sha_file(HERE/p) for p in ("additional.py","recipes.py","input_layout.py")}|{"statement":digest(additional.REVIEW[pid])})
     return digest({p:sha_file(HERE/p) for p in ("recipes.py","input_layout.py")})
 
 
@@ -118,6 +121,12 @@ def build(pid, base, cache):
     args.extra_tests = str(base/"extras"/f"{pid}.json")
     write_json(args.extra_tests,extras(pid))
     generated = rated_pool.generate(args)
+    return inspect_generated(pid,base,args,generated,preparation)
+
+
+def inspect_generated(pid,base,args,generated,preparation=None):
+    if preparation is None:
+        preparation = read_json(base/"state"/pid/"prepare.json")
     package = base/"packages"/pid
     pairs = read_json(package/"provenance.json")["tests"]["pairs"]
     checks = []
@@ -143,7 +152,7 @@ def build(pid, base, cache):
         if pid == "626A":
             return int(text.split()[0])
         return max(map(abs,map(int,text.split())))
-    if pid in additional.IDS or pid in generated_recipes.IDS:
+    if pid in additional.IDS or pid in generated_recipes.IDS or pid in replenish.IDS:
         largest = [i for i,pair in enumerate(inputs) if pair.get("caseKind") == "max-size"]
     else:
         largest_score = max(map(max_score,inputs))
@@ -157,7 +166,7 @@ def build(pid, base, cache):
     write_json(base/"coverage"/f"{pid}.json",coverage)
     semantics = {"id":pid,"packageHash":generated["packageHash"],"recipeHash":recipe_hash(pid),
                  "rules":RULES[pid],"checks":checks,"invalid":invalid,"passed":not invalid,
-                 "extraTestsHash":sha_file(args.extra_tests),"prepare":preparation,"generate":generated,
+                 "extraTestsHash":sha_file(args.extra_tests) if args.extra_tests else None,"prepare":preparation,"generate":generated,
                  "validated":False,"needsIndependentAudit":True}
     write_json(base/"semantics"/f"{pid}.json",semantics)
     if invalid:
@@ -178,7 +187,7 @@ def execute(pid, base, cache):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("stage",choices=("inventory","index","build","execute","report"))
+    parser.add_argument("stage",choices=("inventory","index","build","qualify","execute","report"))
     parser.add_argument("--workspace",type=Path,default=HERE)
     parser.add_argument("--cache",type=Path,default=Path.home()/".cache/cf-race-pool")
     parser.add_argument("--ids",nargs="+",default=list(IDS))
@@ -195,7 +204,11 @@ def main():
     else:
         def work(pid):
             try:
-                result = (build if args.stage == "build" else execute)(pid,args.workspace,args.cache)
+                if args.stage=="qualify":
+                    from qualification import qualify
+                    result = qualify(pid,args.workspace,args.cache,HERE)
+                else:
+                    result = (build if args.stage == "build" else execute)(pid,args.workspace,args.cache)
             except (ValueError,OSError,KeyError,RuntimeError,StopIteration) as exc:
                 result = {"id":pid,"stage":args.stage,"status":"blocked","reason":str(exc),"validated":False}
                 write_json(args.workspace/"outcomes"/f"{pid}-{args.stage}-blocked.json",result)
