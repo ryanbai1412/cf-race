@@ -9,6 +9,7 @@ import tempfile
 import uuid
 
 from checker import check
+from pool_harness import COMPILER_FLAGS, EXECUTION_VERSION
 
 IMAGE = "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3"
 SAFE_ENV = {"PATH": "/usr/local/bin:/usr/bin:/bin", "HOME": str(Path.home())}
@@ -65,8 +66,11 @@ def run(source, language, tests, cpu, memory, capture=False):
                 result = json.loads(data)
             finally:
                 subprocess.run(["docker", "rm", "-f", name], env=SAFE_ENV, capture_output=True, timeout=15)
+    context = {"executionVersion": EXECUTION_VERSION, "compilerFlags": COMPILER_FLAGS}
+    if any(result.get(key) != value for key, value in context.items()):
+        raise RuntimeError("sandbox execution/compiler context mismatch")
     if not result.get("compiled"):
-        return {"compiled": False, "verdict": "CE", "testsRun": 0, "runs": result.get("runs", [])}
+        return {**context, "compiled": False, "verdict": "CE", "testsRun": 0, "runs": result.get("runs", [])}
     runs = result.get("runs", [])
     if len(runs) != len(tests) or [r["test"] for r in runs] != [t["name"] for t in tests]:
         raise RuntimeError("interrupted/malformed sandbox result")
@@ -85,4 +89,4 @@ def run(source, language, tests, cpu, memory, capture=False):
         summaries.append(result)
         if verdict == "AC" and current != "AC":
             verdict, failed = current, test["name"]
-    return {"compiled": True, "verdict": verdict, "failedTest": failed, "testsRun": len(runs), "runs": summaries}
+    return {**context, "compiled": True, "verdict": verdict, "failedTest": failed, "testsRun": len(runs), "runs": summaries}
