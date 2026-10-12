@@ -110,6 +110,11 @@ def review_generated(pid, extra, prepared, generated):
     for category in ('boundary', 'adversarial', 'maxSize'):
         coverage[category] = [{'test': f'{generated["official"] + generated["openR1Generated"] + index:04d}', 'reason': pair['reason']}
                               for index, pair in enumerate(extra, 1) if pair['category'] == category]
+    if pid == '86A':
+        for name, pair in tests:
+            endpoints = recipe(pid).parse(pid, pair['input'])
+            if endpoints in ((1, 1), (10**9, 10**9)):
+                coverage['boundary'].append({'test': name, 'reason': f'Exact global endpoint singleton range {endpoints[0]}..{endpoints[1]}.'})
     write_json(BASE / 'coverage' / f'{pid}.json', coverage)
     print(generated, flush=True)
 
