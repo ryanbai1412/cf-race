@@ -106,7 +106,7 @@ async function main() {
     for (const bucket of ["problems", "tourist"]) await ensureBucket(bucket);
   }
 
-  for (const [i, pkgDir] of pkgs.entries()) {
+  for (const [i] of pkgs.entries()) {
     const snapshot = snapshots[i];
     const meta = JSON.parse(
       snapshot.find((f) => f.rel === "meta.json")!.data.toString("utf8")

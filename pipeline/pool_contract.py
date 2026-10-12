@@ -100,6 +100,8 @@ def verify_evidence(package, evidence, audit):
         raise ValueError("changed package bytes")
     if evidence.get("status") != "execution-passed" or evidence.get("stages") != ["prepare", "generate", "validate"]:
         raise ValueError("interrupted/incomplete stages")
+    if evidence.get("acceptedContradiction") is not False:
+        raise ValueError("accepted-source contradiction remains unresolved")
     if meta.get("specialJudge") or meta.get("floatEps") is not None:
         raise ValueError("unsupported checker")
     provenance = read_json(Path(package) / "provenance.json")
