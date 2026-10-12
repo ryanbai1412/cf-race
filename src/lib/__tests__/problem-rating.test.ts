@@ -51,6 +51,21 @@ const claimedRoom: DuelRoomRow = {
 };
 
 describe("lost duel start responses", () => {
+  it("binds an empty-pool reset to the original claim", async () => {
+    store.rows.problems = [];
+    store.rpc.mockResolvedValueOnce({ data: { ok: true }, error: null });
+    expect(await startDuelMatch(claimedRoom, ["a", "b"])).toMatchObject({ ok: false, status: 409 });
+    expect(store.rpc.mock.calls[0][0]).toBe("duel_lobby_action");
+    expect(store.rpc.mock.calls[0][1].p_patch.startClaimedAt).toBe(claimedRoom.start_claimed_at);
+  });
+
+  it("does not reset a newer claim after the database rejects a stale start", async () => {
+    store.rpc.mockResolvedValueOnce({ data: { ok: false, error: "Race attempt changed", status: 409 }, error: null });
+    expect(await startDuelMatch(claimedRoom, ["a", "b"])).toMatchObject({ ok: false, status: 409 });
+    expect(store.rpc).toHaveBeenCalledTimes(1);
+    expect(store.rpc.mock.calls[0][1].p_claim_time).toBe(claimedRoom.start_claimed_at);
+  });
+
   it("preserves a committed match when its RPC response is lost", async () => {
     store.rpc.mockRejectedValueOnce(new Error("lost response"));
     store.rpc.mockResolvedValueOnce({ data: { ok: true, activeMatch: true }, error: null });

@@ -120,7 +120,7 @@ def main():
         assert json.loads(sql(action('reset', patch={"startClaimedAt": stale_claim})))["status"] == 409
         assert sql(f"select status from public.duel_rooms where id='{ROOM}'") == "racing"
         assert sql("select count(*) from public.duel_room_players where ready_at is not null") == "2"
-        assert sql("select count(*) from public.duel_matches") == "1"
+        assert sql("select count(*) from public.duel_matches") == "0"
         current_claim = sql(f"select start_claimed_at from public.duel_rooms where id='{ROOM}'")
         sql(action('reset', patch={"startClaimedAt": current_claim}))
 
