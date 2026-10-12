@@ -26,6 +26,7 @@ SEMANTICS = {
 }
 SEMANTICS.update(extended_recipes.SEMANTICS)
 SEMANTICS.update(additional_recipes.SEMANTICS)
+SEMANTICS.update(more_recipes.SEMANTICS)
 
 
 def recipe(pid):

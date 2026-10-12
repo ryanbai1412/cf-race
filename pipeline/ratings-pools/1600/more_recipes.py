@@ -73,7 +73,7 @@ def parse(pid, text):
     if len(a)!=count or any(not low<=x<=high for x in a): raise ValueError('scalar arity/ranges')
     if pid=='40B' and (a[0]>5000 or a[1]>5000): raise ValueError('board size')
     if pid=='86A' and a[0]>a[1]: raise ValueError('range order')
-    if pid=='337C' and not 2<=a[2]<=a[0] or a[1]>a[0]: raise ValueError('quiz dimensions')
+    if pid=='337C' and (not 2<=a[2]<=a[0] or a[1]>a[0]): raise ValueError('quiz dimensions')
     if pid=='343A' and math.gcd(*a)!=1: raise ValueError('reduced fraction')
     if pid=='559A' and (a[0]-a[2]-a[3]+a[5] or a[1]+a[2]-a[4]-a[5]):
         raise ValueError('hexagon does not close')
