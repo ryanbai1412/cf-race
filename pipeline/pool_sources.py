@@ -98,7 +98,7 @@ def generated_tests(row, cache):
     return tests, provenance("open-r1/codeforces", entry)
 
 
-def submissions(pid, cache, all_submissions=False):
+def submissions(pid, cache, all_submissions=False, index_root=None, problem_ids=None):
     dataset = "open-r1/codeforces-submissions"
     prefixes = ["data"] if all_submissions else ["selected_accepted", "selected_incorrect"]
     result, sources = [], []
@@ -108,8 +108,37 @@ def submissions(pid, cache, all_submissions=False):
                 continue
             source = provenance(dataset, entry)
             sources.append(source)
+            index_path = Path(index_root) / entry["lfs"]["oid"] if index_root else None
+            completion = index_path / "complete.json" if index_path else None
+            selected_ids = set(problem_ids or [pid])
+            if completion and completion.exists():
+                marker = json.loads(completion.read_text())
+                if marker.get("problemIds") == sorted(selected_ids) and marker.get("source") == source:
+                    for name, expected in marker["files"].items():
+                        if sha_file(index_path / name) != expected:
+                            raise ValueError("changed indexed submission bytes")
+                    candidate_path = index_path / (pid.replace("/", "") + ".json")
+                    if candidate_path.name in marker["files"]:
+                        result.extend(json.loads(candidate_path.read_text()))
+                    continue
+            grouped = {}
             for row in parquet_rows(download(dataset, entry, cache)):
-                if row["problem_id"] == pid:
+                if row["problem_id"] in selected_ids:
                     row["provenance"] = source
-                    result.append(row)
+                    grouped.setdefault(row["problem_id"], []).append(row)
+                    if row["problem_id"] == pid:
+                        result.append(row)
+            if index_path:
+                index_path.mkdir(parents=True, exist_ok=True)
+                hashes = {}
+                for key, rows in grouped.items():
+                    name = key.replace("/", "") + ".json"
+                    dest = index_path / name
+                    tmp = dest.with_suffix(".partial")
+                    tmp.write_text(json.dumps(rows, ensure_ascii=False))
+                    os.replace(tmp, dest)
+                    hashes[name] = sha_file(dest)
+                tmp = completion.with_suffix(".partial")
+                tmp.write_text(json.dumps({"problemIds": sorted(selected_ids), "source": source, "files": hashes}, sort_keys=True))
+                os.replace(tmp, completion)
     return result, sources

@@ -197,11 +197,13 @@ def validate(args):
     row = read_json(state / "source-row.json")
     if digest(row) != generated["sourceRowHash"]:
         raise ValueError("changed source since generate")
-    available, source_files = submissions(row["id"], args.cache, args.all_submissions)
+    source_ids = [i["sourceId"] for i in read_json(base / "inventory.json")["items"] if not i["exclusions"]]
+    available, source_files = submissions(row["id"], args.cache, args.all_submissions, base / "submissions", source_ids)
     tests = [{"name": p.stem, "input": p.read_bytes(), "output": p.with_suffix(".out").read_bytes()}
              for p in sorted((package / "tests").glob("*.in"))]
     meta = read_json(package / "meta.json")
     accepted, incorrect, skipped = [], [], []
+    accepted_contradiction = False
     source_hashes, ids = set(), set()
     validator = args.validator
     for s in sorted(available, key=lambda s: int(s["submission_id"])):
@@ -236,6 +238,8 @@ def validate(args):
                 group.append({**source_record, **result})
             else:
                 skipped.append({**source_record, "reason": "not independently confirmed", "result": result})
+                if s["verdict"] == "OK" and result["compiled"]:
+                    accepted_contradiction = True
         except (RuntimeError, ValueError) as exc:
             skipped.append({**source_record, "reason": str(exc)})
             if "infrastructure" in str(exc) or "unavailable" in str(exc):
@@ -247,7 +251,8 @@ def validate(args):
                 "sandbox": {"image": IMAGE, "network": "none", "bounded": True,
                             "harnessHash": sha_file(Path(__file__).with_name("pool_harness.py")),
                             "runnerHash": sha_file(Path(__file__).with_name("pool_sandbox.py"))},
-                "status": "execution-passed" if len(accepted) == 5 and len(incorrect) == 5 else "incomplete"}
+                "acceptedContradiction": accepted_contradiction,
+                "status": "execution-passed" if len(accepted) == 5 and len(incorrect) == 5 and not accepted_contradiction else "incomplete"}
     if manifest(package) != files:
         raise ValueError("package changed during validation")
     write_json(base / "evidence" / f"{args.id}.json", evidence)

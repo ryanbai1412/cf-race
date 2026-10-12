@@ -45,7 +45,7 @@ def run(source, language, tests, cpu, memory):
                    "--network=none", "--read-only", "--user=65534:65534", "--cap-drop=ALL",
                    "--security-opt=no-new-privileges", "--pids-limit=64", "--cpus=1",
                    "--memory=1280m", "--memory-swap=1280m", "--ulimit=nofile=128:128",
-                   "--tmpfs=/work:rw,nosuid,size=256m,mode=1777", "--tmpfs=/tmp:rw,noexec,nosuid,size=32m",
+                   "--tmpfs=/work:rw,exec,nosuid,size=256m,mode=1777", "--tmpfs=/tmp:rw,noexec,nosuid,size=32m",
                    "--mount", f"type=bind,source={path},target=/payload,readonly",
                    "--mount", f"type=bind,source={harness},target=/harness.py,readonly",
                    IMAGE, "python3", "-I", "/harness.py"]
