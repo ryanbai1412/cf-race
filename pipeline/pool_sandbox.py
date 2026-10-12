@@ -22,7 +22,7 @@ def kind(language):
     return None
 
 
-def run(source, language, tests, cpu, memory):
+def run(source, language, tests, cpu, memory, capture=False):
     language_kind = kind(language)
     if language_kind is None:
         raise ValueError("unsupported language (PyPy timing is not equivalent to Python)")
@@ -74,7 +74,10 @@ def run(source, language, tests, cpu, memory):
     summaries = []
     import hashlib
     for test, result in zip(tests, runs):
-        output = base64.b64decode(result.pop("output"), validate=True)
+        encoded = result.pop("output")
+        output = base64.b64decode(encoded, validate=True)
+        if capture:
+            result["output"] = encoded
         result["outputHash"] = hashlib.sha256(output).hexdigest()
         current = ("TLE" if result["timeout"] else "RE" if result["exitCode"] != 0 else
                    "AC" if check(test["output"].decode(), output.decode(errors="replace")) else "WA")

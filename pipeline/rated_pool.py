@@ -61,15 +61,13 @@ def inventory(args):
                     reasons.append("unaudited-special-checker")
                 if row.get("interaction_format") or row.get("input_mode") != "stdio":
                     reasons.append("unsupported-io")
-                if not row.get("official_tests_complete") and not row.get("generated_tests"):
-                    reasons.append("incomplete-tests-no-generated-suite")
                 item = {"id": normalized_id(row["id"]), "sourceId": row["id"], "aliases": sorted(aliases),
                         "rating": p["rating"], "datasetRating": row["rating"], "name": p["name"],
                         "tags": sorted(p.get("tags", [])), "source": source,
                         "officialComplete": row["official_tests_complete"],
                         "officialCount": row["testset_size"], "generatedCount": row["generated_tests"],
                         "exclusions": reasons,
-                        "validationBlockers": [] if row["official_tests_complete"] is True else ["incomplete-official-suite"]}
+                        "validationBlockers": [] if row["official_tests_complete"] is True else ["generated-qualification-required"]}
                 items.append(item)
                 counts.update(reasons)
     items.sort(key=lambda r: (bool(r["exclusions"]), not r["officialComplete"],
@@ -102,13 +100,14 @@ def prepare(args):
     if sha_file(base / "api-problems.json") != inv["apiSnapshotHash"]:
         raise ValueError("changed API snapshot")
     item = next(i for i in inv["items"] if i["id"] == args.id)
-    if item["exclusions"]:
-        raise ValueError(", ".join(item["exclusions"]))
+    blockers = [r for r in item["exclusions"] if r != "incomplete-tests-no-generated-suite"]
+    if blockers:
+        raise ValueError(", ".join(blockers))
     entry = {"path": item["source"]["path"], "size": item["source"]["bytes"],
              "lfs": {"oid": item["source"]["sha256"]}}
     row = next(r for r in parquet_rows(download("open-r1/codeforces", entry, args.cache))
                if r["id"] == item["sourceId"])
-    row_gate(row)
+    row_gate(row, allow_authored=True)
     row["rating"] = item["rating"]
     row["tags"] = item["tags"]
     write_json(state / "source-row.json", row)
@@ -147,12 +146,26 @@ def generate(args):
     row = read_json(state / "source-row.json")
     if digest(row) != prepared["sourceRowHash"]:
         raise ValueError("changed prepared source")
-    row_gate(row)
+    authored = bool(getattr(args, "generator_source", None))
+    row_gate(row, allow_authored=authored)
     generated, source = generated_tests(row, args.cache)
     if generated:
         pairs(generated)
-    extra = pairs(read_json(args.extra_tests)) if args.extra_tests else []
-    all_tests = [("official", p) for p in row["official_tests"]] + [("open-r1-generated", p) for p in generated] + [("worker-generated", p) for p in extra]
+    supplemental = [("official", p) for p in row.get("official_tests", [])] + [("open-r1-generated", p) for p in generated]
+    proof = None
+    if authored:
+        if args.extra_tests or not args.oracle_source:
+            raise ValueError("use generator-source plus oracle-source, not extra-tests, for generated qualification")
+        from pool_generation import build_generated
+        try:
+            proof = build_generated(args, row, supplemental)
+        except (ValueError, RuntimeError) as exc:
+            write_json(state / "quarantine.json", {"stage": "generate", "reason": str(exc), "sourceRowHash": digest(row)})
+            raise
+        extra = proof[0]
+    else:
+        extra = pairs(read_json(args.extra_tests)) if args.extra_tests else []
+    all_tests = supplemental + [("worker-generated", p) for p in extra]
     out = package / "tests.partial"
     if out.exists():
         shutil.rmtree(out)
@@ -168,6 +181,17 @@ def generate(args):
         shutil.rmtree(package / "tests")
     out.rename(package / "tests")
     attribution = read_json(package / "provenance.json")
+    if (package / "qualification").exists():
+        shutil.rmtree(package / "qualification")
+    attribution["qualification"] = {"basis": "generated" if authored else "official" if row["official_tests_complete"] is True else "unqualified"}
+    if proof:
+        from pool_sandbox import kind
+        directory = package / "qualification"
+        directory.mkdir()
+        for name, code, language in (("generator", proof[3], args.generator_language), ("oracle", proof[4], args.oracle_language)):
+            (directory / f"{name}.{'cpp' if kind(language) == 'cpp' else 'py'}").write_bytes(code)
+        write_json(directory / "generation.json", proof[1])
+        write_json(directory / "oracle.json", proof[2])
     attribution["tests"] = {"officialIncluded": len(row["official_tests"]),
                             "officialComplete": row["official_tests_complete"],
                             "officialAdvertised": row["testset_size"], "generatedIncluded": len(generated),
@@ -177,7 +201,7 @@ def generate(args):
     files = manifest(package)
     write_json(state / "generate.json", {"status": "generated", "sourceRowHash": digest(row),
                                         "packageHash": digest(files), "files": files, "testCount": len(records)})
-    return {"id": args.id, "status": "generated", "testCount": len(records),
+    return {"id": args.id, "status": "generated", "qualificationBasis": attribution["qualification"]["basis"], "testCount": len(records),
             "official": len(row["official_tests"]), "openR1Generated": len(generated), "extra": len(extra), "packageHash": digest(files)}
 
 
@@ -251,6 +275,7 @@ def validate(args):
             if "infrastructure" in str(exc) or "unavailable" in str(exc):
                 break
     evidence = {"schemaVersion": VERSION, "id": args.id, "rating": args.rating,
+                "qualificationBasis": read_json(package / "provenance.json").get("qualification", {}).get("basis", "official" if row["official_tests_complete"] else "unqualified"),
                 "validator": validator, "files": files, "packageHash": digest(files), "testCount": len(tests),
                 "coverage": coverage, "submissions": accepted + incorrect, "excludedSubmissions": skipped,
                 "sourceFiles": source_files, "stages": ["prepare", "generate", "validate"],
@@ -266,7 +291,8 @@ def validate(args):
     return {"id": args.id, "status": evidence["status"], "accepted": len(accepted), "incorrect": len(incorrect),
             "excluded": len(skipped), "evidenceHash": digest(evidence), "validated": False,
             "officialComplete": row["official_tests_complete"],
-            "next": "independent audit signoff required" if row["official_tests_complete"] else "complete official tests and independent audit signoff required"}
+            "qualificationBasis": evidence["qualificationBasis"],
+            "next": "independent generated-basis audit required" if evidence["qualificationBasis"] == "generated" else "independent audit required" if evidence["qualificationBasis"] == "official" else "generated qualification and independent audit required"}
 
 
 def report(args):
@@ -276,15 +302,14 @@ def report(args):
               "validatedCount": 0, "executionPassed": 0, "exclusions": inv["exclusionCounts"], "packages": [],
               "completeSourceEligible": sum(not i["exclusions"] and i["officialComplete"] is True for i in inv["items"]),
               "incompleteOfficialCandidates": sum(not i["exclusions"] and i["officialComplete"] is not True for i in inv["items"])}
-    if result["completeSourceEligible"] < inv["target"]:
-        result["targetBlocker"] = "pinned source has fewer complete official suites than target; additional complete public sources required"
     for item in inv["items"]:
         if not (base / "packages" / item["id"]).exists():
             continue
         entry = {"id": item["id"], "validated": False,
-                 "sourceBlockers": [] if item["officialComplete"] is True else ["incomplete-official-suite"]}
+                 "officialComplete": item["officialComplete"]}
         try:
             evidence = read_json(base / "evidence" / f"{item['id']}.json")
+            entry["qualificationBasis"] = evidence.get("qualificationBasis", "official" if item["officialComplete"] else "unqualified")
             result["executionPassed"] += evidence.get("status") == "execution-passed"
             verify_evidence(base / "packages" / item["id"], evidence, read_json(base / "audits" / f"{item['id']}.json"))
             entry["validated"] = True
@@ -350,6 +375,16 @@ def main():
     parser.add_argument("--shards", nargs="+")
     parser.add_argument("--refresh-api", action="store_true")
     parser.add_argument("--extra-tests")
+    parser.add_argument("--generator-source")
+    parser.add_argument("--generator-language", default="Python 3")
+    parser.add_argument("--generator-author")
+    parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--oracle-source")
+    parser.add_argument("--oracle-language", default="Python 3")
+    parser.add_argument("--oracle-author")
+    parser.add_argument("--oracle-review-url")
+    parser.add_argument("--exhaustive-domain-size", type=int)
+    parser.add_argument("--exhaustive-domain")
     parser.add_argument("--coverage")
     parser.add_argument("--all-submissions", action="store_true")
     parser.add_argument("--validator", default="pipeline-worker")
