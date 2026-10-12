@@ -193,6 +193,7 @@ def generate(args):
         write_json(directory / "generation.json", proof[1])
         write_json(directory / "oracle.json", proof[2])
     attribution["tests"] = {"officialIncluded": len(row["official_tests"]),
+                            "officialRole": "supplementary" if authored else "qualification" if row["official_tests_complete"] else "diagnostic",
                             "officialComplete": row["official_tests_complete"],
                             "officialAdvertised": row["testset_size"], "generatedIncluded": len(generated),
                             "generatedAdvertised": row["generated_tests"], "generatedSource": source,
