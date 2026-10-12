@@ -14,7 +14,25 @@ from checker import check
 from pool_contract import digest, read_json, write_json
 from pool_sources import download, PINS, sha_file, submissions, tree
 import rated_pool
-from recipes import IDS, RULES, extras, output
+import recipes
+import additional
+
+IDS = recipes.IDS + additional.IDS
+RULES = recipes.RULES | additional.RULES
+
+
+def extras(pid):
+    return (additional if pid in additional.IDS else recipes).extras(pid)
+
+
+def output(pid,text):
+    return (additional if pid in additional.IDS else recipes).output(pid,text)
+
+
+def recipe_hash(pid):
+    if pid in additional.IDS:
+        return digest({p:sha_file(HERE/p) for p in ("additional.py","statement-review.json")})
+    return sha_file(HERE/"recipes.py")
 
 
 def arguments(pid, base, cache):
@@ -118,8 +136,11 @@ def build(pid, base, cache):
         if pid == "626A":
             return int(text.split()[0])
         return max(map(abs,map(int,text.split())))
-    largest_score = max(map(max_score,inputs))
-    largest = [i for i,pair in enumerate(inputs) if max_score(pair) == largest_score]
+    if pid in additional.IDS:
+        largest = [i for i,pair in enumerate(inputs) if pair.get("caseKind") == "max-size"]
+    else:
+        largest_score = max(map(max_score,inputs))
+        largest = [i for i,pair in enumerate(inputs) if max_score(pair) == largest_score]
     coverage = {"packageHash":generated["packageHash"],
                 "boundary":[{"test":extra_names[0],"reason":"Authored minimum/small boundary case; all supplied inputs and outputs checked against strict recipe."}],
                 "adversarial":[{"test":name,"reason":"Deterministic parity/order/carry/tie/transition case; see retained recipe and semantic checks."} for name in extra_names],
@@ -127,7 +148,7 @@ def build(pid, base, cache):
                 "inputConstraints":RULES[pid],"checkerSemantics":"Unique answer per rules; existing token checker, YES/NO case folding only. No downloaded checker executed.",
                 "statementComplete":"Pinned description,input_format,output_format and all examples preserved by foundation build_statement; reviewed source prose against recipe. Required figures not used for these recipes; source-dependent1182A deliberately excluded."}
     write_json(base/"coverage"/f"{pid}.json",coverage)
-    semantics = {"id":pid,"packageHash":generated["packageHash"],"recipeHash":sha_file(HERE/"recipes.py"),
+    semantics = {"id":pid,"packageHash":generated["packageHash"],"recipeHash":recipe_hash(pid),
                  "rules":RULES[pid],"checks":checks,"invalid":invalid,"passed":not invalid,
                  "extraTestsHash":sha_file(args.extra_tests),"prepare":preparation,"generate":generated,
                  "validated":False,"needsIndependentAudit":True}
@@ -139,7 +160,7 @@ def build(pid, base, cache):
 
 def execute(pid, base, cache):
     semantic = read_json(base/"semantics"/f"{pid}.json")
-    if not semantic["passed"] or semantic["recipeHash"] != sha_file(HERE/"recipes.py"):
+    if not semantic["passed"] or semantic["recipeHash"] != recipe_hash(pid):
         raise ValueError("semantic checks missing, failed or stale")
     args = arguments(pid,base,cache)
     args.coverage = str(base/"coverage"/f"{pid}.json")
