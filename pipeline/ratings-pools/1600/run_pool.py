@@ -12,6 +12,7 @@ from pool_sources import PINS, sha_file
 import recipes
 import extended_recipes
 import additional_recipes
+import qualification
 
 MODULES = (recipes, extended_recipes, additional_recipes)
 IDS = tuple(pid for module in MODULES for pid in module.IDS)
@@ -63,6 +64,10 @@ def build(pid, cache):
     extra = recipe(pid).extras(pid)
     write_json(args.extra_tests, extra)
     generated = rated_pool.generate(args)
+    review_generated(pid, extra, prepared, generated)
+
+
+def review_generated(pid, extra, prepared, generated):
     package = BASE / 'packages' / pid
     tests = [(p.stem, {'input': p.read_text(), 'output': p.with_suffix('.out').read_text()})
              for p in sorted((package / 'tests').glob('*.in'))]
@@ -84,13 +89,13 @@ def build(pid, cache):
     for category in ('boundary', 'adversarial', 'maxSize'):
         coverage[category] = [{'test': f'{generated["official"] + generated["openR1Generated"] + index:04d}', 'reason': pair['reason']}
                               for index, pair in enumerate(extra, 1) if pair['category'] == category]
-    write_json(args.coverage, coverage)
+    write_json(BASE / 'coverage' / f'{pid}.json', coverage)
     print(generated, flush=True)
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('stage', choices=('build', 'validate', 'report'))
+    parser.add_argument('stage', choices=('build', 'validate', 'qualify', 'report'))
     parser.add_argument('--id', choices=IDS)
     parser.add_argument('--ids', nargs='+', choices=IDS)
     parser.add_argument('--cache', default=str(Path.home() / '.cache' / 'cf-race-pool'))
@@ -106,6 +111,13 @@ def main():
             except (ValueError,RuntimeError,IndexError) as exc:
                 write_json(BASE / 'build-gaps' / (pid + '.json'), {'id':pid,'status':'blocked','reason':str(exc),'validated':False})
                 print({'id':pid,'status':'blocked','reason':str(exc)}, flush=True)
+    elif args.stage == 'qualify':
+        for pid in selected:
+            try:
+                print(qualification.qualify(pid, BASE, args.cache, recipe(pid), rated_pool, arguments, review_generated), flush=True)
+            except (ValueError, RuntimeError, OSError, KeyError) as exc:
+                write_json(BASE / 'build-gaps' / f'{pid}-qualify.json', {'id': pid, 'status': 'blocked', 'reason': str(exc), 'validated': False})
+                print({'id': pid, 'status': 'blocked', 'reason': str(exc)}, flush=True)
     elif args.stage == 'validate':
         rated_pool.submissions = selected_submissions
         for pid in selected:
