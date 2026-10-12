@@ -1,0 +1,28 @@
+<div class="problem-statement">
+<div class="header"><div class="title">Unary</div>
+<div class="time-limit">time limit per test: 2.0 s</div>
+<div class="memory-limit">memory limit per test: 256 MB</div>
+</div>
+<p>Unary is a minimalistic Brainfuck dialect in which programs are written using only one token.</p>
+<p>Brainfuck programs use 8 commands: &quot;+&quot;, &quot;-&quot;, &quot;[&quot;, &quot;]&quot;, &quot;&lt;&quot;, &quot;&gt;&quot;, &quot;.&quot; and &quot;,&quot; (their meaning is not important for the purposes of this problem). Unary programs are created from Brainfuck programs using the following algorithm. First, replace each command with a corresponding binary code, using the following conversion table:</p>
+<p>- &quot;&gt;&quot;  →  1000,
+- &quot;&lt;&quot;  →  1001,
+- &quot;+&quot;  →  1010,
+- &quot;-&quot;  →  1011,
+- &quot;.&quot;  →  1100,
+- &quot;,&quot;  →  1101,
+- &quot;[&quot;  →  1110,
+- &quot;]&quot;  →  1111.</p>
+<p>Next, concatenate the resulting binary codes into one binary number in the same order as in the program. Finally, write this number using unary numeral system — this is the Unary program equivalent to the original Brainfuck one.</p>
+<p>You are given a Brainfuck program. Your task is to calculate the size of the equivalent Unary program, and print it modulo 1000003 (106 + 3).</p>
+<div class="input-specification"><div class="section-title">Input</div>
+<p>The input will consist of a single line p which gives a Brainfuck program. String p will contain between 1 and 100 characters, inclusive. Each character of p will be &quot;+&quot;, &quot;-&quot;, &quot;[&quot;, &quot;]&quot;, &quot;&lt;&quot;, &quot;&gt;&quot;, &quot;.&quot; or &quot;,&quot;.</p>
+</div>
+<div class="output-specification"><div class="section-title">Output</div>
+<p>Output the size of the equivalent Unary program modulo 1000003 (106 + 3).</p>
+</div>
+<div class="note"><div class="section-title">Note</div>
+<p>To write a number n in unary numeral system, one simply has to write 1 n times. For example, 5 written in unary system will be 11111.</p>
+<p>In the first example replacing Brainfuck commands with binary code will give us 1101 1100. After we concatenate the codes, we&#x27;ll get 11011100 in binary system, or 220 in decimal. That&#x27;s exactly the number of tokens in the equivalent Unary program.</p>
+</div>
+</div>

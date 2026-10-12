@@ -1,0 +1,28 @@
+<div class="problem-statement">
+<div class="header"><div class="title">Divisibility by 2^n</div>
+<div class="time-limit">time limit per test: 2.0 s</div>
+<div class="memory-limit">memory limit per test: 256 MB</div>
+</div>
+<p>You are given an array of positive integers \(a_1, a_2, \ldots, a_n\).</p>
+<p>Make the product of all the numbers in the array (that is, \(a_1 \cdot a_2 \cdot \ldots \cdot a_n\)) divisible by \(2^n\).</p>
+<p>You can perform the following operation as many times as you like:</p>
+<p>- select an arbitrary index \(i\) (\(1 \leq i \leq n\)) and replace the value \(a_i\) with \(a_i=a_i \cdot i\).</p>
+<p>You cannot apply the operation repeatedly to a single index. In other words, all selected values of \(i\) must be different.</p>
+<p>Find the smallest number of operations you need to perform to make the product of all the elements in the array divisible by \(2^n\). Note that such a set of operations does not always exist.</p>
+<div class="input-specification"><div class="section-title">Input</div>
+<p>The first line of the input contains a single integer \(t\) \((1 \leq t \leq 10^4\)) — the number test cases.</p>
+<p>Then the descriptions of the input data sets follow.</p>
+<p>The first line of each test case contains a single integer \(n\) (\(1 \leq n \leq 2 \cdot 10^5\)) — the length of array \(a\).</p>
+<p>The second line of each test case contains exactly \(n\) integers: \(a_1, a_2, \ldots, a_n\) (\(1 \leq a_i \leq 10^9\)).</p>
+<p>It is guaranteed that the sum of \(n\) values over all test cases in a test does not exceed \(2 \cdot 10^5\).</p>
+</div>
+<div class="output-specification"><div class="section-title">Output</div>
+<p>For each test case, print the least number of operations to make the product of all numbers in the array divisible by \(2^n\). If the answer does not exist, print -1.</p>
+</div>
+<div class="note"><div class="section-title">Note</div>
+<p>In the first test case, the product of all elements is initially \(2\), so no operations needed.</p>
+<p>In the second test case, the product of elements initially equals \(6\). We can apply the operation for \(i = 2\), and then \(a_2\) becomes \(2\cdot2=4\), and the product of numbers becomes \(3\cdot4=12\), and this product of numbers is divided by \(2^n=2^2=4\).</p>
+<p>In the fourth test case, even if we apply all possible operations, we still cannot make the product of numbers divisible by \(2^n\)  — it will be \((13\cdot1)\cdot(17\cdot2)\cdot(1\cdot3)\cdot(1\cdot4)=5304\), which does not divide by \(2^n=2^4=16\).</p>
+<p>In the fifth test case, we can apply operations for \(i = 2\) and \(i = 4\).</p>
+</div>
+</div>

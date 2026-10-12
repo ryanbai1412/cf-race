@@ -1,0 +1,44 @@
+{
+  "adversarial": [
+    {
+      "reason": "full period a=1 b=1 m=1e5",
+      "test": "0060"
+    },
+    {
+      "reason": "long pre-period (a=0)",
+      "test": "0061"
+    },
+    {
+      "reason": "a=1000 b=1000 m=99991 prime",
+      "test": "0062"
+    }
+  ],
+  "boundary": [
+    {
+      "reason": "m=1",
+      "test": "0057"
+    },
+    {
+      "reason": "a=b=0 constant zero",
+      "test": "0058"
+    },
+    {
+      "reason": "a=1 b=0 fixed point",
+      "test": "0059"
+    }
+  ],
+  "checkerSemantics": "Single integer period; unique, exact token comparison.",
+  "inputConstraints": "Every supplied pair (56 upstream supplementary + 114 authored) was executed by the independently authored oracle (independent-oracle-session https://staging.itsdev.in/sessions/a29a084de7a749e4931503129fb1c3fe), which strictly validates all statement constraints and exits nonzero on violation, and reproduced the expected output under the problem limits in the bounded sandbox (qualification/oracle.json). Authored inputs come from pipeline/problems/172B/recipe.py cases().",
+  "maxSize": [
+    {
+      "reason": "m=1e5 a=1 b=999 (gcd-limited cycle)",
+      "test": "0063"
+    },
+    {
+      "reason": "m=1e5 a=1 b=7",
+      "test": "0064"
+    }
+  ],
+  "packageHash": "2ce40da8c1e72971cf888ca31e902ec6acecb447d60adcbe844bc0099d730d46",
+  "statementComplete": "Legend defines the period, input (1<=m<=1e5, 0<=a,b<=1000, 0<=r0<m), output present."
+}

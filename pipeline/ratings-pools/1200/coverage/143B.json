@@ -1,0 +1,60 @@
+{
+  "adversarial": [
+    {
+      "reason": "negative number that truncates to zero",
+      "test": "0106"
+    },
+    {
+      "reason": "fraction truncated not rounded",
+      "test": "0107"
+    },
+    {
+      "reason": "one fractional digit padded",
+      "test": "0108"
+    },
+    {
+      "reason": "six-digit integer exact groups",
+      "test": "0109"
+    }
+  ],
+  "boundary": [
+    {
+      "reason": "single zero",
+      "test": "0101"
+    },
+    {
+      "reason": "single digit",
+      "test": "0102"
+    },
+    {
+      "reason": "zero with many fractional zeros",
+      "test": "0103"
+    },
+    {
+      "reason": "three-digit integer part (no comma)",
+      "test": "0104"
+    },
+    {
+      "reason": "four-digit integer part (one comma)",
+      "test": "0105"
+    }
+  ],
+  "checkerSemantics": "Deterministic formatted string; unique, exact token comparison (no spaces in output).",
+  "inputConstraints": "Every supplied pair (100 upstream supplementary + 122 authored) was executed by the independently authored oracle (independent-oracle-session https://staging.itsdev.in/sessions/3011a3d955904fe19fe60af0a71a9713), which strictly validates all statement constraints and exits nonzero on violation, and reproduced the expected output under the problem limits in the bounded sandbox (qualification/oracle.json). Authored inputs come from pipeline/problems/143B/recipe.py cases().",
+  "maxSize": [
+    {
+      "reason": "100 characters: minus, 98-digit integer part",
+      "test": "0110"
+    },
+    {
+      "reason": "100 characters: 0 point 98 digits",
+      "test": "0111"
+    },
+    {
+      "reason": "100 characters: negative long integer and fraction",
+      "test": "0112"
+    }
+  ],
+  "packageHash": "261786431893b8bb7a22602404447b4da833c83aa170f2a185b1b8abafe018b9",
+  "statementComplete": "Legend gives every formatting rule; input notation rules and output present in the pinned source row."
+}

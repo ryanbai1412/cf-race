@@ -1,0 +1,33 @@
+<div class="problem-statement">
+<div class="header"><div class="title">Bear and Displayed Friends</div>
+<div class="time-limit">time limit per test: 2.0 s</div>
+<div class="memory-limit">memory limit per test: 256 MB</div>
+</div>
+<p>Limak is a little polar bear. He loves connecting with other bears via social networks. He has n friends and his relation with the i-th of them is described by a unique integer ti. The bigger this value is, the better the friendship is. No two friends have the same value ti.</p>
+<p>Spring is starting and the Winter sleep is over for bears. Limak has just woken up and logged in. All his friends still sleep and thus none of them is online. Some (maybe all) of them will appear online in the next hours, one at a time.</p>
+<p>The system displays friends who are online. On the screen there is space to display at most k friends. If there are more than k friends online then the system displays only k best of them — those with biggest ti.</p>
+<p>Your task is to handle queries of two types:</p>
+<p>- &quot;1 id&quot; — Friend id becomes online. It&#x27;s guaranteed that he wasn&#x27;t online before.
+- &quot;2 id&quot; — Check whether friend id is displayed by the system. Print &quot;YES&quot; or &quot;NO&quot; in a separate line.</p>
+<p>Are you able to help Limak and answer all queries of the second type?</p>
+<div class="input-specification"><div class="section-title">Input</div>
+<p>The first line contains three integers n, k and q (1 ≤ n, q ≤ 150 000, 1 ≤ k ≤ min(6, n)) — the number of friends, the maximum number of displayed online friends and the number of queries, respectively.</p>
+<p>The second line contains n integers t1, t2, ..., tn (1 ≤ ti ≤ 109) where ti describes how good is Limak&#x27;s relation with the i-th friend.</p>
+<p>The i-th of the following q lines contains two integers typei and idi (1 ≤ typei ≤ 2, 1 ≤ idi ≤ n) — the i-th query. If typei = 1 then a friend idi becomes online. If typei = 2 then you should check whether a friend idi is displayed.</p>
+<p>It&#x27;s guaranteed that no two queries of the first type will have the same idi becuase one friend can&#x27;t become online twice. Also, it&#x27;s guaranteed that at least one query will be of the second type (typei = 2) so the output won&#x27;t be empty.</p>
+</div>
+<div class="output-specification"><div class="section-title">Output</div>
+<p>For each query of the second type print one line with the answer — &quot;YES&quot; (without quotes) if the given friend is displayed and &quot;NO&quot; (without quotes) otherwise.</p>
+</div>
+<div class="note"><div class="section-title">Note</div>
+<p>In the first sample, Limak has 4 friends who all sleep initially. At first, the system displays nobody because nobody is online. There are the following 8 queries:</p>
+<p>1. &quot;1 3&quot; — Friend 3 becomes online.
+2. &quot;2 4&quot; — We should check if friend 4 is displayed. He isn&#x27;t even online and thus we print &quot;NO&quot;.
+3. &quot;2 3&quot; — We should check if friend 3 is displayed. Right now he is the only friend online and the system displays him. We should print &quot;YES&quot;.
+4. &quot;1 1&quot; — Friend 1 becomes online. The system now displays both friend 1 and friend 3.
+5. &quot;1 2&quot; — Friend 2 becomes online. There are 3 friends online now but we were given k = 2 so only two friends can be displayed. Limak has worse relation with friend 1 than with other two online friends (t1 &lt; t2, t3) so friend 1 won&#x27;t be displayed
+6. &quot;2 1&quot; — Print &quot;NO&quot;.
+7. &quot;2 2&quot; — Print &quot;YES&quot;.
+8. &quot;2 3&quot; — Print &quot;YES&quot;.</p>
+</div>
+</div>

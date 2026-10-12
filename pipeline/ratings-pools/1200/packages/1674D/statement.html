@@ -1,0 +1,25 @@
+<div class="problem-statement">
+<div class="header"><div class="title">A-B-C Sort</div>
+<div class="time-limit">time limit per test: 2.0 s</div>
+<div class="memory-limit">memory limit per test: 256 MB</div>
+</div>
+<p>You are given three arrays \(a\), \(b\) and \(c\). Initially, array \(a\) consists of \(n\) elements, arrays \(b\) and \(c\) are empty.</p>
+<p>You are performing the following algorithm that consists of two steps:</p>
+<p>- Step \(1\): while \(a\) is not empty, you take the last element from \(a\) and move it in the middle of array \(b\). If \(b\) currently has odd length, you can choose: place the element from \(a\) to the left or to the right of the middle element of \(b\). As a result, \(a\) becomes empty and \(b\) consists of \(n\) elements.
+- Step \(2\): while \(b\) is not empty, you take the middle element from \(b\) and move it to the end of array \(c\). If \(b\) currently has even length, you can choose which of two middle elements to take. As a result, \(b\) becomes empty and \(c\) now consists of \(n\) elements.</p>
+<p>Can you make array \(c\) sorted in non-decreasing order?</p>
+<div class="input-specification"><div class="section-title">Input</div>
+<p>The first line contains a single integer \(t\) (\(1 \le t \le 2 \cdot 10^4\)) — the number of test cases. Next \(t\) cases follow.</p>
+<p>The first line of each test case contains the single integer \(n\) (\(1 \le n \le 2 \cdot 10^5\)) — the length of array \(a\).</p>
+<p>The second line of each test case contains \(n\) integers \(a_1, a_2, \dots, a_n\) (\(1 \le a_i \le 10^6\)) — the array \(a\) itself.</p>
+<p>It&#x27;s guaranteed that the sum of \(n\) doesn&#x27;t exceed \(2 \cdot 10^5\).</p>
+</div>
+<div class="output-specification"><div class="section-title">Output</div>
+<p>For each test, print YES (case-insensitive), if you can make array \(c\) sorted in non-decreasing order. Otherwise, print NO (case-insensitive).</p>
+</div>
+<div class="note"><div class="section-title">Note</div>
+<p>In the first test case, we can do the following for \(a = [3, 1, 5, 3]\):</p>
+<p>Step \(1\): \(a\)\([3, 1, 5, 3]\)\(\Rightarrow\)\([3, 1, 5]\)\(\Rightarrow\)\([3, 1]\)\(\Rightarrow\)\([3]\)\(\Rightarrow\)\([]\)\(b\)\([]\)\([\underline{3}]\)\([3, \underline{5}]\)\([3, \underline{1}, 5]\)\([3, \underline{3}, 1, 5]\)</p>
+<p>Step \(2\): \(b\)\([3, 3, \underline{1}, 5]\)\(\Rightarrow\)\([3, \underline{3}, 5]\)\(\Rightarrow\)\([\underline{3}, 5]\)\(\Rightarrow\)\([\underline{5}]\)\(\Rightarrow\)\([]\)\(c\)\([]\)\([1]\)\([1, 3]\)\([1, 3, 3]\)\([1, 3, 3, 5]\) As a result, array \(c = [1, 3, 3, 5]\) and it&#x27;s sorted.</p>
+</div>
+</div>

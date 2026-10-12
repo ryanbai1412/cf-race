@@ -1,0 +1,33 @@
+<div class="problem-statement">
+<div class="header"><div class="title">Restricted RPS</div>
+<div class="time-limit">time limit per test: 1.0 s</div>
+<div class="memory-limit">memory limit per test: 256 MB</div>
+</div>
+<p>Let \(n\) be a positive integer. Let \(a, b, c\) be nonnegative integers such that \(a + b + c = n\).</p>
+<p>Alice and Bob are gonna play rock-paper-scissors \(n\) times. Alice knows the sequences of hands that Bob will play. However, Alice has to play rock \(a\) times, paper \(b\) times, and scissors \(c\) times.</p>
+<p>Alice wins if she beats Bob in at least \(\lceil \frac{n}{2} \rceil\) (\(\frac{n}{2}\) rounded up to the nearest integer) hands, otherwise Alice loses.</p>
+<p>Note that in rock-paper-scissors:</p>
+<p>- rock beats scissors;
+- paper beats rock;
+- scissors beat paper.</p>
+<p>The task is, given the sequence of hands that Bob will play, and the numbers \(a, b, c\), determine whether or not Alice can win. And if so, find any possible sequence of hands that Alice can use to win.</p>
+<p>If there are multiple answers, print any of them.</p>
+<div class="input-specification"><div class="section-title">Input</div>
+<p>The first line contains a single integer \(t\) (\(1 \le t \le 100\)) — the number of test cases.</p>
+<p>Then, \(t\) testcases follow, each consisting of three lines:</p>
+<p>- The first line contains a single integer \(n\) (\(1 \le n \le 100\)).
+- The second line contains three integers, \(a, b, c\) (\(0 \le a, b, c \le n\)). It is guaranteed that \(a + b + c = n\).
+- The third line contains a string \(s\) of length \(n\). \(s\) is made up of only &#x27;R&#x27;, &#x27;P&#x27;, and &#x27;S&#x27;. The \(i\)-th character is &#x27;R&#x27; if for his \(i\)-th Bob plays rock, &#x27;P&#x27; if paper, and &#x27;S&#x27; if scissors.</p>
+</div>
+<div class="output-specification"><div class="section-title">Output</div>
+<p>For each testcase:</p>
+<p>- If Alice cannot win, print &quot;NO&quot; (without the quotes).
+- Otherwise, print &quot;YES&quot; (without the quotes). Also, print a string \(t\) of length \(n\) made up of only &#x27;R&#x27;, &#x27;P&#x27;, and &#x27;S&#x27; — a sequence of hands that Alice can use to win. \(t\) must contain exactly \(a\) &#x27;R&#x27;s, \(b\) &#x27;P&#x27;s, and \(c\) &#x27;S&#x27;s.
+- If there are multiple answers, print any of them.</p>
+<p>The &quot;YES&quot; / &quot;NO&quot; part of the output is case-insensitive (i.e. &quot;yEs&quot;, &quot;no&quot; or &quot;YEs&quot; are all valid answers). Note that &#x27;R&#x27;, &#x27;P&#x27; and &#x27;S&#x27; are case-sensitive.</p>
+</div>
+<div class="note"><div class="section-title">Note</div>
+<p>In the first testcase, in the first hand, Alice plays paper and Bob plays rock, so Alice beats Bob. In the second hand, Alice plays scissors and Bob plays paper, so Alice beats Bob. In the third hand, Alice plays rock and Bob plays scissors, so Alice beats Bob. Alice beat Bob 3 times, and \(3 \ge \lceil \frac{3}{2} \rceil = 2\), so Alice wins.</p>
+<p>In the second testcase, the only sequence of hands that Alice can play is &quot;RRR&quot;. Alice beats Bob only in the last hand, so Alice can&#x27;t win. \(1 &lt; \lceil \frac{3}{2} \rceil = 2\).</p>
+</div>
+</div>
