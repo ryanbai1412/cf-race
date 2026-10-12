@@ -18,6 +18,7 @@ import recipes
 import additional
 import generated_recipes
 import replenish
+import further
 
 
 def all_public_submissions(pid,cache,all_submissions=False,index_root=None,problem_ids=None):
@@ -40,12 +41,12 @@ def source_submissions(pid,cache,all_submissions=False,index_root=None,problem_i
 
 rated_pool.submissions = source_submissions
 
-IDS = recipes.IDS + additional.IDS + generated_recipes.IDS + replenish.IDS
-RULES = recipes.RULES | additional.RULES | generated_recipes.RULES | replenish.RULES
+IDS = recipes.IDS + additional.IDS + generated_recipes.IDS + replenish.IDS + further.IDS
+RULES = recipes.RULES | additional.RULES | generated_recipes.RULES | replenish.RULES | further.RULES
 
 
 def recipe_module(pid):
-    return replenish if pid in replenish.IDS else generated_recipes if pid in generated_recipes.IDS else additional if pid in additional.IDS else recipes
+    return further if pid in further.IDS else replenish if pid in replenish.IDS else generated_recipes if pid in generated_recipes.IDS else additional if pid in additional.IDS else recipes
 
 
 def extras(pid):
@@ -57,6 +58,8 @@ def output(pid,text):
 
 
 def recipe_hash(pid):
+    if pid in further.IDS:
+        return digest({p:sha_file(HERE/p) for p in ("further.py","additional.py","recipes.py","input_layout.py")}|{"statement":digest(further.REVIEW[pid])})
     if pid in replenish.IDS:
         return digest({p:sha_file(HERE/p) for p in ("replenish.py","generated_recipes.py","additional.py","recipes.py","input_layout.py")}|{"statement":digest(additional.REVIEW[pid])})
     if pid in generated_recipes.IDS:
@@ -175,7 +178,7 @@ def inspect_generated(pid,base,args,generated,preparation=None):
         if pid == "626A":
             return int(text.split()[0])
         return max(map(abs,map(int,text.split())))
-    if pid in additional.IDS or pid in generated_recipes.IDS or pid in replenish.IDS:
+    if pid in additional.IDS or pid in generated_recipes.IDS or pid in replenish.IDS or pid in further.IDS:
         largest = [i for i,pair in enumerate(inputs) if pair.get("caseKind") == "max-size"]
     else:
         largest_score = max(map(max_score,inputs))
