@@ -49,6 +49,41 @@ alternative; do not claim success if five remain unavailable. Unsupported
 languages, non-TESTS submissions, duplicate sources, CE/RE/infrastructure
 failures, and incorrect submissions that still pass are excluded explicitly.
 
+### Verified foundation run (2026-10-12)
+
+All default problem shards and the public selected submission subsets were
+downloaded and verified at the pins above. Counts are **not validated packages**:
+
+| API rating | Deduplicated inventory | Metadata shortlist | Complete-official shortlist | Selected supported 5/5 candidates (including incomplete) |
+| --- | ---: | ---: | ---: | ---: |
+| 800 | 913 | 764 | 184 | 58 |
+| 1000 | 358 | 293 | 96 | 41 |
+| 1200 | 408 | 317 | 70 | 60 |
+| 1400 | 403 | 305 | 70 | 47 |
+| 1600 | 476 | 351 | 81 | 50 |
+
+No complete-official shortlisted candidate has supported incorrect sources
+in the selected subsets. Their complete-official **and** 5/5 intersection is
+zero for all five ratings. The larger default submission data was not executed
+in this foundation run. Four complete-source shortlists are already below100;
+more generated tests or submissions alone cannot resolve missing official pairs.
+Additional complete authorized/public test sources are needed without weakening
+the quality bar. CF API metadata is accessible; no CF proxy credential was used.
+
+Real diagnostic pilot691A (API1000):30 of83 advertised official pairs,
+all9 generated pairs,15 authored boundary/adversarial/max-size pairs. Every
+supplied pair was checked for exact constraints and expected output with an
+authored oracle. Five accepted external programs passed all54 supplied pairs;
+five external incorrect programs failed concrete pairs in the pinned offline
+sandbox. Three duplicate/unsupported/nonfinal sources were excluded. It is
+**not validated**:53 official pairs and independent audit are missing.
+
+Pilot27A (API1200) retained malformed upstream generated input unchanged;
+accepted-source contradictions make it incomplete (3 accepted,0 incorrect,
+12 excluded). Never repair or truncate upstream bytes silently to claim success.
+Final validated counts are **0/0/0/0/0**, and publication dry-run fails closed.
+The attached reproducible artifacts retain both diagnostics and exact evidence.
+
 ## Commands (one worker per R)
 
 ```sh
@@ -129,7 +164,7 @@ references, checker semantics, statement completeness, attribution and results.
 Execution stores `execution-passed` only after **5 distinct accepted sources
 pass every test and 5 distinct WA/TLE sources fail on a concrete valid test**.
 The same source hash or submission ID cannot count twice. Result caches bind
-package/source/image/harness/runner hashes and permit interrupted validation
+package/source/image/harness/runner/checker hashes and permit interrupted validation
 to resume without reexecuting unchanged sources. Package/API/source changes
 invalidate later stages and stale audits. Missing/empty/unpaired/truncated
 tests, mismatched hashes and incomplete stages fail closed.
