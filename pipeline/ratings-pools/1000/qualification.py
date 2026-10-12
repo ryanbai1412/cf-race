@@ -7,6 +7,10 @@ from pool_generation import sandbox
 from pool_sandbox import kind,run
 
 
+def oracle_order(submission):
+    return (not submission["programmingLanguage"].startswith("GNU C++"),-int(submission["submission_id"]))
+
+
 def generator(pid,here):
     modules = ("input_layout","recipes","additional","generated_recipes","replenish")
     review = read_json(here/"statement-review.json")
@@ -52,7 +56,7 @@ def qualify(pid,base,cache,here):
     tests = [{"name":p.stem,"input":p.read_bytes(),"output":p.with_suffix('.out').read_bytes()} for p in sorted((base/"packages"/pid/"tests").glob('*.in'))]
     attempts = []
     oracle = None
-    for s in sorted(candidates,key=lambda x:(not s["programmingLanguage"].startswith("GNU C++"),-int(x["submission_id"])))[:8]:
+    for s in sorted(candidates,key=oracle_order)[:8]:
         result = run(s["source"],s["programmingLanguage"],tests,row["time_limit"],int(row["memory_limit"]))
         record = {"submissionId":s["submission_id"],"sourceHash":hashlib.sha256(s["source"].encode()).hexdigest(),
                   "language":s["programmingLanguage"],"source":s["provenance"],"result":result}
