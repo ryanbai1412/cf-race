@@ -162,7 +162,12 @@ def answer(pid,data):
         for a,b in zip(pos,pos[1:]): run=run+1 if a<b else 1;best=max(best,run)
         return [len(data)-best]
     x1,x2,lines=data;ordered=sorted((k*x1+b,k*x2+b) for k,b in lines)
-    return ['Yes' if any(a[1]>b[1] for a,b in zip(ordered,ordered[1:])) else 'No']
+    highest=None
+    for _,group in itertools.groupby(ordered,key=lambda p:p[0]):
+        right=[p[1] for p in group]
+        if highest is not None and highest>min(right): return ['YES']
+        highest=max(max(right),highest if highest is not None else max(right))
+    return ['NO']
 
 
 def brute_checks():
@@ -214,7 +219,7 @@ def brute_checks():
         for volume in range(1,limit+1): dp[volume]=min(dp[volume-(1<<i)]+c for i,c in enumerate(cost) if 1<<i<=volume)
         check('913C',(L,cost),min(dp[L:]))
         l,r=sorted([rng.randint(1,20),rng.randint(1,20)]);x,y=sorted([rng.randint(1,20),rng.randint(1,20)]);check('992B',(l,r,x,y),sum(math.gcd(a,b)==x and math.lcm(a,b)==y for a in range(l,r+1) for b in range(l,r+1)))
-        lines=list(set((rng.randint(-4,4),rng.randint(-4,4)) for __ in range(8)));x1,x2=sorted(rng.sample(range(-5,6),2));check('593B',(x1,x2,lines),'Yes' if any(((k-j)*x1+b-c)*((k-j)*x2+b-c)<0 for (k,b),(j,c) in itertools.combinations(lines,2)) else 'No')
+        lines=list(set((rng.randint(-4,4),rng.randint(-4,4)) for __ in range(8)));x1,x2=sorted(rng.sample(range(-5,6),2));check('593B',(x1,x2,lines),'YES' if any(((k-j)*x1+b-c)*((k-j)*x2+b-c)<0 for (k,b),(j,c) in itertools.combinations(lines,2)) else 'NO')
     for y in range(3,7):
         for x in range(y+1,10):
             queue=deque([((y,y,y),0)]);seen={(y,y,y)};expected=None

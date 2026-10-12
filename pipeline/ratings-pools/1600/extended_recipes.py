@@ -213,24 +213,24 @@ def extras(pid):
     if pid=='165C':
         for k,s in [(0,'0'),(0,'1'),(1,'1'),(2,'1'),(0,'000000'),(1,'0010001000'),(10**6,'1'*10**6),(0,'0'*10**6)]:
             add(f'{k}\n{s}\n','zero ones, excess budget, long zero gaps,64-bit counts','maxSize' if len(s)==10**6 else 'boundary')
-        for _ in range(50):
+        for _ in range(150):
             s=''.join(rng.choice('01') for _ in range(rng.randint(1,200))); add(f'{rng.randint(0,len(s)+2)}\n{s}\n','fixed-seed binary substrings')
     elif pid in ('383A','348A'):
         fixed=([0],[1],[1,0],[0,1],[1,1,0,0],[0]*200000,[1]*100000+[0]*100000) if pid=='383A' else ([1,1,1],[1,2,100],[3,3,3],[10**9]*100000)
         for a in fixed: add(arr(a),'minimum, homogeneous, opposing runs/uneven demands','maxSize' if len(a)>100 else 'boundary')
-        for _ in range(40):
+        for _ in range(150):
             a=[rng.randint(0,1) if pid=='383A' else rng.randint(1,10**9) for _ in range(rng.randint(1 if pid=='383A' else 3,100))]; add(arr(a),'fixed-seed adversarial row/demand distribution')
     elif pid=='1025C':
         for s in ['b','w','bb','bw','bwb','bbwbw','b'*100000,'bw'*50000]:
             add(s+'\n','single stripe, cyclic wrap, uniform/full alternating','maxSize' if len(s)==100000 else 'boundary')
-        for _ in range(40): add(''.join(rng.choice('bw') for _ in range(rng.randint(1,100)))+'\n','fixed-seed circular alternating runs')
+        for _ in range(150): add(''.join(rng.choice('bw') for _ in range(rng.randint(1,100)))+'\n','fixed-seed circular alternating runs')
     elif pid=='1062C':
         for s in ['0','1','01010','000000','111111']:
             q=[(i,j) for i in range(1,len(s)+1) for j in range(i,len(s)+1)]
             add(f'{len(s)} {len(q)}\n{s}\n'+''.join(f'{l} {r}\n' for l,r in q),'all subranges including singleton/zero/full-ones','boundary')
         s='10'*50000;q=[(1,100000)]*100000
         add('100000 100000\n'+s+'\n'+''.join(f'{l} {r}\n' for l,r in q),'maximal n/q, modular powers and output size','maxSize')
-        for _ in range(15):
+        for _ in range(150):
             n=rng.randint(1,200);s=''.join(rng.choice('01') for _ in range(n));q=[]
             for __ in range(40):
                 l=rng.randint(1,n);q.append((l,rng.randint(l,n)))
@@ -239,27 +239,27 @@ def extras(pid):
         for s in ['0','1','9','120','0'*100000,'1'*100000,'9'*100000]:
             add('1\n'+str(len(s))+'\n'+s+'\n','zero/single/mixed digits and64-bit all-one count','maxSize' if len(s)==100000 else 'boundary')
         add('1000\n'+('1\n1\n'*1000),'maximum test case count','boundary')
-        for _ in range(15):
+        for _ in range(150):
             values=[''.join(rng.choice('0123456789') for __ in range(rng.randint(1,100))) for ___ in range(40)]
             add('40\n'+''.join(f'{len(s)}\n{s}\n' for s in values),'fixed-seed decimal subarrays')
     elif pid=='1458A':
         for a,b in [([1],[1]),([10**18],[10**18]),([7,7,7],[1,7,10**18]),([6,10,14],[2,3,4]),([10**18]*200000,[10**18]*200000)]:
             add(f'{len(a)} {len(b)}\n'+' '.join(map(str,a))+'\n'+' '.join(map(str,b))+'\n','zero differences, singleton, large sums','maxSize' if len(a)==200000 else 'boundary')
-        for _ in range(20):
+        for _ in range(150):
             a=[rng.randint(1,10**18) for _ in range(rng.randint(1,60))];b=[rng.randint(1,10**18) for _ in range(40)]
             add(f'{len(a)} {len(b)}\n'+' '.join(map(str,a))+'\n'+' '.join(map(str,b))+'\n','fixed-seed common-divisor range')
     elif pid=='1334C':
         for values in [[(1,1),(1,1)],[(10**12,1),(10**12,1)],[(1,10**12),(10**12,1)],[(10**12,1)]*300000]:
             add('1\n'+str(len(values))+'\n'+''.join(f'{a} {b}\n' for a,b in values),'chain explosions, wrap-around,64-bit bullet sum','maxSize' if len(values)==300000 else 'boundary')
         add('150000\n'+('2\n1 1\n1 1\n'*150000),'maximal case count at total monster budget','maxSize')
-        for _ in range(15):
+        for _ in range(150):
             groups=[[(rng.randint(1,1000),rng.randint(1,1000)) for __ in range(rng.randint(2,20))] for ___ in range(30)]
             add('30\n'+''.join(str(len(g))+'\n'+''.join(f'{a} {b}\n' for a,b in g) for g in groups),'fixed-seed cascade/starting-monster choices')
     else:
         for s in ['0','9','032867235','9753108642','0'*300000,'98'*150000]:
             add('1\n'+s+'\n','leading zeros, mixed/single parity, maximal stable merge','maxSize' if len(s)==300000 else 'boundary')
         add('10000\n'+('0\n'*10000),'maximum test case count','boundary')
-        for _ in range(15):
+        for _ in range(150):
             values=[''.join(rng.choice('0123456789') for __ in range(rng.randint(1,100))) for ___ in range(40)]
             add('40\n'+'\n'.join(values)+'\n','fixed-seed reachable parity merges')
     return cases

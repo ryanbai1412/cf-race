@@ -44,6 +44,9 @@ def selected_submissions(pid, cache, all_submissions=False, index_root=None, pro
     for row in rows:
         if row['problem_id'] != pid or row['provenance'] not in sources:
             raise ValueError('source identity/provenance mismatch')
+    wrong_answer = [row for row in rows if row['verdict'] == 'WRONG_ANSWER']
+    if len(wrong_answer) >= 5:
+        rows = [row for row in rows if row['verdict'] in ('OK', 'WRONG_ANSWER')]
     return rows, sources
 
 
