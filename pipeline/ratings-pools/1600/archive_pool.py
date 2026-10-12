@@ -26,7 +26,7 @@ def build(output, ids):
         paths.update((BASE / 'statement-sources').glob(f'{pid}*'))
         for category in ('packages', 'state'):
             paths.update(p for p in (BASE / category / pid).rglob('*') if p.is_file())
-        for category in ('evidence', 'audits', 'semantic', 'coverage', 'extras', 'build-gaps'):
+        for category in ('evidence', 'audits', 'semantic', 'coverage', 'extras', 'build-gaps', 'source-policies'):
             paths.update((BASE / category).glob(f'{pid}*.json'))
         for category in ('selected', 'platform-exclusions'):
             paths.add(BASE / 'submissions' / category / f'{pid}.json')

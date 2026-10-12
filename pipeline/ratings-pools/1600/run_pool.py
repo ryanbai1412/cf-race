@@ -1,5 +1,6 @@
 """Concrete recipe stages; invoke the unchanged foundation execution gate."""
 import argparse
+from hashlib import sha256
 from pathlib import Path
 import sys
 from types import SimpleNamespace
@@ -47,6 +48,20 @@ def selected_submissions(pid, cache, all_submissions=False, index_root=None, pro
     for row in rows:
         if row['problem_id'] != pid or row['provenance'] not in sources:
             raise ValueError('source identity/provenance mismatch')
+    policy_path = BASE / 'source-policies' / name
+    if policy_path.exists():
+        policy = read_json(policy_path)
+        if policy['id'] != pid:
+            raise ValueError('source policy identity mismatch')
+        exclusions = {}
+        for exclusion in policy['exclusions']:
+            source_id = str(exclusion['submissionId'])
+            matches = [row for row in rows if str(row['submission_id']) == source_id]
+            if (source_id in exclusions or len(matches) != 1 or not exclusion['reason']
+                    or sha256(matches[0]['source'].encode()).hexdigest() != exclusion['sourceHash']):
+                raise ValueError('stale or unbound source exclusion')
+            exclusions[source_id] = exclusion
+        rows = [row for row in rows if str(row['submission_id']) not in exclusions]
     wrong_answer = [row for row in rows if row['verdict'] == 'WRONG_ANSWER']
     if len(wrong_answer) >= 5:
         rows = [row for row in rows if row['verdict'] in ('OK', 'WRONG_ANSWER')]
