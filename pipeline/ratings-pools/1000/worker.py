@@ -14,11 +14,15 @@ from checker import check
 from pool_contract import digest, read_json, write_json
 from pool_sources import download, PINS, sha_file, submissions, tree
 import rated_pool
+import pool_sources
+from public_tree import cached_tree
 import recipes
 import additional
 import generated_recipes
 import replenish
 import further
+
+tree = pool_sources.tree = rated_pool.tree = cached_tree
 
 
 def all_public_submissions(pid,cache,all_submissions=False,index_root=None,problem_ids=None):
