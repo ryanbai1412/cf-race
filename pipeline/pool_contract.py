@@ -40,7 +40,9 @@ def manifest(package):
         if path.is_file():
             rel = path.relative_to(package).as_posix()
             if not (rel in ("meta.json", "statement.html", "provenance.json") or
-                    re.fullmatch(r"(?:samples|tests)/[0-9]+\.(?:in|out)", rel)):
+                    re.fullmatch(r"(?:samples|tests)/[0-9]+\.(?:in|out)", rel) or
+                    re.fullmatch(r"qualification/(?:generator|oracle)\.(?:py|cpp)", rel) or
+                    rel in ("qualification/generation.json", "qualification/oracle.json")):
                 raise ValueError(f"unexpected package byte: {rel}")
             result[rel] = {"sha256": sha_file(path), "bytes": path.stat().st_size}
     if not all(k in result for k in ("meta.json", "statement.html", "provenance.json")):
@@ -68,6 +70,8 @@ def pairs(tests):
     if not isinstance(tests, list) or not tests:
         raise ValueError("empty/missing tests")
     for pair in tests:
+        if not isinstance(pair, dict):
+            raise ValueError("test pair must be an input/output object")
         for side in ("input", "output"):
             value = pair.get(side)
             if not isinstance(value, str) or not value.strip():
@@ -77,7 +81,7 @@ def pairs(tests):
     return tests
 
 
-def row_gate(row):
+def row_gate(row, allow_authored=False):
     for field in ("description", "input_format", "output_format", "title", "id"):
         if not row.get(field):
             raise ValueError(f"missing source {field}")
@@ -87,14 +91,15 @@ def row_gate(row):
         raise ValueError("unsupported interactive/file IO")
     if row.get("time_limit", 0) <= 0 or row.get("memory_limit", 0) <= 0:
         raise ValueError("invalid resource limits")
-    pairs(row.get("official_tests"))
+    if row.get("official_tests") or not allow_authored:
+        pairs(row.get("official_tests"))
     pairs(row.get("examples"))
     if row.get("official_tests_complete") is True:
         if len(row["official_tests"]) != row.get("testset_size"):
             raise ValueError("official completeness/count mismatch")
-    elif not row.get("generated_tests"):
+    elif not row.get("generated_tests") and not allow_authored:
         raise ValueError("incomplete official tests and no full generated suite")
-    if set((p["input"], p["output"]) for p in row["official_tests"]).issubset(
+    if not allow_authored and set((p["input"], p["output"]) for p in row["official_tests"]).issubset(
             {(p["input"], p["output"]) for p in row["examples"]}):
         raise ValueError("samples-only suite")
 
@@ -127,16 +132,18 @@ def verify_evidence(package, evidence, audit):
         for ext, key in (("in", "inputHash"), ("out", "outputHash")):
             if files.get(f"tests/{record['name']}.{ext}", {}).get("sha256") != record[key]:
                 raise ValueError("test pair/provenance mismatch")
-    if not suite.get("officialIncluded") or suite.get("generatedIncluded") != suite.get("generatedAdvertised"):
+    if suite.get("generatedIncluded") != suite.get("generatedAdvertised"):
         raise ValueError("incomplete source test suite")
     origins = {key: sum(r.get("origin") == key for r in records) for key in ("official", "open-r1-generated", "worker-generated")}
     if (origins["official"] != suite["officialIncluded"] or
             origins["open-r1-generated"] != suite["generatedIncluded"] or sum(origins.values()) != len(records)):
         raise ValueError("test origin/count mismatch")
-    if suite.get("officialComplete") is not True:
-        raise ValueError("incomplete official tests; generated coverage cannot replace missing official pairs")
-    if suite["officialIncluded"] != suite.get("officialAdvertised"):
+    qualification = provenance.get("qualification", {})
+    basis = qualification.get("basis", "official" if suite.get("officialComplete") is True else "unqualified")
+    if basis == "official" and (suite.get("officialComplete") is not True or not suite.get("officialIncluded") or suite["officialIncluded"] != suite.get("officialAdvertised")):
         raise ValueError("official test count mismatch")
+    if basis not in ("official", "generated"):
+        raise ValueError("incomplete official suite requires independent generated-suite qualification")
     coverage = evidence.get("coverage", {})
     for key in ("boundary", "adversarial", "maxSize", "inputConstraints", "checkerSemantics", "statementComplete"):
         if not coverage.get(key):
@@ -194,6 +201,9 @@ def verify_evidence(package, evidence, audit):
     for key in ("sourceAttribution", "fullTests", "coverage", "fiveAcceptedFiveIncorrect", "noSpecialChecker", "hashes"):
         if audit.get("checks", {}).get(key) is not True:
             raise ValueError(f"audit did not sign off {key}")
+    if basis == "generated":
+        from pool_generation import verify_generated
+        verify_generated(package, files, records, evidence, audit)
     return files
 
 
