@@ -1,6 +1,7 @@
 """Generated-suite qualification; all authored programs execute offline/bounded."""
 import base64
 import hashlib
+import re
 from pathlib import Path
 
 from pool_contract import digest, pairs, read_json
@@ -98,16 +99,16 @@ def verify_generated(package, files, records, evidence, audit):
         raise ValueError("missing extensive/exhaustive generated basis")
     hashes = gen.get("repeatOutputHashes", [])
     executions = gen.get("executions", [])
-    if len(hashes) != 2 or hashes[0] != hashes[1] or len(executions) != 2:
+    if len(hashes) != 2 or any(not isinstance(h, str) or not re.fullmatch(r"[a-f0-9]{64}", h) for h in hashes) or hashes[0] != hashes[1] or len(executions) != 2:
         raise ValueError("missing reproducible generator executions")
     for expected, execution in zip(hashes, executions):
         results = execution.get("runs", [])
-        if execution.get("compiled") is not True or len(results) != 1 or results[0].get("outputHash") != expected or results[0].get("exitCode") != 0 or results[0].get("timeout"):
+        if execution.get("compiled") is not True or execution.get("testsRun") != 1 or len(results) != 1 or results[0].get("test") != "seed" or results[0].get("outputHash") != expected or results[0].get("exitCode") != 0 or results[0].get("timeout") is not False:
             raise ValueError("generator execution failure/hash mismatch")
     result = oracle.get("result", {})
     if (result.get("compiled") is not True or result.get("verdict") != "AC" or result.get("testsRun") != len(records) or
             [r.get("test") for r in result.get("runs", [])] != [r["name"] for r in records] or
-            any(r.get("verdict") != "AC" or r.get("exitCode") != 0 or r.get("timeout") or not r.get("outputHash") for r in result.get("runs", []))):
+            any(r.get("verdict") != "AC" or r.get("exitCode") != 0 or r.get("timeout") is not False or not re.fullmatch(r"[a-f0-9]{64}", r.get("outputHash", "")) for r in result.get("runs", []))):
         raise ValueError("independent oracle did not check every supplied pair")
     authored_names = {r["name"] for r in authored}
     for key in ("boundary", "adversarial", "maxSize"):
