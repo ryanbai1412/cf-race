@@ -1,0 +1,19 @@
+{
+ "decision": "Not retried with a different public oracle (gen_qualify.py rule: one fixed oracle per candidate, no searching for agreement). Stays excluded until a next-stage independent author's oracle is supplied.",
+ "diagnosis": "Oracle reads each word into char a[100]; a 100-character word plus its terminator overflows the buffer (undefined behaviour). The official test is within the stated constraints, and the worker recipe oracle matches its expected output. So the defect is in the oracle, not the upstream data.",
+ "failedTest": "0008 (official test 8 of the supplemental pairs, numbered official-first)",
+ "id": "71A",
+ "maxWordLength": 100,
+ "officialTestInputSha256": "6054870882cffa8d04d7b20d91a5b9e27926918dcb2160454056ef78906aded9",
+ "officialTestOutputSha256": "b5fb3002b249cc9e5589d6029fd1e3b553b4a885709e0c897467f0e61d723964",
+ "oracle": {
+  "language": "GNU C++",
+  "sourceHash": "95e9faff5554711796ec27cd51fbe9b44b9eb5323e9497cc03b4072888647649",
+  "submissionId": "22210669",
+  "url": "https://codeforces.com/contest/71/submission/22210669"
+ },
+ "quarantineReason": "oracle/constraint contradiction quarantined at 0008; do not repair upstream tests silently",
+ "stage": "generate",
+ "statedConstraint": "each word length 1..100",
+ "status": "quarantined-oracle-defect"
+}
