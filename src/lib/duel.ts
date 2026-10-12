@@ -1,5 +1,6 @@
 import { db, logDbError } from "./db";
 import type { Lang } from "./types";
+import { DEFAULT_PROBLEM_RATING, type ProblemRating } from "./problem-rating";
 
 /** Latency grace (ms) added to server-side time-window checks. */
 export const SUBMIT_GRACE_MS = 3000;
@@ -12,6 +13,8 @@ export type DuelRoomRow = {
   status: "lobby" | "racing" | "done";
   total_time_sec: number | null;
   grace_after_ac_sec: number | null;
+  problem_rating: ProblemRating;
+  settings_version: number;
   created_at: string;
 };
 
@@ -167,19 +170,21 @@ export async function startDuelMatch(
   playerIds: [string, string]
 ): Promise<{ ok: true } | { ok: false; error: string; status: number }> {
   const [userA, userB] = playerIds;
-  const problemId = await pickDuelProblem(userA, userB);
+  let problemId: string | null;
+  let pickFailed = false;
+  try {
+    problemId = await pickDuelProblem(userA, userB, room.problem_rating ?? DEFAULT_PROBLEM_RATING);
+  } catch {
+    problemId = null;
+    pickFailed = true;
+  }
   if (!problemId) {
-    const { error: roomErr } = await db()
-      .from("duel_rooms")
-      .update({ status: "lobby" })
-      .eq("id", room.id);
-    logDbError(`startDuelMatch: reset room ${room.id}`, roomErr);
-    const { error: readyErr } = await db()
-      .from("duel_room_players")
-      .update({ ready_at: null })
-      .eq("room_id", room.id);
-    logDbError(`startDuelMatch: clear ready ${room.id}`, readyErr);
-    return { ok: false, error: "no eligible problems left for this pair", status: 409 };
+    const { error: resetErr } = await db().rpc("duel_lobby_action", {
+      p_room_id: room.id, p_user_id: userA, p_action: "reset", p_patch: {},
+    });
+    logDbError(`startDuelMatch: reset room ${room.id}`, resetErr);
+    if (pickFailed) return { ok: false, error: "Could not load eligible problems. Try again.", status: 503 };
+    return { ok: false, error: `No unseen ${room.problem_rating ?? DEFAULT_PROBLEM_RATING}-rated problems left for this pair. Try another rating.`, status: 409 };
   }
 
   const startAt = new Date(Date.now() + COUNTDOWN_MS).toISOString();
@@ -231,11 +236,12 @@ export async function invalidatedProblemIds(
 ): Promise<Set<string>> {
   const ids = userIds.filter((id): id is string => Boolean(id));
   if (ids.length === 0) return new Set();
-  const { data } = await db()
+  const { data, error } = await db()
     .from("problem_invalidations")
     .select("problem_id")
     .in("by_user", ids)
     .is("revoked_at", null);
+  if (error) throw new Error("Could not load problem invalidations");
   return new Set((data ?? []).map((r) => r.problem_id as string));
 }
 
@@ -262,12 +268,14 @@ export async function invalidationFor(
  */
 export async function pickDuelProblem(
   userA: string,
-  userB: string
+  userB: string,
+  rating: ProblemRating = DEFAULT_PROBLEM_RATING
 ): Promise<string | null> {
-  const [{ data: problems }, invalidated, { data: seen }] = await Promise.all([
+  const [{ data: problems, error: problemsError }, invalidated, { data: seen, error: seenError }] = await Promise.all([
     db()
       .from("problems")
       .select("id, tags")
+      .eq("rating", rating)
       .neq("id", "warmup-sum"),
     invalidatedProblemIds([userA, userB]),
     db()
@@ -275,7 +283,7 @@ export async function pickDuelProblem(
       .select("problem_id")
       .in("user_id", [userA, userB]),
   ]);
-
+  if (problemsError || seenError) throw new Error("Could not load eligible duel problems");
   const seenIds = new Set((seen ?? []).map((s) => s.problem_id as string));
   const pool = (problems ?? [])
     .filter((p) => !((p.tags as string[] | null) ?? []).includes("hidden"))

@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { RatingPicker } from "@/components/problems/rating-picker";
+import type { ProblemRating } from "@/lib/problem-rating";
 import confetti from "canvas-confetti";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -65,11 +67,14 @@ type MatchPlayer = {
 type RoomState = {
   serverNow: number;
   userId: string;
+  ratingCounts: Record<ProblemRating, number>;
   room: {
     id: string;
     status: "lobby" | "racing" | "done";
     totalTimeSec: number | null;
     graceAfterAcSec: number | null;
+    rating: ProblemRating;
+    settingsVersion: number;
     createdBy: string;
   };
   players: StatePlayer[];
@@ -104,6 +109,7 @@ export function DuelRoom({ roomId }: { roomId: string }) {
   const [notFound, setNotFound] = useState(false);
   const [joining, setJoining] = useState(false);
   const [readyBusy, setReadyBusy] = useState(false);
+  const [settingsBusy, setSettingsBusy] = useState(false);
   const [camState, setCamState] = useState<"pending" | "ready" | "none">("pending");
   const [uploadState, setUploadState] = useState<
     "none" | "uploading" | "done" | "failed"
@@ -472,7 +478,7 @@ export function DuelRoom({ roomId }: { roomId: string }) {
         const res = await fetch("/api/duel/ready", {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ roomId, ready }),
+          body: JSON.stringify({ roomId, ready, settingsVersion: state?.room.settingsVersion }),
         });
         const d = await res.json();
         if (!res.ok) throw new Error(d.error ?? "Failed");
@@ -484,11 +490,12 @@ export function DuelRoom({ roomId }: { roomId: string }) {
         setReadyBusy(false);
       }
     },
-    [roomId, refresh, nudge]
+    [roomId, refresh, nudge, state?.room.settingsVersion]
   );
 
   const saveSettings = useCallback(
-    async (patch: { totalTimeSec?: number | null; graceAfterAcSec?: number | null }) => {
+    async (patch: { totalTimeSec?: number | null; graceAfterAcSec?: number | null; rating?: ProblemRating }) => {
+      setSettingsBusy(true);
       try {
         const res = await fetch("/api/duel/settings", {
           method: "POST",
@@ -503,6 +510,8 @@ export function DuelRoom({ roomId }: { roomId: string }) {
         nudge();
       } catch (e) {
         toast.error(e instanceof Error ? e.message : "Failed to save settings");
+      } finally {
+        setSettingsBusy(false);
       }
     },
     [roomId, refresh, nudge]
@@ -825,9 +834,14 @@ export function DuelRoom({ roomId }: { roomId: string }) {
           <>
             <Card className="border-border/60 bg-card/60">
               <CardHeader>
-                <CardTitle className="text-lg">Timers</CardTitle>
+                <CardTitle className="text-lg">Race settings</CardTitle>
               </CardHeader>
               <CardContent className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-3 sm:col-span-2">
+                  <RatingPicker value={state.room.rating} onChange={(rating) => void saveSettings({ rating })} counts={state.ratingCounts} disabled={settingsBusy || readyBusy} />
+                  <p className="text-xs text-muted-foreground">Shared by both players. Changing any setting clears both ready states.</p>
+                  {state.ratingCounts[state.room.rating] === 0 && <p className="text-sm text-muted-foreground" role="status">No {state.room.rating}-rated problems are available yet. Choose another rating.</p>}
+                </div>
                 <div className="space-y-1.5">
                   <label className="font-mono text-xs text-muted-foreground">
                     Total time (minutes, empty = no limit)
@@ -841,7 +855,7 @@ export function DuelRoom({ roomId }: { roomId: string }) {
                         : ""
                     }
                     key={`total-${state.room.totalTimeSec}`}
-                    disabled={me?.ready}
+                    disabled={settingsBusy || readyBusy}
                     onBlur={(e) => {
                       const v = e.target.value.trim();
                       void saveSettings({
@@ -859,7 +873,7 @@ export function DuelRoom({ roomId }: { roomId: string }) {
                     min={5}
                     defaultValue={state.room.graceAfterAcSec ?? ""}
                     key={`grace-${state.room.graceAfterAcSec}`}
-                    disabled={me?.ready}
+                    disabled={settingsBusy || readyBusy}
                     onBlur={(e) => {
                       const v = e.target.value.trim();
                       void saveSettings({
@@ -907,7 +921,7 @@ export function DuelRoom({ roomId }: { roomId: string }) {
                   className="w-full"
                   size="lg"
                   variant={me?.ready ? "secondary" : "default"}
-                  disabled={readyBusy || state.players.length < 2}
+                  disabled={readyBusy || settingsBusy || state.players.length < 2 || (!me?.ready && state.ratingCounts[state.room.rating] === 0)}
                   onClick={() => void setReady(!me?.ready)}
                 >
                   {me?.ready ? "Un-ready" : "Ready up"}
@@ -919,7 +933,7 @@ export function DuelRoom({ roomId }: { roomId: string }) {
                 ) : (
                   <p className="text-center font-mono text-xs text-muted-foreground">
                     Race starts when both players are ready. Problem is picked at
-                    random — neither of you has solved it.
+                    random from the {state.room.rating} pool — neither of you has seen it.
                   </p>
                 )}
               </CardContent>

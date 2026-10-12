@@ -8,6 +8,8 @@ import {
   type DuelRoomPlayerRow,
 } from "@/lib/duel";
 import type { Problem } from "@/lib/types";
+import { visibleProblems } from "@/lib/problem-bank";
+import { DEFAULT_PROBLEM_RATING, ratingCounts } from "@/lib/problem-rating";
 
 export const dynamic = "force-dynamic";
 
@@ -23,13 +25,14 @@ export async function GET(req: NextRequest) {
   const roomId = req.nextUrl.searchParams.get("roomId") ?? "";
   if (!roomId) return NextResponse.json({ error: "bad request" }, { status: 400 });
 
-  const [{ data: room }, { data: players }] = await Promise.all([
+  const [{ data: room }, { data: players }, problems] = await Promise.all([
     db().from("duel_rooms").select("*").eq("id", roomId).maybeSingle<DuelRoomRow>(),
     db()
       .from("duel_room_players")
       .select("*")
       .eq("room_id", roomId)
       .order("joined_at", { ascending: true }),
+    visibleProblems(),
   ]);
   if (!room) return NextResponse.json({ error: "unknown room" }, { status: 404 });
 
@@ -88,11 +91,14 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({
     serverNow: Date.now(),
     userId: user.id,
+    ratingCounts: ratingCounts(problems),
     room: {
       id: room.id,
       status: (freshRoom ?? room).status,
       totalTimeSec: (freshRoom ?? room).total_time_sec,
       graceAfterAcSec: (freshRoom ?? room).grace_after_ac_sec,
+      rating: (freshRoom ?? room).problem_rating ?? DEFAULT_PROBLEM_RATING,
+      settingsVersion: (freshRoom ?? room).settings_version ?? 0,
       createdBy: room.created_by,
     },
     players: ((players ?? []) as DuelRoomPlayerRow[]).map((p) => ({

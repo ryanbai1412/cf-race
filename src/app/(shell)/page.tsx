@@ -2,7 +2,8 @@ import Link from "next/link";
 import { getEffectiveUser } from "@/lib/impersonation";
 import { db } from "@/lib/db";
 import { sweepStaleSessions } from "@/lib/session-lifecycle";
-import { pickPracticeProblem } from "@/lib/problem-bank";
+import { pickPracticeProblem, visibleProblems } from "@/lib/problem-bank";
+import { ratingCounts } from "@/lib/problem-rating";
 import { Landing } from "@/components/shell/landing";
 import { LegacyClaim } from "@/components/shell/legacy-claim";
 import { QuickActions } from "@/components/shell/quick-actions";
@@ -45,6 +46,7 @@ export default async function HomePage({
     { data: solvedRows },
     { data: myMatches },
     { data: shares },
+    practiceProblems,
   ] = await Promise.all([
     pickPracticeProblem(user.id),
     db()
@@ -68,6 +70,7 @@ export default async function HomePage({
       .select("session_id, sessions!inner(user_id)")
       .eq("sessions.user_id", user.id)
       .is("revoked_at", null),
+    visibleProblems(),
     sweepStaleSessions({ userId: user.id }),
   ]);
 
@@ -103,7 +106,7 @@ export default async function HomePage({
             title="Ready to race?"
             description="Practice solo, duel a friend, or run a booth event."
           />
-          <QuickActions practiceProblemId={practiceProblemId} />
+          <QuickActions counts={ratingCounts(practiceProblems)} />
         </div>
 
         <div className="grid grid-cols-3 gap-3">
