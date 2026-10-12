@@ -51,7 +51,7 @@ def selected_submissions(pid, cache, all_submissions=False, index_root=None, pro
     policy_path = BASE / 'source-policies' / name
     if policy_path.exists():
         policy = read_json(policy_path)
-        if policy['id'] != pid:
+        if policy['id'] != pid.replace('/', ''):
             raise ValueError('source policy identity mismatch')
         exclusions = {}
         for exclusion in policy['exclusions']:
