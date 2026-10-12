@@ -92,6 +92,10 @@ def locations(args):
     return base, base / "packages" / args.id, base / "state" / args.id
 
 
+def inventory_blockers(item):
+    return [r for r in item["exclusions"] if r != "incomplete-tests-no-generated-suite"]
+
+
 def prepare(args):
     base, package, state = locations(args)
     inv = read_json(base / "inventory.json")
@@ -100,7 +104,7 @@ def prepare(args):
     if sha_file(base / "api-problems.json") != inv["apiSnapshotHash"]:
         raise ValueError("changed API snapshot")
     item = next(i for i in inv["items"] if i["id"] == args.id)
-    blockers = [r for r in item["exclusions"] if r != "incomplete-tests-no-generated-suite"]
+    blockers = inventory_blockers(item)
     if blockers:
         raise ValueError(", ".join(blockers))
     entry = {"path": item["source"]["path"], "size": item["source"]["bytes"],
@@ -227,7 +231,7 @@ def validate(args):
     row = read_json(state / "source-row.json")
     if digest(row) != generated["sourceRowHash"]:
         raise ValueError("changed source since generate")
-    source_ids = [i["sourceId"] for i in read_json(base / "inventory.json")["items"] if not i["exclusions"]]
+    source_ids = [i["sourceId"] for i in read_json(base / "inventory.json")["items"] if not inventory_blockers(i)]
     available, source_files = submissions(row["id"], args.cache, args.all_submissions, base / "submissions", source_ids)
     tests = [{"name": p.stem, "input": p.read_bytes(), "output": p.with_suffix(".out").read_bytes()}
              for p in sorted((package / "tests").glob("*.in"))]
@@ -300,12 +304,13 @@ def report(args):
     base = Path(args.workspace) / str(args.rating)
     inv = read_json(base / "inventory.json")
     result = {"rating": args.rating, "target": inv["target"], "inventoryCount": len(inv["items"]),
-              "validatedCount": 0, "executionPassed": 0, "exclusions": inv["exclusionCounts"], "packages": [],
-              "completeSourceEligible": sum(not i["exclusions"] and i["officialComplete"] is True for i in inv["items"]),
-              "incompleteOfficialCandidates": sum(not i["exclusions"] and i["officialComplete"] is not True for i in inv["items"])}
+              "validatedCount": 0, "executionPassed": 0,
+              "exclusions": {k: v for k, v in inv["exclusionCounts"].items() if k != "incomplete-tests-no-generated-suite"}, "packages": [],
+              "completeSourceEligible": sum(not inventory_blockers(i) and i["officialComplete"] is True for i in inv["items"]),
+              "incompleteOfficialCandidates": sum(not inventory_blockers(i) and i["officialComplete"] is not True for i in inv["items"])}
     result["qualificationAvailability"] = {
         "officialCandidates": result["completeSourceEligible"],
-        "generatedCandidates": sum(not [r for r in i["exclusions"] if r != "incomplete-tests-no-generated-suite"] for i in inv["items"]),
+        "generatedCandidates": sum(not inventory_blockers(i) for i in inv["items"]),
         "note": "Availability only; generated candidates need authored coverage/oracle,5AC/5incorrect and independent audit."}
     result["validatedByBasis"] = {"official": 0, "generated": 0}
     for item in inv["items"]:
