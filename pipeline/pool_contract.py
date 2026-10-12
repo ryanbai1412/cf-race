@@ -51,6 +51,16 @@ def manifest(package):
         raise ValueError("missing or unpaired tests")
     if any(result[p]["bytes"] == 0 for p in result if p.startswith(("tests/", "samples/"))):
         raise ValueError("empty test file")
+    sample_ins = {k[:-3] for k in result if k.startswith("samples/") and k.endswith(".in")}
+    sample_outs = {k[:-4] for k in result if k.startswith("samples/") and k.endswith(".out")}
+    if not sample_ins or sample_ins != sample_outs:
+        raise ValueError("missing or unpaired samples")
+    for name in sorted(test_ins | sample_ins):
+        pairs([{"input": (package / f"{name}.in").read_text(encoding="utf-8"),
+                "output": (package / f"{name}.out").read_text(encoding="utf-8")}])
+    sample_hashes = {(result[f"{name}.in"]["sha256"], result[f"{name}.out"]["sha256"]) for name in sample_ins}
+    if all((result[f"{name}.in"]["sha256"], result[f"{name}.out"]["sha256"]) in sample_hashes for name in test_ins):
+        raise ValueError("samples-only package suite")
     return result
 
 
