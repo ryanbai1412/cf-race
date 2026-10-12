@@ -35,7 +35,7 @@ export default async function HomePage({
   const user = await getEffectiveUser();
 
   if (!user) {
-    const practiceProblemId = await pickPracticeProblem(null);
+    const practiceProblemId = await pickPracticeProblem(null).catch(() => null);
     const next = safeRedirectPath(searchParams.next);
     return <Landing next={next} practiceProblemId={practiceProblemId} />;
   }
@@ -48,7 +48,7 @@ export default async function HomePage({
     { data: shares },
     practiceProblems,
   ] = await Promise.all([
-    pickPracticeProblem(user.id),
+    pickPracticeProblem(user.id).catch(() => null),
     db()
       .from("sessions")
       .select("id, kind, problem_id, started_at, outcome, solve_ms")
@@ -70,7 +70,7 @@ export default async function HomePage({
       .select("session_id, sessions!inner(user_id)")
       .eq("sessions.user_id", user.id)
       .is("revoked_at", null),
-    visibleProblems(),
+    visibleProblems().catch(() => []),
     sweepStaleSessions({ userId: user.id }),
   ]);
 

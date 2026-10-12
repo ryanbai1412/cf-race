@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from pool_contract import manifest, pairs, publication_gate, row_gate
+from pool_contract import FIXTURES, ROOT, manifest, pairs, publication_gate, row_gate
 
 
 class PoolContractTests(unittest.TestCase):
@@ -24,6 +24,16 @@ class PoolContractTests(unittest.TestCase):
     def test_sample_only_never_qualifies(self):
         with self.assertRaisesRegex(ValueError, "samples-only"):
             manifest(self.package)
+
+    def test_real_existing_fixtures_keep_legacy_seed_support(self):
+        for pid in FIXTURES:
+            with self.subTest(pid=pid):
+                self.assertEqual(publication_gate(ROOT / "problems" / pid), {"legacy": True, "fixture": True})
+
+    def test_fixture_id_outside_existing_repo_location_cannot_bypass_gate(self):
+        (self.package / "meta.json").write_text(json.dumps({"id": "dev/aplusb", "rating": 800}))
+        with self.assertRaises(FileNotFoundError):
+            publication_gate(self.package, evidence_root=Path(self.tmp.name) / "missing")
 
     def test_extra_test_pair_is_not_independent_evidence(self):
         (self.package / "tests/2.in").write_text("3\n")

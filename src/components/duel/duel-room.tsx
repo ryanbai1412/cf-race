@@ -838,9 +838,9 @@ export function DuelRoom({ roomId }: { roomId: string }) {
               </CardHeader>
               <CardContent className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-3 sm:col-span-2">
-                  <RatingPicker value={state.room.rating} onChange={(rating) => void saveSettings({ rating })} counts={state.ratingCounts} disabled={settingsBusy || readyBusy} />
+                  <RatingPicker value={state.room.rating} onChange={(rating) => void saveSettings({ rating })} counts={state.ratingCounts} disabled={settingsBusy || readyBusy || state.room.status !== "lobby"} />
                   <p className="text-xs text-muted-foreground">Shared by both players. Changing any setting clears both ready states.</p>
-                  {state.ratingCounts[state.room.rating] === 0 && <p className="text-sm text-muted-foreground" role="status">No {state.room.rating}-rated problems are available yet. Choose another rating.</p>}
+                  {state.room.status === "lobby" && state.ratingCounts[state.room.rating] === 0 && <p className="text-sm text-muted-foreground" role="status">No {state.room.rating}-rated problems are available yet. Choose another rating.</p>}
                 </div>
                 <div className="space-y-1.5">
                   <label className="font-mono text-xs text-muted-foreground">
@@ -855,7 +855,7 @@ export function DuelRoom({ roomId }: { roomId: string }) {
                         : ""
                     }
                     key={`total-${state.room.totalTimeSec}`}
-                    disabled={settingsBusy || readyBusy}
+                    disabled={settingsBusy || readyBusy || state.room.status !== "lobby"}
                     onBlur={(e) => {
                       const v = e.target.value.trim();
                       void saveSettings({
@@ -873,7 +873,7 @@ export function DuelRoom({ roomId }: { roomId: string }) {
                     min={5}
                     defaultValue={state.room.graceAfterAcSec ?? ""}
                     key={`grace-${state.room.graceAfterAcSec}`}
-                    disabled={settingsBusy || readyBusy}
+                    disabled={settingsBusy || readyBusy || state.room.status !== "lobby"}
                     onBlur={(e) => {
                       const v = e.target.value.trim();
                       void saveSettings({
@@ -921,7 +921,7 @@ export function DuelRoom({ roomId }: { roomId: string }) {
                   className="w-full"
                   size="lg"
                   variant={me?.ready ? "secondary" : "default"}
-                  disabled={readyBusy || settingsBusy || state.players.length < 2 || (!me?.ready && state.ratingCounts[state.room.rating] === 0)}
+                  disabled={readyBusy || settingsBusy || state.room.status !== "lobby" || state.players.length < 2 || (!me?.ready && state.ratingCounts[state.room.rating] === 0)}
                   onClick={() => void setReady(!me?.ready)}
                 >
                   {me?.ready ? "Un-ready" : "Ready up"}

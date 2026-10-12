@@ -11,6 +11,7 @@ VERSION = 1
 RATINGS = (800, 1000, 1200, 1400, 1600)
 ROOT = Path(__file__).resolve().parent.parent
 LEGACY = Path(__file__).with_name("legacy_800.json")
+FIXTURES = {"dev/aplusb": 800, "dev/parity": 800, "dev/floatavg": 800, "warmup-sum": None}
 
 
 def digest(value):
@@ -218,8 +219,9 @@ def verify_evidence(package, evidence, audit):
 def publication_gate(package, evidence_root=None, approval_path=None, require_approval=True):
     package = Path(package)
     meta = read_json(package / "meta.json")
-    if meta.get("rating") is None and package.resolve().is_relative_to(ROOT / "problems" / "dev"):
-        return {"legacy": True}
+    if (meta.get("id") in FIXTURES and meta.get("rating") == FIXTURES[meta["id"]] and
+            not meta.get("poolPipeline") and package.resolve() == (ROOT / "problems" / meta["id"]).resolve()):
+        return {"legacy": True, "fixture": True}
     if meta.get("rating") == 800 and meta["id"] in read_json(LEGACY) and not meta.get("poolPipeline"):
         return {"legacy": True}
     root = Path(evidence_root or os.environ.get("RATED_POOL_EVIDENCE_ROOT", ROOT / "pipeline" / "ratings"))

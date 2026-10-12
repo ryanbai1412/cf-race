@@ -47,7 +47,7 @@ export async function GET(req: NextRequest) {
 
   const cur = await latestMatch(roomId);
   const ratingCountsForLobby = (freshRoom ?? room).status === "lobby"
-    ? ratingCounts(await visibleProblems()) : undefined;
+    ? ratingCounts(await visibleProblems()) : ratingCounts([]);
 
   let match: Record<string, unknown> | null = null;
   if (cur) {
