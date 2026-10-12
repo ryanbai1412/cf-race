@@ -4,10 +4,12 @@ import { DEFAULT_PROBLEM_RATING, DEFAULT_SOLO_TIMER, isProblemRating, isSoloTime
 const store = vi.hoisted(() => ({
   rows: {} as Record<string, Record<string, unknown>[]>,
   errors: new Set<string>(),
+  rpc: vi.fn(),
 }));
 vi.mock("next/cache", () => ({ unstable_cache: (fn: unknown) => fn }));
 vi.mock("../db", () => ({
   db: () => ({
+    rpc: store.rpc,
     from: (table: string) => {
       let rows = [...(store.rows[table] ?? [])];
       const builder = {
@@ -25,7 +27,7 @@ vi.mock("../db", () => ({
   logDbError: vi.fn(),
 }));
 import { pickPracticeProblem } from "../problem-bank";
-import { pickDuelProblem } from "../duel";
+import { pickDuelProblem, startDuelMatch, type DuelRoomRow } from "../duel";
 
 beforeEach(() => {
   store.rows = {
@@ -38,6 +40,36 @@ beforeEach(() => {
     sessions: [], problem_invalidations: [],
   };
   store.errors.clear();
+  store.rpc.mockReset();
+});
+
+const claimedRoom: DuelRoomRow = {
+  id: "room", created_by: "a", created_at: "2026-01-01T00:00:00Z",
+  status: "racing", total_time_sec: 180, grace_after_ac_sec: null,
+  problem_rating: 800, settings_version: 0,
+};
+
+describe("lost duel start responses", () => {
+  it("preserves a committed match when its RPC response is lost", async () => {
+    store.rpc.mockRejectedValueOnce(new Error("lost response"));
+    store.rpc.mockResolvedValueOnce({ data: { ok: true, activeMatch: true }, error: null });
+    expect(await startDuelMatch(claimedRoom, ["a", "b"])).toEqual({ ok: true });
+    expect(store.rpc.mock.calls.map((call) => call[0])).toEqual(["duel_start_match", "duel_lobby_action"]);
+    expect(store.rpc.mock.calls[1][1].p_action).toBe("reset");
+  });
+
+  it("resets an uncommitted claim after a failed RPC", async () => {
+    store.rpc.mockResolvedValueOnce({ data: null, error: new Error("timeout") });
+    store.rpc.mockResolvedValueOnce({ data: { ok: true, activeMatch: false }, error: null });
+    expect(await startDuelMatch(claimedRoom, ["a", "b"])).toMatchObject({ ok: false, status: 503 });
+    expect(store.rpc.mock.calls.map((call) => call[0])).toEqual(["duel_start_match", "duel_lobby_action"]);
+  });
+
+  it("returns a retry error when recovery is also unavailable", async () => {
+    store.rpc.mockRejectedValueOnce(new Error("network unavailable"));
+    store.rpc.mockRejectedValueOnce(new Error("network unavailable"));
+    expect(await startDuelMatch(claimedRoom, ["a", "b"])).toMatchObject({ ok: false, status: 503 });
+  });
 });
 
 describe("rating and timer choices", () => {
