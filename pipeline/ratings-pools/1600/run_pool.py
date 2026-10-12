@@ -12,9 +12,10 @@ from pool_sources import PINS, sha_file
 import recipes
 import extended_recipes
 import additional_recipes
+import more_recipes
 import qualification
 
-MODULES = (recipes, extended_recipes, additional_recipes)
+MODULES = (recipes, extended_recipes, additional_recipes, more_recipes)
 IDS = tuple(pid for module in MODULES for pid in module.IDS)
 
 SEMANTICS = {
