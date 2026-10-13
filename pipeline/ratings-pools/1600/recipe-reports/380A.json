@@ -1,0 +1,309 @@
+{
+  "id": "380A",
+  "role": "recipe-author",
+  "status": "authored-pending-local-checks",
+  "qualification": false,
+  "baseCommit": "5b28d333",
+  "pins": {
+    "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+    "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+  },
+  "inputVerification": {
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "archiveBytes": 4542856,
+    "manifestSha256": "c5aa6b8341d4ab6814424de54e241e91390fdc4c079e7f1daa4379bf07075381",
+    "inputPath": "inputs/380A.json",
+    "inputSha256": "3e28149ef3749071ebe942a81dfd272e34fe5ab3ace372cf9137678c67cdab96",
+    "inputBytes": 46111,
+    "sourceRowHash": "315ae49ed5cf187b6245763c0d5151bd2b507dcc4b34a1755732abeb3e4a5064",
+    "sourceRowHashMatches": true,
+    "providedSourceProvenance": {
+      "bytes": 403816275,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00006-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "56472c2a050a04899399691e1247b91ca6f9f8ac62fc633aeb1e39065832ffb7",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00006-of-00011.parquet"
+    },
+    "upstreamShardDownloadedByAuthor": false
+  },
+  "documentationRead": [
+    "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
+    "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md",
+    "pipeline/ratings-pools/1600/normalize_statement.py"
+  ],
+  "statementAttestation": {
+    "sourceUrl": "https://codeforces.me/problemset/problem/380/A?locale=en",
+    "bodySha256": "a6ba48c94a85e93cf228680c11ace0ac21f24b06bb32b840fc1914a5abf997c7",
+    "bodyBytes": 60128,
+    "originalBodyPath": "statement-sources/380A.recipe-author.original.html",
+    "attribution": "Codeforces, Sereja and Prefixes, problem380/A (alias381/C); full English HTML response preserved unchanged.",
+    "sourceMarkers": [
+      "10<sup class=\"upper-index\">5</sup>",
+      "10<sup class=\"upper-index\">4</sup>"
+    ],
+    "confirmedConstraints": {
+      "m": [
+        1,
+        100000
+      ],
+      "n": [
+        1,
+        100000
+      ],
+      "x": [
+        1,
+        100000
+      ],
+      "l": [
+        1,
+        100000
+      ],
+      "c": [
+        1,
+        10000
+      ],
+      "prefixAvailableBeforeOperation": true,
+      "queryPositions": "strictly increasing positive integers, <=final length",
+      "layout": "m; m operation lines, each1 x or2 l c; n; all n queries on one line"
+    },
+    "sourceCorrectionProposal": {
+      "field": "input_format",
+      "replacements": [
+        {
+          "from": "≤ 105)",
+          "to": "≤ 10<sup>5</sup>)",
+          "occurrences": 3
+        },
+        {
+          "from": "≤ 105,",
+          "to": "≤ 10<sup>5</sup>,",
+          "occurrences": 1
+        },
+        {
+          "from": "≤ 104)",
+          "to": "≤ 10<sup>4</sup>)",
+          "occurrences": 1
+        }
+      ],
+      "applyByParentOnly": true,
+      "originalSourceRowAndStatementUnchanged": true
+    }
+  },
+  "semantics": {
+    "uniqueOutput": "n integer value tokens in query order; no custom checker, interactive input, file I/O, floating point, or multiple valid solutions.",
+    "oracle": "Materialize only first100000 elements; any copied block comes from them. Binary-search exact cumulative stage lengths and index copied prefix at(position-before-1)%l. O(m+100000+n log m) time, O(m+n+100000) space.",
+    "independentReference": "Literal whole-sequence expansion on small domains; reverse traversal through prior operations on sampled huge queries; closed-form periodic-prefix check on every huge maximum-case query.",
+    "brutePlan": "Every legal program of1..4 stages, appended values1 or2, all feasible prefix lengths, repetition1 or2; then400 fixed-seed mixed programs. Compare every output element to literal expansion."
+  },
+  "upstreamPairs": {
+    "suppliedOfficialCount": 6,
+    "suppliedSampleCount": 1,
+    "advertisedTestsetSize": 32,
+    "officialComplete": false,
+    "generatedTestsField": 22,
+    "generatedTestsFieldIsCountNotPairs": true,
+    "pairs": [
+      {
+        "suite": "official",
+        "index": 0,
+        "inputSha256": "8fa3847643a41078032abe447d1667af1eaf3a0d1ae779e67ba72a57d121164a",
+        "outputSha256": "0aa8160b0a212968f22853b5d741a772122e46b6f5cc8a344aa6fcfc19c54148"
+      },
+      {
+        "suite": "official",
+        "index": 1,
+        "inputSha256": "050a58e941ae659697f6b258fc8554093bd38b7a24c2df6d400688a198aced5f",
+        "outputSha256": "e5b88a33964dc5c4fe8bd00c079fb7b99c9abf6d076263404a197210115f6cb5"
+      },
+      {
+        "suite": "official",
+        "index": 2,
+        "inputSha256": "122286c63f8ff5e1569844d97d67b37608ecfd203a2d4d832cb1bd87a28925e7",
+        "outputSha256": "b34cc74d15fe4cee075bab60fd044e45eb201aea356015b183c9cdcd0bc32a67"
+      },
+      {
+        "suite": "official",
+        "index": 3,
+        "inputSha256": "f81660280a2c748c04306b860a6446936287e766956b6d0008179a716c4646fc",
+        "outputSha256": "5448a70d4a5376ec2dc6aaf1ce337cf2aae5f02eacc15ef668c92955631a9abf"
+      },
+      {
+        "suite": "official",
+        "index": 4,
+        "inputSha256": "755fa7ad4e688691764e62150d39069547959fc8889d3b8230df1884c9c3f186",
+        "outputSha256": "c6915a97d6224085b7a814b66c8dbc4187cd5f7d2893a8792e26560ae67a77d9"
+      },
+      {
+        "suite": "official",
+        "index": 5,
+        "inputSha256": "190c22b1d187c6405af4901f79e1d76b92d03e03a468d52cd3c7582ce5f1e131",
+        "outputSha256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04"
+      },
+      {
+        "suite": "sample",
+        "index": 0,
+        "inputSha256": "5229f197798b90fc164e3af7d26ef7d33d804189d38337402fa19a16aeb36eaf",
+        "outputSha256": "67772266f9312237ce829cfe9bdec1534c287a9325ac443dd806bb575c705d00"
+      }
+    ],
+    "reviewStatus": "pending",
+    "failures": null
+  },
+  "selectedPublicSources": {
+    "sourcesExecuted": false,
+    "unchangedSourceHashes": [
+      {
+        "submissionId": "5667291",
+        "verdict": "OK",
+        "sourceSha256": "2388ffa56b751ec94b000ff3cabd2a40cb09bb3bbe218ec3853872459b726230"
+      },
+      {
+        "submissionId": "5667421",
+        "verdict": "OK",
+        "sourceSha256": "a89240f082c607b9d7b910be43c0d245a971dd1e86545ef191e18e1fcc5d5329"
+      },
+      {
+        "submissionId": "5667556",
+        "verdict": "OK",
+        "sourceSha256": "866820adc66c655e858f54792492a87e1ba0848f3e8c335568af9d8e7ac9bfa7"
+      },
+      {
+        "submissionId": "5667615",
+        "verdict": "OK",
+        "sourceSha256": "1386758af851621e54413c86df0e10952d1462c685e82270d15184f421e6fc8d"
+      },
+      {
+        "submissionId": "5667652",
+        "verdict": "OK",
+        "sourceSha256": "fdb39159d938c06756d630e32be202da020a5191ebd8500d7f7f1539a788d586"
+      },
+      {
+        "submissionId": "5667815",
+        "verdict": "OK",
+        "sourceSha256": "27dd730b1705985b6d6f0ea67a7ef3fcffbc0ffcf0090eeaa0654dd29bef8a52"
+      },
+      {
+        "submissionId": "5667931",
+        "verdict": "OK",
+        "sourceSha256": "ba108059b4e07cf8cc38e6e3aed68afcd99a533c36ef0fc4a31dcff7f3c732f4"
+      },
+      {
+        "submissionId": "5667932",
+        "verdict": "OK",
+        "sourceSha256": "5dab88ab0df6fd3123d63885d9d2cd3629a7c8dd10f9133eeb37b28d03c1f323"
+      },
+      {
+        "submissionId": "5667951",
+        "verdict": "OK",
+        "sourceSha256": "dbbb1d6629a2a58a85d6c357d2d23ee8b7a60b9a16fa5d80c2b274cd767e61d7"
+      },
+      {
+        "submissionId": "5667957",
+        "verdict": "OK",
+        "sourceSha256": "f6aacb1c10fc1adbd460ef62b4dc258365c6d017ca3edb83a837a33c343046d1"
+      },
+      {
+        "submissionId": "5668137",
+        "verdict": "OK",
+        "sourceSha256": "9901b9a80972432659a795542aee1468daef99d421eada4045168ec8166a9aae"
+      },
+      {
+        "submissionId": "5668348",
+        "verdict": "OK",
+        "sourceSha256": "2ac5dec07556f4cf8fe43ac6a70f6d2664a5ec4724faab46299ecfa86316df61"
+      },
+      {
+        "submissionId": "5697908",
+        "verdict": "WRONG_ANSWER",
+        "sourceSha256": "baca69f528a13d4c38769f0f06bffe0a8b58f3acdcd4a1d15bcb1b5c2572c729"
+      },
+      {
+        "submissionId": "5743654",
+        "verdict": "TIME_LIMIT_EXCEEDED",
+        "sourceSha256": "a4d842a8cc09e8c59ff2395fddbe841cd787b30846c40ccafe3ef2e838a83ea4"
+      },
+      {
+        "submissionId": "5761315",
+        "verdict": "TIME_LIMIT_EXCEEDED",
+        "sourceSha256": "287b866fbb3e4252bdc7e743fca9b35a6ab64681600f72f4acdaa828636de213"
+      },
+      {
+        "submissionId": "38096936",
+        "verdict": "TIME_LIMIT_EXCEEDED",
+        "sourceSha256": "bb6918f5d07654cb4ce74d6e622e1af0a284119e9043e1857d085cda0c81ff79"
+      },
+      {
+        "submissionId": "69083335",
+        "verdict": "WRONG_ANSWER",
+        "sourceSha256": "423e37f2c8ad30e9cddc3fc3017894c4387a7bcbb788dbba50ece105a9bdc1db"
+      },
+      {
+        "submissionId": "77350118",
+        "verdict": "TIME_LIMIT_EXCEEDED",
+        "sourceSha256": "2ce3efc643be6bd26ccdb35a293c17d6ef1e7ad426404d1e701d103d30774e4b"
+      },
+      {
+        "submissionId": "92947536",
+        "verdict": "WRONG_ANSWER",
+        "sourceSha256": "7027c376e374123c26d71848d3d6c7e8098373a1c836dabb829d19d5ca475784"
+      },
+      {
+        "submissionId": "92948327",
+        "verdict": "WRONG_ANSWER",
+        "sourceSha256": "e2cc07e4ad4e80de773da6a16dd056c61ab223a74dbab3acbde1e164f14a4520"
+      },
+      {
+        "submissionId": "200873702",
+        "verdict": "WRONG_ANSWER",
+        "sourceSha256": "139ae8f842de7ddeb7ce77c3fb1f71bdeb24a9bcfbad9435bcccb16064403157"
+      },
+      {
+        "submissionId": "203136394",
+        "verdict": "TIME_LIMIT_EXCEEDED",
+        "sourceSha256": "03ad687f9012467ebd09f2e455f7e43c3e4d6b19c2e0655c4134829edab84d6e"
+      }
+    ],
+    "authorObservations": [
+      {
+        "submissionId": "69083335",
+        "observation": "Uses absolute zero-based position%prefix length without subtracting pre-copy length; motivates nonaligned copy-start tests. Static inspection only, no execution or qualification proof."
+      },
+      {
+        "submissionId": "92947536",
+        "observation": "Closed intervals share endpoints and copy recursion uses absolute modulo; motivates exact stage boundaries and nonaligned offsets. Static inspection only, no execution or qualification proof."
+      },
+      {
+        "submissionId": "92948327",
+        "observation": "Identifies singleton intervals as append even for1-element copy; motivates1 9;1 8;2 1 1 queried at3. Static inspection only, no execution or qualification proof."
+      },
+      {
+        "submissionId": "200873702",
+        "observation": "Copies a suffix and prints all elements rather than queries. Motivates prefix-vs-suffix and sparse-query coverage; not claimed as eligible genuine WA proof. Static inspection only, no execution or qualification proof."
+      },
+      {
+        "submissionId": "5697908",
+        "observation": "Alternating end-card game, not this task. Not eligible as genuine algorithmic WA. Static inspection only, no execution or qualification proof."
+      }
+    ],
+    "timeLimitVerdicts": "No TLE sources claimed as algorithmic WA."
+  },
+  "authoredSuite": {
+    "plannedCount": 160,
+    "plannedMaximumDimensionCases": 4,
+    "randomSeed": 3801600,
+    "count": null,
+    "inputOutputHashes": null
+  },
+  "checks": {
+    "bruteAssertions": null,
+    "unittest": "pending",
+    "ast": "pending",
+    "gitDiffCheck": "pending"
+  },
+  "remainingParentWork": [
+    "Integrate recipe; normalize exponent markup only from documented source proposal; preserve imported row/test/source bytes.",
+    "Incomplete official suite: extensive generated basis with5 actual accepted and5 actual genuine algorithmic wrong sources, disjoint accepted sixth oracle, later different-agent audit.",
+    "Author recipe/brute checks do not constitute independent validation or increase parent validated count."
+  ]
+}
