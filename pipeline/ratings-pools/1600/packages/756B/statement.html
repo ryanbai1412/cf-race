@@ -1,0 +1,24 @@
+<div class="problem-statement">
+<div class="header"><div class="title">Travel Card</div>
+<div class="time-limit">time limit per test: 2.0 s</div>
+<div class="memory-limit">memory limit per test: 256 MB</div>
+</div>
+<p>A new innovative ticketing systems for public transport is introduced in Bytesburg. Now there is a single travel card for all transport. To make a trip a passenger scan his card and then he is charged according to the fare.</p>
+<p>The fare is constructed in the following manner. There are three types of tickets:</p>
+<p>1. a ticket for one trip costs 20 byteland rubles,
+2. a ticket for 90 minutes costs 50 byteland rubles,
+3. a ticket for one day (1440 minutes) costs 120 byteland rubles.</p>
+<p>Note that a ticket for x minutes activated at time t can be used for trips started in time range from t to t + x - 1, inclusive. Assume that all trips take exactly one minute.</p>
+<p>To simplify the choice for the passenger, the system automatically chooses the optimal tickets. After each trip starts, the system analyses all the previous trips and the current trip and chooses a set of tickets for these trips with a minimum total cost. Let the minimum total cost of tickets to cover all trips from the first to the current is a, and the total sum charged before is b. Then the system charges the passenger the sum a - b.</p>
+<p>You have to write a program that, for given trips made by a passenger, calculates the sum the passenger is charged after each trip.</p>
+<div class="input-specification"><div class="section-title">Input</div>
+<p>The first line of input contains integer number n (1 ≤ n ≤ 10<sup>5</sup>) — the number of trips made by passenger.</p>
+<p>Each of the following n lines contains the time of trip ti (0 ≤ ti ≤ 10<sup>9</sup>), measured in minutes from the time of starting the system. All ti are different, given in ascending order, i. e. ti + 1 &gt; ti holds for all 1 ≤ i &lt; n.</p>
+</div>
+<div class="output-specification"><div class="section-title">Output</div>
+<p>Output n integers. For each trip, print the sum the passenger is charged after it.</p>
+</div>
+<div class="note"><div class="section-title">Note</div>
+<p>In the first example, the system works as follows: for the first and second trips it is cheaper to pay for two one-trip tickets, so each time 20 rubles is charged, after the third trip the system understands that it would be cheaper to buy a ticket for 90 minutes. This ticket costs 50 rubles, and the passenger had already paid 40 rubles, so it is necessary to charge 10 rubles only.</p>
+</div>
+</div>
