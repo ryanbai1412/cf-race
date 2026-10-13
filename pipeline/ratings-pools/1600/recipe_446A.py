@@ -125,8 +125,7 @@ def extras(pid):
     values = [2 * i + 1 for i in range(100000)]
     values[50000] = 1000000000
     add(values, 'maximum n; one interior high outlier with legal integer bridge', 'maxSize')
-    values = list(range(1, 100001))
-    values[50000] = values[49999]
+    values = list(range(1, 50001)) + list(range(50000, 100000))
     add(values, 'maximum n; consecutive-neighbor gap forbids full repair', 'maxSize')
     palette = (1, 2, 3, 4, 5, 999999998, 999999999, 1000000000)
     while len(cases) < 160:
