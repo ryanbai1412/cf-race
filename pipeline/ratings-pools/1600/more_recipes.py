@@ -339,7 +339,7 @@ def extras(pid):
             add(scalar(n,l,r),'fixed-seed recursive-subsequence positions')
     elif pid=='845B':
         for s in ('000000','999999','000999','123456','111000'):
-            add(s+'\n','zero/saturated/equal one-edit tickets','boundary')
+            add(s+'\n','zero/saturated/equal one-edit tickets','maxSize' if s=='999999' else 'boundary')
         for _ in range(150):add(''.join(str(rng.randrange(10)) for __ in range(6))+'\n','fixed-seed changes in each half')
     elif pid=='40B':
         for n,m,x in ((1,1,1),(2,2,1),(3,3,2),(5000,5000,1),(5000,5000,2500),(5000,5000,10**9)):
