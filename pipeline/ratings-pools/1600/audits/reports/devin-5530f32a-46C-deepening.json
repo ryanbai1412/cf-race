@@ -1,0 +1,905 @@
+{
+ "archive": {
+  "bytes": 26805520,
+  "members": 3113,
+  "sha256": "634f210fa0f9341d63af01af9363553623b7f6080705ab8ee11192620495e180",
+  "url": "https://staging.itsdev.in/attachments/d689715d-e09a-49ab-be9a-ec303770b35d/rating1600-sevengenerated-current-audit.tar.gz"
+ },
+ "bound": {
+  "evidenceHash": "7939a7ae0911964d4d8e77003f27299595fd190876880cf80f2f7403a4cf424b",
+  "packageEvidencePriorAuditUnchanged": true,
+  "packageHash": "cf57299f03e994d5d4a45cef5e59228ff5dd0ef2483e4dd49146c5b516584c6f",
+  "priorAuditCommit": "9b559e1dc0427b46cbda363d0f55eaaa4a9049df",
+  "priorAuditFile": "pipeline/ratings-pools/1600/audits/46C.json",
+  "priorAuditSha256": "1e121d0e7d5ed74b30e8275050ebc9785abde3e30b1b1c938c7f9db478c0d66e",
+  "priorReportSha256": "5d1b565dd152230c292de55e0d38f0991254121fdbe1c1a5cb6b3a8d59c46b11"
+ },
+ "id": "46C",
+ "incorrectReferences": [
+  {
+   "algorithmImplemented": "Picks the minority species c (ties -> T), takes cc=count(c) and reports the number of the other species in the single linear slice s[l:l+cc] starting at the first occurrence l of c.",
+   "excludedCauses": {
+    "crlfOnly": false,
+    "debugOutput": false,
+    "presentationOnly": false,
+    "random": false,
+    "tleOnly": false,
+    "wrongProblem": false
+   },
+   "exhaustiveSmallDomain": {
+    "abnormalExit": 0,
+    "cases": 1004,
+    "distinctOutputs": [
+     "0",
+     "1",
+     "2",
+     "3"
+    ],
+    "examples": [
+     [
+      "THHT",
+      "1",
+      "0"
+     ],
+     [
+      "THHHT",
+      "1",
+      "0"
+     ],
+     [
+      "HTTTH",
+      "1",
+      "0"
+     ]
+    ],
+    "nRange": [
+     2,
+     9
+    ],
+    "wrong": 276
+   },
+   "faultyLogic": "Correct answer is min over ALL n cyclic windows of width count(c) of opposite-species count. The code evaluates exactly one window (anchored at the first c, non-wrapping, possibly truncated at the string end), so it overestimates whenever a different window is better.",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "recordedFirstFailureIsAlgorithmic": true,
+   "sourceHash": "2cc7a3390d29df3b7d8593d3ce42a68194f04c4136dec3a53ba8226d8c3a81ac",
+   "sourceLineAnchors": [
+    {
+     "lines": "4-8",
+     "text": [
+      "c = 'H' if s.count('H') < s.count('T') else 'T'",
+      "oc = 'H' if c == 'T' else 'T'",
+      "l = s.find(c)",
+      "cc = s.count(c)",
+      "print(s[l:l + cc].count(oc))"
+     ],
+     "textHash": "ca92d08e02720dfabc62ccaba1bdf3c08e1b7a22248173adced4c1fa09ea2e3c"
+    }
+   ],
+   "sourceRead": true,
+   "submissionId": "37920226",
+   "url": "https://codeforces.com/contest/46/submission/37920226",
+   "witness": {
+    "actual": "5\n",
+    "actualOutputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "cpuSeconds": 0.01268,
+    "equalsRecordedFirstFailure": true,
+    "exitCode": 0,
+    "expected": "4\n",
+    "expectedHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+    "inputHash": "d4c4dd036ec4e565b21db8570536d61b41d281e9554640924d72b6db3ca1eb43",
+    "inputLF": "20\nTTHTHTHHTHTTHHTTTHHH\n",
+    "legal": {
+     "alphabet": [
+      "H",
+      "T"
+     ],
+     "bothSpecies": true,
+     "lenEqualsN": true,
+     "lfOnly": true,
+     "n": 20,
+     "nInRange": true
+    },
+    "proof": {
+     "exactMinimum": 4,
+     "groupedAsGiven": false,
+     "hamsters": 10,
+     "lowerBound": 4,
+     "lowerBoundArgument": "Any grouped final ring places all h hamsters in some cyclic window W of width h; each swap removes at most one tiger from W, so >= min_W tigers(W) swaps are needed.",
+     "n": 20,
+     "optimalWindowStart0Based": 4,
+     "tigers": 10,
+     "upperBoundSwaps1Based": [
+      [
+       6,
+       3
+      ],
+      [
+       9,
+       18
+      ],
+      [
+       11,
+       19
+      ],
+      [
+       12,
+       20
+      ]
+     ],
+     "upperBoundVerifiedGrouped": true,
+     "windowTigerCounts": [
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      6,
+      6,
+      5,
+      5,
+      5,
+      5,
+      5,
+      6,
+      5,
+      5,
+      4,
+      4,
+      5
+     ]
+    },
+    "proofHash": "6548105dd86a4a9739fcdaf12953058340aa74ca814492a8199a9dd5ea2b424e",
+    "rawPackageBytesReplay": {
+     "actual": "5\n",
+     "actualHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+     "exitCode": 0,
+     "inputHash": "eae3c8a265e8bd4065a1df671347e229a47f3dc5fc67d12a7e1aa924d36e33a6",
+     "timeout": false,
+     "verdict": "WA"
+    },
+    "test": "0009",
+    "timeout": false,
+    "verdict": "WA"
+   }
+  },
+  {
+   "algorithmImplemented": "Doubles the ring (s=s+s) to linearise cyclic windows and returns min over i<n of T-count in s[i:i+h].",
+   "excludedCauses": {
+    "crlfOnly": false,
+    "debugOutput": false,
+    "presentationOnly": false,
+    "random": false,
+    "tleOnly": false,
+    "wrongProblem": false
+   },
+   "exhaustiveSmallDomain": {
+    "abnormalExit": 0,
+    "cases": 1004,
+    "distinctOutputs": [
+     "1",
+     "2",
+     "3",
+     "4"
+    ],
+    "examples": [
+     [
+      "HT",
+      "1",
+      "0"
+     ],
+     [
+      "TH",
+      "1",
+      "0"
+     ],
+     [
+      "HTT",
+      "1",
+      "0"
+     ]
+    ],
+    "nRange": [
+     2,
+     9
+    ],
+    "wrong": 1004
+   },
+   "faultyLogic": "h is computed AFTER doubling (line 4 follows line 3), so h = 2*count(H) and every window has twice the required width; it counts tigers in a window of width 2h, which is never the problem quantity. Exhaustive domain shows it is wrong on every legal input with n<=9.",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "recordedFirstFailureIsAlgorithmic": true,
+   "sourceHash": "ab2ffe51a3747a81bcd3f75cc46b8c84518494a403c0c0bc67fa195da0083ba6",
+   "sourceLineAnchors": [
+    {
+     "lines": "3-5",
+     "text": [
+      "s=s+s",
+      "h=s.count('H')",
+      "print(min(s[i:i+h].count('T') for i in range(n)))"
+     ],
+     "textHash": "25c7a92defbb97fe7102ea95386c92711f577756e59af121772dfd72313f42a6"
+    }
+   ],
+   "sourceRead": true,
+   "submissionId": "39267250",
+   "url": "https://codeforces.com/contest/46/submission/39267250",
+   "witness": {
+    "actual": "1\n",
+    "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "cpuSeconds": 0.012644,
+    "equalsRecordedFirstFailure": true,
+    "exitCode": 0,
+    "expected": "0\n",
+    "expectedHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "inputHash": "a626cc23510c2e36471b494f5172bdebe0dca04de894ee2952a795bfe54c1167",
+    "inputLF": "3\nHTH\n",
+    "legal": {
+     "alphabet": [
+      "H",
+      "T"
+     ],
+     "bothSpecies": true,
+     "lenEqualsN": true,
+     "lfOnly": true,
+     "n": 3,
+     "nInRange": true
+    },
+    "proof": {
+     "bfsExactMinimum": 0,
+     "exactMinimum": 0,
+     "groupedAsGiven": true,
+     "hamsters": 2,
+     "lowerBound": 0,
+     "lowerBoundArgument": "Any grouped final ring places all h hamsters in some cyclic window W of width h; each swap removes at most one tiger from W, so >= min_W tigers(W) swaps are needed.",
+     "n": 3,
+     "optimalWindowStart0Based": 2,
+     "tigers": 1,
+     "upperBoundSwaps1Based": [],
+     "upperBoundVerifiedGrouped": true,
+     "windowTigerCounts": [
+      1,
+      1,
+      0
+     ]
+    },
+    "proofHash": "e3daea615803775dc2e38ea84f3c13fff6ae54a4c8ae927f834a2eccb1909135",
+    "rawPackageBytesReplay": {
+     "actual": "1\n",
+     "actualHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+     "exitCode": 0,
+     "inputHash": "afae2bb9b7c2f915e9554e3b9b62d51d8f650c8d8b738dd9f79f9591e3d6f58a",
+     "timeout": false,
+     "verdict": "WA"
+    },
+    "test": "0001",
+    "timeout": false,
+    "verdict": "WA"
+   }
+  },
+  {
+   "algorithmImplemented": "Collects 1-based tiger positions in descending order, builds gaps between consecutive tigers plus a wraparound gap, then runs a two-ended greedy that peels the larger end gap off t=n while t>len(gaps), printing len(c)-j+i-1.",
+   "excludedCauses": {
+    "crlfOnly": false,
+    "debugOutput": false,
+    "presentationOnly": false,
+    "random": false,
+    "tleOnly": false,
+    "wrongProblem": false
+   },
+   "exhaustiveSmallDomain": {
+    "abnormalExit": 0,
+    "cases": 1004,
+    "distinctOutputs": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4"
+    ],
+    "examples": [
+     [
+      "HTT",
+      "1",
+      "0"
+     ],
+     [
+      "THT",
+      "1",
+      "0"
+     ],
+     [
+      "TTH",
+      "1",
+      "0"
+     ]
+    ],
+    "nRange": [
+     2,
+     9
+    ],
+    "wrong": 653
+   },
+   "faultyLogic": "Greedy over end gaps of a linear gap list is not the cyclic-window minimum; the gap list is not rotated to the optimal cut, so already-grouped rings whose tiger block straddles position n/1 (e.g. HTTH, answer 0) produce a positive count. The ok flag (lines 12-19) only becomes False when there is exactly one tiger (wrap gap = n), so it does not repair the greedy for any multi-tiger input.",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "recordedFirstFailureIsAlgorithmic": true,
+   "sourceHash": "19c095e3da9a90aad8e09738f1ce6af37e0a7e7ff28bea3adf54c56f7148cc52",
+   "sourceLineAnchors": [
+    {
+     "lines": "11-19",
+     "text": [
+      "for i in list(range(1,len(b)))[::-1]:",
+      "    if b[i-1]-b[i]<t:",
+      "        c+=[b[i-1]-b[i] ]",
+      "    else:",
+      "        ok=False",
+      "if len(a)-b[0]+b[-1]<t:",
+      "    c+=[len(a)-b[0]+b[-1]]",
+      "else:",
+      "    ok = False"
+     ],
+     "textHash": "2b98ecb88e46bea004d18af78b72644a6d321867f951ddff4e52d0c49fab3a80"
+    },
+    {
+     "lines": "20-30",
+     "text": [
+      "i=0",
+      "j=len(c)-1",
+      "y=len(c)",
+      "while t>y and ok:",
+      "    if c[i]>c[j]:",
+      "        t-=c[i]",
+      "        i+=1",
+      "    else:",
+      "        t-=c[j]",
+      "        j-=1",
+      "print(y-j+i-1)"
+     ],
+     "textHash": "6c912730fe1cd6f7f9fd806b0a342a7c752d04216c9fde8308122ae652096a62"
+    }
+   ],
+   "sourceRead": true,
+   "submissionId": "47810975",
+   "url": "https://codeforces.com/contest/46/submission/47810975",
+   "witness": {
+    "actual": "1\n",
+    "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "cpuSeconds": 0.017509999999999998,
+    "equalsRecordedFirstFailure": true,
+    "exitCode": 0,
+    "expected": "0\n",
+    "expectedHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "inputHash": "9640f3e66341830d0e09865660057fcc761ab0af15d8bde23fdad12cd8fb376a",
+    "inputLF": "4\nHTTH\n",
+    "legal": {
+     "alphabet": [
+      "H",
+      "T"
+     ],
+     "bothSpecies": true,
+     "lenEqualsN": true,
+     "lfOnly": true,
+     "n": 4,
+     "nInRange": true
+    },
+    "proof": {
+     "bfsExactMinimum": 0,
+     "exactMinimum": 0,
+     "groupedAsGiven": true,
+     "hamsters": 2,
+     "lowerBound": 0,
+     "lowerBoundArgument": "Any grouped final ring places all h hamsters in some cyclic window W of width h; each swap removes at most one tiger from W, so >= min_W tigers(W) swaps are needed.",
+     "n": 4,
+     "optimalWindowStart0Based": 3,
+     "tigers": 2,
+     "upperBoundSwaps1Based": [],
+     "upperBoundVerifiedGrouped": true,
+     "windowTigerCounts": [
+      1,
+      2,
+      1,
+      0
+     ]
+    },
+    "proofHash": "40e340eb44f99c422f2e42737017f3e89634add66ae17d9c001bfcb4efc0cd67",
+    "rawPackageBytesReplay": {
+     "actual": "1\n",
+     "actualHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+     "exitCode": 0,
+     "inputHash": "442421c2e0828620e90fde7a46a50e32341c499e278252e2f623000f49c2c3e3",
+     "timeout": false,
+     "verdict": "WA"
+    },
+    "test": "0004",
+    "timeout": false,
+    "verdict": "WA"
+   }
+  },
+  {
+   "algorithmImplemented": "Same gap construction as 47810975 but runs the greedy only when c.count(1) > y-1 (all cyclic tiger gaps equal 1), otherwise prints 0.",
+   "excludedCauses": {
+    "crlfOnly": false,
+    "debugOutput": false,
+    "presentationOnly": false,
+    "random": false,
+    "tleOnly": false,
+    "wrongProblem": false
+   },
+   "exhaustiveSmallDomain": {
+    "abnormalExit": 0,
+    "cases": 1004,
+    "distinctOutputs": [
+     "0"
+    ],
+    "examples": [
+     [
+      "HTHT",
+      "0",
+      "1"
+     ],
+     [
+      "THTH",
+      "0",
+      "1"
+     ],
+     [
+      "HTHTT",
+      "0",
+      "1"
+     ]
+    ],
+    "nRange": [
+     2,
+     9
+    ],
+    "wrong": 764
+   },
+   "faultyLogic": "Line 13 is true only if all y cyclic gaps equal 1, which forces every cell to be a tiger; with both species present it is never true, so line 23 prints 0 for every legal input. Hard-coded 0 is wrong whenever the ring is not already grouped; exhaustive domain n<=9 shows output is always 0.",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "recordedFirstFailureIsAlgorithmic": true,
+   "sourceHash": "dae7af2e360fcfb4c683a5cf300fc5692edeb1abc50810d946f26d91a83303f3",
+   "sourceLineAnchors": [
+    {
+     "lines": "9-9",
+     "text": [
+      "c=[b[i-1]-b[i] for i in list(range(1,len(b)))[::-1]]+[len(a)-b[0]+b[-1]]"
+     ],
+     "textHash": "c698ba631df852a53e2003137c1b227d0030e457cbf3e668ab4da592f3f2ce98"
+    },
+    {
+     "lines": "13-13",
+     "text": [
+      "if c.count(1)>y-1:"
+     ],
+     "textHash": "d49e2a405c539f0ac972f6a1fd5e3560eadd226aa1f0645ad49d9aff099d0641"
+    },
+    {
+     "lines": "22-23",
+     "text": [
+      "else:",
+      "    print(0)"
+     ],
+     "textHash": "0ae323de8090b3b18e76c83a9fafa993dda95a727f4190cd1adceddc77ed6b88"
+    }
+   ],
+   "sourceRead": true,
+   "submissionId": "47811179",
+   "url": "https://codeforces.com/contest/46/submission/47811179",
+   "witness": {
+    "actual": "0\n",
+    "actualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cpuSeconds": 0.013825999999999998,
+    "equalsRecordedFirstFailure": true,
+    "exitCode": 0,
+    "expected": "2\n",
+    "expectedHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+    "inputHash": "d6556a4891b6b444f5c27bab9fcfe97e4ec37b7cdf3d44246d7654144e6eb736",
+    "inputLF": "9\nHTHTHTHHT\n",
+    "legal": {
+     "alphabet": [
+      "H",
+      "T"
+     ],
+     "bothSpecies": true,
+     "lenEqualsN": true,
+     "lfOnly": true,
+     "n": 9,
+     "nInRange": true
+    },
+    "proof": {
+     "bfsExactMinimum": 2,
+     "exactMinimum": 2,
+     "groupedAsGiven": false,
+     "hamsters": 5,
+     "lowerBound": 2,
+     "lowerBoundArgument": "Any grouped final ring places all h hamsters in some cyclic window W of width h; each swap removes at most one tiger from W, so >= min_W tigers(W) swaps are needed.",
+     "n": 9,
+     "optimalWindowStart0Based": 0,
+     "tigers": 4,
+     "upperBoundSwaps1Based": [
+      [
+       2,
+       7
+      ],
+      [
+       4,
+       8
+      ]
+     ],
+     "upperBoundVerifiedGrouped": true,
+     "windowTigerCounts": [
+      2,
+      3,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      3
+     ]
+    },
+    "proofHash": "94faebc2383f684a834cd4ea5ea364e656faf29d3199ab3975deb8a88ecfd38b",
+    "rawPackageBytesReplay": {
+     "actual": "0\n",
+     "actualHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+     "exitCode": 0,
+     "inputHash": "b0c13e3c3d4ccf93f3f3cd01b32ed41f312bfa8e0c53df87f51d24ed940c886c",
+     "timeout": false,
+     "verdict": "WA"
+    },
+    "test": "0002",
+    "timeout": false,
+    "verdict": "WA"
+   }
+  },
+  {
+   "algorithmImplemented": "Special-cases single-animal species (prints 0), then evaluates two candidates: (1) using the trailing T run, the H-count in the prefix completing a T block of size tct anchored at position n-1; (2) symmetrically the T-count in the prefix completing an H block anchored at the end; prints the min.",
+   "excludedCauses": {
+    "crlfOnly": false,
+    "debugOutput": false,
+    "presentationOnly": false,
+    "random": false,
+    "tleOnly": false,
+    "wrongProblem": false
+   },
+   "exhaustiveSmallDomain": {
+    "abnormalExit": 0,
+    "cases": 1004,
+    "distinctOutputs": [
+     "0",
+     "1",
+     "2"
+    ],
+    "examples": [
+     [
+      "HHTTHHT",
+      "2",
+      "1"
+     ],
+     [
+      "TTHHTTH",
+      "2",
+      "1"
+     ],
+     [
+      "HTTHTTHT",
+      "2",
+      "1"
+     ]
+    ],
+    "nRange": [
+     2,
+     9
+    ],
+    "wrong": 84
+   },
+   "faultyLogic": "Only two windows, both anchored to wrap across the string end, are considered instead of all n cyclic windows of width h (or t). When the optimal block lies strictly inside the string, both candidates exceed the true minimum.",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "recordedFirstFailureIsAlgorithmic": true,
+   "sourceHash": "8c7013215927d5541306e1a19117b621bda70a64292ce44cdc803827044d27ea",
+   "sourceLineAnchors": [
+    {
+     "lines": "9-22",
+     "text": [
+      "    tlast=0",
+      "    lindx=0",
+      "    for i in range(n-1,-1,-1):",
+      "        if(s[i]==\"H\"):",
+      "            lindx=i",
+      "            break",
+      "        else:",
+      "            tlast+=1",
+      "    if(tlast==tct):",
+      "        print(0)",
+      "        exit()",
+      "    findx=tct-tlast-1",
+      "    ext=s[:findx+1].count(\"H\")",
+      "    mn1=ext"
+     ],
+     "textHash": "d22a84e17ad4d0c86aff83577944173ae06857d697ed88f1fdb9481d0feec207"
+    },
+    {
+     "lines": "24-38",
+     "text": [
+      "    tlast = 0",
+      "    lindx = 0",
+      "    for i in range(n-1, -1, -1):",
+      "        if (s[i] == \"T\"):",
+      "            lindx = i",
+      "            break",
+      "        else:",
+      "            tlast += 1",
+      "    if (tlast == hct):",
+      "        print(0)",
+      "        exit()",
+      "    findx = hct - tlast - 1",
+      "    ext = s[:findx + 1].count(\"T\")",
+      "    mn2=ext",
+      "    print(min(mn2,mn1))"
+     ],
+     "textHash": "9fee9c59b4b5ee9b29e85d708a9f066f7abef642f08add83bc997c62e1b4c4c8"
+    }
+   ],
+   "sourceRead": true,
+   "submissionId": "91793311",
+   "url": "https://codeforces.com/contest/46/submission/91793311",
+   "witness": {
+    "actual": "15\n",
+    "actualOutputHash": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f",
+    "cpuSeconds": 0.012684,
+    "equalsRecordedFirstFailure": true,
+    "exitCode": 0,
+    "expected": "14\n",
+    "expectedHash": "9a92adbc0cee38ef658c71ce1b1bf8c65668f166bfb213644c895ccb1ad07a25",
+    "inputHash": "489d5e7fe0a56756d127a615e18f73072be510b9cc7e2f14723313aaf548f0c4",
+    "inputLF": "120\nTTTTTTTHTHTHTTTTTHTHTTTTHTTTTTTTTTTTTTTTTTTTTHTTHTTTTHTTHTTTTTTTTTTTTTTTHTTTTTTHTHTTHTTTTTTHTTTTTTTTTHTTHTTTTHTTTHTTTTTH\n",
+    "legal": {
+     "alphabet": [
+      "H",
+      "T"
+     ],
+     "bothSpecies": true,
+     "lenEqualsN": true,
+     "lfOnly": true,
+     "n": 120,
+     "nInRange": true
+    },
+    "proof": {
+     "exactMinimum": 14,
+     "groupedAsGiven": false,
+     "hamsters": 20,
+     "lowerBound": 14,
+     "lowerBoundArgument": "Any grouped final ring places all h hamsters in some cyclic window W of width h; each swap removes at most one tiger from W, so >= min_W tigers(W) swaps are needed.",
+     "n": 120,
+     "optimalWindowStart0Based": 5,
+     "tigers": 100,
+     "upperBoundSwaps1Based": [
+      [
+       6,
+       46
+      ],
+      [
+       7,
+       49
+      ],
+      [
+       9,
+       54
+      ],
+      [
+       11,
+       57
+      ],
+      [
+       13,
+       73
+      ],
+      [
+       14,
+       80
+      ],
+      [
+       15,
+       82
+      ],
+      [
+       16,
+       85
+      ],
+      [
+       17,
+       92
+      ],
+      [
+       19,
+       102
+      ],
+      [
+       21,
+       105
+      ],
+      [
+       22,
+       110
+      ],
+      [
+       23,
+       114
+      ],
+      [
+       24,
+       120
+      ]
+     ],
+     "upperBoundVerifiedGrouped": true,
+     "windowTigerCounts": [
+      15,
+      15,
+      15,
+      15,
+      15,
+      14,
+      14,
+      14,
+      15,
+      15,
+      16,
+      16,
+      17,
+      17,
+      17,
+      17,
+      17,
+      17,
+      18,
+      18,
+      19,
+      19,
+      19,
+      19,
+      19,
+      20,
+      19,
+      19,
+      19,
+      18,
+      18,
+      18,
+      18,
+      18,
+      17,
+      17,
+      17,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      17,
+      17,
+      17,
+      18,
+      18,
+      18,
+      18,
+      17,
+      18,
+      18,
+      18,
+      19,
+      19,
+      19,
+      18,
+      18,
+      17,
+      17,
+      17,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      15,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      17,
+      17,
+      17,
+      17,
+      17,
+      17,
+      17,
+      17,
+      17,
+      17,
+      16,
+      16,
+      17,
+      17,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      15,
+      15,
+      16,
+      16,
+      16,
+      17,
+      17,
+      17,
+      16,
+      16,
+      16,
+      16,
+      15,
+      15,
+      16,
+      16,
+      16,
+      16,
+      15,
+      15
+     ]
+    },
+    "proofHash": "823d9e918c9de7c025faca8badd0917435e05de7acf289deb2312fa49002e9fd",
+    "rawPackageBytesReplay": {
+     "actual": "15\n",
+     "actualHash": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f",
+     "exitCode": 0,
+     "inputHash": "f3a0bf851deec42ae6d0aab6af289ddbb40f653749feec5bdf43f39605723237",
+     "timeout": false,
+     "verdict": "WA"
+    },
+    "test": "0011",
+    "timeout": false,
+    "verdict": "WA"
+   }
+  }
+ ],
+ "oracle": {
+  "bfsCrossCheck": "exact BFS over swap graph equals formula for every witness with n<=9; prior audit brute 729 cases 0 mismatches",
+  "exhaustiveDomainCases": 1004,
+  "exhaustiveDomainHash": "70bb6a80fb20dc96ccb023577ea070854df7adfdcae6c6feb000767e4265ce8d",
+  "formula": "answer = min over all n cyclic windows W of width h=count(H) of #T in W",
+  "lowerBound": "In a grouped final ring the hamsters occupy some cyclic window W of width h; a swap changes the T-count of any fixed W by at most 1, so >= min_W T(W) swaps.",
+  "proofScriptSha256": "3e7896df74b6549db6bab978980170fd6e2f6b3417b88d5300bcf3e7a1ee4c16",
+  "upperBound": "For the minimising W pair each T inside W with an H outside W and swap: exactly T(W) swaps yield all H in W (verified grouped per witness)."
+ },
+ "reportHash": "4319590d47f66bb8f5def2b988b597f4abd2e333e43d28c947bce05560af0c32",
+ "reviewUrl": "https://staging.itsdev.in/sessions/5530f32a77d64925a0c5a1a29797a7c2",
+ "reviewer": "devin-5530f32a77d64925a0c5a1a29797a7c2",
+ "sandbox": {
+  "hostExecutionOfPublicSources": false,
+  "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbf105d3",
+  "network": "none",
+  "runner": "pipeline/pool_sandbox.py run()"
+ },
+ "schema": "independent-deepening-v1",
+ "verdict": {
+  "allFiveAlgorithmicallyWrong": true,
+  "nonAlgorithmicRecordedFailures": [],
+  "rebindingNeeded": false,
+  "releaseReadyForIncorrectReferenceProof": true
+ },
+ "worker": "devin-1ffab6b544d64d17bf1498a01b5257c0"
+}
