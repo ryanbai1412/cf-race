@@ -1,0 +1,202 @@
+{
+  "schemaVersion": 1,
+  "id": "962D",
+  "rating": 1600,
+  "approved": true,
+  "reviewer": "devin-f2823eddff2b4a639d38c7c49d347210",
+  "reviewUrl": "https://staging.itsdev.in/sessions/f2823eddff2b4a639d38c7c49d347210",
+  "workerCommit": "20cfcda36689343e7ab34e69cb16fa06c6fd48bd",
+  "archiveHash": "6229fc76fb1a286e42ff8ba626bb16ace4fc403c1790114d3e45505e796efeca",
+  "qualificationBasis": "generated",
+  "packageHash": "c44186c59ca8b64794e7a4dcbc4167cfbf9a0fc88a0c707226ffde3df274fa3e",
+  "evidenceHash": "16f9a8a56d1a2c7b919dd62b639f2acd044f82136d9c8437b061564fd4a8ab01",
+  "coverageHash": "2a884368b2ffbb4c81b11f89cc162d05ba0e454400ccb329bb80e4279ec37fc0",
+  "semanticHash": "b68676947ed0e04960fbb40ec304ffb8a7fa097f81dcb471dbd3f6d3eda9e393",
+  "testPairsHash": "da8be8d71cf212b7189ee2198e515ee544dae15b07cf6e8d364483a2bf0b9e5c",
+  "generatorProofHash": "cde6d7968cb2a9a2f652912fdb044be20cdeef9476974f270cc4558d7d55d1c9",
+  "oracleProofHash": "c4396db5049ef065698cc14456545306fb5ca53b625cee8aede701c380dff871",
+  "checks": {
+    "sourceAttribution": true,
+    "fullTests": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "noSpecialChecker": true,
+    "hashes": true,
+    "statementComplete": true,
+    "inputConstraints": true,
+    "deterministicGeneration": true,
+    "independentOracle": true,
+    "generatedBasis": true,
+    "algorithmicallyWrong": true,
+    "independentOutputs": true,
+    "sandboxReplay": true
+  },
+  "independentAssessment": {
+    "statement": {
+      "pinnedFullStatementPreserved": true,
+      "bounds": "2<=n<=150000;1<=ai<=10^9, positive",
+      "noNormalizationNeeded": true,
+      "statementHash": "880ad4370bb266084f9d6763a3f657309d4ccc50e2d904853fb38b8ab99b6ddb",
+      "descriptionInputOutputNoteVerifiedAgainstPinnedRow": true
+    },
+    "constraints": "n2..150000; positive ai1..10^9. Always use smallest repeated value and two leftmost occurrences, retain right index. Merged values can reach total<=150000000000000;64-bit required.",
+    "officialRole": "8/26 official pairs are preserved but explicitly supplementary and incomplete. All2 upstream-generated pairs and169 distinct authored pairs qualify extensive generated basis, not complete-official basis.",
+    "independentDerivation": "Independent left-to-right carry map stores the unmatched position for each value. A repeated incoming value consumes that earlier position and doubles at the current right position, continuing carries until unique. Induction on increasing values: original/doubled tokens of each value are encountered in retained-index order; adjacent pairs are exactly those of the smallest-value-first schedule, and later tokens cannot alter already paired prefixes. Sort final unmatched values by retained position. This differs from worker value/index priority heap.",
+    "bruteCrossCheck": {
+      "comparisons": 35909,
+      "method": "Direct mutable-array statement simulation chooses min repeated value and first two positions after every operation. Compare every ordered array length2..6 over1..5, plus length7 over1..4."
+    },
+    "testsChecked": 179,
+    "samplesChecked": 3,
+    "independentOracleSourceHash": "94ada3c1cb37744bc1eec01730e5ae082fb54fd2e5650e97d68f75303744df0c",
+    "sampleMeanings": [
+      "3,4,1,2,2,1,1: first merge1 then2 then4, final3,8,2,1.",
+      "1,1,3,1,1:two1-pairs become two2s, then4 at right;final3,4.",
+      "10,40,20,50,30:distinct values remain in original order."
+    ],
+    "coverage": "Boundary0011..0015 includes min n, duplicate1, distinct pair, maximum ai pair->2000000000, and cascading order-sensitive statement examples. Maximum0016..0019 has n150000 all1s,all10^9s,all distinct1..150000,cyclic1/2/4/8/16; tests cover long carries,64-bit answers,full output size, and retained indices.160 fixed-seed adversarial distinct inputs, all independently solved.",
+    "authenticity": {
+      "statementRowHash": "6b449d087e78bfae440fc15609670fac59542857bf3762be494575730a2ee6a9",
+      "packageHash": "c44186c59ca8b64794e7a4dcbc4167cfbf9a0fc88a0c707226ffde3df274fa3e",
+      "officialComplete": false,
+      "officialRole": "supplementary",
+      "officialIncluded": 8,
+      "officialAdvertised": 26,
+      "upstreamGeneratedPairs": 2,
+      "authoredPairs": 169,
+      "allPairBytesAndSamplesExact": true,
+      "countedAuthenticDistinctSources": 10,
+      "sixthDisjointAuthenticAcceptedOracle": "37153937",
+      "implementationHashesMatch": true,
+      "trackedMetadataExact": true,
+      "generatorExactRepeatPairs": true
+    },
+    "acceptedAlgorithmsRead": "Read all five counted C++ sources and distinct sixth accepted public oracle per ID. Square conversions/selection and positive-square zero handling; merge smallest value, leftmost indices and64-bit carry behavior are consistent. Distinct authentic IDs and source hashes, exact TESTS rows and language context verified. Dataset compatibility-adjusted bytes are not claimed to be original live Codeforces bytes.",
+    "algorithmicFailures": "All five counted incorrect sources have substantive independently demonstrated defects. Nine numeric/state defects and one complexity defect across both IDs. Debug-only, list formatting, missing canonical output and runtime/compile failures alone do not qualify.",
+    "replay": "All1790 counted test verdict/exit/timeout/outputHash tuples match exactly. Fresh accepted source samples all pass; disjoint sixth oracle checks all tests and samples. Two fresh generator runs reproduce exact output hashes and every authored pair.",
+    "sandbox": "Public sources/oracle/generator execute only in unchanged pinned v2 Docker network-none nonroot read-only root/payload/harness,cap-dropALL,no-new-privileges,boundedCPU/memory/wall/pids/files/tmpfs. C++ -O2 -std=c++17 -DONLINE_JUDGE. Sandbox/checker/harness hashes match exact archived evidence.",
+    "priorFindings": "All earlier audit/report bytes and branches preserved. Current generated-basis approval does not revise prior literal-bound or debug-only source exclusions.",
+    "scope": "Only owned898E/962D audit JSONs written; no worker package/source/test/evidence/shared code changes; no publication/PR/merge/deploy/remote database/storage/board changes."
+  },
+  "incorrectAnalysis": {
+    "37257591": {
+      "kind": "wrong-answer",
+      "test": "0027",
+      "reason": "Iterates the internal heap index list as though globally sorted, retaining incorrect indices when lower-value merges insert earlier indices. LF [2,1,1,1,2,3,2] returns [1,8,3] instead of [1,3,8].",
+      "independentAlgorithmicWitness": {
+        "input": "7\n2 1 1 1 2 3 2\n",
+        "inputHash": "fdeb98f67617882fb073936e99e1f77eb02447ea0d33d38b53c53690e027166f",
+        "sourceHash": "6151464e53d4566b09c743f41dd5e602f95a3e890471a93f371ee7b5b4c96eb4",
+        "output": "3\n1 8 3 ",
+        "outputHash": "1466229d65a1d7195ba06b7ccb8558ef0a0f51c0630467b0ed459821bb2607bf",
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "actualTokens": [
+          3,
+          1,
+          8,
+          3
+        ],
+        "expectedTokens": [
+          3,
+          1,
+          3,
+          8
+        ]
+      },
+      "recordedFirstFailureIsNotNecessarilyQualificationBasis": true
+    },
+    "37258765": {
+      "kind": "wrong-answer",
+      "test": "0001",
+      "reason": "Processes Counter keys in insertion order, not the smallest repeated value. Unchanged public source on LF [2,1,1,2] merges2 before1 and emits final trace array[2,4] rather than canonical[4,2]. The scheduler itself is wrong; missing canonical output/debug text alone is not the qualification basis.",
+      "independentAlgorithmicWitness": {
+        "input": "4\n2 1 1 2\n",
+        "inputHash": "5daff7f439bd45ec75d42e0f5c57f0bef8257fa9d05143f5e8d4102b83ac29d4",
+        "sourceHash": "9854832a279a6cbc24acefba913ec07d772502f5d8527097497e6500e80c8c97",
+        "output": "[1, 1, 4]  -  dict_items([(2, 0), (1, 2), (4, 1)])\n[1, 1, 4]  -  dict_items([(1, 2), (4, 1)])\n[2, 4]  -  dict_items([(1, 0), (4, 1), (2, 1)])\n[2, 4]  -  dict_items([(4, 1), (2, 1)])\n[2, 4]  -  dict_items([(2, 1)])\n[2, 4]  -  dict_items([])\n",
+        "outputHash": "8abd9e68d007ab818fbbb721eec33b7903eba706845cc842b3f4707204a8439e",
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "finalEmittedTraceArray": [
+          2,
+          4
+        ],
+        "expectedArray": [
+          4,
+          2
+        ]
+      },
+      "recordedFirstFailureIsNotNecessarilyQualificationBasis": true
+    },
+    "37280877": {
+      "kind": "complexity",
+      "test": "0001",
+      "reason": "Repeated count/min/index/sorted scans give quadratic or worse work. On the valid maximum150000 distinct values, n iterations each count/scan/sort the growing or unchanged list; fresh run0018 reproduces CPU-limit TLE(exit=-24,timeout=true). All four maximum cases timeout. Its list-formatted output is not used to qualify.",
+      "independentAlgorithmicWitness": {
+        "test": "0018",
+        "inputHash": "0ca1b8cbe2bbe27f9cb02f92daa008f528ebffa19fcfb297558508ae174255b8",
+        "n": 150000,
+        "allValuesDistinct": true,
+        "verdict": "TLE",
+        "exitCode": -24,
+        "timeout": true,
+        "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "allFourMaximumCasesTimeout": true
+      },
+      "recordedFirstFailureIsNotNecessarilyQualificationBasis": true
+    },
+    "37297419": {
+      "kind": "wrong-answer",
+      "test": "0001",
+      "reason": "When finding repeated1, breaks before setting flag=False, terminating without the required merge. LF [1,1] returns two1s instead of one2.",
+      "independentAlgorithmicWitness": {
+        "input": "2\n1 1\n",
+        "inputHash": "3c5b54a75e483fd7863419c9c44f76601871d171c02a7a1e7490efaf809bd1da",
+        "sourceHash": "43c2a58e8de064945c1b68f829aff731c9c12c94aa32e83fc38414c96a660985",
+        "output": "2\n1 1 ",
+        "outputHash": "1e3525ed7b44913b4f8b7f73b3b9d47bda182926495beca859041e6f6372ec16",
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "actualTokens": [
+          2,
+          1,
+          1
+        ],
+        "expectedTokens": [
+          1,
+          2
+        ]
+      },
+      "recordedFirstFailureIsNotNecessarilyQualificationBasis": true
+    },
+    "37370276": {
+      "kind": "wrong-answer",
+      "test": "0004",
+      "reason": "Never appends a new doubled value when it exceeds all current keys, so subsequent required merges are omitted. LF [1,1,1,1] returns two2s rather than one4; the insertion loop also repeats insertions without breaking.",
+      "independentAlgorithmicWitness": {
+        "input": "4\n1 1 1 1\n",
+        "inputHash": "499dda568319ac2d211c97bb557bd0ec7e64391ceff0e3de82061e867f7b4dbf",
+        "sourceHash": "59f0483f80d5e082e896a2170ce56ee935c697eddde8034838692d6eecf83d37",
+        "output": "2\n2 2\n",
+        "outputHash": "f241e49ae60c2558622ec98e17be9ec1ef3ee199807582711c365240483f6869",
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "actualTokens": [
+          2,
+          2,
+          2
+        ],
+        "expectedTokens": [
+          1,
+          4
+        ]
+      },
+      "recordedFirstFailureIsNotNecessarilyQualificationBasis": true
+    }
+  }
+}

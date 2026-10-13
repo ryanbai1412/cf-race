@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 1,
+  "id": "898E",
+  "rating": 1600,
+  "approved": true,
+  "reviewer": "devin-f2823eddff2b4a639d38c7c49d347210",
+  "reviewUrl": "https://staging.itsdev.in/sessions/f2823eddff2b4a639d38c7c49d347210",
+  "workerCommit": "20cfcda36689343e7ab34e69cb16fa06c6fd48bd",
+  "archiveHash": "6229fc76fb1a286e42ff8ba626bb16ace4fc403c1790114d3e45505e796efeca",
+  "qualificationBasis": "generated",
+  "packageHash": "35115da261308c084f8c2d938047437e317c63af7c954fee52662e523bac6e23",
+  "evidenceHash": "5d95b26bebd9d32724298dd0756a201978d3dbf46a9359cd3e6904ab5a8d706e",
+  "coverageHash": "90fe359322a47bd4540e834182f66cd7d927863c8e09785c5497cbc62c2ad752",
+  "semanticHash": "5f245d467f8a5b40d6952f2301f0d834e90c0418614c91ea82360263785e8898",
+  "testPairsHash": "f8071fe2d1941e96bfa4aa1acbe997e13f1c2a67ac948e8404f6bb92d8fd4e36",
+  "generatorProofHash": "ebfe734a374b9b1ff8891663649f0a71c4e36d153aca1a6e01045f17bf0ffd9a",
+  "oracleProofHash": "1b040d19936243b34befc28af840821897cadcaa50c5fc8bad7ebef05bf85623",
+  "checks": {
+    "sourceAttribution": true,
+    "fullTests": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "noSpecialChecker": true,
+    "hashes": true,
+    "statementComplete": true,
+    "inputConstraints": true,
+    "deterministicGeneration": true,
+    "independentOracle": true,
+    "generatedBasis": true,
+    "algorithmicallyWrong": true,
+    "independentOutputs": true,
+    "sandboxReplay": true
+  },
+  "independentAssessment": {
+    "statement": {
+      "url": "https://codeforces.me/problemset/problem/898/E",
+      "statusCode": 200,
+      "inputExponents": [
+        "9"
+      ],
+      "freshRawHash": "fdebfb718544dc6c2f89f38ede00b358d1a344c2cacd674c231807fd9e944a2d",
+      "archivedRawHash": "617176d573c1f37822b087cb155c27b5ea888d1bf31a4d3c17adc9b7e00b4293",
+      "inputAndOutputHtmlMatchAttestation": true,
+      "normalizationOnlyDeclaredExponentReplacements": true,
+      "fullPinnedDescriptionInputOutputNotePreserved": true,
+      "normalizedStatementHash": "90dcf85a733db91b528f0e3eb9ba3b597dcbff49338290d7b62497914479b973"
+    },
+    "constraints": "Even n2..200000; all amounts0..10^9;0 is a square; legal moves keep amounts nonnegative.",
+    "officialRole": "16/51 official pairs are preserved but explicitly supplementary and incomplete. All13 upstream-generated pairs and169 distinct authored pairs qualify extensive generated basis, not complete-official basis.",
+    "independentDerivation": "Assign each pile to one of two target classes. Let cq be its distance to a nearest square, cn its distance to a nearest nonsquare. Begin with every pile nonsquare at cost sum(cn); making exactly half square costs the sum of n/2 smallest(cq-cn). cq comes from integer isqrt neighbors; cn is0 for existing nonsquares,2 for zero,1 for other squares. This global min-cost assignment differs from worker surplus/deficit branches.",
+    "bruteCrossCheck": {
+      "comparisons": 5775,
+      "method": "Enumerate all multiset arrays of lengths2,4,6 with values0..9. Independently search legal +/- distances for both classes and enumerate every half-sized target subset."
+    },
+    "testsChecked": 198,
+    "samplesChecked": 4,
+    "independentOracleSourceHash": "94ada3c1cb37744bc1eec01730e5ae082fb54fd2e5650e97d68f75303744df0c",
+    "sampleMeanings": [
+      "12,14,30,4:14->16 costs2, resulting two squares.",
+      "Six zeros:convert three zeros to2, cost6.",
+      "120,110,23,34,25,45:25 already square;120->121 and23->25 cost3.",
+      "Ten-pile sample already has exactly five squares including0;cost0."
+    ],
+    "coverage": "Boundary0030..0034 includes minimum n, zero-vs-positive square cost, nonsquares, mixed zeros, and maximal-range adjacent-square classification. Maximum0035..0038 has n200000 allzeros(cost200000),all10^9(cost1412900000),balanced0/2(cost0),positive squares(cost100000).160 fixed-seed adversarial distinct inputs, all independently solved.",
+    "authenticity": {
+      "statementRowHash": "d604415f1e7d6a47f54ea867e05f0164c7b53f21d42b4b787644993b9cdd8b41",
+      "packageHash": "35115da261308c084f8c2d938047437e317c63af7c954fee52662e523bac6e23",
+      "officialComplete": false,
+      "officialRole": "supplementary",
+      "officialIncluded": 16,
+      "officialAdvertised": 51,
+      "upstreamGeneratedPairs": 13,
+      "authoredPairs": 169,
+      "allPairBytesAndSamplesExact": true,
+      "countedAuthenticDistinctSources": 10,
+      "sixthDisjointAuthenticAcceptedOracle": "33295565",
+      "implementationHashesMatch": true,
+      "trackedMetadataExact": true,
+      "generatorExactRepeatPairs": true
+    },
+    "acceptedAlgorithmsRead": "Read all five counted C++ sources and distinct sixth accepted public oracle per ID. Square conversions/selection and positive-square zero handling; merge smallest value, leftmost indices and64-bit carry behavior are consistent. Distinct authentic IDs and source hashes, exact TESTS rows and language context verified. Dataset compatibility-adjusted bytes are not claimed to be original live Codeforces bytes.",
+    "algorithmicFailures": "All five counted incorrect sources have substantive independently demonstrated defects. Nine numeric/state defects and one complexity defect across both IDs. Debug-only, list formatting, missing canonical output and runtime/compile failures alone do not qualify.",
+    "replay": "All1980 counted test verdict/exit/timeout/outputHash tuples match exactly. Fresh accepted source samples all pass; disjoint sixth oracle checks all tests and samples. Two fresh generator runs reproduce exact output hashes and every authored pair.",
+    "sandbox": "Public sources/oracle/generator execute only in unchanged pinned v2 Docker network-none nonroot read-only root/payload/harness,cap-dropALL,no-new-privileges,boundedCPU/memory/wall/pids/files/tmpfs. C++ -O2 -std=c++17 -DONLINE_JUDGE. Sandbox/checker/harness hashes match exact archived evidence.",
+    "priorFindings": "All earlier audit/report bytes and branches preserved. Current generated-basis approval does not revise prior literal-bound or debug-only source exclusions.",
+    "scope": "Only owned898E/962D audit JSONs written; no worker package/source/test/evidence/shared code changes; no publication/PR/merge/deploy/remote database/storage/board changes."
+  },
+  "incorrectAnalysis": {
+    "48569927": {
+      "kind": "wrong-answer",
+      "test": "0001",
+      "reason": "Treats every square-to-nonsquare conversion as cost1, including0 whose nearest nonsquare is2. Valid LF [0,0] returns1 instead of2. Debug-list printing on another branch is not the qualification basis.",
+      "independentAlgorithmicWitness": {
+        "input": "2\n0 0\n",
+        "inputHash": "f5203c8edb3ca3b934b5829bbe502d5e93b5e5f44677a25b2019af33b1de1b26",
+        "sourceHash": "0cbce62a20e254e350450c8b77b25d97d2fdbe46708d6d85f8b13ab17b2dc988",
+        "output": "1\n",
+        "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "actualTokens": [
+          1
+        ],
+        "expectedTokens": [
+          2
+        ]
+      },
+      "recordedFirstFailureIsNotNecessarilyQualificationBasis": true
+    },
+    "54386302": {
+      "kind": "wrong-answer",
+      "test": "0002",
+      "reason": "Uses2-bool(res) as conversion cost for every square, always1; zero costs2. LF [0,0] returns1 rather than2.",
+      "independentAlgorithmicWitness": {
+        "input": "2\n0 0\n",
+        "inputHash": "f5203c8edb3ca3b934b5829bbe502d5e93b5e5f44677a25b2019af33b1de1b26",
+        "sourceHash": "5127f03d7ad9225b1f5ebfa2e32eac02245830748f7a244aa99f4cef202c80e5",
+        "output": "1\n",
+        "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "actualTokens": [
+          1
+        ],
+        "expectedTokens": [
+          2
+        ]
+      },
+      "recordedFirstFailureIsNotNecessarilyQualificationBasis": true
+    },
+    "59932451": {
+      "kind": "wrong-answer",
+      "test": "0002",
+      "reason": "Charges1 instead of2 when removing zero from the square class. LF [0,0] returns1 rather than2; additionally its positive-value loop does not restrict itself to squares.",
+      "independentAlgorithmicWitness": {
+        "input": "2\n0 0\n",
+        "inputHash": "f5203c8edb3ca3b934b5829bbe502d5e93b5e5f44677a25b2019af33b1de1b26",
+        "sourceHash": "48f11a383ea951032fbb381520c9ece213bc5e07703031730baafa75d4a1a511",
+        "output": "1\n",
+        "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "actualTokens": [
+          1
+        ],
+        "expectedTokens": [
+          2
+        ]
+      },
+      "recordedFirstFailureIsNotNecessarilyQualificationBasis": true
+    },
+    "161596126": {
+      "kind": "wrong-answer",
+      "test": "0007",
+      "reason": "Stops using cheaper positive-square conversions when cnt<=cnt_zeros, even while positive squares remain. LF [0,0,1,1] costs2 but returns4 by converting zeros instead.",
+      "independentAlgorithmicWitness": {
+        "input": "4\n0 0 1 1\n",
+        "inputHash": "9e240f3abb405b04aa6845a2a7107473a8499b8e2647995cc0ac3633e95fb913",
+        "sourceHash": "71d60f385502c98ac584c65ec2d300d79c47551cf8685ed0b3e8d279c2483151",
+        "output": "4\n",
+        "outputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "actualTokens": [
+          4
+        ],
+        "expectedTokens": [
+          2
+        ]
+      },
+      "recordedFirstFailureIsNotNecessarilyQualificationBasis": true
+    },
+    "189062822": {
+      "kind": "wrong-answer",
+      "test": "0001",
+      "reason": "Converts every nonsquare to a square and halves the aggregate, ignoring the exact-half selection and excess-square case. LF [1,1] returns0 rather than1.",
+      "independentAlgorithmicWitness": {
+        "input": "2\n1 1\n",
+        "inputHash": "3c5b54a75e483fd7863419c9c44f76601871d171c02a7a1e7490efaf809bd1da",
+        "sourceHash": "4747ad9d80b2390ffaa4859bec405714f65e1d6514a6d7490d7d55979898a974",
+        "output": "0\n",
+        "outputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "actualTokens": [
+          0
+        ],
+        "expectedTokens": [
+          1
+        ]
+      },
+      "recordedFirstFailureIsNotNecessarilyQualificationBasis": true
+    }
+  }
+}
