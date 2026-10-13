@@ -1,0 +1,613 @@
+{
+  "approved": true,
+  "archiveSha256": "c23b7888cddcd86285f888e0e2cf2266aa7e4584ac4ba972e214a2583d403a4e",
+  "baseCommit": "8fcd0068e9d0d1d6d3551fcbe5c9358b6ded472b",
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "independentOutputs": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sandboxReplay": true,
+    "sourceAttribution": true,
+    "statementComplete": true
+  },
+  "evidenceHash": "a28a2a419ebd000dfca9b3297459c6dcc16864a5e63dea8e79898cdf03f440fd",
+  "id": "704A",
+  "incorrectAnalysis": {
+    "19747251": {
+      "faultyLines": [
+        20,
+        21
+      ],
+      "kind": "wrong-answer",
+      "proofSha256": "3901798a65f23f8648c2feb7f613ca483f87a79a36e4938a293ca20b7690c864",
+      "reason": "line 20 rebinds i to the app id, then bisect(l, i) bounds by the app id instead of the event index of the t-th generated notification, and reads.get(x,0) uses x not the app i, so prefix reads are miscounted (LF witness 0003: expected sha 6ec6c46fa5d11137, actual sha be7036ca0a437fcd, exit 0, no timeout)",
+      "test": "0003"
+    },
+    "19861223": {
+      "faultyLines": [
+        17
+      ],
+      "kind": "wrong-answer",
+      "proofSha256": "ec8d55f00151164a38e63e31c6a228a46cf6659eff06b1741864ff3c1e5d42dd",
+      "reason": "list = list[data:] drops the first t currently-unread notifications, not the first t generated notifications (some of which may already be read) (LF witness 0003: expected sha 6ec6c46fa5d11137, actual sha 2cc6d16663f799e6, exit 0, no timeout)",
+      "test": "0003"
+    },
+    "19864529": {
+      "faultyLines": [
+        31
+      ],
+      "kind": "wrong-answer",
+      "proofSha256": "c37c82a2fe061f95e1f2167afc8595c8666532c8916b70de75a8601aaca671b3",
+      "reason": "subtracts data[t], the state after event t, not the state after the t-th type-1 notification; event index != notification index (LF witness 0003: expected sha 6ec6c46fa5d11137, actual sha 2ce27067c2d731b3, exit 0, no timeout)",
+      "test": "0003"
+    },
+    "20067801": {
+      "faultyLines": [
+        15,
+        17,
+        19,
+        22,
+        23
+      ],
+      "kind": "wrong-answer",
+      "proofSha256": "882658d23eb165c34347d8960aa3d40265f26912aae783428917cbcce2fb054e",
+      "reason": "type 2 adds l[b] to check and marks only app.index(b) (first occurrence) as read; type 3 subtracts (b-check) treating check as a prefix pointer, conflating type-2 reads with the first-t prefix (LF witness 0003: expected sha 6ec6c46fa5d11137, actual sha 60acfd6d71835b61, exit 0, no timeout)",
+      "test": "0003"
+    },
+    "20796252": {
+      "faultyLines": [
+        10,
+        12
+      ],
+      "kind": "wrong-answer",
+      "proofSha256": "7c2a6d94ae2df15d777b384ddeef217e12603a406219f8c3d2f7dfea6a54de44",
+      "reason": "type 2 subtracts exactly 1 instead of all unread notifications of app x; type 3 sets total = t - total, which is not the number of unread notifications after reading the first t generated ones (LF witness 0003: expected sha 6ec6c46fa5d11137, actual sha 56c6cd9498c4c788, exit 0, no timeout)",
+      "test": "0003"
+    }
+  },
+  "packageHash": "d2d00c481ae419e8460937f2feb766d020cf866fc61ea58327725d73a9686fa0",
+  "qualificationBasis": "generated",
+  "rating": 1600,
+  "review": {
+    "coverage": "181 tests, 181 distinct inputs; 25 tests with q=300000 and 26 with n=300000; 6 with n=1; type-2 and type-3 events in 178/179 tests (1.08M and 2.86M events in total), with repeated and overlapping prefix re-reads and clear-then-re-add patterns.",
+    "freshReplay": {
+      "19688619": {
+        "compiled": true,
+        "evidenceFailedTest": null,
+        "evidenceVerdict": "AC",
+        "maxCpu": 0.238,
+        "myFirstFailed": null,
+        "myVerdict": "AC",
+        "perTestEvidenceMatch": "181/181",
+        "resourceBoundaryOnly": [],
+        "samplesOK": true,
+        "verdictCounts": {
+          "AC": 181
+        }
+      },
+      "19689201": {
+        "compiled": true,
+        "evidenceFailedTest": null,
+        "evidenceVerdict": "AC",
+        "maxCpu": 0.298,
+        "myFirstFailed": null,
+        "myVerdict": "AC",
+        "perTestEvidenceMatch": "181/181",
+        "resourceBoundaryOnly": [],
+        "samplesOK": true,
+        "verdictCounts": {
+          "AC": 181
+        }
+      },
+      "19689858": {
+        "compiled": true,
+        "evidenceFailedTest": null,
+        "evidenceVerdict": "AC",
+        "maxCpu": 0.157,
+        "myFirstFailed": null,
+        "myVerdict": "AC",
+        "perTestEvidenceMatch": "181/181",
+        "resourceBoundaryOnly": [],
+        "samplesOK": true,
+        "verdictCounts": {
+          "AC": 181
+        }
+      },
+      "19689867": {
+        "compiled": true,
+        "evidenceFailedTest": null,
+        "evidenceVerdict": "AC",
+        "maxCpu": 0.231,
+        "myFirstFailed": null,
+        "myVerdict": "AC",
+        "perTestEvidenceMatch": "181/181",
+        "resourceBoundaryOnly": [],
+        "samplesOK": true,
+        "verdictCounts": {
+          "AC": 181
+        }
+      },
+      "19689897": {
+        "compiled": true,
+        "evidenceFailedTest": null,
+        "evidenceVerdict": "AC",
+        "maxCpu": 0.154,
+        "myFirstFailed": null,
+        "myVerdict": "AC",
+        "perTestEvidenceMatch": "181/181",
+        "resourceBoundaryOnly": [],
+        "samplesOK": true,
+        "verdictCounts": {
+          "AC": 181
+        }
+      },
+      "19747251": {
+        "compiled": true,
+        "counterexample": "0003: long output, token hash differs",
+        "evidenceFailedTest": "0003",
+        "evidenceVerdict": "WA",
+        "formatOrDebugOnlyWA": 0,
+        "lfFirstFailed": "0003",
+        "lfNumericallyWrongTests": 152,
+        "maxCpu": 6.279,
+        "myFirstFailed": "0003",
+        "myVerdict": "WA",
+        "numericallyWrongTests": 152,
+        "perTestEvidenceMatch": "181/181",
+        "resourceBoundaryOnly": [],
+        "samplesOK": true,
+        "verdictCounts": {
+          "AC": 5,
+          "TLE": 24,
+          "WA": 152
+        }
+      },
+      "19861223": {
+        "compiled": true,
+        "counterexample": "0003: 10 85 2 2 1 10 1 1 2 6 1 2 1 4 1 7 2 1 1 1 3 3 1 9 1 6 1 8 1 -> 0 1 2 2 3 4 5 4 5 2 3 4 5 6 0 0 1 2 3 4 5 6 7 8 9 , expected 0 1 2 2 3 4 5 4 5 3 4 5 6 7 2 1 2 3 4 5 6 7 8 9 10",
+        "evidenceFailedTest": "0003",
+        "evidenceVerdict": "WA",
+        "formatOrDebugOnlyWA": 0,
+        "lfFirstFailed": "0003",
+        "lfNumericallyWrongTests": 175,
+        "maxCpu": 1.628,
+        "myFirstFailed": "0003",
+        "myVerdict": "WA",
+        "numericallyWrongTests": 176,
+        "perTestEvidenceMatch": "181/181",
+        "resourceBoundaryOnly": [],
+        "samplesOK": true,
+        "verdictCounts": {
+          "AC": 5,
+          "WA": 176
+        }
+      },
+      "19864529": {
+        "compiled": true,
+        "counterexample": "0003: long output, token hash differs",
+        "evidenceFailedTest": "0003",
+        "evidenceVerdict": "WA",
+        "formatOrDebugOnlyWA": 0,
+        "lfFirstFailed": "0003",
+        "lfNumericallyWrongTests": 153,
+        "maxCpu": 5.981,
+        "myFirstFailed": "0003",
+        "myVerdict": "WA",
+        "numericallyWrongTests": 153,
+        "perTestEvidenceMatch": "181/181",
+        "resourceBoundaryOnly": [],
+        "samplesOK": true,
+        "verdictCounts": {
+          "AC": 3,
+          "TLE": 25,
+          "WA": 153
+        }
+      },
+      "20067801": {
+        "compiled": true,
+        "counterexample": "0003: long output, token hash differs",
+        "evidenceFailedTest": "0003",
+        "evidenceVerdict": "WA",
+        "formatOrDebugOnlyWA": 0,
+        "lfFirstFailed": "0003",
+        "lfNumericallyWrongTests": 120,
+        "maxCpu": 6.319,
+        "myFirstFailed": "0003",
+        "myVerdict": "WA",
+        "numericallyWrongTests": 120,
+        "perTestEvidenceMatch": "181/181",
+        "resourceBoundaryOnly": [],
+        "samplesOK": true,
+        "verdictCounts": {
+          "AC": 37,
+          "TLE": 24,
+          "WA": 120
+        }
+      },
+      "20796252": {
+        "compiled": true,
+        "counterexample": "0003: long output, token hash differs",
+        "evidenceFailedTest": "0003",
+        "evidenceVerdict": "WA",
+        "formatOrDebugOnlyWA": 0,
+        "lfFirstFailed": "0003",
+        "lfNumericallyWrongTests": 172,
+        "maxCpu": 2.225,
+        "myFirstFailed": "0003",
+        "myVerdict": "WA",
+        "numericallyWrongTests": 175,
+        "perTestEvidenceMatch": "178/181",
+        "resourceBoundaryOnly": [],
+        "samplesOK": true,
+        "verdictCounts": {
+          "AC": 3,
+          "TLE": 3,
+          "WA": 175
+        }
+      }
+    },
+    "incorrectAreAlgorithmic": "Each of the 5 incorrect sources was read in full; review.incorrectProofs gives the implemented algorithm, faulty source lines with text, and a legal LF witness on the current evidence failedTest with exit 0, no timeout, equal token count and a numerically wrong answer, plus source/input/expected/actual/proof sha256. Format/debug-only, CRLF, TLE-only and wrong-problem failures are not counted.",
+    "incorrectProofs": {
+      "19747251": {
+        "fault": "line 20 rebinds i to the app id, then bisect(l, i) bounds by the app id instead of the event index of the t-th generated notification, and reads.get(x,0) uses x not the app i, so prefix reads are miscounted",
+        "faultyLineText": {
+          "20": "                for i, l in notification.items():",
+          "21": "                    u, v = bisect(l, i), reads.get(x, 0)"
+        },
+        "faultyLines": [
+          20,
+          21
+        ],
+        "implementedAlgorithm": "per-app list of event indices, reads[x] = number read per app, z = unread total; type 3 sweeps all apps with bisect",
+        "language": "Python 3",
+        "proofSha256": "3901798a65f23f8648c2feb7f613ca483f87a79a36e4938a293ca20b7690c864",
+        "qualifies": true,
+        "sourceLines": 30,
+        "sourceSha256": "4de84492d7bd8cd818389a3968f2261f0d04ec7cc2338450a31ba741c0476610",
+        "submission": "704A/19747251",
+        "witness": {
+          "actual": "0\n1\n2\n2\n3\n4\n5\n4\n5\n3\n4\n5\n6\n7\n5\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n11\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n18\n16\n17\n18\n18\n19\n20\n21\n22\n20\n21\n21\n22\n23\n24\n24\n20\n21\n15\n15\n15\n15\n15\n16\n16\n17\n17\n17\n14\n15\n16\n16\n17\n18\n19\n20\n21\n21\n22\n23\n20\n21\n21\n22\n23\n24\n25",
+          "actualOutputBytes": 233,
+          "actualOutputSha256": "be7036ca0a437fcd8a1edd59c4a532304f384bbbca50116a62377a015629833c",
+          "classification": "MATH-WRONG",
+          "cpuSeconds": 0.027,
+          "exitCode": 0,
+          "expected": "0\r\n1\r\n2\r\n2\r\n3\r\n4\r\n5\r\n4\r\n5\r\n3\r\n4\r\n5\r\n6\r\n7\r\n2\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\n9\r\n7\r\n8\r\n9\r\n10\r\n11\r\n12\r\n13\r\n14\r\n15\r\n16\r\n17\r\n18\r\n17\r\n16\r\n17\r\n18\r\n18\r\n19\r\n20\r\n21\r\n22\r\n3\r\n4\r\n4\r\n5\r\n6\r\n7\r\n7\r\n6\r\n7\r\n5\r\n5\r\n5\r\n5\r\n5\r\n6\r\n6\r\n7\r\n7\r\n7\r\n6\r\n7\r\n8\r\n8\r\n9\r\n10\r\n11\r\n12\r\n13\r\n13\r\n14\r\n15\r\n14\r\n15\r\n15\r\n16\r\n17\r\n18\r\n19",
+          "expectedOutputSha256": "6ec6c46fa5d11137d19c9da02b17788f1aa565d425633de90d5540d11a9900eb",
+          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
+          "input": "10 85\n2 2\n1 10\n1 1\n2 6\n1 2\n1 4\n1 7\n2 1\n1 1\n3 3\n1 9\n1 6\n1 8\n1 10\n3 8\n2 8\n1 6\n1 3\n1 9\n1 6\n1 3\n1 8\n1 1\n1 6\n1 10\n2 1\n2 10\n1 10\n1 1\n1 10\n1 6\n1 2\n1 8\n1 3\n1 4\n1 9\n1 5\n1 5\n2 2\n2 4\n1 7\n1 1\n2 4\n1 9\n1 1\n1 7\n1 8\n3 33\n1 10\n2 2\n1 3\n1 10\n1 6\n3 32\n2 3\n1 5\n2 10\n2 2\n2 4\n2 3\n3 16\n1 3\n2 2\n1 1\n3 18\n2 2\n2 5\n1 5\n1 9\n2 4\n1",
+          "isEvidenceFailedTest": true,
+          "lfInputSha256": "b36e09d4ceafde9c4661464aaea1e1a6810f48ceaa0af45246cdc4776bbb6cc6",
+          "packageInputHadCRLF": true,
+          "packageInputSha256": "c81ed2e1e4f81f525778a2cc87ce1b3bd2b77a5baf995c6f62bb1c005132edd5",
+          "record": "witness/704A-19747251.json",
+          "test": "0003",
+          "timedOut": false
+        }
+      },
+      "19861223": {
+        "fault": "list = list[data:] drops the first t currently-unread notifications, not the first t generated notifications (some of which may already be read)",
+        "faultyLineText": {
+          "17": "        list = list[data:]"
+        },
+        "faultyLines": [
+          17
+        ],
+        "implementedAlgorithm": "keeps list of unread notifications' app ids; type 2 removes app's entries; type 3 slices",
+        "language": "Python 3",
+        "proofSha256": "ec8d55f00151164a38e63e31c6a228a46cf6659eff06b1741864ff3c1e5d42dd",
+        "qualifies": true,
+        "sourceLines": 22,
+        "sourceSha256": "0de40756635f88ac14c9ba7cef460583f33966a16517b7b5cc10225606ad4fc9",
+        "submission": "704A/19861223",
+        "witness": {
+          "actual": "0\n1\n2\n2\n3\n4\n5\n4\n5\n2\n3\n4\n5\n6\n0\n0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n8\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n17\n16\n17\n18\n18\n19\n20\n21\n22\n0\n1\n1\n2\n3\n4\n0\n0\n1\n1\n1\n1\n1\n0\n1\n1\n2\n0\n0\n0\n1\n2\n2\n3\n4\n5\n6\n7\n7\n8\n9\n9\n10\n9\n10\n11\n12\n13",
+          "actualOutputBytes": 193,
+          "actualOutputSha256": "2cc6d16663f799e6a4e4a1904bc0d83e889a4ad7c45602ec552489bb2c42b2fc",
+          "classification": "MATH-WRONG",
+          "cpuSeconds": 0.026,
+          "exitCode": 0,
+          "expected": "0\r\n1\r\n2\r\n2\r\n3\r\n4\r\n5\r\n4\r\n5\r\n3\r\n4\r\n5\r\n6\r\n7\r\n2\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\n9\r\n7\r\n8\r\n9\r\n10\r\n11\r\n12\r\n13\r\n14\r\n15\r\n16\r\n17\r\n18\r\n17\r\n16\r\n17\r\n18\r\n18\r\n19\r\n20\r\n21\r\n22\r\n3\r\n4\r\n4\r\n5\r\n6\r\n7\r\n7\r\n6\r\n7\r\n5\r\n5\r\n5\r\n5\r\n5\r\n6\r\n6\r\n7\r\n7\r\n7\r\n6\r\n7\r\n8\r\n8\r\n9\r\n10\r\n11\r\n12\r\n13\r\n13\r\n14\r\n15\r\n14\r\n15\r\n15\r\n16\r\n17\r\n18\r\n19",
+          "expectedOutputSha256": "6ec6c46fa5d11137d19c9da02b17788f1aa565d425633de90d5540d11a9900eb",
+          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
+          "input": "10 85\n2 2\n1 10\n1 1\n2 6\n1 2\n1 4\n1 7\n2 1\n1 1\n3 3\n1 9\n1 6\n1 8\n1 10\n3 8\n2 8\n1 6\n1 3\n1 9\n1 6\n1 3\n1 8\n1 1\n1 6\n1 10\n2 1\n2 10\n1 10\n1 1\n1 10\n1 6\n1 2\n1 8\n1 3\n1 4\n1 9\n1 5\n1 5\n2 2\n2 4\n1 7\n1 1\n2 4\n1 9\n1 1\n1 7\n1 8\n3 33\n1 10\n2 2\n1 3\n1 10\n1 6\n3 32\n2 3\n1 5\n2 10\n2 2\n2 4\n2 3\n3 16\n1 3\n2 2\n1 1\n3 18\n2 2\n2 5\n1 5\n1 9\n2 4\n1",
+          "isEvidenceFailedTest": true,
+          "lfInputSha256": "b36e09d4ceafde9c4661464aaea1e1a6810f48ceaa0af45246cdc4776bbb6cc6",
+          "packageInputHadCRLF": true,
+          "packageInputSha256": "c81ed2e1e4f81f525778a2cc87ce1b3bd2b77a5baf995c6f62bb1c005132edd5",
+          "record": "witness/704A-19861223.json",
+          "test": "0003",
+          "timedOut": false
+        }
+      },
+      "19864529": {
+        "fault": "subtracts data[t], the state after event t, not the state after the t-th type-1 notification; event index != notification index",
+        "faultyLineText": {
+          "31": "\t\trow = [a - b for a, b in zip(deepcopy(data[len(data) - 1]), deepcopy(data[info[1]]))]"
+        },
+        "faultyLines": [
+          31
+        ],
+        "implementedAlgorithm": "per-event snapshot of per-app unread counts; type 3 subtracts a snapshot",
+        "language": "Python 3",
+        "proofSha256": "c37c82a2fe061f95e1f2167afc8595c8666532c8916b70de75a8601aaca671b3",
+        "qualifies": true,
+        "sourceLines": 41,
+        "sourceSha256": "c43fb8212407a95d2944c84d8a8abf267ab550c2e2a5aa74ae5ff2734df57d28",
+        "submission": "704A/19864529",
+        "witness": {
+          "actual": "0\n1\n2\n2\n3\n4\n5\n4\n5\n3\n4\n5\n6\n7\n3\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n10\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n19\n18\n19\n20\n20\n21\n22\n23\n24\n9\n10\n11\n12\n13\n14\n0\n0\n1\n1\n2\n2\n2\n0\n1\n1\n2\n-2\n-2\n-5\n-4\n-3\n-3\n-2\n-1\n0\n1\n2\n2\n3\n4\n4\n5\n5\n6\n7\n8\n9",
+          "actualOutputBytes": 206,
+          "actualOutputSha256": "2ce27067c2d731b355b74d9d97a99d9e36fdcff31e5a6c7c7f0d2d4b17e015c8",
+          "classification": "MATH-WRONG",
+          "cpuSeconds": 0.041,
+          "exitCode": 0,
+          "expected": "0\r\n1\r\n2\r\n2\r\n3\r\n4\r\n5\r\n4\r\n5\r\n3\r\n4\r\n5\r\n6\r\n7\r\n2\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\n9\r\n7\r\n8\r\n9\r\n10\r\n11\r\n12\r\n13\r\n14\r\n15\r\n16\r\n17\r\n18\r\n17\r\n16\r\n17\r\n18\r\n18\r\n19\r\n20\r\n21\r\n22\r\n3\r\n4\r\n4\r\n5\r\n6\r\n7\r\n7\r\n6\r\n7\r\n5\r\n5\r\n5\r\n5\r\n5\r\n6\r\n6\r\n7\r\n7\r\n7\r\n6\r\n7\r\n8\r\n8\r\n9\r\n10\r\n11\r\n12\r\n13\r\n13\r\n14\r\n15\r\n14\r\n15\r\n15\r\n16\r\n17\r\n18\r\n19",
+          "expectedOutputSha256": "6ec6c46fa5d11137d19c9da02b17788f1aa565d425633de90d5540d11a9900eb",
+          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
+          "input": "10 85\n2 2\n1 10\n1 1\n2 6\n1 2\n1 4\n1 7\n2 1\n1 1\n3 3\n1 9\n1 6\n1 8\n1 10\n3 8\n2 8\n1 6\n1 3\n1 9\n1 6\n1 3\n1 8\n1 1\n1 6\n1 10\n2 1\n2 10\n1 10\n1 1\n1 10\n1 6\n1 2\n1 8\n1 3\n1 4\n1 9\n1 5\n1 5\n2 2\n2 4\n1 7\n1 1\n2 4\n1 9\n1 1\n1 7\n1 8\n3 33\n1 10\n2 2\n1 3\n1 10\n1 6\n3 32\n2 3\n1 5\n2 10\n2 2\n2 4\n2 3\n3 16\n1 3\n2 2\n1 1\n3 18\n2 2\n2 5\n1 5\n1 9\n2 4\n1",
+          "isEvidenceFailedTest": true,
+          "lfInputSha256": "b36e09d4ceafde9c4661464aaea1e1a6810f48ceaa0af45246cdc4776bbb6cc6",
+          "packageInputHadCRLF": true,
+          "packageInputSha256": "c81ed2e1e4f81f525778a2cc87ce1b3bd2b77a5baf995c6f62bb1c005132edd5",
+          "record": "witness/704A-19864529.json",
+          "test": "0003",
+          "timedOut": false
+        }
+      },
+      "20067801": {
+        "fault": "type 2 adds l[b] to check and marks only app.index(b) (first occurrence) as read; type 3 subtracts (b-check) treating check as a prefix pointer, conflating type-2 reads with the first-t prefix",
+        "faultyLineText": {
+          "15": "\t\t\tcheck+=l[b]",
+          "17": "\t\t\tapp[app.index(b)]=-1",
+          "19": "\t\tif check>=b:",
+          "22": "\t\t\tsum-=(b-check)",
+          "23": "\t\t\tcheck+=(b-check)"
+        },
+        "faultyLines": [
+          15,
+          17,
+          19,
+          22,
+          23
+        ],
+        "implementedAlgorithm": "app list of generated notifications with -1 for read; type 3 marks prefix",
+        "language": "Python 3",
+        "proofSha256": "882658d23eb165c34347d8960aa3d40265f26912aae783428917cbcce2fb054e",
+        "qualifies": true,
+        "sourceLines": 35,
+        "sourceSha256": "3d27a52fb95749a8ac18047469b53047259af4bd593a0d11fbcb7dad81c1468b",
+        "submission": "704A/20067801",
+        "witness": {
+          "actual": "0\n1\n2\n2\n3\n4\n5\n4\n5\n3\n4\n5\n6\n7\n2\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n9\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n17\n16\n17\n18\n18\n19\n20\n21\n22\n3\n4\n4\n5\n6\n7\n7\n6\n7\n5\n5\n5\n5\n5\n6\n6\n7\n7\n7\n6\n7\n8\n8\n9\n10\n11\n12\n13\n13\n14\n15\n15\n16\n16\n17\n18\n19\n20",
+          "actualOutputBytes": 203,
+          "actualOutputSha256": "60acfd6d71835b61018ab0b02421d5ef58c0b68ed6392a939a1130037832e21e",
+          "classification": "MATH-WRONG",
+          "cpuSeconds": 0.014,
+          "exitCode": 0,
+          "expected": "0\r\n1\r\n2\r\n2\r\n3\r\n4\r\n5\r\n4\r\n5\r\n3\r\n4\r\n5\r\n6\r\n7\r\n2\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\n9\r\n7\r\n8\r\n9\r\n10\r\n11\r\n12\r\n13\r\n14\r\n15\r\n16\r\n17\r\n18\r\n17\r\n16\r\n17\r\n18\r\n18\r\n19\r\n20\r\n21\r\n22\r\n3\r\n4\r\n4\r\n5\r\n6\r\n7\r\n7\r\n6\r\n7\r\n5\r\n5\r\n5\r\n5\r\n5\r\n6\r\n6\r\n7\r\n7\r\n7\r\n6\r\n7\r\n8\r\n8\r\n9\r\n10\r\n11\r\n12\r\n13\r\n13\r\n14\r\n15\r\n14\r\n15\r\n15\r\n16\r\n17\r\n18\r\n19",
+          "expectedOutputSha256": "6ec6c46fa5d11137d19c9da02b17788f1aa565d425633de90d5540d11a9900eb",
+          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
+          "input": "10 85\n2 2\n1 10\n1 1\n2 6\n1 2\n1 4\n1 7\n2 1\n1 1\n3 3\n1 9\n1 6\n1 8\n1 10\n3 8\n2 8\n1 6\n1 3\n1 9\n1 6\n1 3\n1 8\n1 1\n1 6\n1 10\n2 1\n2 10\n1 10\n1 1\n1 10\n1 6\n1 2\n1 8\n1 3\n1 4\n1 9\n1 5\n1 5\n2 2\n2 4\n1 7\n1 1\n2 4\n1 9\n1 1\n1 7\n1 8\n3 33\n1 10\n2 2\n1 3\n1 10\n1 6\n3 32\n2 3\n1 5\n2 10\n2 2\n2 4\n2 3\n3 16\n1 3\n2 2\n1 1\n3 18\n2 2\n2 5\n1 5\n1 9\n2 4\n1",
+          "isEvidenceFailedTest": true,
+          "lfInputSha256": "b36e09d4ceafde9c4661464aaea1e1a6810f48ceaa0af45246cdc4776bbb6cc6",
+          "packageInputHadCRLF": true,
+          "packageInputSha256": "c81ed2e1e4f81f525778a2cc87ce1b3bd2b77a5baf995c6f62bb1c005132edd5",
+          "record": "witness/704A-20067801.json",
+          "test": "0003",
+          "timedOut": false
+        }
+      },
+      "20796252": {
+        "fault": "type 2 subtracts exactly 1 instead of all unread notifications of app x; type 3 sets total = t - total, which is not the number of unread notifications after reading the first t generated ones",
+        "faultyLineText": {
+          "10": "        total -= 1",
+          "12": "        total = va - total"
+        },
+        "faultyLines": [
+          10,
+          12
+        ],
+        "implementedAlgorithm": "single global unread counter: +1 on type 1, -1 on type 2, total = t - total on type 3",
+        "language": "Python 3",
+        "proofSha256": "7c2a6d94ae2df15d777b384ddeef217e12603a406219f8c3d2f7dfea6a54de44",
+        "qualifies": true,
+        "sourceLines": 14,
+        "sourceSha256": "e9848ff7cfa6c016115beaf355482853bcbf29c96ba7b00163322c79efdac6e6",
+        "submission": "704A/20796252",
+        "witness": {
+          "actual": "-1\n0\n1\n0\n1\n2\n3\n2\n3\n0\n1\n2\n3\n4\n4\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n11\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n20\n19\n20\n21\n20\n21\n22\n23\n24\n9\n10\n9\n10\n11\n12\n20\n19\n20\n19\n18\n17\n16\n0\n1\n0\n1\n17\n16\n15\n16\n17\n16\n17\n18\n19\n20\n21\n20\n21\n22\n21\n22\n-21\n-20\n-19\n-18\n-17",
+          "actualOutputBytes": 233,
+          "actualOutputSha256": "56c6cd9498c4c788fc2cb9b6810a7bf9c946f870b807c15633c8cbb509a312f5",
+          "classification": "MATH-WRONG",
+          "cpuSeconds": 0.023,
+          "exitCode": 0,
+          "expected": "0\r\n1\r\n2\r\n2\r\n3\r\n4\r\n5\r\n4\r\n5\r\n3\r\n4\r\n5\r\n6\r\n7\r\n2\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\n9\r\n7\r\n8\r\n9\r\n10\r\n11\r\n12\r\n13\r\n14\r\n15\r\n16\r\n17\r\n18\r\n17\r\n16\r\n17\r\n18\r\n18\r\n19\r\n20\r\n21\r\n22\r\n3\r\n4\r\n4\r\n5\r\n6\r\n7\r\n7\r\n6\r\n7\r\n5\r\n5\r\n5\r\n5\r\n5\r\n6\r\n6\r\n7\r\n7\r\n7\r\n6\r\n7\r\n8\r\n8\r\n9\r\n10\r\n11\r\n12\r\n13\r\n13\r\n14\r\n15\r\n14\r\n15\r\n15\r\n16\r\n17\r\n18\r\n19",
+          "expectedOutputSha256": "6ec6c46fa5d11137d19c9da02b17788f1aa565d425633de90d5540d11a9900eb",
+          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
+          "input": "10 85\n2 2\n1 10\n1 1\n2 6\n1 2\n1 4\n1 7\n2 1\n1 1\n3 3\n1 9\n1 6\n1 8\n1 10\n3 8\n2 8\n1 6\n1 3\n1 9\n1 6\n1 3\n1 8\n1 1\n1 6\n1 10\n2 1\n2 10\n1 10\n1 1\n1 10\n1 6\n1 2\n1 8\n1 3\n1 4\n1 9\n1 5\n1 5\n2 2\n2 4\n1 7\n1 1\n2 4\n1 9\n1 1\n1 7\n1 8\n3 33\n1 10\n2 2\n1 3\n1 10\n1 6\n3 32\n2 3\n1 5\n2 10\n2 2\n2 4\n2 3\n3 16\n1 3\n2 2\n1 1\n3 18\n2 2\n2 5\n1 5\n1 9\n2 4\n1",
+          "isEvidenceFailedTest": true,
+          "lfInputSha256": "b36e09d4ceafde9c4661464aaea1e1a6810f48ceaa0af45246cdc4776bbb6cc6",
+          "packageInputHadCRLF": true,
+          "packageInputSha256": "c81ed2e1e4f81f525778a2cc87ce1b3bd2b77a5baf995c6f62bb1c005132edd5",
+          "record": "witness/704A-20796252.json",
+          "test": "0003",
+          "timedOut": false
+        }
+      }
+    },
+    "independentOracle": "Per-app unread counters, a monotone global prefix pointer, and per-app 'read up to index' marks from type-2 events; O(q). Cross-checked against literal full-list simulation on 20000 random small event sequences.",
+    "officialTests": "Basis 'generated': official_tests_complete=false (4 of 99 official rows, all present as 0001-0004 and token-equal), plus all 25 open-r1 generated tests for 704/A from the sha-verified pinned generated_tests/test_cases_0704.parquet (all present, token-equal, oracle-equal), plus 152 worker-generated pairs.",
+    "oracleIndependence": "qualification/oracle.cpp is byte-identical to public accepted submission 19690324 in the sha-verified pinned submissions shard 00027; its hash differs from all 10 reference sources and the excluded one. I re-ran qualification/generator.py (seed 0) in the pinned sandbox: its output hash equals both repeatOutputHashes and reproduces exactly the 152 authored package pairs (pairsHash matches). My own oracle independently agrees with every expected output.",
+    "oracleResult": "All 181 package tests and all samples pass a strict format/range parse; every expected output equals my oracle; all upstream official rows equal my oracle.",
+    "pointerRepair": {
+      "bytes": "next6 archive sha256 c23b7888cddcd86285f888e0e2cf2266aa7e4584ac4ba972e214a2583d403a4e (68143474 bytes, 3303 members) verified; replayed directly from it; 704A evidence identical to worker 8fcd006 (digest a28a2a419ebd000dfca9b3297459c6dcc16864a5e63dea8e79898cdf03f440fd); all 10 sources byte-identical to pinned open-r1 shard train-00027 (sha256 a043ccb4...).",
+      "change": "20046740 (format-only list output) replaced by authentic 20796252 (CF WRONG_ANSWER, passedTestCount 2); other 9 submissions unchanged.",
+      "cpuBoundary": "20796252: 3 tests (0006-0028 range) exceed the 2.0 s CPU limit in my sandbox (~2.2 s; evidence ~1.2 s WA) with output sha256 identical to evidence; all after the first failure 0003, so verdict, first failure and witness are unaffected.",
+      "supersededAudit": {
+        "auditHash": "1c544277f04b546423daff0006ba470ffcbe6a6f8c6920f3bca6b75881259d2a",
+        "fileSha256": "21c50b9280c1a040abbad5cfcea615583e4f9523ec6406d59197f9bec40f6936",
+        "path": "pipeline/ratings-pools/1600/audits/history/704A/1c544277f04b546423daff0006ba470ffcbe6a6f8c6920f3bca6b75881259d2a.json",
+        "status": "revoked in correction-20261013 (format-only pointer 20046740)"
+      }
+    },
+    "sandbox": "Re-signed 2026-10-13 after evidence pointer repair (supersedes revoked auditHash 1c544277f04b546423daff0006ba470ffcbe6a6f8c6920f3bca6b75881259d2a). Fresh full replay of all 10 sources on every package test and sample, plus LF-only replay of the 5 incorrect, with own harness myharness_tok.py sha256 1dd7efd4776d4d8f0eb30512e4182274d33b1bd28c0a2abbffa41c137685d4a9 (pipeline/ratings-pools/1600/audits/history/next6-704A-20261013/code/harness.py), launched by pipeline/ratings-pools/1600/audits/history/next6-704A-20261013/code/launcher15.py sha256 1a403671111eeb495e510066b228d165675d93c8fe2cbe009f90bd23ec5381a9, judged by pipeline/ratings-pools/1600/audits/history/next6-704A-20261013/code/judge15.py sha256 fb6a8e8e2351b34f33ca7a1cd791478e83f2dded29f930bc68a0fb4bcf38ac08; witnesses by pipeline/ratings-pools/1600/audits/history/next6-704A-20261013/code/witness15.py sha256 d1bf465b23735f85a80d9ffb29476d19bbc0ae7a6e0ff22043c3685b65a57b3b mounting harness_witness.py sha256 3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933; not worker pool_harness. Pinned python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3, --pull=never, --network=none, --read-only, --user=65534:65534, --cap-drop=ALL, no-new-privileges, pids<=32, 1 CPU, 2560m memory/swap, tmpfs /w 128m and /tmp 16m, inputs and harness mounted read-only, RLIMIT_CPU/AS at problem limits, RLIMIT_FSIZE 16MiB, launched from env -i (PATH only) without credentials; g++ -O2 -std=c++17 -DONLINE_JUDGE; python3 for Python sources.",
+    "singleAnswer": "Output is uniquely determined by the input; token comparison is correct; no special checker or float tolerance.",
+    "statement": "Statement bounds explicit (1 ≤ n, q ≤ 300 000; 1 ≤ type ≤ 3, 1 ≤ x ≤ n, 1 ≤ t ≤ q; at least t type-1 events precede a type-3 event); no exponent flattening, no normalization.",
+    "submissionProvenance": "All 10 current sources byte-identical (sha256) to rows in pinned open-r1/codeforces-submissions shards (shard sha256 verified independently; 20796252 from train-00027 a043ccb4..., WRONG_ANSWER, passedTestCount 2); 20046740 excluded (format-only).",
+    "submissions": [
+      {
+        "compiled": true,
+        "evidenceFailedTest": null,
+        "evidenceVerdict": "AC",
+        "expected": "OK",
+        "id": "19688619",
+        "maxCpu": 0.238,
+        "myFirstFailed": null,
+        "myVerdict": "AC",
+        "perTestEvidenceMatch": "181/181",
+        "samplesOK": true
+      },
+      {
+        "compiled": true,
+        "evidenceFailedTest": null,
+        "evidenceVerdict": "AC",
+        "expected": "OK",
+        "id": "19689201",
+        "maxCpu": 0.298,
+        "myFirstFailed": null,
+        "myVerdict": "AC",
+        "perTestEvidenceMatch": "181/181",
+        "samplesOK": true
+      },
+      {
+        "compiled": true,
+        "evidenceFailedTest": null,
+        "evidenceVerdict": "AC",
+        "expected": "OK",
+        "id": "19689858",
+        "maxCpu": 0.157,
+        "myFirstFailed": null,
+        "myVerdict": "AC",
+        "perTestEvidenceMatch": "181/181",
+        "samplesOK": true
+      },
+      {
+        "compiled": true,
+        "evidenceFailedTest": null,
+        "evidenceVerdict": "AC",
+        "expected": "OK",
+        "id": "19689867",
+        "maxCpu": 0.231,
+        "myFirstFailed": null,
+        "myVerdict": "AC",
+        "perTestEvidenceMatch": "181/181",
+        "samplesOK": true
+      },
+      {
+        "compiled": true,
+        "evidenceFailedTest": null,
+        "evidenceVerdict": "AC",
+        "expected": "OK",
+        "id": "19689897",
+        "maxCpu": 0.154,
+        "myFirstFailed": null,
+        "myVerdict": "AC",
+        "perTestEvidenceMatch": "181/181",
+        "samplesOK": true
+      },
+      {
+        "compiled": true,
+        "evidenceFailedTest": "0003",
+        "evidenceVerdict": "WA",
+        "expected": "WRONG_ANSWER",
+        "formatOrDebugOnlyWA": 0,
+        "id": "19747251",
+        "lfFirstFailed": "0003",
+        "lfNumericallyWrongTests": 152,
+        "maxCpu": 6.279,
+        "myFirstFailed": "0003",
+        "myVerdict": "WA",
+        "numericallyWrongTests": 152,
+        "perTestEvidenceMatch": "181/181",
+        "samplesOK": true
+      },
+      {
+        "compiled": true,
+        "evidenceFailedTest": "0003",
+        "evidenceVerdict": "WA",
+        "expected": "WRONG_ANSWER",
+        "formatOrDebugOnlyWA": 0,
+        "id": "19861223",
+        "lfFirstFailed": "0003",
+        "lfNumericallyWrongTests": 175,
+        "maxCpu": 1.628,
+        "myFirstFailed": "0003",
+        "myVerdict": "WA",
+        "numericallyWrongTests": 176,
+        "perTestEvidenceMatch": "181/181",
+        "samplesOK": true
+      },
+      {
+        "compiled": true,
+        "evidenceFailedTest": "0003",
+        "evidenceVerdict": "WA",
+        "expected": "WRONG_ANSWER",
+        "formatOrDebugOnlyWA": 0,
+        "id": "19864529",
+        "lfFirstFailed": "0003",
+        "lfNumericallyWrongTests": 153,
+        "maxCpu": 5.981,
+        "myFirstFailed": "0003",
+        "myVerdict": "WA",
+        "numericallyWrongTests": 153,
+        "perTestEvidenceMatch": "181/181",
+        "samplesOK": true
+      },
+      {
+        "compiled": true,
+        "evidenceFailedTest": "0003",
+        "evidenceVerdict": "WA",
+        "expected": "WRONG_ANSWER",
+        "formatOrDebugOnlyWA": 0,
+        "id": "20067801",
+        "lfFirstFailed": "0003",
+        "lfNumericallyWrongTests": 120,
+        "maxCpu": 6.319,
+        "myFirstFailed": "0003",
+        "myVerdict": "WA",
+        "numericallyWrongTests": 120,
+        "perTestEvidenceMatch": "181/181",
+        "samplesOK": true
+      },
+      {
+        "compiled": true,
+        "evidenceFailedTest": "0003",
+        "evidenceVerdict": "WA",
+        "expected": "WRONG_ANSWER",
+        "formatOrDebugOnlyWA": 0,
+        "id": "20796252",
+        "lfFirstFailed": "0003",
+        "lfNumericallyWrongTests": 172,
+        "maxCpu": 2.225,
+        "myFirstFailed": "0003",
+        "myVerdict": "WA",
+        "numericallyWrongTests": 175,
+        "perTestEvidenceMatch": "178/181",
+        "samplesOK": true
+      }
+    ]
+  },
+  "reviewUrl": "https://staging.itsdev.in/sessions/204c72b1a58f47088f37a65c8104a8b8",
+  "reviewer": "devin-204c72b1a58f47088f37a65c8104a8b8",
+  "schemaVersion": 1,
+  "validator": "devin-1ffab6b544d64d17bf1498a01b5257c0"
+}
