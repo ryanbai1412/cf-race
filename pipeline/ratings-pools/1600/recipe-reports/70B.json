@@ -3,7 +3,7 @@
   "id": "70B",
   "rating": 1600,
   "role": "recipe-author-not-auditor",
-  "status": "authored-pending-local-checks",
+  "status": "authored-local-checks-passed-not-qualified",
   "qualificationStatus": "not-qualified",
   "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
   "scope": "Only recipe, functional unit tests, author report, and byte-identical attributed public statement copy. No external programs compiled or executed; no qualification/audit/signoff or validated-count claim.",
@@ -46,7 +46,10 @@
     "bodySha256": "e10e398ef14b356639636a9756a109aab417471cce5e6ddde1f261ac34243a4b",
     "bodyBytes": 58632,
     "httpStatus": 200,
-    "fetchNotes": "Plain urllib request returned HTTP403; ordinary curl to the same public URL returned HTTP200. No credentials or authentication bypass used. No APIs called."
+    "fetchNotes": "Plain urllib request returned HTTP403; ordinary curl to the same public URL returned HTTP200. No credentials or authentication bypass used. No APIs called.",
+    "capturedSha256": "8a6a6e43cbd21885e1d01604199b91d9a7409a122b95102f5137cdeca389e6f3",
+    "capturedBytes": 3386,
+    "captureScope": "Complete original problem-statement div extracted byte-for-byte from the HTTP body, not the navigation/scripts/page template. Full HTTP body hash recorded separately. No statement bytes normalized."
   },
   "normalizationNeeded": [
     {
@@ -253,13 +256,10 @@
     }
   ],
   "upstreamReview": {
-    "status": "pending-targeted-checks",
-    "failedPairs": null
+    "status": "15-tests-and-3-samples-reviewed-with-greedy-and-independent-substring-dp",
+    "failedPairs": []
   },
   "authoredSuite": {
-    "targetCount": 150,
-    "plannedMaxSizeCases": 6,
-    "plannedExactly10000CharacterCases": 5,
     "randomSeed": 701600,
     "motifs": [
       "minimum/exact/one-over capacity",
@@ -269,12 +269,18 @@
       "oversized first/middle/last sentence",
       "many shortest sentences",
       "maximal text length and message capacity"
-    ]
+    ],
+    "count": 150,
+    "maxSizeCases": 6,
+    "exactly10000CharacterCases": 5
   },
   "independentCrossChecks": {
-    "status": "pending-targeted-checks",
+    "status": "passed",
     "method": "Enumerate every sentence-cut subset for all length1..6 strings over three representative sentences and capacities2..18, plus fixed-seed random small texts. Independent substring-cost dynamic program checks every authored pair and every upstream pair. Neither invokes downloaded public code.",
-    "plannedBruteAssertions": 18864
+    "bruteAssertions": 18864,
+    "generatedPairsIndependentlyChecked": 150,
+    "upstreamPairsIndependentlyChecked": 18,
+    "totalDistinctOracleComparisons": 19032
   },
   "selectedPublicSources": [
     {
@@ -697,17 +703,17 @@
   "staticBugMotifs": [
     {
       "submissionId": "5316916",
-      "sourceLines": "1-15",
+      "sourceLines": "5-12",
       "observation": "The condition d-1 > n omits the first sentence terminator in the oversize check. On legal input 2\\naa.\\n the source increments s and prints2, rather than Impossible. This is a static hand trace, not an executed witness or qualification proof."
     },
     {
       "submissionId": "5978063",
-      "sourceLines": "20-21",
+      "sourceLines": "25-41",
       "observation": "Strict acc+len(item)<n rejects an exact combined fit. Legal 5\\na. b.\\n is one message; a static trace of this source yields2. The unit test reimplements the strict-fit comparison without executing downloaded bytes."
     },
     {
       "submissionId": "46516666",
-      "sourceLines": "17-20",
+      "sourceLines": "17-18",
       "observation": "Counts sentences rather than packing them. Legal 8\\na. b. c.\\n has answer1 rather than3. Static inspection only; parent must determine whether any source is genuine qualifying WA."
     }
   ],
@@ -717,6 +723,13 @@
     "Obtain a later different-agent independent audit. This recipe author is not an auditor and does not add to the parent validated problem count."
   ],
   "localChecks": {
-    "status": "pending-after-initial-push"
+    "status": "targeted-unittest-and-AST-passed-final-diff-check-pending",
+    "commands": [
+      "python3 -m unittest discover -s pipeline/ratings-pools/1600 -p test_recipe_70B.py -v",
+      "AST parse of recipe_70B.py and test_recipe_70B.py",
+      "git diff --check 5b28d33...HEAD"
+    ],
+    "unitTests": 9,
+    "notes": "Initial full-page HTML copy caused 12 original template trailing-whitespace warnings. Retain the byte-exact complete problem-statement div instead, without rewriting its contents. No whitespace security gate bypass or ignored test force-add."
   }
 }
