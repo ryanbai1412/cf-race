@@ -25,7 +25,9 @@ ORACLE = "6068285"
 
 def frozen_locks():
     roots = (HERE / "packages", HERE / "evidence", HERE / "audits", PRIOR)
-    return {str(root.relative_to(HERE)): manifest(root) for root in roots if root.exists()}
+    return {str(root.relative_to(HERE)): {
+        path.relative_to(root).as_posix(): {"sha256": sha_file(path), "bytes": path.stat().st_size}
+        for path in files(root)} for root in roots if root.exists()}
 
 
 def lock_history():
