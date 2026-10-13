@@ -182,7 +182,12 @@ class ReplayTests(unittest.TestCase):
         self.assertEqual(result["technicalTotal"], 1)
         self.assertEqual(result["emptyApprovalsRejected"], 1)
         self.assertEqual(result["sourceBindingsVerified"], 10)
-        self.assertEqual(result["publicationApproved"], 0)
+        self.assertEqual(result["schemaVersion"], 2)
+        self.assertIs(result["publicationApprovalGrantedByReplay"], False)
+        self.assertIs(result["productionPublicationPerformedByReplay"], False)
+        self.assertIs(result["publicationStatusQueried"], False)
+        self.assertNotIn("publicationApproved", result)
+        self.assertNotIn("published", result)
 
     def test_current_primary_and_native_wrapper_audit_bindings(self):
         entry = self.index["entries"][0]

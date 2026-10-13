@@ -210,9 +210,11 @@ def replay(index, root, output):
                         ("packageHash", "evidenceHash", "auditHash")}})
     if seen != {pid for pid, row in inventory.items() if row["status"] == "technical-validated"}:
         raise ValueError("technical inventory entries omitted from replay")
-    report = {"schemaVersion": 1, "technicalCounts": counts,
+    report = {"schemaVersion": 2, "technicalCounts": counts,
               "technicalTotal": len(entries), "shortfalls": {r: max(0, 100 - n) for r, n in counts.items()},
-              "publicationApproved": 0, "published": 0, "publicCodeExecuted": False,
+              "publicationApprovalGrantedByReplay": False,
+              "productionPublicationPerformedByReplay": False,
+              "publicationStatusQueried": False, "publicCodeExecuted": False,
               "sourceBindingsVerified": source_count,
               "dryGatesPassed": len(entries), "emptyApprovalsRejected": len(entries),
               "indexHash": digest(index), "entries": entries}
