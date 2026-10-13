@@ -99,17 +99,29 @@ class TextMessagingTests(unittest.TestCase):
     def test_source_bound_grammar_and_exponent_restoration(self):
         source = self.report['publicStatement']
         raw = (BASE / source['capturedPath']).read_bytes()
-        self.assertEqual(hashlib.sha256(raw).hexdigest(), source['bodySha256'])
+        self.assertEqual(hashlib.sha256(raw).hexdigest(), source['capturedSha256'])
         self.assertIn(b'10<sup class="upper-index">4</sup>', raw)
         grammar = self.report['normalizationNeeded'][0]['replacementHtml']
         self.assertIn(grammar.encode(), raw)
         self.assertEqual(self.report['role'], 'recipe-author-not-auditor')
 
     def test_distinct_bug_motifs_by_hand_reimplemented_mutants(self):
-        for n, text, bad in ((4, 'a. b.', 1), (8, 'a. b. c.', 3), (2, 'aa.', 2)):
-            with self.subTest(n=n, text=text):
-                actual = recipe.answer('70B', recipe.parse('70B', f'{n}\n{text}\n'))
-                self.assertNotEqual(actual, bad)
+        def without_separators(n, lengths):
+            count, used = 1, 0
+            for length in lengths:
+                if used + length > n:
+                    count += 1
+                    used = 0
+                used += length
+            return count
+
+        self.assertNotEqual(recipe.answer('70B', (4, 'a. b.')),
+                            without_separators(4, (2, 2)))
+        count_sentences = sum(c in '.?!' for c in 'a. b. c.')
+        self.assertNotEqual(recipe.answer('70B', (8, 'a. b. c.')), count_sentences)
+        omitted_first_terminator = len('aa.') - 1 > 2
+        bad_first_result = 'Impossible' if omitted_first_terminator else 1 + int(len('aa.') > 2)
+        self.assertNotEqual(recipe.answer('70B', (2, 'aa.')), bad_first_result)
         strict_fit = 2 if 2 + 1 + 2 >= 5 else 1
         self.assertNotEqual(recipe.answer('70B', (5, 'a. b.')), strict_fit)
         divided_total = (len('aa. bb. cc. dd.') + 5) // 6
