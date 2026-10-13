@@ -13992,9 +13992,118 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Counts each boy if any compatible girl exists without consuming that girl; allows multiple boys to reuse one partner and prints 4 instead of 3.",
+      "reason": "It permits the same girl to partner several boys. On 0001 boys 1 and 2 both use the only skill-1 girl, giving an impossible count 4; only 3 disjoint compatible pairs can be formed.",
       "sourceHash": "a24c3ab7ff6c2c8e39a6fa8505daa7d1d5bc2ac7d53a32eed69ee75442e97ea6",
-      "test": "0001"
+      "test": "0001",
+      "semanticReview": {
+        "sourceHash": "a24c3ab7ff6c2c8e39a6fa8505daa7d1d5bc2ac7d53a32eed69ee75442e97ea6",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "For every boy scans the girls in input order and increments count if any girl differs in skill by at most one; breaks for that boy but never removes or marks the girl.",
+        "faultyLogic": "It permits the same girl to partner several boys. On 0001 boys 1 and 2 both use the only skill-1 girl, giving an impossible count 4; only 3 disjoint compatible pairs can be formed.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 13,
+            "code": "n=int(input())\nb=list(map(int,input().split()))\nm=int(input())\ng=list(map(int,input().split()))\ncount=0\nfor i in range(n):\n    for j in range(m):\n        if abs(b[i]-g[j])<=1:\n            count+=1\n            break\n        else:\n            count+=0\nprint(count)"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/489B/sources/192833840.json",
+        "sourceRecordSha256": "d49f768aae6db2a89812d54a6a259f4529e98a6804fcbfe007285f0c51b870be",
+        "originalFullExecutionLog": {
+          "path": "reruns/489B/source-192833840.json",
+          "sha256": "bed209c70487392e15d3cdb4fa6ab0c26e219d979613c1eb0935aa6ca3cd78ca",
+          "sourceHash": "a24c3ab7ff6c2c8e39a6fa8505daa7d1d5bc2ac7d53a32eed69ee75442e97ea6"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0001",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/489B/lf-192833840.json",
+          "lfLogSha256": "7274aaa2515042e4d308c4687348e9ada47a70f2224d4b9e2989d3b7c54c0614",
+          "lfOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+          "lfOutputBase64": "NAo=",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0001",
+          "includedTestPath": "1200/packages/489B/tests/0001.in",
+          "validLFInput": "4\n1 4 6 2\n5\n5 1 5 7 9\n",
+          "validLFInputSha256": "38d155d9526719d514dab0216b08dc59dc003d4b29922753c47b0f90d54fa3b8",
+          "originalInputSha256": "b166b4721c8067ac64b8b6ec4d572806035d4e9f9b7aed280ee665dbcac2297e",
+          "constraintsExplanation": "n=4, m=5 are in 1..100, both skill arrays have exact declared counts and all skills lie in 1..100. Each person may be paired only once.",
+          "correctAnswer": "3",
+          "mathematicalDerivation": "The certificate lists 3 distinct compatible boy/girl pairs in increasing skill order, so the maximum is at least 3. Its cover contains 2 boys and 1 girls; every edge with skill difference <=1 meets this cover, so any disjoint matching has at most 3 edges. Equivalently the listed Hall set has 2 boys with only 1 neighboring girls, a deficit of 1, giving upper bound 4 - 1 = 3. These independently checked bounds agree; no oracle value is used to choose k.",
+          "mathematicalCertificate": {
+            "orderedMatching": [
+              {
+                "boyIndex": 1,
+                "boySkill": 1,
+                "girlIndex": 2,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 2,
+                "boySkill": 4,
+                "girlIndex": 1,
+                "girlSkill": 5
+              },
+              {
+                "boyIndex": 3,
+                "boySkill": 6,
+                "girlIndex": 3,
+                "girlSkill": 5
+              }
+            ],
+            "vertexCover": {
+              "boys": [
+                2,
+                3
+              ],
+              "girls": [
+                2
+              ]
+            },
+            "hallSetBoys": [
+              1,
+              4
+            ],
+            "hallNeighborGirls": [
+              2
+            ],
+            "hallDeficit": 1,
+            "allCompatibleEdgesCovered": true
+          },
+          "actualAnswer": "4",
+          "actualOutputBase64": "NAo=",
+          "actualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+          "lfExecutionLog": {
+            "path": "reruns/489B/lf-192833840.json",
+            "sha256": "7274aaa2515042e4d308c4687348e9ada47a70f2224d4b9e2989d3b7c54c0614",
+            "sourceHash": "a24c3ab7ff6c2c8e39a6fa8505daa7d1d5bc2ac7d53a32eed69ee75442e97ea6",
+            "runTest": "0001"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/489B/192833840-0001.json",
+            "sha256": "6f2f9da3fb9cc65e17545517bf63bd82686875d84cb417e73881fd59be256454"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0001"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0001 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     },
     "193255485": {
       "counted": true,
@@ -14019,9 +14128,762 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Processes unsorted arrays and greedily prefers exact skill before skill-1/skill+1. List max/min is lexicographic, not sorting by skill; greedy consumption can strand a later participant. Counted input yields 71 instead of maximum 76.",
+      "reason": "It consumes each person once but unsorted local exact-first choices are not globally maximum matching. For example, its rule on q=[3,2], r=[2,1] consumes boy 2 for girl 2 and strands girl 1; pairing girl 2 with boy 3 and girl 1 with boy 2 would match both. On included 0036 lexicographic choice iterates the girls in input order and returns 71, while the explicit ordered matching and covering certificate prove 76.",
       "sourceHash": "20689d6e2be6cc2367ac87c20c9df09005443d83abff66d5524646866c5c4b5a",
-      "test": "0036"
+      "test": "0036",
+      "semanticReview": {
+        "sourceHash": "20689d6e2be6cc2367ac87c20c9df09005443d83abff66d5524646866c5c4b5a",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Uses max(q,r) and min(q,r), which compare lists lexicographically, to choose which side to iterate. Processes that side in unsorted input order, consuming an exact match first, then skill-1, then skill+1 from the other list.",
+        "faultyLogic": "It consumes each person once but unsorted local exact-first choices are not globally maximum matching. For example, its rule on q=[3,2], r=[2,1] consumes boy 2 for girl 2 and strands girl 1; pairing girl 2 with boy 3 and girl 1 with boy 2 would match both. On included 0036 lexicographic choice iterates the girls in input order and returns 71, while the explicit ordered matching and covering certificate prove 76.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 17,
+            "code": "a = int(input())\nq = list(map(int, input().split()))\nb = int(input())\nr = list(map(int, input().split()))\nq, r = max(q, r), min(q, r)\nc = 0\nfor i in r:\n    if i in q:\n        c += 1\n        q.remove(i)\n    elif i-1 in q:\n        c += 1\n        q.remove(i-1)\n    elif i+1 in q:\n        c += 1\n        q.remove(i+1)\nprint(c)"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/489B/sources/193255485.json",
+        "sourceRecordSha256": "e2148a06a6a22d59013b5012815f2b092e0594a8d42d1a3ff3c49370dbd1de2f",
+        "originalFullExecutionLog": {
+          "path": "reruns/489B/source-193255485.json",
+          "sha256": "67f699f8448be4834a8842d875b6c9816534daee0ec588e2529f1a4302266d22",
+          "sourceHash": "20689d6e2be6cc2367ac87c20c9df09005443d83abff66d5524646866c5c4b5a"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0036",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/489B/lf-193255485.json",
+          "lfLogSha256": "3a8fa02e0d6dd167901bfc3e1ae951266d7e6473e241cecefc959deef8939bc2",
+          "lfOutputHash": "826b6832e45ba17d625debc95ae8554e148550b00c05b47fa8f7be1c555bc83c",
+          "lfOutputBase64": "NzEK",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0036",
+          "includedTestPath": "1200/packages/489B/tests/0036.in",
+          "validLFInput": "100\n4 1 1 1 3 3 2 5 1 2 1 2 1 1 1 6 1 3 1 1 1 1 2 4 1 1 4 2 2 8 2 2 1 8 2 4 3 3 8 1 3 2 3 2 1 3 8 2 2 3 1 1 2 2 5 1 4 3 1 1 3 1 3 1 7 1 1 1 3 2 1 2 2 3 7 2 1 4 3 2 1 1 3 4 1 1 3 5 1 8 4 1 1 1 3 10 2 2 1 2\n100\n1 1 5 2 13 2 2 3 6 12 1 13 8 1 1 16 1 1 5 6 2 4 6 4 2 7 4 1 7 3 3 9 5 3 1 7 4 1 6 6 8 2 2 5 2 3 16 3 6 3 8 6 1 8 1 2 6 5 3 4 11 3 4 8 2 13 2 5 2 7 3 3 1 8 1 4 4 2 4 7 7 1 5 7 6 3 6 9 1 1 1 3 1 11 5 2 5 11 13 1\n",
+          "validLFInputSha256": "2dfc31a8f00985d2c81f9dee8aa161595fe120c6acde2565791dd1f60a71de1e",
+          "originalInputSha256": "dce17a34930a8af244b3e19c5bdce0f0279480bd9edd17748cc548abe1fc32c1",
+          "constraintsExplanation": "n=100, m=100 are in 1..100, both skill arrays have exact declared counts and all skills lie in 1..100. Each person may be paired only once.",
+          "correctAnswer": "76",
+          "mathematicalDerivation": "The certificate lists 76 distinct compatible boy/girl pairs in increasing skill order, so the maximum is at least 76. Its cover contains 20 boys and 56 girls; every edge with skill difference <=1 meets this cover, so any disjoint matching has at most 76 edges. Equivalently the listed Hall set has 80 boys with only 56 neighboring girls, a deficit of 24, giving upper bound 100 - 24 = 76. These independently checked bounds agree; no oracle value is used to choose k.",
+          "mathematicalCertificate": {
+            "orderedMatching": [
+              {
+                "boyIndex": 2,
+                "boySkill": 1,
+                "girlIndex": 1,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 3,
+                "boySkill": 1,
+                "girlIndex": 2,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 4,
+                "boySkill": 1,
+                "girlIndex": 11,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 9,
+                "boySkill": 1,
+                "girlIndex": 14,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 11,
+                "boySkill": 1,
+                "girlIndex": 15,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 13,
+                "boySkill": 1,
+                "girlIndex": 17,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 14,
+                "boySkill": 1,
+                "girlIndex": 18,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 15,
+                "boySkill": 1,
+                "girlIndex": 28,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 17,
+                "boySkill": 1,
+                "girlIndex": 35,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 19,
+                "boySkill": 1,
+                "girlIndex": 38,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 20,
+                "boySkill": 1,
+                "girlIndex": 53,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 21,
+                "boySkill": 1,
+                "girlIndex": 55,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 22,
+                "boySkill": 1,
+                "girlIndex": 73,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 25,
+                "boySkill": 1,
+                "girlIndex": 75,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 26,
+                "boySkill": 1,
+                "girlIndex": 82,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 33,
+                "boySkill": 1,
+                "girlIndex": 89,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 40,
+                "boySkill": 1,
+                "girlIndex": 90,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 45,
+                "boySkill": 1,
+                "girlIndex": 91,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 51,
+                "boySkill": 1,
+                "girlIndex": 93,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 52,
+                "boySkill": 1,
+                "girlIndex": 100,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 56,
+                "boySkill": 1,
+                "girlIndex": 4,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 59,
+                "boySkill": 1,
+                "girlIndex": 6,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 60,
+                "boySkill": 1,
+                "girlIndex": 7,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 62,
+                "boySkill": 1,
+                "girlIndex": 21,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 64,
+                "boySkill": 1,
+                "girlIndex": 25,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 66,
+                "boySkill": 1,
+                "girlIndex": 42,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 67,
+                "boySkill": 1,
+                "girlIndex": 43,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 68,
+                "boySkill": 1,
+                "girlIndex": 45,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 71,
+                "boySkill": 1,
+                "girlIndex": 56,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 77,
+                "boySkill": 1,
+                "girlIndex": 65,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 81,
+                "boySkill": 1,
+                "girlIndex": 67,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 82,
+                "boySkill": 1,
+                "girlIndex": 69,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 85,
+                "boySkill": 1,
+                "girlIndex": 78,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 86,
+                "boySkill": 1,
+                "girlIndex": 96,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 7,
+                "boySkill": 2,
+                "girlIndex": 8,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 10,
+                "boySkill": 2,
+                "girlIndex": 30,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 12,
+                "boySkill": 2,
+                "girlIndex": 31,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 23,
+                "boySkill": 2,
+                "girlIndex": 34,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 28,
+                "boySkill": 2,
+                "girlIndex": 46,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 29,
+                "boySkill": 2,
+                "girlIndex": 48,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 31,
+                "boySkill": 2,
+                "girlIndex": 50,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 32,
+                "boySkill": 2,
+                "girlIndex": 59,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 35,
+                "boySkill": 2,
+                "girlIndex": 62,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 42,
+                "boySkill": 2,
+                "girlIndex": 71,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 44,
+                "boySkill": 2,
+                "girlIndex": 72,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 48,
+                "boySkill": 2,
+                "girlIndex": 86,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 49,
+                "boySkill": 2,
+                "girlIndex": 92,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 5,
+                "boySkill": 3,
+                "girlIndex": 22,
+                "girlSkill": 4
+              },
+              {
+                "boyIndex": 6,
+                "boySkill": 3,
+                "girlIndex": 24,
+                "girlSkill": 4
+              },
+              {
+                "boyIndex": 18,
+                "boySkill": 3,
+                "girlIndex": 27,
+                "girlSkill": 4
+              },
+              {
+                "boyIndex": 37,
+                "boySkill": 3,
+                "girlIndex": 37,
+                "girlSkill": 4
+              },
+              {
+                "boyIndex": 38,
+                "boySkill": 3,
+                "girlIndex": 60,
+                "girlSkill": 4
+              },
+              {
+                "boyIndex": 41,
+                "boySkill": 3,
+                "girlIndex": 63,
+                "girlSkill": 4
+              },
+              {
+                "boyIndex": 43,
+                "boySkill": 3,
+                "girlIndex": 76,
+                "girlSkill": 4
+              },
+              {
+                "boyIndex": 46,
+                "boySkill": 3,
+                "girlIndex": 77,
+                "girlSkill": 4
+              },
+              {
+                "boyIndex": 50,
+                "boySkill": 3,
+                "girlIndex": 79,
+                "girlSkill": 4
+              },
+              {
+                "boyIndex": 1,
+                "boySkill": 4,
+                "girlIndex": 3,
+                "girlSkill": 5
+              },
+              {
+                "boyIndex": 24,
+                "boySkill": 4,
+                "girlIndex": 19,
+                "girlSkill": 5
+              },
+              {
+                "boyIndex": 27,
+                "boySkill": 4,
+                "girlIndex": 33,
+                "girlSkill": 5
+              },
+              {
+                "boyIndex": 36,
+                "boySkill": 4,
+                "girlIndex": 44,
+                "girlSkill": 5
+              },
+              {
+                "boyIndex": 57,
+                "boySkill": 4,
+                "girlIndex": 58,
+                "girlSkill": 5
+              },
+              {
+                "boyIndex": 78,
+                "boySkill": 4,
+                "girlIndex": 68,
+                "girlSkill": 5
+              },
+              {
+                "boyIndex": 84,
+                "boySkill": 4,
+                "girlIndex": 83,
+                "girlSkill": 5
+              },
+              {
+                "boyIndex": 91,
+                "boySkill": 4,
+                "girlIndex": 95,
+                "girlSkill": 5
+              },
+              {
+                "boyIndex": 8,
+                "boySkill": 5,
+                "girlIndex": 97,
+                "girlSkill": 5
+              },
+              {
+                "boyIndex": 55,
+                "boySkill": 5,
+                "girlIndex": 9,
+                "girlSkill": 6
+              },
+              {
+                "boyIndex": 88,
+                "boySkill": 5,
+                "girlIndex": 20,
+                "girlSkill": 6
+              },
+              {
+                "boyIndex": 16,
+                "boySkill": 6,
+                "girlIndex": 23,
+                "girlSkill": 6
+              },
+              {
+                "boyIndex": 65,
+                "boySkill": 7,
+                "girlIndex": 39,
+                "girlSkill": 6
+              },
+              {
+                "boyIndex": 75,
+                "boySkill": 7,
+                "girlIndex": 40,
+                "girlSkill": 6
+              },
+              {
+                "boyIndex": 30,
+                "boySkill": 8,
+                "girlIndex": 26,
+                "girlSkill": 7
+              },
+              {
+                "boyIndex": 34,
+                "boySkill": 8,
+                "girlIndex": 29,
+                "girlSkill": 7
+              },
+              {
+                "boyIndex": 39,
+                "boySkill": 8,
+                "girlIndex": 36,
+                "girlSkill": 7
+              },
+              {
+                "boyIndex": 47,
+                "boySkill": 8,
+                "girlIndex": 70,
+                "girlSkill": 7
+              },
+              {
+                "boyIndex": 90,
+                "boySkill": 8,
+                "girlIndex": 80,
+                "girlSkill": 7
+              },
+              {
+                "boyIndex": 96,
+                "boySkill": 10,
+                "girlIndex": 32,
+                "girlSkill": 9
+              }
+            ],
+            "vertexCover": {
+              "boys": [
+                1,
+                8,
+                16,
+                24,
+                27,
+                30,
+                34,
+                36,
+                39,
+                47,
+                55,
+                57,
+                65,
+                75,
+                78,
+                84,
+                88,
+                90,
+                91,
+                96
+              ],
+              "girls": [
+                1,
+                2,
+                4,
+                6,
+                7,
+                8,
+                11,
+                14,
+                15,
+                17,
+                18,
+                21,
+                22,
+                24,
+                25,
+                27,
+                28,
+                30,
+                31,
+                34,
+                35,
+                37,
+                38,
+                42,
+                43,
+                45,
+                46,
+                48,
+                50,
+                53,
+                55,
+                56,
+                59,
+                60,
+                62,
+                63,
+                65,
+                67,
+                69,
+                71,
+                72,
+                73,
+                75,
+                76,
+                77,
+                78,
+                79,
+                82,
+                86,
+                89,
+                90,
+                91,
+                92,
+                93,
+                96,
+                100
+              ]
+            },
+            "hallSetBoys": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              25,
+              26,
+              28,
+              29,
+              31,
+              32,
+              33,
+              35,
+              37,
+              38,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              56,
+              58,
+              59,
+              60,
+              61,
+              62,
+              63,
+              64,
+              66,
+              67,
+              68,
+              69,
+              70,
+              71,
+              72,
+              73,
+              74,
+              76,
+              77,
+              79,
+              80,
+              81,
+              82,
+              83,
+              85,
+              86,
+              87,
+              89,
+              92,
+              93,
+              94,
+              95,
+              97,
+              98,
+              99,
+              100
+            ],
+            "hallNeighborGirls": [
+              1,
+              2,
+              4,
+              6,
+              7,
+              8,
+              11,
+              14,
+              15,
+              17,
+              18,
+              21,
+              22,
+              24,
+              25,
+              27,
+              28,
+              30,
+              31,
+              34,
+              35,
+              37,
+              38,
+              42,
+              43,
+              45,
+              46,
+              48,
+              50,
+              53,
+              55,
+              56,
+              59,
+              60,
+              62,
+              63,
+              65,
+              67,
+              69,
+              71,
+              72,
+              73,
+              75,
+              76,
+              77,
+              78,
+              79,
+              82,
+              86,
+              89,
+              90,
+              91,
+              92,
+              93,
+              96,
+              100
+            ],
+            "hallDeficit": 24,
+            "allCompatibleEdgesCovered": true
+          },
+          "actualAnswer": "71",
+          "actualOutputBase64": "NzEK",
+          "actualOutputHash": "826b6832e45ba17d625debc95ae8554e148550b00c05b47fa8f7be1c555bc83c",
+          "lfExecutionLog": {
+            "path": "reruns/489B/lf-193255485.json",
+            "sha256": "3a8fa02e0d6dd167901bfc3e1ae951266d7e6473e241cecefc959deef8939bc2",
+            "sourceHash": "20689d6e2be6cc2367ac87c20c9df09005443d83abff66d5524646866c5c4b5a",
+            "runTest": "0036"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/489B/193255485-0036.json",
+            "sha256": "b67aeeb62e7b906b9b97ff0764d1d225f543c8c48491964ac373cd6020792451"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0036"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0036 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     },
     "193255934": {
       "counted": true,
@@ -14046,9 +14908,762 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Same unsorted exact-first partner consumption through d/d1 aliases; choosing list max/min does not establish a safe ordered matching. Counted input yields 71 instead of 76.",
+      "reason": "Renaming the lists does not fix the unsorted exact-first greedy rule. It makes the same irrevocable choices as 193255485 on 0036 and gets 71 rather than the certified optimum 76.",
       "sourceHash": "ffcca79643294101cc2dd9e7b4e22fc11ecfa346fe0ba4ab793d8b1e0f52aadf",
-      "test": "0036"
+      "test": "0036",
+      "semanticReview": {
+        "sourceHash": "ffcca79643294101cc2dd9e7b4e22fc11ecfa346fe0ba4ab793d8b1e0f52aadf",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Stores lexicographic maximum/minimum input lists in d,d1 and reassigns q,r to them. For each unsorted value in r removes the first available exact value from q, otherwise value-1, otherwise value+1.",
+        "faultyLogic": "Renaming the lists does not fix the unsorted exact-first greedy rule. It makes the same irrevocable choices as 193255485 on 0036 and gets 71 rather than the certified optimum 76.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 20,
+            "code": "a = int(input())\nq = list(map(int, input().split()))\nb = int(input())\nr = list(map(int, input().split()))\nd = max(q, r)\nd1 = min(q, r)\nq = d\nr = d1\nc = 0\nfor i in r:\n    if i in q:\n        c += 1\n        q.remove(i)\n    elif i-1 in q:\n        c += 1\n        q.remove(i-1)\n    elif i+1 in q:\n        c += 1\n        q.remove(i+1)\nprint(c)"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/489B/sources/193255934.json",
+        "sourceRecordSha256": "9a1bc6da7f9da780d42fd90c965ee4cd119cd2c7ac630a6eb0dd97dad0a9a54a",
+        "originalFullExecutionLog": {
+          "path": "reruns/489B/source-193255934.json",
+          "sha256": "70530654a38d9c4d5633b0686f7b2ff424c732fdb4ae4e84a8e799a0fe5bd113",
+          "sourceHash": "ffcca79643294101cc2dd9e7b4e22fc11ecfa346fe0ba4ab793d8b1e0f52aadf"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0036",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/489B/lf-193255934.json",
+          "lfLogSha256": "c35edbc0940b4a63a26cd19b2a6271b5145a530bdadb8a076101dfbd3ca7b019",
+          "lfOutputHash": "826b6832e45ba17d625debc95ae8554e148550b00c05b47fa8f7be1c555bc83c",
+          "lfOutputBase64": "NzEK",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0036",
+          "includedTestPath": "1200/packages/489B/tests/0036.in",
+          "validLFInput": "100\n4 1 1 1 3 3 2 5 1 2 1 2 1 1 1 6 1 3 1 1 1 1 2 4 1 1 4 2 2 8 2 2 1 8 2 4 3 3 8 1 3 2 3 2 1 3 8 2 2 3 1 1 2 2 5 1 4 3 1 1 3 1 3 1 7 1 1 1 3 2 1 2 2 3 7 2 1 4 3 2 1 1 3 4 1 1 3 5 1 8 4 1 1 1 3 10 2 2 1 2\n100\n1 1 5 2 13 2 2 3 6 12 1 13 8 1 1 16 1 1 5 6 2 4 6 4 2 7 4 1 7 3 3 9 5 3 1 7 4 1 6 6 8 2 2 5 2 3 16 3 6 3 8 6 1 8 1 2 6 5 3 4 11 3 4 8 2 13 2 5 2 7 3 3 1 8 1 4 4 2 4 7 7 1 5 7 6 3 6 9 1 1 1 3 1 11 5 2 5 11 13 1\n",
+          "validLFInputSha256": "2dfc31a8f00985d2c81f9dee8aa161595fe120c6acde2565791dd1f60a71de1e",
+          "originalInputSha256": "dce17a34930a8af244b3e19c5bdce0f0279480bd9edd17748cc548abe1fc32c1",
+          "constraintsExplanation": "n=100, m=100 are in 1..100, both skill arrays have exact declared counts and all skills lie in 1..100. Each person may be paired only once.",
+          "correctAnswer": "76",
+          "mathematicalDerivation": "The certificate lists 76 distinct compatible boy/girl pairs in increasing skill order, so the maximum is at least 76. Its cover contains 20 boys and 56 girls; every edge with skill difference <=1 meets this cover, so any disjoint matching has at most 76 edges. Equivalently the listed Hall set has 80 boys with only 56 neighboring girls, a deficit of 24, giving upper bound 100 - 24 = 76. These independently checked bounds agree; no oracle value is used to choose k.",
+          "mathematicalCertificate": {
+            "orderedMatching": [
+              {
+                "boyIndex": 2,
+                "boySkill": 1,
+                "girlIndex": 1,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 3,
+                "boySkill": 1,
+                "girlIndex": 2,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 4,
+                "boySkill": 1,
+                "girlIndex": 11,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 9,
+                "boySkill": 1,
+                "girlIndex": 14,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 11,
+                "boySkill": 1,
+                "girlIndex": 15,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 13,
+                "boySkill": 1,
+                "girlIndex": 17,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 14,
+                "boySkill": 1,
+                "girlIndex": 18,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 15,
+                "boySkill": 1,
+                "girlIndex": 28,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 17,
+                "boySkill": 1,
+                "girlIndex": 35,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 19,
+                "boySkill": 1,
+                "girlIndex": 38,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 20,
+                "boySkill": 1,
+                "girlIndex": 53,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 21,
+                "boySkill": 1,
+                "girlIndex": 55,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 22,
+                "boySkill": 1,
+                "girlIndex": 73,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 25,
+                "boySkill": 1,
+                "girlIndex": 75,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 26,
+                "boySkill": 1,
+                "girlIndex": 82,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 33,
+                "boySkill": 1,
+                "girlIndex": 89,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 40,
+                "boySkill": 1,
+                "girlIndex": 90,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 45,
+                "boySkill": 1,
+                "girlIndex": 91,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 51,
+                "boySkill": 1,
+                "girlIndex": 93,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 52,
+                "boySkill": 1,
+                "girlIndex": 100,
+                "girlSkill": 1
+              },
+              {
+                "boyIndex": 56,
+                "boySkill": 1,
+                "girlIndex": 4,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 59,
+                "boySkill": 1,
+                "girlIndex": 6,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 60,
+                "boySkill": 1,
+                "girlIndex": 7,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 62,
+                "boySkill": 1,
+                "girlIndex": 21,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 64,
+                "boySkill": 1,
+                "girlIndex": 25,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 66,
+                "boySkill": 1,
+                "girlIndex": 42,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 67,
+                "boySkill": 1,
+                "girlIndex": 43,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 68,
+                "boySkill": 1,
+                "girlIndex": 45,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 71,
+                "boySkill": 1,
+                "girlIndex": 56,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 77,
+                "boySkill": 1,
+                "girlIndex": 65,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 81,
+                "boySkill": 1,
+                "girlIndex": 67,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 82,
+                "boySkill": 1,
+                "girlIndex": 69,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 85,
+                "boySkill": 1,
+                "girlIndex": 78,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 86,
+                "boySkill": 1,
+                "girlIndex": 96,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 7,
+                "boySkill": 2,
+                "girlIndex": 8,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 10,
+                "boySkill": 2,
+                "girlIndex": 30,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 12,
+                "boySkill": 2,
+                "girlIndex": 31,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 23,
+                "boySkill": 2,
+                "girlIndex": 34,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 28,
+                "boySkill": 2,
+                "girlIndex": 46,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 29,
+                "boySkill": 2,
+                "girlIndex": 48,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 31,
+                "boySkill": 2,
+                "girlIndex": 50,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 32,
+                "boySkill": 2,
+                "girlIndex": 59,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 35,
+                "boySkill": 2,
+                "girlIndex": 62,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 42,
+                "boySkill": 2,
+                "girlIndex": 71,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 44,
+                "boySkill": 2,
+                "girlIndex": 72,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 48,
+                "boySkill": 2,
+                "girlIndex": 86,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 49,
+                "boySkill": 2,
+                "girlIndex": 92,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 5,
+                "boySkill": 3,
+                "girlIndex": 22,
+                "girlSkill": 4
+              },
+              {
+                "boyIndex": 6,
+                "boySkill": 3,
+                "girlIndex": 24,
+                "girlSkill": 4
+              },
+              {
+                "boyIndex": 18,
+                "boySkill": 3,
+                "girlIndex": 27,
+                "girlSkill": 4
+              },
+              {
+                "boyIndex": 37,
+                "boySkill": 3,
+                "girlIndex": 37,
+                "girlSkill": 4
+              },
+              {
+                "boyIndex": 38,
+                "boySkill": 3,
+                "girlIndex": 60,
+                "girlSkill": 4
+              },
+              {
+                "boyIndex": 41,
+                "boySkill": 3,
+                "girlIndex": 63,
+                "girlSkill": 4
+              },
+              {
+                "boyIndex": 43,
+                "boySkill": 3,
+                "girlIndex": 76,
+                "girlSkill": 4
+              },
+              {
+                "boyIndex": 46,
+                "boySkill": 3,
+                "girlIndex": 77,
+                "girlSkill": 4
+              },
+              {
+                "boyIndex": 50,
+                "boySkill": 3,
+                "girlIndex": 79,
+                "girlSkill": 4
+              },
+              {
+                "boyIndex": 1,
+                "boySkill": 4,
+                "girlIndex": 3,
+                "girlSkill": 5
+              },
+              {
+                "boyIndex": 24,
+                "boySkill": 4,
+                "girlIndex": 19,
+                "girlSkill": 5
+              },
+              {
+                "boyIndex": 27,
+                "boySkill": 4,
+                "girlIndex": 33,
+                "girlSkill": 5
+              },
+              {
+                "boyIndex": 36,
+                "boySkill": 4,
+                "girlIndex": 44,
+                "girlSkill": 5
+              },
+              {
+                "boyIndex": 57,
+                "boySkill": 4,
+                "girlIndex": 58,
+                "girlSkill": 5
+              },
+              {
+                "boyIndex": 78,
+                "boySkill": 4,
+                "girlIndex": 68,
+                "girlSkill": 5
+              },
+              {
+                "boyIndex": 84,
+                "boySkill": 4,
+                "girlIndex": 83,
+                "girlSkill": 5
+              },
+              {
+                "boyIndex": 91,
+                "boySkill": 4,
+                "girlIndex": 95,
+                "girlSkill": 5
+              },
+              {
+                "boyIndex": 8,
+                "boySkill": 5,
+                "girlIndex": 97,
+                "girlSkill": 5
+              },
+              {
+                "boyIndex": 55,
+                "boySkill": 5,
+                "girlIndex": 9,
+                "girlSkill": 6
+              },
+              {
+                "boyIndex": 88,
+                "boySkill": 5,
+                "girlIndex": 20,
+                "girlSkill": 6
+              },
+              {
+                "boyIndex": 16,
+                "boySkill": 6,
+                "girlIndex": 23,
+                "girlSkill": 6
+              },
+              {
+                "boyIndex": 65,
+                "boySkill": 7,
+                "girlIndex": 39,
+                "girlSkill": 6
+              },
+              {
+                "boyIndex": 75,
+                "boySkill": 7,
+                "girlIndex": 40,
+                "girlSkill": 6
+              },
+              {
+                "boyIndex": 30,
+                "boySkill": 8,
+                "girlIndex": 26,
+                "girlSkill": 7
+              },
+              {
+                "boyIndex": 34,
+                "boySkill": 8,
+                "girlIndex": 29,
+                "girlSkill": 7
+              },
+              {
+                "boyIndex": 39,
+                "boySkill": 8,
+                "girlIndex": 36,
+                "girlSkill": 7
+              },
+              {
+                "boyIndex": 47,
+                "boySkill": 8,
+                "girlIndex": 70,
+                "girlSkill": 7
+              },
+              {
+                "boyIndex": 90,
+                "boySkill": 8,
+                "girlIndex": 80,
+                "girlSkill": 7
+              },
+              {
+                "boyIndex": 96,
+                "boySkill": 10,
+                "girlIndex": 32,
+                "girlSkill": 9
+              }
+            ],
+            "vertexCover": {
+              "boys": [
+                1,
+                8,
+                16,
+                24,
+                27,
+                30,
+                34,
+                36,
+                39,
+                47,
+                55,
+                57,
+                65,
+                75,
+                78,
+                84,
+                88,
+                90,
+                91,
+                96
+              ],
+              "girls": [
+                1,
+                2,
+                4,
+                6,
+                7,
+                8,
+                11,
+                14,
+                15,
+                17,
+                18,
+                21,
+                22,
+                24,
+                25,
+                27,
+                28,
+                30,
+                31,
+                34,
+                35,
+                37,
+                38,
+                42,
+                43,
+                45,
+                46,
+                48,
+                50,
+                53,
+                55,
+                56,
+                59,
+                60,
+                62,
+                63,
+                65,
+                67,
+                69,
+                71,
+                72,
+                73,
+                75,
+                76,
+                77,
+                78,
+                79,
+                82,
+                86,
+                89,
+                90,
+                91,
+                92,
+                93,
+                96,
+                100
+              ]
+            },
+            "hallSetBoys": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              25,
+              26,
+              28,
+              29,
+              31,
+              32,
+              33,
+              35,
+              37,
+              38,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              56,
+              58,
+              59,
+              60,
+              61,
+              62,
+              63,
+              64,
+              66,
+              67,
+              68,
+              69,
+              70,
+              71,
+              72,
+              73,
+              74,
+              76,
+              77,
+              79,
+              80,
+              81,
+              82,
+              83,
+              85,
+              86,
+              87,
+              89,
+              92,
+              93,
+              94,
+              95,
+              97,
+              98,
+              99,
+              100
+            ],
+            "hallNeighborGirls": [
+              1,
+              2,
+              4,
+              6,
+              7,
+              8,
+              11,
+              14,
+              15,
+              17,
+              18,
+              21,
+              22,
+              24,
+              25,
+              27,
+              28,
+              30,
+              31,
+              34,
+              35,
+              37,
+              38,
+              42,
+              43,
+              45,
+              46,
+              48,
+              50,
+              53,
+              55,
+              56,
+              59,
+              60,
+              62,
+              63,
+              65,
+              67,
+              69,
+              71,
+              72,
+              73,
+              75,
+              76,
+              77,
+              78,
+              79,
+              82,
+              86,
+              89,
+              90,
+              91,
+              92,
+              93,
+              96,
+              100
+            ],
+            "hallDeficit": 24,
+            "allCompatibleEdgesCovered": true
+          },
+          "actualAnswer": "71",
+          "actualOutputBase64": "NzEK",
+          "actualOutputHash": "826b6832e45ba17d625debc95ae8554e148550b00c05b47fa8f7be1c555bc83c",
+          "lfExecutionLog": {
+            "path": "reruns/489B/lf-193255934.json",
+            "sha256": "c35edbc0940b4a63a26cd19b2a6271b5145a530bdadb8a076101dfbd3ca7b019",
+            "sourceHash": "ffcca79643294101cc2dd9e7b4e22fc11ecfa346fe0ba4ab793d8b1e0f52aadf",
+            "runTest": "0036"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/489B/193255934-0036.json",
+            "sha256": "cff9d4af0865de98da152a05b288e80460abc7cce06aff05851d216b43f08a7a"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0036"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0036 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     },
     "193346019": {
       "counted": true,
@@ -14073,9 +15688,112 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Greedily matches original input order without sorting or augmenting paths. On boys 6 3 4 and girls 4 5 2, it consumes 4 for boy 3, stranding boy 4; actual 2, optimum 3.",
+      "reason": "Marking girls prevents reuse but arbitrary first-fit matching can lose later pairs. On 0019 boy 6 takes skill 5, then boy 3 takes skill 4 and leaves only skill 2 for boy 4. Pairing 6->5,3->2,4->4 instead matches all three.",
       "sourceHash": "b187e6a4215176208096e80082124b9c10e5ba0e6214e7d4914a774aae32703c",
-      "test": "0019"
+      "test": "0019",
+      "semanticReview": {
+        "sourceHash": "b187e6a4215176208096e80082124b9c10e5ba0e6214e7d4914a774aae32703c",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Processes boys and girls in their input order; for each boy picks the first girl within one skill point and replaces her skill with the unusable sentinel 1000.",
+        "faultyLogic": "Marking girls prevents reuse but arbitrary first-fit matching can lose later pairs. On 0019 boy 6 takes skill 5, then boy 3 takes skill 4 and leaves only skill 2 for boy 4. Pairing 6->5,3->2,4->4 instead matches all three.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 12,
+            "code": "m = int(input())\na =list(map(int,input().split()))\nn = int(input())\nb = list(map(int,input().split()))\ncnt = 0\nfor i in range(m):\n    for j in range(n):\n        if abs(a[i] - b[j]) <= 1:\n            b[j] = 1000\n            cnt += 1\n            break\nprint(cnt)"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/489B/sources/193346019.json",
+        "sourceRecordSha256": "e597011210e8c80cd8ae31bbb53620e68b03170cd0c58ffa2271202d9152dc9e",
+        "originalFullExecutionLog": {
+          "path": "reruns/489B/source-193346019.json",
+          "sha256": "fba303f5cf0e0a126e6ccb62c8bdf86a5ee099fa3b03c904fdac70543427481d",
+          "sourceHash": "b187e6a4215176208096e80082124b9c10e5ba0e6214e7d4914a774aae32703c"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0019",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/489B/lf-193346019.json",
+          "lfLogSha256": "d713317e294cfb1d0d297a29f308a05d8e1e853ef1d7092587e1dc5dd7f3a047",
+          "lfOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "lfOutputBase64": "Mgo=",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0019",
+          "includedTestPath": "1200/packages/489B/tests/0019.in",
+          "validLFInput": "3\n6 3 4\n3\n4 5 2\n",
+          "validLFInputSha256": "bff7bf6c0430daf04affce1b786dca7576eb848ba740b42ae14a818e6fb58182",
+          "originalInputSha256": "8e5d095e417a01276689dfa0f83dffd8677889ee85df9ca8e49da210815992ee",
+          "constraintsExplanation": "n=3, m=3 are in 1..100, both skill arrays have exact declared counts and all skills lie in 1..100. Each person may be paired only once.",
+          "correctAnswer": "3",
+          "mathematicalDerivation": "The certificate lists 3 distinct compatible boy/girl pairs in increasing skill order, so the maximum is at least 3. Its cover contains 3 boys and 0 girls; every edge with skill difference <=1 meets this cover, so any disjoint matching has at most 3 edges. Equivalently the listed Hall set has 0 boys with only 0 neighboring girls, a deficit of 0, giving upper bound 3 - 0 = 3. These independently checked bounds agree; no oracle value is used to choose k.",
+          "mathematicalCertificate": {
+            "orderedMatching": [
+              {
+                "boyIndex": 2,
+                "boySkill": 3,
+                "girlIndex": 3,
+                "girlSkill": 2
+              },
+              {
+                "boyIndex": 3,
+                "boySkill": 4,
+                "girlIndex": 1,
+                "girlSkill": 4
+              },
+              {
+                "boyIndex": 1,
+                "boySkill": 6,
+                "girlIndex": 2,
+                "girlSkill": 5
+              }
+            ],
+            "vertexCover": {
+              "boys": [
+                1,
+                2,
+                3
+              ],
+              "girls": []
+            },
+            "hallSetBoys": [],
+            "hallNeighborGirls": [],
+            "hallDeficit": 0,
+            "allCompatibleEdgesCovered": true
+          },
+          "actualAnswer": "2",
+          "actualOutputBase64": "Mgo=",
+          "actualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "lfExecutionLog": {
+            "path": "reruns/489B/lf-193346019.json",
+            "sha256": "d713317e294cfb1d0d297a29f308a05d8e1e853ef1d7092587e1dc5dd7f3a047",
+            "sourceHash": "b187e6a4215176208096e80082124b9c10e5ba0e6214e7d4914a774aae32703c",
+            "runTest": "0019"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/489B/193346019-0019.json",
+            "sha256": "bf3cdb5e439de22159be5154e8beccb528c3a24b8ca19d4879700270ee0c203b"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0019"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0019 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     },
     "195171221": {
       "counted": true,
@@ -14100,9 +15818,119 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Applies sequence-alignment DP to unsorted skill arrays, restricting matches to order-preserving pairs although arbitrary pairings are allowed. Actual 3, optimum 4 on counted test.",
+      "reason": "The recurrence only allows order-preserving matches, a restriction absent from this bipartite pairing problem. On 0006 four valid pairs exist by reordering girls, but its subsequence recurrence returns only three.",
       "sourceHash": "1831f4d2bd72c4468e81bc2b84878e68297a7a153b03a823c4aad4712626f5f9",
-      "test": "0006"
+      "test": "0006",
+      "semanticReview": {
+        "sourceHash": "1831f4d2bd72c4468e81bc2b84878e68297a7a153b03a823c4aad4712626f5f9",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Prepends sentinels and memoizes an LCS-style dp(i,j): match the two current skills if compatible, or skip one index, taking the maximum. Neither skill sequence is sorted.",
+        "faultyLogic": "The recurrence only allows order-preserving matches, a restriction absent from this bipartite pairing problem. On 0006 four valid pairs exist by reordering girls, but its subsequence recurrence returns only three.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 32,
+            "code": "from functools import lru_cache\n\ndef sopostavim(a,b):\n    if 0 <= abs(a-b) <= 1:\n        return True\n    else:\n        return False\n\n@lru_cache(None)\ndef dp(i, j):\n    # base:\n    if i == 0 or j == 0:\n        return 0\n    # step:\n\n    a1 = a2 = a3 = 0\n    if sopostavim(p[i],d[j]):\n        a1 = dp(i-1,j-1) + 1\n    \n    a2 = dp(i-1,j)\n    a3 = dp(i, j-1)\n    return max(a1, a2, a3)\n\n\nn = int(input())\np = [-1000] + list(map(int, input().split()))\n\nm = int(input())\nd = [-1000] + list(map(int, input().split()))\n\n# Res:\nprint(dp(n,m))"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/489B/sources/195171221.json",
+        "sourceRecordSha256": "5bd3b3fb11364cca1a5da52400034e83ca834f2cc489a763828e4fc28d07b545",
+        "originalFullExecutionLog": {
+          "path": "reruns/489B/source-195171221.json",
+          "sha256": "d9b86ae2ab0190ea2205da9ff22f735ea4a6e480fa427fc649bbef7c528249d9",
+          "sourceHash": "1831f4d2bd72c4468e81bc2b84878e68297a7a153b03a823c4aad4712626f5f9"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0006",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/489B/lf-195171221.json",
+          "lfLogSha256": "549006abff97dd912f722d20fee8db59d9af0f29d9e333b425310c9c24dd0ec2",
+          "lfOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+          "lfOutputBase64": "Mwo=",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0006",
+          "includedTestPath": "1200/packages/489B/tests/0006.in",
+          "validLFInput": "4\n4 5 4 4\n5\n5 3 4 2 4\n",
+          "validLFInputSha256": "337174d568e3ac74fcc7c35e527909c1d5bd6003084e64ea7a2aa3bf48e92df7",
+          "originalInputSha256": "352ee96c42166aa8212d5c5f1893b609f982c5d0744702525cce4e40ec636fb4",
+          "constraintsExplanation": "n=4, m=5 are in 1..100, both skill arrays have exact declared counts and all skills lie in 1..100. Each person may be paired only once.",
+          "correctAnswer": "4",
+          "mathematicalDerivation": "The certificate lists 4 distinct compatible boy/girl pairs in increasing skill order, so the maximum is at least 4. Its cover contains 4 boys and 0 girls; every edge with skill difference <=1 meets this cover, so any disjoint matching has at most 4 edges. Equivalently the listed Hall set has 0 boys with only 0 neighboring girls, a deficit of 0, giving upper bound 4 - 0 = 4. These independently checked bounds agree; no oracle value is used to choose k.",
+          "mathematicalCertificate": {
+            "orderedMatching": [
+              {
+                "boyIndex": 1,
+                "boySkill": 4,
+                "girlIndex": 2,
+                "girlSkill": 3
+              },
+              {
+                "boyIndex": 3,
+                "boySkill": 4,
+                "girlIndex": 3,
+                "girlSkill": 4
+              },
+              {
+                "boyIndex": 4,
+                "boySkill": 4,
+                "girlIndex": 5,
+                "girlSkill": 4
+              },
+              {
+                "boyIndex": 2,
+                "boySkill": 5,
+                "girlIndex": 1,
+                "girlSkill": 5
+              }
+            ],
+            "vertexCover": {
+              "boys": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "girls": []
+            },
+            "hallSetBoys": [],
+            "hallNeighborGirls": [],
+            "hallDeficit": 0,
+            "allCompatibleEdgesCovered": true
+          },
+          "actualAnswer": "3",
+          "actualOutputBase64": "Mwo=",
+          "actualOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+          "lfExecutionLog": {
+            "path": "reruns/489B/lf-195171221.json",
+            "sha256": "549006abff97dd912f722d20fee8db59d9af0f29d9e333b425310c9c24dd0ec2",
+            "sourceHash": "1831f4d2bd72c4468e81bc2b84878e68297a7a153b03a823c4aad4712626f5f9",
+            "runTest": "0006"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/489B/195171221-0006.json",
+            "sha256": "adafd2b18b4cf95b9a508a6a27b9d97ebb987886872e00d22ee0d09f1790c1ff"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0006"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0006 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     }
   },
   "originalTestAccounting": {
@@ -15303,5 +17131,21 @@
     "allProvenanceFilesMatch": true,
     "archiveHash": "ad3be2b3a3ed2534c538ab5ecde18905b76b6240da3c1334964e68dbad497bc8",
     "fileCount": 421
+  },
+  "semanticReviewSummary": {
+    "version": 1,
+    "sourceReviewCount": 5,
+    "genuineAlgorithmicWrongSources": 5,
+    "countedForUnchangedEvidence": 5,
+    "allFullSourcesRead": true,
+    "exactLineNumbering": "code.splitlines(), 1-based; sourceLines includes complete source, not just selected fragments",
+    "originalExecutionArchive": {
+      "url": "https://staging.itsdev.in/attachments/e051d034-5880-47e1-8e87-e5df8f751340/audit1200-batch2-evidence.tar.gz",
+      "sha256": "9857b69a4beb2a025d4d2a999f52dd0024aadba1539bbdc3907ca0e1d0b86a9d"
+    },
+    "newPublicProgramExecutions": 0,
+    "parentVerificationRequired": true,
+    "upstreamCrosscheckStatus": "Parent reports pinned upstream statement/API/source verification complete; not repeated by this source-semantic reviewer.",
+    "evidencePolicy": "Original source, package, evidence, execution logs and recorded failedTest remain unchanged. Additional existing included LF WA proofs are supplemental and do not silently replace original counted evidence."
   }
 }

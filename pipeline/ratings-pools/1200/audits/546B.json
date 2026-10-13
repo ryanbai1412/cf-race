@@ -10086,9 +10086,237 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Forces targets to positional i+1 and adds x[i]-i+1, not the cost of upward moves to available distinct values; counted answer 225 instead of 170.",
+      "reason": "Indices 1..n are not the forced final values, increments cannot decrease badges, and value-i+1 is not an increment distance. On 0008 this expression sums to 225, but sorted minimally increasing targets give a feasible optimum of 170.",
       "sourceHash": "126b7639ae1d7958559b80b37ac909b034235d60eba25c3b1b2e951c94f56945",
-      "test": "0008"
+      "test": "0008",
+      "semanticReview": {
+        "sourceHash": "126b7639ae1d7958559b80b37ac909b034235d60eba25c3b1b2e951c94f56945",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Sorts badge values and, for each zero-based i with value different from i+1, adds value-i+1 to ans. It never constructs a distinct feasible final assignment.",
+        "faultyLogic": "Indices 1..n are not the forced final values, increments cannot decrease badges, and value-i+1 is not an increment distance. On 0008 this expression sums to 225, but sorted minimally increasing targets give a feasible optimum of 170.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 8,
+            "code": "n=int(input())\nx=sorted(list(map(int,input().split())))\n\nans=0\nfor i in range(n):\n    if x[i]!=i+1:\n        ans+=x[i]-i+1\nprint(ans)"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/546B/sources/222668715.json",
+        "sourceRecordSha256": "2ae11560e3fe0104b5f94ef399d8a14e5e676a5db0045c20e84e0ca7e3b17b16",
+        "originalFullExecutionLog": {
+          "path": "reruns/546B/source-222668715.json",
+          "sha256": "8db2479fd88f35e94b907e0a96b25a53b2bc03af7d7b2cd7e794a7482971bccd",
+          "sourceHash": "126b7639ae1d7958559b80b37ac909b034235d60eba25c3b1b2e951c94f56945"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0008",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/546B/lf-222668715.json",
+          "lfLogSha256": "a5b84672c64f6851bf40f85af7971f869fcb1638531dc901e41fc52e681bdd8e",
+          "lfOutputHash": "e675d6284d97cda6201b109e88e0315a3a6d1993f5bc16b0b241782a5f89a297",
+          "lfOutputBase64": "MjI1Cg==",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0008",
+          "includedTestPath": "1200/packages/546B/tests/0008.in",
+          "validLFInput": "50\n49 37 30 2 18 48 14 48 50 27 1 43 46 5 21 28 44 2 24 17 41 38 25 18 43 28 25 21 28 23 26 27 4 31 50 18 23 11 13 28 44 47 1 26 43 25 22 46 32 45\n",
+          "validLFInputSha256": "d50181e2e388b09f0a0395373d11f503a4f2b6db5e2c1deb8130a1203cf3fee0",
+          "originalInputSha256": "06a905233e2ef26ebfa3ed091feaf0eb6cc759960e2bf2e1bca27eb11a6a5e84",
+          "constraintsExplanation": "n=50 is in 1..3000; exactly n badge numbers exist, each in 1..n. Allowed operations add 1 only, never subtract; final badge values may exceed n.",
+          "correctAnswer": "170",
+          "mathematicalDerivation": "For sorted original values a, a feasible increasing sorted assignment must have y[0]>=a[0] and y[i]>=max(a[i],y[i-1]+1). Uncrossing assignments preserves total cost and feasibility, so restricting to sorted assignment loses no optimum. Taking equality at every position attains the componentwise forced lower bound. Here originals=[1, 1, 2, 2, 4, 5, 11, 13, 14, 17, 18, 18, 18, 21, 21, 22, 23, 23, 24, 25, 25, 25, 26, 26, 27, 27, 28, 28, 28, 28, 30, 31, 32, 37, 38, 41, 43, 43, 43, 44, 44, 45, 46, 46, 47, 48, 48, 49, 50, 50], targets=[1, 2, 3, 4, 5, 6, 11, 13, 14, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57], increments=[0, 1, 1, 2, 1, 1, 0, 0, 0, 0, 0, 1, 2, 0, 1, 1, 1, 2, 2, 2, 3, 4, 4, 5, 5, 6, 6, 7, 8, 9, 8, 8, 8, 4, 4, 2, 1, 2, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7]; the increment sum is 170, all targets are distinct and no badge decreases. Therefore the minimum is 170.",
+          "mathematicalCertificate": {
+            "sortedOriginals": [
+              1,
+              1,
+              2,
+              2,
+              4,
+              5,
+              11,
+              13,
+              14,
+              17,
+              18,
+              18,
+              18,
+              21,
+              21,
+              22,
+              23,
+              23,
+              24,
+              25,
+              25,
+              25,
+              26,
+              26,
+              27,
+              27,
+              28,
+              28,
+              28,
+              28,
+              30,
+              31,
+              32,
+              37,
+              38,
+              41,
+              43,
+              43,
+              43,
+              44,
+              44,
+              45,
+              46,
+              46,
+              47,
+              48,
+              48,
+              49,
+              50,
+              50
+            ],
+            "forcedIncreasingTargets": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              11,
+              13,
+              14,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57
+            ],
+            "increments": [
+              0,
+              1,
+              1,
+              2,
+              1,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              2,
+              0,
+              1,
+              1,
+              1,
+              2,
+              2,
+              2,
+              3,
+              4,
+              4,
+              5,
+              5,
+              6,
+              6,
+              7,
+              8,
+              9,
+              8,
+              8,
+              8,
+              4,
+              4,
+              2,
+              1,
+              2,
+              3,
+              3,
+              4,
+              4,
+              4,
+              5,
+              5,
+              5,
+              6,
+              6,
+              6,
+              7
+            ],
+            "totalCost": 170
+          },
+          "actualAnswer": "225",
+          "actualOutputBase64": "MjI1Cg==",
+          "actualOutputHash": "e675d6284d97cda6201b109e88e0315a3a6d1993f5bc16b0b241782a5f89a297",
+          "lfExecutionLog": {
+            "path": "reruns/546B/lf-222668715.json",
+            "sha256": "a5b84672c64f6851bf40f85af7971f869fcb1638531dc901e41fc52e681bdd8e",
+            "sourceHash": "126b7639ae1d7958559b80b37ac909b034235d60eba25c3b1b2e951c94f56945",
+            "runTest": "0008"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/546B/222668715-0008.json",
+            "sha256": "7409984b2a7300d736272ade2deac1eb12d9c300f41ae3b35cb6c72a423905b3"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0008"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0008 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     },
     "222669524": {
       "counted": true,
@@ -10113,9 +10341,99 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Moves duplicates into low unused slots, effectively decreasing factors, which the operation forbids; taking abs of total cost cannot repair the infeasible assignment.",
+      "reason": "It can assign a duplicate to a smaller missing value, which is not an allowed increment. On 0006 [4,3,2,2], it assigns a 2 to 1 and prints 1, whereas increments force sorted targets [2,3,4,5] costing 3. abs does not repair the forbidden move.",
       "sourceHash": "a7de2524d02a1a9cb424f5e764a7868b50d43d5183c885b409952fa22f255eac",
-      "test": "0006"
+      "test": "0006",
+      "semanticReview": {
+        "sourceHash": "a7de2524d02a1a9cb424f5e764a7868b50d43d5183c885b409952fa22f255eac",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Sorts input values, stores their multiplicities, scans duplicates and finds an unused start from 1 using while occupied and start<=i. Removes one copy of i, reserves start, adds i-start, then prints absolute accumulated cost. Commented alternative code is unexecuted.",
+        "faultyLogic": "It can assign a duplicate to a smaller missing value, which is not an allowed increment. On 0006 [4,3,2,2], it assigns a 2 to 1 and prints 1, whereas increments force sorted targets [2,3,4,5] costing 3. abs does not repair the forbidden move.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 30,
+            "code": "from collections import defaultdict\nd=defaultdict(lambda :0)\n\nn=int(input())\nx=sorted(list(map(int,input().split())))\nfor i in x:\n    d[i]+=1\nans=0\nstart=1\nfor i in x:\n    if d[i]>1:\n        while(d[start]!=0 and start<=i):\n            start+=1\n        d[i]-=1\n        ans+=i-start\n        d[start]+=1\nprint(abs(ans))\n\n#\n#\n# n=int(input())\n# x=sorted(list(map(int,input().split())))\n#\n# ans=0\n# print(x)\n# for i in range(n):\n#     if x[i]!=i+1:\n#         ans+=x[i]-i+1\n# print(ans)\n#"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/546B/sources/222669524.json",
+        "sourceRecordSha256": "c04b65c25f1590dc4972b4a720662259c8c01f62d7aa5169f530e0336b5503d1",
+        "originalFullExecutionLog": {
+          "path": "reruns/546B/source-222669524.json",
+          "sha256": "e0f6109fd6117d7870273773db4bb955aeccae06d2e2948dda39b17c2d234425",
+          "sourceHash": "a7de2524d02a1a9cb424f5e764a7868b50d43d5183c885b409952fa22f255eac"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0006",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/546B/lf-222669524.json",
+          "lfLogSha256": "80288a06cb460658cc8bb7bcb0f0767229cd7da0c5790b6d2b3be3d839946ba3",
+          "lfOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "lfOutputBase64": "MQo=",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0006",
+          "includedTestPath": "1200/packages/546B/tests/0006.in",
+          "validLFInput": "4\n4 3 2 2\n",
+          "validLFInputSha256": "f79ce3f26acbd2c769221790e3e5a5ef15ffff78bcd21e928e5ca535f2fdf0b9",
+          "originalInputSha256": "39f1ac2886feb94385f81ca631d7f55f7ff14e93ac92c4c5fc3757b093b67853",
+          "constraintsExplanation": "n=4 is in 1..3000; exactly n badge numbers exist, each in 1..n. Allowed operations add 1 only, never subtract; final badge values may exceed n.",
+          "correctAnswer": "3",
+          "mathematicalDerivation": "For sorted original values a, a feasible increasing sorted assignment must have y[0]>=a[0] and y[i]>=max(a[i],y[i-1]+1). Uncrossing assignments preserves total cost and feasibility, so restricting to sorted assignment loses no optimum. Taking equality at every position attains the componentwise forced lower bound. Here originals=[2, 2, 3, 4], targets=[2, 3, 4, 5], increments=[0, 1, 1, 1]; the increment sum is 3, all targets are distinct and no badge decreases. Therefore the minimum is 3.",
+          "mathematicalCertificate": {
+            "sortedOriginals": [
+              2,
+              2,
+              3,
+              4
+            ],
+            "forcedIncreasingTargets": [
+              2,
+              3,
+              4,
+              5
+            ],
+            "increments": [
+              0,
+              1,
+              1,
+              1
+            ],
+            "totalCost": 3
+          },
+          "actualAnswer": "1",
+          "actualOutputBase64": "MQo=",
+          "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "lfExecutionLog": {
+            "path": "reruns/546B/lf-222669524.json",
+            "sha256": "80288a06cb460658cc8bb7bcb0f0767229cd7da0c5790b6d2b3be3d839946ba3",
+            "sourceHash": "a7de2524d02a1a9cb424f5e764a7868b50d43d5183c885b409952fa22f255eac",
+            "runTest": "0006"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/546B/222669524-0006.json",
+            "sha256": "447b35154adfbaadd763d17e56252d15d3ccc0b7f3c704cd1756b18b6c500737"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0006"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0006 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     },
     "228056871": {
       "counted": true,
@@ -10140,9 +10458,117 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Resolves duplicates by decrementing rather than incrementing and does not insert the changed value into c; prints 1 instead of 9 for 1 1 2 3 4 5 6 7 8 9.",
+      "reason": "Decrements are forbidden, and duplicate-resolved values are not reserved. On 0004 the second 1 moves to 0 for reported cost 1, but the legal increasing assignment of [1,1,2,...,9] to [1,2,...,10] costs 9.",
       "sourceHash": "1f8f61ab08cd62aa0d503fc9548a4853315ceb62e053964d5e8bc0ce9caec99e",
-      "test": "0004"
+      "test": "0004",
+      "semanticReview": {
+        "sourceHash": "1f8f61ab08cd62aa0d503fc9548a4853315ceb62e053964d5e8bc0ce9caec99e",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Maintains a list c of first-seen values. For a repeated value decrements a temporary i until it is absent from c, incrementing a counter; does not insert the new value into c.",
+        "faultyLogic": "Decrements are forbidden, and duplicate-resolved values are not reserved. On 0004 the second 1 moves to 0 for reported cost 1, but the legal increasing assignment of [1,1,2,...,9] to [1,2,...,10] costs 9.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 13,
+            "code": "n = int(input())\na = list(map(int,(input().split())))\nc = []\ncounter = 0\nfor i in a:\n    if i not in c:\n        c.append(i)\n    else:\n        while i in c:\n            i -= 1\n            counter += 1\n\nprint(counter)"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/546B/sources/228056871.json",
+        "sourceRecordSha256": "6051341349e0d9c873f7e2acd5f0096249fe6ea750decc55102f5a4261180c23",
+        "originalFullExecutionLog": {
+          "path": "reruns/546B/source-228056871.json",
+          "sha256": "d57bddb404f6aebd971a326dcfabe28d8795ce56f4e42fc550dca632adf38558",
+          "sourceHash": "1f8f61ab08cd62aa0d503fc9548a4853315ceb62e053964d5e8bc0ce9caec99e"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0004",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/546B/lf-228056871.json",
+          "lfLogSha256": "d0195e1c324f5a3cd3cd7c9b04faa531a95f66f243ba85f32be19bd888714f3f",
+          "lfOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "lfOutputBase64": "MQo=",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0004",
+          "includedTestPath": "1200/packages/546B/tests/0004.in",
+          "validLFInput": "10\n1 1 2 3 4 5 6 7 8 9\n",
+          "validLFInputSha256": "eb693016de33ad86c0f18eeec4489198d9650c706ce3e41f6ee8812ede22ea7f",
+          "originalInputSha256": "6543f78400d0081dc4997c0d852d98b7159555a76f63f8b5f35ed619a6545f09",
+          "constraintsExplanation": "n=10 is in 1..3000; exactly n badge numbers exist, each in 1..n. Allowed operations add 1 only, never subtract; final badge values may exceed n.",
+          "correctAnswer": "9",
+          "mathematicalDerivation": "For sorted original values a, a feasible increasing sorted assignment must have y[0]>=a[0] and y[i]>=max(a[i],y[i-1]+1). Uncrossing assignments preserves total cost and feasibility, so restricting to sorted assignment loses no optimum. Taking equality at every position attains the componentwise forced lower bound. Here originals=[1, 1, 2, 3, 4, 5, 6, 7, 8, 9], targets=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], increments=[0, 1, 1, 1, 1, 1, 1, 1, 1, 1]; the increment sum is 9, all targets are distinct and no badge decreases. Therefore the minimum is 9.",
+          "mathematicalCertificate": {
+            "sortedOriginals": [
+              1,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9
+            ],
+            "forcedIncreasingTargets": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10
+            ],
+            "increments": [
+              0,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "totalCost": 9
+          },
+          "actualAnswer": "1",
+          "actualOutputBase64": "MQo=",
+          "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "lfExecutionLog": {
+            "path": "reruns/546B/lf-228056871.json",
+            "sha256": "d0195e1c324f5a3cd3cd7c9b04faa531a95f66f243ba85f32be19bd888714f3f",
+            "sourceHash": "1f8f61ab08cd62aa0d503fc9548a4853315ceb62e053964d5e8bc0ce9caec99e",
+            "runTest": "0004"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/546B/228056871-0004.json",
+            "sha256": "6dcce6c6e26fa1f6ac0ab47042738634ae48a0b84f866edbffcc9db1113d92ad"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0004"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0004 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     },
     "228593204": {
       "counted": true,
@@ -10167,9 +10593,120 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Initializes last from the first unsorted input before sorting and retains that wrong starting value; a large first element forces unnecessary increments on smaller values.",
+      "reason": "The otherwise valid sorted-increment recurrence is seeded from the unsorted first value, not the sorted minimum. On 0005 last starts at 9 even though the minimum is 1, causing tail targets 10..19 and cost 90 rather than [1..11] costing 10.",
       "sourceHash": "1352732778ddd082c51211960e88785e26c678b8fce0ed66b647006bb74bce13",
-      "test": "0005"
+      "test": "0005",
+      "semanticReview": {
+        "sourceHash": "1352732778ddd082c51211960e88785e26c678b8fce0ed66b647006bb74bce13",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Reads l and saves last=l[0] before sorting. Then scans the sorted tail, increasing each conceptual current value past last and adding that distance, or moving last to the current value.",
+        "faultyLogic": "The otherwise valid sorted-increment recurrence is seeded from the unsorted first value, not the sorted minimum. On 0005 last starts at 9 even though the minimum is 1, causing tail targets 10..19 and cost 90 rather than [1..11] costing 10.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 12,
+            "code": "n = int(input())\nl = list(map(int, input().split(\" \")))\nj = 0\nlast = l[0]\nl.sort()\nfor i in range(1,n):\n    if l[i] <= last:\n        j += last - l[i] +  1\n        last +=  1\n    else:\n        last = l[i]\nprint(j)"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/546B/sources/228593204.json",
+        "sourceRecordSha256": "596502ac516e6c93c4410b08ee2b0e969e295ba2dab9b12a4604aa82e96d2450",
+        "originalFullExecutionLog": {
+          "path": "reruns/546B/source-228593204.json",
+          "sha256": "f2f15e073ed22f4ac09a0eb926ba7d905280831bde3116e6d69d594d549f5f12",
+          "sourceHash": "1352732778ddd082c51211960e88785e26c678b8fce0ed66b647006bb74bce13"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0005",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/546B/lf-228593204.json",
+          "lfLogSha256": "979b27a8d2503b96b3749ebf01ff9246955b26e7f746cc1174ff22dca196e42c",
+          "lfOutputHash": "4393447bd3c1d55ea7f97417ecb1b36a691ccaacaaf2ebd21c59a5acf825fb7b",
+          "lfOutputBase64": "OTAK",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0005",
+          "includedTestPath": "1200/packages/546B/tests/0005.in",
+          "validLFInput": "11\n9 2 10 3 1 5 7 1 4 8 6\n",
+          "validLFInputSha256": "c2c0dc78ec527daf699c1c4f25322e1f66c7ae190b073be4633d19d634fd7981",
+          "originalInputSha256": "876dcda61959d0431d084d1609fe9403c0251fba83920c777fe830316e7e320c",
+          "constraintsExplanation": "n=11 is in 1..3000; exactly n badge numbers exist, each in 1..n. Allowed operations add 1 only, never subtract; final badge values may exceed n.",
+          "correctAnswer": "10",
+          "mathematicalDerivation": "For sorted original values a, a feasible increasing sorted assignment must have y[0]>=a[0] and y[i]>=max(a[i],y[i-1]+1). Uncrossing assignments preserves total cost and feasibility, so restricting to sorted assignment loses no optimum. Taking equality at every position attains the componentwise forced lower bound. Here originals=[1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], targets=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], increments=[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; the increment sum is 10, all targets are distinct and no badge decreases. Therefore the minimum is 10.",
+          "mathematicalCertificate": {
+            "sortedOriginals": [
+              1,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10
+            ],
+            "forcedIncreasingTargets": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11
+            ],
+            "increments": [
+              0,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "totalCost": 10
+          },
+          "actualAnswer": "90",
+          "actualOutputBase64": "OTAK",
+          "actualOutputHash": "4393447bd3c1d55ea7f97417ecb1b36a691ccaacaaf2ebd21c59a5acf825fb7b",
+          "lfExecutionLog": {
+            "path": "reruns/546B/lf-228593204.json",
+            "sha256": "979b27a8d2503b96b3749ebf01ff9246955b26e7f746cc1174ff22dca196e42c",
+            "sourceHash": "1352732778ddd082c51211960e88785e26c678b8fce0ed66b647006bb74bce13",
+            "runTest": "0005"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/546B/228593204-0005.json",
+            "sha256": "114c1cb2e6aafa838202b1ca589fffe3324656dceffb6a38ec9f33ea22ed1b00"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0005"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0005 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     },
     "229848151": {
       "counted": true,
@@ -10194,9 +10731,120 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "One pairwise pass increases a duplicate without revisiting collisions with earlier elements; the final array may remain non-distinct, undercounting the necessary coins.",
+      "reason": "A new collision with a value at an earlier already-processed index is never repaired. On 0005 duplicate 1 at index 8 is raised to 2 after the original 2 at index 2 was processed; it returns 1 with a duplicate 2, while all-distinct increasing targets cost at least 10.",
       "sourceHash": "f436c9d78564c5933df678e5d93f435befa1ae9308d60314e8e75e1a8e7ed373",
-      "test": "0005"
+      "test": "0005",
+      "semanticReview": {
+        "sourceHash": "f436c9d78564c5933df678e5d93f435befa1ae9308d60314e8e75e1a8e7ed373",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "In input order, compares each a[i] to later values and increments any equal a[j] once, counting the increment. Does not sort or revisit earlier comparisons.",
+        "faultyLogic": "A new collision with a value at an earlier already-processed index is never repaired. On 0005 duplicate 1 at index 8 is raised to 2 after the original 2 at index 2 was processed; it returns 1 with a duplicate 2, while all-distinct increasing targets cost at least 10.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 9,
+            "code": "n = int(input())\na = list(map(int, input().split()))\nres=0\nfor i in range(n-1):\n    for j in range(i+1,n):\n        if a[i]==a[j]:\n            a[j]+=1\n            res+=1\nprint(res)"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/546B/sources/229848151.json",
+        "sourceRecordSha256": "2f725a6fb579f09265ff7adc0f6583afdeb50f44b9a970444df327da4e5eb2db",
+        "originalFullExecutionLog": {
+          "path": "reruns/546B/source-229848151.json",
+          "sha256": "fcd77a1732ef081a5548c0bb6ccce6a2850e6ac8fab4a0e9333d3358fe2351fd",
+          "sourceHash": "f436c9d78564c5933df678e5d93f435befa1ae9308d60314e8e75e1a8e7ed373"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0005",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/546B/lf-229848151.json",
+          "lfLogSha256": "3c389f497608f3df0377d50bf21bd1c86161115c7b3e7187984b7b4a3eea1332",
+          "lfOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "lfOutputBase64": "MQo=",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0005",
+          "includedTestPath": "1200/packages/546B/tests/0005.in",
+          "validLFInput": "11\n9 2 10 3 1 5 7 1 4 8 6\n",
+          "validLFInputSha256": "c2c0dc78ec527daf699c1c4f25322e1f66c7ae190b073be4633d19d634fd7981",
+          "originalInputSha256": "876dcda61959d0431d084d1609fe9403c0251fba83920c777fe830316e7e320c",
+          "constraintsExplanation": "n=11 is in 1..3000; exactly n badge numbers exist, each in 1..n. Allowed operations add 1 only, never subtract; final badge values may exceed n.",
+          "correctAnswer": "10",
+          "mathematicalDerivation": "For sorted original values a, a feasible increasing sorted assignment must have y[0]>=a[0] and y[i]>=max(a[i],y[i-1]+1). Uncrossing assignments preserves total cost and feasibility, so restricting to sorted assignment loses no optimum. Taking equality at every position attains the componentwise forced lower bound. Here originals=[1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], targets=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], increments=[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; the increment sum is 10, all targets are distinct and no badge decreases. Therefore the minimum is 10.",
+          "mathematicalCertificate": {
+            "sortedOriginals": [
+              1,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10
+            ],
+            "forcedIncreasingTargets": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11
+            ],
+            "increments": [
+              0,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "totalCost": 10
+          },
+          "actualAnswer": "1",
+          "actualOutputBase64": "MQo=",
+          "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "lfExecutionLog": {
+            "path": "reruns/546B/lf-229848151.json",
+            "sha256": "3c389f497608f3df0377d50bf21bd1c86161115c7b3e7187984b7b4a3eea1332",
+            "sourceHash": "f436c9d78564c5933df678e5d93f435befa1ae9308d60314e8e75e1a8e7ed373",
+            "runTest": "0005"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/546B/229848151-0005.json",
+            "sha256": "0704639c98a7a9a3d3eb577df555bc34074107472cd3a35aab18a3623c5d8975"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0005"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0005 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     }
   },
   "originalTestAccounting": {
@@ -11067,5 +11715,21 @@
     "allProvenanceFilesMatch": true,
     "archiveHash": "ba4f392b2375c8045de872b41e7b81dbd72f18efa313ef6856319158c82421a4",
     "fileCount": 309
+  },
+  "semanticReviewSummary": {
+    "version": 1,
+    "sourceReviewCount": 5,
+    "genuineAlgorithmicWrongSources": 5,
+    "countedForUnchangedEvidence": 5,
+    "allFullSourcesRead": true,
+    "exactLineNumbering": "code.splitlines(), 1-based; sourceLines includes complete source, not just selected fragments",
+    "originalExecutionArchive": {
+      "url": "https://staging.itsdev.in/attachments/e051d034-5880-47e1-8e87-e5df8f751340/audit1200-batch2-evidence.tar.gz",
+      "sha256": "9857b69a4beb2a025d4d2a999f52dd0024aadba1539bbdc3907ca0e1d0b86a9d"
+    },
+    "newPublicProgramExecutions": 0,
+    "parentVerificationRequired": true,
+    "upstreamCrosscheckStatus": "Parent reports pinned upstream statement/API/source verification complete; not repeated by this source-semantic reviewer.",
+    "evidencePolicy": "Original source, package, evidence, execution logs and recorded failedTest remain unchanged. Additional existing included LF WA proofs are supplemental and do not silently replace original counted evidence."
   }
 }

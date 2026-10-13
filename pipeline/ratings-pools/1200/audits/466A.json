@@ -10796,9 +10796,84 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Uses n//2 rather than n//m for bundle count and always pays the leftover rides individually. On 10 3 5 1, four bundles cost 4, not the printed 10.",
+      "reason": "The nondivisible branch divides n by 2 instead of m and never compares the remainder cost with one extra bundle. On 0003 it buys five 3-ride bundles plus one single for 10, while four bundles cover the 10 rides for 4.",
       "sourceHash": "408e41cbdc87df2d05d38427257fd65052a480650e1bc4761c226d32937e9a13",
-      "test": "0003"
+      "test": "0003",
+      "semanticReview": {
+        "sourceHash": "408e41cbdc87df2d05d38427257fd65052a480650e1bc4761c226d32937e9a13",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Compares bundle cost per ride b/m with single fare a. For divisible n it selects complete bundles or singles. For nondivisible n it sets num3=n//2, pays num3 bundles plus single fares for n%m, when bundles are cheaper.",
+        "faultyLogic": "The nondivisible branch divides n by 2 instead of m and never compares the remainder cost with one extra bundle. On 0003 it buys five 3-ride bundles plus one single for 10, while four bundles cover the 10 rides for 4.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 27,
+            "code": "L1 = [int(x) for x in input().split(\" \")]\n\nn=L1[0]   # total no of rides\nm=L1[1]  #rides in special ticket\na=L1[2]   # price of one ride ticket\n\nb=L1[3]    # price of super ticket\n\nnum2=b/m\n\nif n%m==0:\n    if num2<=float(a):\n        cost1=(n//m)*b\n        print(cost1)\n    else:\n        print(n*a)\nelse:\n    num3=n//2\n\n    if num2<=float(a):\n        cost1=num3*b\n\n        cost2=(n%m)*a\n\n        print(cost1+cost2)\n    else:\n        print(n*a)"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/466A/sources/204691357.json",
+        "sourceRecordSha256": "c0d7423c2b16ce8c3f3cf87579e77b8fd623f88b4ae7f0b6ba013246ce26f38a",
+        "originalFullExecutionLog": {
+          "path": "reruns/466A/source-204691357.json",
+          "sha256": "e09ea9d78648a48913db2ab7847cc108c400add7182f49d255920278b46a68bf",
+          "sourceHash": "408e41cbdc87df2d05d38427257fd65052a480650e1bc4761c226d32937e9a13"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0003",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/466A/lf-204691357.json",
+          "lfLogSha256": "4f41b12ea799760fec1d96440e51aa95813c5bb6b932675dd7b30800b97a131f",
+          "lfOutputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+          "lfOutputBase64": "MTAK",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0003",
+          "includedTestPath": "1200/packages/466A/tests/0003.in",
+          "validLFInput": "10 3 5 1\n",
+          "validLFInputSha256": "2b5fa239c4c3001a6b4e593e7bee19d38c095cf184ca003b4ed3e0e2fd0cf1cb",
+          "originalInputSha256": "d4e76d9308904b1dddf56aea1dff397f41e4507c75028924463aaeaea2c6a598",
+          "constraintsExplanation": "Exactly four positive integers n,m,a,b=['10', '3', '5', '1'], each <=1000. Buying excess bundle rides is allowed; the objective is minimum price to cover at least n rides.",
+          "correctAnswer": "4",
+          "mathematicalDerivation": "Each bundle costs 1 and covers at most 3 rides; each single costs 5 and covers 1. A cost below 4 cannot buy a single and can buy at most three bundles, covering at most 9<10 rides. Four bundles cost 4 and cover 12>=10 rides, so the minimum is exactly 4.",
+          "mathematicalCertificate": {
+            "bundles": 4,
+            "singles": 0,
+            "coveredRides": 12,
+            "cost": 4
+          },
+          "actualAnswer": "10",
+          "actualOutputBase64": "MTAK",
+          "actualOutputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+          "lfExecutionLog": {
+            "path": "reruns/466A/lf-204691357.json",
+            "sha256": "4f41b12ea799760fec1d96440e51aa95813c5bb6b932675dd7b30800b97a131f",
+            "sourceHash": "408e41cbdc87df2d05d38427257fd65052a480650e1bc4761c226d32937e9a13",
+            "runTest": "0003"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/466A/204691357-0003.json",
+            "sha256": "c2de5f556eee4eae4dc018de3b31a28bdc9555e491001c918b04af9e2ebf7d6f"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0003"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0003 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     },
     "204888236": {
       "counted": true,
@@ -10823,9 +10898,84 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Never compares remainder single tickets against one additional bundle. On 10 3 5 1, prints 3*1+1*5=8 rather than four bundles costing 4.",
+      "reason": "When a remainder single is more expensive than an extra bundle, unused bundle rides are still allowed but this implementation never considers them. On 0003 it pays 3*1+1*5=8 instead of buying four bundles for 4.",
       "sourceHash": "91f166f089e5d48d4e777a263fdea1448b3bfa55c76508bf838ddba5cc9d991e",
-      "test": "0003"
+      "test": "0003",
+      "semanticReview": {
+        "sourceHash": "91f166f089e5d48d4e777a263fdea1448b3bfa55c76508bf838ddba5cc9d991e",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Converts four input tokens to integers. If bundles are not cheaper per ride, buys n singles; otherwise buys floor(n/m) bundles and n%m singles.",
+        "faultyLogic": "When a remainder single is more expensive than an extra bundle, unused bundle rides are still allowed but this implementation never considers them. On 0003 it pays 3*1+1*5=8 instead of buying four bundles for 4.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 9,
+            "code": "n,m,a,b=input().split()\nn=int(n)\nm=int(m)\na=int(a)\nb=int(b)\nif (b/m)>=a:\n    print(n*a)\nelse:\n    print(b*(n//m)+a*(n%m))"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/466A/sources/204888236.json",
+        "sourceRecordSha256": "2edbf2666607bc01597b2c68df5dfb1e6aad6ba25f0d9c75f7a648a92b66ed2b",
+        "originalFullExecutionLog": {
+          "path": "reruns/466A/source-204888236.json",
+          "sha256": "f07b98a1e6f99ab149f044babc767cb1fc5da84a564f7fd8d3ee52f8e3966fcf",
+          "sourceHash": "91f166f089e5d48d4e777a263fdea1448b3bfa55c76508bf838ddba5cc9d991e"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0003",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/466A/lf-204888236.json",
+          "lfLogSha256": "54b3d1e3a83c1a42798aacd03d8380e8fa942132d33ba6161c12ee9498f91f91",
+          "lfOutputHash": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+          "lfOutputBase64": "OAo=",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0003",
+          "includedTestPath": "1200/packages/466A/tests/0003.in",
+          "validLFInput": "10 3 5 1\n",
+          "validLFInputSha256": "2b5fa239c4c3001a6b4e593e7bee19d38c095cf184ca003b4ed3e0e2fd0cf1cb",
+          "originalInputSha256": "d4e76d9308904b1dddf56aea1dff397f41e4507c75028924463aaeaea2c6a598",
+          "constraintsExplanation": "Exactly four positive integers n,m,a,b=['10', '3', '5', '1'], each <=1000. Buying excess bundle rides is allowed; the objective is minimum price to cover at least n rides.",
+          "correctAnswer": "4",
+          "mathematicalDerivation": "Each bundle costs 1 and covers at most 3 rides; each single costs 5 and covers 1. A cost below 4 cannot buy a single and can buy at most three bundles, covering at most 9<10 rides. Four bundles cost 4 and cover 12>=10 rides, so the minimum is exactly 4.",
+          "mathematicalCertificate": {
+            "bundles": 4,
+            "singles": 0,
+            "coveredRides": 12,
+            "cost": 4
+          },
+          "actualAnswer": "8",
+          "actualOutputBase64": "OAo=",
+          "actualOutputHash": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+          "lfExecutionLog": {
+            "path": "reruns/466A/lf-204888236.json",
+            "sha256": "54b3d1e3a83c1a42798aacd03d8380e8fa942132d33ba6161c12ee9498f91f91",
+            "sourceHash": "91f166f089e5d48d4e777a263fdea1448b3bfa55c76508bf838ddba5cc9d991e",
+            "runTest": "0003"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/466A/204888236-0003.json",
+            "sha256": "938a3d7e143ceca018186e5e167fc6cf8a63121ec5c3d5555bc62e326b262f50"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0003"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0003 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     },
     "204889258": {
       "counted": true,
@@ -10850,9 +11000,84 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "The cheap-per-ride bundle branch always buys leftover single rides. An extra bundle is cheaper on 10 3 5 1: expected 4, actual 8.",
+      "reason": "The mixed branch always pays for remainder singles, omitting the cheaper extra bundle option. On 0003 its arithmetic gives 8; covering the remainder with a fourth bundle gives 4.",
       "sourceHash": "a75b5ec0574b9902ff1a016fda9adb8c382b6c3dc041fe767a5ea7a461f9e334",
-      "test": "0003"
+      "test": "0003",
+      "semanticReview": {
+        "sourceHash": "a75b5ec0574b9902ff1a016fda9adb8c382b6c3dc041fe767a5ea7a461f9e334",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Parses the four fares/counts into f, compares b/m to a, and either returns n*a or b*(n//m)+(n%m)*a.",
+        "faultyLogic": "The mixed branch always pays for remainder singles, omitting the cheaper extra bundle option. On 0003 its arithmetic gives 8; covering the remainder with a fourth bundle gives 4.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 11,
+            "code": "f = list(map(int,input().split()))\nn = int(f[0])\nm = int(f[1]) \na = int(f[2])\nb = int(f[3])\n\nif (b/m)>=a:\n    print(n*a)\nelse:\n    res = b*(n//m)+(n%m)*a\n    print(res)"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/466A/sources/204889258.json",
+        "sourceRecordSha256": "dce5ce8e40ffcb4a7e048088d96991676e165ffbeae8e5aaf431f0291cba67e5",
+        "originalFullExecutionLog": {
+          "path": "reruns/466A/source-204889258.json",
+          "sha256": "d75b0ea5f4d7b208d441218dbab4de6e70435c78ded2b9bb3b9e22a4251229ad",
+          "sourceHash": "a75b5ec0574b9902ff1a016fda9adb8c382b6c3dc041fe767a5ea7a461f9e334"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0003",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/466A/lf-204889258.json",
+          "lfLogSha256": "7a2681b0fb354e76efeccf3cc6065c4409139df45e95b9ad07c246451177bcda",
+          "lfOutputHash": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+          "lfOutputBase64": "OAo=",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0003",
+          "includedTestPath": "1200/packages/466A/tests/0003.in",
+          "validLFInput": "10 3 5 1\n",
+          "validLFInputSha256": "2b5fa239c4c3001a6b4e593e7bee19d38c095cf184ca003b4ed3e0e2fd0cf1cb",
+          "originalInputSha256": "d4e76d9308904b1dddf56aea1dff397f41e4507c75028924463aaeaea2c6a598",
+          "constraintsExplanation": "Exactly four positive integers n,m,a,b=['10', '3', '5', '1'], each <=1000. Buying excess bundle rides is allowed; the objective is minimum price to cover at least n rides.",
+          "correctAnswer": "4",
+          "mathematicalDerivation": "Each bundle costs 1 and covers at most 3 rides; each single costs 5 and covers 1. A cost below 4 cannot buy a single and can buy at most three bundles, covering at most 9<10 rides. Four bundles cost 4 and cover 12>=10 rides, so the minimum is exactly 4.",
+          "mathematicalCertificate": {
+            "bundles": 4,
+            "singles": 0,
+            "coveredRides": 12,
+            "cost": 4
+          },
+          "actualAnswer": "8",
+          "actualOutputBase64": "OAo=",
+          "actualOutputHash": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+          "lfExecutionLog": {
+            "path": "reruns/466A/lf-204889258.json",
+            "sha256": "7a2681b0fb354e76efeccf3cc6065c4409139df45e95b9ad07c246451177bcda",
+            "sourceHash": "a75b5ec0574b9902ff1a016fda9adb8c382b6c3dc041fe767a5ea7a461f9e334",
+            "runTest": "0003"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/466A/204889258-0003.json",
+            "sha256": "eaa45f2bc72a286acc0444dafcf53f76a51d954ea88a196994a77f9cd8456926"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0003"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0003 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     },
     "205209405": {
       "counted": true,
@@ -10877,9 +11102,84 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Compares per-ride bundle price but omits the extra-bundle option for the remainder. Expected 4 on 10 3 5 1, actual 8.",
+      "reason": "It models complete bundles but not overbuying one more bundle. On 0003 one remaining single costs 5 versus bundle cost 1, so its 8 is not optimal; the valid minimum is 4.",
       "sourceHash": "76f275ee9058d87f5d57e9f051466eee9d616cfa5523e1decc2b3dd9f6c18640",
-      "test": "0003"
+      "test": "0003",
+      "semanticReview": {
+        "sourceHash": "76f275ee9058d87f5d57e9f051466eee9d616cfa5523e1decc2b3dd9f6c18640",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Reads n,m,a,b through sys.stdin.readline, compares floating b/m with a, and buys complete bundles plus remainder singles only when b/m<a, otherwise only singles.",
+        "faultyLogic": "It models complete bundles but not overbuying one more bundle. On 0003 one remaining single costs 5 versus bundle cost 1, so its 8 is not optimal; the valid minimum is 4.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 7,
+            "code": "import sys\nn, m, a, b = (map(int,sys.stdin.readline().split()))\nt = b/m\nif t<a:\n    print(n//m*b+n%m*a)\nelse:\n    print(n*a)"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/466A/sources/205209405.json",
+        "sourceRecordSha256": "a176d1ea3778eaa2e399e24c31c8d3b5ea5ba5e8bb8897ee49f494ecf6694fc8",
+        "originalFullExecutionLog": {
+          "path": "reruns/466A/source-205209405.json",
+          "sha256": "5c9991c52fe91d4e9c0587b0883e5b3eca9a06be617e2fb579f0b0e60d6825dd",
+          "sourceHash": "76f275ee9058d87f5d57e9f051466eee9d616cfa5523e1decc2b3dd9f6c18640"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0003",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/466A/lf-205209405.json",
+          "lfLogSha256": "9352261d70b440f84082014dc0e3c23d988905c1704c870a5250990b94b81d8a",
+          "lfOutputHash": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+          "lfOutputBase64": "OAo=",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0003",
+          "includedTestPath": "1200/packages/466A/tests/0003.in",
+          "validLFInput": "10 3 5 1\n",
+          "validLFInputSha256": "2b5fa239c4c3001a6b4e593e7bee19d38c095cf184ca003b4ed3e0e2fd0cf1cb",
+          "originalInputSha256": "d4e76d9308904b1dddf56aea1dff397f41e4507c75028924463aaeaea2c6a598",
+          "constraintsExplanation": "Exactly four positive integers n,m,a,b=['10', '3', '5', '1'], each <=1000. Buying excess bundle rides is allowed; the objective is minimum price to cover at least n rides.",
+          "correctAnswer": "4",
+          "mathematicalDerivation": "Each bundle costs 1 and covers at most 3 rides; each single costs 5 and covers 1. A cost below 4 cannot buy a single and can buy at most three bundles, covering at most 9<10 rides. Four bundles cost 4 and cover 12>=10 rides, so the minimum is exactly 4.",
+          "mathematicalCertificate": {
+            "bundles": 4,
+            "singles": 0,
+            "coveredRides": 12,
+            "cost": 4
+          },
+          "actualAnswer": "8",
+          "actualOutputBase64": "OAo=",
+          "actualOutputHash": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+          "lfExecutionLog": {
+            "path": "reruns/466A/lf-205209405.json",
+            "sha256": "9352261d70b440f84082014dc0e3c23d988905c1704c870a5250990b94b81d8a",
+            "sourceHash": "76f275ee9058d87f5d57e9f051466eee9d616cfa5523e1decc2b3dd9f6c18640",
+            "runTest": "0003"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/466A/205209405-0003.json",
+            "sha256": "39df67d151f5cfc69598422b81d92492bf0e3bccaa851d09fbbdb8d3b7b767dc"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0003"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0003 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     },
     "205209819": {
       "counted": true,
@@ -10904,9 +11204,84 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Always buys floor(n/m) bundles even when singles are cheaper. On 9 3 3 10, nine singles cost 27, but it prints 30.",
+      "reason": "It never checks whether complete bundles themselves are more expensive than singles. On 0015 with n=9,m=3,a=3,b=10, remainder=0 forces three bundles costing 30 although nine singles cost 27.",
       "sourceHash": "7b24807ce8af2e7dd59281f68ede85bea0b7d0cd0b3eb7bda7bacee025bd3468",
-      "test": "0015"
+      "test": "0015",
+      "semanticReview": {
+        "sourceHash": "7b24807ce8af2e7dd59281f68ede85bea0b7d0cd0b3eb7bda7bacee025bd3468",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Computes t=b/m but never uses it. Compares only the remainder-single cost against b, and always purchases floor(n/m) bundles plus either a final bundle or remainder singles.",
+        "faultyLogic": "It never checks whether complete bundles themselves are more expensive than singles. On 0015 with n=9,m=3,a=3,b=10, remainder=0 forces three bundles costing 30 although nine singles cost 27.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 7,
+            "code": "import sys\nn, m, a, b = (map(int,sys.stdin.readline().split()))\nt = b/m\nif n%m*a>b:\n    print(n//m*b+b)\nelse:\n    print(n//m*b+n%m*a)"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/466A/sources/205209819.json",
+        "sourceRecordSha256": "f41418442d67f1d7c0a2a8b7ca116e4659bd870b7ef1e87a5f214932d9e6f141",
+        "originalFullExecutionLog": {
+          "path": "reruns/466A/source-205209819.json",
+          "sha256": "bbbb47bcc7c272da64ad22ab6de04324323e14ba34048382b1ac4b5d431c14ec",
+          "sourceHash": "7b24807ce8af2e7dd59281f68ede85bea0b7d0cd0b3eb7bda7bacee025bd3468"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0015",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/466A/lf-205209819.json",
+          "lfLogSha256": "714849467fc4eaa61b47f787fe6f88bad27c5105f6f73949e55ea404d77276a7",
+          "lfOutputHash": "f4ccd05b3271c386ee55d9876c7450012a3b361e5065c09dc22075e38b3cc35c",
+          "lfOutputBase64": "MzAK",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0015",
+          "includedTestPath": "1200/packages/466A/tests/0015.in",
+          "validLFInput": "9 3 3 10\n",
+          "validLFInputSha256": "7dfbb4ecea1608f1b96c9587f1ee3becd3be69871077b9c6f6f2a4b2da513a44",
+          "originalInputSha256": "5d681a492b0591c2f8f4ff00fb43f2d3547c6aa0a0d2f6fb386cefd9af5a538d",
+          "constraintsExplanation": "Exactly four positive integers n,m,a,b=['9', '3', '3', '10'], each <=1000. Buying excess bundle rides is allowed; the objective is minimum price to cover at least n rides.",
+          "correctAnswer": "27",
+          "mathematicalDerivation": "A 3-ride bundle costs 10 but its three rides can be replaced by three singles costing 9. Replacing every bundle cannot increase cost, so an optimum uses nine singles costing 9*3=27. Even when all rides are bundled, the remainder comparison alone cannot justify buying the expensive bundles.",
+          "mathematicalCertificate": {
+            "bundles": 0,
+            "singles": 9,
+            "coveredRides": 9,
+            "cost": 27
+          },
+          "actualAnswer": "30",
+          "actualOutputBase64": "MzAK",
+          "actualOutputHash": "f4ccd05b3271c386ee55d9876c7450012a3b361e5065c09dc22075e38b3cc35c",
+          "lfExecutionLog": {
+            "path": "reruns/466A/lf-205209819.json",
+            "sha256": "714849467fc4eaa61b47f787fe6f88bad27c5105f6f73949e55ea404d77276a7",
+            "sourceHash": "7b24807ce8af2e7dd59281f68ede85bea0b7d0cd0b3eb7bda7bacee025bd3468",
+            "runTest": "0015"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/466A/205209819-0015.json",
+            "sha256": "08864912958ad59e289a9966ab9dccf98cfa9e9f542eeb692a727a1f2447d130"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0015"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0015 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     }
   },
   "originalTestAccounting": {
@@ -11830,5 +12205,21 @@
     "allProvenanceFilesMatch": true,
     "archiveHash": "35050b5a646ede8b35f88945f6e8b3011f5945197828a2840a94220ebe82360e",
     "fileCount": 345
+  },
+  "semanticReviewSummary": {
+    "version": 1,
+    "sourceReviewCount": 5,
+    "genuineAlgorithmicWrongSources": 5,
+    "countedForUnchangedEvidence": 5,
+    "allFullSourcesRead": true,
+    "exactLineNumbering": "code.splitlines(), 1-based; sourceLines includes complete source, not just selected fragments",
+    "originalExecutionArchive": {
+      "url": "https://staging.itsdev.in/attachments/e051d034-5880-47e1-8e87-e5df8f751340/audit1200-batch2-evidence.tar.gz",
+      "sha256": "9857b69a4beb2a025d4d2a999f52dd0024aadba1539bbdc3907ca0e1d0b86a9d"
+    },
+    "newPublicProgramExecutions": 0,
+    "parentVerificationRequired": true,
+    "upstreamCrosscheckStatus": "Parent reports pinned upstream statement/API/source verification complete; not repeated by this source-semantic reviewer.",
+    "evidencePolicy": "Original source, package, evidence, execution logs and recorded failedTest remain unchanged. Additional existing included LF WA proofs are supplemental and do not silently replace original counted evidence."
   }
 }

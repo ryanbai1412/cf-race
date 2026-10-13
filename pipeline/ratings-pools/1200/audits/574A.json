@@ -11791,9 +11791,116 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Checks the last input opponent before initial sorting; if that opponent is weak it terminates immediately despite a stronger earlier rival. Prints 0 instead of 2.",
+      "reason": "The first comparison precedes the first rival sort. If the last input rival is weak, flag becomes zero and the loop exits even though sorting reveals a stronger rival. On 0013 last rival has 1 and Limak 5, so it returns 0 despite a rival with 8; 2 transfers are necessary and sufficient.",
       "sourceHash": "3e9b53cbc66c6a33d7ccdbdc3b6e213c90b527a155345b8752179eff7792e40b",
-      "test": "0013"
+      "test": "0013",
+      "semanticReview": {
+        "sourceHash": "3e9b53cbc66c6a33d7ccdbdc3b6e213c90b527a155345b8752179eff7792e40b",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Reads candidates in input order, then while flag is set steals from arr[n-1] when Limak does not beat it; sorts the rival suffix only after this comparison, and continues only if it stole a vote.",
+        "faultyLogic": "The first comparison precedes the first rival sort. If the last input rival is weak, flag becomes zero and the loop exits even though sorting reveals a stronger rival. On 0013 last rival has 1 and Limak 5, so it returns 0 despite a rival with 8; 2 transfers are necessary and sufficient.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 78,
+            "code": "/*****************************************************\n * Author: Ai Hongwei \n * Email: ufo008ahw@163.com\n * Last modified: 2015-08-30 00:51\n * Filename: A.\n * Description: \n ****************************************************/\n\n/*\nLimak is a grizzly bear who desires power and adoration. He wants to win in upcoming elections and rule over the Bearland.\n\nThere are n candidates, including Limak. We know how many citizens are going to vote for each candidate. Now i-th candidate would get ai votes. Limak is candidate number 1. To win in elections, he must get strictly more votes than any other candidate.\n\nVictory is more important than everything else so Limak decided to cheat. He will steal votes from his opponents by bribing some citizens. To bribe a citizen, Limak must give him or her one candy - citizens are bears and bears like candies. Limak doesn't have many candies and wonders - how many citizens does he have to bribe?\n\nInput\nThe first line contains single integer n (2???n???100) - number of candidates.\n\nThe second line contains n space-separated integers a1,?a2,?...,?an (1???ai???1000) - number of votes for each candidate. Limak is candidate number 1.\n\nNote that after bribing number of votes for some candidate might be zero or might be greater than 1000.\n\nOutput\nPrint the minimum number of citizens Limak must bribe to have strictly more votes than any other candidate.\n\nSample test(s)\n input\n 5\n 5 1 11 2 8\n output\n 4\n input\n 4\n 1 8 8 8\n output\n 6\n input\n 2\n 7 6\n output\n 0\n Note\n In the first sample Limak has 5 votes. One of the ways to achieve victory is to bribe 4 citizens who want to vote for the third candidate. Then numbers of votes would be 9,?1,?7,?2,?8 (Limak would have 9 votes). Alternatively, Limak could steal only 3 votes from the third candidate and 1 vote from the second candidate to get situation 9,?0,?8,?2,?8.\n\n In the second sample Limak will steal 2 votes from each candidate. Situation will be 7,?6,?6,?6.\n\n*/\n\n\n#include <iostream>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n\n int arr[105];\n int n;\n cin >> n;\n for(int i = 0;i < n;i++) {\n  cin >> arr[i];\n }\n\n int flag = 1;\n int res = 0;\n while(flag) {\n  flag = 0;\n  if (arr[0] <= arr[n - 1]) {\n   arr[0]++, arr[n - 1]--;\n   flag = 1;\n   res++;\n  }\n\n  sort(arr + 1, arr + n);\n }\n cout << res << endl;\n\n return 0;\n}"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/574A/sources/12751203.json",
+        "sourceRecordSha256": "ad4c579d1c3a74402385fa462f9cf2caa6fe396e67f09f4f3452c10880a45275",
+        "originalFullExecutionLog": {
+          "path": "reruns/574A/source-12751203.json",
+          "sha256": "6f08ba48878f362d09fd3638a2264b025dd85f1e73fc2e9409a50d50a322bd46",
+          "sourceHash": "3e9b53cbc66c6a33d7ccdbdc3b6e213c90b527a155345b8752179eff7792e40b"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0013",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/574A/lf-12751203.json",
+          "lfLogSha256": "f23cbae0a28be16bc0d3dc32d74c9706406a3d74d753900962f5da53193d9e3d",
+          "lfOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "lfOutputBase64": "MAo=",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0013",
+          "includedTestPath": "1200/packages/574A/tests/0013.in",
+          "validLFInput": "10\n5 3 4 5 5 2 1 8 4 1\n",
+          "validLFInputSha256": "581a1ad8222c5613062a2a6a37c55319ee74a0731b1e2ee4847fe7a170ea680d",
+          "originalInputSha256": "c5db22ff649b370ce68aa215f2c0c1e97f38ac8596d4882f3dfe471633bb8ae0",
+          "constraintsExplanation": "n=10 is in 2..100 and exactly n initial vote counts lie in 1..1000. Each bribe transfers one rival vote to Limak. Strictly more than every rival, not a tie, is required.",
+          "correctAnswer": "2",
+          "mathematicalDerivation": "With 1 bribes Limak has 6, requiring all rivals <= 5; at least 3 votes must be removed from rivals, more than 1. For fewer bribes this required removal only increases, so none can suffice. With 2 bribes Limak has 7, mandatory removals to reach rival cap 6 total 2. The certificate gives nonnegative transfers [0, 0, 0, 0, 0, 0, 2, 0, 0], total 2, producing rivals [3, 4, 5, 5, 2, 1, 6, 4, 1], whose maximum 6 is strictly smaller than 7. Thus the minimum is 2.",
+          "mathematicalCertificate": {
+            "mandatoryRemovalsAtK": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0
+            ],
+            "transfers": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0
+            ],
+            "finalLimakVotes": 7,
+            "finalRivalVotes": [
+              3,
+              4,
+              5,
+              5,
+              2,
+              1,
+              6,
+              4,
+              1
+            ],
+            "totalBribes": 2,
+            "requiredRemovalsAtKMinusOne": 3
+          },
+          "actualAnswer": "0",
+          "actualOutputBase64": "MAo=",
+          "actualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "lfExecutionLog": {
+            "path": "reruns/574A/lf-12751203.json",
+            "sha256": "f23cbae0a28be16bc0d3dc32d74c9706406a3d74d753900962f5da53193d9e3d",
+            "sourceHash": "3e9b53cbc66c6a33d7ccdbdc3b6e213c90b527a155345b8752179eff7792e40b",
+            "runTest": "0013"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/574A/12751203-0013.json",
+            "sha256": "e1d970e81020933d02f92dbcab1bb145216b9175ecf01ffcf4232c4927fc5e04"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0013"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0013 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     },
     "12751518": {
       "counted": true,
@@ -11818,9 +11925,95 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "On a tie with two maximum rivals it increments sum once then exits without actually updating all tied rivals; 999 1000 1000 needs 2 bribes, not 1.",
+      "reason": "Strict victory is lost in the equality branch a[0]==b.back() with a[0]>second-largest: it marks done though a rival still ties Limak. On 0010 a single transfer makes Limak 1000 and leaves the other rival 1000; it returns 1 instead of stealing a second vote for strict victory.",
       "sourceHash": "db425ff80d1ff403921bad6ede7c38cc1ef34dadbe6c74a1766c2ac0d3205871",
-      "test": "0010"
+      "test": "0010",
+      "semanticReview": {
+        "sourceHash": "db425ff80d1ff403921bad6ede7c38cc1ef34dadbe6c74a1766c2ac0d3205871",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Maintains Limak in a[0] and a separate b vector initially copying every candidate, repeatedly sorts b, and steals from its current largest value until another value is larger or Limak exceeds it. Equality branches sometimes terminate without further transfers.",
+        "faultyLogic": "Strict victory is lost in the equality branch a[0]==b.back() with a[0]>second-largest: it marks done though a rival still ties Limak. On 0010 a single transfer makes Limak 1000 and leaves the other rival 1000; it returns 1 instead of stealing a second vote for strict victory.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 50,
+            "code": "#include<iostream>\n#include<string>\n#include<vector>\n#include<algorithm>\n#include<set>\n#include<map>\n#include<queue>\n\nusing namespace std;\n\ntypedef long long in;\n\nint main(){\n  ios::sync_with_stdio(false);\n  int n;\n  vector<int> a;\n  cin >> n;\n  a.resize(n);\n  vector<int> b;\n  b.resize(n);\n  for(int i=0;i<n;i++){\n    cin >> a[i];\n    b[i]=a[i];\n  }\n  bool flag=0;\n  int sum=0;\n  while(!flag){\n    sort(b.begin(),b.end());\n    if(a[0]>b[b.size()-1])\n      flag=1;\n    if(a[0]==b[b.size()-1]){\n      if(a[0]==b[b.size()-2]){\n sum++;\n flag=1;\n      }\n      if(a[0]>b[b.size()-2]){\n flag=1;\n      }\n    }\n    if(a[0]<b[b.size()-1]){\n      while(b[b.size()-1]>=b[b.size()-2]&&a[0]<=b[b.size()-1]){\n b[b.size()-1]--;\n a[0]++;\n sum++;\n      }\n    }\n  }\n  cout << sum << endl;\n  return 0;\n}"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/574A/sources/12751518.json",
+        "sourceRecordSha256": "7ea47d8aa4235eb463207eb332449ee96b4c5e0d9a838991c0660753411a5e58",
+        "originalFullExecutionLog": {
+          "path": "reruns/574A/source-12751518.json",
+          "sha256": "852d6f1a3881de0d78d302833fbc64b54fb4d0cff3088e647bcb558524386c4d",
+          "sourceHash": "db425ff80d1ff403921bad6ede7c38cc1ef34dadbe6c74a1766c2ac0d3205871"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0010",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/574A/lf-12751518.json",
+          "lfLogSha256": "fa404245214deace71b56d391d4f30e0bbb792c4aea93f014bc685ef758273f5",
+          "lfOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "lfOutputBase64": "MQo=",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0010",
+          "includedTestPath": "1200/packages/574A/tests/0010.in",
+          "validLFInput": "3\n999 1000 1000\n",
+          "validLFInputSha256": "e9ae73a8ed9c46d68c5e47a9dcabeb976c3a6a4958a100235fe481020ac411bd",
+          "originalInputSha256": "d7328ab446f8201239b0d4fadc985356376fa513ab8d9723cf2586940c27d569",
+          "constraintsExplanation": "n=3 is in 2..100 and exactly n initial vote counts lie in 1..1000. Each bribe transfers one rival vote to Limak. Strictly more than every rival, not a tie, is required.",
+          "correctAnswer": "2",
+          "mathematicalDerivation": "With 1 bribes Limak has 1000, requiring all rivals <= 999; at least 2 votes must be removed from rivals, more than 1. For fewer bribes this required removal only increases, so none can suffice. With 2 bribes Limak has 1001, mandatory removals to reach rival cap 1000 total 0. The certificate gives nonnegative transfers [2, 0], total 2, producing rivals [998, 1000], whose maximum 1000 is strictly smaller than 1001. Thus the minimum is 2.",
+          "mathematicalCertificate": {
+            "mandatoryRemovalsAtK": [
+              0,
+              0
+            ],
+            "transfers": [
+              2,
+              0
+            ],
+            "finalLimakVotes": 1001,
+            "finalRivalVotes": [
+              998,
+              1000
+            ],
+            "totalBribes": 2,
+            "requiredRemovalsAtKMinusOne": 2
+          },
+          "actualAnswer": "1",
+          "actualOutputBase64": "MQo=",
+          "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "lfExecutionLog": {
+            "path": "reruns/574A/lf-12751518.json",
+            "sha256": "fa404245214deace71b56d391d4f30e0bbb792c4aea93f014bc685ef758273f5",
+            "sourceHash": "db425ff80d1ff403921bad6ede7c38cc1ef34dadbe6c74a1766c2ac0d3205871",
+            "runTest": "0010"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/574A/12751518-0010.json",
+            "sha256": "7550b7bb95c44e4363d3ee83e6c0d5a38745b91914f2231fe9f4856cd835d966"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0010"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0010 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     },
     "12751522": {
       "counted": false,
@@ -11835,7 +12028,7 @@
         "observedTimeout": false
       },
       "freshFailedTest": "0001",
-      "kind": "excluded-runtime-undefined-behavior",
+      "kind": "excluded-runtime",
       "lfNormalization": {
         "inputHash": "e8352a8e722cd6c8ee8163f02b864ab296b6ea52fda7f7527249736b7a5889e4",
         "log": "reruns/574A/lf-12751522.json",
@@ -11845,9 +12038,44 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Allocates V[N-1] but accesses V[N-1] and fills V[1..N-1], then sorts N entries. Recorded sample WA is produced through out-of-bounds undefined memory; numerous other supplied tests are RE. Conservatively excluded as runtime/undefined-memory evidence, not a reliable algorithmic WA proof.",
+      "reason": "Initialization writes indices 0..N-1 into an N-1 array, rivals are stored starting at index 1, V[N-1] is read/written as maximum, and merge_sort(V,N) exceeds allocation. Recorded numeric output depends on undefined out-of-bounds memory and other included runs crash. No trustworthy mathematical WA is counted.",
       "sourceHash": "1727ed48d490e87bccc200b583655be242d3eab72b898dd8b26710f7eaf30cb1",
-      "test": "0001"
+      "test": "0001",
+      "semanticReview": {
+        "sourceHash": "1727ed48d490e87bccc200b583655be242d3eab72b898dd8b26710f7eaf30cb1",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Reads Limak separately and attempts to store rivals in a V[N-1] array, merge-sorts it, repeatedly transfers a vote from the nominal maximum to Limak and increments a count encoded as negative T.",
+        "faultyLogic": "Initialization writes indices 0..N-1 into an N-1 array, rivals are stored starting at index 1, V[N-1] is read/written as maximum, and merge_sort(V,N) exceeds allocation. Recorded numeric output depends on undefined out-of-bounds memory and other included runs crash. No trustworthy mathematical WA is counted.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 66,
+            "code": "#include <string.h>\n#include <stdio.h>\n\ntypedef long long int ll;\n\nll scan(){ll x; scanf(\"%lld\",&x); return x;}\n\nvoid merge (ll *a, ll n, ll m) {\n    ll i, j, k;\n    ll x[n];\n    for (i = 0, j = m, k = 0; k < n; k++) {\n        x[k] = j == n      ? a[i++]\n        : i == m      ? a[j++]\n        : a[j] < a[i] ? a[j++]\n        :               a[i++];\n    }\n    for (i = 0; i < n; i++) {\n        a[i] = x[i];\n    }\n}\n\nvoid merge_sort (ll *a, ll n) {\n    if (n < 2)\n        return;\n    ll m = n / 2;\n    merge_sort(a, m);\n    merge_sort(a + m, n - m);\n    merge(a, n, m);\n}\n\nint main(int argc, const char * argv[]) {\n   \n    \n    ll N;\n    N = scan();\n    ll V[N-1];\n    ll me = 0;\n    ll T = 0;\n    \n    for (int i = 0; i<N; i++) {\n        V[i] = 0;\n    }\n    \n    for (ll a = 0; a<N; a++) {\n        ll X;\n        scanf(\"%lld\",&X);\n        \n        if (a == 0) me = X;\n        else V[a] = X;\n\n    }\n    \n    merge_sort(V, N-1);\n    \n    while (me <= V[N-1]) {\n        V[N-1] --;\n        me ++;\n        T --;\n        merge_sort(V, N);\n    }\n    \n    printf(\"%lld\",-T);\n    \n    \n    return 0;\n}"
+          }
+        ],
+        "algorithmicWrong": false,
+        "countedForUnchangedEvidence": false,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/574A/sources/12751522.json",
+        "sourceRecordSha256": "14dcf6dbd3e9a108a558725efae7150b07f214bc7fc4d6a145cbe76c3a0bc882",
+        "originalFullExecutionLog": {
+          "path": "reruns/574A/source-12751522.json",
+          "sha256": "d2ac081e2572b50d54313114788e3d94f754b727a539b969c1cc7080f037995b",
+          "sourceHash": "1727ed48d490e87bccc200b583655be242d3eab72b898dd8b26710f7eaf30cb1"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0001",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/574A/lf-12751522.json",
+          "lfLogSha256": "1f7f0cf95391f063b7c24f4cd26c6bfc06a370923913cbf5299243a37d8e7791",
+          "lfOutputHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "lfOutputBase64": "MA==",
+          "counted": false
+        },
+        "excludedNonAlgorithmicCauses": "Initialization writes indices 0..N-1 into an N-1 array, rivals are stored starting at index 1, V[N-1] is read/written as maximum, and merge_sort(V,N) exceeds allocation. Recorded numeric output depends on undefined out-of-bounds memory and other included runs crash. No trustworthy mathematical WA is counted. The checker outcome alone is not treated as mathematical wrongness. No diagnostic-stripped copy or new execution was used."
+      }
     },
     "12751984": {
       "counted": true,
@@ -11872,9 +12100,146 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Subtracts diff=a-g-2 even if Limak starts ahead and no stealing occurs; creates negative bribe count (-15) where the minimum is 0.",
+      "reason": "It applies overshoot correction even if Limak already wins and no bribe occurred. On 0015 Limak 90 beats max rival 73, count remains 0, but diff=90-73-2=15 yields -15 rather than the valid minimum 0.",
       "sourceHash": "62a03d74e01a04141f2f1e052af0aea2357f68505d811f7f06437134b9c490cf",
-      "test": "0015"
+      "test": "0015",
+      "semanticReview": {
+        "sourceHash": "62a03d74e01a04141f2f1e052af0aea2357f68505d811f7f06437134b9c490cf",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Sorts rivals and groups the current maximum by multiplicity ad, decreasing the group maximum and raising Limak/cost by ad; then subtracts a final overshoot correction a-g-2 from the cost whenever positive.",
+        "faultyLogic": "It applies overshoot correction even if Limak already wins and no bribe occurred. On 0015 Limak 90 beats max rival 73, count remains 0, but diff=90-73-2=15 yields -15 rather than the valid minimum 0.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 54,
+            "code": "#include<iostream>\n#include<cstdio>\n#include<algorithm>\n#include<string.h>\nusing namespace std;\nint main(void)\n{\n int n;\n cin>>n;\n int a,b[1010];\n cin>>a;\n for(int i=0;i<n-1;i++)\n {\n  cin>>b[i];\n }\n int l=n-1;\n sort(b,b+l);\n int g=b[n-2],k=n-3,ad=1;\n int count=0;\n while(g>=a && k>=0)\n {\n  if(g>b[k])\n  {\n   g=g-1;\n   count =count+ad;\n   a=a+ad;\n  }\n  else if(g==b[k])\n  {\n   g=b[k];\n   k=k-1;\n   ad=ad+1;\n  }\n  //cout<<a<<\" \"<<g<<\" \"<<ad<<endl;\n }\n if(g>=a && k<0){\n  while(g>=a)\n  {\n   g=g-1;\n   count =count+ad;\n   //cout<<count<<endl;\n   a=a+ad;\n  }\n  //cout<<a<<\" \"<<g<<\" \"<<ad<<endl;\n }\n int diff=0;\n if(a>g+2){\n  diff=a-g-2;\n }\n count=count-diff;\n cout<<count;\n \n return 0;\n}"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/574A/sources/12751984.json",
+        "sourceRecordSha256": "d39bc0548e17cc02b3abaaf1325d8f0621956a6cb3374e5f927ed1d7f5a6e06a",
+        "originalFullExecutionLog": {
+          "path": "reruns/574A/source-12751984.json",
+          "sha256": "99aa6caf9a4379ddfa9889f417e35bad6979680a41261c292deca7a7fffbc263",
+          "sourceHash": "62a03d74e01a04141f2f1e052af0aea2357f68505d811f7f06437134b9c490cf"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0015",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/574A/lf-12751984.json",
+          "lfLogSha256": "b9925a98199e493df2ef77463a2013e2f002443a0f6e98f48384edf5f01dfba0",
+          "lfOutputHash": "5e37b37c842d8df7106ee92e2e45beefef71ca60f51f7bb5cb50cb1e81c355a8",
+          "lfOutputBase64": "LTE1",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0015",
+          "includedTestPath": "1200/packages/574A/tests/0015.in",
+          "validLFInput": "20\n90 5 62 9 50 7 14 43 44 44 56 13 71 22 43 35 52 60 73 54\n",
+          "validLFInputSha256": "a57dedfa5d7d3f58748424b6cac366b71ba78ad065eaf08e8d5ae439926bbd73",
+          "originalInputSha256": "8b3c9f7cda1464143c3f3664eb6a7025ba85c75002656a73b2ec5f785e68ed8a",
+          "constraintsExplanation": "n=20 is in 2..100 and exactly n initial vote counts lie in 1..1000. Each bribe transfers one rival vote to Limak. Strictly more than every rival, not a tie, is required.",
+          "correctAnswer": "0",
+          "mathematicalDerivation": "Initially Limak has 90 > rival maximum 73, so no bribe is necessary. Costs are nonnegative. With 0 bribes Limak has 90, mandatory removals to reach rival cap 89 total 0. The certificate gives nonnegative transfers [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], total 0, producing rivals [5, 62, 9, 50, 7, 14, 43, 44, 44, 56, 13, 71, 22, 43, 35, 52, 60, 73, 54], whose maximum 73 is strictly smaller than 90. Thus the minimum is 0.",
+          "mathematicalCertificate": {
+            "mandatoryRemovalsAtK": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "transfers": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "finalLimakVotes": 90,
+            "finalRivalVotes": [
+              5,
+              62,
+              9,
+              50,
+              7,
+              14,
+              43,
+              44,
+              44,
+              56,
+              13,
+              71,
+              22,
+              43,
+              35,
+              52,
+              60,
+              73,
+              54
+            ],
+            "totalBribes": 0,
+            "requiredRemovalsAtKMinusOne": null
+          },
+          "actualAnswer": "-15",
+          "actualOutputBase64": "LTE1",
+          "actualOutputHash": "5e37b37c842d8df7106ee92e2e45beefef71ca60f51f7bb5cb50cb1e81c355a8",
+          "lfExecutionLog": {
+            "path": "reruns/574A/lf-12751984.json",
+            "sha256": "b9925a98199e493df2ef77463a2013e2f002443a0f6e98f48384edf5f01dfba0",
+            "sourceHash": "62a03d74e01a04141f2f1e052af0aea2357f68505d811f7f06437134b9c490cf",
+            "runTest": "0015"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/574A/12751984-0015.json",
+            "sha256": "7c1236814661bc338e2e950fa5c47b93eb2d1852a7075fe5646421f98193ba7a"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0015"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0015 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     },
     "12752130": {
       "counted": true,
@@ -11899,9 +12264,176 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Sorts opponents only once then advances/reset a stale index, skipping the final index instead of always choosing a current maximum. Non-greedy stealing yields 71 rather than minimum 58.",
+      "reason": "After sta advances, earlier rivals can become the maximum again yet are ignored as donors, wasting transfers on smaller rivals. On 0016 it spends 71, although the explicit vote-transfer certificate wins in 58; with 57 transfers the required removal from opponents exceeds the available transfers.",
       "sourceHash": "63a239c3cf0975c90213ea9fae9a228360507d07106635a88a819fc8a6f78d52",
-      "test": "0016"
+      "test": "0016",
+      "semanticReview": {
+        "sourceHash": "63a239c3cf0975c90213ea9fae9a228360507d07106635a88a819fc8a6f78d52",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Initially sorts rivals descending. Recomputes the maximum in the while condition, but selects donors with a persistent sta index that moves only if its immediate next rival is larger; decrements that donor, increments Limak and cost, without re-sorting or selecting the global maximum.",
+        "faultyLogic": "After sta advances, earlier rivals can become the maximum again yet are ignored as donors, wasting transfers on smaller rivals. On 0016 it spends 71, although the explicit vote-transfer certificate wins in 58; with 57 transfers the required removal from opponents exceeds the available transfers.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 69,
+            "code": "#include <iostream>\n#include <cstdio>\n#include <algorithm>\n#include <vector>\n#include <queue>\n#include <map>\n#include <stack>\n#include <math.h>\n#include <string.h>\n#include <string>\n#include <stdlib.h>\n\nusing namespace std;\ntypedef long long ll;\ntypedef unsigned long long ull;\n\nconst int Maxn = 105;\n\nint cnd[Maxn];\nint n, x;\nint sum = 0;\n\nint nmax(int a[])\n{\n    int k=a[0];\n    int j=0;\n    for(int i=1;i<n-1;i++)\n    {\n        if(k<a[i])\n        {\n            k=a[i];\n        }\n    }\n    return k;\n}\n\nbool cmp(int a, int b)\n{\n    return a>b;\n}\n\nint main()\n{\n    scanf(\"%d\", &n);\n    scanf(\"%d\", &x);\n    for (int i = 0; i<n - 1; i++)\n    {\n        scanf(\"%d\", &cnd[i]);\n    }\n    sort(cnd, cnd + n - 1, cmp);\n    int sta = 0;\n    while (x <= nmax(cnd))\n    {\n        if (sta == n - 2)\n        {\n            sta = 0;\n        }\n        if (cnd[sta]<cnd[sta + 1] && sta + 1<n - 1)\n        {\n            sta++;\n        }\n        cnd[sta]--;\n        sum++;\n        x++;\n\n    }\n    printf(\"%d\\n\", sum);\n    return 0;\n}"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/574A/sources/12752130.json",
+        "sourceRecordSha256": "224fab507f9bf13594f86ef94291c5e02834a9f54400bdf5e4d4cc94ec7bd27d",
+        "originalFullExecutionLog": {
+          "path": "reruns/574A/source-12752130.json",
+          "sha256": "310785b7e1d9c72f54215bad9b578e3eb6e48b0f763c0ef590fd2a5f231834b1",
+          "sourceHash": "63a239c3cf0975c90213ea9fae9a228360507d07106635a88a819fc8a6f78d52"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0016",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/574A/lf-12752130.json",
+          "lfLogSha256": "2429c910e8710f885f6847e5d008bf1f846493ab9fca5d1c4ae39237907a8fca",
+          "lfOutputHash": "826b6832e45ba17d625debc95ae8554e148550b00c05b47fa8f7be1c555bc83c",
+          "lfOutputBase64": "NzEK",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0016",
+          "includedTestPath": "1200/packages/574A/tests/0016.in",
+          "validLFInput": "30\n27 85 49 7 77 38 4 68 23 28 81 100 40 9 78 38 1 60 60 49 98 44 45 92 46 39 98 24 37 39\n",
+          "validLFInputSha256": "c21a93c2c437dc7bb1c044312a823bdf6f43dc590d029e3c5ec52a71b9fd207d",
+          "originalInputSha256": "852ad92c45d792aa30820c82f65948ec701ec89902d662f2dce9e29f44e3f3ff",
+          "constraintsExplanation": "n=30 is in 2..100 and exactly n initial vote counts lie in 1..1000. Each bribe transfers one rival vote to Limak. Strictly more than every rival, not a tie, is required.",
+          "correctAnswer": "58",
+          "mathematicalDerivation": "With 57 bribes Limak has 84, requiring all rivals <= 83; at least 58 votes must be removed from rivals, more than 57. For fewer bribes this required removal only increases, so none can suffice. With 58 bribes Limak has 85, mandatory removals to reach rival cap 84 total 53. The certificate gives nonnegative transfers [6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 8, 0, 0, 14, 0, 0, 0], total 58, producing rivals [79, 49, 7, 77, 38, 4, 68, 23, 28, 81, 84, 40, 9, 78, 38, 1, 60, 60, 49, 84, 44, 45, 84, 46, 39, 84, 24, 37, 39], whose maximum 84 is strictly smaller than 85. Thus the minimum is 58.",
+          "mathematicalCertificate": {
+            "mandatoryRemovalsAtK": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              16,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              14,
+              0,
+              0,
+              8,
+              0,
+              0,
+              14,
+              0,
+              0,
+              0
+            ],
+            "transfers": [
+              6,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              16,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              14,
+              0,
+              0,
+              8,
+              0,
+              0,
+              14,
+              0,
+              0,
+              0
+            ],
+            "finalLimakVotes": 85,
+            "finalRivalVotes": [
+              79,
+              49,
+              7,
+              77,
+              38,
+              4,
+              68,
+              23,
+              28,
+              81,
+              84,
+              40,
+              9,
+              78,
+              38,
+              1,
+              60,
+              60,
+              49,
+              84,
+              44,
+              45,
+              84,
+              46,
+              39,
+              84,
+              24,
+              37,
+              39
+            ],
+            "totalBribes": 58,
+            "requiredRemovalsAtKMinusOne": 58
+          },
+          "actualAnswer": "71",
+          "actualOutputBase64": "NzEK",
+          "actualOutputHash": "826b6832e45ba17d625debc95ae8554e148550b00c05b47fa8f7be1c555bc83c",
+          "lfExecutionLog": {
+            "path": "reruns/574A/lf-12752130.json",
+            "sha256": "2429c910e8710f885f6847e5d008bf1f846493ab9fca5d1c4ae39237907a8fca",
+            "sourceHash": "63a239c3cf0975c90213ea9fae9a228360507d07106635a88a819fc8a6f78d52",
+            "runTest": "0016"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/574A/12752130-0016.json",
+            "sha256": "a6899534831f31c64886aea65a542ea3c5edef02d8f78e4ceb1baa162653e88e"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0016"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0016 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     }
   },
   "originalTestAccounting": {
@@ -12887,7 +13419,7 @@
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
-    "12751522: Allocates V[N-1] but accesses V[N-1] and fills V[1..N-1], then sorts N entries. Recorded sample WA is produced through out-of-bounds undefined memory; numerous other supplied tests are RE. Conservatively excluded as runtime/undefined-memory evidence, not a reliable algorithmic WA proof."
+    "12751522: Initialization writes indices 0..N-1 into an N-1 array, rivals are stored starting at index 1, V[N-1] is read/written as maximum, and merge_sort(V,N) exceeds allocation. Recorded numeric output depends on undefined out-of-bounds memory and other included runs crash. No trustworthy mathematical WA is counted."
   ],
   "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
   "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
@@ -12911,5 +13443,21 @@
     "allProvenanceFilesMatch": true,
     "archiveHash": "d0e5a02cf9f49548d2818dc16db9b8915e99e35328652d5ebd28b5392af88173",
     "fileCount": 361
+  },
+  "semanticReviewSummary": {
+    "version": 1,
+    "sourceReviewCount": 5,
+    "genuineAlgorithmicWrongSources": 4,
+    "countedForUnchangedEvidence": 4,
+    "allFullSourcesRead": true,
+    "exactLineNumbering": "code.splitlines(), 1-based; sourceLines includes complete source, not just selected fragments",
+    "originalExecutionArchive": {
+      "url": "https://staging.itsdev.in/attachments/e051d034-5880-47e1-8e87-e5df8f751340/audit1200-batch2-evidence.tar.gz",
+      "sha256": "9857b69a4beb2a025d4d2a999f52dd0024aadba1539bbdc3907ca0e1d0b86a9d"
+    },
+    "newPublicProgramExecutions": 0,
+    "parentVerificationRequired": true,
+    "upstreamCrosscheckStatus": "Parent reports pinned upstream statement/API/source verification complete; not repeated by this source-semantic reviewer.",
+    "evidencePolicy": "Original source, package, evidence, execution logs and recorded failedTest remain unchanged. Additional existing included LF WA proofs are supplemental and do not silently replace original counted evidence."
   }
 }
