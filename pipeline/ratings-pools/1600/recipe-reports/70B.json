@@ -723,13 +723,16 @@
     "Obtain a later different-agent independent audit. This recipe author is not an auditor and does not add to the parent validated problem count."
   ],
   "localChecks": {
-    "status": "targeted-unittest-and-AST-passed-final-diff-check-pending",
+    "status": "passed",
     "commands": [
       "python3 -m unittest discover -s pipeline/ratings-pools/1600 -p test_recipe_70B.py -v",
       "AST parse of recipe_70B.py and test_recipe_70B.py",
       "git diff --check 5b28d33...HEAD"
     ],
     "unitTests": 9,
+    "astSyntaxPassed": true,
+    "gitDiffCheckPassed": true,
+    "inputBindingAndBytePreservationPassed": true,
     "notes": "Initial full-page HTML copy caused 12 original template trailing-whitespace warnings. Retain the byte-exact complete problem-statement div instead, without rewriting its contents. No whitespace security gate bypass or ignored test force-add."
   }
 }
