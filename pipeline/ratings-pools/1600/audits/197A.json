@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "id": "197A",
+  "rating": 1600,
+  "approved": true,
+  "reviewer": "devin-f2823eddff2b4a639d38c7c49d347210",
+  "reviewUrl": "https://staging.itsdev.in/sessions/f2823eddff2b4a639d38c7c49d347210",
+  "workerCommit": "d79c2e61d6b781723f3f02ed247089bc909b5bf3",
+  "archiveHash": "4adb13f3f2e15e08f62d1d494970d8c45ac5f176b0ac714f0cd1f60887e8a4f5",
+  "qualificationBasis": "official",
+  "packageHash": "47b769abe517bac88d5943e87340c4e351b773d5c3e342798ee2ef15a1827656",
+  "evidenceHash": "9198ec448a5ca026ade09148a8f32edce3f4c0120548c1a4e1ae550ce286bec8",
+  "coverageHash": "5eff59be4d56edf6915b860375b14e54400d60a196320f9c68766c5a335095b4",
+  "semanticHash": "15d42c64306c681fb9cd7423e86222f2c784f05adc3d0e888b2831d9b12f2363",
+  "testPairsHash": "759fc282ba288e392c2ddb4a2321758831ad1e0652cbe5cb323c0d113f49dd9a",
+  "checks": {
+    "sourceAttribution": true,
+    "fullTests": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "noSpecialChecker": true,
+    "hashes": true,
+    "statementComplete": true,
+    "inputConstraints": true,
+    "independentOracle": true,
+    "algorithmicallyWrong": true,
+    "independentOutputs": true,
+    "sandboxReplay": true
+  },
+  "independentAssessment": {
+    "statement": "Pinned public description/input/output/notes preserved in rendered HTML; all sample files exactly match upstream. Plain decimal 1..100 bounds for 197A and spaced decimal 0..1000000, n+m>0 for 626C are unambiguous. No required image, interaction, special checker, or floating tolerance.",
+    "officialCompleteness": "All 95 advertised official pairs exactly rejoined from independently rehashed pinned statement shard; official_tests_complete=true. Zero upstream-generated pairs are advertised. All 154 authored pairs additionally checked.",
+    "derivation": "If one disk fits, place it at rectangle center and reply to each opponent move by central reflection. Paired occupied positions preserve symmetry; reflected disks remain in rectangle and cannot overlap their partners/center disk or any previous disk. If diameter does not fit either side, no move exists. Positive disk area bounds game length. Thus First iff r <= floor(min(a,b)/2). This is a continuous-geometric pairing proof, not area-quotient parity.",
+    "smallCrossChecks": {
+      "626CExactHeightAssignmentDP": 168,
+      "626CGrid": "Every n,m in 0..12 with positive sum; for each height assign it to at most one student type or leave unused. No Hall-count formula used in the DP.",
+      "197ADiscreteMinimaxCases": [
+        {
+          "a": 1,
+          "b": 1,
+          "r": 1,
+          "winner": "Second"
+        },
+        {
+          "a": 1,
+          "b": 2,
+          "r": 1,
+          "winner": "Second"
+        },
+        {
+          "a": 1,
+          "b": 4,
+          "r": 1,
+          "winner": "Second"
+        },
+        {
+          "a": 2,
+          "b": 1,
+          "r": 1,
+          "winner": "Second"
+        },
+        {
+          "a": 2,
+          "b": 2,
+          "r": 1,
+          "winner": "First"
+        },
+        {
+          "a": 2,
+          "b": 4,
+          "r": 1,
+          "winner": "First"
+        },
+        {
+          "a": 4,
+          "b": 1,
+          "r": 1,
+          "winner": "Second"
+        },
+        {
+          "a": 4,
+          "b": 2,
+          "r": 1,
+          "winner": "First"
+        },
+        {
+          "a": 4,
+          "b": 4,
+          "r": 1,
+          "winner": "First"
+        }
+      ],
+      "197ALimitation": "Finite integer-center toy games with r=1 supplement the proof only; continuous game correctness comes from central-symmetry proof, not discrete enumeration."
+    },
+    "testsChecked": 249,
+    "samplesChecked": 2,
+    "independentOracleSourceHash": "efe8733814fca79c9b461beedd736b4b280adffa2232eb09cb9113b2b0783387",
+    "coverage": "Every input parsed within 1..100. Official 0003 is 100 100 1 (maximum board, winning), 0004 is 1 1 100 (minimum board/maximum radius, losing), 0010/0011 are exact-diameter edge fits. Authored 0096 is all-minimum losing; 0097 all-maximum losing; 0098 is winning odd-sized board and 0099 is oversized radius. Remaining 150 authored cases cover asymmetric boards and radius thresholds. The maxSize bucket also contains nonmaximal boundary entries, but actual coordinate/radius maxima are present unchanged.",
+    "sampleMeanings": "5 5 2 permits the first central plate; 6 7 4 cannot fit a single diameter-8 plate.",
+    "authenticity": "All five counted accepted and five counted incorrect source IDs and SHA256s are distinct, TESTS rows and exactly authenticate against pinned public source shards. Dataset compatibility edits preserved; not a claim of original live submission bytes.",
+    "algorithmicFailures": "All five incorrect sources return substantive wrong answers on valid inputs with exit=0 and timeout=false. No debug-only, whitespace, encoding, compile, unsupported-runtime or infrastructure failures are used to qualify.",
+    "sandbox": "Fresh workdirs, pinned python image digest, v2 -O2 -std=c++17 -DONLINE_JUDGE context; network none, nonroot, read-only payload/harness/root, no capabilities, no-new-privileges and bounded CPU/address-space/wall/files/pids/tmpfs. Untrusted public code never run on host.",
+    "replay": "Every 2490 recorded counted test outcome reproduced with exact verdict, exit, timeout and outputHash. All five accepted sources also pass 2 samples. All ten sources recompiled/executed, no sample outcome contradiction.",
+    "publication": "Verified publication_gate(require_approval=False) only; no publication, PR, deploy, database/storage mutation or shared gate change."
+  },
+  "incorrectAnalysis": {
+    "3819951": {
+      "reason": "Uses parity of repeated radius doubling instead of the central-reflection winning strategy. On 100 100 1 returns Second although a central disk fits and First wins.",
+      "test": "0003",
+      "input": "100 100 1\r\n",
+      "expected": "First\r\n",
+      "actual": "Second\n",
+      "actualHash": "8d9adfcada83dd7ef5567582febcfd834a9e4d799ddea8b5845432ae2fb3c93a",
+      "exitCode": 0,
+      "timeout": false,
+      "verdict": "WA"
+    },
+    "4947411": {
+      "reason": "Tests 2*a<r or 2*b<r, reversing the required diameter inequalities a<2*r or b<2*r. On 6 7 4 wrongly returns First although no diameter-8 disk fits.",
+      "test": "0002",
+      "input": "6 7 4\r\n",
+      "expected": "Second\r\n",
+      "actual": "First\n",
+      "actualHash": "ff69273707141f6521d728c153bf76a4b2995b46d83dcab8cda0b15918e53751",
+      "exitCode": 0,
+      "timeout": false,
+      "verdict": "WA"
+    },
+    "11998743": {
+      "reason": "Subtracts disk areas and uses count parity, ignoring both geometric packing and optimal central-reflection responses. On 9 9 2 returns Second although First can place a central disk and pair subsequent moves.",
+      "test": "0007",
+      "input": "9 9 2\r\n",
+      "expected": "First\r\n",
+      "actual": "Second\n",
+      "actualHash": "8d9adfcada83dd7ef5567582febcfd834a9e4d799ddea8b5845432ae2fb3c93a",
+      "exitCode": 0,
+      "timeout": false,
+      "verdict": "WA"
+    },
+    "15161879": {
+      "reason": "Returns only parity of side a, ignoring b and radius. On valid 100 100 1 wrongly says Second; a central plate guarantees First.",
+      "test": "0003",
+      "input": "100 100 1\r\n",
+      "expected": "First\r\n",
+      "actual": "Second\n",
+      "actualHash": "8d9adfcada83dd7ef5567582febcfd834a9e4d799ddea8b5845432ae2fb3c93a",
+      "exitCode": 0,
+      "timeout": false,
+      "verdict": "WA"
+    },
+    "15162081": {
+      "reason": "Uses parity of floor(a/(4*r))*floor(b/(4*r)), an arbitrary grid approximation unrelated to optimal play. On 82 20 5 this product is 4, but a central disk fits, so First wins; source returns Second.",
+      "test": "0029",
+      "input": "82 20 5\r\n",
+      "expected": "First\r\n",
+      "actual": "Second\n",
+      "actualHash": "8d9adfcada83dd7ef5567582febcfd834a9e4d799ddea8b5845432ae2fb3c93a",
+      "exitCode": 0,
+      "timeout": false,
+      "verdict": "WA"
+    }
+  }
+}
