@@ -34,7 +34,9 @@ def main():
         record = {"id": pid, "qualificationBasis": basis, "semanticPassed": semantic["passed"],
                   "constraintsInvalid": semantic["invalid"], "validated": False, "audit": "different-agent audit required"}
         if not evidence_path.exists():
-            record.update(status="no-execution-evidence", readyForIndependentAudit=False)
+            outcome = HERE / "outcomes" / f"{pid}.json"
+            gap = read_json(outcome) if outcome.exists() else {}
+            record.update(status=gap.get("status", "no-execution-evidence"), executionGap=gap.get("reason"), readyForIndependentAudit=False)
         else:
             evidence = read_json(evidence_path)
             files = manifest(package)
@@ -57,6 +59,14 @@ def main():
             checks["preAuditEvidence"], record["evidenceGate"] = expected_missing_audit(
                 lambda: verify_evidence(package, evidence, {}), "audit is stale")
             if basis == "generated":
+                public_oracle = read_json(HERE / "qualification-sources" / pid / "source.json")
+                oracle_proof = read_json(package / "qualification/oracle.json")
+                checks["attributedPublicOracle"] = (public_oracle["source"]["dataset"] == "open-r1/codeforces-submissions"
+                                                   and public_oracle["source"]["revision"] == PINS["open-r1/codeforces-submissions"]
+                                                   and public_oracle["sourceHash"] == oracle_proof["sourceHash"]
+                                                   and oracle_proof["author"] == "codeforces-submission:" + str(public_oracle["submissionId"])
+                                                   and all(str(s["submissionId"]) != str(public_oracle["submissionId"]) for s in evidence["submissions"]))
+                record["publicOracle"] = public_oracle
                 checks["preAuditGeneratedProof"], record["generatedGate"] = expected_missing_audit(
                     lambda: verify_generated(package, files, provenance["tests"]["pairs"], evidence, {}),
                     "generated basis not explicitly declared in evidence/audit")

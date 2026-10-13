@@ -3,7 +3,7 @@ import argparse
 import gzip
 import hashlib
 import json
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import subprocess
 import sys
 import tarfile
@@ -60,6 +60,30 @@ def write_archive(output, paths):
     return {"archive": output.name, "sha256": sha(output), "bytes": output.stat().st_size, "files": provenance}
 
 
+def verify_archive(output, record):
+    if sha(output) != record["sha256"] or output.stat().st_size != record["bytes"]:
+        raise ValueError("archive checksum/size mismatch")
+    seen = set()
+    with tarfile.open(output, "r:gz") as archive:
+        for member in archive:
+            if (member.name in seen or member.name not in record["files"] or not member.isfile()
+                    or not member.name.startswith("1000/") or ".." in PurePosixPath(member.name).parts
+                    or (member.uid, member.gid, member.mtime, member.mode) != (0, 0, 0, 0o644)):
+                raise ValueError("unsafe or nonreproducible archive member")
+            seen.add(member.name)
+            checksum, count = hashlib.sha256(), 0
+            with archive.extractfile(member) as stream:
+                for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+                    checksum.update(chunk)
+                    count += len(chunk)
+            expected = record["files"][member.name]
+            if count != member.size or count != expected["bytes"] or checksum.hexdigest() != expected["sha256"]:
+                raise ValueError("archive member hash/size mismatch")
+    if seen != set(record["files"]):
+        raise ValueError("missing archive members")
+    return {"passed": True, "verifiedFiles": len(seen)}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, required=True)
@@ -79,13 +103,17 @@ def main():
     for i, group in enumerate(groups, 1):
         name = args.output_dir / f"rating-1000-evidence-part{i:02d}.tar.gz"
         record = write_archive(name, [p for pid in group for p in bundles[pid]])
+        record["verification"] = verify_archive(name, record)
         record["problemIds"] = sorted(group)
         records.append(record)
         print(json.dumps({k: record[k] for k in ("archive", "sha256", "bytes", "problemIds")}), flush=True)
     shared = [p for p in HERE.iterdir() if p.is_file() and p.suffix in (".py", ".json", ".md")]
     shared.extend(files(HERE / "tests"))
     shared.extend(files(HERE / "diagnostics"))
-    records.append(write_archive(args.output_dir / "rating-1000-provenance-and-diagnostics.tar.gz", shared))
+    shared_archive = args.output_dir / "rating-1000-provenance-and-diagnostics.tar.gz"
+    record = write_archive(shared_archive, shared)
+    record["verification"] = verify_archive(shared_archive, record)
+    records.append(record)
     commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=HERE, text=True).strip()
     branch = subprocess.check_output(["git", "branch", "--show-current"], cwd=HERE, text=True).strip()
     value = {"schemaVersion": 1, "rating": 1000, "branch": branch, "commit": commit,
