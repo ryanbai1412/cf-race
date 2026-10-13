@@ -12070,6 +12070,50 @@
       },
       "observedVerdict": "WA",
       "reason": "Floors the mean of other elements before equality checking. On [6,6,6,7] in 0010 selects indices 1,2,3 although no element equals the exact mean; expected 0.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "3\n1 2 3\n",
+          "actualOutputSha256": "6b3272564201ddb9c9af54f753cb42a5c57b80c776cdd05f049d26c8695e2079",
+          "constraintValidity": "Included package test 0010; LF normalization changes only line delimiters, not tokens. 2<=n<=200000 and every array element is in 1..1000; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "0\n",
+          "existingLfExecutionLogPath": "fresh/134A/counterexample-22054782.json",
+          "existingLfExecutionLogSha256": "ace61a4f3f753900292d3b6cb9a8523e0035e37c9c155bab4b87fe02c5bddb23",
+          "mathematicalDerivation": "For [6,6,6,7], excluding any 6 leaves [6,6,7] with exact mean 19/3, not 6; excluding 7 leaves [6,6,6] with exact mean 6, not 7. No index qualifies. Floor(19/3)=6 makes the source print indices 1,2,3.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "26ff6c0e4edaf66b3399d7dbecff30014504fb82bd5dbb4f44f71d233b7b6830",
+            "verifiedSourceMetadataPath": "1200/state/134A/sources/22054782.json",
+            "verifiedSourceMetadataSha256": "ee313f5cdf372aeda53ea3eeec242bd31ceff6ae818127757266e532375250c2"
+          },
+          "testName": "0010",
+          "validLfInput": "4\n6 6 6 7\n",
+          "validLfInputSha256": "fab184085965227d9a5355dd5ae37f8c97568078cf7ff788dcbe9966751343f7"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "Integer // at line 7 accepts a value equal only to the floored mean when the exact mean has a fractional part. It chooses positions that fail the required equality.",
+        "focusLines": [
+          {
+            "code": "s=sum(a)\nv=[]\nfor i in range(n):\n    if a[i]==(s-a[i])//(n-1):v+=str(i+1)\nP=print\nP(len(v))\nP(' '.join(v))",
+            "end": 10,
+            "start": 4
+          }
+        ],
+        "implementedAlgorithm": "Computes the total and selects positions whose value equals the floor of the average of all OTHER elements, printing count and indices.",
+        "sourceHash": "26ff6c0e4edaf66b3399d7dbecff30014504fb82bd5dbb4f44f71d233b7b6830",
+        "sourceLines": [
+          {
+            "code": "I=input\nn=int(I())\na=list(map(int,I().split()))\ns=sum(a)\nv=[]\nfor i in range(n):\n    if a[i]==(s-a[i])//(n-1):v+=str(i+1)\nP=print\nP(len(v))\nP(' '.join(v))",
+            "end": 10,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/134A/sources/22054782.json",
+        "sourceMetadataSha256": "ee313f5cdf372aeda53ea3eeec242bd31ceff6ae818127757266e532375250c2"
+      },
       "sourceHash": "26ff6c0e4edaf66b3399d7dbecff30014504fb82bd5dbb4f44f71d233b7b6830",
       "test": "0010",
       "timeout": false
@@ -12093,6 +12137,29 @@
       },
       "observedVerdict": "WA",
       "reason": "On all-equal 0002 computes the correct four indices but concatenates them as 1234 rather than four tokens. It also floors the global average on other cases, but replacing the recorded proof would require fresh counted-evidence revalidation, which was not authorized.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Recorded 0002 prints correct count and elements but concatenates their digits, a format-only failure. Included 0048 separately exposes a semantic defect; not substituting that for the designated proof.",
+        "faultyLogic": "The recorded all-equal test has the correct four selected positions but missing spaces (1234). The floor-of-global-mean is separately a semantic bug on included LF 0048 (1,2 -> correct zero, first line 1), but the designated 0002 counterexample is exclusively output layout.",
+        "focusLines": [
+          {
+            "code": "for i in range(a):\n    suma+=mas[i]\nsuma//=a\nfor i in range(a):\n    if mas[i]==suma:\n        kol.append(i)\n        k+=1\nprint(k)\nif k!=0:\n    for i in range(len(kol)):\n        print(kol[i]+1, end='')",
+            "end": 17,
+            "start": 7
+          }
+        ],
+        "implementedAlgorithm": "Floors the whole-array mean once and selects elements equal to that floor; then prints the number followed by concatenated index characters.",
+        "sourceHash": "309c6934e5412f1f1b13bc7fba44189fbd897f91e77c03048372a2bb6c14e2e3",
+        "sourceLines": [
+          {
+            "code": "a=int(input())\nmas = list(map(int, input().split(' ')))\nb=0\nsuma=0\nk=0\nkol=[]\nfor i in range(a):\n    suma+=mas[i]\nsuma//=a\nfor i in range(a):\n    if mas[i]==suma:\n        kol.append(i)\n        k+=1\nprint(k)\nif k!=0:\n    for i in range(len(kol)):\n        print(kol[i]+1, end='')",
+            "end": 17,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/134A/sources/43496029.json",
+        "sourceMetadataSha256": "df6668bf266b353e974d759a5914dda9628b3e872190dd8ba5927177ef9e5aa5"
+      },
       "sourceHash": "309c6934e5412f1f1b13bc7fba44189fbd897f91e77c03048372a2bb6c14e2e3",
       "test": "0002",
       "timeout": false
@@ -12116,6 +12183,50 @@
       },
       "observedVerdict": "WA",
       "reason": "Uses integer floor division for the mean. On [6,6,6,7] in 0010 selects indices 1,2,3 instead of no indices.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "3\n1 2 3\n",
+          "actualOutputSha256": "6b3272564201ddb9c9af54f753cb42a5c57b80c776cdd05f049d26c8695e2079",
+          "constraintValidity": "Included package test 0010; LF normalization changes only line delimiters, not tokens. 2<=n<=200000 and every array element is in 1..1000; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "0\n",
+          "existingLfExecutionLogPath": "fresh/134A/counterexample-45751301.json",
+          "existingLfExecutionLogSha256": "83209f714452c5a1ee2010c683a0ad847664c9db8323c13c5eb96bb19d580d4b",
+          "mathematicalDerivation": "For [6,6,6,7], each 6 sees exact mean 19/3 among its other three values and 7 sees mean 6. Thus zero candidates, whereas floor(19/3)=6 falsely makes the source count 3.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "1cb812509372fc7ec32553b21f021da371c59afcacc023753e37f4c1a4ce4300",
+            "verifiedSourceMetadataPath": "1200/state/134A/sources/45751301.json",
+            "verifiedSourceMetadataSha256": "8ecf6df3f3ee879b90a86d0031b3db5d0999c359c584d22fd14f0956c9993026"
+          },
+          "testName": "0010",
+          "validLfInput": "4\n6 6 6 7\n",
+          "validLfInputSha256": "fab184085965227d9a5355dd5ae37f8c97568078cf7ff788dcbe9966751343f7"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "Integer floor division loses fractional remainder. Being equal to a floored average does not imply equality to the rational mean demanded by the statement.",
+        "focusLines": [
+          {
+            "code": "s = sum(l)\nans = []\nfor i in range(0,n):\n    mean = (s-l[i])//(n-1)\n    if mean==l[i]:\n        ans.append(i+1)\nprint(len(ans))\nprint(\" \".join([str(i) for i in ans]))",
+            "end": 10,
+            "start": 3
+          }
+        ],
+        "implementedAlgorithm": "Computes total then tests each value against floor((total-value)/(n-1)), collecting and printing its indices.",
+        "sourceHash": "1cb812509372fc7ec32553b21f021da371c59afcacc023753e37f4c1a4ce4300",
+        "sourceLines": [
+          {
+            "code": "n = int(input())\nl = list(map(int,input().split()))\ns = sum(l)\nans = []\nfor i in range(0,n):\n    mean = (s-l[i])//(n-1)\n    if mean==l[i]:\n        ans.append(i+1)\nprint(len(ans))\nprint(\" \".join([str(i) for i in ans]))",
+            "end": 10,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/134A/sources/45751301.json",
+        "sourceMetadataSha256": "8ecf6df3f3ee879b90a86d0031b3db5d0999c359c584d22fd14f0956c9993026"
+      },
       "sourceHash": "1cb812509372fc7ec32553b21f021da371c59afcacc023753e37f4c1a4ce4300",
       "test": "0010",
       "timeout": false
@@ -12139,6 +12250,29 @@
       },
       "observedVerdict": "TLE",
       "reason": "Recomputes both sliced sums for each candidate, O(n^2), while the mean comparison is mathematically correct. On 0039 times out; TLE-only evidence is uncounted.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Recorded 0039 TLE only; no wrong index or count is produced.",
+        "faultyLogic": "The equality formula is semantically correct for these integer bounds, but both sums are O(n) per element. n=200000 all equal makes the full O(n^2) loop time out.",
+        "focusLines": [
+          {
+            "code": "for i in range(len(numbers)):\n    mean = (sum(numbers[:i])+sum(numbers[i+1:])) / (n-1)\n    if mean == numbers[i]:\n        x += 1\n        indexs.append(i+1)\nif x == 0:\n    print (x)\nelse:\n    print(x)\n    for i in range(len(indexs)):\n        print(indexs[i],end  = ' ')",
+            "end": 15,
+            "start": 5
+          }
+        ],
+        "implementedAlgorithm": "For each index, sums both array slices excluding that index, divides by n-1 and prints all indices whose value equals this mean.",
+        "sourceHash": "2f2107b280f5115a3876d89b4fb6a93db5325c3ae87718c6e6ffc9a386055b3b",
+        "sourceLines": [
+          {
+            "code": "n = int(input())\nnumbers = list(map(int,input().split()))\nx = 0\nindexs = []\nfor i in range(len(numbers)):\n    mean = (sum(numbers[:i])+sum(numbers[i+1:])) / (n-1)\n    if mean == numbers[i]:\n        x += 1\n        indexs.append(i+1)\nif x == 0:\n    print (x)\nelse:\n    print(x)\n    for i in range(len(indexs)):\n        print(indexs[i],end  = ' ')",
+            "end": 15,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/134A/sources/6200284.json",
+        "sourceMetadataSha256": "57e0bf502b748077a61943f8733dd4bb163db62b5bbfbddb32391faf25cf87dc"
+      },
       "sourceHash": "2f2107b280f5115a3876d89b4fb6a93db5325c3ae87718c6e6ffc9a386055b3b",
       "test": "0039",
       "timeout": true
@@ -12162,6 +12296,29 @@
       },
       "observedVerdict": "WA",
       "reason": "Correctly selects index 3 on 0001 but omits the required count. Actual output is 3 rather than tokens 1 3; recorded failure is output-layout-only.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Recorded 0001 prints the correct selected index while omitting the leading count: presentation-only.",
+        "faultyLogic": "The selected index on recorded 0001 is correct, but lines 16–17 print only indices without the mandatory count. This is not a faulty average predicate.",
+        "focusLines": [
+          {
+            "code": "def compare(x,index, li):\n    sm = 0\n    for i in range(len(li)):\n        if i==index: continue\n        sm += li[i]\n    if sm/(len(li)-1)==x: return True\n    return False\n\nn = int(input())\nnum = list(map(int, input().split()))\ncount = []\n\nfor i in range(n):\n    if compare(num[i], i, num):\n        count.append(i)\nfor i in range(len(count)):\n    print(count[i]+1, end=\" \")",
+            "end": 17,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "For each index, compare computes the exact mean of all other elements and selects matching positions.",
+        "sourceHash": "b454b573f577b44e0d0b6afedff2fd99f9635c71fffe2be72dd5295722580535",
+        "sourceLines": [
+          {
+            "code": "def compare(x,index, li):\n    sm = 0\n    for i in range(len(li)):\n        if i==index: continue\n        sm += li[i]\n    if sm/(len(li)-1)==x: return True\n    return False\n\nn = int(input())\nnum = list(map(int, input().split()))\ncount = []\n\nfor i in range(n):\n    if compare(num[i], i, num):\n        count.append(i)\nfor i in range(len(count)):\n    print(count[i]+1, end=\" \")",
+            "end": 17,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/134A/sources/9913849.json",
+        "sourceMetadataSha256": "dfdc7b31fbd8f715608cbe05e6208881ac74b8487373c1c8b6e2a04938e0e304"
+      },
       "sourceHash": "b454b573f577b44e0d0b6afedff2fd99f9635c71fffe2be72dd5295722580535",
       "test": "0001",
       "timeout": false

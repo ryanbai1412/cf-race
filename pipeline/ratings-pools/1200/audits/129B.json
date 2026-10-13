@@ -10845,6 +10845,29 @@
       },
       "observedVerdict": "TLE",
       "reason": "The loop condition cnt2 > len(dl[1]) remains true once a nonempty cycle core has no degree-one vertices, so 0008 never terminates. Fresh recorded outcome is TLE, not an algorithmically wrong answer; other REs are also uncounted.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Recorded 0008 TLE on a leafless cycle core, not an actual numeric answer; exclude nontermination.",
+        "faultyLogic": "After a cycle core has zero leaves, cnt2 > len(dl[1]) remains true; both inner loops perform no work, so it spins forever. Separate runtime errors elsewhere cannot replace a valid numeric wrong-answer witness.",
+        "focusLines": [
+          {
+            "code": "    dl[len(adj[v])].append(v)\nif len(dl[1]) == 0:\n    print('0')\nelse:\n    cnt = 0\n    cnt2 = sum(len(dl[x]) for x in dl.keys())\n    while cnt2 > len(dl[1]):\n        dec = defaultdict(int)\n        while len(dl[1]) > 0:\n            v = dl[1].pop()\n            cnt2 -= 1\n            for v2 in adj[v]:\n                dec[v2] += 1              \n                adj[v2].remove(v)\n            del adj[v]\n        cnt += 1\n        for v in dec.keys():\n            dl[len(adj[v]) + dec[v]].remove(v)\n            if len(adj[v]) > 0:\n                dl[len(adj[v])].append(v)\n            else:\n                cnt2 -= 1\n    if len(dl[1]) > 0:\n        cnt += 1\n    print(cnt)",
+            "end": 36,
+            "start": 12
+          }
+        ],
+        "implementedAlgorithm": "Tracks a set of adjacent vertices and degree-bucket lists, removing current leaves before rebucketing their neighbours and accumulating removal rounds.",
+        "sourceHash": "96ded88282b3a048191d5458ae29881ca76a002032d26a44e91e2a6b644ef839",
+        "sourceLines": [
+          {
+            "code": "from collections import defaultdict\n\n\nn, m = map(int, input().split())\nE = [tuple(map(int, input().split())) for _ in range(m)]\nadj = defaultdict(set)\nfor e in E:\n    adj[e[0]].add(e[1])\n    adj[e[1]].add(e[0])\ndl = defaultdict(list)\nfor v in adj:\n    dl[len(adj[v])].append(v)\nif len(dl[1]) == 0:\n    print('0')\nelse:\n    cnt = 0\n    cnt2 = sum(len(dl[x]) for x in dl.keys())\n    while cnt2 > len(dl[1]):\n        dec = defaultdict(int)\n        while len(dl[1]) > 0:\n            v = dl[1].pop()\n            cnt2 -= 1\n            for v2 in adj[v]:\n                dec[v2] += 1              \n                adj[v2].remove(v)\n            del adj[v]\n        cnt += 1\n        for v in dec.keys():\n            dl[len(adj[v]) + dec[v]].remove(v)\n            if len(adj[v]) > 0:\n                dl[len(adj[v])].append(v)\n            else:\n                cnt2 -= 1\n    if len(dl[1]) > 0:\n        cnt += 1\n    print(cnt)",
+            "end": 36,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/129B/sources/19177724.json",
+        "sourceMetadataSha256": "8f84119089ce72d9cb92dfba13a658e826938b8d00c06bee9fc0cf7340491dda"
+      },
       "sourceHash": "96ded88282b3a048191d5458ae29881ca76a002032d26a44e91e2a6b644ef839",
       "test": "0008",
       "timeout": true
@@ -10868,6 +10891,50 @@
       },
       "observedVerdict": "WA",
       "reason": "Clears leaf rows without symmetric edge updates, then outputs the number of remaining leaves instead of removal rounds. On the four-vertex chain plus isolated vertices in 0002 prints 0 instead of 2.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "0\n",
+          "actualOutputSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "constraintValidity": "Included package test 0002; LF normalization changes only line delimiters, not tokens. 1<=n<=100 and all edges are distinct unordered pairs of vertices 1..n; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "2\n",
+          "existingLfExecutionLogPath": "fresh/129B/counterexample-3697340.json",
+          "existingLfExecutionLogSha256": "58df802564171ea0746db95a8411daa6294ad279687053d34ab9fed79bd2b049",
+          "mathematicalDerivation": "n=6 with path 1-2-3-4 and two isolated vertices: remove leaves 1,4 in round 1, then newly isolated edge endpoints 2,3 in round 2; answer two rounds, not zero.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "a06d64519f580ad19b75f434adc6d11b029ef251e6c4ec4cbfbc16780009d526",
+            "verifiedSourceMetadataPath": "1200/state/129B/sources/3697340.json",
+            "verifiedSourceMetadataSha256": "89109d173c71da10bdf9f3f9faaa1b62843e7464e5684c2d1d84d0a32f432a26"
+          },
+          "testName": "0002",
+          "validLfInput": "6 3\n1 2\n2 3\n3 4\n",
+          "validLfInputSha256": "fec298f974d0598daf14c19f1b2d27ba958e9c1333a7edb9dcf60703c814a332"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "It never increments a round counter (c is unused) or clears the symmetric neighbour columns, and outputs residual leaves rather than simultaneous peeling rounds.",
+        "focusLines": [
+          {
+            "code": "c=0\namt=0\nfor _ in range(n):\n    for i in range(n):\n        if (a[i].count(1)==1):\n            c+=1   \n            for j in range(n):\n                a[i][j]=0\n\n       \nfor i in a:\n    if (i.count(1)==1):\n        amt+=1\n                \nprint (amt)",
+            "end": 24,
+            "start": 10
+          }
+        ],
+        "implementedAlgorithm": "Builds an adjacency matrix and scans it for degree-one rows; it zeros rows for observed leaves and finally prints the count of degree-one rows left.",
+        "sourceHash": "a06d64519f580ad19b75f434adc6d11b029ef251e6c4ec4cbfbc16780009d526",
+        "sourceLines": [
+          {
+            "code": "n,m=map(int,input().split())\na=[[0 for x  in range(n)]  for y  in range(n) ]\n\nfor i in range(m):\n    i,j=map(int,input().split())\n    a[i-1][j-1]=a[j-1][i-1]=1\n    \n\n\nc=0\namt=0\nfor _ in range(n):\n    for i in range(n):\n        if (a[i].count(1)==1):\n            c+=1   \n            for j in range(n):\n                a[i][j]=0\n\n       \nfor i in a:\n    if (i.count(1)==1):\n        amt+=1\n                \nprint (amt)",
+            "end": 24,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/129B/sources/3697340.json",
+        "sourceMetadataSha256": "89109d173c71da10bdf9f3f9faaa1b62843e7464e5684c2d1d84d0a32f432a26"
+      },
       "sourceHash": "a06d64519f580ad19b75f434adc6d11b029ef251e6c4ec4cbfbc16780009d526",
       "test": "0002",
       "timeout": false
@@ -10891,6 +10958,50 @@
       },
       "observedVerdict": "WA",
       "reason": "Removes both a leaf and its neighbour immediately and counts each pair, rather than collecting simultaneous leaves and counting rounds. On 0007 prints 5 instead of 4.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "5",
+          "actualOutputSha256": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+          "constraintValidity": "Included package test 0007; LF normalization changes only line delimiters, not tokens. 1<=n<=100 and all edges are distinct unordered pairs of vertices 1..n; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "4\n",
+          "existingLfExecutionLogPath": "fresh/129B/counterexample-37592236.json",
+          "existingLfExecutionLogSha256": "ead46535f595062bff79db0694f8035ab026d23409c7fbb3f860c29776c0f5f5",
+          "mathematicalDerivation": "The four-arm 11-vertex tree must lose leaves {2,4,7,11}, {3,6,10}, {5,9}, then {1,8} in four simultaneous rounds. Counting five leaf-neighbour pairs is not the requested round count.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "6682bef22d25491086bd3650beef604c434376e94addc3f59fc96d21a1d8510c",
+            "verifiedSourceMetadataPath": "1200/state/129B/sources/37592236.json",
+            "verifiedSourceMetadataSha256": "95abb7254f45a72493e3e7066ad8ef8c83c456f9b40b819a0a27ef0f8236f64b"
+          },
+          "testName": "0007",
+          "validLfInput": "11 10\n1 2\n1 3\n3 4\n1 5\n5 6\n6 7\n1 8\n8 9\n9 10\n10 11\n",
+          "validLfInputSha256": "223f6612167a2f83592c425745736680d44cbe73ce11acfff3505d1cbc1950c1"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "It counts leaf-neighbour removals individually and removes the neighbour immediately. The problem requires one round for all simultaneous leaves, retaining neighbours unless their own degree is one.",
+        "focusLines": [
+          {
+            "code": "    count = 0\n\n    while True:\n\n        will_end = True\n\n        i = 0\n\n        while i < n:\n\n            i += 1\n\n            if len(dict[i]) == 1:\n\n                count += 1\n\n                will_end = False\n\n                temp = dict[i].pop()\n\n                for j in range(1, n + 1):\n                    dict[j].discard(i)\n                    dict[j].discard(temp)\n\n                dict[i].clear()\n                dict[temp].clear()\n\n                i = 1\n\n        if will_end:\n            break\n\n    output = count",
+            "end": 59,
+            "start": 27
+          }
+        ],
+        "implementedAlgorithm": "Keeps an adjacency set per student; in each scan it finds a leaf, increments count, clears both that leaf and its neighbour, then restarts its search.",
+        "sourceHash": "6682bef22d25491086bd3650beef604c434376e94addc3f59fc96d21a1d8510c",
+        "sourceLines": [
+          {
+            "code": "# python3\nimport sys, threading, os.path\nimport collections, heapq, math, bisect\nimport string\n\nsys.setrecursionlimit(10 ** 6)\nthreading.stack_size(2 ** 27)\n\n\ndef main():\n    if os.path.exists('in.txt'):\n        input = open('in.txt', 'r')\n    else:\n        input = sys.stdin\n    # --------------------------------INPUT---------------------------------\n    n, m = list(map(int, input.readline().split()))\n    dict = {}\n\n    for i in range(1, n + 1):\n        dict[i] = set()\n\n    for i in range(m):\n        a, b = list(map(int, input.readline().split()))\n        dict[a].add(b)\n        dict[b].add(a)\n\n    count = 0\n\n    while True:\n\n        will_end = True\n\n        i = 0\n\n        while i < n:\n\n            i += 1\n\n            if len(dict[i]) == 1:\n\n                count += 1\n\n                will_end = False\n\n                temp = dict[i].pop()\n\n                for j in range(1, n + 1):\n                    dict[j].discard(i)\n                    dict[j].discard(temp)\n\n                dict[i].clear()\n                dict[temp].clear()\n\n                i = 1\n\n        if will_end:\n            break\n\n    output = count\n    # -------------------------------OUTPUT----------------------------------\n    if os.path.exists('out.txt'):\n        open('out.txt', 'w').writelines(str(output))\n    else:\n        sys.stdout.write(str(output))\n\n\nif __name__ == '__main__':\n    main()\n# threading.Thread(target=main).start()",
+            "end": 69,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/129B/sources/37592236.json",
+        "sourceMetadataSha256": "95abb7254f45a72493e3e7066ad8ef8c83c456f9b40b819a0a27ef0f8236f64b"
+      },
       "sourceHash": "6682bef22d25491086bd3650beef604c434376e94addc3f59fc96d21a1d8510c",
       "test": "0007",
       "timeout": false
@@ -10914,6 +11025,50 @@
       },
       "observedVerdict": "WA",
       "reason": "Stores neighbour labels as one-based values but removes zero-based j, deleting the wrong edges. On 0007 prints 3 instead of 4.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "3\n",
+          "actualOutputSha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+          "constraintValidity": "Included package test 0007; LF normalization changes only line delimiters, not tokens. 1<=n<=100 and all edges are distinct unordered pairs of vertices 1..n; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "4\n",
+          "existingLfExecutionLogPath": "fresh/129B/counterexample-52003668.json",
+          "existingLfExecutionLogSha256": "4b7cdb214227b0a6e9c001a128232f8df39ab7603f0d1d6b439a004327b732cd",
+          "mathematicalDerivation": "With arms of lengths 1,2,3,4, the simultaneous leaf sets are {2,4,7,11}, {3,6,10}, {5,9}, {1,8}. Four rounds are needed; deleting zero-based ids from one-based adjacency produces three.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "3052d04da9070547b06c22cbbf4faeff1241752c289ed6d6d57ef8a565ac6b5f",
+            "verifiedSourceMetadataPath": "1200/state/129B/sources/52003668.json",
+            "verifiedSourceMetadataSha256": "96f05ed7a75346a9d7839460acb36c37194155e2ec8a24e11012a05cfca59db7"
+          },
+          "testName": "0007",
+          "validLfInput": "11 10\n1 2\n1 3\n3 4\n1 5\n5 6\n6 7\n1 8\n8 9\n9 10\n10 11\n",
+          "validLfInputSha256": "223f6612167a2f83592c425745736680d44cbe73ce11acfff3505d1cbc1950c1"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "The lists contain one-based labels from input, but b holds zero-based row indices j and x.remove(j) checks those indices. Remaining degrees and rounds are wrong.",
+        "focusLines": [
+          {
+            "code": "a = [[] for i in range(n)]\nfor i in range(m):\n\tb, c = map(int, input().split())\n\ta[b-1].append(c)\n\ta[c-1].append(b)\nans = 0\nwhile True:\n\ti = 0\n\tb = []\n\tfor j in range(n):\n\t\tif len(a[j])==1:\n\t\t\ta[j] = []\n\t\t\tb.append(j)\n\t\telif len(a[j])!= 1:\n\t\t\ti+=1\n\tif i == n:\n\t\tprint(ans)\n\t\texit(0)\n\tans += 1\n\tfor j in b:\n\t\tfor x in a:\n\t\t\tif j in x:\n\t\t\t\tx.remove(j)",
+            "end": 25,
+            "start": 3
+          }
+        ],
+        "implementedAlgorithm": "Stores each vertex’s neighbours in mutable lists, empties all degree-one rows for a round, then deletes those vertices from other lists.",
+        "sourceHash": "3052d04da9070547b06c22cbbf4faeff1241752c289ed6d6d57ef8a565ac6b5f",
+        "sourceLines": [
+          {
+            "code": "n, m = map(int, input().split())\nans = 0\na = [[] for i in range(n)]\nfor i in range(m):\n\tb, c = map(int, input().split())\n\ta[b-1].append(c)\n\ta[c-1].append(b)\nans = 0\nwhile True:\n\ti = 0\n\tb = []\n\tfor j in range(n):\n\t\tif len(a[j])==1:\n\t\t\ta[j] = []\n\t\t\tb.append(j)\n\t\telif len(a[j])!= 1:\n\t\t\ti+=1\n\tif i == n:\n\t\tprint(ans)\n\t\texit(0)\n\tans += 1\n\tfor j in b:\n\t\tfor x in a:\n\t\t\tif j in x:\n\t\t\t\tx.remove(j)",
+            "end": 25,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/129B/sources/52003668.json",
+        "sourceMetadataSha256": "96f05ed7a75346a9d7839460acb36c37194155e2ec8a24e11012a05cfca59db7"
+      },
       "sourceHash": "3052d04da9070547b06c22cbbf4faeff1241752c289ed6d6d57ef8a565ac6b5f",
       "test": "0007",
       "timeout": false
@@ -10937,6 +11092,50 @@
       },
       "observedVerdict": "WA",
       "reason": "The reverse slice a[i][:j:-1] omits earlier neighbours, and in-place one-sided removals do not implement simultaneous degree-one peeling. On the multi-arm tree 0007 prints 1 instead of 4.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1\n",
+          "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "constraintValidity": "Included package test 0007; LF normalization changes only line delimiters, not tokens. 1<=n<=100 and all edges are distinct unordered pairs of vertices 1..n; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "4\n",
+          "existingLfExecutionLogPath": "fresh/129B/counterexample-5698318.json",
+          "existingLfExecutionLogSha256": "d4aa6160a1af5ef9c9de5766d8ef338a7f1e143071b2c39b48d032673e4b1ac6",
+          "mathematicalDerivation": "The tree has four arms from vertex 1 of lengths 1 (to 2), 2 (to 4), 3 (to 7), 4 (to 11). Simultaneous leaf sets are {2,4,7,11}, then {3,6,10}, then {5,9}, then {1,8}; four rounds, not one.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "6c1e3017237bb455d233b06b2ffc8cb6e6485ae636483530e97e4651754a1453",
+            "verifiedSourceMetadataPath": "1200/state/129B/sources/5698318.json",
+            "verifiedSourceMetadataSha256": "af1177b5d8f04492d3f83ba3ad25d30b79e8ff1a3a254eb126b62001c90068bf"
+          },
+          "testName": "0007",
+          "validLfInput": "11 10\n1 2\n1 3\n3 4\n1 5\n5 6\n6 7\n1 8\n8 9\n9 10\n10 11\n",
+          "validLfInputSha256": "223f6612167a2f83592c425745736680d44cbe73ce11acfff3505d1cbc1950c1"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "a[i][:j:-1] ignores neighbours at indices below j, and line 25 deletes only a[i][j], not a[j][i]. Degrees therefore become asymmetric and the sequential scan does not peel all degree-one vertices simultaneously.",
+        "focusLines": [
+          {
+            "code": "    for i in range(n):\n        try:\n            j=a[i].index(1)\n        except ValueError:\n            continue\n        try:\n            if a[j][i]==0:\n                a[i][j]=0\n                continue\n            a[i][:j:-1].index(1)\n        except ValueError:\n            con=True\n            a[i][j]=0\nprint(r)",
+            "end": 26,
+            "start": 13
+          }
+        ],
+        "implementedAlgorithm": "Finds the first 1 in each adjacency row, scans a reverse slice for another neighbour, deletes edges in place, and increments an outer round count.",
+        "sourceHash": "6c1e3017237bb455d233b06b2ffc8cb6e6485ae636483530e97e4651754a1453",
+        "sourceLines": [
+          {
+            "code": "scan=lambda:map(int,input().split())\nn,m=scan()\na=[[0]*n for _ in range(n)]\nfor _ in range(m):\n    i,j=scan()\n    a[i-1][j-1]=1\n    a[j-1][i-1]=1\ncon=True\nr=-1\nwhile con:\n    r+=1\n    con=False\n    for i in range(n):\n        try:\n            j=a[i].index(1)\n        except ValueError:\n            continue\n        try:\n            if a[j][i]==0:\n                a[i][j]=0\n                continue\n            a[i][:j:-1].index(1)\n        except ValueError:\n            con=True\n            a[i][j]=0\nprint(r)",
+            "end": 26,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/129B/sources/5698318.json",
+        "sourceMetadataSha256": "af1177b5d8f04492d3f83ba3ad25d30b79e8ff1a3a254eb126b62001c90068bf"
+      },
       "sourceHash": "6c1e3017237bb455d233b06b2ffc8cb6e6485ae636483530e97e4651754a1453",
       "test": "0007",
       "timeout": false

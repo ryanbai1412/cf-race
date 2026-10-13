@@ -11230,6 +11230,29 @@
       },
       "observedVerdict": "TLE",
       "reason": "Recomputes both sliced sums per cut, O(n^2), with correct equality logic. On 0034 times out; no algorithmically wrong answer is shown.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Recorded 0034 TLE-only; semantically correct equality test.",
+        "faultyLogic": "Each Python slice sum is linear and repeated n-1 times; the all-zero max-size case times out with no mathematical wrong answer.",
+        "focusLines": [
+          {
+            "code": "amount = 0\nfor i in range(1, n):\n\tif sum(stripes[:i]) == sum(stripes[i:]):\n\t\tamount+=1\nprint(amount)",
+            "end": 7,
+            "start": 3
+          }
+        ],
+        "implementedAlgorithm": "Enumerates n-1 legal cuts and compares sum of both copied slices, adding one when equal.",
+        "sourceHash": "ae101c82b1e0d985370d29902093555c965b9282d934e8a25fb04cfd4816a7d2",
+        "sourceLines": [
+          {
+            "code": "n = int(input())\nstripes = list(map(int, input().split()))\namount = 0\nfor i in range(1, n):\n\tif sum(stripes[:i]) == sum(stripes[i:]):\n\t\tamount+=1\nprint(amount)",
+            "end": 7,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/18C/sources/16132246.json",
+        "sourceMetadataSha256": "8196dd9fb666024cf078582b1c1ade6fae69e43830d522071d2cc2e33452d7ed"
+      },
       "sourceHash": "ae101c82b1e0d985370d29902093555c965b9282d934e8a25fb04cfd4816a7d2",
       "test": "0034",
       "timeout": true
@@ -11253,6 +11276,29 @@
       },
       "observedVerdict": "TLE",
       "reason": "Directly recomputes prefix/suffix sums for every legal cut, a correct O(n^2) algorithm. All-zero n=100000 in 0034 times out instead of producing 99999.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Recorded 0034 TLE-only; no wrong cut count.",
+        "faultyLogic": "Mathematically correct but O(n^2): for all-zero length-100000 stripe it recomputes full slices at each of 99999 cuts and times out.",
+        "focusLines": [
+          {
+            "code": "    A=list(map(int,input().split()))\n    for s in range (1,n):\n       if sum(A[:s])==sum(A[s:]):\n           ans+=1\n    print(ans)\nmain()",
+            "end": 10,
+            "start": 5
+          }
+        ],
+        "implementedAlgorithm": "Checks every legal cut by recomputing both slice sums and increments a count on equality.",
+        "sourceHash": "fe94db305460704bee0d0deb96b3593320420ce4ccfb3f21d7619d268ea2b5ec",
+        "sourceLines": [
+          {
+            "code": "##c\ndef main():\n    n=int(input())\n    ans=0\n    A=list(map(int,input().split()))\n    for s in range (1,n):\n       if sum(A[:s])==sum(A[s:]):\n           ans+=1\n    print(ans)\nmain()",
+            "end": 10,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/18C/sources/3999615.json",
+        "sourceMetadataSha256": "afc45e2ac62efbb9537ad196b2e05f420ce4935eed002df2d2f283df8710e18b"
+      },
       "sourceHash": "fe94db305460704bee0d0deb96b3593320420ce4ccfb3f21d7619d268ea2b5ec",
       "test": "0034",
       "timeout": true
@@ -11276,6 +11322,29 @@
       },
       "observedVerdict": "TLE",
       "reason": "Direct prefix/suffix sliced sums at each cut are O(n^2), mathematically correct. On 0034 times out; TLE-only evidence is uncounted.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Recorded 0034 TLE-only; the algorithm gives no erroneous numeric count.",
+        "faultyLogic": "Each full sum is O(n); an O(n^2) implementation times out on recorded large all-zero input. Its comparison is correct.",
+        "focusLines": [
+          {
+            "code": "line = input()\n\nline = list(map(int, line.split()))\n\nm = 0\nfor i in range(1, n):\n    if sum(line[:i]) == sum(line[i:]):\n        m += 1\nprint(m)",
+            "end": 11,
+            "start": 3
+          }
+        ],
+        "implementedAlgorithm": "Reads a stripe, recomputes left/right slice sums for each of n-1 cuts and counts equal halves.",
+        "sourceHash": "1a95c49cfe7d57a621109991591945907d0c870c6d60e954b5ee76f381252552",
+        "sourceLines": [
+          {
+            "code": "n = int(input())\n#line_raw = '9 1 5 -6 7 9 -16 0 -2 2'\nline = input()\n\nline = list(map(int, line.split()))\n\nm = 0\nfor i in range(1, n):\n    if sum(line[:i]) == sum(line[i:]):\n        m += 1\nprint(m)",
+            "end": 11,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/18C/sources/4494496.json",
+        "sourceMetadataSha256": "d1e8cf215d25573efa148b79bdb11813c770e810a6f60e69527d4decc963146d"
+      },
       "sourceHash": "1a95c49cfe7d57a621109991591945907d0c870c6d60e954b5ee76f381252552",
       "test": "0034",
       "timeout": true
@@ -11299,6 +11368,29 @@
       },
       "observedVerdict": "TLE",
       "reason": "Still performs both O(n) sums before a harmless pruning comparison, making O(n^2) work. On 0034 times out; no wrong numeric cut count is shown.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Recorded 0034 TLE only; the bound check does not disprove the equality logic.",
+        "faultyLogic": "Pruning after already computing both sums cannot reduce O(n^2) runtime. The >10000 pruning is safe for equality, so recorded large case is TLE-only.",
+        "focusLines": [
+          {
+            "code": "for i in range(1, n):\n    suml = sum(line[:i])\n    sumr = sum(line[i:])\n    if abs(suml - sumr) > 10000:\n        continue\n    if suml == sumr:\n        m += 1\nprint(m)",
+            "end": 14,
+            "start": 7
+          }
+        ],
+        "implementedAlgorithm": "Computes two sliced sums at every legal cut; skips candidates if their difference exceeds 10000, otherwise compares them.",
+        "sourceHash": "9ff52fcbee1b4cfb3181059b537bcb340a0bf74ee77337f2486153a5f7c5e5b7",
+        "sourceLines": [
+          {
+            "code": "n = int(input())\nline = input()\n\nline = list(map(int, line.split()))\n\nm = 0\nfor i in range(1, n):\n    suml = sum(line[:i])\n    sumr = sum(line[i:])\n    if abs(suml - sumr) > 10000:\n        continue\n    if suml == sumr:\n        m += 1\nprint(m)",
+            "end": 14,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/18C/sources/4494691.json",
+        "sourceMetadataSha256": "0379f3a1e9f7a7c8b204de2ed43151a03a5d91461845a796457c5fbc66095631"
+      },
       "sourceHash": "9ff52fcbee1b4cfb3181059b537bcb340a0bf74ee77337f2486153a5f7c5e5b7",
       "test": "0034",
       "timeout": true
@@ -11322,6 +11414,50 @@
       },
       "observedVerdict": "WA",
       "reason": "Subtracts half the total from every element before prefix accumulation rather than subtracting it once, and counts the full-array prefix. On total-zero sample 0001 includes the forbidden final cut, printing 4 instead of 3.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "4\n",
+          "actualOutputSha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+          "constraintValidity": "Included package test 0001; LF normalization changes only line delimiters, not tokens. 1<=n<=100000 and every stripe value has absolute value at most 10000; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "3\n",
+          "existingLfExecutionLogPath": "fresh/18C/counterexample-5125377.json",
+          "existingLfExecutionLogSha256": "6612eeb149888314848637a984b54c534bb216a835c75624b79faa7de24e6c52",
+          "mathematicalDerivation": "The nine stripe values sum to zero; equal halves require a proper prefix sum of zero. Proper zero prefixes occur only after positions 3,6,7, so there are exactly three legal cuts. The source counts the always-zero FULL prefix after position 9 as a fourth illegal cut.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "9eca5e687a7fde287f8b8bcc64573e5486dcbfcdde6a6b5ebc556c2428fb84db",
+            "verifiedSourceMetadataPath": "1200/state/18C/sources/5125377.json",
+            "verifiedSourceMetadataSha256": "fd372f47f659fc093dd98c396d2897d3aa29600b680088f97f2fd51b59bbabc8"
+          },
+          "testName": "0001",
+          "validLfInput": "9\n1 5 -6 7 9 -16 0 -2 2\n",
+          "validLfInputSha256": "a697d8f0d65bda36b5ce8725f6a2dba67b88b44cecf1367d080984c8f4a5cc90"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "The half-total should be subtracted once from each ORIGINAL prefix sum, not from each item; also a cut after item n is illegal. With total zero, the extra full-array zero prefix inflates the count.",
+        "focusLines": [
+          {
+            "code": "s = sum(t)\nif s & 1: print(0)\nelse:\n    k = s // 2\n    t = [i - k for i in t]\n    for i in range(n - 1):\n        t[i + 1] += t[i]\n    print(t.count(0))",
+            "end": 10,
+            "start": 3
+          }
+        ],
+        "implementedAlgorithm": "Calculates half the total for even totals, subtracts that half from EACH element, computes prefix sums and counts every zero including the full-array prefix.",
+        "sourceHash": "9eca5e687a7fde287f8b8bcc64573e5486dcbfcdde6a6b5ebc556c2428fb84db",
+        "sourceLines": [
+          {
+            "code": "n = int(input())\nt = list(map(int, input().split()))\ns = sum(t)\nif s & 1: print(0)\nelse:\n    k = s // 2\n    t = [i - k for i in t]\n    for i in range(n - 1):\n        t[i + 1] += t[i]\n    print(t.count(0))",
+            "end": 10,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/18C/sources/5125377.json",
+        "sourceMetadataSha256": "fd372f47f659fc093dd98c396d2897d3aa29600b680088f97f2fd51b59bbabc8"
+      },
       "sourceHash": "9eca5e687a7fde287f8b8bcc64573e5486dcbfcdde6a6b5ebc556c2428fb84db",
       "test": "0001",
       "timeout": false

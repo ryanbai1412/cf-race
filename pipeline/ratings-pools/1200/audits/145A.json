@@ -11076,6 +11076,29 @@
       },
       "observedVerdict": "WA",
       "reason": "The formula computes the correct minimum but the unequal-frequency branch accumulates 0.5 and prints float tokens. On 0006 prints 8.0 instead of integer token 8; LF normalization does not change the numeric equality.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Recorded 0006 is presentation-only (8.0 versus integer 8); no demonstrated wrong operation count.",
+        "faultyLogic": "The operation count is mathematically right on recorded 0006, but ans+=0.5 makes print(ans) emit a floating token 8.0 rather than the required integer 8.",
+        "focusLines": [
+          {
+            "code": "Fa=A.count('4')\n\nFb=B.count('4')\n\nif(Fa==Fb):\n    ans=0\n    for i in range(len(A)):\n        if(A[i]!=B[i]):\n            ans+=1\n    print(ans//2)\n\nelse:\n    cnt=abs(Fa-Fb)\n    ans=0\n    for i in range(len(A)):\n        if(A[i]==B[i]):\n            continue\n        if(cnt):\n            ans+=1\n            cnt-=1\n        else:\n            ans+=0.5\n    print(ans)",
+            "end": 26,
+            "start": 4
+          }
+        ],
+        "implementedAlgorithm": "Counts 4s on each side, uses half the Hamming distance when counts match, otherwise pays one flip for each excess digit and half for remaining paired mismatches.",
+        "sourceHash": "1c894fbfe4bd36b7e7b36d7dcb6f71b34a202ae03696452d79ceb6d43cc977cd",
+        "sourceLines": [
+          {
+            "code": "A=input()\nB=input()\n\nFa=A.count('4')\n\nFb=B.count('4')\n\nif(Fa==Fb):\n    ans=0\n    for i in range(len(A)):\n        if(A[i]!=B[i]):\n            ans+=1\n    print(ans//2)\n\nelse:\n    cnt=abs(Fa-Fb)\n    ans=0\n    for i in range(len(A)):\n        if(A[i]==B[i]):\n            continue\n        if(cnt):\n            ans+=1\n            cnt-=1\n        else:\n            ans+=0.5\n    print(ans)",
+            "end": 26,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/145A/sources/5446661.json",
+        "sourceMetadataSha256": "f328c76c6a050d3903ee1e704440b6811d0f318d9b84d913c07317d67d2327ea"
+      },
       "sourceHash": "1c894fbfe4bd36b7e7b36d7dcb6f71b34a202ae03696452d79ceb6d43cc977cd",
       "test": "0006",
       "timeout": false
@@ -11099,6 +11122,50 @@
       },
       "observedVerdict": "WA",
       "reason": "Only pairs adjacent complementary mismatches although swaps may use any positions. On 0006 prints 11 instead of minimum 8; LF-normalized counterexample also remains wrong.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "11\n",
+          "actualOutputSha256": "25d4f2a86deb5e2574bb3210b67bb24fcc4afb19f93a7b65a057daa874a9d18e",
+          "constraintValidity": "Included package test 0006; LF normalization changes only line delimiters, not tokens. equal, nonempty 4/7 strings of length at most 100000; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "8\n",
+          "existingLfExecutionLogPath": "fresh/145A/counterexample-8675055.json",
+          "existingLfExecutionLogSha256": "bc68d886b012bc47b59d28f2b38ec2ecde3ae1bf15c5c470b824b5b110d296ba",
+          "mathematicalDerivation": "There are eight 4→7 mismatches and seven 7→4 mismatches in the valid 25-character pair. Seven unconstrained swaps fix seven opposite pairs and one flip fixes the last 4→7, totaling eight. Each operation fixes at most two opposite mismatches and at most one leftover, so eight is minimal, not eleven.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "06f48c355f688af9378771cff02b85d974626047c6849b0ab3abae64fe3436d2",
+            "verifiedSourceMetadataPath": "1200/state/145A/sources/8675055.json",
+            "verifiedSourceMetadataSha256": "11e93d83d86c1e9715fdbfdcffb728556ea012b329d26a7d7da660ffb6475134"
+          },
+          "testName": "0006",
+          "validLfInput": "4744744447774474447474774\n4477774777444444444777447\n",
+          "validLfInputSha256": "4df8d05ec0cab50b56b9ce99dffcf7a252e54a837824950f94d6916471b16019"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "Only adjacent inverse mismatches are paired; allowed swaps may exchange any two positions. A nonadjacent complementary pair can save one operation even though this scan charges two.",
+        "focusLines": [
+          {
+            "code": "a = sys.stdin.readline()\nb = sys.stdin.readline()\n\nres = 0\ni = 0\nwhile(i < len(a) - 1):\n    if(a[i] != b[i] and a[i + 1] != b[i + 1] and a[i] != a[i + 1]):\n        res += 1\n        i += 1\n    elif(a[i] != b[i]):\n        res += 1\n\n    i += 1\n    \nprint(res)",
+            "end": 18,
+            "start": 4
+          }
+        ],
+        "implementedAlgorithm": "Reads both strings with sys.stdin.readline, scans consecutive positions, counts adjacent complementary mismatches as a single swap and all other mismatches as changes.",
+        "sourceHash": "06f48c355f688af9378771cff02b85d974626047c6849b0ab3abae64fe3436d2",
+        "sourceLines": [
+          {
+            "code": "import sys\nimport math\n  \na = sys.stdin.readline()\nb = sys.stdin.readline()\n\nres = 0\ni = 0\nwhile(i < len(a) - 1):\n    if(a[i] != b[i] and a[i + 1] != b[i + 1] and a[i] != a[i + 1]):\n        res += 1\n        i += 1\n    elif(a[i] != b[i]):\n        res += 1\n\n    i += 1\n    \nprint(res)",
+            "end": 18,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/145A/sources/8675055.json",
+        "sourceMetadataSha256": "11e93d83d86c1e9715fdbfdcffb728556ea012b329d26a7d7da660ffb6475134"
+      },
       "sourceHash": "06f48c355f688af9378771cff02b85d974626047c6849b0ab3abae64fe3436d2",
       "test": "0006",
       "timeout": false
@@ -11122,6 +11189,55 @@
       },
       "observedVerdict": "WA",
       "reason": "Mishandles excess 4-to-7 mismatches and the residual swap budget, including unchanged positions. On 0004 (74747474 -> 77777777) prints 8 instead of four flips; LF-normalized input remains wrong.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "8\n",
+          "actualOutputSha256": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+          "constraintValidity": "Included package test 0004; LF normalization changes only line delimiters, not tokens. equal, nonempty 4/7 strings of length at most 100000; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "4\n",
+          "existingLfExecutionLogPath": "fresh/145A/counterexample-9220442.json",
+          "existingLfExecutionLogSha256": "36ed6f0aa18b1463104459c75346bdb84af454ed13bc71e37dba5f29f4a59d92",
+          "mathematicalDerivation": "74747474 has exactly four 4 digits that must become 7; the other four positions are already 7. Four flips achieve 77777777, and swaps cannot change the total number of 4s, so at least four flips are mandatory. The source prints eight.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "4cb3802ff62b9aeaa16fb2d128f964b74606c0d8b532a95ec1f06f7322af2585",
+            "verifiedSourceMetadataPath": "1200/state/145A/sources/9220442.json",
+            "verifiedSourceMetadataSha256": "db401d50279e212cf5c8f10760607f017d039cbb2c425e9089a145c5ff482f75"
+          },
+          "testName": "0004",
+          "validLfInput": "74747474\n77777777\n",
+          "validLfInputSha256": "1cf74548e8dd188fd5c57a017e95c19c420cab3b5c4ef4d9a9789147004125e1"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "swap is actually a difference in required flips, not a number of swaps. When all mismatches are 4->7, the formula charges those flips once via swap and again through x47//2, inventing additional operations.",
+        "focusLines": [
+          {
+            "code": "s4 = s.count('4')\nt4 = t.count('4')\n\nswap = abs(s4-t4)",
+            "end": 10,
+            "start": 7
+          },
+          {
+            "code": "pairs = [[s[i], t[i]] for i in range(len_s)]\n\nx74 = 0\nx77 = 0\nx47 = 0\nx44 = 0\n\nfor i in pairs:\n    if i == ['7', '4']:\n        x74 += 1\n    if i == ['4', '4']:\n        x44 += 1\n    if i == ['4', '7']:\n        x47 += 1\n    if i == ['7', '7']:\n        x77 += 1\n\nch = 0\nif x74 >= swap:\n    x74 -= swap\n    x44 += swap\nelse:\n    x74 = 0\n    x44 += x74\n    swap -= x74\n    x77 -= swap\n    x74 += swap\nprint((x74+x47)//2 + swap)",
+            "end": 55,
+            "start": 28
+          }
+        ],
+        "implementedAlgorithm": "Counts each 7->4 and 4->7 mismatch, computes the global difference in 4-counts as swap, then subtracts that from x74 and combines leftover mismatch counts.",
+        "sourceHash": "4cb3802ff62b9aeaa16fb2d128f964b74606c0d8b532a95ec1f06f7322af2585",
+        "sourceLines": [
+          {
+            "code": "s = input()\nt = input()\n\nlen_s = len(s)\nlen_t = len(t)\n\ns4 = s.count('4')\nt4 = t.count('4')\n\nswap = abs(s4-t4)\n\n\n\nsp = ''\nst = ''\nif s4 > t4:\n    for i in s:\n        if i == '7':\n            sp += '4'\n        else:\n            sp += '7'\n    for i in t:\n        if i == '7':\n            st += '4'\n        else:\n            sp += '7'\n\npairs = [[s[i], t[i]] for i in range(len_s)]\n\nx74 = 0\nx77 = 0\nx47 = 0\nx44 = 0\n\nfor i in pairs:\n    if i == ['7', '4']:\n        x74 += 1\n    if i == ['4', '4']:\n        x44 += 1\n    if i == ['4', '7']:\n        x47 += 1\n    if i == ['7', '7']:\n        x77 += 1\n\nch = 0\nif x74 >= swap:\n    x74 -= swap\n    x44 += swap\nelse:\n    x74 = 0\n    x44 += x74\n    swap -= x74\n    x77 -= swap\n    x74 += swap\nprint((x74+x47)//2 + swap)",
+            "end": 55,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/145A/sources/9220442.json",
+        "sourceMetadataSha256": "db401d50279e212cf5c8f10760607f017d039cbb2c425e9089a145c5ff482f75"
+      },
       "sourceHash": "4cb3802ff62b9aeaa16fb2d128f964b74606c0d8b532a95ec1f06f7322af2585",
       "test": "0004",
       "timeout": false
@@ -11145,6 +11261,50 @@
       },
       "observedVerdict": "WA",
       "reason": "After a successful swap it continues scanning prior positions with a stale x, allowing further swaps to undo progress. On 0006 prints 10 instead of 8; LF-normalized input remains wrong.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "10\n",
+          "actualOutputSha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+          "constraintValidity": "Included package test 0006; LF normalization changes only line delimiters, not tokens. equal, nonempty 4/7 strings of length at most 100000; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "8\n",
+          "existingLfExecutionLogPath": "fresh/145A/counterexample-9484371.json",
+          "existingLfExecutionLogSha256": "2162dd8b6c65758630c4956c8b9fda62c863bbf3c1e6fb723eacd7c44cd1ced0",
+          "mathematicalDerivation": "The valid 25-character pair has eight 4→7 and seven 7→4 mismatches; seven arbitrary swaps and one flip are sufficient and necessary by the digit-count imbalance. The stale x loop undoes a correction and reports ten.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "bde4cd8b0e87f19d3fe98461ebfff7f9d254119a631da594cf372b8974610d46",
+            "verifiedSourceMetadataPath": "1200/state/145A/sources/9484371.json",
+            "verifiedSourceMetadataSha256": "03f96515ecf6b7838eb2af847e614d671f2b7d5a7d37186ee1b057b4fc04965b"
+          },
+          "testName": "0006",
+          "validLfInput": "4744744447774474447474774\n4477774777444444444777447\n",
+          "validLfInputSha256": "4df8d05ec0cab50b56b9ce99dffcf7a252e54a837824950f94d6916471b16019"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "The inner loop does not break after swapping; x remains the originally read bit while a[i] changes. It can perform another swap that undoes a useful previous correction, inflating the operation count.",
+        "focusLines": [
+          {
+            "code": "    for i in range(1, len(a)):\n        x = a[i]\n        if x != b[i]:\n            for j in range(i):\n                if x != a[j] != b[j]:\n                    a[i], a[j] = not x, x\n                    cnt += 1\n    print(cnt + sum(x != y for x, y in zip(a, b)))",
+            "end": 11,
+            "start": 4
+          }
+        ],
+        "implementedAlgorithm": "Converts strings to Boolean 7 bits, and for each mismatched later position searches earlier mismatches for a complementary swap, then pays for all remaining mismatches.",
+        "sourceHash": "bde4cd8b0e87f19d3fe98461ebfff7f9d254119a631da594cf372b8974610d46",
+        "sourceLines": [
+          {
+            "code": "def main():\n    a, b = ([c == '7' for c in input()] for _ in (0, 0))\n    cnt = 0\n    for i in range(1, len(a)):\n        x = a[i]\n        if x != b[i]:\n            for j in range(i):\n                if x != a[j] != b[j]:\n                    a[i], a[j] = not x, x\n                    cnt += 1\n    print(cnt + sum(x != y for x, y in zip(a, b)))\n\n\nif __name__ == '__main__':\n    main()",
+            "end": 15,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/145A/sources/9484371.json",
+        "sourceMetadataSha256": "03f96515ecf6b7838eb2af847e614d671f2b7d5a7d37186ee1b057b4fc04965b"
+      },
       "sourceHash": "bde4cd8b0e87f19d3fe98461ebfff7f9d254119a631da594cf372b8974610d46",
       "test": "0006",
       "timeout": false
@@ -11168,6 +11328,29 @@
       },
       "observedVerdict": "TLE",
       "reason": "Repeated scans for an opposite mismatch are quadratic when no partner exists. On 0026 times out; this is not a counted algorithmically wrong numeric answer.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Recorded 0026 TLE only; no incorrectly computed minimum number of operations is shown.",
+        "faultyLogic": "The scan may search every prior index again when no opposite mismatch exists: O(n^2) for a long all-one-direction mismatch string. The operations formula is not refuted by recorded 0026, which times out.",
+        "focusLines": [
+          {
+            "code": "    cnt = 0\n    for i, x, y in zip(range(len(a)), a, b):\n        if x != y:\n            for j in range(J[x], i):\n                if x == b[j] != a[j]:\n                    a[i], a[j], J[x] = y, x, j + 1\n                    cnt += 1\n                    break\n    print(cnt + sum(x != y for x, y in zip(a, b)))",
+            "end": 12,
+            "start": 4
+          }
+        ],
+        "implementedAlgorithm": "Converts to character arrays, scans opposite mismatches behind each current mismatch, swaps found positions and finally pays one per unmatched position.",
+        "sourceHash": "ad9756ba3e9e88ae37b4d99925e18a8faa480dbb21977dea77c42c5dc67875e7",
+        "sourceLines": [
+          {
+            "code": "def main():\n    a, b = list(input()), list(input())\n    J = {'4': 0, '7': 0}\n    cnt = 0\n    for i, x, y in zip(range(len(a)), a, b):\n        if x != y:\n            for j in range(J[x], i):\n                if x == b[j] != a[j]:\n                    a[i], a[j], J[x] = y, x, j + 1\n                    cnt += 1\n                    break\n    print(cnt + sum(x != y for x, y in zip(a, b)))\n\n\nif __name__ == '__main__':\n    main()",
+            "end": 16,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/145A/sources/9484480.json",
+        "sourceMetadataSha256": "62e4cb357cca79d2740478237b54543f7a7f6bc07e688a9da2d87579342d2cc1"
+      },
       "sourceHash": "ad9756ba3e9e88ae37b4d99925e18a8faa480dbb21977dea77c42c5dc67875e7",
       "test": "0026",
       "timeout": true

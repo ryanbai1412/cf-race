@@ -11370,6 +11370,29 @@
       },
       "observedVerdict": "TLE",
       "reason": "Repeatedly rescans balance and palindrome candidates from scratch, yielding quadratic work on long same-bracket suffixes. On 0008 times out; no wrong numeric answer is available at the recorded test.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Recorded 0008 TLE only; not a numeric counterexample to its good-prefix choice.",
+        "faultyLogic": "Each removed length-two good prefix requires a fresh scan of the remaining suffix to determine balance; on a long string this is quadratic. Recorded 0008 times out, without a wrong operation count.",
+        "focusLines": [
+          {
+            "code": "void solve(){\n  int n;\n  string s;\n  cin >> n >> s;\n  reverse(all(s));\n  int cnt = 0;\n  while(sz(s) > 1){\n    int maxid = n + 1;\n    int bal = 0;\n    int mn = 0;\n    for(int j = 0; j < s.size(); ++j){\n      if(s[sz(s) - 1 - j] == '(') bal += 1;\n      else bal -= 1;\n      mn = min(mn, bal);\n      if(bal == 0) {\n        maxid = j; \n        break;\n      }\n    }\n    if(mn < 0) maxid = n + 1;\n    int maxjd = n + 1;\n    for(int j = 1; j < s.size(); ++j){\n      if(s[sz(s) - 1 - j] == s.back()) {\n        maxjd = j;\n        break;\n      }\n    }\n    maxid = min(maxid, maxjd);\n    if(maxid == n + 1) break;\n    else{\n      int t = maxid + 1;\n      while(t--){\n        s.pop_back();\n      }\n      cnt++;\n    } \n  }\n  cout << cnt << ' ' << sz(s) << '\\n';\n} ",
+            "end": 95,
+            "start": 57
+          }
+        ],
+        "implementedAlgorithm": "Reverses each bracket string for back-popping, then repeatedly scans its remaining prefix for a regular prefix and the earliest matching first/last bracket palindrome, choosing the shortest.",
+        "sourceHash": "25bbf86f1cd854af2fb573c60dc92a7bb5a5542e8630a3d2ff40f9b52dc0c302",
+        "sourceLines": [
+          {
+            "code": "#include <bits/stdc++.h>\n \nusing namespace std;\n     \ntemplate<class T> void ckmin(T &a, T b) { a = min(a, b); }\ntemplate<class T> void ckmax(T &a, T b) { a = max(a, b); }\n     \n#define pb push_back\n#define mp make_pair\n#define cotu cout\n#define itn int\n#define Red ios_base::sync_with_stdio(0);cin.tie(0)\n#define F first\n#define S second\n#define sz(x) (int)x.size()\n#define all(x) (x).begin(), (x).end()\n#define rep(i, n) for(int i = 0; i < n; i++)\n#define repr(i,n) for(int i = n - 1; i >= 0; --i)\n#define Rep(i, a, n) for(int i = (a); i <=(n); ++i)\n#define repst(i, n) for(auto it = n.begin(); it != n.end(); ++it)\n#define Repr(i, a, n) for(int i = (n); i >= (a); --i)\n#define setp(x) fixed << setprecision(x)\n#define ordered_set tree<pair<long double, int> , null_type,less<pair<long double, int> >, rb_tree_tag,tree_order_statistics_node_update> \n    \n#include <ext/pb_ds/assoc_container.hpp> \n#include <ext/pb_ds/tree_policy.hpp> \nusing namespace __gnu_pbds; \ntypedef long long ll;\ntypedef pair<ll, ll> pll;\ntypedef pair<int, int> pii;\ntypedef vector<int> vi;\ntypedef vector<vector<int> > vvi;\n     \nconst int inf = int(1e9) + 1;\nconst ll INF = ll(1e16);\nconst ll mod = 1e9 + 7;\nconst double PI = acos(-1.0);\n \nll bp(ll a, ll n, ll md = mod){\n  ll r = 1;\n  while(n){\n    if(n & 1) r = r * a % md;\n    a = a * a % md;\n    n >>= 1;\n  }\n  return r; \n}\ntemplate<typename T_vector> // neal\nvoid output_vector(const T_vector &v, bool add_one = false, int start = -1, int end = -1) {\n    if (start < 0) start = 0;\n    if (end < 0) end = int(v.size());\n    \n    for (int i = start; i < end; i++)\n        cout << v[i] + (add_one ? 1 : 0) << (i < end - 1 ? ' ' : '\\n');\n} \n\nvoid solve(){\n  int n;\n  string s;\n  cin >> n >> s;\n  reverse(all(s));\n  int cnt = 0;\n  while(sz(s) > 1){\n    int maxid = n + 1;\n    int bal = 0;\n    int mn = 0;\n    for(int j = 0; j < s.size(); ++j){\n      if(s[sz(s) - 1 - j] == '(') bal += 1;\n      else bal -= 1;\n      mn = min(mn, bal);\n      if(bal == 0) {\n        maxid = j; \n        break;\n      }\n    }\n    if(mn < 0) maxid = n + 1;\n    int maxjd = n + 1;\n    for(int j = 1; j < s.size(); ++j){\n      if(s[sz(s) - 1 - j] == s.back()) {\n        maxjd = j;\n        break;\n      }\n    }\n    maxid = min(maxid, maxjd);\n    if(maxid == n + 1) break;\n    else{\n      int t = maxid + 1;\n      while(t--){\n        s.pop_back();\n      }\n      cnt++;\n    } \n  }\n  cout << cnt << ' ' << sz(s) << '\\n';\n} \n\n\nint main()\n{\n    // freopen(\"input.txt\", \"r\", stdin)\n    // freopen(\"output.txt\", \"w\", stdout);\n    Red;\n    int T;\n    T = 1;\n    cin >> T;\n    for(int i = 1; i <= T; ++i){\n      // cout << \"Case #\" << i << \": \";\n      solve();\n    }\n    return 0;\n}",
+            "end": 111,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/1657C/sources/150485643.json",
+        "sourceMetadataSha256": "1dabf1bc1c6139fa795046426d05e95e4c9db433ae83cab06acd7e7519318006"
+      },
       "sourceHash": "25bbf86f1cd854af2fb573c60dc92a7bb5a5542e8630a3d2ff40f9b52dc0c302",
       "test": "0008",
       "timeout": true
@@ -11393,6 +11416,29 @@
       },
       "observedVerdict": "TLE",
       "reason": "For each unmatched opening after an initial closing bracket, searches again to the end for a closing bracket. The final long unremovable suffix of 0023 causes quadratic work and TLE, with only a correct output prefix captured.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Recorded 0023 TLE with correct prefix output; not a wrong bracket answer.",
+        "faultyLogic": "When the current prefix starts with a close and the remaining suffix contains no matching close, the for(j=i;j<n;j++) scan is repeated for each following opening. This quadratic traversal times out on recorded 0023.",
+        "focusLines": [
+          {
+            "code": "        int f = 0;\n        for(int i = 0;i < n;i++)\n        {\n            if(sta.size() == 0)\n            {\n                sta.push(s[i]);\n            }\n            else\n            {\n                if(sta.top() == '(')\n                {\n                    res ++;\n                    sta.pop();\n                    cnt += 2;\n                }\n                else\n                {\n                    for(int j = i;j < n;j++)\n                    {\n                        if(s[j] == ')')\n                        {\n                            res ++;\n                            cnt += j - i + 1 + 1;\n                            while(sta.size())sta.pop();\n                            i = j;\n                            break;\n                        }\n                    }\n\n                }\n            }\n\n        }\n\n        printf(\"%d %d\\n\", res, n - cnt);",
+            "end": 55,
+            "start": 21
+          }
+        ],
+        "implementedAlgorithm": "Uses a one-element stack to find immediate regular pairs and searches ahead from an initial unmatched closing bracket for the next closing bracket ending a palindrome.",
+        "sourceHash": "ea0c33e91c41465f0637d6f5726a837d06ac0babc7c2414c6187264a0e41df8d",
+        "sourceLines": [
+          {
+            "code": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint n;\nstring s;\n\nint main()\n{\n    int T;\n    cin >> T;\n    while(T--)\n    {\n        cin >> n;\n        cin >> s;\n        stack<char> sta;\n\n        int res = 0;\n        int cnt = 0;\n\n        int f = 0;\n        for(int i = 0;i < n;i++)\n        {\n            if(sta.size() == 0)\n            {\n                sta.push(s[i]);\n            }\n            else\n            {\n                if(sta.top() == '(')\n                {\n                    res ++;\n                    sta.pop();\n                    cnt += 2;\n                }\n                else\n                {\n                    for(int j = i;j < n;j++)\n                    {\n                        if(s[j] == ')')\n                        {\n                            res ++;\n                            cnt += j - i + 1 + 1;\n                            while(sta.size())sta.pop();\n                            i = j;\n                            break;\n                        }\n                    }\n\n                }\n            }\n\n        }\n\n        printf(\"%d %d\\n\", res, n - cnt);\n\n    }\n\n}",
+            "end": 59,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/1657C/sources/150493146.json",
+        "sourceMetadataSha256": "30836988a3a28986eb34a969e02ab517adde8ddffbe83633254cb7c25fdef1c6"
+      },
       "sourceHash": "ea0c33e91c41465f0637d6f5726a837d06ac0babc7c2414c6187264a0e41df8d",
       "test": "0023",
       "timeout": true
@@ -11416,6 +11462,29 @@
       },
       "observedVerdict": "TLE",
       "reason": "The palindrome comparison while(c[li]==c[ri]) lacks an li<=ri boundary. Its recorded 0014 outcome is TLE rather than a wrong answer; potential undefined behaviour is not substituted for an observed valid wrong answer.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Recorded 0014 TLE; unsafe comparison/nontermination is not a mathematical wrong-answer proof.",
+        "faultyLogic": "The while(c[li]==c[ri]) palindrome loop has no li<=ri stop and may keep reading beyond the substring; its repeated checks plus unsafe bound handling yield TLE on recorded 0014, not a witnessed wrong numeric output.",
+        "focusLines": [
+          {
+            "code": "bool check_(int l, int r) {\n\tint li = l, ri = r;\n\tif (li != ri) {\n\t\twhile (c[li] == c[ri]) {\n\t\t\tli++; ri--;\n\t\t}\n\t\tif (li > ri) return true;\n\t}\n\tif (sum[r] - sum[l - 1] < 0) return false;\n\tif (sum[r] - sum[l - 1] == 0 && sum[r] - sum[r - 1] == 1) return true;\n\treturn false;\n}\n\nvoid work()\n{\n\tint cnt = 0;\n\tcin >> n;\n\tcin >> c + 1;\n\tint l = 1, r = 2;\n\tif (c[1] == ')') sum[1] = 1;\n\telse sum[1] = -1;\n\tfor (; r <= n; r++) {\n\t\tif (c[r] == ')') sum[r] = sum[r - 1] + 1;\n\t\telse sum[r] = sum[r - 1] - 1;\n\t\tif (check_(l, r)) {\n\t\t\tcnt++;\n\t\t\tl = r + 1;\n\t\t}\n\t}\n\tcout << cnt << ' ' << r - l << '\\n';",
+            "end": 72,
+            "start": 43
+          }
+        ],
+        "implementedAlgorithm": "Computes prefix sums and, for each expanding right endpoint, tries a palindrome comparison or checks zero balance to recognize a removable good prefix.",
+        "sourceHash": "fd6fb915c460e9da6546ce370ec59d5f0c1fb0da8fbfb2fd1c6fa15a19431d40",
+        "sourceLines": [
+          {
+            "code": "// Good Good Study, Day Day AC.\n#include <iostream>\n#include <stdio.h>\n#include <cstdio>\n#include <stdlib.h>\n#include <string>\n#include <string.h>\n#include <cstring>\n#include <math.h>\n#include <cmath>\n#include <queue>\n#include <deque>\n#include <stack>\n#include <vector>\n#include <map>\n#include <algorithm> \n#include <unordered_map>\n#include <unordered_set>\n#define ffor(i,a,b) for(int i=(a) ;i<=(b) ;i++)\n#define rrep(i,a,b) for(int i=(a) ;i>=(b) ;i--)\n#define mst(v,s) memset(v,s,sizeof(v))\n#define IOS ios::sync_with_stdio(false),cin.tie(0)\n#define ll long long\n#define INF 0x7f7f7f7f7f7f7f7f\n#define inf 0x7f7f7f7f\n#define PII pair<int,int>\n#define int long long\n\nusing namespace std;\n\nconst int N = 5e5 + 5;\nint n, T;\nint sum[N];\n\nvoid ready()\n{\n\tIOS;\n\tcin >> T;\n}\n\nchar c[N];\n\nbool check_(int l, int r) {\n\tint li = l, ri = r;\n\tif (li != ri) {\n\t\twhile (c[li] == c[ri]) {\n\t\t\tli++; ri--;\n\t\t}\n\t\tif (li > ri) return true;\n\t}\n\tif (sum[r] - sum[l - 1] < 0) return false;\n\tif (sum[r] - sum[l - 1] == 0 && sum[r] - sum[r - 1] == 1) return true;\n\treturn false;\n}\n\nvoid work()\n{\n\tint cnt = 0;\n\tcin >> n;\n\tcin >> c + 1;\n\tint l = 1, r = 2;\n\tif (c[1] == ')') sum[1] = 1;\n\telse sum[1] = -1;\n\tfor (; r <= n; r++) {\n\t\tif (c[r] == ')') sum[r] = sum[r - 1] + 1;\n\t\telse sum[r] = sum[r - 1] - 1;\n\t\tif (check_(l, r)) {\n\t\t\tcnt++;\n\t\t\tl = r + 1;\n\t\t}\n\t}\n\tcout << cnt << ' ' << r - l << '\\n';\n}\n\nsigned main()\n{\n\tready();\n\twhile(T--)\n\t  work();\n\treturn 0;\n}",
+            "end": 81,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/1657C/sources/150494803.json",
+        "sourceMetadataSha256": "75317badafc3946199cc43fb980a540908d608356bbaad037154103dc56f2ff1"
+      },
       "sourceHash": "fd6fb915c460e9da6546ce370ec59d5f0c1fb0da8fbfb2fd1c6fa15a19431d40",
       "test": "0014",
       "timeout": true
@@ -11439,6 +11508,55 @@
       },
       "observedVerdict": "WA",
       "reason": "Independent if statements mutate i and then inspect a later segment in the same iteration; a[i+1] also extends past n and can contain stale prior-case data. On 0006 counts 3 operations/0 remaining for (())( instead of 2/1.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1 0\n3 1\n1 2\n3 0\n4 0\n",
+          "actualOutputSha256": "7c40e42cb8d52c5920c0514ee9e2099281aa12bf59e6355599952c5254e6e3c7",
+          "constraintValidity": "Included package test 0006; LF normalization changes only line delimiters, not tokens. 1<=t<=10000, each sequence nonempty and total length at most 500000; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "1 0\n3 1\n1 2\n2 1\n3 0\n",
+          "existingLfExecutionLogPath": "fresh/1657C/counterexample-150496314.json",
+          "existingLfExecutionLogSha256": "4365c2ca8346853433266f27e8f67f2e6797da679f541f8df3376f0c978e6e1f",
+          "mathematicalDerivation": "The five cases are )() -> 1 0; )()()((( -> 3 1; (()( -> 1 2; (())( -> 2 1 because the first two ( form a palindrome and the next two ) form a palindrome, leaving one (; and ))((() -> 3 0. The source prints 3 0 for case four and 4 0 for case five, consuming a stale phantom bracket.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "7f6dc5392c2ac2cea6a7e4dfafbd5437c70ec48de928cb6d1c5a48dcdab235a8",
+            "verifiedSourceMetadataPath": "1200/state/1657C/sources/150496314.json",
+            "verifiedSourceMetadataSha256": "87f84e7fb5444c2f5d9574ff9484e590983140d124d4ef9cde6fde718e04da1b"
+          },
+          "testName": "0006",
+          "validLfInput": "5\n3\n)()\n8\n)()()(((\n4\n(()(\n5\n(())(\n6\n))((()\n",
+          "validLfInputSha256": "811522ee797966cd3dc1fb55b60a80ac140a524ffaafcf4065e11d2eee1f3807"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "These predicates are independent if, not else-if; each may increment i and cnt, then read another pair in the SAME iteration. At a trailing opening, a[i+1] past the current case can retain a prior case’s bracket and create a phantom pair.",
+        "focusLines": [
+          {
+            "code": "const int N = 5e5+50;\nchar c;\nint a[N] , sum[N];",
+            "end": 26,
+            "start": 24
+          },
+          {
+            "code": "    for(int i=1;i<=n;)\n    {\n        int flag = 0;\n        if(a[i]==1&&a[i+1]==-1) i+=2 , cnt++ , flag = 1;\n        if(a[i]==-1&&a[i+1]==-1) i+=2 , cnt++ , flag = 1;\n        if(a[i]==1&&a[i+1]==1) i+=2 , cnt++ , flag = 1;\n        if(a[i]==-1&&a[i+1]==1)\n        {\n            for(int j=i+2;j<=n;j++)\n            {\n                if(a[j]==-1)\n                {\n                    flag = 1;\n                    i = j + 1;\n                    cnt++;\n                    break;\n                }\n            }\n        }\n        if(!flag)\n        {\n            lst = n - i + 1;\n            break;\n        }\n    }\n    cout << cnt << \" \" << lst << \"\\n\";",
+            "end": 62,
+            "start": 37
+          }
+        ],
+        "implementedAlgorithm": "Encodes parentheses as +/-1 in persistent global arrays and applies four consecutive if predicates for adjacent good pairs or a searched closing endpoint.",
+        "sourceHash": "7f6dc5392c2ac2cea6a7e4dfafbd5437c70ec48de928cb6d1c5a48dcdab235a8",
+        "sourceLines": [
+          {
+            "code": "#include <bits/stdc++.h>\nusing namespace std;\n#define IO ios::sync_with_stdio(false);cin.tie(0);cout.tie(0);\n#define rep(i,a,n) for (int i=a;i<n;i++)\n#define per(i,a,n) for (int i=n-1;i>=a;i--)\n#define pb push_back\n#define mp make_pair\n#define all(x) (x).begin(),(x).end()\n#define fi first\n#define se second\n#define SZ(x) ((int)(x).size())\ntypedef vector<int> VI;\ntypedef long long ll;\ntypedef pair<int,int> PII;\ntypedef double db;\nmt19937 mrand(random_device{}()); \nconst ll mod=1000000007;\nint rnd(int x) { return mrand() % x;}\nll powmod(ll a,ll b) {ll res=1;a%=mod; assert(b>=0); for(;b;b>>=1){if(b&1)res=res*a%mod;a=a*a%mod;}return res;}\nll gcd(ll a,ll b) { return b?gcd(b,a%b):a;}\n// head\n\n\nconst int N = 5e5+50;\nchar c;\nint a[N] , sum[N];\nvoid solve()\n{\n    int n ;cin >> n;\n    int cnt = 0 , lst = 0;\n    for(int i=1;i<=n;i++)\n    {\n        cin >> c;\n        a[i] = c=='('?1:-1;\n        sum[i] = sum[i-1] + a[i];\n    }\n    for(int i=1;i<=n;)\n    {\n        int flag = 0;\n        if(a[i]==1&&a[i+1]==-1) i+=2 , cnt++ , flag = 1;\n        if(a[i]==-1&&a[i+1]==-1) i+=2 , cnt++ , flag = 1;\n        if(a[i]==1&&a[i+1]==1) i+=2 , cnt++ , flag = 1;\n        if(a[i]==-1&&a[i+1]==1)\n        {\n            for(int j=i+2;j<=n;j++)\n            {\n                if(a[j]==-1)\n                {\n                    flag = 1;\n                    i = j + 1;\n                    cnt++;\n                    break;\n                }\n            }\n        }\n        if(!flag)\n        {\n            lst = n - i + 1;\n            break;\n        }\n    }\n    cout << cnt << \" \" << lst << \"\\n\";\n}\n\nmain()\n{\n    IO\n    int t;cin >> t;\n    while(t--) solve();\n}",
+            "end": 70,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/1657C/sources/150496314.json",
+        "sourceMetadataSha256": "87f84e7fb5444c2f5d9574ff9484e590983140d124d4ef9cde6fde718e04da1b"
+      },
       "sourceHash": "7f6dc5392c2ac2cea6a7e4dfafbd5437c70ec48de928cb6d1c5a48dcdab235a8",
       "test": "0006",
       "timeout": false
@@ -11462,6 +11580,55 @@
       },
       "observedVerdict": "WA",
       "reason": "Accesses a[i+1] past the current string and reuses stale data from previous cases, consuming an unmatched trailing bracket. On 0006 counts 2 operations/0 remaining for (()( instead of 1/2.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1 0\n3 1\n2 0\n3 0\n3 0\n",
+          "actualOutputSha256": "a9595728257b925102271b91902dd8afb19f487d808ec1113ad67fe9f646caea",
+          "constraintValidity": "Included package test 0006; LF normalization changes only line delimiters, not tokens. 1<=t<=10000, each sequence nonempty and total length at most 500000; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "1 0\n3 1\n1 2\n2 1\n3 0\n",
+          "existingLfExecutionLogPath": "fresh/1657C/counterexample-150497749.json",
+          "existingLfExecutionLogSha256": "7ee5b234843ac957bbd0b456510c09125c900ab08e721495c25daae3db9caf82",
+          "mathematicalDerivation": "For the five legal cases, the third string (()( starts with the two-character palindrome ((, leaving )(, neither a two-character palindrome nor a regular bracket sequence; hence 1 operation and 2 characters left. The source instead reports 2 0, consuming the previously stored character just after this case. The other expected lines are 1 0, 3 1, 2 1, 3 0.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "ab99ab7f7be12ecc7bb3e0c48ae1d6192fca2fe492ec09267a521d06869fd9f5",
+            "verifiedSourceMetadataPath": "1200/state/1657C/sources/150497749.json",
+            "verifiedSourceMetadataSha256": "a15501eb6cbcbd41c96c6ccec8020a005fc3b8ddecd9e65fed68f53ff1354af4"
+          },
+          "testName": "0006",
+          "validLfInput": "5\n3\n)()\n8\n)()()(((\n4\n(()(\n5\n(())(\n6\n))((()\n",
+          "validLfInputSha256": "811522ee797966cd3dc1fb55b60a80ac140a524ffaafcf4065e11d2eee1f3807"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "At the end of a case, a[i+1] is read before ensuring it is within current n. The prior case’s character at n+1 is treated as a current partner; (( )( example case3 loses a trailing unmatched opening.",
+        "focusLines": [
+          {
+            "code": "char a[500005];",
+            "end": 8,
+            "start": 8
+          },
+          {
+            "code": "\t\tll i=1;\n\t\tll t1=0,t2=0;\n\t\twhile(i<=n){\n\t\t\tif(a[i]=='('&&a[i+1]==')'||a[i]=='('&&a[i+1]=='('||a[i]==')'&&a[i+1]==')'){\n\t\t\t\ti=i+2;\n\t\t\t\tt1++;\n\t\t\t}\n\t\t\telse{\n\t\t\t\tt2=1;\n\t\t\t\ti++;\n\t\t\t\twhile(a[i]!=')'){\n\t\t\t\t\tif(i>n){\n\t\t\t\t\t\tbreak;\n\t\t\t\t\t}\n\t\t\t\t\ti++;\n\t\t\t\t\tt2++;\n\t\t\t\t}\n\t\t\t\tif(a[i]==')'){\n\t\t\t\t\ti=i+1;\n\t\t\t\t\tt1++;\n\t\t\t\t\tt2=0;\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\tcout<<t1<<\" \"<<t2<<endl;",
+            "end": 43,
+            "start": 19
+          }
+        ],
+        "implementedAlgorithm": "Stores successive bracket cases in one global character array and greedily consumes a good first pair, else searches for the next closing bracket.",
+        "sourceHash": "ab99ab7f7be12ecc7bb3e0c48ae1d6192fca2fe492ec09267a521d06869fd9f5",
+        "sourceLines": [
+          {
+            "code": "#include<iostream>\n#include<string.h>\n#include<algorithm>\n#include<queue>\n#include<math.h>\nusing namespace std;\ntypedef long long ll;\nchar a[500005];\nint main(){\n\tint t;\n\tcin>>t;\n\twhile(t--){\n\t\tll n;\n\n\t\tcin>>n;\n\t\tfor(int i=1;i<=n;i++){\n\t\t\tcin>>a[i];\n\t\t}\n\t\tll i=1;\n\t\tll t1=0,t2=0;\n\t\twhile(i<=n){\n\t\t\tif(a[i]=='('&&a[i+1]==')'||a[i]=='('&&a[i+1]=='('||a[i]==')'&&a[i+1]==')'){\n\t\t\t\ti=i+2;\n\t\t\t\tt1++;\n\t\t\t}\n\t\t\telse{\n\t\t\t\tt2=1;\n\t\t\t\ti++;\n\t\t\t\twhile(a[i]!=')'){\n\t\t\t\t\tif(i>n){\n\t\t\t\t\t\tbreak;\n\t\t\t\t\t}\n\t\t\t\t\ti++;\n\t\t\t\t\tt2++;\n\t\t\t\t}\n\t\t\t\tif(a[i]==')'){\n\t\t\t\t\ti=i+1;\n\t\t\t\t\tt1++;\n\t\t\t\t\tt2=0;\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\tcout<<t1<<\" \"<<t2<<endl;\n\t}\n\treturn 0;\n}",
+            "end": 46,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/1657C/sources/150497749.json",
+        "sourceMetadataSha256": "a15501eb6cbcbd41c96c6ccec8020a005fc3b8ddecd9e65fed68f53ff1354af4"
+      },
       "sourceHash": "ab99ab7f7be12ecc7bb3e0c48ae1d6192fca2fe492ec09267a521d06869fd9f5",
       "test": "0006",
       "timeout": false
