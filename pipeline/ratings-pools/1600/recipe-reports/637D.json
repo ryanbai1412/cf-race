@@ -1,0 +1,112 @@
+{
+  "id": "637D",
+  "rating": 1600,
+  "title": "Running with Obstacles",
+  "role": "recipe-author",
+  "status": "excluded",
+  "exclusion": {
+    "code": "multiple-valid-output",
+    "reason": "The original English statement permits any valid RUN/JUMP route. Different valid routes have different output tokens. A scalar feasibility answer or a canonical route would change the original problem, and token comparison would incorrectly reject valid solutions.",
+    "originalOutputQuote": "If the athlete can get from start to finish, print any way to do this in the following format:",
+    "recipeWritten": false,
+    "qualificationClaimed": false,
+    "independentAuditClaimed": false,
+    "parentValidatedCountContribution": 0
+  },
+  "provenance": {
+    "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "archiveBytes": 4542856,
+    "inputPath": "inputs/637D.json",
+    "inputSha256": "bdf966ea3ee17a921a87ff534e6eac347cb5881e362f6d25e5984e4eb9b27124",
+    "inputBytes": 58572,
+    "sourceRowHash": "169fd337298f9ca5e02a24f6cf23a3ffdfb7ce9266947e01b57fd8793e028c53",
+    "sourceRowHashMethod": "pool_contract.digest(sourceRow)",
+    "sourceIndexHashFromInput": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "verification": "Archive hash/length, per-file manifest hash/length and canonical source-row digest matched. Only inputs/637D.json and inputs/MANIFEST.json were read from the archive. All imported bytes remain unchanged.",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "upstreamShardProvenanceFromInput": {
+      "path": "data/train-00003-of-00011.parquet",
+      "sha256": "cadad10f9d2c5226460578249998baf677c076a6e3b80e91850fa097dd040ef6",
+      "bytes": 67488507,
+      "scope": "Supplied authenticated extraction provenance; this author did not download or independently rehash the full shard."
+    },
+    "selectedPublicSubmissionCount": 19,
+    "publicProgramsExecuted": 0
+  },
+  "documentationRead": [
+    {
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
+      "bodySha256": "b9971cff0a797603b79d78f49129830b0a1a4b99d9860e392fba126a4ef4dc69",
+      "bodyBytes": 16911
+    },
+    {
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md",
+      "bodySha256": "8352430bd0fbc94cfe8762a9278c18a8494fca567a8aaf29a9e353c3f4627687",
+      "bodyBytes": 7836
+    }
+  ],
+  "statementAttestation": {
+    "url": "https://codeforces.me/problemset/problem/637/D?locale=en",
+    "sourceType": "Public mirror of original English Codeforces HTML, not the official domain",
+    "bodySha256": "9396c1c23f5b98728b672179fa3e9f7bed4665b2314b6b41027a8dfcb2dd1ccd",
+    "bodyBytes": 59042,
+    "capturedAtUtc": "2026-10-13T02:35:11Z",
+    "locale": "en",
+    "method": "Plain unauthenticated curl; no proxy token, bypass or live Codeforces API used. Both pinned dataset cards were read first.",
+    "inputMarkupQuotes": [
+      "2 ≤ <i>m</i> ≤ 10<sup class=\"upper-index\">9</sup>",
+      "1 ≤ <i>s</i>, <i>d</i> ≤ 10<sup class=\"upper-index\">9</sup>"
+    ],
+    "sourceCorrectionProposal": {
+      "field": "input_format",
+      "from": "≤ 109",
+      "to": "≤ 10<sup>9</sup>",
+      "occurrences": 2,
+      "originalFragment": "(1 ≤ n ≤ 200 000, 2 ≤ m ≤ 109, 1 ≤ s, d ≤ 109)",
+      "proposedFragment": "(1 ≤ n ≤ 200 000, 2 ≤ m ≤ 10<sup>9</sup>, 1 ≤ s, d ≤ 10<sup>9</sup>)",
+      "applied": false,
+      "reason": "Two exponent-loss instances explicitly confirmed by original public English superscript markup. No input/source/package bytes were normalized."
+    }
+  },
+  "sourceAttestedSemantics": {
+    "inputLayout": "Exactly two lines: n m s d, then n distinct obstacle coordinates in arbitrary order.",
+    "constraints": "1 <= n <= 200000; 2 <= m <= 10^9; 1 <= s,d <= 10^9; 1 <= a_i <= m-1; obstacles distinct.",
+    "routeRules": "Start at 0 and finish at m. Positive integer RUN/JUMP lengths strictly alternate starting with RUN. Running cannot cross an obstacle. Each JUMP needs the immediately preceding RUN length >= s, has length <= d and must land off obstacles. Never overshoot m and stop immediately at m. Any valid route is allowed.",
+    "notUnique": true
+  },
+  "nonUniqueOutputWitness": {
+    "origin": "First original sample",
+    "input": "3 10 1 3\n3 4 7",
+    "originalOutput": "RUN 2\nJUMP 3\nRUN 1\nJUMP 2\nRUN 2",
+    "alternativeValidOutput": "RUN 2\nJUMP 3\nRUN 1\nJUMP 3\nRUN 1\n",
+    "originalPositions": [0, 2, 5, 6, 8, 10],
+    "alternativePositions": [0, 2, 5, 6, 9, 10],
+    "explanation": "Both routes clear obstacles 3,4 in the first jump and obstacle 7 in the second. Runways are 2 and 1 (s=1), jumps are at most 3, and both land only at non-obstacle coordinates and finish at 10. Output tokens differ at the second jump and final run."
+  },
+  "upstreamDiagnostics": {
+    "scope": "Recipe-author diagnostics only, not external-source execution, qualification or independent audit/signoff.",
+    "officialPairsSupplied": 72,
+    "samplesSupplied": 2,
+    "officialTestsetSizeMetadata": 98,
+    "officialTestsComplete": false,
+    "generatedTestsField": 8,
+    "generatedTestsFieldType": "integer count, not input/output pairs",
+    "generatedPairsAvailable": 0,
+    "pairsChecked": 74,
+    "routeOrFeasibilityChecks": 74,
+    "witnessRouteChecks": 2,
+    "diagnosticAssertions": 76,
+    "independentBruteAssertions": 0,
+    "impossibleOfficialPairs": 46,
+    "method": "All 72 official pairs and 2 samples checked against the attested two-line layout, ranges, distinctness and output route rules. For IMPOSSIBLE, a diagnostic greedy groups adjacent obstacles whenever their between-obstacle runway is shorter than s; each forced group requires last-first+2 <= d and the first runway requires firstObstacle-1 >= s. Successful outputs were simulated action by action, not compared with one canonical route. CRLF inputs/outputs were preserved and parsed without rewriting.",
+    "failedUpstreamPairs": [],
+    "incompleteness": "26 of the 98 metadata testset entries are absent, and generated_tests is only a count. No completeness claim or generated-basis qualification is made."
+  },
+  "authoredGeneratedTests": 0,
+  "ownedFiles": ["pipeline/ratings-pools/1600/recipe-reports/637D.json"],
+  "integrationDisposition": "Exclude from the exact-token single-answer recipe pool. Do not register a recipe or count this report as a validated problem. Supporting this original problem would require a separately authorized semantic route checker and qualification outside this task."
+}
