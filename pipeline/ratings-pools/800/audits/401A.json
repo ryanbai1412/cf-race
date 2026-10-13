@@ -1,0 +1,145 @@
+{
+  "acceptedSources": [
+    "5978421",
+    "5978424",
+    "5978427",
+    "5978440",
+    "5978441"
+  ],
+  "approved": false,
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": false,
+    "deterministicGeneration": false,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": false,
+    "generatedBasis": false,
+    "hashes": false,
+    "independentOracle": false,
+    "inputConstraints": false,
+    "noSpecialChecker": false,
+    "sourceAttribution": false,
+    "statementReviewed": false
+  },
+  "evidenceHash": "82cef11cdb7b3fa70e8b92a06c4978d4892ef3314b1f5be87108fa07e1b1e7dc",
+  "executionContext": {
+    "compilerFlags": [
+      "-O2",
+      "-std=c++17",
+      "-DONLINE_JUDGE"
+    ],
+    "executionVersion": 2,
+    "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3"
+  },
+  "id": "401A",
+  "incorrectAnalysis": {
+    "66563009": {
+      "actual": "",
+      "actualSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected": "2\n",
+      "kind": "complexity",
+      "lfInput": "2 3\n-2 -2\n",
+      "lfInputSha256": "689c0985e62d66db6a0343fba75be4048494da014adac87a422ced9adf3e73d2",
+      "lfRerunVerdict": "TLE",
+      "reason": "loop 'while sum_a != 0: sum_a -= x' only subtracts x and tests exact equality; for sum=-4, x=3 the sequence -4,-7,-10,... never equals 0, so the program never terminates and prints nothing (killed at time limit). Correct answer ceil(4/3)=2. This is non-termination from a wrong algorithm (also wrong for positive non-multiples), not a slow correct method.",
+      "sourceHash": "861ea7d0397901fb05d101a12f17a19ca24b2ac70a5bdeccb64e132802e17bcb",
+      "sourceLines": "6-8",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc"
+      },
+      "test": "0002"
+    },
+    "67987712": {
+      "actual": "4\n",
+      "actualSha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "expected": "6\n",
+      "kind": "wrong-answer",
+      "lfInput": "15 16\n-15 -5 -15 -14 -8 15 -15 -12 -5 -3 5 -7 3 8 -15\n",
+      "lfInputSha256": "9094fe705b359e34b651d332f93a89ed8d8e0ca3c1fcdaa4acd6c5a1e5562608",
+      "lfRerunVerdict": "WA",
+      "reason": "prints |s| mod x + 1 instead of ceil(|s|/x). |s|=83, x=16: ceil=6, code 83%16+1=4.",
+      "sourceHash": "7051b113fba4625477c64e33e788dda34d00d7ce496bc2f97ddb5744dcd599e0",
+      "sourceLines": "2",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc"
+      },
+      "test": "0006"
+    },
+    "68895139": {
+      "actual": "0\n",
+      "actualSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "expected": "1\n",
+      "kind": "wrong-answer",
+      "lfInput": "1 1\n-1\n",
+      "lfInputSha256": "70a6fbb59e7360adf8b86a38932a66ce12bda33af509e67b60285f1b7ecb594a",
+      "lfRerunVerdict": "WA",
+      "reason": "the counting loop sits inside 'for i in range(x,1,-1)', which is empty when x=1, so l stays 0. Input x=1, sum=-1 needs 1 card; code prints 0.",
+      "sourceHash": "bd08a6487876a01748df33c30752315f1db17e7fee77ec298d4424524bb9e639",
+      "sourceLines": "6-9",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc"
+      },
+      "test": "0021"
+    },
+    "68895197": {
+      "actual": "1\n",
+      "actualSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "expected": "0\n",
+      "kind": "wrong-answer",
+      "lfInput": "1 1\n0\n",
+      "lfInputSha256": "908516a06a4532ef8c3708d1fb614131df17df5acd9dc1821abf7bb3b533af43",
+      "lfRerunVerdict": "WA",
+      "reason": "special-cases n==1 to print 1 regardless of the sum; with the single card 0 the sum is already zero so the answer is 0.",
+      "sourceHash": "d5f400ee030687ed74a0f078635218b9a8e1e1edba0061ecbebd6c0a31a516a1",
+      "sourceLines": "6-7",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc"
+      },
+      "test": "0010"
+    },
+    "69430670": {
+      "actual": "2\n",
+      "actualSha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "expected": "1\n",
+      "kind": "wrong-answer",
+      "lfInput": "2 2\n-1 -1\n",
+      "lfInputSha256": "551580f76f61e7040a5ffdbddd2f9d2524c9e2b98032d1654b64751d46ccb783",
+      "lfRerunVerdict": "WA",
+      "reason": "for negative/large sums prints |s|//x + 1, which over-counts exact multiples: |s|=2, x=2 needs ceil(2/2)=1 card, code prints 2.",
+      "sourceHash": "82e300ffa7e262b9a5054b9ebeb20d1ab673b85219b6e71152a870b94bac20f9",
+      "sourceLines": "9-11",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc"
+      },
+      "test": "0004"
+    }
+  },
+  "incorrectSources": [
+    "66563009",
+    "67987712",
+    "68895139",
+    "68895197",
+    "69430670"
+  ],
+  "packageHash": "8b1bbd4922fe328f747722f510474bb0bc991af90bfccf044de4ddbe8ec44106",
+  "qualificationBasis": "generated",
+  "rating": 800,
+  "reason": "Fail-closed per parent audit rule: counted incorrect 66563009 is recorded as TLE at failedTest 0002 (input '2 3\\n-2 -2\\n', expected 2). Its loop 'while sum_a != 0: sum_a -= x' provably never terminates for sum=-4, x=3 (incorrectAnalysis retained), but a TLE/no-output kill is not a captured expected-vs-actual wrong output, so only 4 of 5 counted incorrect sources are eligible wrong-output witnesses. Other four sources are genuine WA (see incorrectAnalysis). Current bytes rejected.",
+  "reviewUrl": "https://staging.itsdev.in/sessions/29e34d9c12b64a79a96e60082f1e904c",
+  "reviewer": "devin-29e34d9c12b64a79a96e60082f1e904c"
+}

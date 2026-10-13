@@ -1,0 +1,144 @@
+{
+  "acceptedSources": [
+    "6621900",
+    "6621901",
+    "6621908",
+    "6621909",
+    "6621911"
+  ],
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementReviewed": true
+  },
+  "evidenceHash": "070927277b1dc869602e162f3c0231ac72de6d1119be4e40faae69a929c73c59",
+  "executionContext": {
+    "compilerFlags": [
+      "-O2",
+      "-std=c++17",
+      "-DONLINE_JUDGE"
+    ],
+    "executionVersion": 2,
+    "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3"
+  },
+  "id": "432A",
+  "incorrectAnalysis": {
+    "150322437": {
+      "actual": "1\n",
+      "actualSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "expected": "0\n",
+      "kind": "wrong-answer",
+      "lfInput": "6 4\n0 1 2 3 4 5\n",
+      "lfInputSha256": "bcddc67e7dd378b2377a578ed12ef767eda4dac0f37c7c51535899c8521c8cf3",
+      "lfRerunVerdict": "WA",
+      "reason": "sorted descending, j = last index with l[i]<=5-k, then keeps l[j-1:] (off by one) and divides by 2 instead of 3. y=0..5, k=4: eligible y<=1 are 2 students -> 0 teams; code keeps [1,0] and prints 2//2=1.",
+      "sourceHash": "c6214727c77ee9bc5980c38f16c8ebdb11aeda84fa6304dbaf07d9d4123da62c",
+      "sourceLines": "4-13",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00024-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f"
+      },
+      "test": "0002"
+    },
+    "150322784": {
+      "actual": "1\n",
+      "actualSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "expected": "0\n",
+      "kind": "wrong-answer",
+      "lfInput": "6 4\n0 1 2 3 4 5\n",
+      "lfInputSha256": "bcddc67e7dd378b2377a578ed12ef767eda4dac0f37c7c51535899c8521c8cf3",
+      "lfRerunVerdict": "WA",
+      "reason": "condition k<=l[i] (line 8) selects students with y >= 5-k, the opposite direction, then slices l[:j-1]. y=0..5,k=4: 2 eligible -> 0 teams; code keeps [0,1,2,3] -> 1.",
+      "sourceHash": "69af0aba8994541c38548e3e5338c33e3aeed6dc908cc21670ea4a754e2b2aba",
+      "sourceLines": "4-13",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00024-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f"
+      },
+      "test": "0002"
+    },
+    "150326440": {
+      "actual": "0\n",
+      "actualSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "expected": "2\n",
+      "kind": "wrong-answer",
+      "lfInput": "6 5\n0 0 0 0 0 0\n",
+      "lfInputSha256": "0bb0cfe423c7e71181637b58f175d6e75d03e62ef97c785e9b556e594c0821c3",
+      "lfRerunVerdict": "WA",
+      "reason": "strict i < 5-k (line 7) excludes students with y+k==5 who are still eligible. Six students y=0, k=5: all 6 eligible -> 2 teams; code counts 0.",
+      "sourceHash": "1e160c191b85d8c2599563eda60614d4bd5f8d5afd9260262214fd9f7602bfb5",
+      "sourceLines": "4-9",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00024-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f"
+      },
+      "test": "0003"
+    },
+    "150327090": {
+      "actual": "0\n",
+      "actualSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "expected": "2\n",
+      "kind": "wrong-answer",
+      "lfInput": "6 5\n0 0 0 0 0 0\n",
+      "lfInputSha256": "0bb0cfe423c7e71181637b58f175d6e75d03e62ef97c785e9b556e594c0821c3",
+      "lfRerunVerdict": "WA",
+      "reason": "strict y+k < 5 (line 8) instead of <= 5. Six zeros, k=5: y+k=5 eligible -> 2 teams; code 0.",
+      "sourceHash": "45dddbd0b27d9285eb04c8fe09fc987f160dbbc6b5f82d9da4af6916f12082fb",
+      "sourceLines": "5-10",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00024-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f"
+      },
+      "test": "0003"
+    },
+    "150336086": {
+      "actual": "2\n",
+      "actualSha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "expected": "0\n",
+      "kind": "wrong-answer",
+      "lfInput": "6 4\n0 1 2 3 4 5\n",
+      "lfInputSha256": "bcddc67e7dd378b2377a578ed12ef767eda4dac0f37c7c51535899c8521c8cf3",
+      "lfRerunVerdict": "WA",
+      "reason": "builds the filtered list temp but prints len(arr)//3 (line 7), ignoring y_i and k entirely, so every student is treated as eligible. y=0..5,k=4: only 2 eligible -> 0; code 6//3=2.",
+      "sourceHash": "f01a43e04b64eff21f8ebf54b95e9ba1ae7ff02db2051d000cd3eb43a17a8e96",
+      "sourceLines": "4-7",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00024-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f"
+      },
+      "test": "0002"
+    }
+  },
+  "incorrectSources": [
+    "150322437",
+    "150322784",
+    "150326440",
+    "150327090",
+    "150336086"
+  ],
+  "packageHash": "f68137afc0b8b26a2cfb4e18e5d4aa46e91ab8b88424c3b539d697e354a20de3",
+  "qualificationBasis": "generated",
+  "rating": 800,
+  "reviewUrl": "https://staging.itsdev.in/sessions/29e34d9c12b64a79a96e60082f1e904c",
+  "reviewer": "devin-29e34d9c12b64a79a96e60082f1e904c"
+}

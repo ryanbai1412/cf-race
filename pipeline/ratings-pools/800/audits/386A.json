@@ -1,0 +1,144 @@
+{
+  "acceptedSources": [
+    "5705461",
+    "5705474",
+    "5705481",
+    "5705488",
+    "5705490"
+  ],
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementReviewed": true
+  },
+  "evidenceHash": "157fc241b9b024d964ef5a4041d227a198f183c02cea49e5463c2d8e8b843f0d",
+  "executionContext": {
+    "compilerFlags": [
+      "-O2",
+      "-std=c++17",
+      "-DONLINE_JUDGE"
+    ],
+    "executionVersion": 2,
+    "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3"
+  },
+  "id": "386A",
+  "incorrectAnalysis": {
+    "21733849": {
+      "actual": "2 4707\n",
+      "actualSha256": "196508867fe78836d8cea76405908e5535ab6ae4b49aa14a317bd6401a0be947",
+      "expected": "2 5842\n",
+      "kind": "wrong-answer",
+      "lfInput": "4\n4707 7586 4221 5842\n",
+      "lfInputSha256": "3b20fb444918ec0fe22ecfc75f9d118ec2504ee4c0cfe31ab8a5709fbafae609",
+      "lfRerunVerdict": "WA",
+      "reason": "second maximum max_1 is only updated when a new maximum appears (lines 7-10); a later value between second and first (5842 after 7586) is never recorded. 4707 7586 4221 5842 -> prints second price 4707 instead of 5842.",
+      "sourceHash": "212d0a6b6ad2d1504d08b308e02088c7855bb0472fa44f5b3eee251c95f88e62",
+      "sourceLines": "6-20",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc"
+      },
+      "test": "0004"
+    },
+    "40710189": {
+      "actual": "0 5\n",
+      "actualSha256": "d7c007a0cb9cc72ddef24e95126661302d3b901e6b20ab068f20e6b6da3f58de",
+      "expected": "2 5\n",
+      "kind": "wrong-answer",
+      "lfInput": "2\n5 7\n",
+      "lfInputSha256": "5d68d34af99cfbd7cc6c19816f488c4b17c8934c69f4173d518f245aeab0fbc9",
+      "lfRerunVerdict": "WA",
+      "reason": "returns the index (0-based) of the SECOND-highest bidder (d[n-2][1]) instead of the 1-based index of the highest bidder. Prices 5 7: winner is bidder 2 paying 5; code prints 0 5.",
+      "sourceHash": "5a46106a86286cbff0bc459111cbccf40489860372477b92bee83c3eeeabc40b",
+      "sourceLines": "1-6",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc"
+      },
+      "test": "0001"
+    },
+    "50767151": {
+      "actual": "1 5842\n",
+      "actualSha256": "5f258abd2cd954c9071551137eaa39e30b0e7a90cd4f6e7a64fde5174e7596d7",
+      "expected": "2 5842\n",
+      "kind": "wrong-answer",
+      "lfInput": "4\n4707 7586 4221 5842\n",
+      "lfInputSha256": "3b20fb444918ec0fe22ecfc75f9d118ec2504ee4c0cfe31ab8a5709fbafae609",
+      "lfRerunVerdict": "WA",
+      "reason": "line 10 resets b=1 whenever l[i] is not a new maximum, so any element after the maximum overwrites the winner index with 1. 4707 7586 4221 5842: winner index 2, code prints 1.",
+      "sourceHash": "426b8caefd45f93ec553fd119cc1b852c240395e4838eced8d2792c8d6b932dd",
+      "sourceLines": "4-10",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc"
+      },
+      "test": "0004"
+    },
+    "5953512": {
+      "actual": "7 1\n",
+      "actualSha256": "0e4e7e29b59587ca9e5f63caa49528eab661ae25cbdf4258266f77fb626e7f74",
+      "expected": "2 5\n",
+      "kind": "wrong-answer",
+      "lfInput": "2\n5 7\n",
+      "lfInputSha256": "5d68d34af99cfbd7cc6c19816f488c4b17c8934c69f4173d518f245aeab0fbc9",
+      "lfRerunVerdict": "WA",
+      "reason": "enumerate builds (index, price) tuples so line 3 sorts by INDEX, and line 4 prints p[-1][1] (a price) and p[-2][0] (an index): it reports the last bidder's price and the penultimate bidder's index, not the winner's index and the second-highest price. Prices 5 7: winner 2 pays 5; code prints 7 1.",
+      "sourceHash": "134f3e811379c6a9a7d1e9eb5e00ecdbb329515f47a8319a8c54122479252641",
+      "sourceLines": "2-4",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc"
+      },
+      "test": "0001"
+    },
+    "74836533": {
+      "actual": "3\n2\n",
+      "actualSha256": "751f43ef30ddf4d6c674a46de13ceb7c92008fe3a8b8f71cf49b291112dc120b",
+      "expected": "1 8\n",
+      "kind": "wrong-answer",
+      "lfInput": "3\n10 2 8\n",
+      "lfInputSha256": "99932e9b6145b29298a3fab72d3d0c69dcd30030f6e4f1dfd81cae359eadd741",
+      "lfRerunVerdict": "WA",
+      "reason": "max over the raw string tokens (lines 4,6,7) is lexicographic: max('10','2','8')='8'. Prices 10 2 8: winner 1 pays 8; code reports index 3 and price 2 (tokens '3','2' vs '1','8').",
+      "sourceHash": "df27b82865d9ce98b142232850424fb05d4b0f6e884a02584a8bb13ea1664ede",
+      "sourceLines": "3-7",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc"
+      },
+      "test": "0002"
+    }
+  },
+  "incorrectSources": [
+    "5953512",
+    "21733849",
+    "40710189",
+    "50767151",
+    "74836533"
+  ],
+  "packageHash": "f489eb829e4dfb60b17d91a903885efa4f24fae97ae553254efda674d92bc154",
+  "qualificationBasis": "generated",
+  "rating": 800,
+  "reviewUrl": "https://staging.itsdev.in/sessions/29e34d9c12b64a79a96e60082f1e904c",
+  "reviewer": "devin-29e34d9c12b64a79a96e60082f1e904c"
+}

@@ -1,0 +1,141 @@
+{
+  "acceptedSources": [
+    "7124518",
+    "7124519",
+    "7124529",
+    "7124532",
+    "7124535"
+  ],
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "hashes": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementReviewed": true
+  },
+  "evidenceHash": "96adedccb51cf85d9124fa82f0b64f0f676e8ffffe744cd0687d2ba8b5d05875",
+  "executionContext": {
+    "compilerFlags": [
+      "-O2",
+      "-std=c++17",
+      "-DONLINE_JUDGE"
+    ],
+    "executionVersion": 2,
+    "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3"
+  },
+  "id": "448A",
+  "incorrectAnalysis": {
+    "113324869": {
+      "actual": "YES\n",
+      "actualSha256": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "expected": "NO\n",
+      "kind": "wrong-answer",
+      "lfInput": "0 0 0\n10 10 10\n2\n",
+      "lfInputSha256": "72bb5a748341cbe0023a01a00dad2df9232307c8152c67306e84953af37fb45d",
+      "lfRerunVerdict": "WA",
+      "reason": "medal shelves computed from sum(x) (cups) instead of sum(y) (lines 9,11). Cups 0, medals 30, n=2: need 0+3=3>2 shelves -> NO; code subtracts 0 and 0 -> YES.",
+      "sourceHash": "f7259e50a12fc07e8396a1175e7f749ec689c4f9300cd9324517b377c89cb202",
+      "sourceLines": "8-11",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00024-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f"
+      },
+      "test": "0011"
+    },
+    "114705141": {
+      "actual": "YES\n",
+      "actualSha256": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "expected": "NO\n",
+      "kind": "wrong-answer",
+      "lfInput": "0 0 0\n10 10 10\n2\n",
+      "lfInputSha256": "72bb5a748341cbe0023a01a00dad2df9232307c8152c67306e84953af37fb45d",
+      "lfRerunVerdict": "WA",
+      "reason": "d uses a//10 (cups) instead of b//10 (medals). Cups 0, medals 30, n=2: needs 3 shelves -> NO; code c=0,d=0 -> YES.",
+      "sourceHash": "7685b5789ac6a074bfc09c9e29d2aa19fb3059f3f80c691825d52bc32d6fecd5",
+      "sourceLines": "10-13",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00024-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f"
+      },
+      "test": "0011"
+    },
+    "115154945": {
+      "actual": "NO\n",
+      "actualSha256": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "expected": "YES\n",
+      "kind": "wrong-answer",
+      "lfInput": "1 1 3\n2 3 4\n2\n",
+      "lfInputSha256": "92af090249146464ba4f7f08fb75d9ddb7ed2f21965d14f9c09f8864045398b0",
+      "lfRerunVerdict": "WA",
+      "reason": "strict shelves < n rejects an exact fit. Cups 5 -> 1 shelf, medals 9 -> 1 shelf, n=2: 2<=2 YES; code 2<2 false -> NO.",
+      "sourceHash": "3181c2a427e0018b0c39b42d6c356b579c423910a589ca4486da88414576bbc0",
+      "sourceLines": "12",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00024-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f"
+      },
+      "test": "0002"
+    },
+    "115400756": {
+      "actual": "NO\n",
+      "actualSha256": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "expected": "YES\n",
+      "kind": "wrong-answer",
+      "lfInput": "1 1 3\n2 3 4\n2\n",
+      "lfInputSha256": "92af090249146464ba4f7f08fb75d9ddb7ed2f21965d14f9c09f8864045398b0",
+      "lfRerunVerdict": "WA",
+      "reason": "always adds +1 (k//5+1, l//10+1) instead of ceiling, over-counting exact multiples. Cups 5, medals 9, n=2: needs 1+1=2 -> YES; code 2+1=3>2 -> NO.",
+      "sourceHash": "8c0d111e1ed1f9714fe0217e9e6521b2b857f32491c057a89fbf282e59470083",
+      "sourceLines": "6",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00024-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f"
+      },
+      "test": "0002"
+    },
+    "115407960": {
+      "actual": "NO\n",
+      "actualSha256": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "expected": "YES\n",
+      "kind": "wrong-answer",
+      "lfInput": "0 0 0\n0 0 0\n1\n",
+      "lfInputSha256": "6bb89c6deb0868c590cc4ab16b25f67d8a6ca89810d6ce5924ec15d8dd021f79",
+      "lfRerunVerdict": "WA",
+      "reason": "line 4 condition len(set(l1))>=1 and len(set(l2))>=1 is always true, so any n==1 prints NO. All zeros, n=1: 0 shelves needed -> YES; code NO.",
+      "sourceHash": "ffce5c93ea76d54f938c6d4d4832ce2ee2322c45d94a3a87d9a6de83bf0de78a",
+      "sourceLines": "4-5",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00024-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f"
+      },
+      "test": "0004"
+    }
+  },
+  "incorrectSources": [
+    "113324869",
+    "114705141",
+    "115154945",
+    "115400756",
+    "115407960"
+  ],
+  "packageHash": "ec0c7539a09162f1bf6f742ff23293b1ddf443eef2b8acaaa6bdc32c5e38c1e2",
+  "qualificationBasis": "official",
+  "rating": 800,
+  "reviewUrl": "https://staging.itsdev.in/sessions/29e34d9c12b64a79a96e60082f1e904c",
+  "reviewer": "devin-29e34d9c12b64a79a96e60082f1e904c"
+}

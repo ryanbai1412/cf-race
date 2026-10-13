@@ -1,0 +1,141 @@
+{
+  "acceptedSources": [
+    "6485048",
+    "6485050",
+    "6485053",
+    "6485054",
+    "6485062"
+  ],
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "hashes": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementReviewed": true
+  },
+  "evidenceHash": "dc95e7823a9956293a438076f4e6c2ffa8f9d19526585ff2bd2159d685380790",
+  "executionContext": {
+    "compilerFlags": [
+      "-O2",
+      "-std=c++17",
+      "-DONLINE_JUDGE"
+    ],
+    "executionVersion": 2,
+    "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3"
+  },
+  "id": "426A",
+  "incorrectAnalysis": {
+    "6495883": {
+      "actual": "NO\n",
+      "actualSha256": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "expected": "YES\n",
+      "kind": "wrong-answer",
+      "lfInput": "3 4\n3 1 3\n",
+      "lfInputSha256": "151392079322bfc7274e80a194b79f2270cbbe1c08229c2e21f2f1209472ff0d",
+      "lfRerunVerdict": "WA",
+      "reason": "checks sum of ALL n mugs <= s, but only n-1 friends pour; correct test is sum - max <= s. 3 1 3, s=4: 7-3=4<=4 YES; code 7>4 NO.",
+      "sourceHash": "82c86a64723aa54069b17c7f87ffb0465df1eb7dbb115f5caf76afd006c35bb3",
+      "sourceLines": "4",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc"
+      },
+      "test": "0002"
+    },
+    "6496916": {
+      "actual": "NO\n",
+      "actualSha256": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "expected": "YES\n",
+      "kind": "wrong-answer",
+      "lfInput": "2 1\n1 10\n",
+      "lfInputSha256": "80b12e6b3c55f63b5d05d820a681ebc280f4c3643c7e8ae40d5904fa2a87278f",
+      "lfRerunVerdict": "WA",
+      "reason": "rejects if any single mug >= v (line 8), never summing and never leaving the largest mug unpoured. n=2,s=1, mugs 1 10: pour only the 1 -> 1<=1 YES; code sees 10>=1 (and 1>=1) -> NO.",
+      "sourceHash": "72ce791c98a9950a3574b44fd80f910e8a72a3391a648e1ea273db506f23d8bd",
+      "sourceLines": "6-10",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc"
+      },
+      "test": "0004"
+    },
+    "6496923": {
+      "actual": "NO\n",
+      "actualSha256": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "expected": "YES\n",
+      "kind": "wrong-answer",
+      "lfInput": "2 1\n1 10\n",
+      "lfInputSha256": "80b12e6b3c55f63b5d05d820a681ebc280f4c3643c7e8ae40d5904fa2a87278f",
+      "lfRerunVerdict": "WA",
+      "reason": "allows at most one mug with x>=v and never sums volumes; mugs 1 10 with s=1 both satisfy x>=1 so ok=0 -> NO, but pouring just the 1 fits (YES).",
+      "sourceHash": "63fbee19c2c6f4c96cf5ab8d5cb7540dfc7d260ee19ab39d96f19b008f8ce0ae",
+      "sourceLines": "5-10",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc"
+      },
+      "test": "0004"
+    },
+    "6506387": {
+      "actual": "YES\n",
+      "actualSha256": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "expected": "NO\n",
+      "kind": "wrong-answer",
+      "lfInput": "3 4\n4 4 4\n",
+      "lfInputSha256": "4ee9ebb342d375cb03e18cee39dc2e0eca71e59bf62b79027fd9f6628e36c3b1",
+      "lfRerunVerdict": "WA",
+      "reason": "condition s + 2*max >= sum excludes the largest mug twice; correct is sum - max <= s. 4 4 4, s=4: 12-4=8>4 NO; code 4+8>=12 YES.",
+      "sourceHash": "1f586028f566a96e10d9b4d0680ccb59df1132aab51cc291fbc0376c64d1321e",
+      "sourceLines": "3",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc"
+      },
+      "test": "0003"
+    },
+    "6522945": {
+      "actual": "NO\n",
+      "actualSha256": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "expected": "YES\n",
+      "kind": "wrong-answer",
+      "lfInput": "3 4\n3 1 3\n",
+      "lfInputSha256": "151392079322bfc7274e80a194b79f2270cbbe1c08229c2e21f2f1209472ff0d",
+      "lfRerunVerdict": "WA",
+      "reason": "subtracts the MIN mug instead of the max (the player should leave the largest mug unpoured). 3 1 3, s=4: 7-3=4 YES; code 7-1=6>4 NO.",
+      "sourceHash": "82c19afe9bfcce6b71521692650208f9e61770a6815ada3e0879af52fbeb4f36",
+      "sourceLines": "7",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc"
+      },
+      "test": "0002"
+    }
+  },
+  "incorrectSources": [
+    "6495883",
+    "6496916",
+    "6496923",
+    "6506387",
+    "6522945"
+  ],
+  "packageHash": "b30016b9b044d460cc7e1eca308b5a922e97702123d5eeba732087a5ce66cac8",
+  "qualificationBasis": "official",
+  "rating": 800,
+  "reviewUrl": "https://staging.itsdev.in/sessions/29e34d9c12b64a79a96e60082f1e904c",
+  "reviewer": "devin-29e34d9c12b64a79a96e60082f1e904c"
+}

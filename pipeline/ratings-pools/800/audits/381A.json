@@ -1,0 +1,144 @@
+{
+  "acceptedSources": [
+    "5666147",
+    "5666149",
+    "5666151",
+    "5666152",
+    "5666153"
+  ],
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementReviewed": true
+  },
+  "evidenceHash": "7b38a003cf1087ea52f489121585ebaacd6e8de25980fad85ff3b94affd6f24d",
+  "executionContext": {
+    "compilerFlags": [
+      "-O2",
+      "-std=c++17",
+      "-DONLINE_JUDGE"
+    ],
+    "executionVersion": 2,
+    "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3"
+  },
+  "id": "381A",
+  "incorrectAnalysis": {
+    "180272124": {
+      "actual": "5 12\n",
+      "actualSha256": "9c7541c2b2f1cb2b4150e9bb9ebaced7c62a4a5b6beb5eb90da3683a9615e350",
+      "expected": "12 5\n",
+      "kind": "wrong-answer",
+      "lfInput": "4\n4 1 2 10\n",
+      "lfInputSha256": "a9e9630e8fd0e10ef14ce9b2d9e0fa1e5b12664fa367f629920d11346d22586d",
+      "lfRerunVerdict": "WA",
+      "reason": "line 5 sorts the cards ascending and alternates from the SMALLEST, ignoring that players may only take the leftmost or rightmost card greedily. Row 4 1 2 10: greedy gives Sereja 10+2=12, Dima 4+1=5; code gives sorted alternation 1+4=5 / 2+10=12.",
+      "sourceHash": "3fc9c52bedb6fc038e7210a3e9fe5788a923d55ab3532747f9118f41a974766b",
+      "sourceLines": "5-13",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc"
+      },
+      "test": "0001"
+    },
+    "181185495": {
+      "actual": "585 446\n",
+      "actualSha256": "7d79d5bbd5093ed48c0f047991d64964c2bace787dd246154cc6f659f472a642",
+      "expected": "613 418\n",
+      "kind": "wrong-answer",
+      "lfInput": "42\n15 29 37 22 16 5 26 31 6 32 19 3 45 36 33 14 25 20 48 7 42 11 24 28 9 18 8 21 47 17 38 40 44 4 35 1 43 39 41 27 12 13\n",
+      "lfInputSha256": "1cd5343c63cd13420bd67faf1217b9c270eba82f04e9f762143b09522e5065a1",
+      "lfRerunVerdict": "WA",
+      "reason": "each turn takes the global maximum of the remaining cards (lines 6-9) instead of max(leftmost, rightmost), so it is not the end-greedy game. On the 42-card row the end-greedy sums are 613/418; global-max picking yields 585/446.",
+      "sourceHash": "f17ee99a4b508262ebebde507da92b99b5fff2a7194b69ad570c933d67aff0ca",
+      "sourceLines": "5-11",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc"
+      },
+      "test": "0003"
+    },
+    "181195014": {
+      "actual": "527 504\n",
+      "actualSha256": "10c48060a6a26a79c9d76ff7dec8f0a19c924b36772b0199c2c9bfe381ae9a68",
+      "expected": "613 418\n",
+      "kind": "wrong-answer",
+      "lfInput": "42\n15 29 37 22 16 5 26 31 6 32 19 3 45 36 33 14 25 20 48 7 42 11 24 28 9 18 8 21 47 17 38 40 44 4 35 1 43 39 41 27 12 13\n",
+      "lfInputSha256": "1cd5343c63cd13420bd67faf1217b9c270eba82f04e9f762143b09522e5065a1",
+      "lfRerunVerdict": "WA",
+      "reason": "sorts the whole row (line 5) and alternates over sorted order, discarding the end-only rule; on the 42-card row sorted alternation gives 527/504 (printed as b,c) vs end-greedy 613/418.",
+      "sourceHash": "3e423b002dd096fec4b13fab3fb229ae01af46b2cc1c32e1e0db6c0fb0ae3394",
+      "sourceLines": "3-15",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc"
+      },
+      "test": "0003"
+    },
+    "181569066": {
+      "actual": "527 504\n",
+      "actualSha256": "10c48060a6a26a79c9d76ff7dec8f0a19c924b36772b0199c2c9bfe381ae9a68",
+      "expected": "613 418\n",
+      "kind": "wrong-answer",
+      "lfInput": "42\n15 29 37 22 16 5 26 31 6 32 19 3 45 36 33 14 25 20 48 7 42 11 24 28 9 18 8 21 47 17 38 40 44 4 35 1 43 39 41 27 12 13\n",
+      "lfInputSha256": "1cd5343c63cd13420bd67faf1217b9c270eba82f04e9f762143b09522e5065a1",
+      "lfRerunVerdict": "WA",
+      "reason": "sorts (line 3) and sums every other card from the largest; that is a free-choice game, not leftmost/rightmost greedy. 42-card row: 527 504 vs correct 613 418.",
+      "sourceHash": "62fa050f4ea275ecb7697cf4113d3eab19c750bd0e4efa0a13de855e3aa64e14",
+      "sourceLines": "3-7",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc"
+      },
+      "test": "0003"
+    },
+    "182080614": {
+      "actual": "527 504\n",
+      "actualSha256": "10c48060a6a26a79c9d76ff7dec8f0a19c924b36772b0199c2c9bfe381ae9a68",
+      "expected": "613 418\n",
+      "kind": "wrong-answer",
+      "lfInput": "42\n15 29 37 22 16 5 26 31 6 32 19 3 45 36 33 14 25 20 48 7 42 11 24 28 9 18 8 21 47 17 38 40 44 4 35 1 43 39 41 27 12 13\n",
+      "lfInputSha256": "1cd5343c63cd13420bd67faf1217b9c270eba82f04e9f762143b09522e5065a1",
+      "lfRerunVerdict": "WA",
+      "reason": "sort+reverse (lines 3-4) then alternate: ignores row ends; 42-card row gives 527 504 instead of 613 418.",
+      "sourceHash": "9d46e17e6e52726c0192cd824ef20f872ba12bc522415eabcddc26a59d897740",
+      "sourceLines": "3-14",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc"
+      },
+      "test": "0003"
+    }
+  },
+  "incorrectSources": [
+    "180272124",
+    "181185495",
+    "181195014",
+    "181569066",
+    "182080614"
+  ],
+  "packageHash": "f6eaf8bf5d3a9004c34c5636d52d1f227d49851a36fa35e376eb6de2ac9d0557",
+  "qualificationBasis": "generated",
+  "rating": 800,
+  "reviewUrl": "https://staging.itsdev.in/sessions/29e34d9c12b64a79a96e60082f1e904c",
+  "reviewer": "devin-29e34d9c12b64a79a96e60082f1e904c"
+}
