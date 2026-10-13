@@ -2,10 +2,10 @@
 
 Reviewer: `devin-independent-auditor-session-4faf13bf1be94c698c44ee6503b27b8c` (https://staging.itsdev.in/sessions/4faf13bf1be94c698c44ee6503b27b8c)
 
-**Verified: 11 of 28 candidates** (270B, 277A, 279A, 315A, 334B, 358A, 388A, 38C, 41B, 435B, 548B). The target is 100, so it is **not reached**. The builder supplied 28 execution-passed packages (v2 bundle), not 100; the 9 initial archives are byte-identical to v1, and the 19 new ones were audited from scratch.
+**Verified: 21 of 39 candidates** (270B, 277A, 279A, 315A, 334B, 358A, 388A, 38C, 41B, 435B, 441B, 489C, 507B, 548B, 550B, 604B, 710B, 757B, 803A, 911C, 940B). The target is 100, so it is **not reached**. The builder supplied 28 execution-passed packages (v2 bundle), not 100; the 9 initial archives are byte-identical to v1, and the 19 new ones were audited from scratch.
 Builder child audits were read for cross-checking only; none of their approvals are inherited. Disagreements are listed below.
 
-**Correction:** this report supersedes the 12/28 audit (commit `86a80c09`, JSON SHA256 `f58f9a444d90f084f590a9f01a36ba74d45f8fcf10a9967d1d12224fe5b14163`). 125A revoked: counted incorrect source 42101202 always prints the correct rounded total inches; its 7 WA outputs (all n%36==35) only fail to carry 12 inches into a foot, the same quantity in non-canonical form, so it is presentation-only under the rule applied to 197B 6327041. 125A drops to 4/5 genuine kills and is held. Package/evidence bytes are unchanged; only the verdict changed. The earlier 197B revocation (13/28 -> 12/28) is kept below and in history. Superseded 125A audit SHA256 `38d08811b28b0104472dfbf77ecc9fad2b2b4a6b91b8763f71cadcf4b8d1ed65`, auditHash `73d11041e9fdda74ec412a1b7bbe31007ce798254ece1f789a469188f458d2e1`. Earlier: 13/28 audit `a1ac5783` (`12790623ac6e9579452775da04113cec478872a052472e68ceaafa4a441d0f60`); superseded 197B audit SHA256 `f8961310a3ff83f18f6224c188a8490f8b4d254d6aaa2311bea0697a943430c5`, auditHash `99da7ad0a64f7eeec85975e941ab01edebd4d28eb332f9d2929cba9fc0af0944`.
+**Correction:** this report supersedes the 11/28 audit (commit `b0721ff0`, JSON SHA256 `475557d361e76ee76bb73532db6e9b18ae8905f6254e4ac1a5e65fa7087165af`). Whole-pool reconciliation: 11 child-approved IDs (441B 489C 507B 550B 604B 710B 757B 803A 911C 920C 940B) audited from scratch; 226A re-audited on its changed bytes. The earlier revocations (197B 13->12, 125A 12->11) stand. Superseded 125A audit SHA256 `38d08811b28b0104472dfbf77ecc9fad2b2b4a6b91b8763f71cadcf4b8d1ed65`, auditHash `73d11041e9fdda74ec412a1b7bbe31007ce798254ece1f789a469188f458d2e1`. Earlier: 13/28 audit `a1ac5783` (`12790623ac6e9579452775da04113cec478872a052472e68ceaafa4a441d0f60`); superseded 197B audit SHA256 `f8961310a3ff83f18f6224c188a8490f8b4d254d6aaa2311bea0697a943430c5`, auditHash `99da7ad0a64f7eeec85975e941ab01edebd4d28eb332f9d2929cba9fc0af0944`.
 
 - Builder branch `devin/1791845646-rated-1400` @ `556e9047951a6774775812684c3a5cb516789f3d`
 - Bundle SHA256 `05f8c1e2b4e896b45be0eb85cc02cab9e10b0aeac0f48f59164138f274de13a7`: verified=True
@@ -23,7 +23,7 @@ Builder child audits were read for cross-checking only; none of their approvals 
 | 175A | **REJECTED** | 284 (134/0/150) | 5/5 | 4/5 | 36/36 | 5/18 | accepted contradiction: CF-OK source(s) 37495712(RE@0001), 124238640(RE@0001), 27107190(RE@0001), 196162162(RE@0001), 55006515(RE@0001), 35154521(RE@0001), 78795916(RE@0001), 29819107(RE@0001), 44186543(RE@0001), 46821841(RE@0001), 29784607(RE@0001), 34276976(RE@0001) fail the package; cause: CRLF bytes reach Python input(); passes on LF-normalized tests; only 4/5 incorrect sources are counted WA algorithmic kills |
 | 197B | **NOT_VALIDATED_HELD** | 201 (42 partial/9/150) | 5/5 | 3/5 | 49/49 | 16/18 | only 3/5 incorrect sources are counted WA algorithmic kills |
 | 198B | **REJECTED** | 182 (23 partial/9/150) | 5/5 | 3/5 | 7/8 | 6/9 | only 3/5 incorrect sources are counted WA algorithmic kills; coverage gap: CF-WRONG_ANSWER source(s) 11382563 pass the full package |
-| 226A | **NOT_VALIDATED_HELD** | 228 (78/0/150) | 5/5 | 3/5 | 4/4 | 13/15 | only 3/5 incorrect sources are counted WA algorithmic kills |
+| 226A | **NOT_VALIDATED_HELD** | 228 (78/0/150) | 5/5 | 3/5 | 0/0 | 0/0 | only 3/5 incorrect sources are counted WA algorithmic kills |
 | 233B | **NOT_VALIDATED_HELD** | 198 (48/0/150) | 5/5 | 3/5 | 22/22 | 12/12 | only 3/5 incorrect sources are counted WA algorithmic kills |
 | 245E | **REJECTED** | 200 (41 partial/9/150) | 5/5 | 1/5 | 32/32 | 5/20 | accepted contradiction: CF-OK source(s) 29488834(WA@0002), 6912638(WA@0002), 31526728(WA@0001), 3685951(WA@0001), 17802998(WA@0002), 4891069(WA@0002), 4435266(WA@0002), 42447218(WA@0002), 49460007(WA@0001), 69404238(WA@0002), 17833202(WA@0002), 14563275(WA@0002), 10341189(WA@0002), 13907610(WA@0001) fail the package; cause: CRLF bytes reach Python input(); passes on LF-normalized tests; only 1/5 incorrect sources are counted WA algorithmic kills |
 | 248B | **REJECTED** | 216 (66/0/150) | 5/5 | 5/5 | 49/49 | 7/20 | accepted contradiction: CF-OK source(s) 31873459(RE@0019), 27547806(RE@0019), 32332414(RE@0019), 4713392(RE@0019), 9705234(RE@0019), 32011925(RE@0019), 11022217(RE@0019), 14779449(RE@0019), 26181773(RE@0019), 7776787(RE@0019), 4786395(RE@0019), 17711024(RE@0019), 13496928(RE@0019) fail the package; cause: Python 3.11 sandbox int-str 4300-digit limit (harness fidelity) |
@@ -43,8 +43,19 @@ Builder child audits were read for cross-checking only; none of their approvals 
 | 417B | **NOT_VALIDATED_HELD** | 183 (24 partial/9/150) | 5/5 | 4/5 | 21/21 | 18/18 | only 4/5 incorrect sources are counted WA algorithmic kills |
 | 41B | **VALIDATED** | 180 (15 partial/15/150) | 5/5 | 5/5 | 12/12 | 19/20 | none |
 | 435B | **VALIDATED** | 196 (46/0/150) | 5/5 | 5/5 | 30/30 | 20/20 | none |
+| 441B | **VALIDATED** | 190 (31 partial/9/150) | 5/5 | 5/5 | 30/30 | 19/20 | none |
+| 489C | **VALIDATED** | 215 (65/0/150) | 5/5 | 5/5 | 30/30 | 20/20 | none |
+| 507B | **VALIDATED** | 187 (37/0/150) | 5/5 | 5/5 | 30/30 | 19/20 | none |
 | 518B | **REJECTED** | 180 (18 partial/12/150) | 5/5 | 1/5 | 30/30 | 8/20 | accepted contradiction: CF-OK source(s) 9997130(WA@0001), 9998838(RE@0001), 43168918(WA@0001), 50663320(RE@0001), 46821685(WA@0001), 10002420(WA@0001), 9988304(WA@0001), 9994921(RE@0001), 42126459(WA@0001), 20403986(WA@0001), 10000805(WA@0001) fail the package; cause: CRLF bytes reach Python input(); passes on LF-normalized tests; only 1/5 incorrect sources are counted WA algorithmic kills |
 | 548B | **VALIDATED** | 162 (10 partial/2/150) | 5/5 | 5/5 | 30/30 | 19/20 | none |
+| 550B | **VALIDATED** | 180 (30/0/150) | 5/5 | 5/5 | 4/4 | 19/20 | none |
+| 604B | **VALIDATED** | 184 (26 partial/8/150) | 5/5 | 5/5 | 30/30 | 20/20 | none |
+| 710B | **VALIDATED** | 182 (23 partial/9/150) | 5/5 | 5/5 | 30/30 | 20/20 | none |
+| 757B | **VALIDATED** | 238 (79 partial/9/150) | 5/5 | 5/5 | 30/30 | 20/20 | none |
+| 803A | **VALIDATED** | 318 (168/0/150) | 5/5 | 5/5 | 30/30 | 20/20 | none |
+| 911C | **VALIDATED** | 217 (67/0/150) | 5/5 | 5/5 | 28/30 | 20/20 | none |
+| 920C | **REJECTED** | 280 (120 partial/10/150) | 5/5 | 5/5 | 30/30 | 14/20 | accepted contradiction: CF-OK source(s) 34864682(RE@0001), 34855332(RE@0001), 34849132(RE@0001), 34856737(RE@0001), 34852086(RE@0001) fail the package; cause: CRLF bytes reach Python input(); passes on LF-normalized tests |
+| 940B | **VALIDATED** | 208 (58/0/150) | 5/5 | 5/5 | 30/30 | 20/20 | none |
 
 ## Disagreements with builder child audits
 
@@ -57,6 +68,7 @@ Builder child audits were read for cross-checking only; none of their approvals 
 - 279B: child 126f9ac4 approved; this audit NOT_VALIDATED_HELD (only 4/5 incorrect sources are counted WA algorithmic kills)
 - 289B: child f009e0db approved; this audit NOT_VALIDATED_HELD (only 4/5 incorrect sources are counted WA algorithmic kills)
 - 417B: child d95ca109 approved; this audit NOT_VALIDATED_HELD (only 4/5 incorrect sources are counted WA algorithmic kills)
+- 920C: child b93287be approved; this audit REJECTED (accepted contradiction: CF-OK source(s) 34864682(RE@0001), 34855332(RE@0001), 34849132(RE@0001), 34856737(RE@0001), 34852086(RE@0001) fail the package; cause: CRLF bytes reach Python input(); passes on LF-normalized tests)
 
 ## What was executed
 
@@ -69,6 +81,13 @@ Builder child audits were read for cross-checking only; none of their approvals 
 7. Re-ran all non-TLE selected sources on LF-normalized copies of the tests, to find kills that depend only on CRLF bytes reaching Python input().
 8. Captured the actual output of every selected WA/RE source on its recorded failed test, and ran de-debugged mutants (debug print lines removed only) where a kill looked like output noise.
 9. Ran `pool_contract.verify_evidence` and `publication_gate(require_approval=False)` for every package this audit approved.
+
+## Whole-pool reconciliation (v3)
+
+- Whole-pool archive SHA256 `0637f17856db18a669f39640d39c8d2ffbd80b9c1866d30de8ded075f06e8ab9` (37252 SHA256SUMS entries verified); builder ledger `7534943681853e0dc133351f956cefc1fab4e5405beaaf4c390815f36a2732dc`; manifest `3a0c4e48db105837a8f8864294baf7a25add10fab17f0f84b410bd202f5fa45e`.
+- package/evidence hashes recomputed with pool_contract.manifest/digest, not taken from the builder ledger. 27 of the 28 reviewed IDs are byte-identical, so their verdicts stand without rerun; 226A changed and was re-audited; the 11 child-approved IDs were audited from scratch (child approvals not inherited). Sources were re-extracted from the pinned codeforces-submissions shards with SHA256 checks, because the whole-pool archive carries no source code.
+- Byte-identical to reviewed v2 bytes: 27 (107A, 125A, 152C, 175A, 197B, 198B, 233B, 245E, 248B, 261A, 270B, 272B, 277A, 279A, 279B, 289B, 315A, 334B, 337B, 358A, 388A, 38C, 417B, 41B, 435B, 518B, 548B). Changed: 226A.
+- For the 12 v3 IDs I repeated steps 1-9 on the whole-pool bytes: all 120 selected sources rerun (verdicts, failed tests and every per-test output hash match the builder evidence), LF reruns, generator x2 and oracle replays, pinned-parquet provenance, my own validators/references/brute forces on every test, seeded stress tests on all accepted sources and builder oracles, up to 30 extra CF-WA and 20 extra CF-OK sources per problem, and per-kill source-level witnesses (fault line plus same-field-count semantically wrong output on a valid LF test, YES/NO case-insensitive).
 
 ## Per-problem detail
 
@@ -235,16 +254,24 @@ Source-level evidence for counted incorrect sources (fault line, smallest valid 
 
 ### 226A: NOT_VALIDATED_HELD
 
-- packageHash `29fac43be2758dceb85be915c75372450cb67b3457f67a77d9c25c8f159a1104`
-- evidenceHash `6b2a0886057a76692286cdd4b8802196e06fc840931050a13f9a135ff41c960c`
-- auditHash `53a096c28d798e699dcb1f825c9a7a932d5e37347d93bfbf3b757af1370eae20`
-- archive SHA256 `37c7bde5a700f8faaa06c01926bb7a1cb582c49052104fb263ca9c0e70ff0289`
+- packageHash `393ee1f27b113d737328f2c91ae5578579bb372fc7dd7a90bf3d93da6668cef5`
+- evidenceHash `a94ba4a06c59407251fd255506d2367e95d23e5ef6b87e3616ba9be66ae08178`
+- auditHash `13ed690f260facde8c0f77c9a4fa550697ddf8a3d0c163d60c888e8b9af42412`
+- archive SHA256 `n/a (whole-pool archive 0637f17856db18a669f39640d39c8d2ffbd80b9c1866d30de8ded075f06e8ab9; no per-ID archive)`
 - contract gate: None
 - CRLF-input tests: 78; independent reference: tests=230, invalid=0, mismatches=0
 - issues: only 3/5 incorrect sources are counted WA algorithmic kills
 - max-size coverage: {'bound': 1000000000, 'maxSizeMetric': 1000000000, 'nAtMax': 2, 'ratio': 1.0, 'test': '0081'}
-- CF-OK sources failing: 2237352 MS C++ CE@None, 2237332 MS C++ CE@None
-- replacement WA candidates (executed here, need builder revalidation and re-audit): 81421605@0004, 63635601@0003, 63642927@0047, 81421455@0001
+
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 11998618 |  | None | `` | `` | `` | `` |
+| 21696165 | L3: `print(r-1)` | 0067 | `1 1\n` | `0` | `-1\n` | `ee3aa64bb94a5084` |
+| 21696171 | L5: `print(r-1)` | 0067 | `1 1\n` | `0` | `-1\n` | `ee3aa64bb94a5084` |
+| 51590219 |  | None | `` | `` | `` | `` |
+| 55486527 | L1: `n,m=map(int,input().split());print(pow(3,n,m)-1)` | 0067 | `1 1\n` | `0` | `-1\n` | `ee3aa64bb94a5084` |
 
 | Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -254,10 +281,10 @@ Source-level evidence for counted incorrect sources (fault line, smallest valid 
 | [2237370](https://codeforces.com/contest/226/submission/2237370) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
 | [2237372](https://codeforces.com/contest/226/submission/2237372) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
 | [11998618](https://codeforces.com/contest/226/submission/11998618) | Python 3 | TIME_LIMIT_EXCEEDED | TLE | TLE | 0006 | True | - | - | False | : Computes pow(3,n) without a modulus; correct formula 3^n-1 but 3^(1e9) big-int is TLE only. complexity-only (TLE); not counted per handoff policy |
-| [21696165](https://codeforces.com/contest/226/submission/21696165) | Python 3 | WRONG_ANSWER | WA | WA | 0047 | True | WA@0047 | `-1\n` | True | wrong-answer: Prints pow(3,n,m)-1 with no final mod; when m divides 3^n (test 0047: m=6561=3^8) it prints -1 instead of m-1. |
-| [21696171](https://codeforces.com/contest/226/submission/21696171) | Python 3 | WRONG_ANSWER | WA | WA | 0047 | True | WA@0047 | `-1\n` | True | wrong-answer: Same missing wrap: r<0 check happens before subtracting 1, so r=0 prints -1 instead of m-1 (test 0047). |
+| [21696165](https://codeforces.com/contest/226/submission/21696165) | Python 3 | WRONG_ANSWER | WA | WA | 0047 | True | WA@0047 | - | True | wrong-answer: Prints pow(3,n,m)-1 with no final mod; when m divides 3^n (test 0047: m=6561=3^8) it prints -1 instead of m-1. Witness (valid LF package test 0067): input '1 1\n', reference '0', source prints '-1'; wrong on 49 tests after case-insensitive YES/NO and numeric normalisation. |
+| [21696171](https://codeforces.com/contest/226/submission/21696171) | Python 3 | WRONG_ANSWER | WA | WA | 0047 | True | WA@0047 | - | True | wrong-answer: Same missing wrap: r<0 check happens before subtracting 1, so r=0 prints -1 instead of m-1 (test 0047). Witness (valid LF package test 0067): input '1 1\n', reference '0', source prints '-1'; wrong on 49 tests after case-insensitive YES/NO and numeric normalisation. |
 | [51590219](https://codeforces.com/contest/226/submission/51590219) | Python 3 | TIME_LIMIT_EXCEEDED | TLE | TLE | 0006 | True | - | - | False | : Computes (3**n-1)%m with a full big integer; correct but TLE for n=1e9. complexity-only (TLE); not counted per handoff policy |
-| [55486527](https://codeforces.com/contest/226/submission/55486527) | Python 3 | WRONG_ANSWER | WA | WA | 0047 | True | WA@0047 | `-1\n` | True | wrong-answer: pow(3,n,m)-1 without wrap; prints -1 when 3^n = 0 mod m (test 0047). |
+| [55486527](https://codeforces.com/contest/226/submission/55486527) | Python 3 | WRONG_ANSWER | WA | WA | 0047 | True | WA@0047 | - | True | wrong-answer: pow(3,n,m)-1 without wrap; prints -1 when 3^n = 0 mod m (test 0047). Witness (valid LF package test 0067): input '1 1\n', reference '0', source prints '-1'; wrong on 49 tests after case-insensitive YES/NO and numeric normalisation. |
 
 ### 233B: NOT_VALIDATED_HELD
 
@@ -828,6 +855,110 @@ Source-level evidence for counted incorrect sources (fault line, smallest valid 
 | [6794843](https://codeforces.com/contest/435/submission/6794843) | Python 3 | WRONG_ANSWER | WA | WA | 0009 | True | WA@0009 | `9202\n` | True | wrong-answer: Window includes positions past k after k shrinks; ties choose the last max (should be first). |
 | [6816804](https://codeforces.com/contest/435/submission/6816804) | Python 3 | WRONG_ANSWER | WA | WA | 0004 | True | WA@0004 | `9970000008001234\n` | True | wrong-answer: Bubble with moving j pointer; spends swaps on early positions sub-optimally. |
 
+### 441B: VALIDATED
+
+- packageHash `5c0e678a5d14c8e10f6450d5c5bc03889b7c11836934ba1848bb6c5dc34e1d78`
+- evidenceHash `4a9858750121e5883b536f10a94abbb1d1bed806de8a5e7631d892169a92773f`
+- auditHash `5ff1441f364ba7b9c8e08e781149467c8e3d3b1b5b6682eff6771cc6d87d4919`
+- archive SHA256 `n/a (whole-pool archive 0637f17856db18a669f39640d39c8d2ffbd80b9c1866d30de8ded075f06e8ab9; no per-ID archive)`
+- contract gate: {'auditHash': '5ff1441f364ba7b9c8e08e781149467c8e3d3b1b5b6682eff6771cc6d87d4919', 'emptyApprovalRejected': True, 'passed': True}
+- CRLF-input tests: 31; independent reference: tests=192, invalid=0, mismatches=0
+- issues: none
+- max-size coverage: {'bound': 3000, 'maxSizeMetric': 3000, 'nAtMax': 11, 'ratio': 1.0, 'test': '0044'}
+- CF-OK sources failing: 6839985 MS C++ CE@None
+
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 6845814 | L8: `for i in range(1,3001):` | 0019 | `1 1\n3000 2\n` | `2` | `1\n` | `4355a46b19d348dc` |
+| 6850840 | L15: `days.append(day)` | 0086 | `1 1\n1 3\n` | `2` | `3\n` | `1121cfccd5913f0a` |
+| 6852929 | L5: `li[i] += (int(input().split()[1]))` | 0054 | `1 5\n5 2\n` | `2` | `-4\n` | `8fbfec21acf8f743` |
+| 6855572 | L4: `b_last = 0` | 0015 | `2 3\n1 6\n3 6\n` | `12` | `9\n` | `2e6d31a5983a9125` |
+| 6857892 | L13: `for i in range(3001):` | 0019 | `1 1\n3000 2\n` | `2` | `1\n` | `4355a46b19d348dc` |
+
+| Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
+|---|---|---|---|---|---|---|---|---|---|---|
+| [6839393](https://codeforces.com/contest/441/submission/6839393) | GNU C++0x | OK | AC | AC | None | True | AC@None | - | True |  |
+| [6839461](https://codeforces.com/contest/441/submission/6839461) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
+| [6839464](https://codeforces.com/contest/441/submission/6839464) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
+| [6839585](https://codeforces.com/contest/441/submission/6839585) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
+| [6839709](https://codeforces.com/contest/441/submission/6839709) | GNU C++0x | OK | AC | AC | None | True | AC@None | - | True |  |
+| [6845814](https://codeforces.com/contest/441/submission/6845814) | Python 3 | WRONG_ANSWER | WA | WA | 0008 | True | WA@0008 | - | True | wrong-answer: Day loop for i in range(1,3001) never visits day 3001, so fruit ripening on day 3000 can only be picked on day 3000; on a one-tree day-3000 case with b>v it loses the day-3001 harvest. Witness (valid LF package test 0019): input '1 1\n3000 2\n', reference '2', source prints '1'; wrong on 25 tests after case-insensitive YES/NO and numeric normalisation. |
+| [6850840](https://codeforces.com/contest/441/submission/6850840) | Python 3 | WRONG_ANSWER | WA | WA | 0002 | True | WA@0002 | - | True | wrong-answer: days.append(day) inside the tree loop re-adds every ripening day after the de-duplicated day list was built, so the same day is processed again with a fresh daily limit v and the total exceeds the true capacity. debug() is a no-op (its print is commented out), so the wrong total is not debug output. Witness (valid LF package test 0086): input '1 1\n1 3\n', reference '2', source prints '3'; wrong on 82 tests after case-insensitive YES/NO and numeric normalisation. |
+| [6852929](https://codeforces.com/contest/441/submission/6852929) | Python 3 | WRONG_ANSWER | WA | WA | 0003 | True | WA@0003 | - | True | wrong-answer: li[i] += b indexes fruit by input row i instead of ripening day a, and adds the unclamped negative leftover li[i-1]-limit; the result ignores the ripening days entirely. Witness (valid LF package test 0054): input '1 5\n5 2\n', reference '2', source prints '-4'; wrong on 129 tests after case-insensitive YES/NO and numeric normalisation. |
+| [6855572](https://codeforces.com/contest/441/submission/6855572) | Python 3 | WRONG_ANSWER | WA | WA | 0006 | True | WA@0006 | - | True | wrong-answer: b_last is reset to 0 before the current day fruit is processed, and when yesterday leftovers fill the whole daily capacity the current fruit is never carried to tomorrow; leftover fruit is lost. Witness (valid LF package test 0015): input '2 3\n1 6\n3 6\n', reference '12', source prints '9'; wrong on 76 tests after case-insensitive YES/NO and numeric normalisation. |
+| [6857892](https://codeforces.com/contest/441/submission/6857892) | Python 3 | TIME_LIMIT_EXCEEDED | WA | WA | 0008 | True | WA@0008 | - | True | wrong-answer: for i in range(3001) covers days 0..3000 only and never harvests day 3001, so fruit ripening on day 3000 loses its second day. Codeforces judged it TLE, but in the sandbox it gives a WA on a valid test within the time limit, so the kill is a wrong value, not a timeout. Witness (valid LF package test 0019): input '1 1\n3000 2\n', reference '2', source prints '1'; wrong on 25 tests after case-insensitive YES/NO and numeric normalisation. |
+
+### 489C: VALIDATED
+
+- packageHash `1c63ecd0807a7bae721a97e16ba5cf2ee7c5b7665047f2afcef105c2dc480276`
+- evidenceHash `df95890f2b0e23f24fa1115451ba96c0ff77bcab710e304b42cd31383ef91e85`
+- auditHash `260c9b7c4155e273ccb1355ba9cc4a35f43824e3e7b90d45af4cd4f494bd14da`
+- archive SHA256 `n/a (whole-pool archive 0637f17856db18a669f39640d39c8d2ffbd80b9c1866d30de8ded075f06e8ab9; no per-ID archive)`
+- contract gate: {'auditHash': '260c9b7c4155e273ccb1355ba9cc4a35f43824e3e7b90d45af4cd4f494bd14da', 'emptyApprovalRejected': True, 'passed': True}
+- CRLF-input tests: 65; independent reference: tests=217, invalid=0, mismatches=0
+- issues: none
+- max-size coverage: {'bound': 100, 'maxSizeMetric': 100, 'nAtMax': 27, 'ratio': 1.0, 'test': '0208'}
+
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 192580474 | L10: `number += f'{s}'`; L3: `if m > s:` | 0003 | `2 1\n` | `10 10` | `-1 -1\n` | `6a21cc779f3d8182` |
+| 192671817 | L3: `if sum_N < start:` | 0008 | `1 0\n` | `0 0` | `-1 -1\n` | `6a21cc779f3d8182` |
+| 192780155 | L9: `if(diff >= 0 and reqLen - 1 <= diff):` | 0003 | `2 1\n` | `10 10` | `-1 -1\n` | `6a21cc779f3d8182` |
+| 192783888 | L24: `if(diff >= 0 and reqLen1 - 1 <= diff):` | 0008 | `1 0\n` | `0 0` | `-1 -1\n` | `6a21cc779f3d8182` |
+| 192867818 | L24: `if s== 0 or s > m*9:` | 0008 | `1 0\n` | `0 0` | `-1 -1\n` | `6a21cc779f3d8182` |
+
+| Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
+|---|---|---|---|---|---|---|---|---|---|---|
+| [8720301](https://codeforces.com/contest/489/submission/8720301) | GNU C++0x | OK | AC | AC | None | True | AC@None | - | True |  |
+| [8720530](https://codeforces.com/contest/489/submission/8720530) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
+| [8720584](https://codeforces.com/contest/489/submission/8720584) | MS C++ | OK | AC | AC | None | True | AC@None | - | True |  |
+| [8720716](https://codeforces.com/contest/489/submission/8720716) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
+| [8721064](https://codeforces.com/contest/489/submission/8721064) | MS C++ | OK | AC | AC | None | True | AC@None | - | True |  |
+| [192580474](https://codeforces.com/contest/489/submission/192580474) | Python 3 | WRONG_ANSWER | WA | WA | 0001 | True | WA@0001 | - | True | wrong-answer: Treats the remaining digit sum as one digit, appending str(s) and decrementing it, so the number has the wrong length and digit sum. It also prints -1 -1 whenever m > s, although e.g. m=3, s=1 has answer 100 100. Witness (valid LF package test 0003): input '2 1\n', reference '10 10', source prints '-1 -1'; wrong on 209 tests after case-insensitive YES/NO and numeric normalisation. |
+| [192671817](https://codeforces.com/contest/489/submission/192671817) | Python 3 | WRONG_ANSWER | WA | WA | 0008 | True | WA@0008 | - | True | wrong-answer: Both searches start at digit 1 and reject sum_N < start, so the valid m=1, s=0 number 0 is reported as -1 -1. Witness (valid LF package test 0008): input '1 0\n', reference '0 0', source prints '-1 -1'; wrong on 2 tests after case-insensitive YES/NO and numeric normalisation. |
+| [192780155](https://codeforces.com/contest/489/submission/192780155) | Python 3 | WRONG_ANSWER | WA | WA | 0003 | True | WA@0003 | - | True | wrong-answer: The greedy condition reqLen-1 <= remaining sum reserves at least 1 for every remaining digit, which forbids zero digits. Cases like m=2, s=1 (answer 10 10) are reported impossible, and minima with internal zeros come out wrong. Witness (valid LF package test 0003): input '2 1\n', reference '10 10', source prints '-1 -1'; wrong on 171 tests after case-insensitive YES/NO and numeric normalisation. |
+| [192783888](https://codeforces.com/contest/489/submission/192783888) | Python 3 | WRONG_ANSWER | WA | WA | 0004 | True | WA@0004 | - | True | wrong-answer: The minimum is built with the same at-least-one-per-remaining-digit reservation and then reversed, which forces nonzero internal digits. Its maxNum[0]=="0" rejection also reports m=1, s=0 (answer 0 0) as -1 -1. Witness (valid LF package test 0008): input '1 0\n', reference '0 0', source prints '-1 -1'; wrong on 160 tests after case-insensitive YES/NO and numeric normalisation. |
+| [192867818](https://codeforces.com/contest/489/submission/192867818) | Python 3 | WRONG_ANSWER | WA | WA | 0008 | True | WA@0008 | - | True | wrong-answer: if s==0 or s>m*9 prints -1 -1 even for m=1, s=0, whose answer is 0 0. Witness (valid LF package test 0008): input '1 0\n', reference '0 0', source prints '-1 -1'; wrong on 2 tests after case-insensitive YES/NO and numeric normalisation. |
+
+### 507B: VALIDATED
+
+- packageHash `efb7c9449fa79bacb42a058270441286a2ab31d5e1cb28e7ddd563e74f5da1e7`
+- evidenceHash `ffc7f515641f70be1d76b805403c575a98cabf66e01efab0ae53f0fafd2dfbbf`
+- auditHash `50ffe684a8a57de4b04d3b58d31e10f9add80b9939b792f3136dd4fa2c0f9395`
+- archive SHA256 `n/a (whole-pool archive 0637f17856db18a669f39640d39c8d2ffbd80b9c1866d30de8ded075f06e8ab9; no per-ID archive)`
+- contract gate: {'auditHash': '50ffe684a8a57de4b04d3b58d31e10f9add80b9939b792f3136dd4fa2c0f9395', 'emptyApprovalRejected': True, 'passed': True}
+- CRLF-input tests: 37; independent reference: tests=190, invalid=0, mismatches=0
+- issues: none
+- max-size coverage: {'bound': 100000, 'maxSizeMetric': 100000, 'nAtMax': 10, 'ratio': 1.0, 'test': '0044'}
+- CF-OK sources failing: 9521663 Python 3 WA@0093
+
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 48066369 | L12: `if (int(res) == 0):` | 0013 | `5 6 3 7 2\n` | `1` | `0\n` | `9a271f2a916b0b6e` |
+| 48676896 | L3: `print(max(0,int(math.sqrt((a-x)*(a-x)+(b-y)*(b-y))//r)-1))` | 0013 | `5 6 3 7 2\n` | `1` | `0\n` | `9a271f2a916b0b6e` |
+| 48677159 | L3: `print(int(math.sqrt((a-x)*(a-x)+(b-y)*(b-y))/(2*r)))` | 0002 | `1 1 1 4 4\n` | `3` | `2\n` | `53c234e5e8472b6a` |
+| 49981713 | L4: `return math.ceil(st/2*r)` | 0001 | `2 0 0 0 4\n` | `1` | `4\n` | `7de1555df0c27003` |
+| 50595154 | L4: `d = (dx**2 + dy**2)*0.5` | 0070 | `8 8 5 9 1\n` | `1` | `4\n` | `7de1555df0c27003` |
+
+| Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
+|---|---|---|---|---|---|---|---|---|---|---|
+| [9515711](https://codeforces.com/contest/507/submission/9515711) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
+| [9515762](https://codeforces.com/contest/507/submission/9515762) | GNU C++0x | OK | AC | AC | None | True | AC@None | - | True |  |
+| [9515865](https://codeforces.com/contest/507/submission/9515865) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
+| [9515996](https://codeforces.com/contest/507/submission/9515996) | GNU C++0x | OK | AC | AC | None | True | AC@None | - | True |  |
+| [9516026](https://codeforces.com/contest/507/submission/9516026) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
+| [48066369](https://codeforces.com/contest/507/submission/48066369) | Python 3 | WRONG_ANSWER | WA | WA | 0006 | True | WA@0006 | - | True | wrong-answer: When the distance is positive but less than the diameter, int(res)==0 forces the answer to 0, although one step is needed. Witness (valid LF package test 0013): input '5 6 3 7 2\n', reference '1', source prints '0'; wrong on 79 tests after case-insensitive YES/NO and numeric normalisation. |
+| [48676896](https://codeforces.com/contest/507/submission/48676896) | Python 3 | WRONG_ANSWER | WA | WA | 0005 | True | WA@0005 | - | True | wrong-answer: Uses floor(dist/r)-1 instead of ceil(dist/(2r)), which is wrong whenever dist/(2r) is not just below an integer. Witness (valid LF package test 0013): input '5 6 3 7 2\n', reference '1', source prints '0'; wrong on 155 tests after case-insensitive YES/NO and numeric normalisation. |
+| [48677159](https://codeforces.com/contest/507/submission/48677159) | Python 3 | WRONG_ANSWER | WA | WA | 0002 | True | WA@0002 | - | True | wrong-answer: Truncates dist/(2r) with int() instead of taking the ceiling, so it undercounts by 1 whenever the distance is not an exact multiple of the diameter. Witness (valid LF package test 0002): input '1 1 1 4 4\n', reference '3', source prints '2'; wrong on 177 tests after case-insensitive YES/NO and numeric normalisation. |
+| [49981713](https://codeforces.com/contest/507/submission/49981713) | Python 3 | WRONG_ANSWER | WA | WA | 0001 | True | WA@0001 | - | True | wrong-answer: Precedence error: math.ceil(st/2*r) computes (st/2)*r instead of st/(2r). Witness (valid LF package test 0001): input '2 0 0 0 4\n', reference '1', source prints '4'; wrong on 166 tests after case-insensitive YES/NO and numeric normalisation. |
+| [50595154](https://codeforces.com/contest/507/submission/50595154) | Python 3 | WRONG_ANSWER | WA | WA | 0005 | True | WA@0005 | - | True | wrong-answer: Replaces the distance by half the squared distance and uses per-axis quotient/remainder formulas, which is not Euclidean distance; the step counts are wrong. Witness (valid LF package test 0070): input '8 8 5 9 1\n', reference '1', source prints '4'; wrong on 163 tests after case-insensitive YES/NO and numeric normalisation. |
+
 ### 518B: REJECTED
 
 - packageHash `d9f94d535596a1604ade2cc4bfb08ba91f4f38949e072ef55fbd77d8d7d560c8`
@@ -888,4 +1019,278 @@ Source-level evidence for counted incorrect sources (fault line, smallest valid 
 | [11313092](https://codeforces.com/contest/548/submission/11313092) | Python 3 | WRONG_ANSWER | WA | WA | 0004 | True | WA@0004 | `4\n3\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n5\n5\n` | True | wrong-answer: Uses row sum instead of longest consecutive run of 1s. |
 | [11314099](https://codeforces.com/contest/548/submission/11314099) | Python 3 | WRONG_ANSWER | WA | WA | 0004 | True | WA@0004 | `4\n3\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n5\n5\n` | True | wrong-answer: Uses row sum instead of longest consecutive run of 1s. |
 | [11320706](https://codeforces.com/contest/548/submission/11320706) | Python 3 | WRONG_ANSWER | WA | WA | 0004 | True | WA@0004 | `4\n3\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n5\n5\n` | True | wrong-answer: Uses row sum instead of longest consecutive run of 1s. |
+
+### 550B: VALIDATED
+
+- packageHash `9760ce21b5f264b705d482e33ed3819f60708c21e4b6568205d08de6858fa70d`
+- evidenceHash `850fbcadff176be31b347c75517cc4735bddfdb407d6634ab90ee5c05d45e7a3`
+- auditHash `80bfc3215cb3a4fa508593c9094ecc480a883f5ff9cc6b44ed7754486d3cdb37`
+- archive SHA256 `n/a (whole-pool archive 0637f17856db18a669f39640d39c8d2ffbd80b9c1866d30de8ded075f06e8ab9; no per-ID archive)`
+- contract gate: {'auditHash': '80bfc3215cb3a4fa508593c9094ecc480a883f5ff9cc6b44ed7754486d3cdb37', 'emptyApprovalRejected': True, 'passed': True}
+- CRLF-input tests: 30; independent reference: tests=183, invalid=0, mismatches=0
+- issues: none
+- max-size coverage: {'bound': 15, 'maxSizeMetric': 15, 'nAtMax': 27, 'ratio': 1.0, 'test': '0178'}
+- CF-OK sources failing: 11418158 MS C++ CE@None
+
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 188014416 | L3: `ans[0] += 1` | 0155 | `3 12 20 1\n5 7 4\n` | `2` | `1\n` | `4355a46b19d348dc` |
+| 193158167 | L2: `if sum < l:` | 0001 | `3 5 6 1\n1 2 3\n` | `2` | `0\n` | `9a271f2a916b0b6e` |
+| 197643532 | L15: `if(l <= sum(i) <= r and abs(i[-1]-i[0]) >= x):` | 0009 | `4 10 20 1\n4 6 4 6\n` | `9` | `7\n` | `10159baf262b43a9` |
+| 208069928 | L19: `if (subListTotal > l and subListTotal < r) and (max(totalList[i]) - mi` | 0001 | `3 5 6 1\n1 2 3\n` | `2` | `0\n` | `9a271f2a916b0b6e` |
+| 208074946 | L4: `l -= 1` | 0035 | `2 1 11 1\n1 10\n` | `1` | `0\n` | `9a271f2a916b0b6e` |
+
+| Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
+|---|---|---|---|---|---|---|---|---|---|---|
+| [11417461](https://codeforces.com/contest/550/submission/11417461) | MS C++ | OK | AC | AC | None | True | AC@None | - | True |  |
+| [11417550](https://codeforces.com/contest/550/submission/11417550) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
+| [11417619](https://codeforces.com/contest/550/submission/11417619) | GNU C++11 | OK | AC | AC | None | True | AC@None | - | True |  |
+| [11417726](https://codeforces.com/contest/550/submission/11417726) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
+| [11417999](https://codeforces.com/contest/550/submission/11417999) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
+| [188014416](https://codeforces.com/contest/550/submission/188014416) | Python 3 | WRONG_ANSWER | WA | WA | 0004 | True | WA@0004 | - | True | wrong-answer: After counting a valid subset it returns immediately (ans[0] += 1; return), so valid supersets of a valid subset are never explored; it undercounts. Witness (valid LF package test 0155): input '3 12 20 1\n5 7 4\n', reference '2', source prints '1'; wrong on 84 tests after case-insensitive YES/NO and numeric normalisation. |
+| [193158167](https://codeforces.com/contest/550/submission/193158167) | Python 3 | WRONG_ANSWER | WA | WA | 0001 | True | WA@0001 | - | True | wrong-answer: Prunes any partial subset whose sum is below l or whose spread is below x, including the empty start state, although adding later problems can satisfy both lower bounds; it undercounts. Witness (valid LF package test 0001): input '3 5 6 1\n1 2 3\n', reference '2', source prints '0'; wrong on 126 tests after case-insensitive YES/NO and numeric normalisation. |
+| [197643532](https://codeforces.com/contest/550/submission/197643532) | Python 3 | WRONG_ANSWER | WA | WA | 0006 | True | WA@0006 | - | True | wrong-answer: Uses abs(last-first) of each combination in input order as the spread, instead of max-min; with unsorted input, subsets whose extremes are interior elements are misjudged. Witness (valid LF package test 0009): input '4 10 20 1\n4 6 4 6\n', reference '9', source prints '7'; wrong on 84 tests after case-insensitive YES/NO and numeric normalisation. |
+| [208069928](https://codeforces.com/contest/550/submission/208069928) | Python 3 | WRONG_ANSWER | WA | WA | 0001 | True | WA@0001 | - | True | wrong-answer: Enumerates ordered n-tuples with repetition instead of subsets, and tests l < sum < r and spread > x with strict inequalities instead of the inclusive bounds. Witness (valid LF package test 0001): input '3 5 6 1\n1 2 3\n', reference '2', source prints '0'; wrong on 44 tests after case-insensitive YES/NO and numeric normalisation. |
+| [208074946](https://codeforces.com/contest/550/submission/208074946) | Python 3 | WRONG_ANSWER | WA | WA | 0002 | True | WA@0002 | - | True | wrong-answer: Decrements l and r by 1, as if they were indices, so it accepts sums in [l-1, r-1] instead of [l, r]. Witness (valid LF package test 0035): input '2 1 11 1\n1 10\n', reference '1', source prints '0'; wrong on 53 tests after case-insensitive YES/NO and numeric normalisation. |
+
+### 604B: VALIDATED
+
+- packageHash `20d54dcbd8511ed21f66b94fea29ce775fbc35870491cfa672abc401085b0a10`
+- evidenceHash `65d9bdec22c8e5471e7f22779367de67a42aa71e3c7ac086e4ba71cb141baef5`
+- auditHash `7fe013e22b1d2e1ba9ce55f3aeeb9a7046329607a2508907a63a623237c272be`
+- archive SHA256 `n/a (whole-pool archive 0637f17856db18a669f39640d39c8d2ffbd80b9c1866d30de8ded075f06e8ab9; no per-ID archive)`
+- contract gate: {'auditHash': '7fe013e22b1d2e1ba9ce55f3aeeb9a7046329607a2508907a63a623237c272be', 'emptyApprovalRejected': True, 'passed': True}
+- CRLF-input tests: 26; independent reference: tests=187, invalid=0, mismatches=0
+- issues: none
+- max-size coverage: {'bound': 100000, 'maxSizeMetric': 100000, 'nAtMax': 2, 'ratio': 1.0, 'test': '0038'}
+
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 14594310 | L19: `print(min(max(packed), max(packed2)))` | 0088 | `5 3\n1 12 14 16 18\n` | `26` | `28\n` | `9961d158a7e0e2f9` |
+| 14604370 | L10: `if (i > 0) and (b[i] + b[i - 1] <= m):` | 0024 | `1 1\n1\n` | `1` | `2\n` | `53c234e5e8472b6a` |
+| 14604632 | L9: `p2 = 0` | 0024 | `1 1\n1\n` | `1` | `2\n` | `53c234e5e8472b6a` |
+| 14606425 | L11: `siz = max(s[i]+s[i+1], siz)` | 0026 | `4 2\n1 2 8 9\n` | `10` | `9\n` | `2e6d31a5983a9125` |
+| 14610976 | L11: `if t%2==0:` | 0088 | `5 3\n1 12 14 16 18\n` | `26` | `30\n` | `f4ccd05b3271c386` |
+
+| Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
+|---|---|---|---|---|---|---|---|---|---|---|
+| [14586562](https://codeforces.com/contest/604/submission/14586562) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
+| [14587068](https://codeforces.com/contest/604/submission/14587068) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
+| [14587089](https://codeforces.com/contest/604/submission/14587089) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
+| [14587165](https://codeforces.com/contest/604/submission/14587165) | GNU C++11 | OK | AC | AC | None | True | AC@None | - | True |  |
+| [14587242](https://codeforces.com/contest/604/submission/14587242) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
+| [14594310](https://codeforces.com/contest/604/submission/14594310) | Python 3 | WRONG_ANSWER | WA | WA | 0013 | True | WA@0013 | - | True | wrong-answer: Takes the better of just two fixed pairings: consecutive smallest pairs, or largest with smallest from both ends over all bells. The optimum pairs s_i with s_{2(n-k)+1-i} among the 2(n-k) smallest bells, which is neither. Witness (valid LF package test 0088): input '5 3\n1 12 14 16 18\n', reference '26', source prints '28'; wrong on 16 tests after case-insensitive YES/NO and numeric normalisation. |
+| [14604370](https://codeforces.com/contest/604/submission/14604370) | Python 3 | WRONG_ANSWER | WA | WA | 0009 | True | WA@0009 | - | True | wrong-answer: Its binary-search feasibility check pairs each bell with its adjacent smaller neighbour b[i-1] instead of with the smallest unpaired bell, so it overcounts boxes and the answer is too large. The search also keeps l=1 exclusive (while l != r-1, print r), so an answer of 1 (n=1, s=[1]) is unreachable and it prints 2. Witness (valid LF package test 0024): input '1 1\n1\n', reference '1', source prints '2'; wrong on 54 tests after case-insensitive YES/NO and numeric normalisation. |
+| [14604632](https://codeforces.com/contest/604/submission/14604632) | Python 3 | WRONG_ANSWER | WA | WA | 0001 | True | WA@0001 | - | True | wrong-answer: Its two-pointer feasibility check starts with p2=0 instead of n-1, so it only ever examines b[0] and accepts every m >= max(s); pair sums are ignored (recorded test 0001: 2 1 / 2 5 prints 5, but 2+5 must share the box, so the answer is 7). The search also keeps l=1 exclusive, so an answer of 1 is unreachable and it prints 2. Witness (valid LF package test 0024): input '1 1\n1\n', reference '1', source prints '2'; wrong on 87 tests after case-insensitive YES/NO and numeric normalisation. |
+| [14606425](https://codeforces.com/contest/604/submission/14606425) | Python 3 | WRONG_ANSWER | WA | WA | 0009 | True | WA@0009 | - | True | wrong-answer: Pairs adjacent smallest bells s[i]+s[i+1] instead of pairing smallest with largest among the bells that must share a box. Witness (valid LF package test 0026): input '4 2\n1 2 8 9\n', reference '10', source prints '9'; wrong on 39 tests after case-insensitive YES/NO and numeric normalisation. |
+| [14610976](https://codeforces.com/contest/604/submission/14610976) | Python 3 | WRONG_ANSWER | WA | WA | 0009 | True | WA@0009 | - | True | wrong-answer: A closed-form guess that looks only at the single pair sum around index t=n-k plus the singles, ignoring the other required pairs s_i+s_{2t-1-i}. Witness (valid LF package test 0088): input '5 3\n1 12 14 16 18\n', reference '26', source prints '30'; wrong on 28 tests after case-insensitive YES/NO and numeric normalisation. |
+
+### 710B: VALIDATED
+
+- packageHash `885556d2abbb83ca4376dd303b81f4695034c383643c0cf11dbae934135c6d31`
+- evidenceHash `10c50b3c6a6424cc69dc9b0217f2b02912d24142ffc0a77f49e54b3f19165053`
+- auditHash `2daf2cccdf0952fc30886b4d44ad8e790fcf49b992a84b083e4dfb73c0e576da`
+- archive SHA256 `n/a (whole-pool archive 0637f17856db18a669f39640d39c8d2ffbd80b9c1866d30de8ded075f06e8ab9; no per-ID archive)`
+- contract gate: {'auditHash': '2daf2cccdf0952fc30886b4d44ad8e790fcf49b992a84b083e4dfb73c0e576da', 'emptyApprovalRejected': True, 'passed': True}
+- CRLF-input tests: 23; independent reference: tests=183, invalid=0, mismatches=0
+- issues: none
+- max-size coverage: {'bound': 300000, 'maxSizeMetric': 300000, 'nAtMax': 3, 'ratio': 1.0, 'test': '0038'}
+
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 20077159 | L3: `average = sum(lst) / n` | 0115 | `4\n0 5 2 -1\n` | `0` | `2\n` | `53c234e5e8472b6a` |
+| 20077452 | L7: `sorted(a,key=int)` | 0065 | `2\n0 3\n` | `0` | `1\n` | `4355a46b19d348dc` |
+| 20080460 | L4: `print (a[n // 2])` | 0013 | `2\n1 2\n` | `1` | `2\n` | `53c234e5e8472b6a` |
+| 20082668 | L8: `print(x[n//2+1])` | 0065 | `2\n0 3\n` | `0` | `1\n` | `4355a46b19d348dc` |
+| 20082729 | L10: `print(sum(x)//len(x))` | 0065 | `2\n0 3\n` | `0` | `1\n` | `4355a46b19d348dc` |
+
+| Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
+|---|---|---|---|---|---|---|---|---|---|---|
+| [20047586](https://codeforces.com/contest/710/submission/20047586) | GNU C++11 | OK | AC | AC | None | True | AC@None | - | True |  |
+| [20047656](https://codeforces.com/contest/710/submission/20047656) | GNU C++11 | OK | AC | AC | None | True | AC@None | - | True |  |
+| [20047671](https://codeforces.com/contest/710/submission/20047671) | GNU C++11 | OK | AC | AC | None | True | AC@None | - | True |  |
+| [20047719](https://codeforces.com/contest/710/submission/20047719) | GNU C++11 | OK | AC | AC | None | True | AC@None | - | True |  |
+| [20047741](https://codeforces.com/contest/710/submission/20047741) | GNU C++11 | OK | AC | AC | None | True | AC@None | - | True |  |
+| [20077159](https://codeforces.com/contest/710/submission/20077159) | Python 3 | WRONG_ANSWER | WA | WA | 0003 | True | WA@0003 | - | True | wrong-answer: Picks the input point nearest the arithmetic mean; the sum of absolute distances is minimised at the (left) median, not near the mean. Witness (valid LF package test 0115): input '4\n0 5 2 -1\n', reference '0', source prints '2'; wrong on 29 tests after case-insensitive YES/NO and numeric normalisation. |
+| [20077452](https://codeforces.com/contest/710/submission/20077452) | Python 3 | WRONG_ANSWER | WA | WA | 0004 | True | WA@0004 | - | True | wrong-answer: Ternary search on the cost function: when s1==s2 on a flat minimum it shrinks both ends, so it can skip the leftmost optimum (e.g. 0 3: every point in [0,3] costs 3, the leftmost is 0, it prints 1). Also sorted(a,key=int) discards its result, so a[0] and a[n-1] are not the min and max; on unsorted input the bounds can be empty, leaving the sentinel -1. Witness (valid LF package test 0065): input '2\n0 3\n', reference '0', source prints '1'; wrong on 99 tests after case-insensitive YES/NO and numeric normalisation. |
+| [20080460](https://codeforces.com/contest/710/submission/20080460) | Python 3 | WRONG_ANSWER | WA | WA | 0001 | True | WA@0001 | - | True | wrong-answer: Prints a[n//2], the right median, for even n; the statement requires the leftmost optimal point, a[(n-1)//2]. Witness (valid LF package test 0013): input '2\n1 2\n', reference '1', source prints '2'; wrong on 82 tests after case-insensitive YES/NO and numeric normalisation. |
+| [20082668](https://codeforces.com/contest/710/submission/20082668) | Python 3 | WRONG_ANSWER | WA | WA | 0002 | True | WA@0002 | - | True | wrong-answer: For odd n prints x[n//2+1], one position right of the median. For even n prints the floored midpoint, which is not the leftmost optimum. Witness (valid LF package test 0065): input '2\n0 3\n', reference '0', source prints '1'; wrong on 112 tests after case-insensitive YES/NO and numeric normalisation. |
+| [20082729](https://codeforces.com/contest/710/submission/20082729) | Python 3 | WRONG_ANSWER | WA | WA | 0003 | True | WA@0003 | - | True | wrong-answer: For even n prints the floored arithmetic mean sum(x)//n instead of the left median. Witness (valid LF package test 0065): input '2\n0 3\n', reference '0', source prints '1'; wrong on 67 tests after case-insensitive YES/NO and numeric normalisation. |
+
+### 757B: VALIDATED
+
+- packageHash `50bc9e72e8e5365f306308610c57aef8de4b721a61e5cfaa3cbc554cc27596ce`
+- evidenceHash `277f55892a5d3128bc97d41042697bf6c974d73d2aa00cd2f76632b8569f19ec`
+- auditHash `baa6d831c51a75d11512df049c89e2d03a7dd08fa7da45bd335ef0a552b1160a`
+- archive SHA256 `n/a (whole-pool archive 0637f17856db18a669f39640d39c8d2ffbd80b9c1866d30de8ded075f06e8ab9; no per-ID archive)`
+- contract gate: {'auditHash': 'baa6d831c51a75d11512df049c89e2d03a7dd08fa7da45bd335ef0a552b1160a', 'emptyApprovalRejected': True, 'passed': True}
+- CRLF-input tests: 79; independent reference: tests=240, invalid=0, mismatches=0
+- issues: none
+- max-size coverage: {'bound': 100000, 'maxSizeMetric': 100000, 'nAtMax': 9, 'ratio': 1.0, 'test': '0093'}
+
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 23771618 | L5: `for num in range(2, math.floor(math.sqrt(10 ** 5 + 1)) + 1):` | 0026 | `2\n541 541\n` | `2` | `1\n` | `4355a46b19d348dc` |
+| 23772167 | L24: `if p > M/2 :` | 0050 | `2\n2 2\n` | `2` | `1\n` | `4355a46b19d348dc` |
+| 23772314 | L14: `if strengths[j][0] % strengths[i][0] == 0:` | 0054 | `2\n6 9\n` | `2` | `1\n` | `4355a46b19d348dc` |
+| 23772496 | L35: `miniLens=[l for l in nums if nums[l] == minLen]` | 0027 | `2\n1 1\n` | `1` | `2\n` | `53c234e5e8472b6a` |
+| 23772648 | L18: `divisors += [i] * a` | 0022 | `2\n3 6\n` | `2` | `1\n` | `4355a46b19d348dc` |
+
+| Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
+|---|---|---|---|---|---|---|---|---|---|---|
+| [23739860](https://codeforces.com/contest/757/submission/23739860) | C++14 (GCC 6-32) | OK | AC | AC | None | True | AC@None | - | True |  |
+| [23740025](https://codeforces.com/contest/757/submission/23740025) | GNU C++11 | OK | AC | AC | None | True | AC@None | - | True |  |
+| [23740284](https://codeforces.com/contest/757/submission/23740284) | GNU C++11 | OK | AC | AC | None | True | AC@None | - | True |  |
+| [23740360](https://codeforces.com/contest/757/submission/23740360) | C++14 (GCC 6-32) | OK | AC | AC | None | True | AC@None | - | True |  |
+| [23740393](https://codeforces.com/contest/757/submission/23740393) | GNU C++11 | OK | AC | AC | None | True | AC@None | - | True |  |
+| [23771618](https://codeforces.com/contest/757/submission/23771618) | Python 3 | WRONG_ANSWER | WA | WA | 0018 | True | WA@0018 | - | True | wrong-answer: Only tries primes up to floor(sqrt(100001)) = 316, so common prime factors above 316 (e.g. many copies of a large prime) are never counted. Witness (valid LF package test 0026): input '2\n541 541\n', reference '2', source prints '1'; wrong on 24 tests after case-insensitive YES/NO and numeric normalisation. |
+| [23772167](https://codeforces.com/contest/757/submission/23772167) | Python 3 | TIME_LIMIT_EXCEEDED | WA | WA | 0018 | True | WA@0018 | - | True | wrong-answer: Stops at p > M/2, where M = max strength, so a prime equal to a strength (e.g. many copies of a large prime) is never tried. Codeforces judged it TLE; in the sandbox the first failure is a WA within the time limit. Witness (valid LF package test 0050): input '2\n2 2\n', reference '2', source prints '1'; wrong on 18 tests after case-insensitive YES/NO and numeric normalisation. |
+| [23772314](https://codeforces.com/contest/757/submission/23772314) | Python 3 | WRONG_ANSWER | WA | WA | 0003 | True | WA@0003 | - | True | wrong-answer: Only tries divisors that are themselves input strengths (and marks multiples as used), so a common divisor absent from the input is never found; e.g. 4 and 6 share 2. Witness (valid LF package test 0054): input '2\n6 9\n', reference '2', source prints '1'; wrong on 91 tests after case-insensitive YES/NO and numeric normalisation. |
+| [23772496](https://codeforces.com/contest/757/submission/23772496) | Python 3 | TIME_LIMIT_EXCEEDED | WA | WA | 0013 | True | WA@0013 | - | True | wrong-answer: Heuristic: keeps only values with the minimum pairwise-coprime score and tries only their factors, which can miss the optimal divisor. factors(1) returns [1], so divisor 1 is counted as a common divisor and two strength-1 Pokemon give 2 instead of 1. Codeforces judged it TLE; in the sandbox the first failure is a WA within the time limit. Witness (valid LF package test 0027): input '2\n1 1\n', reference '1', source prints '2'; wrong on 18 tests after case-insensitive YES/NO and numeric normalisation. |
+| [23772648](https://codeforces.com/contest/757/submission/23772648) | Python 3 | WRONG_ANSWER | WA | WA | 0004 | True | WA@0004 | - | True | wrong-answer: Appends each strength divisors into the same list as the raw strengths and counts multiplicities there, so a raw strength equal to a divisor is double-counted. Its divisor generation also skips the strength itself unless duplicated. Witness (valid LF package test 0022): input '2\n3 6\n', reference '2', source prints '1'; wrong on 89 tests after case-insensitive YES/NO and numeric normalisation. |
+
+### 803A: VALIDATED
+
+- packageHash `407b219f5fc083f007e53e3412f7d6c7669c3c9402725a45f3c9304002ebc57c`
+- evidenceHash `55da5cac98ad746c836ecbd37d57c4a69eda3ae0f79bcc51a809d1f410e6a39d`
+- auditHash `3d2bf2b20f0e982412220ca5833a1f7a4b1efa402c0bd0f75cdd3629c6554425`
+- archive SHA256 `n/a (whole-pool archive 0637f17856db18a669f39640d39c8d2ffbd80b9c1866d30de8ded075f06e8ab9; no per-ID archive)`
+- contract gate: {'auditHash': '3d2bf2b20f0e982412220ca5833a1f7a4b1efa402c0bd0f75cdd3629c6554425', 'emptyApprovalRejected': True, 'passed': True}
+- CRLF-input tests: 168; independent reference: tests=321, invalid=0, mismatches=0
+- issues: none
+- max-size coverage: {'bound': 100, 'maxSizeMetric': 100, 'nAtMax': 18, 'ratio': 1.0, 'test': '0299'}
+
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 26722359 | L15: `mat[i][i] = 1`; L9: `if (k - n) % 2:` | 0016 | `3 5\n` | `1 1 1\n1 0 0\n1 0 0` | `1 1 0\n1 1 0\n0 0 1\n` | `6dbdc037988273a8` |
+| 26722992 | L5: `for j in range(n):`; L8: `if(k>n**2)or (n%2!=k%2 and k>n*2):` | 0085 | `3 7\n` | `1 1 1\n1 1 0\n1 0 1` | `1 1 1\n1 0 0\n1 0 0\n` | `be6d6ef073add63e` |
+| 26723404 | L8: `a[j][j]=1` | 0016 | `3 5\n` | `1 1 1\n1 0 0\n1 0 0` | `1 1 0 \n1 1 0 \n0 0 1 \n` | `148a471e4be6e494` |
+| 26723568 | L3: `if k > n :` | 0017 | `3 3\n` | `1 1 0\n1 0 0\n0 0 0` | `1 0 0\n0 1 0\n0 0 1\n` | `bf284252c00be268` |
+| 26723666 | L15: `a[i][i]=1`; L8: `if b%2:` | 0016 | `3 5\n` | `1 1 1\n1 0 0\n1 0 0` | `1 1 0\n1 1 0\n0 0 1\n` | `6dbdc037988273a8` |
+
+| Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
+|---|---|---|---|---|---|---|---|---|---|---|
+| [26721801](https://codeforces.com/contest/803/submission/26721801) | GNU C++11 | OK | AC | AC | None | True | AC@None | - | True |  |
+| [26721819](https://codeforces.com/contest/803/submission/26721819) | GNU C++11 | OK | AC | AC | None | True | AC@None | - | True |  |
+| [26721824](https://codeforces.com/contest/803/submission/26721824) | GNU C++11 | OK | AC | AC | None | True | AC@None | - | True |  |
+| [26721829](https://codeforces.com/contest/803/submission/26721829) | C++14 (GCC 6-32) | OK | AC | AC | None | True | AC@None | - | True |  |
+| [26721831](https://codeforces.com/contest/803/submission/26721831) | GNU C++11 | OK | AC | AC | None | True | AC@None | - | True |  |
+| [26722359](https://codeforces.com/contest/803/submission/26722359) | Python 3 | WRONG_ANSWER | WA | WA | 0008 | True | WA@0008 | - | True | wrong-answer: For k > n it fills the whole diagonal first, then off-diagonal pairs. That matrix is valid and symmetric but not lexicographically maximal; the greedy must fill row by row. It also prints -1 whenever (k-n) is odd, although an answer exists. Witness (valid LF package test 0016): input '3 5\n', reference '1 1 1\n1 0 0\n1 0 0', source prints '1 1 0\n1 1 0\n0 0 1'; wrong on 106 tests after case-insensitive YES/NO and numeric normalisation. |
+| [26722992](https://codeforces.com/contest/803/submission/26722992) | Python 3 | WRONG_ANSWER | WA | WA | 0006 | True | WA@0006 | - | True | wrong-answer: The row-major loop also visits cells below the diagonal that symmetry has already set and spends 2 more ones on them, so the matrix is wrong. Its -1 parity condition is also wrong. Witness (valid LF package test 0085): input '3 7\n', reference '1 1 1\n1 1 0\n1 0 1', source prints '1 1 1\n1 0 0\n1 0 0'; wrong on 79 tests after case-insensitive YES/NO and numeric normalisation. |
+| [26723404](https://codeforces.com/contest/803/submission/26723404) | Python 3 | WRONG_ANSWER | WA | WA | 0008 | True | WA@0008 | - | True | wrong-answer: Places all diagonal ones first, then off-diagonal pairs; not the lexicographically maximal fill. Witness (valid LF package test 0016): input '3 5\n', reference '1 1 1\n1 0 0\n1 0 0', source prints '1 1 0 \n1 1 0 \n0 0 1'; wrong on 106 tests after case-insensitive YES/NO and numeric normalisation. |
+| [26723568](https://codeforces.com/contest/803/submission/26723568) | Python 3 | WRONG_ANSWER | WA | WA | 0006 | True | WA@0006 | - | True | wrong-answer: Prints -1 whenever k > n and only ever places diagonal ones, ignoring symmetric off-diagonal pairs. Witness (valid LF package test 0017): input '3 3\n', reference '1 1 0\n1 0 0\n0 0 0', source prints '1 0 0\n0 1 0\n0 0 1'; wrong on 119 tests after case-insensitive YES/NO and numeric normalisation. |
+| [26723666](https://codeforces.com/contest/803/submission/26723666) | Python 3 | WRONG_ANSWER | WA | WA | 0008 | True | WA@0008 | - | True | wrong-answer: Fills the diagonal first, and prints -1 when (k-n) is odd; not the lexicographically maximal row-by-row fill. Witness (valid LF package test 0016): input '3 5\n', reference '1 1 1\n1 0 0\n1 0 0', source prints '1 1 0\n1 1 0\n0 0 1'; wrong on 106 tests after case-insensitive YES/NO and numeric normalisation. |
+
+### 911C: VALIDATED
+
+- packageHash `6b2256cdf8ed4d57e438d42cd28a90157bb7d52da95682cfd74d56a5b7eb12af`
+- evidenceHash `af72dcf53cfb780782b952659b4c241aad345a682546d90c840371f59cce0db9`
+- auditHash `0dfb44b591d1831578fe42894c5409865c52722c14498bb9a19ba1bd54417a14`
+- archive SHA256 `n/a (whole-pool archive 0637f17856db18a669f39640d39c8d2ffbd80b9c1866d30de8ded075f06e8ab9; no per-ID archive)`
+- contract gate: {'auditHash': '0dfb44b591d1831578fe42894c5409865c52722c14498bb9a19ba1bd54417a14', 'emptyApprovalRejected': True, 'passed': True}
+- CRLF-input tests: 67; independent reference: tests=219, invalid=0, mismatches=0
+- issues: none
+- max-size coverage: {'bound': 1500, 'maxSizeMetric': 1500, 'nAtMax': 5, 'ratio': 1.0, 'test': '0073'}
+
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 33803030 | L5: `res,res1,res2 = [i%4],[(1+i)%4],[(2+i)%4]` | 0001 | `2 2 3\n` | `YES` | `NO\n` | `cfe72034a9f298fb` |
+| 33805309 | L2: `if a == 1 or a == b == 2 or a == b == c == 3:` | 0006 | `4 2 4\n` | `YES` | `NO\n` | `cfe72034a9f298fb` |
+| 33805310 | L1: `a=[0]*10` | 0010 | `4 4 2\n` | `YES` | `NO\n` | `cfe72034a9f298fb` |
+| 33808809 | L5: `elif [l[0],l[1]] == [2,2] or [l[1],l[2]] == [2,2] or l == [3,3,3]:` | 0006 | `4 2 4\n` | `YES` | `NO\n` | `cfe72034a9f298fb` |
+| 33809552 | L19: `if(Min(k1,k2,k3)>=4){cout<<"NO";}` | 0006 | `4 2 4\n` | `YES` | `NO` | `23794d91c53ae875` |
+
+| Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
+|---|---|---|---|---|---|---|---|---|---|---|
+| [33715178](https://codeforces.com/contest/911/submission/33715178) | GNU C++11 | OK | AC | AC | None | True | AC@None | - | True |  |
+| [33716295](https://codeforces.com/contest/911/submission/33716295) | C++14 (GCC 6-32) | OK | AC | AC | None | True | AC@None | - | True |  |
+| [33716462](https://codeforces.com/contest/911/submission/33716462) | C++14 (GCC 6-32) | OK | AC | AC | None | True | AC@None | - | True |  |
+| [33716746](https://codeforces.com/contest/911/submission/33716746) | GNU C++11 | OK | AC | AC | None | True | AC@None | - | True |  |
+| [33716749](https://codeforces.com/contest/911/submission/33716749) | GNU C++11 | OK | AC | AC | None | True | AC@None | - | True |  |
+| [33803030](https://codeforces.com/contest/911/submission/33803030) | Python 3 | WRONG_ANSWER | WA | WA | 0001 | True | WA@0001 | - | True | wrong-answer: Simulates only the first few lit seconds of one fixed offset assignment (i=1, then break), instead of deciding coverage over all offsets; misjudges many triples. Witness (valid LF package test 0001): input '2 2 3\n', reference 'YES', source prints 'NO'; wrong on 85 tests after case-insensitive YES/NO and numeric normalisation. |
+| [33805309](https://codeforces.com/contest/911/submission/33805309) | Python 3 | WRONG_ANSWER | WA | WA | 0006 | True | WA@0006 | - | True | wrong-answer: Accepts only a==1, two 2s, or three 3s; it misses the (2,4,4) case, which is YES. Witness (valid LF package test 0006): input '4 2 4\n', reference 'YES', source prints 'NO'; wrong on 5 tests after case-insensitive YES/NO and numeric normalisation. |
+| [33805310](https://codeforces.com/contest/911/submission/33805310) | Python 3 | WRONG_ANSWER | WA | WA | 0010 | True | WA@0010 | - | True | wrong-answer: Fixes the offsets to 0, 1, 2 in input order and checks only seconds 0..9; it misses (2,4,4) in some orders, and any order-dependent cover. Witness (valid LF package test 0010): input '4 4 2\n', reference 'YES', source prints 'NO'; wrong on 8 tests after case-insensitive YES/NO and numeric normalisation. |
+| [33808809](https://codeforces.com/contest/911/submission/33808809) | Python 3 | WRONG_ANSWER | WA | WA | 0006 | True | WA@0006 | - | True | wrong-answer: Same case list as 33805309: misses (2,4,4), which is YES. Witness (valid LF package test 0006): input '4 2 4\n', reference 'YES', source prints 'NO'; wrong on 5 tests after case-insensitive YES/NO and numeric normalisation. |
+| [33809552](https://codeforces.com/contest/911/submission/33809552) | C++14 (GCC 6-32) | WRONG_ANSWER | WA | WA | 0006 | True | WA@0006 | - | True | wrong-answer: Prints NO whenever min(k) >= 4, then accepts only 1, two 2s, or three 3s; misses (2,4,4), which is YES. Witness (valid LF package test 0006): input '4 2 4\n', reference 'YES', source prints 'NO'; wrong on 5 tests after case-insensitive YES/NO and numeric normalisation. |
+
+### 920C: REJECTED
+
+- packageHash `0673159b02b586426ded6bdd5903978d9c904f3fc71f024e238c09479ce7e562`
+- evidenceHash `0031e872dae61fcbb1e96ef6fa308cccc782a2d91dd9c9a32a753a15c2842726`
+- auditHash `ce619d88c97574a5f0a814f3869709d3df06984bd78b84fbebf81cbb7eb593ab`
+- archive SHA256 `n/a (whole-pool archive 0637f17856db18a669f39640d39c8d2ffbd80b9c1866d30de8ded075f06e8ab9; no per-ID archive)`
+- contract gate: None
+- CRLF-input tests: 120; independent reference: tests=282, invalid=0, mismatches=0
+- issues: accepted contradiction: CF-OK source(s) 34864682(RE@0001), 34855332(RE@0001), 34849132(RE@0001), 34856737(RE@0001), 34852086(RE@0001) fail the package; cause: CRLF bytes reach Python input(); passes on LF-normalized tests
+- max-size coverage: {'bound': 200000, 'maxSizeMetric': 200000, 'nAtMax': 14, 'ratio': 1.0, 'test': '0136'}
+- CF-OK sources failing: 34864682 Python 3 RE@0001, 34855332 Python 3 RE@0001, 34849132 Python 3 RE@0001, 34855893 Python 3 TLE@0001, 34856737 Python 3 RE@0001, 34852086 Python 3 RE@0001
+
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 34842556 | L58: `sort(arr+i+1, arr+j+1);` | 0072 | `2\n2 1\n1\n` | `YES` | `NO` | `23794d91c53ae875` |
+| 34842779 | L35: `if(s[i] == '0'){` | 0072 | `2\n2 1\n1\n` | `YES` | `NO\n` | `cfe72034a9f298fb` |
+| 34843250 | L61: `sort(a+l, a+r);` | 0072 | `2\n2 1\n1\n` | `YES` | `No\n` | `31375587f8bedb1f` |
+| 34843309 | L85: `if (a[i].S != i && s[i - 1] == '0') {` | 0072 | `2\n2 1\n1\n` | `YES` | `NO` | `23794d91c53ae875` |
+| 34843337 | L21: `if(a[i]<=b[i])` | 0011 | `3\n3 1 2\n10\n` | `NO` | `YES` | `f9171164593756e5` |
+
+| Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
+|---|---|---|---|---|---|---|---|---|---|---|
+| [34842624](https://codeforces.com/contest/920/submission/34842624) | C++14 (GCC 6-32) | OK | AC | AC | None | True | AC@None | - | True |  |
+| [34842660](https://codeforces.com/contest/920/submission/34842660) | C++14 (GCC 6-32) | OK | AC | AC | None | True | AC@None | - | True |  |
+| [34842798](https://codeforces.com/contest/920/submission/34842798) | C++14 (GCC 6-32) | OK | AC | AC | None | True | AC@None | - | True |  |
+| [34842822](https://codeforces.com/contest/920/submission/34842822) | C++14 (GCC 6-32) | OK | AC | AC | None | True | AC@None | - | True |  |
+| [34842954](https://codeforces.com/contest/920/submission/34842954) | C++14 (GCC 6-32) | OK | AC | AC | None | True | AC@None | - | True |  |
+| [34842556](https://codeforces.com/contest/920/submission/34842556) | C++14 (GCC 6-32) | WRONG_ANSWER | WA | WA | 0072 | True | WA@0072 | - | True | wrong-answer: For a run of 1s starting at swap i it sorts arr[i+1..j], leaving out position i, which belongs to the connected block, so some sortable arrays get NO. Witness (valid LF package test 0072): input '2\n2 1\n1\n', reference 'YES', source prints 'NO'; wrong on 35 tests after case-insensitive YES/NO and numeric normalisation. |
+| [34842779](https://codeforces.com/contest/920/submission/34842779) | C++14 (GCC 6-32) | WRONG_ANSWER | WA | WA | 0072 | True | WA@0072 | - | True | wrong-answer: Sorts a block only when it sees s[i]==0; the last block (no trailing 0, because s has length n-1) is never sorted, so some sortable arrays get NO. Witness (valid LF package test 0072): input '2\n2 1\n1\n', reference 'YES', source prints 'NO'; wrong on 39 tests after case-insensitive YES/NO and numeric normalisation. |
+| [34843250](https://codeforces.com/contest/920/submission/34843250) | C++14 (GCC 6-32) | TIME_LIMIT_EXCEEDED | WA | WA | 0072 | True | WA@0072 | - | True | wrong-answer: In the last block only sort(a+l, a+r) runs, so the last element of the last block is excluded and some sortable arrays get No. The YES/NO checker accepts either letter case, and db() writes only to stderr. Witness (valid LF package test 0072): input '2\n2 1\n1\n', reference 'YES', source prints 'No'; wrong on 29 tests after case-insensitive YES/NO and numeric normalisation. |
+| [34843309](https://codeforces.com/contest/920/submission/34843309) | C++14 (GCC 6-32) | WRONG_ANSWER | WA | WA | 0014 | True | WA@0014 | - | True | wrong-answer: After s = "0" + s it checks, for each value i not at position i, only s[i-1]. For i=1 that is the prepended sentinel "0", so any array where 1 is not first gets NO even when it is sortable. It never checks the swaps between an element's original and target positions. Witness (valid LF package test 0072): input '2\n2 1\n1\n', reference 'YES', source prints 'NO'; wrong on 41 tests after case-insensitive YES/NO and numeric normalisation. |
+| [34843337](https://codeforces.com/contest/920/submission/34843337) | C++14 (GCC 6-32) | WRONG_ANSWER | WA | WA | 0003 | True | WA@0003 | - | True | wrong-answer: Requires s[i]==1 only when a[i] > sorted(a)[i]; it compares with the sorted value instead of using the prefix maximum, so an element that must cross a forbidden swap can be missed and some unsortable arrays get YES. Witness (valid LF package test 0011): input '3\n3 1 2\n10\n', reference 'NO', source prints 'YES'; wrong on 69 tests after case-insensitive YES/NO and numeric normalisation. |
+
+### 940B: VALIDATED
+
+- packageHash `4223c503d9e5e793bd6e090f5db88f2e3eb47f40c4e90c39eec542b2e2942c2b`
+- evidenceHash `2b82bc62219da219fc7a2a2b70c17e6e8f6e49831e6396630d90f86903c0453d`
+- auditHash `19137ee38918662139b777726dea30e50dd81a53fb6ea08baf1ef2d8cba90a5f`
+- archive SHA256 `n/a (whole-pool archive 0637f17856db18a669f39640d39c8d2ffbd80b9c1866d30de8ded075f06e8ab9; no per-ID archive)`
+- contract gate: {'auditHash': '19137ee38918662139b777726dea30e50dd81a53fb6ea08baf1ef2d8cba90a5f', 'emptyApprovalRejected': True, 'passed': True}
+- CRLF-input tests: 58; independent reference: tests=211, invalid=0, mismatches=0
+- issues: none
+- max-size coverage: {'bound': 2000000000, 'maxSizeMetric': 2000000000, 'nAtMax': 8, 'ratio': 1.0, 'test': '0064'}
+
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 35620420 | L161: `lli ans = (1ll<<60);` | 0044 | `2000000000\n1\n2000000000\n98\n` | `3999999998000000000` | `1152921504606846976\n` | `40e991030d2a07f8` |
+| 35621925 | L30: `sol+=b;` | 0031 | `65\n2\n3\n6\n` | `36` | `39` | `0b918943df0962bc` |
+| 35623068 | L27: `cnt+=b;` | 0031 | `65\n2\n3\n6\n` | `36` | `39` | `0b918943df0962bc` |
+| 35623107 | L49: `ans=ans+b;` | 0031 | `65\n2\n3\n6\n` | `36` | `39\n` | `eedb85ab90d324a5` |
+| 35623175 | L19: `const ll INF = 1e18;` | 0044 | `2000000000\n1\n2000000000\n98\n` | `3999999998000000000` | `1000000000000000000` | `4ae38a44d132fb60` |
+
+| Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
+|---|---|---|---|---|---|---|---|---|---|---|
+| [35620738](https://codeforces.com/contest/940/submission/35620738) | C++14 (GCC 6-32) | OK | AC | AC | None | True | AC@None | - | True |  |
+| [35620813](https://codeforces.com/contest/940/submission/35620813) | C++17 (GCC 7-32) | OK | AC | AC | None | True | AC@None | - | True |  |
+| [35620988](https://codeforces.com/contest/940/submission/35620988) | GNU C++11 | OK | AC | AC | None | True | AC@None | - | True |  |
+| [35621042](https://codeforces.com/contest/940/submission/35621042) | C++14 (GCC 6-32) | OK | AC | AC | None | True | AC@None | - | True |  |
+| [35621065](https://codeforces.com/contest/940/submission/35621065) | C++14 (GCC 6-32) | OK | AC | AC | None | True | AC@None | - | True |  |
+| [35620420](https://codeforces.com/contest/940/submission/35620420) | C++14 (GCC 6-32) | WRONG_ANSWER | WA | WA | 0044 | True | WA@0044 | - | True | wrong-answer: Initial best = 2^60 (about 1.15e18) is below the true k=1 cost (n-1)*A, up to about 3.999999998e18, and k=1 is not special-cased, so it prints 2^60 itself. Witness (valid LF package test 0044): input '2000000000\n1\n2000000000\n98\n', reference '3999999998000000000', source prints '1152921504606846976'; wrong on 2 tests after case-insensitive YES/NO and numeric normalisation. |
+| [35621925](https://codeforces.com/contest/940/submission/35621925) | GNU C++11 | WRONG_ANSWER | WA | WA | 0010 | True | WA@0010 | - | True | wrong-answer: Always divides when x is divisible, paying B even when subtracting down to x/k ((x-x/k)*A) is cheaper. It only compares the whole greedy with pure subtraction. Witness (valid LF package test 0031): input '65\n2\n3\n6\n', reference '36', source prints '39'; wrong on 77 tests after case-insensitive YES/NO and numeric normalisation. |
+| [35623068](https://codeforces.com/contest/940/submission/35623068) | C++14 (GCC 6-32) | WRONG_ANSWER | WA | WA | 0010 | True | WA@0010 | - | True | wrong-answer: Same always-divide greedy; never compares B with (x-x/k)*A at each step. Witness (valid LF package test 0031): input '65\n2\n3\n6\n', reference '36', source prints '39'; wrong on 77 tests after case-insensitive YES/NO and numeric normalisation. |
+| [35623107](https://codeforces.com/contest/940/submission/35623107) | C++14 (GCC 6-32) | WRONG_ANSWER | WA | WA | 0010 | True | WA@0010 | - | True | wrong-answer: Always pays B for every division while x >= k, without the per-step min(B, (x-x/k)*A). Witness (valid LF package test 0031): input '65\n2\n3\n6\n', reference '36', source prints '39'; wrong on 77 tests after case-insensitive YES/NO and numeric normalisation. |
+| [35623175](https://codeforces.com/contest/940/submission/35623175) | C++14 (GCC 6-32) | WRONG_ANSWER | WA | WA | 0044 | True | WA@0044 | - | True | wrong-answer: INF=1e18 is below the true k=1 answer (n-1)*A, up to about 3.999999998e18, and k=1 is not special-cased, so it prints 1e18. Witness (valid LF package test 0044): input '2000000000\n1\n2000000000\n98\n', reference '3999999998000000000', source prints '1000000000000000000'; wrong on 2 tests after case-insensitive YES/NO and numeric normalisation. |
 
