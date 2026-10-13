@@ -13087,7 +13087,55 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Accumulates every leading odd flower until it encounters an even flower, without enforcing odd total parity. For [5,7], prints 12 although the optimal odd bouquet is 7.",
+      "reason": "The even flag tracks encountering an even flower rather than total parity or the parity of included odd flowers. With two odd-only flowers it includes both and prints their even sum, which cannot end fortune telling on Loves.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "12",
+          "actualAnswerAfterRemovingDiagnostics": "12",
+          "constraintsExplanation": "n=2, exactly n positive petal counts in 1..100; arbitrary nonempty flower subsets are allowed and Loves means odd total.",
+          "correctAnswer": "7",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0004",
+          "lfExecutionLogPath": "fresh/59B/lf-18005864.json",
+          "lfExecutionLogSha256": "24033711d3400c2fd6ba00e1ecf2d8b0f6ec505b0ecd40f9926400e53cca9b12",
+          "lfExecutionOutputHash": "a1fb50e6c86fae1679ef3351296fd6713411a08cf8dd1790a4fd05fae8688164",
+          "mathematicalDerivation": "A bouquet finishes on Loves exactly when its total number of petals is odd. For flowers 5 and 7 the possible nonempty totals are 5,7,12. The maximum odd total is 7; choosing both produces even total 12 and ends on Does not love.",
+          "mathematicalTracePath": null,
+          "originalIncludedInputPath": "1200/packages/59B/tests/0004.in",
+          "originalInputSha256": "ffc56cc0a05a73a12348335eda9fa6b9952f2add0ed422d1eea76a95b389e41a",
+          "sourceHash": "23003c8d9e231cdbeb73a2d0d37b6ac33cc3479885d25bc12118866b6b8c0102",
+          "sourceHashBearingReceiptPath": "semantic/proofs/59B/18005864.json",
+          "sourceHashBearingReceiptSha256": "1e624494a42ea5c13d1eb9d62c5e65ad702cee4d47b8a3c1421449c174493f69",
+          "validLF": "2\n5 7\n",
+          "validLFInputSha256": "5d68d34af99cfbd7cc6c19816f488c4b17c8934c69f4173d518f245aeab0fbc9"
+        },
+        "excludedNonAlgorithmicCauses": "This active flower/parity heuristic uses the input and produces one integer 12 on LF, exit 0. The debug print is commented. The answer is mathematically even and therefore invalid, not a byte-format or CRLF discrepancy.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/59B/lf-18005864.json",
+          "originalLfLogSha256": "24033711d3400c2fd6ba00e1ecf2d8b0f6ec505b0ecd40f9926400e53cca9b12",
+          "outputHash": "a1fb50e6c86fae1679ef3351296fd6713411a08cf8dd1790a4fd05fae8688164",
+          "sourceHash": "23003c8d9e231cdbeb73a2d0d37b6ac33cc3479885d25bc12118866b6b8c0102",
+          "sourceHashBearingReceiptPath": "semantic/proofs/59B/18005864.json",
+          "sourceHashBearingReceiptSha256": "1e624494a42ea5c13d1eb9d62c5e65ad702cee4d47b8a3c1421449c174493f69",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "The even flag tracks encountering an even flower rather than total parity or the parity of included odd flowers. With two odd-only flowers it includes both and prints their even sum, which cannot end fortune telling on Loves.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Checks that some flower has odd petals, sorts descending, then accumulates all flowers until the first even one and subsequently accumulates only even flowers.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "23003c8d9e231cdbeb73a2d0d37b6ac33cc3479885d25bc12118866b6b8c0102",
+        "sourceLineCount": 22,
+        "sourceLines": [
+          {
+            "code": "s = 0\neven = False\nisodd = any(n % 2 for n in A)\n\nif not isodd:\n    exit(print(0))\n\nA.sort(reverse=True)\nfor n in A:\n    # print(n, even)\n    if not even:\n        s += n\n        if n % 2 == 0:\n            even = True\n    else:\n        if n % 2 == 0:\n            s += n\nprint(s)",
+            "end": 22,
+            "start": 5
+          }
+        ]
+      },
       "sourceHash": "23003c8d9e231cdbeb73a2d0d37b6ac33cc3479885d25bc12118866b6b8c0102",
       "test": "0004"
     },
@@ -13111,7 +13159,60 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Pairs even and odd flowers while forgetting parity of the count of included odd flowers, and uses original a indices in its leftover branch. [4,3,1,2] incorrectly includes both odds, printing even total 10 instead of 9.",
+      "reason": "Pairing all odds with evens does not ensure an odd number of odd flowers. In the counted input both odds and both evens are exhausted into cnt=10, and no subsequent branch removes an odd petal count.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "10",
+          "actualAnswerAfterRemovingDiagnostics": "10",
+          "constraintsExplanation": "n=4, exactly n positive petal counts in 1..100; arbitrary nonempty flower subsets are allowed and Loves means odd total.",
+          "correctAnswer": "9",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0006",
+          "lfExecutionLogPath": "fresh/59B/lf-33588642.json",
+          "lfExecutionLogSha256": "70fde4b91347699b39d962d7fb5fd9389bdefbefddc8286d426b1f4ce53f6920",
+          "lfExecutionOutputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+          "mathematicalDerivation": "For petals [4,3,1,2] the total is 10. Any valid bouquet must have odd sum. Since all counts are positive, omit the smallest odd count 1 to obtain 4+3+2=9; no odd sum can exceed 9 because 10 is even. The program pairs (4,3) and (2,1), retaining even total 10.",
+          "mathematicalTracePath": null,
+          "originalIncludedInputPath": "1200/packages/59B/tests/0006.in",
+          "originalInputSha256": "c8dd2ed48ecd6d5c44e9e04af9da85deecfde47ddfe4c7771cbf1752c5adfa6a",
+          "sourceHash": "b169c54257077ecf2037adb310f0a625a3b07ad7bf8ac83ec8044a550ba3bed7",
+          "sourceHashBearingReceiptPath": "semantic/proofs/59B/33588642.json",
+          "sourceHashBearingReceiptSha256": "78c3465be26da38595b606d6ab8f3407d52183a708d7e63f87db17c0bb937cab",
+          "validLF": "4\n4 3 1 2\n",
+          "validLFInputSha256": "3c220e2b5f2e8ed826759fc2c0ad78971831cba0b98128d01c15bc905016d049"
+        },
+        "excludedNonAlgorithmicCauses": "The actual top-level pairing loop consumes the problem data and prints one LF integer 10, with exit 0. Comments about taking odd counts do not make the missing active correction execute. Neither diagnostics, CRLF nor output formatting explains even total 10.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/59B/lf-33588642.json",
+          "originalLfLogSha256": "70fde4b91347699b39d962d7fb5fd9389bdefbefddc8286d426b1f4ce53f6920",
+          "outputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+          "sourceHash": "b169c54257077ecf2037adb310f0a625a3b07ad7bf8ac83ec8044a550ba3bed7",
+          "sourceHashBearingReceiptPath": "semantic/proofs/59B/33588642.json",
+          "sourceHashBearingReceiptSha256": "78c3465be26da38595b606d6ab8f3407d52183a708d7e63f87db17c0bb937cab",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "Pairing all odds with evens does not ensure an odd number of odd flowers. In the counted input both odds and both evens are exhausted into cnt=10, and no subsequent branch removes an odd petal count.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Separates and sorts odd/even flowers, greedily pairs one odd with one even while both lists remain, then tries to add remaining flowers with special parity branches; its remaining-odd branch indexes the original a list.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "b169c54257077ecf2037adb310f0a625a3b07ad7bf8ac83ec8044a550ba3bed7",
+        "sourceLineCount": 51,
+        "sourceLines": [
+          {
+            "code": "for i in range(n):\n    if a[i]%2==0:\n        e.append(a[i])\n    else:\n        o.append(a[i])\n\ne.sort()\no.sort()\ncnt=0\n\ni=len(o)-1\nj=len(e)-1\n\nwhile len(e)>0 and len(o)>0:\n    cnt+=(e[j]+o[i])\n    i-=1;j-=1\n    e.pop()\n    o.pop()",
+            "end": 26,
+            "start": 9
+          },
+          {
+            "code": "#take odd number of odds\nif cnt==0:\n    if len(o)%2==1:\n        i=0\n    else:\n        i=1\n\n    for j in range(i,len(o)):\n        cnt+=o[j]\n\nelse:\n    if len(e)>0:\n        for i in range(len(e)):\n            cnt+=e[i]\n    else:\n        if len(o)%2==0:\n            i=0\n        else:\n            i=1\n\n        for j in range(i,len(o)):\n            cnt+=a[j]\n\nprint(cnt)",
+            "end": 51,
+            "start": 28
+          }
+        ]
+      },
       "sourceHash": "b169c54257077ecf2037adb310f0a625a3b07ad7bf8ac83ec8044a550ba3bed7",
       "test": "0006"
     },
@@ -13135,7 +13236,55 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Greedily keeps a partial total odd and skips even flowers encountered before the first odd. [4,3,1,2] loses the leading 4 and returns 5 instead of 9.",
+      "reason": "An even flower encountered while res=0 is discarded permanently although it can be combined with a later odd flower. Descending [4,3,2,1] discards 4, keeps 3 and 2, and stops at 5.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "5",
+          "actualAnswerAfterRemovingDiagnostics": "5",
+          "constraintsExplanation": "n=4, exactly n positive petal counts in 1..100; arbitrary nonempty flower subsets are allowed and Loves means odd total.",
+          "correctAnswer": "9",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0006",
+          "lfExecutionLogPath": "fresh/59B/lf-35925076.json",
+          "lfExecutionLogSha256": "4caebed8f4275295e10240979368bbe74d24ec7d2b683514de27d8f0a390f690",
+          "lfExecutionOutputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+          "mathematicalDerivation": "The full petal total is 10. Removing the smallest odd flower 1 gives a valid odd total 4+3+2=9, which is optimal because 10 is even and all counts are positive. Keeping partial sums odd is unnecessary: the final bouquet, not every selection prefix, determines Loves.",
+          "mathematicalTracePath": null,
+          "originalIncludedInputPath": "1200/packages/59B/tests/0006.in",
+          "originalInputSha256": "c8dd2ed48ecd6d5c44e9e04af9da85deecfde47ddfe4c7771cbf1752c5adfa6a",
+          "sourceHash": "01620a8ec844f1a456490cccb419bc3f24c9bfd7011f35a3bab3bcdba43ca6f9",
+          "sourceHashBearingReceiptPath": "semantic/proofs/59B/35925076.json",
+          "sourceHashBearingReceiptSha256": "e913cf6bc07d25d29b8bea95b8f6525907a0a0836848d54703a30c5e71311db3",
+          "validLF": "4\n4 3 1 2\n",
+          "validLFInputSha256": "3c220e2b5f2e8ed826759fc2c0ad78971831cba0b98128d01c15bc905016d049"
+        },
+        "excludedNonAlgorithmicCauses": "The short top-level loop is fully executed, and LF output is sole integer 5 with normal exit. There is no unused solution, debug print, CRLF sensitivity or runtime failure. The unjustified running-parity constraint loses a valid positive flower.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/59B/lf-35925076.json",
+          "originalLfLogSha256": "4caebed8f4275295e10240979368bbe74d24ec7d2b683514de27d8f0a390f690",
+          "outputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+          "sourceHash": "01620a8ec844f1a456490cccb419bc3f24c9bfd7011f35a3bab3bcdba43ca6f9",
+          "sourceHashBearingReceiptPath": "semantic/proofs/59B/35925076.json",
+          "sourceHashBearingReceiptSha256": "e913cf6bc07d25d29b8bea95b8f6525907a0a0836848d54703a30c5e71311db3",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "An even flower encountered while res=0 is discarded permanently although it can be combined with a later odd flower. Descending [4,3,2,1] discards 4, keeps 3 and 2, and stops at 5.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Sorts petal counts descending and includes a flower only if res+its petals is odd, trying to keep every running partial sum odd.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "01620a8ec844f1a456490cccb419bc3f24c9bfd7011f35a3bab3bcdba43ca6f9",
+        "sourceLineCount": 9,
+        "sourceLines": [
+          {
+            "code": "n = int(input())\na = [int(x) for x in input().split()]\na.sort(reverse = True)\n\nres = 0\nfor i in a:\n\tif (res + i)%2==1:\n\t\tres += i;\nprint(res)",
+            "end": 9,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "01620a8ec844f1a456490cccb419bc3f24c9bfd7011f35a3bab3bcdba43ca6f9",
       "test": "0006"
     },
@@ -13159,7 +13308,60 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "When there are more odds than evens, limits included odds using the number of even flowers, which is unrelated to odd-sum feasibility. The recorded 100-flower case returns 121 instead of 5193.",
+      "reason": "The number of even flowers does not limit how many odd flowers may be in an odd-sum bouquet. In the counted case le=1 and lo=99, the lo>le odd-le branch keeps just the largest odd 99 and the even 22, returning 121 instead of including all 99 odds.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "121",
+          "actualAnswerAfterRemovingDiagnostics": "121",
+          "constraintsExplanation": "n=100, exactly n positive petal counts in 1..100; arbitrary nonempty flower subsets are allowed and Loves means odd total.",
+          "correctAnswer": "5193",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0010",
+          "lfExecutionLogPath": "fresh/59B/lf-37142506.json",
+          "lfExecutionLogSha256": "b1a0683c23f513aa8f86fbfa2849853c6404b9137e6ef364c14885ae46333594",
+          "lfExecutionOutputHash": "0b05feae0bc8448241c8a68d18d0a0e0a97bf00c6126b04c61f23529ab862426",
+          "mathematicalDerivation": "There are 99 odd flowers and exactly one even flower, 22. Their total is 5193, already odd. Selecting all flowers is valid and maximizes the sum since every petal count is positive. The program incorrectly restricts selection to 99+22=121 merely because there is one even flower.",
+          "mathematicalTracePath": null,
+          "originalIncludedInputPath": "1200/packages/59B/tests/0010.in",
+          "originalInputSha256": "ab1ce062e4a383b669e05b3308a858afac00f587bed7fb4e7459c5db3b75eb0b",
+          "sourceHash": "b53b5172828642396f0ac33414ffc9ed889a9062e5b2e534d70eeb5ec0f07540",
+          "sourceHashBearingReceiptPath": "semantic/proofs/59B/37142506.json",
+          "sourceHashBearingReceiptSha256": "ef7b47f5de5f0ea3bd015a984c80cd2c6d45b43ae36cb4f26895c845f9acb213",
+          "validLF": "100\n22 93 43 39 5 39 55 89 97 7 35 63 75 85 97 75 35 91 5 29 97 69 23 97 95 59 23 81 87 67 85 95 33 41 57 9 39 25 55 9 87 57 69 31 23 27 13 81 51 11 61 35 69 59 51 33 73 29 77 75 9 15 41 93 65 89 69 37 51 11 57 21 97 95 13 67 23 69 3 29 83 97 7 49 13 51 65 33 99 9 27 99 55 47 37 11 37 13 91 79\n",
+          "validLFInputSha256": "e4dd5839a16e75ed99de1f4a1b80dc218b64eb2b1e747c047a393b2e1eef1f06"
+        },
+        "excludedNonAlgorithmicCauses": "The active lo>le branch executes on the real counted input. LF output 121 is a clean integer with normal exit; the two debug prints are commented. This is an input-dependent parity-group heuristic with a real combinatorial omission, not constant output or formatting.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/59B/lf-37142506.json",
+          "originalLfLogSha256": "b1a0683c23f513aa8f86fbfa2849853c6404b9137e6ef364c14885ae46333594",
+          "outputHash": "0b05feae0bc8448241c8a68d18d0a0e0a97bf00c6126b04c61f23529ab862426",
+          "sourceHash": "b53b5172828642396f0ac33414ffc9ed889a9062e5b2e534d70eeb5ec0f07540",
+          "sourceHashBearingReceiptPath": "semantic/proofs/59B/37142506.json",
+          "sourceHashBearingReceiptSha256": "ef7b47f5de5f0ea3bd015a984c80cd2c6d45b43ae36cb4f26895c845f9acb213",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "The number of even flowers does not limit how many odd flowers may be in an odd-sum bouquet. In the counted case le=1 and lo=99, the lo>le odd-le branch keeps just the largest odd 99 and the even 22, returning 121 instead of including all 99 odds.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Partitions and sorts odd/even flowers. Handles absent parity groups and equal group sizes separately; when odds outnumber evens, includes only le or le+1 largest odd flowers plus all even flowers.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "b53b5172828642396f0ac33414ffc9ed889a9062e5b2e534d70eeb5ec0f07540",
+        "sourceLineCount": 41,
+        "sourceLines": [
+          {
+            "code": "for i in a:\n    if(i%2==0):\n        e.append(i)\n    else:\n        o.append(i)\ne.sort(reverse=True)\no.sort(reverse=True)\n#print(e)\n#print(o)\nlo = len(o)\nle = len(e)\nif(lo==0):\n    print(0)\n    exit(0)\nif(le==0):\n    if(lo%2==0):\n        print(sum(o[:lo-1]))\n    else:\n        print(sum(o))\n    exit(0)",
+            "end": 24,
+            "start": 5
+          },
+          {
+            "code": "if(lo==le):\n    if(lo%2==0):\n        ans = sum(o[:lo-1])+sum(e)\n    else:\n        ans = sum(e)+sum(o)\nelif(lo>le):\n    if(le%2==0):\n        ans = sum(o[:le+1])+sum(e)\n    else:\n        ans = sum(o[:le])+sum(e)\nelse:\n    if(lo%2==0):\n        ans = sum(o[:lo-1])+sum(e)\n    else:\n        ans = sum(o[:lo])+sum(e)\nprint(ans)",
+            "end": 41,
+            "start": 26
+          }
+        ]
+      },
       "sourceHash": "b53b5172828642396f0ac33414ffc9ed889a9062e5b2e534d70eeb5ec0f07540",
       "test": "0010"
     },
@@ -13183,7 +13385,55 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Rejects each addition that would make the current partial sum even, so an initial even flower is permanently lost even though it belongs in the final optimum. [4,3,1,2] returns 5 instead of 9.",
+      "reason": "It enforces odd parity at every intermediate prefix rather than only for the final bouquet. Thus the leading even 4 is discarded, even though adding it with a later odd flower yields the optimum.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "5",
+          "actualAnswerAfterRemovingDiagnostics": "5",
+          "constraintsExplanation": "n=4, exactly n positive petal counts in 1..100; arbitrary nonempty flower subsets are allowed and Loves means odd total.",
+          "correctAnswer": "9",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0006",
+          "lfExecutionLogPath": "fresh/59B/lf-39007570.json",
+          "lfExecutionLogSha256": "dfdc56a74fd3dac51848cb38b51abb412df93a2356ba42340703befc07aa80e4",
+          "lfExecutionOutputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+          "mathematicalDerivation": "For [4,3,1,2], taking 4,3,2 gives odd total 9. All four total 10, so an odd valid total cannot be larger than 9. The source processes [4,3,2,1], rejects the initial 4, reaches 5 with 3+2, and rejects 1; its prefix constraint is not part of the problem.",
+          "mathematicalTracePath": null,
+          "originalIncludedInputPath": "1200/packages/59B/tests/0006.in",
+          "originalInputSha256": "c8dd2ed48ecd6d5c44e9e04af9da85deecfde47ddfe4c7771cbf1752c5adfa6a",
+          "sourceHash": "4f341e410b30162ecf7b3ab7844e022a38f2923d8037d735420b382fb671f21a",
+          "sourceHashBearingReceiptPath": "semantic/proofs/59B/39007570.json",
+          "sourceHashBearingReceiptSha256": "22efbe1fbe8001c9c6d8774848935d06230ff0bb2ba7be5f856803123d78667c",
+          "validLF": "4\n4 3 1 2\n",
+          "validLFInputSha256": "3c220e2b5f2e8ed826759fc2c0ad78971831cba0b98128d01c15bc905016d049"
+        },
+        "excludedNonAlgorithmicCauses": "The add/subtract loop is active top-level code and prints only integer 5 on LF with exit 0. No diagnostic, unexecuted routine, CRLF parse issue or timeout accounts for losing the leading even flower.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/59B/lf-39007570.json",
+          "originalLfLogSha256": "dfdc56a74fd3dac51848cb38b51abb412df93a2356ba42340703befc07aa80e4",
+          "outputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+          "sourceHash": "4f341e410b30162ecf7b3ab7844e022a38f2923d8037d735420b382fb671f21a",
+          "sourceHashBearingReceiptPath": "semantic/proofs/59B/39007570.json",
+          "sourceHashBearingReceiptSha256": "22efbe1fbe8001c9c6d8774848935d06230ff0bb2ba7be5f856803123d78667c",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "It enforces odd parity at every intermediate prefix rather than only for the final bouquet. Thus the leading even 4 is discarded, even though adding it with a later odd flower yields the optimum.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Reads flower counts, sorts them descending, tentatively adds each to c, and immediately subtracts that flower again whenever the updated total is even.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "4f341e410b30162ecf7b3ab7844e022a38f2923d8037d735420b382fb671f21a",
+        "sourceLineCount": 12,
+        "sourceLines": [
+          {
+            "code": "a=int(input())\nb=input().split()\nfor i in range(len(b)):\n\tb[i]=int(b[i])\nb.sort()\nb.reverse()\nc=int(0)\nfor j in range(len(b)):\n\tc+=int(b[j])\n\tif c%2==0:\n\t\tc-=b[j]\nprint(int(c))",
+            "end": 12,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "4f341e410b30162ecf7b3ab7844e022a38f2923d8037d735420b382fb671f21a",
       "test": "0006"
     }
@@ -18035,6 +18285,15 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/9cabeccbc762495b8866ac872dfd4fea",
   "reviewer": "devin-9cabeccbc762495b8866ac872dfd4fea",
   "schemaVersion": 1,
+  "sourceSemanticReview": {
+    "designatedWrongSourceCount": 5,
+    "fullSourcesRead": 5,
+    "genuineAlgorithmicallyWrongCount": 5,
+    "newPublicProgramExecutions": 0,
+    "originalProofsReused": true,
+    "parentFinalVerificationPending": true,
+    "reviewUrl": "https://staging.itsdev.in/sessions/9cabeccbc762495b8866ac872dfd4fea"
+  },
   "sourceVerification": {
     "apiRating": 1200,
     "apiSnapshotHash": "064c4396494cd7a813222335d396816a314d39fad3d9c8680726ab784458b7e0",
@@ -18042,6 +18301,11 @@
     "bundledProvenanceAndSourceHashesVerified": true,
     "independentlyDownloadedStatementAndSubmissionBytes": false,
     "nestedArchiveHash": "2bdf6e04c67426e4bad1e8bbfb49e7254a3b840efea7dab99b21f6f8b6345afd",
-    "pending": "Parent independently crosschecks pinned Hugging Face statement/submission bytes and API identities across batches."
+    "parentReportedUpstreamVerification": {
+      "complete": true,
+      "independentlyReplicatedByThisChild": false,
+      "performedBy": "parent",
+      "scope": "67 pinned files, 600 submission bytes/rows, 60 statement rows, 38 generated suites and frozen API; parent reported exact matches."
+    }
   }
 }

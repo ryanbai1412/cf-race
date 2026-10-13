@@ -16475,7 +16475,55 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Tests conversion capacity == demand instead of >= demand. At [8,5,5] -> [5,5,5], excess capacity needs not be consumed: correct Yes, observed no. This is a decision error, NOT capitalization-only; also prints lowercase tokens.",
+      "reason": "Capacity need not be consumed completely: the condition must be capacity>=need. With supplies [8,5,5] and target [5,5,5], need=0 and capacity=1, so its equality test incorrectly says no.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "no",
+          "actualAnswerAfterRemovingDiagnostics": "no",
+          "constraintsExplanation": "Two triples of nonnegative sphere counts, every value <=1000000; pair conversion capacity=1, target deficit=0.",
+          "correctAnswer": "Yes",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0060",
+          "lfExecutionLogPath": "fresh/606A/lf-14725236.json",
+          "lfExecutionLogSha256": "6b64409c9d24bb55ec4268a99930202574151c7982d53069bf6a89d4dad4e6ef",
+          "lfExecutionOutputHash": "564739ea8fa5926d4fa5c9734fed462061960a22e6b8d5c06e94969d97891bf2",
+          "mathematicalDerivation": "All initial counts [8,5,5] already meet the required minima [5,5,5], so performing zero conversions succeeds. Surplus blue spheres may simply remain unused. Comparing capacity 1 to shortage 0 for equality rejects this valid zero-action solution.",
+          "mathematicalTracePath": null,
+          "originalIncludedInputPath": "1200/packages/606A/tests/0060.in",
+          "originalInputSha256": "2f83d157e041dff7ee2279327bd45bcadb97019aa4bad4b0fe66321193ff9af8",
+          "sourceHash": "4457694c6f828ef9635f8b575474c9f520a08be3d3c8c939aa0a03e9584f4f14",
+          "sourceHashBearingReceiptPath": "semantic/proofs/606A/14725236.json",
+          "sourceHashBearingReceiptSha256": "13f97bacaece201fac57e016aec3692b173fd89336ae167f770bad4b6369d706",
+          "validLF": "8 5 5\n5 5 5\n",
+          "validLFInputSha256": "e79bb51e172dd86e9c78e28e4da0d8dd4b8fc4b1fc3a33b4668cf67b6d524b48"
+        },
+        "excludedNonAlgorithmicCauses": "The LF run exits normally and prints no when the actual yes/no decision is Yes. Lowercase output is also a presentation issue, but even after case normalization its decision is wrong. No diagnostics, CRLF dependency or resource failure is involved.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/606A/lf-14725236.json",
+          "originalLfLogSha256": "6b64409c9d24bb55ec4268a99930202574151c7982d53069bf6a89d4dad4e6ef",
+          "outputHash": "564739ea8fa5926d4fa5c9734fed462061960a22e6b8d5c06e94969d97891bf2",
+          "sourceHash": "4457694c6f828ef9635f8b575474c9f520a08be3d3c8c939aa0a03e9584f4f14",
+          "sourceHashBearingReceiptPath": "semantic/proofs/606A/14725236.json",
+          "sourceHashBearingReceiptSha256": "13f97bacaece201fac57e016aec3692b173fd89336ae167f770bad4b6369d706",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "Capacity need not be consumed completely: the condition must be capacity>=need. With supplies [8,5,5] and target [5,5,5], need=0 and capacity=1, so its equality test incorrectly says no.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "For each color computes floor(positive surplus/2) as conversion capacity and sums negative shortages as need, then answers yes only if capacity equals need.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "4457694c6f828ef9635f8b575474c9f520a08be3d3c8c939aa0a03e9584f4f14",
+        "sourceLineCount": 29,
+        "sourceLines": [
+          {
+            "code": "need = 0\nx = 0\nif f[0] > s[0]:\n    if (f[0] - s[0]) % 2 == 0:\n        x += (f[0] - s[0]) // 2\n    else:\n        x += (f[0] - s[0]) // 2\nelse:\n    need += s[0] - f[0]\nif f[1] > s[1]:\n    if (f[1] - s[1]) % 2 == 0:\n        x += (f[1] - s[1]) // 2\n    else:\n        x += (f[1] - s[1]) // 2\nelse:\n    need += s[1] - f[1]\nif f[2] > s[2]:\n    if (f[2] - s[2]) % 2 == 0:\n        x += (f[2] - s[2]) // 2\n    else:\n        x += (f[2] - s[2]) // 2\nelse:\n    need += s[2] - f[2]\nif x == need:\n    print('yes')\nelse:\n    print('no')",
+            "end": 29,
+            "start": 3
+          }
+        ]
+      },
       "sourceHash": "4457694c6f828ef9635f8b575474c9f520a08be3d3c8c939aa0a03e9584f4f14",
       "test": "0060"
     },
@@ -16499,7 +16547,55 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Uses real division for odd surplus counts, incorrectly combining two half-conversions from different colours. [2,2,1] -> [1,1,2] returns Yes, but neither surplus can fund a conversion, so No.",
+      "reason": "Two surplus spheres of the same color are required for one conversion. Fractional half-capacities from different colors cannot be pooled. For differences [1,1,-1] it combines 0.5+0.5 to claim a conversion that neither surplus can fund.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "Yes",
+          "actualAnswerAfterRemovingDiagnostics": "Yes",
+          "constraintsExplanation": "Two triples of nonnegative sphere counts, every value <=1000000; pair conversion capacity=0, target deficit=1.",
+          "correctAnswer": "No",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0008",
+          "lfExecutionLogPath": "fresh/606A/lf-14733965.json",
+          "lfExecutionLogSha256": "f3bc0b12b2c90c0e97a74d26dce4bf0591246d99a0a26942fd4680b170739a02",
+          "lfExecutionOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+          "mathematicalDerivation": "Supplies [2,2,1] and target [1,1,2] leave one spare blue and one spare violet, while orange lacks one. Each useful conversion needs two spare spheres of one color, so floor(1/2)+floor(1/2)=0 cannot cover shortage 1. Equivalently only one conversion can preserve the required total of four spheres, and consuming either two-blue or two-violet would then leave that color below its own required one.",
+          "mathematicalTracePath": null,
+          "originalIncludedInputPath": "1200/packages/606A/tests/0008.in",
+          "originalInputSha256": "4132009aa5a2e813453c10b68f01cc5714bb9807665eb95014500ff4b294672e",
+          "sourceHash": "3c5dc4f226a57d0beaf350dc31dbca206b624ab1f214eb022c0ba2b918fcb7c6",
+          "sourceHashBearingReceiptPath": "semantic/proofs/606A/14733965.json",
+          "sourceHashBearingReceiptSha256": "997a7bc5659f902d4822e7a9c91183954641a124c3a60e2428ee3d23d232592c",
+          "validLF": "2 2 1\n1 1 2\n",
+          "validLFInputSha256": "51ec693e0ad232579a36fa5e81463de9dda23f100b7b68a4671be4d46f47a714"
+        },
+        "excludedNonAlgorithmicCauses": "LF output is a single Yes with exit 0 on a case whose decision is No; capitalization and formatting are valid. The active division is numerical logic, not emitted decimal formatting or a runtime fault.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/606A/lf-14733965.json",
+          "originalLfLogSha256": "f3bc0b12b2c90c0e97a74d26dce4bf0591246d99a0a26942fd4680b170739a02",
+          "outputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+          "sourceHash": "3c5dc4f226a57d0beaf350dc31dbca206b624ab1f214eb022c0ba2b918fcb7c6",
+          "sourceHashBearingReceiptPath": "semantic/proofs/606A/14733965.json",
+          "sourceHashBearingReceiptSha256": "997a7bc5659f902d4822e7a9c91183954641a124c3a60e2428ee3d23d232592c",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "Two surplus spheres of the same color are required for one conversion. Fractional half-capacities from different colors cannot be pooled. For differences [1,1,-1] it combines 0.5+0.5 to claim a conversion that neither surplus can fund.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Subtracts each target from its initial color count, divides every positive difference by real-valued 2, and says Yes if the sum of these half-surpluses and negative deficits is nonnegative.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "3c5dc4f226a57d0beaf350dc31dbca206b624ab1f214eb022c0ba2b918fcb7c6",
+        "sourceLineCount": 17,
+        "sourceLines": [
+          {
+            "code": "a-=x\nb-=y\nc-=z\nif a>0:\n    a/=2\nif b>0:\n    b/=2\nif c>0:\n    c/=2\n\n\nif a+b+c>=0:\n    print ('Yes')\nelse:print ('No')",
+            "end": 17,
+            "start": 4
+          }
+        ]
+      },
       "sourceHash": "3c5dc4f226a57d0beaf350dc31dbca206b624ab1f214eb022c0ba2b918fcb7c6",
       "test": "0008"
     },
@@ -16523,7 +16619,55 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "In the two-deficit branch compares positive surplus to twice the negative deficits, with the wrong sign/direction. The recorded exactly-funded two-deficit conversion returns No instead of Yes.",
+      "reason": "In the two-deficit branch it compares positive surplus with 2*(sum of negative deficits) using <=, instead of comparing usable surplus against the positive shortage. For [-250000,-250000,1000000], it tests 1000000<=-1000000 and rejects an exactly funded solution.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "No",
+          "actualAnswerAfterRemovingDiagnostics": "No",
+          "constraintsExplanation": "Two triples of nonnegative sphere counts, every value <=1000000; pair conversion capacity=500000, target deficit=500000.",
+          "correctAnswer": "Yes",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0011",
+          "lfExecutionLogPath": "fresh/606A/lf-14736108.json",
+          "lfExecutionLogSha256": "85267453898c159d7180d854d513ca0a80a6398d30323b9407a0f04c14126b87",
+          "lfExecutionOutputHash": "31375587f8bedb1f33f6eca3d8cee94ab70845a6dd1a7c7eeb929f4aa7dc10ab",
+          "mathematicalDerivation": "The million blue spheres have zero required blue minimum and fund 500000 conversions. Violet and orange each need an additional 250000 spheres. Convert 500000 blue spheres in pairs to 250000 violet, and the remaining 500000 in pairs to 250000 orange. Final counts [0,750000,750000] meet the target exactly.",
+          "mathematicalTracePath": null,
+          "originalIncludedInputPath": "1200/packages/606A/tests/0011.in",
+          "originalInputSha256": "1641dde04635adf43cee66e1ef391871839c0fa0f06ecd5f2eef7e93ee47dc6a",
+          "sourceHash": "2ded00092f3d2adc3cde2fd65239545021d79e4e5bacbdd3272105ca57378362",
+          "sourceHashBearingReceiptPath": "semantic/proofs/606A/14736108.json",
+          "sourceHashBearingReceiptSha256": "4414edc207eefe88c871179629b9879877ef8f0156b2b20581375919f44150f2",
+          "validLF": "1000000 500000 500000\n0 750000 750000\n",
+          "validLFInputSha256": "bbf95932326dfa29eeb446ea40d019b19ef7669d099691864b7f0f2cdcd45d64"
+        },
+        "excludedNonAlgorithmicCauses": "The active sorted-deficit branch prints sole No on LF with exit 0. No debug output, capitalization issue, CRLF retention or time-limit failure causes the wrong feasibility decision.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/606A/lf-14736108.json",
+          "originalLfLogSha256": "85267453898c159d7180d854d513ca0a80a6398d30323b9407a0f04c14126b87",
+          "outputHash": "31375587f8bedb1f33f6eca3d8cee94ab70845a6dd1a7c7eeb929f4aa7dc10ab",
+          "sourceHash": "2ded00092f3d2adc3cde2fd65239545021d79e4e5bacbdd3272105ca57378362",
+          "sourceHashBearingReceiptPath": "semantic/proofs/606A/14736108.json",
+          "sourceHashBearingReceiptSha256": "4414edc207eefe88c871179629b9879877ef8f0156b2b20581375919f44150f2",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "In the two-deficit branch it compares positive surplus with 2*(sum of negative deficits) using <=, instead of comparing usable surplus against the positive shortage. For [-250000,-250000,1000000], it tests 1000000<=-1000000 and rejects an exactly funded solution.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Sorts the three supply-minus-target differences. Handles three deficits, two deficits, one deficit and no deficits in separate branches, using pair-conversion capacity in the one-deficit branch.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "2ded00092f3d2adc3cde2fd65239545021d79e4e5bacbdd3272105ca57378362",
+        "sourceLineCount": 18,
+        "sourceLines": [
+          {
+            "code": "s = [a-x, b-y, c-z]\ns.sort()\nif s[2] < 0:\n\tprint(\"No\")\nelif s[1] < 0:\n\tif s[2] <= 2*(s[0]+s[1]):\n\t\tprint(\"Yes\")\n\telse:\n\t\tprint(\"No\")\nelif s[0] < 0:\n\tif s[2]//2+s[1]//2 >= -s[0]:\n\t\tprint(\"Yes\")\n\telse:\n\t\tprint(\"No\")\nelse:\n\tprint(\"Yes\")",
+            "end": 18,
+            "start": 3
+          }
+        ]
+      },
       "sourceHash": "2ded00092f3d2adc3cde2fd65239545021d79e4e5bacbdd3272105ca57378362",
       "test": "0011"
     },
@@ -16547,7 +16691,55 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Integer-divides a negative deficit in its sorted expression, reducing demand rather than requiring one output sphere per missing sphere. Recorded case returns Yes with only 500000 conversions for demand 500001.",
+      "reason": "When b is a deficit, integer-dividing it by two understates that color's required new spheres. The counted sorted differences [-250001,-250000,1000000] pass both inequalities despite total deficit 500001 exceeding 500000 possible conversions.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "Yes",
+          "actualAnswerAfterRemovingDiagnostics": "Yes",
+          "constraintsExplanation": "Two triples of nonnegative sphere counts, every value <=1000000; pair conversion capacity=500000, target deficit=500001.",
+          "correctAnswer": "No",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0012",
+          "lfExecutionLogPath": "fresh/606A/lf-14736271.json",
+          "lfExecutionLogSha256": "5c82ed6f823d0472a619f5c3f85c8ab9618c8f4013b555b693570ddde9177430",
+          "lfExecutionOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+          "mathematicalDerivation": "Blue needs 250001 and orange needs 250000 new spheres, totaling 500001. The sole surplus is 1000000 violet with zero required violet, allowing at most 500000 useful two-for-one conversions. There is a one-sphere shortage. The source instead uses -250000//2=-125000 in its combined inequality, falsely reducing demand.",
+          "mathematicalTracePath": null,
+          "originalIncludedInputPath": "1200/packages/606A/tests/0012.in",
+          "originalInputSha256": "25e2c86c0d6cceb1234e276cd1cbe6884d0ebf8cead2d7c23551b94edf4f7ca1",
+          "sourceHash": "a3497a43b32877d61fb11a77ea736d3bc060e9cac1d75ddf0ed37a8de282c622",
+          "sourceHashBearingReceiptPath": "semantic/proofs/606A/14736271.json",
+          "sourceHashBearingReceiptSha256": "1993d0e68f4dae4f8db9a44c20db218900f7f1bd95f1f1fc1ab86064555293c5",
+          "validLF": "500000 1000000 500000\n750001 0 750000\n",
+          "validLFInputSha256": "5cebc6f069fae504316d42087f4f9327ed1fdd5815498ca8d49e5a49a89d8434"
+        },
+        "excludedNonAlgorithmicCauses": "LF output is clean Yes with exit 0, whereas the feasibility result is No. This is an executed arithmetic sign/deficit formula, not a placeholder, CRLF issue, debug line, decimal-format discrepancy or TLE.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/606A/lf-14736271.json",
+          "originalLfLogSha256": "5c82ed6f823d0472a619f5c3f85c8ab9618c8f4013b555b693570ddde9177430",
+          "outputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+          "sourceHash": "a3497a43b32877d61fb11a77ea736d3bc060e9cac1d75ddf0ed37a8de282c622",
+          "sourceHashBearingReceiptPath": "semantic/proofs/606A/14736271.json",
+          "sourceHashBearingReceiptSha256": "1993d0e68f4dae4f8db9a44c20db218900f7f1bd95f1f1fc1ab86064555293c5",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "When b is a deficit, integer-dividing it by two understates that color's required new spheres. The counted sorted differences [-250001,-250000,1000000] pass both inequalities despite total deficit 500001 exceeding 500000 possible conversions.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Sorts supply-minus-target differences a<=b<=c and rejects if c<0, b+c//2<0, or a+b//2+c//2<0, otherwise answers Yes.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "a3497a43b32877d61fb11a77ea736d3bc060e9cac1d75ddf0ed37a8de282c622",
+        "sourceLineCount": 12,
+        "sourceLines": [
+          {
+            "code": "a, b, c = list(sorted([a - x, b - y, c - z]))\n\nif c < 0:\n    print(\"No\")\nelif b + c//2 < 0:\n    print(\"No\")\nelif a + b//2 + c//2 < 0:\n    print(\"No\")\nelse: print(\"Yes\")",
+            "end": 12,
+            "start": 4
+          }
+        ]
+      },
       "sourceHash": "a3497a43b32877d61fb11a77ea736d3bc060e9cac1d75ddf0ed37a8de282c622",
       "test": "0012"
     },
@@ -16571,7 +16763,36 @@
         "verdict": "WA"
       },
       "kind": "debug-output",
-      "reason": "Emits sorted differences -2 2 3 before Yes on the counted test, whose decision is correct. Code also mishandles deficits, but this exact counted failedTest demonstrates only debug output and is ineligible.",
+      "reason": "The code has real uncounted logic defects: other-=b increases capacity for negative b, and the smallest deficit a is never checked. But on the designated [4,4,0] to [2,1,2] case the final decision Yes is mathematically correct; the observed WA is the preceding print(-2,2,3).",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "The existing unmodified LF stdout is -2 2 3 followed by Yes. Removing the first diagnostic line leaves the correct mathematical answer. The uncounted deficit defects are explicitly not promoted into this counted proof, and no diagnostic-stripped source was claimed or executed.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/606A/lf-14736354.json",
+          "originalLfLogSha256": "57f4181c616c723ecce5b0275512f04652b9760c22a4f7aaede2a5805dd10cd0",
+          "outputHash": "c167c334694e423e9a93e6b75d3685997294ce7111e86692592542a531bcc270",
+          "sourceHash": "499b75d2dd4b4e8b34f71450daf7d060093f097096e614becd24e51c0c64a155",
+          "sourceHashBearingReceiptPath": "semantic/proofs/606A/14736354.json",
+          "sourceHashBearingReceiptSha256": "8076fbff313640e89abe8c5eb634c90db17def3dd9cfba44a4c88cdef4be3c1b",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "The code has real uncounted logic defects: other-=b increases capacity for negative b, and the smallest deficit a is never checked. But on the designated [4,4,0] to [2,1,2] case the final decision Yes is mathematically correct; the observed WA is the preceding print(-2,2,3).",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Sorts deficits/surpluses, prints those sorted differences, collects c//2 conversion capacity, processes the middle difference b, then mistakenly tests c again rather than the smallest difference a before printing Yes.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "499b75d2dd4b4e8b34f71450daf7d060093f097096e614becd24e51c0c64a155",
+        "sourceLineCount": 29,
+        "sourceLines": [
+          {
+            "code": "a, b, c = list(sorted([a - x, b - y, c - z]))\n\nprint(a,b,c)\n\nother = 0\nif c < 0:\n    print(\"No\")\n    exit(0)\nelse:\n    other += c//2\n    \nif b < 0:\n    if b + other < 0:\n        print(\"No\")\n        exit(0)\n    else:\n        other -= b\nelse:\n    other += b//2\n    \nif c < 0:\n    if c + other < 0:\n        print(\"No\")\n        exit(0)\n        \nprint(\"Yes\")",
+            "end": 29,
+            "start": 4
+          }
+        ]
+      },
       "sourceHash": "499b75d2dd4b4e8b34f71450daf7d060093f097096e614becd24e51c0c64a155",
       "test": "0001"
     }
@@ -28283,11 +28504,20 @@
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
-    "14736354: debug-output: Emits sorted differences -2 2 3 before Yes on the counted test, whose decision is correct. Code also mishandles deficits, but this exact counted failedTest demonstrates only debug output and is ineligible."
+    "14736354: debug-output: The code has real uncounted logic defects: other-=b increases capacity for negative b, and the smallest deficit a is never checked. But on the designated [4,4,0] to [2,1,2] case the final decision Yes is mathematically correct; the observed WA is the preceding print(-2,2,3)."
   ],
   "reviewUrl": "https://staging.itsdev.in/sessions/9cabeccbc762495b8866ac872dfd4fea",
   "reviewer": "devin-9cabeccbc762495b8866ac872dfd4fea",
   "schemaVersion": 1,
+  "sourceSemanticReview": {
+    "designatedWrongSourceCount": 5,
+    "fullSourcesRead": 5,
+    "genuineAlgorithmicallyWrongCount": 4,
+    "newPublicProgramExecutions": 0,
+    "originalProofsReused": true,
+    "parentFinalVerificationPending": true,
+    "reviewUrl": "https://staging.itsdev.in/sessions/9cabeccbc762495b8866ac872dfd4fea"
+  },
   "sourceVerification": {
     "apiRating": 1200,
     "apiSnapshotHash": "064c4396494cd7a813222335d396816a314d39fad3d9c8680726ab784458b7e0",
@@ -28295,6 +28525,11 @@
     "bundledProvenanceAndSourceHashesVerified": true,
     "independentlyDownloadedStatementAndSubmissionBytes": false,
     "nestedArchiveHash": "3b7e9ee820536c8004fb52b079c759276f82ccff99f2013e56d840f54e4feff8",
-    "pending": "Parent independently crosschecks pinned Hugging Face statement/submission bytes and API identities across batches."
+    "parentReportedUpstreamVerification": {
+      "complete": true,
+      "independentlyReplicatedByThisChild": false,
+      "performedBy": "parent",
+      "scope": "67 pinned files, 600 submission bytes/rows, 60 statement rows, 38 generated suites and frozen API; parent reported exact matches."
+    }
   }
 }

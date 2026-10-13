@@ -10468,8 +10468,37 @@
         "timeout": false,
         "verdict": "WA"
       },
-      "kind": "wrong-answer",
-      "reason": "Returns sum(permutation)-n, which is fixed for a given n, rather than movement between inverse-permutation positions. Recorded permutation gives 45 instead of 40.",
+      "kind": "unrelated-computation",
+      "reason": "For every valid permutation the sum is n(n+1)/2, so this prints the invariant n(n-1)/2 regardless of physical arrangement. It is an unrelated label-total calculation, not an implemented head-travel algorithm; a numeric mismatch alone cannot qualify under the stricter rule.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "LF output 45 is numerically different from 40, with no CRLF/debug/runtime cause, but semantic source review excludes this unrelated invariant computation. It has no sector or movement logic to audit as a genuine wrong solution to the specified traversal.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/612B/lf-15012130.json",
+          "originalLfLogSha256": "61f79f428cdf0548ffb04b178871ec57bf23fce5d037c330298c87afb59313c6",
+          "outputHash": "420002158111bff8adb3347d84029e480f45e60e1869b454b6adac3345f9f7d4",
+          "sourceHash": "f107ffffa478dd88c506337cedc15f3f27e4a266269eb5ac670dfd98cb4c9770",
+          "sourceHashBearingReceiptPath": "semantic/proofs/612B/15012130.json",
+          "sourceHashBearingReceiptSha256": "73bf8ad72e26ec7926868e0b42e80485e48217cbb4fdf92e6484ac062ae0f14a",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "For every valid permutation the sum is n(n+1)/2, so this prints the invariant n(n-1)/2 regardless of physical arrangement. It is an unrelated label-total calculation, not an implemented head-travel algorithm; a numeric mismatch alone cannot qualify under the stricter rule.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Sums all fragment labels in the permutation and prints that sum minus n. It never constructs sector positions, looks for successive fragments or computes a head movement.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "f107ffffa478dd88c506337cedc15f3f27e4a266269eb5ac670dfd98cb4c9770",
+        "sourceLineCount": 6,
+        "sourceLines": [
+          {
+            "code": "n=int(input())\nm=list(map(int,input().split()))\nk=0\nfor i in range(0,len(m)):\n    k=k+m[i]\nprint(k-n)",
+            "end": 6,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "f107ffffa478dd88c506337cedc15f3f27e4a266269eb5ac670dfd98cb4c9770",
       "test": "0006"
     },
@@ -10492,8 +10521,37 @@
         "timeout": false,
         "verdict": "WA"
       },
-      "kind": "wrong-answer",
-      "reason": "Uses the sum of fragment labels instead of read-head travel; on n=1 it prints 1 although reading the sole fragment requires no movement (0).",
+      "kind": "unrelated-computation",
+      "reason": "On valid permutations the k>n branch is fixed by n except at n=1, where it prints 1. These label-sum branches do not implement the file-read path, so the previously counted 1-versus-0 mismatch is insufficient semantic evidence.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "The counted LF run is a normal integer WA, not CRLF, debug or TLE. Nevertheless the algorithm is unrelated to head movement and is excluded under the explicit unrelated-computation rule rather than counted merely because its number differs.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/612B/lf-15012587.json",
+          "originalLfLogSha256": "f0e5e7b73caa4739390b28f76e2ce3f0057599b5cc5abe97a0be62df4ae20ea7",
+          "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "sourceHash": "32292b821a6b619572acb215289eee0959ee784457daee5f00fdfdc8f4bf62b9",
+          "sourceHashBearingReceiptPath": "semantic/proofs/612B/15012587.json",
+          "sourceHashBearingReceiptSha256": "99ba0267d808a6d6f5083ce34ef8a5fff03fb37c9dc41881a5784f58d4e3ec55",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "On valid permutations the k>n branch is fixed by n except at n=1, where it prints 1. These label-sum branches do not implement the file-read path, so the previously counted 1-versus-0 mismatch is insufficient semantic evidence.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Sums fragment labels, compares the sum k with n and prints k-n, n, or n-k according to the comparison. No sector-position or consecutive-fragment movement is represented.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "32292b821a6b619572acb215289eee0959ee784457daee5f00fdfdc8f4bf62b9",
+        "sourceLineCount": 11,
+        "sourceLines": [
+          {
+            "code": "n=int(input())\nm=list(map(int,input().split()))\nk=0\nfor i in range(0,len(m)):\n    k=k+m[i]\nif k>n:\n    print(k-n)\nelif k==n:\n    print(n)\nelse:\n    print(n-k)",
+            "end": 11,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "32292b821a6b619572acb215289eee0959ee784457daee5f00fdfdc8f4bf62b9",
       "test": "0003"
     },
@@ -10527,7 +10585,36 @@
         "verdict": "TLE"
       },
       "kind": "timeout",
-      "reason": "Repeated list.index searches give O(n^2) work. Counted failure is TLE without an algorithmic wrong-answer result, hence ineligible.",
+      "reason": "The summation is exactly the requested path, including the correct initial fragment-1 position, but repeatedly searching the list gives O(n^2) time.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "The counted LF-0012 replay times out with empty stdout and exit -24. It has actual mathematically correct traversal logic, and no wrong answer is available to count. Complexity-only failure is excluded.",
+        "executionBinding": {
+          "exitCode": -24,
+          "originalLfLogPath": "fresh/612B/lf-15013035.json",
+          "originalLfLogSha256": "a24d755199cc8a6c265f530be328ed81e30df5f7b834099197f0beadbc36b4f4",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sourceHash": "f2c56812812179a9bc8c9de501f2c0c13843c12310134e2ac3bc4a3087e7199c",
+          "sourceHashBearingReceiptPath": "semantic/proofs/612B/15013035.json",
+          "sourceHashBearingReceiptSha256": "9060ecdbc2ec27bbef6c9eefbc62db1cff1f7226f0bdd856a1d7b50b94b3af14",
+          "timeout": true,
+          "verdict": "TLE"
+        },
+        "faultyLogic": "The summation is exactly the requested path, including the correct initial fragment-1 position, but repeatedly searching the list gives O(n^2) time.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "For each successive fragment label i and i+1, finds their sector indices with list.index and adds the absolute index difference; prints the accumulated read-head travel.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "f2c56812812179a9bc8c9de501f2c0c13843c12310134e2ac3bc4a3087e7199c",
+        "sourceLineCount": 6,
+        "sourceLines": [
+          {
+            "code": "n=int(input())\nip=list(map(int,input().split()))\ncount=0\nfor i in range(1,n):\n    count+=abs(ip.index(i+1)-ip.index(i))\nprint(count)",
+            "end": 6,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "f2c56812812179a9bc8c9de501f2c0c13843c12310134e2ac3bc4a3087e7199c",
       "test": "0012"
     },
@@ -10550,8 +10637,37 @@
         "timeout": false,
         "verdict": "WA"
       },
-      "kind": "wrong-answer",
-      "reason": "For positive permutation labels computes abs(sum(labels)-n); physical positions never enter the result. Recorded n=10 permutation prints 45 rather than 40.",
+      "kind": "unrelated-computation",
+      "reason": "This again computes the permutation invariant n(n-1)/2, not travel along sector positions. It never maps a fragment to its physical sector or compares adjacent fragment positions. Treated as unrelated computation, not a genuine head-travel algorithm.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "The fresh LF result 45 versus 40 is a clean numeric mismatch but not enough under source-semantic requirements. No CRLF/debug/runtime cause exists; the explicit exclusion is unrelated invariant label aggregation.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/612B/lf-15013598.json",
+          "originalLfLogSha256": "3d6dcacc0e7b3cc210b1807e4039a72439dde2b43be90a92d771524175bd4621",
+          "outputHash": "420002158111bff8adb3347d84029e480f45e60e1869b454b6adac3345f9f7d4",
+          "sourceHash": "886181b385f87c8480769f216dfc6b6f1d58de8bb701b622a4d0d21b48b0ccd5",
+          "sourceHashBearingReceiptPath": "semantic/proofs/612B/15013598.json",
+          "sourceHashBearingReceiptSha256": "e46bc3c5b05df9a57e68c549e25ce08ac79d03b1c81887491b0f1b0f42a4fd6f",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "This again computes the permutation invariant n(n-1)/2, not travel along sector positions. It never maps a fragment to its physical sector or compares adjacent fragment positions. Treated as unrelated computation, not a genuine head-travel algorithm.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Sums all positive fragment labels and prints the absolute value of sum-n. Every valid fragment is positive, so the positivity filter never removes a label.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "886181b385f87c8480769f216dfc6b6f1d58de8bb701b622a4d0d21b48b0ccd5",
+        "sourceLineCount": 10,
+        "sourceLines": [
+          {
+            "code": "n=int(input())\nm=list(map(int,input().split()))\nk=0\nfor i in range(0,len(m)):\n    if m[i]>=1:\n        k=k+m[i]\nif (k-n)>=0:\n    print(k-n)\nelse:\n    print((k-n)*(-1))",
+            "end": 10,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "886181b385f87c8480769f216dfc6b6f1d58de8bb701b622a4d0d21b48b0ccd5",
       "test": "0006"
     },
@@ -10575,7 +10691,55 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Adds travel from fictitious sector index 0 to fragment 1; the head starts at fragment 1 already. [3,1,2] gives 4 instead of 3.",
+      "reason": "p=0 adds a fictitious initial movement from sector zero to fragment 1. The head already starts at fragment 1, so only moves from fragment 1 to 2, 2 to 3, etc. are chargeable.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "4",
+          "actualAnswerAfterRemovingDiagnostics": "4",
+          "constraintsExplanation": "n=3, sector labels form an exact permutation of 1..n. Initial head position is the sector of fragment 1.",
+          "correctAnswer": "3",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0001",
+          "lfExecutionLogPath": "fresh/612B/lf-15014205.json",
+          "lfExecutionLogSha256": "4b8a1773094d26a0f2531e81169b4e470a2fb7da9493c2199a19e94b64319e50",
+          "lfExecutionOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+          "mathematicalDerivation": "In sector order [3,1,2], fragments 1,2,3 are in sectors 2,3,1. Travel starts at sector 2 and costs |3-2|+|1-3|=1+2=3. The source additionally charges |2-1|=1 because its zero-based p starts at 0 instead of the sector of fragment 1, producing 4.",
+          "mathematicalTracePath": "semantic/math-traces/612B-0001.json",
+          "originalIncludedInputPath": "1200/packages/612B/tests/0001.in",
+          "originalInputSha256": "30b91c75b8352644141115fb2d8fbe8bf995a9119f9e2991e00761fa3c524e89",
+          "sourceHash": "deeea47331af8db3dd1e0c3c2e31f9277c172c68ea98f2f8d9a19715ab2dbbd3",
+          "sourceHashBearingReceiptPath": "semantic/proofs/612B/15014205.json",
+          "sourceHashBearingReceiptSha256": "5a25966ef350b244377c417780248d288e83f5b9a4d2307d2ebbab592e2695d9",
+          "validLF": "3\n3 1 2\n",
+          "validLFInputSha256": "a9c146863ba10c942378978dbe0b90f1b8ccc5c286df3970d824c3eb853cfe96"
+        },
+        "excludedNonAlgorithmicCauses": "The __main__ guard calls the actual solve routine; all distance code executes. The LF result is a single integer 4 with normal exit and no diagnostics. A real path-start error, not formatting or an unrelated formula, adds the extra unit.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/612B/lf-15014205.json",
+          "originalLfLogSha256": "4b8a1773094d26a0f2531e81169b4e470a2fb7da9493c2199a19e94b64319e50",
+          "outputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+          "sourceHash": "deeea47331af8db3dd1e0c3c2e31f9277c172c68ea98f2f8d9a19715ab2dbbd3",
+          "sourceHashBearingReceiptPath": "semantic/proofs/612B/15014205.json",
+          "sourceHashBearingReceiptSha256": "5a25966ef350b244377c417780248d288e83f5b9a4d2307d2ebbab592e2695d9",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "p=0 adds a fictitious initial movement from sector zero to fragment 1. The head already starts at fragment 1, so only moves from fragment 1 to 2, 2 to 3, etc. are chargeable.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Builds (fragment label,zero-based sector) pairs, sorts them into read order, and sums distances to each next sector, starting p at zero.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "deeea47331af8db3dd1e0c3c2e31f9277c172c68ea98f2f8d9a19715ab2dbbd3",
+        "sourceLineCount": 22,
+        "sourceLines": [
+          {
+            "code": "def solve():\n    N = int(input())\n    F = list(map(int, input().split()))\n    G = []\n\n    for i in range(N):\n        G.append((F[i], i))\n\n    G.sort()\n\n    p = 0\n    ans = 0\n\n    for f, np in G:\n        ans += abs(np - p)\n        p = np\n\n    print(ans)\n\n\nif __name__ == '__main__':\n    solve()",
+            "end": 22,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "deeea47331af8db3dd1e0c3c2e31f9277c172c68ea98f2f8d9a19715ab2dbbd3",
       "test": "0001"
     }
@@ -12806,11 +12970,23 @@
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
-    "15013035: timeout: Repeated list.index searches give O(n^2) work. Counted failure is TLE without an algorithmic wrong-answer result, hence ineligible."
+    "15012130: unrelated-computation: For every valid permutation the sum is n(n+1)/2, so this prints the invariant n(n-1)/2 regardless of physical arrangement. It is an unrelated label-total calculation, not an implemented head-travel algorithm; a numeric mismatch alone cannot qualify under the stricter rule.",
+    "15012587: unrelated-computation: On valid permutations the k>n branch is fixed by n except at n=1, where it prints 1. These label-sum branches do not implement the file-read path, so the previously counted 1-versus-0 mismatch is insufficient semantic evidence.",
+    "15013035: timeout: The summation is exactly the requested path, including the correct initial fragment-1 position, but repeatedly searching the list gives O(n^2) time.",
+    "15013598: unrelated-computation: This again computes the permutation invariant n(n-1)/2, not travel along sector positions. It never maps a fragment to its physical sector or compares adjacent fragment positions. Treated as unrelated computation, not a genuine head-travel algorithm."
   ],
   "reviewUrl": "https://staging.itsdev.in/sessions/9cabeccbc762495b8866ac872dfd4fea",
   "reviewer": "devin-9cabeccbc762495b8866ac872dfd4fea",
   "schemaVersion": 1,
+  "sourceSemanticReview": {
+    "designatedWrongSourceCount": 5,
+    "fullSourcesRead": 5,
+    "genuineAlgorithmicallyWrongCount": 1,
+    "newPublicProgramExecutions": 0,
+    "originalProofsReused": true,
+    "parentFinalVerificationPending": true,
+    "reviewUrl": "https://staging.itsdev.in/sessions/9cabeccbc762495b8866ac872dfd4fea"
+  },
   "sourceVerification": {
     "apiRating": 1200,
     "apiSnapshotHash": "064c4396494cd7a813222335d396816a314d39fad3d9c8680726ab784458b7e0",
@@ -12818,6 +12994,11 @@
     "bundledProvenanceAndSourceHashesVerified": true,
     "independentlyDownloadedStatementAndSubmissionBytes": false,
     "nestedArchiveHash": "db9e856468215a983d4c8da50974511078fbd76193d97b7c2731777ae738c547",
-    "pending": "Parent independently crosschecks pinned Hugging Face statement/submission bytes and API identities across batches."
+    "parentReportedUpstreamVerification": {
+      "complete": true,
+      "independentlyReplicatedByThisChild": false,
+      "performedBy": "parent",
+      "scope": "67 pinned files, 600 submission bytes/rows, 60 statement rows, 38 generated suites and frozen API; parent reported exact matches."
+    }
   }
 }

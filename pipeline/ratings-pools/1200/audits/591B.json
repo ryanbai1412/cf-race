@@ -11557,7 +11557,36 @@
         "verdict": "TLE"
       },
       "kind": "timeout",
-      "reason": "Copies the vectors containing all positions on every letter exchange instead of swapping their storage; max-size exchanges exhaust CPU. No algorithmic wrong-answer output on the counted test.",
+      "reason": "The position-class swap is logically the requested simultaneous letter exchange, but vector assignment copies all positions on every exchange, so repeated swaps of a length-200000 class require O(n*m) copying.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "LF-0006 is an empty-output TLE (exit -24), not a wrong final brand. Parsing uses cin tokens and is LF/CRLF insensitive; no executed debug print exists. Pure complexity failure is excluded.",
+        "executionBinding": {
+          "exitCode": -24,
+          "originalLfLogPath": "fresh/591B/lf-13837670.json",
+          "originalLfLogSha256": "17db78a2a05b440b7c988e205ba83d1c60c29ec3c3dc114800dcd215574e7a05",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sourceHash": "860c369c721355b3f066d80d2bbd3b0578e4e4731ba3c7c8a152452da9c83503",
+          "sourceHashBearingReceiptPath": "semantic/proofs/591B/13837670.json",
+          "sourceHashBearingReceiptSha256": "22cf57f72f1bd05d49a5c9275fd9121607336d6bb6e014267de2126694c1aa45",
+          "timeout": true,
+          "verdict": "TLE"
+        },
+        "faultyLogic": "The position-class swap is logically the requested simultaneous letter exchange, but vector assignment copies all positions on every exchange, so repeated swaps of a length-200000 class require O(n*m) copying.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Stores each current letter class as a vector of original character positions. For each designer, copies and exchanges the two position vectors. Afterwards reconstructs ans by assigning each class letter to all its stored positions.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "860c369c721355b3f066d80d2bbd3b0578e4e4731ba3c7c8a152452da9c83503",
+        "sourceLineCount": 45,
+        "sourceLines": [
+          {
+            "code": "int main(){\n    v.assign(26,vi());\n    cin>>n>>m>>s;\n    For(i,0,n)\n        v[s[i]-'a'].pb(i);\n    For(i,0,m){\n        cin>>s1>>s2;\n        char c1=s1[0],c2=s2[0];\n        tmp = v[c1-'a'];\n        v[c1-'a']=v[c2-'a'];\n        v[c2-'a']=tmp;\n    }\n    ans.assign(n,'a');\n    For(i,0,26){\n        tmp=v[i];\n        char c='a'+i;\n        For(j,0,tmp.size()){\n            ans[tmp[j]]=c;\n        }\n    }\n    cout<<ans;\n}",
+            "end": 45,
+            "start": 24
+          }
+        ]
+      },
       "sourceHash": "860c369c721355b3f066d80d2bbd3b0578e4e4731ba3c7c8a152452da9c83503",
       "test": "0006"
     },
@@ -11591,7 +11620,36 @@
         "verdict": "TLE"
       },
       "kind": "timeout",
-      "reason": "Copies position vectors on every swap, making adversarial exchanges O(n*m). Counted failure is a timeout, not algorithmic WA.",
+      "reason": "Vector copies, rather than constant-time vector swaps or a 26-letter permutation, make repeated exchanges quadratic in n*m. The assignment semantics itself is the correct exchange operation.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "The counted max-size LF case times out with no output; this proves only performance inadequacy. The freopen calls are comments, and cout would print the computed string rather than diagnostics. No mathematical WA is counted.",
+        "executionBinding": {
+          "exitCode": -24,
+          "originalLfLogPath": "fresh/591B/lf-13838721.json",
+          "originalLfLogSha256": "1faaff8addbbe2f14cec7389c0f18cdbae7e30e2852b4f0025b27495cd44f27f",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sourceHash": "f76fc0b70a43c36087a83fc79e364e94801b890c79cd606274b8d5546b0dc424",
+          "sourceHashBearingReceiptPath": "semantic/proofs/591B/13838721.json",
+          "sourceHashBearingReceiptSha256": "ff9da04f94fe4f19b64deb5c5c8a34636072b0058363e8cb47073770ad7a3677",
+          "timeout": true,
+          "verdict": "TLE"
+        },
+        "faultyLogic": "Vector copies, rather than constant-time vector swaps or a 26-letter permutation, make repeated exchanges quadratic in n*m. The assignment semantics itself is the correct exchange operation.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Builds vectors of positions indexed by character code, exchanges v[x] and v[y] through copied temporary v1 on each operation, then writes class letters back into the original string.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "f76fc0b70a43c36087a83fc79e364e94801b890c79cd606274b8d5546b0dc424",
+        "sourceLineCount": 39,
+        "sourceLines": [
+          {
+            "code": " cin >> n >> m >> s;\n for(int i = 0; i < n; i ++)\n  v[s[i]].pb(i);\n for(int i = 0; i < m; i ++) {\n  char x, y;\n  cin >> x >> y;\n  v1 = v[x];\n  v[x] = v[y];\n  v[y] = v1;\n }\n for(int i = 'a'; i <= 'z'; i ++) {\n  for(int j = 0; j < v[i].size(); j ++)\n   s[v[i][j]] = i;\n }\n cout << s;\n return 0;",
+            "end": 38,
+            "start": 23
+          }
+        ]
+      },
       "sourceHash": "f76fc0b70a43c36087a83fc79e364e94801b890c79cd606274b8d5546b0dc424",
       "test": "0006"
     },
@@ -11625,7 +11683,36 @@
         "verdict": "TLE"
       },
       "kind": "timeout",
-      "reason": "Copies both position vectors for each exchange; counted max-size case times out. Performance-only failures do not qualify here.",
+      "reason": "Copying both potentially O(n)-sized classes inside m operations gives excessive work, although both position-class assignments implement the correct simultaneous exchange.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "The immutable LF-0006 replay is TLE, exit -24 and empty stdout, not evidence of a wrong rebranding algorithm. scanf whitespace directives and cin correctly tokenize LF; no diagnostic output or uncalled replacement solution is involved.",
+        "executionBinding": {
+          "exitCode": -24,
+          "originalLfLogPath": "fresh/591B/lf-13839640.json",
+          "originalLfLogSha256": "c09f45a0a78970e094e9b52694b0cb844181efc6418343d9f994b187f38c592c",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sourceHash": "133947d601e05a1886c0907ba95d45ba01da99ec7e208afbcd2b4b48acba2c22",
+          "sourceHashBearingReceiptPath": "semantic/proofs/591B/13839640.json",
+          "sourceHashBearingReceiptSha256": "f3c503e3df919cb31be21ad9dd504bd42ddb39dd0f66fbd0ae1cadbd168dc896",
+          "timeout": true,
+          "verdict": "TLE"
+        },
+        "faultyLogic": "Copying both potentially O(n)-sized classes inside m operations gives excessive work, although both position-class assignments implement the correct simultaneous exchange.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Uses pos[26] vectors to track original positions of each current letter; skips self-exchanges, copies both vectors for each distinct exchange, and reconstructs t from the final position classes.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "133947d601e05a1886c0907ba95d45ba01da99ec7e208afbcd2b4b48acba2c22",
+        "sourceLineCount": 67,
+        "sourceLines": [
+          {
+            "code": "int main(void){\n    int n,m;\n    scanf(\"%d %d\",&n,&m);\n    string s;\n    cin>>s;\n    vii pos(26,vi());\n    FOR(i,0,s.length()){\n        pos[s[i]-'a'].pb(i);\n    }\n    char x,y;\n    FOR(i,0,m){\n        scanf(\" %c %c\",&x,&y);\n        if(x==y)\n            continue;\n        vi a = pos[x-'a'];\n        vi b = pos[y-'a'];\n        pos[x-'a'] = b;\n        pos[y-'a'] = a;\n    }\n    string t(n,'a');\n    FOR(i,0,26){\n        FOR(j,0,pos[i].size()){\n            t[pos[i][j]] = (char)('a'+i);\n        }\n    }\n    cout<<t<<\"\\n\";\n    return 0;\n}",
+            "end": 67,
+            "start": 40
+          }
+        ]
+      },
       "sourceHash": "133947d601e05a1886c0907ba95d45ba01da99ec7e208afbcd2b4b48acba2c22",
       "test": "0006"
     },
@@ -11659,7 +11746,36 @@
         "verdict": "TLE"
       },
       "kind": "timeout",
-      "reason": "Copies position vectors for exchanges and searches vectors to reconstruct output. Recorded failure is TLE with no wrong-answer output.",
+      "reason": "The classes remain correct and sorted, but exchange copying is O(n*m), with additional per-position binary searches. The counted large case exhausts the CPU bound before any final string.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Only TLE is demonstrated on LF-0006. The commented readnum routine is not called; active cin parsing is token based. No wrong mathematical brand or debug/format defect is proved.",
+        "executionBinding": {
+          "exitCode": -24,
+          "originalLfLogPath": "fresh/591B/lf-13839725.json",
+          "originalLfLogSha256": "0c0d5090cd51a7d57483b313d25e06e65394d6de2552c966c6747953989477f9",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sourceHash": "08866cef787659dc6fa89d46436def2143c627bc076f997f1a12cf4149620701",
+          "sourceHashBearingReceiptPath": "semantic/proofs/591B/13839725.json",
+          "sourceHashBearingReceiptSha256": "6d965e129b67105e34f15ac7c409ed007865c7d9b4cfd9b2a5e46cd4e3a95c20",
+          "timeout": true,
+          "verdict": "TLE"
+        },
+        "faultyLogic": "The classes remain correct and sorted, but exchange copying is O(n*m), with additional per-position binary searches. The counted large case exhausts the CPU bound before any final string.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Copies and exchanges sorted per-letter position vectors for each operation. To reconstruct output, for every position it binary-searches each of the 26 letter vectors until the containing class is found.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "08866cef787659dc6fa89d46436def2143c627bc076f997f1a12cf4149620701",
+        "sourceLineCount": 40,
+        "sourceLines": [
+          {
+            "code": "int main() {\n    ios_base::sync_with_stdio(0);\n    ll t, n, m;\n    cin >> n >> m;\n    vector< vector<int> > v(26);\nstring s;\n    cin >> s;\n\n    for(int i = 0 ; i < n ; ++i) {\n        v[s[i] - 'a'].push_back(i);\n    }\n    char x, y;\n    vector<int> tmp;\n    for(int i = 0 ; i < m ; ++i) {\n        cin >> x >> y;\n        tmp = v[x - 'a'];\n        v[x - 'a'] = v[y - 'a'];\n        v[y - 'a'] = tmp;\n    }\n    for(int i = 0 ; i < n ; ++i) {\n        for(int j = 0 ; j < 26 ; ++j) {\n            if(binary_search(v[j].begin(), v[j].end(), i)) {\n                cout << (char)(j + 'a');\n                break;\n            }\n        }\n    }\n    return 0;\n}",
+            "end": 40,
+            "start": 12
+          }
+        ]
+      },
       "sourceHash": "08866cef787659dc6fa89d46436def2143c627bc076f997f1a12cf4149620701",
       "test": "0006"
     },
@@ -11683,7 +11799,36 @@
         "verdict": "WA"
       },
       "kind": "line-ending-artifact",
-      "reason": "getchar-based parsing assumes a single-byte newline. CRLF misaligns the letter reads; the exact counted failedTest passes after LF normalization (molice). The counted proof is not algorithmic wrongness.",
+      "reason": "CRLF has two newline bytes, so the fixed getchar sequence reads the wrong operation letters. On the corresponding valid LF copy, the p/m exchange transforms police to molice correctly. Vector copying may be slow elsewhere, but this counted pair proves no mathematical error.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "LF-0001 exits 0 and prints molice, exactly the correct word. The original WA is a line-ending parser artifact, excluded by the requested LF rule. Other potential parser/performance defects cannot replace this counted counterexample.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/591B/lf-13840577.json",
+          "originalLfLogSha256": "dabd79994c24f505dd3a354c5735c23f0e3bfda225eddc3e277d415daedb76fd",
+          "outputHash": "5a4d352ffdeb1b8c71a285632a700fbb3cfb138a981f369460253f94b72ae0a6",
+          "sourceHash": "5d20db2cacb3d8c6caba71ce6190483eb7281f2bd94330989de261e893da99d6",
+          "sourceHashBearingReceiptPath": "semantic/proofs/591B/13840577.json",
+          "sourceHashBearingReceiptSha256": "e66913734cba7eb07b45c17159c284a8c98df7b1aca7b742e4567c2a2e92dc8d",
+          "timeout": false,
+          "verdict": "AC"
+        },
+        "faultyLogic": "CRLF has two newline bytes, so the fixed getchar sequence reads the wrong operation letters. On the corresponding valid LF copy, the p/m exchange transforms police to molice correctly. Vector copying may be slow elsewhere, but this counted pair proves no mathematical error.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Tracks each letter as a vector of original positions and swaps those classes. Reads each operation through four fixed getchar calls that assume exactly one newline byte and one space, then reconstructs and prints the final string.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "5d20db2cacb3d8c6caba71ce6190483eb7281f2bd94330989de261e893da99d6",
+        "sourceLineCount": 39,
+        "sourceLines": [
+          {
+            "code": " cin >> n >> m >> s;\n \n for(int i = 0; i < n; i++) {\n  l[(int)s[i]].push_back(i);\n }\n for(int i = 0; i < m; i++) {\n  char a,b;\n  getchar();\n  a = getchar();\n  getchar();\n  b = getchar();\n  vector<int> aux = l[a];\n  l[a] = l[b];\n  l[b] = aux;\n }\n for(int i = 'a'; i <= 'z'; i++) {\n  if(l[i].size() > 0) {\n   vector<int> p = l[i];\n   for(int j = 0; j < p.size(); j++) {\n    r[p[j]] = i;\n   }\n  }\n }\n for(int i = 0; i < n; i++)\n  printf(\"%c\",r[i]);\n puts(\"\");\n return 0;",
+            "end": 38,
+            "start": 12
+          }
+        ]
+      },
       "sourceHash": "5d20db2cacb3d8c6caba71ce6190483eb7281f2bd94330989de261e893da99d6",
       "test": "0001"
     }
@@ -19332,15 +19477,24 @@
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
-    "13837670: timeout: Copies the vectors containing all positions on every letter exchange instead of swapping their storage; max-size exchanges exhaust CPU. No algorithmic wrong-answer output on the counted test.",
-    "13838721: timeout: Copies position vectors on every swap, making adversarial exchanges O(n*m). Counted failure is a timeout, not algorithmic WA.",
-    "13839640: timeout: Copies both position vectors for each exchange; counted max-size case times out. Performance-only failures do not qualify here.",
-    "13839725: timeout: Copies position vectors for exchanges and searches vectors to reconstruct output. Recorded failure is TLE with no wrong-answer output.",
-    "13840577: line-ending-artifact: getchar-based parsing assumes a single-byte newline. CRLF misaligns the letter reads; the exact counted failedTest passes after LF normalization (molice). The counted proof is not algorithmic wrongness."
+    "13837670: timeout: The position-class swap is logically the requested simultaneous letter exchange, but vector assignment copies all positions on every exchange, so repeated swaps of a length-200000 class require O(n*m) copying.",
+    "13838721: timeout: Vector copies, rather than constant-time vector swaps or a 26-letter permutation, make repeated exchanges quadratic in n*m. The assignment semantics itself is the correct exchange operation.",
+    "13839640: timeout: Copying both potentially O(n)-sized classes inside m operations gives excessive work, although both position-class assignments implement the correct simultaneous exchange.",
+    "13839725: timeout: The classes remain correct and sorted, but exchange copying is O(n*m), with additional per-position binary searches. The counted large case exhausts the CPU bound before any final string.",
+    "13840577: line-ending-artifact: CRLF has two newline bytes, so the fixed getchar sequence reads the wrong operation letters. On the corresponding valid LF copy, the p/m exchange transforms police to molice correctly. Vector copying may be slow elsewhere, but this counted pair proves no mathematical error."
   ],
   "reviewUrl": "https://staging.itsdev.in/sessions/9cabeccbc762495b8866ac872dfd4fea",
   "reviewer": "devin-9cabeccbc762495b8866ac872dfd4fea",
   "schemaVersion": 1,
+  "sourceSemanticReview": {
+    "designatedWrongSourceCount": 5,
+    "fullSourcesRead": 5,
+    "genuineAlgorithmicallyWrongCount": 0,
+    "newPublicProgramExecutions": 0,
+    "originalProofsReused": true,
+    "parentFinalVerificationPending": true,
+    "reviewUrl": "https://staging.itsdev.in/sessions/9cabeccbc762495b8866ac872dfd4fea"
+  },
   "sourceVerification": {
     "apiRating": 1200,
     "apiSnapshotHash": "064c4396494cd7a813222335d396816a314d39fad3d9c8680726ab784458b7e0",
@@ -19348,6 +19502,11 @@
     "bundledProvenanceAndSourceHashesVerified": true,
     "independentlyDownloadedStatementAndSubmissionBytes": false,
     "nestedArchiveHash": "1e8370460270b4d8fdd3dc586bbec28fcccc5ea7f1e60f24545c259e4431fcdf",
-    "pending": "Parent independently crosschecks pinned Hugging Face statement/submission bytes and API identities across batches."
+    "parentReportedUpstreamVerification": {
+      "complete": true,
+      "independentlyReplicatedByThisChild": false,
+      "performedBy": "parent",
+      "scope": "67 pinned files, 600 submission bytes/rows, 60 statement rows, 38 generated suites and frozen API; parent reported exact matches."
+    }
   }
 }

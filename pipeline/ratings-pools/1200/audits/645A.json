@@ -18093,7 +18093,36 @@
         "verdict": "WA"
       },
       "kind": "line-ending-artifact",
-      "reason": "One clockwise-cycle branch concatenates the complete unstripped first row, including CR. Counted puzzle is reachable and passes on LF (YES) but prints NO on CRLF. Separate indexing typo is not exercised by this counted pair.",
+      "reason": "The branch for a lower-left blank concatenates the complete unstripped top row, retaining CR on binary CRLF input. LF-0001 correctly accepts the reachable pair. A separate repeated q[0] typo in the second-puzzle lower-right-blank branch is uncounted here.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Counted LF-0001 prints YES with normal exit, equal to the mathematical reachability answer. The recorded original NO is CRLF-only for this pair; the unexercised indexing typo cannot be used to qualify this designated evidence.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/645A/lf-16785879.json",
+          "originalLfLogSha256": "8cf29e517af0f375cab40e63827f11dfbb0c7054af1e3313ac98c78b75e25962",
+          "outputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+          "sourceHash": "62391a232ab975a6ce8f14670349ac6534108094afba3533b7ee56ed782beba8",
+          "sourceHashBearingReceiptPath": "semantic/proofs/645A/16785879.json",
+          "sourceHashBearingReceiptSha256": "895a150b8559999469032d4b85cf8ea7fe0df494c412724ba45a2e4e1917a602",
+          "timeout": false,
+          "verdict": "AC"
+        },
+        "faultyLogic": "The branch for a lower-left blank concatenates the complete unstripped top row, retaining CR on binary CRLF input. LF-0001 correctly accepts the reachable pair. A separate repeated q[0] typo in the second-puzzle lower-right-blank branch is uncounted here.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Constructs a three-tile clockwise order for each 2x2 puzzle according to the blank position, then accepts if those tile strings match up to cyclic rotation.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "62391a232ab975a6ce8f14670349ac6534108094afba3533b7ee56ed782beba8",
+        "sourceLineCount": 24,
+        "sourceLines": [
+          {
+            "code": "s=input()\ng=input()\nw=input()\nq=input()\nif s[0]=='X':\n\tS1=s[1]+g[1]+g[0]\nelif s[1]=='X':\n\tS1=g[1]+g[0]+s[0]\nelif g[1]=='X':\n\tS1=g[0]+s[0]+s[1]\nelse:\n\tS1=s+g[1]\nif w[0]=='X':\n\tS2=w[1]+q[1]+q[0]\nelif w[1]=='X':\n\tS2=q[1]+q[0]+w[0]\nelif q[1]=='X':\n\tS2=q[0]+q[0]+w[1]\nelse:\n\tS2=w+q[1]\nif S1==S2 or S1[1:]+S1[0]==S2 or S1[2]+S1[:2]==S2:\n\tprint('YES')\nelse:\n\tprint('NO')",
+            "end": 24,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "62391a232ab975a6ce8f14670349ac6534108094afba3533b7ee56ed782beba8",
       "test": "0001"
     },
@@ -18117,7 +18146,36 @@
         "verdict": "WA"
       },
       "kind": "line-ending-artifact",
-      "reason": "Concatenates unstripped rows and then removes X, retaining CR inside its adjacency comparisons. Counted NO pair is correctly NO after LF normalization, so counted failure is not algorithmic evidence.",
+      "reason": "This is not a general proof of sliding reachability, but its counted unreachable pair returns the correct NO on LF. CR characters in the original concatenation shift the positions tested and cause the recorded mismatch.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Existing LF-0002 is AC with NO. The incorrect row-major heuristic could fail elsewhere, but this designated pair proves only CRLF-sensitive parsing, not a wrong mathematical decision after LF normalization.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/645A/lf-17119144.json",
+          "originalLfLogSha256": "e60f1a5becfe296c8699d0e767abd49986d62bb4660f2120edd5269bdcae6aea",
+          "outputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "sourceHash": "ce9fca0f68bdef3488041238103178c8ab824cc535257f629806be052aee3405",
+          "sourceHashBearingReceiptPath": "semantic/proofs/645A/17119144.json",
+          "sourceHashBearingReceiptSha256": "bc4041186a832c8add574f80b3a0842ce7066de441b392bcd8dc757efabf5979",
+          "timeout": false,
+          "verdict": "AC"
+        },
+        "faultyLogic": "This is not a general proof of sliding reachability, but its counted unreachable pair returns the correct NO on LF. CR characters in the original concatenation shift the positions tested and cause the recorded mismatch.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Concatenates each puzzle in row-major order, removes X, and compares selected matching adjacent characters in the two resulting strings; returns NO on a matching-pair condition and YES otherwise.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "ce9fca0f68bdef3488041238103178c8ab824cc535257f629806be052aee3405",
+        "sourceLineCount": 11,
+        "sourceLines": [
+          {
+            "code": "arr = [input() for i in range(4)]\na = arr[0] + arr[1]\nb = arr[2] + arr[3]\na = a.replace(\"X\", \"\")\nb = b.replace(\"X\", \"\")\ndef fun():\n    for i in range(0,2):\n        if (a[i] == b[i] and a[i + 1] == b[i + 1] or a[i] == b[i] and a[i + 1] == b[2 - i]) == True:\n            return \"NO\"\n    return \"YES\"\nprint(fun())",
+            "end": 11,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "ce9fca0f68bdef3488041238103178c8ab824cc535257f629806be052aee3405",
       "test": "0002"
     },
@@ -18141,7 +18199,36 @@
         "verdict": "WA"
       },
       "kind": "line-ending-artifact",
-      "reason": "Concatenation/rotation of rows retains CR tokens. Counted reachable pair returns YES on LF instead of CRLF NO. Separate row-major/cycle issues require fresh counterexamples, not this proof.",
+      "reason": "The row-major/rotation approach and b4 construction have independent logical weaknesses, but the designated reachable pair matches a candidate correctly on LF. Retained CRs alter the original strings and cause the recorded NO.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "The counted LF replay exits normally with correct YES. No separate mathematical counterexample is substituted for this CRLF-only designated evidence, and no unexecuted alternative solution is claimed.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/645A/lf-17119525.json",
+          "originalLfLogSha256": "0842968fde94dab2375024cec22c6db1cc5799a93475c5ce82109cf04280fdc3",
+          "outputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+          "sourceHash": "5b20dbdef56f541666ac3856b6504f1bb4017d54d802a248809873cb2f5eca6e",
+          "sourceHashBearingReceiptPath": "semantic/proofs/645A/17119525.json",
+          "sourceHashBearingReceiptSha256": "3fad9214dc41e227e11952eb23beecdcdefb829d46ef046c9454f0c65fc1735e",
+          "timeout": false,
+          "verdict": "AC"
+        },
+        "faultyLogic": "The row-major/rotation approach and b4 construction have independent logical weaknesses, but the designated reachable pair matches a candidate correctly on LF. Retained CRs alter the original strings and cause the recorded NO.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Concatenates row-major puzzle strings, removes the blank, constructs several rotations and attempted reversed variants of the second tile string, and tests the first string for membership among them.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "5b20dbdef56f541666ac3856b6504f1bb4017d54d802a248809873cb2f5eca6e",
+        "sourceLineCount": 15,
+        "sourceLines": [
+          {
+            "code": "arr = [input() + input() for i in range(2)]\na = arr[0].replace(\"X\", \"\")\nb = arr[1].replace(\"X\", \"\")\nb1 = b[-1:] + b[0:-1]\nb2 = b[-2:] + b[0]\nb3 = list(b1)\nb3.reverse()\nb3 = \"\".join(b3)\nb4 = list(b2)\nb4.reverse()\nb4 = \"\".join(b2)\nif a == b or a == b1 or a == b2 or a == b3 or a == b4:\n    print(\"YES\")\nelse:\n    print(\"NO\")",
+            "end": 15,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "5b20dbdef56f541666ac3856b6504f1bb4017d54d802a248809873cb2f5eca6e",
       "test": "0001"
     },
@@ -18165,7 +18252,41 @@
         "verdict": "WA"
       },
       "kind": "debug-output",
-      "reason": "Prints the grid after each slide; LF-normalized counted reachable pair ends with the correct YES after eleven debug grid lines. The counted WA is debug output only.",
+      "reason": "The orbit search covers every reachable configuration, but line 16 prints each intermediate grid before the final answer. The counted LF target is reached on the eleventh slide and the final YES is mathematically correct.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Unmodified LF stdout has eleven diagnostic grid lines followed by YES. Disregarding the grids leaves the correct decision. The commented demonstration calls are not executed; no diagnostic-stripped code copy or additional run is needed or claimed.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/645A/lf-17836970.json",
+          "originalLfLogSha256": "0c1a7bd332125252c1516b0efd11d2fd63ad8dc7596c0ccf922e37f8ff23ae9d",
+          "outputHash": "e2e6078f98bccaa217c168ddb41d0cb831f8d7426b0a20006676bc6919cf11ad",
+          "sourceHash": "967c2cf26dc98863d57a717f4f604d624590f85e1bcc3175e5eb7e2e5c05bf97",
+          "sourceHashBearingReceiptPath": "semantic/proofs/645A/17836970.json",
+          "sourceHashBearingReceiptSha256": "e8e67666a4d1e5da64a307d33d56056393a513a05098c1cc7a5ee5e12e51c860",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "The orbit search covers every reachable configuration, but line 16 prints each intermediate grid before the final answer. The counted LF target is reached on the eleventh slide and the final YES is mathematically correct.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Searches the twelve-state reachability orbit by repeatedly sliding the blank clockwise around the 2x2 cycle: checks the initial configuration and the next eleven states against the target.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "967c2cf26dc98863d57a717f4f604d624590f85e1bcc3175e5eb7e2e5c05bf97",
+        "sourceLineCount": 35,
+        "sourceLines": [
+          {
+            "code": "def main():\n\tgrid1 = []\n\tgrid1.append(list(input()))\n\tgrid1.append(list(input()))\n\tgrid2 = []\n\tgrid2.append(list(input()))\n\tgrid2.append(list(input()))\n\tprint(solver(grid1, grid2))\n\ndef solver(grid1, grid2):\n\tif grid1 == grid2:\n\t\treturn 'YES'\n\telse:\n\t\tfor i in range(11):\n\t\t\trotateClockwise(grid1)\n\t\t\tprint(grid1)\n\t\t\tif grid1 == grid2:\n\t\t\t\treturn 'YES'\n\t\treturn 'NO'\n\ndef rotateClockwise(grid):\n\tif grid[0][0] == 'X':\n\t\t(grid[0][0], grid[1][0]) = (grid[1][0], grid[0][0])\n\telif grid[0][1] == 'X':\n\t\t(grid[0][0], grid[0][1]) = (grid[0][1], grid[0][0])\n\telif grid[1][0] == 'X':\n\t\t(grid[1][0], grid[1][1]) = (grid[1][1], grid[1][0])\n\telse:\n\t\t(grid[0][1], grid[1][1]) = (grid[1][1], grid[0][1])",
+            "end": 29,
+            "start": 1
+          },
+          {
+            "code": "main()",
+            "end": 35,
+            "start": 35
+          }
+        ]
+      },
       "sourceHash": "967c2cf26dc98863d57a717f4f604d624590f85e1bcc3175e5eb7e2e5c05bf97",
       "test": "0001"
     },
@@ -18189,7 +18310,55 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Requires some complete row or column to be identical initially, which is not necessary for sliding reachability. Recorded AB/XC -> AX/CB is reachable (YES), but no rows/columns match and program returns NO.",
+      "reason": "Initial equality of a full row or column is not necessary for connectivity by legal slides. The counted target AX/CB is reached from AB/XC in two moves although none of their corresponding rows or columns match.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "NO",
+          "actualAnswerAfterRemovingDiagnostics": "NO",
+          "constraintsExplanation": "Two 2x2 puzzles, each containing exactly A,B,C,X once; every BFS edge swaps the blank with an edge-adjacent cell.",
+          "correctAnswer": "YES",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0004",
+          "lfExecutionLogPath": "fresh/645A/lf-18064997.json",
+          "lfExecutionLogSha256": "39d79bd466926dc25ef83596a8104e4707352cfa00f8770f9906e54c17bb351b",
+          "lfExecutionOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "mathematicalDerivation": "From AB/XC, slide C left into the blank to obtain AB/CX, then slide B down to obtain AX/CB. Both moves join edge-adjacent cells, so the initial puzzles belong to the same reachability component. Rows AB/XC vs AX/CB and columns AX/BC vs AC/XB are all different, explaining the source's false NO despite the explicit valid path.",
+          "mathematicalTracePath": "semantic/math-traces/645A-0004.json",
+          "originalIncludedInputPath": "1200/packages/645A/tests/0004.in",
+          "originalInputSha256": "184cce7550af127ea10a1e631268971e386c42651ff6fb860397924815c21e45",
+          "sourceHash": "2603d77ddd07591120e5e37dd12ce044890c4b8538c813dd763ccbbe6805e2f2",
+          "sourceHashBearingReceiptPath": "semantic/proofs/645A/18064997.json",
+          "sourceHashBearingReceiptSha256": "ea6d97f9f9a5703692740ceb0552f907ec1c41e0014c01f8144cc66b91e21437",
+          "validLF": "AB\nXC\nAX\nCB\n",
+          "validLFInputSha256": "e12dee21e7f682d85fb5e3fe8e8cd160ea4fed9973d30eb2808efe69a8a70d5e"
+        },
+        "excludedNonAlgorithmicCauses": "The active row/column condition reads the actual two puzzles and emits sole NO with exit 0 on LF. It is a real but incomplete reachability criterion, not constant output, CRLF retention, diagnostics or a runtime failure.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/645A/lf-18064997.json",
+          "originalLfLogSha256": "39d79bd466926dc25ef83596a8104e4707352cfa00f8770f9906e54c17bb351b",
+          "outputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "sourceHash": "2603d77ddd07591120e5e37dd12ce044890c4b8538c813dd763ccbbe6805e2f2",
+          "sourceHashBearingReceiptPath": "semantic/proofs/645A/18064997.json",
+          "sourceHashBearingReceiptSha256": "ea6d97f9f9a5703692740ceb0552f907ec1c41e0014c01f8144cc66b91e21437",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "Initial equality of a full row or column is not necessary for connectivity by legal slides. The counted target AX/CB is reached from AB/XC in two moves although none of their corresponding rows or columns match.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Computes both rows and both columns of each puzzle and answers YES if any corresponding complete row or column is initially identical; otherwise answers NO.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "2603d77ddd07591120e5e37dd12ce044890c4b8538c813dd763ccbbe6805e2f2",
+        "sourceLineCount": 29,
+        "sourceLines": [
+          {
+            "code": "a11 = input()\na21 = input()\nb11 = input()\nb21 = input()\n\na12 = a11[0]+a21[0]\na22 = a11[1]+a21[1]\nb12 = b11[0]+b21[0]\nb22 = b11[1]+b21[1]\n\na = 0 \n\nif (a11 == b11):\n    a=1\nif (a21 == b21):\n    a=1\nif (a12 == b12):\n    a=1\nif (a22 == b22):\n    a=1\n    \n    \nif (a==1):\n    print(\"YES\")\nelse:\n    print(\"NO\")",
+            "end": 29,
+            "start": 4
+          }
+        ]
+      },
       "sourceHash": "2603d77ddd07591120e5e37dd12ce044890c4b8538c813dd763ccbbe6805e2f2",
       "test": "0004"
     }
@@ -26312,14 +26481,23 @@
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
-    "16785879: line-ending-artifact: One clockwise-cycle branch concatenates the complete unstripped first row, including CR. Counted puzzle is reachable and passes on LF (YES) but prints NO on CRLF. Separate indexing typo is not exercised by this counted pair.",
-    "17119144: line-ending-artifact: Concatenates unstripped rows and then removes X, retaining CR inside its adjacency comparisons. Counted NO pair is correctly NO after LF normalization, so counted failure is not algorithmic evidence.",
-    "17119525: line-ending-artifact: Concatenation/rotation of rows retains CR tokens. Counted reachable pair returns YES on LF instead of CRLF NO. Separate row-major/cycle issues require fresh counterexamples, not this proof.",
-    "17836970: debug-output: Prints the grid after each slide; LF-normalized counted reachable pair ends with the correct YES after eleven debug grid lines. The counted WA is debug output only."
+    "16785879: line-ending-artifact: The branch for a lower-left blank concatenates the complete unstripped top row, retaining CR on binary CRLF input. LF-0001 correctly accepts the reachable pair. A separate repeated q[0] typo in the second-puzzle lower-right-blank branch is uncounted here.",
+    "17119144: line-ending-artifact: This is not a general proof of sliding reachability, but its counted unreachable pair returns the correct NO on LF. CR characters in the original concatenation shift the positions tested and cause the recorded mismatch.",
+    "17119525: line-ending-artifact: The row-major/rotation approach and b4 construction have independent logical weaknesses, but the designated reachable pair matches a candidate correctly on LF. Retained CRs alter the original strings and cause the recorded NO.",
+    "17836970: debug-output: The orbit search covers every reachable configuration, but line 16 prints each intermediate grid before the final answer. The counted LF target is reached on the eleventh slide and the final YES is mathematically correct."
   ],
   "reviewUrl": "https://staging.itsdev.in/sessions/9cabeccbc762495b8866ac872dfd4fea",
   "reviewer": "devin-9cabeccbc762495b8866ac872dfd4fea",
   "schemaVersion": 1,
+  "sourceSemanticReview": {
+    "designatedWrongSourceCount": 5,
+    "fullSourcesRead": 5,
+    "genuineAlgorithmicallyWrongCount": 1,
+    "newPublicProgramExecutions": 0,
+    "originalProofsReused": true,
+    "parentFinalVerificationPending": true,
+    "reviewUrl": "https://staging.itsdev.in/sessions/9cabeccbc762495b8866ac872dfd4fea"
+  },
   "sourceVerification": {
     "apiRating": 1200,
     "apiSnapshotHash": "064c4396494cd7a813222335d396816a314d39fad3d9c8680726ab784458b7e0",
@@ -26327,6 +26505,11 @@
     "bundledProvenanceAndSourceHashesVerified": true,
     "independentlyDownloadedStatementAndSubmissionBytes": false,
     "nestedArchiveHash": "607ff1765e21173fd2b4200d510a21daf2353d17839953c1a1d6cdfeb418c9b0",
-    "pending": "Parent independently crosschecks pinned Hugging Face statement/submission bytes and API identities across batches."
+    "parentReportedUpstreamVerification": {
+      "complete": true,
+      "independentlyReplicatedByThisChild": false,
+      "performedBy": "parent",
+      "scope": "67 pinned files, 600 submission bytes/rows, 60 statement rows, 38 generated suites and frozen API; parent reported exact matches."
+    }
   }
 }

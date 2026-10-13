@@ -11393,7 +11393,55 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "On encountering a general shrinks the active bound to i-1, excluding an unfinished soldier, and increments a session before checking completion. [1,2,3], k=3 prints 3 instead of 2.",
+      "reason": "It increments res before checking whether the remaining prefix already consists of generals, charging a non-training final pass. It also shrinks z to i-1 rather than i, an additional active-bound flaw. On [1,2,3] it returns 3 despite all required promotions completing in two sessions.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "3",
+          "actualAnswerAfterRemovingDiagnostics": "3",
+          "constraintsExplanation": "n=3, k=3, exactly n nondecreasing ranks in 1..k; each session promotes one per initially occupied below-general rank simultaneously.",
+          "correctAnswer": "2",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0003",
+          "lfExecutionLogPath": "fresh/63B/lf-10549918.json",
+          "lfExecutionLogSha256": "774c8bcdde10714039a3996e8c6cc484625f468e25aea40ca9a4ed20f19a1a4a",
+          "lfExecutionOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+          "mathematicalDerivation": "At k=3, [1,2,3] becomes [2,3,3] after one session, because ranks 1 and 2 each promote one soldier. The second session promotes the remaining rank-2 soldier, yielding [3,3,3]. The initially rank-1 soldier needs two promotions, so fewer than two sessions is impossible. Source res=3 includes a final pass that only notices completion.",
+          "mathematicalTracePath": "semantic/math-traces/63B-0003.json",
+          "originalIncludedInputPath": "1200/packages/63B/tests/0003.in",
+          "originalInputSha256": "886b95ee650c336b0d98eb8dc075c0810095f57b93a31344610d384cbe296911",
+          "sourceHash": "d91cea8dd49c59df121a9a6d331bae2430665445553ac3c2509db88b529d550a",
+          "sourceHashBearingReceiptPath": "semantic/proofs/63B/10549918.json",
+          "sourceHashBearingReceiptSha256": "8d926d98e3eb3c86da7d95617dd09ab0296429fba9b49a7441673c3c580b49c8",
+          "validLF": "3 3\n1 2 3\n",
+          "validLFInputSha256": "8401ac7239da4f117940b1c7d8225d8ffa8aa8f5ff88177f517278447599e7bc"
+        },
+        "excludedNonAlgorithmicCauses": "The active grouped-promotion simulation executes on sorted valid LF input and produces a clean integer 3 with exit 0. It is not a placeholder, uncalled function, debug-output or time-limit failure; the extra charged pass has no corresponding paid training session.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/63B/lf-10549918.json",
+          "originalLfLogSha256": "774c8bcdde10714039a3996e8c6cc484625f468e25aea40ca9a4ed20f19a1a4a",
+          "outputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+          "sourceHash": "d91cea8dd49c59df121a9a6d331bae2430665445553ac3c2509db88b529d550a",
+          "sourceHashBearingReceiptPath": "semantic/proofs/63B/10549918.json",
+          "sourceHashBearingReceiptSha256": "8d926d98e3eb3c86da7d95617dd09ab0296429fba9b49a7441673c3c580b49c8",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "It increments res before checking whether the remaining prefix already consists of generals, charging a non-training final pass. It also shrinks z to i-1 rather than i, an additional active-bound flaw. On [1,2,3] it returns 3 despite all required promotions completing in two sessions.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Maintains an active prefix of the sorted soldier list, scans equal-rank groups in each session, promotes the last soldier of each group, shrinks the prefix when encountering a general, and counts while the prefix is nonempty.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "d91cea8dd49c59df121a9a6d331bae2430665445553ac3c2509db88b529d550a",
+        "sourceLineCount": 26,
+        "sourceLines": [
+          {
+            "code": "z = n\nres = 0\nwhile(z > 0):\n    i = 0\n    res += 1\n    while(i < z):\n        if(ai[i] == k):\n            z = i - 1\n            break\n        else:\n            v = ai[i]\n            j = i\n            while(j < z):\n                if(v != ai[j]):\n                    break\n                j += 1\n            i = j\n            ai[j - 1] += 1\n\nprint(res)",
+            "end": 26,
+            "start": 7
+          }
+        ]
+      },
       "sourceHash": "d91cea8dd49c59df121a9a6d331bae2430665445553ac3c2509db88b529d550a",
       "test": "0003"
     },
@@ -11417,7 +11465,55 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Arbitrarily stops simulation after 100 sessions even though valid n=k=100 all rank-1 soldiers require 198. Recorded output is 100.",
+      "reason": "The simultaneous group transitions are genuine training logic, but the hard outer cap of 100 sessions is unjustified by n,k<=100. Valid congested pipelines can need n+k-2=198 sessions, so the executed simulation is prematurely truncated.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "100",
+          "actualAnswerAfterRemovingDiagnostics": "100",
+          "constraintsExplanation": "n=100, k=100, exactly n nondecreasing ranks in 1..k; each session promotes one per initially occupied below-general rank simultaneously.",
+          "correctAnswer": "198",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0021",
+          "lfExecutionLogPath": "fresh/63B/lf-14031420.json",
+          "lfExecutionLogSha256": "fa62ec6ce989ce199e119284234b10cc1737157467309ad6fc1094db60823794",
+          "lfExecutionOutputHash": "eea8254c7500ba3de996aa8ad6af399183f04e17d4a8102fde539dbc93a90012",
+          "mathematicalDerivation": "All 100 soldiers start at rank 1 and k=100. At most one leaves the rank-1 group per session, so the last leaves rank 1 at session 100. It then needs 98 further promotions to reach rank 100, for total 198. A pipeline promoting one from each occupied rank simultaneously attains this bound. Therefore 198 is necessary and sufficient; stopping after 100 leaves soldiers below general.",
+          "mathematicalTracePath": null,
+          "originalIncludedInputPath": "1200/packages/63B/tests/0021.in",
+          "originalInputSha256": "c5fd010e87070cfff9752d4afdb02b3b3016ef1d91cd902d32edc7f42a3f600d",
+          "sourceHash": "3d96133bc48794de2482279b6ca391634423073306b80343777a6ab1c047aa92",
+          "sourceHashBearingReceiptPath": "semantic/proofs/63B/14031420.json",
+          "sourceHashBearingReceiptSha256": "55c466d09cd8ddca1e55c9a212918b4146103022f595db68ea7a3898bf0bcebf",
+          "validLF": "100 100\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n",
+          "validLFInputSha256": "ed1d8f5f87034c7c9c43faf33be87361b767955ba09d8a1fbf7d5fe980b9b38f"
+        },
+        "excludedNonAlgorithmicCauses": "The counted LF output 100 is the accumulated active simulation count at its cap, not literal constant output or a source comment claiming AC. Execution ends normally without debug/format/CRLF failures. The copyright/reuse warning remains separate from this technical wrong-answer proof.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/63B/lf-14031420.json",
+          "originalLfLogSha256": "fa62ec6ce989ce199e119284234b10cc1737157467309ad6fc1094db60823794",
+          "outputHash": "eea8254c7500ba3de996aa8ad6af399183f04e17d4a8102fde539dbc93a90012",
+          "sourceHash": "3d96133bc48794de2482279b6ca391634423073306b80343777a6ab1c047aa92",
+          "sourceHashBearingReceiptPath": "semantic/proofs/63B/14031420.json",
+          "sourceHashBearingReceiptSha256": "55c466d09cd8ddca1e55c9a212918b4146103022f595db68ea7a3898bf0bcebf",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "The simultaneous group transitions are genuine training logic, but the hard outer cap of 100 sessions is unjustified by n,k<=100. Valid congested pipelines can need n+k-2=198 sessions, so the executed simulation is prematurely truncated.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Counts soldiers by zero-based rank, and in each session first removes one soldier from each nonempty below-general rank into a pending-promotion list, then applies all those promotions simultaneously. Counts successful sessions but loops for at most 100.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "3d96133bc48794de2482279b6ca391634423073306b80343777a6ab1c047aa92",
+        "sourceLineCount": 49,
+        "sourceLines": [
+          {
+            "code": "u=input\nn,k=map(int,u().split())\nM=[0 for i in range(101)]\na=u().split()\nfor j in range(n):\n M[int(a[j])-1]+=1\nc=0\nfor l in range(100):\n f=0\n s=[]\n for m in range(k-1):\n  if(M[m]):\n   M[m]-=1\n   s+=[m+1]\n   f=1\n for _ in s:\n   M[_]+=1\n if(0==f):break\n c+=1\nprint(c)",
+            "end": 49,
+            "start": 30
+          }
+        ]
+      },
       "sourceHash": "3d96133bc48794de2482279b6ca391634423073306b80343777a6ab1c047aa92",
       "test": "0021"
     },
@@ -11441,7 +11537,55 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Assumes the time is k-maxRank+n-1 (or number of non-generals), ignoring gaps between ranks and independent concurrent promotions. [2,5], k=6 gives 2 instead of 4.",
+      "reason": "The closed form uses only the maximum rank and soldier count, ignoring how far the lowest-ranked soldier still must climb and how groups promote concurrently. For ranks [2,5] and k=6 it gives 6-5+2-1=2 although rank 2 alone needs four sessions.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "2",
+          "actualAnswerAfterRemovingDiagnostics": "2",
+          "constraintsExplanation": "n=2, k=6, exactly n nondecreasing ranks in 1..k; each session promotes one per initially occupied below-general rank simultaneously.",
+          "correctAnswer": "4",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0007",
+          "lfExecutionLogPath": "fresh/63B/lf-24531997.json",
+          "lfExecutionLogSha256": "ca3046bc6a24fb047d377e8dc364b247ae18e9d89d9b38f82264e4ca4defb854",
+          "lfExecutionOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "mathematicalDerivation": "Starting [2,5] with k=6, successive states are [3,6], [4,6], [5,6], [6,6]. The rank-2 soldier can rise by at most one per session, requiring at least four. The listed states achieve four, hence correct cost is 4, not the formula's 2.",
+          "mathematicalTracePath": "semantic/math-traces/63B-0007.json",
+          "originalIncludedInputPath": "1200/packages/63B/tests/0007.in",
+          "originalInputSha256": "b79bf5a7db4098edde6be6bb6f8611b740260a82992839a595d1b64e4895569e",
+          "sourceHash": "b6297277c6d4da6eec6a221ffa8a146d7840ebb5365470bedd7978cbdd3c18a5",
+          "sourceHashBearingReceiptPath": "semantic/proofs/63B/24531997.json",
+          "sourceHashBearingReceiptSha256": "637fde5f642c75bbfb91f7c3fd8c964925b7ccd8fcf70795e382c15c149bedea",
+          "validLF": "2 6\n2 5\n",
+          "validLFInputSha256": "bad44a5a9fe586fcb0ba60eb583a5a5de8f2846f7e41cf9853389a14a8543c4e"
+        },
+        "excludedNonAlgorithmicCauses": "main executes the stated problem-specific training formula and returns integer 2 on LF with exit 0. This is a real, flawed congestion shortcut, not a constant-output placeholder, diagnostic, unused alternative or runtime failure.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/63B/lf-24531997.json",
+          "originalLfLogSha256": "ca3046bc6a24fb047d377e8dc364b247ae18e9d89d9b38f82264e4ca4defb854",
+          "outputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "sourceHash": "b6297277c6d4da6eec6a221ffa8a146d7840ebb5365470bedd7978cbdd3c18a5",
+          "sourceHashBearingReceiptPath": "semantic/proofs/63B/24531997.json",
+          "sourceHashBearingReceiptSha256": "637fde5f642c75bbfb91f7c3fd8c964925b7ccd8fcf70795e382c15c149bedea",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "The closed form uses only the maximum rank and soldier count, ignoring how far the lowest-ranked soldier still must climb and how groups promote concurrently. For ranks [2,5] and k=6 it gives 6-5+2-1=2 although rank 2 alone needs four sessions.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "If the maximum initial rank is below k, prints k-maxRank+n-1. Otherwise finds the first general in the sorted list and prints its index, the number of initial non-generals.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "b6297277c6d4da6eec6a221ffa8a146d7840ebb5365470bedd7978cbdd3c18a5",
+        "sourceLineCount": 16,
+        "sourceLines": [
+          {
+            "code": "def main():\n    s = input().split()\n    n = int(s[0])\n    k = int(s[1])\n\n    ranks = input().split()\n\n    if int(ranks[-1]) != k:\n        print(k - int(ranks[-1]) + n - 1)\n    else:\n        for i,rank in enumerate(ranks):\n            if int(rank) == k:\n                print(i)\n                return\n\nmain()",
+            "end": 16,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "b6297277c6d4da6eec6a221ffa8a146d7840ebb5365470bedd7978cbdd3c18a5",
       "test": "0007"
     },
@@ -11465,7 +11609,60 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Includes soldiers already at rank k in its blocking counter. They do not train or block promotions; twelve rank-1 plus eleven rank-2 soldiers with k=2 need 12 sessions, not 22.",
+      "reason": "The scan treats soldiers already at general rank k as blockers. Generals never need promotion and cannot block the one-per-below-rank training process. The counted 11 generals add ten fictitious blockers to the twelve private promotions.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "22",
+          "actualAnswerAfterRemovingDiagnostics": "22",
+          "constraintsExplanation": "n=23, k=2, exactly n nondecreasing ranks in 1..k; each session promotes one per initially occupied below-general rank simultaneously.",
+          "correctAnswer": "12",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0015",
+          "lfExecutionLogPath": "fresh/63B/lf-33134333.json",
+          "lfExecutionLogSha256": "6f88ac324a7df00624b2b0f723e610a129c22c2faae5a2b3734c2995dbec57e2",
+          "lfExecutionOutputHash": "f14b4987904bcb5814e4459a057ed4d20f58a633152288a761214dcd28780b56",
+          "mathematicalDerivation": "With k=2, twelve rank-1 soldiers require exactly twelve sessions, one becoming rank 2 per session. The eleven existing rank-2 soldiers need no work. Thus 12 is both lower bound and attainable. The source counts 11-1=10 blockers at rank 2, adds 12-1=11 at rank 1 and distance 1, yielding 22 incorrectly.",
+          "mathematicalTracePath": null,
+          "originalIncludedInputPath": "1200/packages/63B/tests/0015.in",
+          "originalInputSha256": "f3d5284d17b5b405d5985eeba2a26ad212cf7f1973507acd3c68125f10ae32be",
+          "sourceHash": "413290abb3638773c9579929b6cce949c2f1e2b0aa999c66b2ec50e069a733aa",
+          "sourceHashBearingReceiptPath": "semantic/proofs/63B/33134333.json",
+          "sourceHashBearingReceiptSha256": "4d886171c86d646e844cde0b46d5cb5245277a5950eae19e9fd5d57da8bd72eb",
+          "validLF": "23 2\n1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2\n",
+          "validLFInputSha256": "145ce4fb8ff92a2c0cb4f4d57a6cdfcd853f6dc073c1c72e894f2df8ee7adf8e"
+        },
+        "excludedNonAlgorithmicCauses": "The __main__ block actually calls solve; test() is an unexecuted helper and is not used as evidence. LF integer 22 is produced normally without diagnostics, CRLF or numeric-format/runtime artifacts. The active rank-k blocking logic causes the overcount.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/63B/lf-33134333.json",
+          "originalLfLogSha256": "6f88ac324a7df00624b2b0f723e610a129c22c2faae5a2b3734c2995dbec57e2",
+          "outputHash": "f14b4987904bcb5814e4459a057ed4d20f58a633152288a761214dcd28780b56",
+          "sourceHash": "413290abb3638773c9579929b6cce949c2f1e2b0aa999c66b2ec50e069a733aa",
+          "sourceHashBearingReceiptPath": "semantic/proofs/63B/33134333.json",
+          "sourceHashBearingReceiptSha256": "4d886171c86d646e844cde0b46d5cb5245277a5950eae19e9fd5d57da8bd72eb",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "The scan treats soldiers already at general rank k as blockers. Generals never need promotion and cannot block the one-per-below-rank training process. The counted 11 generals add ten fictitious blockers to the twelve private promotions.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Counts soldiers at each rank, scans ranks from k downwards, carries a blocking count that is reduced by empty ranks and increased by num_soldier-1, and sets result to blocking plus distance to k.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "413290abb3638773c9579929b6cce949c2f1e2b0aa999c66b2ec50e069a733aa",
+        "sourceLineCount": 31,
+        "sourceLines": [
+          {
+            "code": "def solve(n, k, soldiers):\n    l = [0] * 101\n    for s in soldiers:\n        l[s] += 1\n\n    blocking = 0\n    result = 0\n    for i in range(k, -1, -1):\n        num_soldier = l[i]\n        if num_soldier == 0:\n            blocking = max(0, blocking - 1)\n        else:\n            blocking += num_soldier - 1\n            result = blocking + k - i\n\n    return result",
+            "end": 16,
+            "start": 1
+          },
+          {
+            "code": "if __name__ == '__main__':\n    # test()\n    n, k = list(map(int, input().split()))\n    soldiers = map(int, input().split())\n    print(solve(n, k, soldiers))",
+            "end": 31,
+            "start": 27
+          }
+        ]
+      },
       "sourceHash": "413290abb3638773c9579929b6cce949c2f1e2b0aa999c66b2ec50e069a733aa",
       "test": "0015"
     },
@@ -11489,7 +11686,55 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Adds promoted soldiers to higher rank counters without removing them from their previous rank; phantom soldiers can be promoted repeatedly. Ranks [2,5] with k=6 falsely finish in 2 sessions rather than 4.",
+      "reason": "It never subtracts the promoted soldier from the old rank. Phantom copies stay eligible for later promotion, including the initially rank-5 soldier that is repeatedly counted as a new general.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "2",
+          "actualAnswerAfterRemovingDiagnostics": "2",
+          "constraintsExplanation": "n=2, k=6, exactly n nondecreasing ranks in 1..k; each session promotes one per initially occupied below-general rank simultaneously.",
+          "correctAnswer": "4",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0007",
+          "lfExecutionLogPath": "fresh/63B/lf-3784869.json",
+          "lfExecutionLogSha256": "1196792181d102519ba0ce8a46caf32d30a3c3ef310e9fbeef53a6d072e3822b",
+          "lfExecutionOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "mathematicalDerivation": "Real ranks [2,5], k=6 evolve through [3,6], [4,6], [5,6], [6,6], requiring four sessions because the rank-2 soldier needs four increments. The source leaves ranks[5]=1 after its first promotion, adds another phantom general in session 2, and mistakes general count 2 for all two real soldiers having finished.",
+          "mathematicalTracePath": "semantic/math-traces/63B-0007.json",
+          "originalIncludedInputPath": "1200/packages/63B/tests/0007.in",
+          "originalInputSha256": "b79bf5a7db4098edde6be6bb6f8611b740260a82992839a595d1b64e4895569e",
+          "sourceHash": "813cede80561980262a390e9c15a0bf6b3018f799c1756be30ee1236ecc61497",
+          "sourceHashBearingReceiptPath": "semantic/proofs/63B/3784869.json",
+          "sourceHashBearingReceiptSha256": "a4f4efe0b8666ec5f57bb1dbf3655002c6d1b3d0929975599e5da081088cf73e",
+          "validLF": "2 6\n2 5\n",
+          "validLFInputSha256": "bad44a5a9fe586fcb0ba60eb583a5a5de8f2846f7e41cf9853389a14a8543c4e"
+        },
+        "excludedNonAlgorithmicCauses": "Task construction, solve and printAnswer are all called. The LF execution outputs sole integer 2 with normal exit. A concrete active population-conservation bug, not a placeholder, debug line, CRLF issue or resource limit, causes premature completion.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/63B/lf-3784869.json",
+          "originalLfLogSha256": "1196792181d102519ba0ce8a46caf32d30a3c3ef310e9fbeef53a6d072e3822b",
+          "outputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "sourceHash": "813cede80561980262a390e9c15a0bf6b3018f799c1756be30ee1236ecc61497",
+          "sourceHashBearingReceiptPath": "semantic/proofs/63B/3784869.json",
+          "sourceHashBearingReceiptSha256": "a4f4efe0b8666ec5f57bb1dbf3655002c6d1b3d0929975599e5da081088cf73e",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "It never subtracts the promoted soldier from the old rank. Phantom copies stay eligible for later promotion, including the initially rank-5 soldier that is repeatedly counted as a new general.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Initializes a Counter of ranks and, each session, scans below-general ranks downwards, adding one soldier to the next rank whenever the current rank has positive count; stops when its general counter reaches n.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "813cede80561980262a390e9c15a0bf6b3018f799c1756be30ee1236ecc61497",
+        "sourceLineCount": 28,
+        "sourceLines": [
+          {
+            "code": "    def __init__(self):\n        n, self.k = [int(x) for x in input().split()]\n        self.soldiers = [int(x) for x in input().split()]\n\n    def solve(self):\n        k, soldiers = self.k, self.soldiers\n        ranks = Counter(soldiers)\n        while ranks[k] < len(soldiers):\n            self.answer += 1\n            for i in range(k - 1, 0, -1):\n                ranks[i + 1] += 1 if ranks[i] > 0 else 0\n\n    def printAnswer(self):\n        print(self.answer)\n\ntask = Task()\ntask.solve()\ntask.printAnswer()",
+            "end": 28,
+            "start": 11
+          }
+        ]
+      },
       "sourceHash": "813cede80561980262a390e9c15a0bf6b3018f799c1756be30ee1236ecc61497",
       "test": "0007"
     }
@@ -14452,6 +14697,15 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/9cabeccbc762495b8866ac872dfd4fea",
   "reviewer": "devin-9cabeccbc762495b8866ac872dfd4fea",
   "schemaVersion": 1,
+  "sourceSemanticReview": {
+    "designatedWrongSourceCount": 5,
+    "fullSourcesRead": 5,
+    "genuineAlgorithmicallyWrongCount": 5,
+    "newPublicProgramExecutions": 0,
+    "originalProofsReused": true,
+    "parentFinalVerificationPending": true,
+    "reviewUrl": "https://staging.itsdev.in/sessions/9cabeccbc762495b8866ac872dfd4fea"
+  },
   "sourceVerification": {
     "apiRating": 1200,
     "apiSnapshotHash": "064c4396494cd7a813222335d396816a314d39fad3d9c8680726ab784458b7e0",
@@ -14459,6 +14713,11 @@
     "bundledProvenanceAndSourceHashesVerified": true,
     "independentlyDownloadedStatementAndSubmissionBytes": false,
     "nestedArchiveHash": "248aaea9916c1d0c4201e5e72b4e3a5e79271cba90e04ff1f2a4dbc2a6ed2b42",
-    "pending": "Parent independently crosschecks pinned Hugging Face statement/submission bytes and API identities across batches."
+    "parentReportedUpstreamVerification": {
+      "complete": true,
+      "independentlyReplicatedByThisChild": false,
+      "performedBy": "parent",
+      "scope": "67 pinned files, 600 submission bytes/rows, 60 statement rows, 38 generated suites and frozen API; parent reported exact matches."
+    }
   }
 }

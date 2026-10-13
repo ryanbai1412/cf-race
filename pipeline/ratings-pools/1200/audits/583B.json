@@ -13241,7 +13241,55 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Counts swaps/reorders the requirement array instead of directional traversals; on the recorded permutation it returns 4 reversals instead of 9.",
+      "reason": "Computers have fixed physical positions: swapping requirements is not an allowed robot operation. The swap count is not the number of alternating journeys needed to unlock computers. It reports 4 on the ten-computer permutation requiring 9 reversals.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "4",
+          "actualAnswerAfterRemovingDiagnostics": "4",
+          "constraintsExplanation": "n=10, exactly n nonnegative requirements, each <n. The recorded sweep trace collects all computers, proving solvability.",
+          "correctAnswer": "9",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0008",
+          "lfExecutionLogPath": "fresh/583B/lf-13390561.json",
+          "lfExecutionLogSha256": "ae0620477ed7c8cb61e1a72b09078326cfd188d2eafc19e90f694981487fe87b",
+          "lfExecutionOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+          "mathematicalDerivation": "Each requirement 0..9 occurs once. Starting rightward, the forced collection order by 1-based computer index is 8,2,9,4,10,5,7,1,6,3. Each next required computer lies in the opposite direction from the previous one. Ten collections therefore require nine reversals; nine are sufficient by that itinerary. Reordering these fixed computers is forbidden.",
+          "mathematicalTracePath": "semantic/math-traces/583B-0008.json",
+          "originalIncludedInputPath": "1200/packages/583B/tests/0008.in",
+          "originalInputSha256": "d6f38c5680d7bd464500390fa1609ae13df719895ec7a6b6ee7b57d7bd969ff5",
+          "sourceHash": "8055ba2c15fbfaf2a9a6eb8a7a83956aab003f8d2f210edfb56415c4cbdb9df6",
+          "sourceHashBearingReceiptPath": "semantic/proofs/583B/13390561.json",
+          "sourceHashBearingReceiptSha256": "2e1d96749fd83f34d835671c138e16422fb402466153bfb4744f48f47dd77b16",
+          "validLF": "10\n7 1 9 3 5 8 6 0 2 4\n",
+          "validLFInputSha256": "f2088940e63923b520c5a0e0ee3b16c69bdf74a8dda96dc6078f0613d8efda75"
+        },
+        "excludedNonAlgorithmicCauses": "The top-level swap loop really executes on this problem input, not a placeholder or uncalled routine. The LF replay exits normally and prints one integer 4, so neither CRLF, diagnostics, numeric formatting nor a runtime/TLE failure explains the wrong reversal count.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/583B/lf-13390561.json",
+          "originalLfLogSha256": "ae0620477ed7c8cb61e1a72b09078326cfd188d2eafc19e90f694981487fe87b",
+          "outputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+          "sourceHash": "8055ba2c15fbfaf2a9a6eb8a7a83956aab003f8d2f210edfb56415c4cbdb9df6",
+          "sourceHashBearingReceiptPath": "semantic/proofs/583B/13390561.json",
+          "sourceHashBearingReceiptSha256": "2e1d96749fd83f34d835671c138e16422fb402466153bfb4744f48f47dd77b16",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "Computers have fixed physical positions: swapping requirements is not an allowed robot operation. The swap count is not the number of alternating journeys needed to unlock computers. It reports 4 on the ten-computer permutation requiring 9 reversals.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Reads the computer requirements, scans them by zero-based index, and whenever i<a[i], swaps that requirement with the rightmost later smaller requirement. ret counts these swaps and is printed as the number of robot reversals.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "8055ba2c15fbfaf2a9a6eb8a7a83956aab003f8d2f210edfb56415c4cbdb9df6",
+        "sourceLineCount": 11,
+        "sourceLines": [
+          {
+            "code": "n = int(input())\nA = list(map(int, input().split()))\n\nret = 0\nfor i, a in enumerate(A):\n    if i < a:\n        j = next(j for j in range(n-1, i, -1) if A[j] < a)\n        A[i], A[j] = A[j], A[i]\n        ret += 1\n\nprint(ret)",
+            "end": 11,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "8055ba2c15fbfaf2a9a6eb8a7a83956aab003f8d2f210edfb56415c4cbdb9df6",
       "test": "0008"
     },
@@ -13265,7 +13313,55 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Counts positions i<a[i], ignoring information gathered on alternating sweeps; the recorded permutation needs 9 direction changes, not 4.",
+      "reason": "A position index is not the current amount of collected information. Counting i<a[i] ignores the order and directions in which prerequisite information becomes available. Four such indices exist in the counted permutation, but all ten acquisitions alternate directions.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "4",
+          "actualAnswerAfterRemovingDiagnostics": "4",
+          "constraintsExplanation": "n=10, exactly n nonnegative requirements, each <n. The recorded sweep trace collects all computers, proving solvability.",
+          "correctAnswer": "9",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0008",
+          "lfExecutionLogPath": "fresh/583B/lf-13390642.json",
+          "lfExecutionLogSha256": "e025d32d7d569d913ae3cae6158d261987bf97365183c5ba1a3dcc01aa1efb0a",
+          "lfExecutionOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+          "mathematicalDerivation": "For requirements [7,1,9,3,5,8,6,0,2,4], after each acquisition the next requirement is uniquely 1,2,...,9. The computer indices are 8,2,9,4,10,5,7,1,6,3, alternating left/right every time. Thus 9 direction changes are necessary and sufficient, irrespective of the four indices satisfying i<a[i].",
+          "mathematicalTracePath": "semantic/math-traces/583B-0008.json",
+          "originalIncludedInputPath": "1200/packages/583B/tests/0008.in",
+          "originalInputSha256": "d6f38c5680d7bd464500390fa1609ae13df719895ec7a6b6ee7b57d7bd969ff5",
+          "sourceHash": "d7d950c269559133e2ad46a9f41cb3d95e30bf5ec9e6c75c11a8bf353ebf1272",
+          "sourceHashBearingReceiptPath": "semantic/proofs/583B/13390642.json",
+          "sourceHashBearingReceiptSha256": "91d0958b3cf9dba82117143dd7a97606ca0de1ca2871754a3486a7ba27c8c92c",
+          "validLF": "10\n7 1 9 3 5 8 6 0 2 4\n",
+          "validLFInputSha256": "f2088940e63923b520c5a0e0ee3b16c69bdf74a8dda96dc6078f0613d8efda75"
+        },
+        "excludedNonAlgorithmicCauses": "This is a concrete requirement/index counting algorithm run at top level, not constant output. The immutable LF log contains integer 4 with exit 0 and no diagnostics; line endings, output formatting and resource failures are excluded.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/583B/lf-13390642.json",
+          "originalLfLogSha256": "e025d32d7d569d913ae3cae6158d261987bf97365183c5ba1a3dcc01aa1efb0a",
+          "outputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+          "sourceHash": "d7d950c269559133e2ad46a9f41cb3d95e30bf5ec9e6c75c11a8bf353ebf1272",
+          "sourceHashBearingReceiptPath": "semantic/proofs/583B/13390642.json",
+          "sourceHashBearingReceiptSha256": "91d0958b3cf9dba82117143dd7a97606ca0de1ca2871754a3486a7ba27c8c92c",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "A position index is not the current amount of collected information. Counting i<a[i] ignores the order and directions in which prerequisite information becomes available. Four such indices exist in the counted permutation, but all ten acquisitions alternate directions.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Reads n and the requirement list, counts exactly those zero-based positions i whose requirement a exceeds i, and prints that count.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "d7d950c269559133e2ad46a9f41cb3d95e30bf5ec9e6c75c11a8bf353ebf1272",
+        "sourceLineCount": 9,
+        "sourceLines": [
+          {
+            "code": "n = int(input())\nA = list(map(int, input().split()))\n\nret = 0\nfor i, a in enumerate(A):\n    if i < a:\n        ret += 1\n\nprint(ret)",
+            "end": 9,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "d7d950c269559133e2ad46a9f41cb3d95e30bf5ec9e6c75c11a8bf353ebf1272",
       "test": "0008"
     },
@@ -13299,7 +13395,36 @@
         "verdict": "TLE"
       },
       "kind": "timeout",
-      "reason": "Repeated l.count(-1) at each robot step gives cubic worst-case work; the recorded test times out with no wrong-answer output. Complexity-only evidence is ineligible under this audit request.",
+      "reason": "The traversal implements the required greedy collection semantics, but l.count(-1) scans the whole array on each movement. Alternating unlocks can require O(n^2) movements, giving O(n^3) total work. The counted LF proof times out, with no mathematical answer.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Excluded specifically as performance-only: LF-0040 has timeout=true, exit -24 and empty stdout. The commented print on line 21 is unexecuted and is not a debug-output defect. No counted wrong mathematical result exists.",
+        "executionBinding": {
+          "exitCode": -24,
+          "originalLfLogPath": "fresh/583B/lf-13391933.json",
+          "originalLfLogSha256": "5643f4c920cfc2951c1c62d6ec05cea62652728582f60f28d278ba29fd6fa2ba",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sourceHash": "fda9359008b2478a58f641d17300d530a21be8c4e1c4403f491d5791ef6867b8",
+          "sourceHashBearingReceiptPath": "semantic/proofs/583B/13391933.json",
+          "sourceHashBearingReceiptSha256": "67c00af87e51c100eba7725dcc82e10a5d9d61fabd7cf631a98319debd49832d",
+          "timeout": true,
+          "verdict": "TLE"
+        },
+        "faultyLogic": "The traversal implements the required greedy collection semantics, but l.count(-1) scans the whole array on each movement. Alternating unlocks can require O(n^2) movements, giving O(n^3) total work. The counted LF proof times out, with no mathematical answer.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Simulates the robot one position at a time, increasing k on every still-uncollected requirement it can meet, marking collected entries -1, reversing at endpoints and counting reversals until all n entries are collected.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "fda9359008b2478a58f641d17300d530a21be8c4e1c4403f491d5791ef6867b8",
+        "sourceLineCount": 22,
+        "sourceLines": [
+          {
+            "code": "while(l.count(-1)!=n):\n    if(k>=l[i] and l[i]!=-1):\n        k+=1\n        l[i]=-1\n    if(i==n-1 or (i==0 and p!=0)):\n        if(l.count(-1)==n):\n            break\n        r+=1\n        s=s*-1\n        p=1\n    i+=s\n    #print(l,r)\nprint(r)",
+            "end": 22,
+            "start": 10
+          }
+        ]
+      },
       "sourceHash": "fda9359008b2478a58f641d17300d530a21be8c4e1c4403f491d5791ef6867b8",
       "test": "0040"
     },
@@ -13323,7 +13448,55 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Removing by requirement value rather than by the visited computer removes the first equal-valued occurrence, changing remaining spatial order. Recorded duplicate-rich input returns 16 instead of 21.",
+      "reason": "list.remove(i) deletes the first equal-valued requirement, not the computer actually encountered. A later eligible duplicate can therefore delete an earlier, previously ineligible physical computer, scrambling surviving spatial order and undercounting turns.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "16",
+          "actualAnswerAfterRemovingDiagnostics": "16",
+          "constraintsExplanation": "n=100, exactly n nonnegative requirements, each <n. The recorded sweep trace collects all computers, proving solvability.",
+          "correctAnswer": "21",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0026",
+          "lfExecutionLogPath": "fresh/583B/lf-13434223.json",
+          "lfExecutionLogSha256": "f08703590e74c5007cc7c6a0a10b56696dbadfe008e9b779386164e5cb3b2634",
+          "lfExecutionOutputHash": "e6c21e8d260fe71882debdb339d2402a2ca7648529bc2303f48649bce0380017",
+          "mathematicalDerivation": "A computer identity must be retained after every collection. Greedily collecting every eligible unvisited computer on each alternating physical sweep cannot hurt: information only increases, and skipping a collectible computer cannot unlock anything sooner. For this exact 100-computer input, maximal alternating sweeps have cumulative collected counts [10,17,21,26,31,36,40,45,50,52,56,61,67,69,73,77,81,87,92,95,98,100]. There are 22 necessary sweeps, hence 21 reversals. The independent mathematical trace stores the exact collected computer indices per sweep; removing equal values instead of identities produces the incorrect 16.",
+          "mathematicalTracePath": "semantic/math-traces/583B-0026.json",
+          "originalIncludedInputPath": "1200/packages/583B/tests/0026.in",
+          "originalInputSha256": "927664d238aea8d9fa877e114859927127df470e2604e7ca309bd2f35e01b748",
+          "sourceHash": "6b981f411ae7ec2e8eeab54e54f23f012aadbfcb7f1c906e27b44b223e42af7b",
+          "sourceHashBearingReceiptPath": "semantic/proofs/583B/13434223.json",
+          "sourceHashBearingReceiptSha256": "9e6df97eb7ba62775bedf38c210240d24975b4f817d5ac5773e108c669094c25",
+          "validLF": "100\n13 89 81 0 62 1 59 92 29 13 1 37 2 8 53 15 20 34 12 70 0 85 97 55 84 60 37 54 14 65 22 69 30 22 95 44 59 85 50 80 9 71 91 93 74 21 11 78 28 21 40 81 76 24 26 60 48 85 61 68 89 76 46 73 34 52 98 29 4 38 94 51 5 55 6 27 74 27 38 37 82 70 44 89 51 59 30 37 15 55 63 78 42 39 71 43 4 10 2 13\n",
+          "validLFInputSha256": "091ee344bcf10cbe0cea14ad79c11e7afca83269a6edbf6fa1e038fa292a6c88"
+        },
+        "excludedNonAlgorithmicCauses": "The guarded main body executes and prints integer 16 on LF-0026 without debug output or failure. Numeric parsing uses split(), so CRLF cannot explain it. The duplicate-removal spatial error, not merely a different numeric token, explains why 16 is wrong.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/583B/lf-13434223.json",
+          "originalLfLogSha256": "f08703590e74c5007cc7c6a0a10b56696dbadfe008e9b779386164e5cb3b2634",
+          "outputHash": "e6c21e8d260fe71882debdb339d2402a2ca7648529bc2303f48649bce0380017",
+          "sourceHash": "6b981f411ae7ec2e8eeab54e54f23f012aadbfcb7f1c906e27b44b223e42af7b",
+          "sourceHashBearingReceiptPath": "semantic/proofs/583B/13434223.json",
+          "sourceHashBearingReceiptSha256": "9e6df97eb7ba62775bedf38c210240d24975b4f817d5ac5773e108c669094c25",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "list.remove(i) deletes the first equal-valued requirement, not the computer actually encountered. A later eligible duplicate can therefore delete an earlier, previously ineligible physical computer, scrambling surviving spatial order and undercounting turns.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Keeps a copy of the surviving requirement values, scans the current list in spatial order collecting eligible values, removes each collected value from new_computers, reverses the surviving list for the next sweep, and counts sweeps minus one.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "6b981f411ae7ec2e8eeab54e54f23f012aadbfcb7f1c906e27b44b223e42af7b",
+        "sourceLineCount": 24,
+        "sourceLines": [
+          {
+            "code": "    while num_computers != num_information:\n        for i in computers:\n            if num_information >= i:\n                num_information += 1\n                new_computers.remove(i)\n        if len(new_computers) != 0:\n            computers = []\n            new_computers.reverse()\n            computers.extend(new_computers)\n            num_turns += 1\n    print(num_turns)",
+            "end": 24,
+            "start": 14
+          }
+        ]
+      },
       "sourceHash": "6b981f411ae7ec2e8eeab54e54f23f012aadbfcb7f1c906e27b44b223e42af7b",
       "test": "0026"
     },
@@ -13347,7 +13520,55 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Increments the reversal counter after the final collection and advances incorrectly after popping a computer; [0,2,0] returns 2 instead of the required 1.",
+      "reason": "After popping, indices shift, yet i is advanced; more importantly, the endpoint reversal is charged even when that pop just collected the final computer. The counted three-computer case charges an unnecessary final reversal.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "2",
+          "actualAnswerAfterRemovingDiagnostics": "2",
+          "constraintsExplanation": "n=3, exactly n nonnegative requirements, each <n. The recorded sweep trace collects all computers, proving solvability.",
+          "correctAnswer": "1",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0001",
+          "lfExecutionLogPath": "fresh/583B/lf-13434713.json",
+          "lfExecutionLogSha256": "0f439237037c9d29cc08e62aeb24ee992ba000863863fc76f7fb066e54225d1c",
+          "lfExecutionOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "mathematicalDerivation": "With requirements [0,2,0], the robot starts at computer 1 and takes its information, moves right past locked computer 2 and collects computer 3, then reverses once to collect computer 2 with two information pieces. Zero reversals cannot revisit computer 2 after getting the second piece. Exactly one is optimal; no return trip is needed after the final collection.",
+          "mathematicalTracePath": "semantic/math-traces/583B-0001.json",
+          "originalIncludedInputPath": "1200/packages/583B/tests/0001.in",
+          "originalInputSha256": "787477b4a7b118db435eb60235016e51176bdedfb967008a8f27ec77796f7d8f",
+          "sourceHash": "bdc4c224dd82fa8831bc6a05e476a9b7dcb39d3d1ea5ea738ef1db24d81e10fd",
+          "sourceHashBearingReceiptPath": "semantic/proofs/583B/13434713.json",
+          "sourceHashBearingReceiptSha256": "bc884c4ae1fb11f59e9d2b4a4246c84aada4cbc45560ba0a5784b3100f1b3b5a",
+          "validLF": "3\n0 2 0\n",
+          "validLFInputSha256": "d4959e55ae1352d31c949bd4487b29eb3f20d90488a166ba950921d67b09d4b9"
+        },
+        "excludedNonAlgorithmicCauses": "The main guard executes the pop/direction loop on valid LF integer input and prints a single integer 2, with exit 0. It is an actual attempted journey simulation, not a placeholder, diagnostic output or time-limit defect.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/583B/lf-13434713.json",
+          "originalLfLogSha256": "0f439237037c9d29cc08e62aeb24ee992ba000863863fc76f7fb066e54225d1c",
+          "outputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "sourceHash": "bdc4c224dd82fa8831bc6a05e476a9b7dcb39d3d1ea5ea738ef1db24d81e10fd",
+          "sourceHashBearingReceiptPath": "semantic/proofs/583B/13434713.json",
+          "sourceHashBearingReceiptSha256": "bc884c4ae1fb11f59e9d2b4a4246c84aada4cbc45560ba0a5784b3100f1b3b5a",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "After popping, indices shift, yet i is advanced; more importantly, the endpoint reversal is charged even when that pop just collected the final computer. The counted three-computer case charges an unnecessary final reversal.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Maintains a shrinking list of uncollected computers, collects by popping index i when its requirement is met, reverses at the current list endpoints, increments num_turns, and adjusts i in the chosen direction.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "bdc4c224dd82fa8831bc6a05e476a9b7dcb39d3d1ea5ea738ef1db24d81e10fd",
+        "sourceLineCount": 31,
+        "sourceLines": [
+          {
+            "code": "    while num_computers != num_information:\n        if num_information >= computers[i]:\n                num_information += 1\n                computers.pop(i)\n        if left_to_right and i >= len(computers) - 1:\n            left_to_right = False\n            num_turns += 1\n        elif not left_to_right and i == 0:\n            left_to_right = True\n            num_turns += 1\n\n        if left_to_right:\n            i += 1\n        else:\n            i -= 1\n\n    print(num_turns)",
+            "end": 31,
+            "start": 15
+          }
+        ]
+      },
       "sourceHash": "bdc4c224dd82fa8831bc6a05e476a9b7dcb39d3d1ea5ea738ef1db24d81e10fd",
       "test": "0001"
     }
@@ -15747,11 +15968,20 @@
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
-    "13391933: timeout: Repeated l.count(-1) at each robot step gives cubic worst-case work; the recorded test times out with no wrong-answer output. Complexity-only evidence is ineligible under this audit request."
+    "13391933: timeout: The traversal implements the required greedy collection semantics, but l.count(-1) scans the whole array on each movement. Alternating unlocks can require O(n^2) movements, giving O(n^3) total work. The counted LF proof times out, with no mathematical answer."
   ],
   "reviewUrl": "https://staging.itsdev.in/sessions/9cabeccbc762495b8866ac872dfd4fea",
   "reviewer": "devin-9cabeccbc762495b8866ac872dfd4fea",
   "schemaVersion": 1,
+  "sourceSemanticReview": {
+    "designatedWrongSourceCount": 5,
+    "fullSourcesRead": 5,
+    "genuineAlgorithmicallyWrongCount": 4,
+    "newPublicProgramExecutions": 0,
+    "originalProofsReused": true,
+    "parentFinalVerificationPending": true,
+    "reviewUrl": "https://staging.itsdev.in/sessions/9cabeccbc762495b8866ac872dfd4fea"
+  },
   "sourceVerification": {
     "apiRating": 1200,
     "apiSnapshotHash": "064c4396494cd7a813222335d396816a314d39fad3d9c8680726ab784458b7e0",
@@ -15759,6 +15989,11 @@
     "bundledProvenanceAndSourceHashesVerified": true,
     "independentlyDownloadedStatementAndSubmissionBytes": false,
     "nestedArchiveHash": "98edb6d54d1bc59c6f5e21dce08085b7658182a2887921b8f59195b25f18bc5a",
-    "pending": "Parent independently crosschecks pinned Hugging Face statement/submission bytes and API identities across batches."
+    "parentReportedUpstreamVerification": {
+      "complete": true,
+      "independentlyReplicatedByThisChild": false,
+      "performedBy": "parent",
+      "scope": "67 pinned files, 600 submission bytes/rows, 60 statement rows, 38 generated suites and frozen API; parent reported exact matches."
+    }
   }
 }

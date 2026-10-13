@@ -11855,7 +11855,36 @@
         "verdict": "WA"
       },
       "kind": "line-ending-artifact",
-      "reason": "input() retains CR from the binary CRLF input. Extra CR makes two-letter words appear to have three letters and excludes them; the counted test changes from 4 to the correct 9 on LF.",
+      "reason": "Unstripped input() retains CR in the binary CRLF input, so a genuinely two-letter word such as abb gains a third set member and is discarded. The counted LF corpus produces the correct 9. Set-key ordering and second-largest tracking may fail on other corpora, but are not the counted proof.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "LF-0001 is AC with integer 9 and normal exit. Its original 4 is attributable to CR retention, not a proven mathematical selection mistake on the valid LF corpus. No new or uncounted defect is substituted.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/593A/lf-14067064.json",
+          "originalLfLogSha256": "30a67ad690913146f90063a03cf119c3fd7d7c8a61345d17e1818eb302f6c79a",
+          "outputHash": "2e6d31a5983a91251bfae5aefa1c0a19d8ba3cf601d0e8a706b4cfa9661a6b8a",
+          "sourceHash": "c9364357f8ceccf2d2e7e248ead5805e6cf84750fc3cc51e5f8b8d2818d23a81",
+          "sourceHashBearingReceiptPath": "semantic/proofs/593A/14067064.json",
+          "sourceHashBearingReceiptSha256": "00b65a52bf61c9e464e7d2c7b65441ae0baf2b3a5da52d0fd0b99cc44ade4ce1",
+          "timeout": false,
+          "verdict": "AC"
+        },
+        "faultyLogic": "Unstripped input() retains CR in the binary CRLF input, so a genuinely two-letter word such as abb gains a third set member and is discarded. The counted LF corpus produces the correct 9. Set-key ordering and second-largest tracking may fail on other corpora, but are not the counted proof.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Aggregates lengths of words having at most two distinct characters into set-derived keys. For each two-letter key it adds the matching singleton word totals, and also considers the two largest singleton totals.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "c9364357f8ceccf2d2e7e248ead5805e6cf84750fc3cc51e5f8b8d2818d23a81",
+        "sourceLineCount": 28,
+        "sourceLines": [
+          {
+            "code": "while n>0:\n    n-=1\n    s=input()\n    ss=set(s)\n    if len(ss)<3:\n        el=''\n        for i in ss:\n            el+=i\n        ds.update({el:ds.get(el,0)+len(s)})\nmaxds=0\nmaxds1=0\nmaxds2=0\nfor i in ds:\n    if len(i)==1:\n        if maxds1<ds[i]:\n            maxds1=ds[i]\n        else:\n            if maxds2<ds[i]:\n                maxds2=ds[i]\n    if len(i)==2:\n        m=ds[i]+ds.get(i[0],0)+ds.get(i[1],0)\n        if maxds<m:\n            maxds=m\nif maxds<maxds1+maxds2:\n    maxds=maxds1+maxds2\nprint(maxds)",
+            "end": 28,
+            "start": 3
+          }
+        ]
+      },
       "sourceHash": "c9364357f8ceccf2d2e7e248ead5805e6cf84750fc3cc51e5f8b8d2818d23a81",
       "test": "0001"
     },
@@ -11879,7 +11908,41 @@
         "verdict": "WA"
       },
       "kind": "debug-output",
-      "reason": "Prints maxsum as an extra first answer, then prints the actual answer. LF-normalized counted test prints 6 then 9; its final answer is correct. Extra output is ineligible.",
+      "reason": "It actively prints the intermediate singleton candidate maxsum before printing the final maximum. For the counted LF corpus these are 6 and 9; the final mathematical answer 9 is correct.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Line 38 emits a diagnostic/intermediate candidate, while line 42 emits the actual answer. After disregarding that diagnostic line the existing unmodified-source LF output contains the correct 9. CRLF also changes word sets, but no counted mathematical WA survives LF and removal of diagnostics.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/593A/lf-14076196.json",
+          "originalLfLogSha256": "46e043488b34b78dbc074809c2e28d5f401506eeff3e1411abb7768495314d39",
+          "outputHash": "294bdb5fea4b1f8121dbc81377522f4fd5ac0f16b0d9d4b737ea2ea6d0caff13",
+          "sourceHash": "c88ff4fc59555f6865ec76fc77f978c36b18551ab9c43b964d7c31ad63c2b23e",
+          "sourceHashBearingReceiptPath": "semantic/proofs/593A/14076196.json",
+          "sourceHashBearingReceiptSha256": "04665849e45ca357ab6df61f260fb904e89e6323105e0e14e3781a6264e647e0",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "It actively prints the intermediate singleton candidate maxsum before printing the final maximum. For the counted LF corpus these are 6 and 9; the final mathematical answer 9 is correct.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Aggregates two-letter word totals by unordered-pair keys, augments them with singleton-word totals as those arrive, separately totals the best two singleton groups, and takes the maximum of pair and singleton alternatives.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "c88ff4fc59555f6865ec76fc77f978c36b18551ab9c43b964d7c31ad63c2b23e",
+        "sourceLineCount": 42,
+        "sourceLines": [
+          {
+            "code": "    s=input()\n    s1=''.join(set(s))\n    count=len(s1)\n    if count==2:\n        if s1 in dict2.keys():\n            dict2[s1]+=len(s)\n        elif s1[::-1] in dict2.keys():\n            dict2[s1[::-1]]+=len(s)\n        else:\n            dict2[s1]=len(s)\n            for a in dict2.keys():\n                if a in s1 and (s1!=a):\n                    dict2[s1]+=dict2[a]\n    if count==1:\n        for a in dict2.keys():\n            if s1 in a and (s1!=a):\n                dict2[a]+=len(s)\n        if s1 in dict2.keys():\n            dict2[s1]+=len(s)\n        else:\n            #print('hey')\n            dict2[s1]=len(s)",
+            "end": 26,
+            "start": 5
+          },
+          {
+            "code": "dict2['0']=0\nmaxsum=0\ncount2=2\nfor key,value in sorted(dict2.items(),key=operator.itemgetter(1),reverse=True):\n    if len(key)==1:\n        #print('hr',value)\n        maxsum+=value\n        count2-=1\n    if count2==0:\n        break\nprint(maxsum)\na=max(maxsum,max(dict2.values()))\nans=str(a)\n\nprint(str(ans))",
+            "end": 42,
+            "start": 28
+          }
+        ]
+      },
       "sourceHash": "c88ff4fc59555f6865ec76fc77f978c36b18551ab9c43b964d7c31ad63c2b23e",
       "test": "0001"
     },
@@ -11903,7 +11966,60 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Only enumerates combinations of two distinct letters; a corpus containing just a single letter has no candidate combination, so it returns 0 for a nonempty valid article.",
+      "reason": "It considers only pairs from the present alphabet. If the alphabet contains one letter, itertools.combinations(all_letters,2) is empty and maxval stays 0 despite a valid one-letter article.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "0",
+          "actualAnswerAfterRemovingDiagnostics": "0",
+          "constraintsExplanation": "n=1 whole lowercase nonempty words, every length <=1000. All word subsets were separately enumerated; no partial word selection is allowed.",
+          "correctAnswer": "1",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0003",
+          "lfExecutionLogPath": "fresh/593A/lf-14076482.json",
+          "lfExecutionLogSha256": "cb2104c054cf3b7763a1ce2509e5da5e05ce7a9b985da274f1bac25ddbd1726f",
+          "lfExecutionOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "mathematicalDerivation": "The sole word is a, containing one distinct letter and length one. The problem permits at most two distinct letters, not exactly two. Selecting that entire word yields length 1; no longer article is possible because only one character exists.",
+          "mathematicalTracePath": null,
+          "originalIncludedInputPath": "1200/packages/593A/tests/0003.in",
+          "originalInputSha256": "01de1d4176d3942255f66ec127cede84a4ff2e99be06740c6b95e5d34301176e",
+          "sourceHash": "77003cc71a1e8ec90f3342b93e3016583928592609cf9f36e319e2bb08732bf4",
+          "sourceHashBearingReceiptPath": "semantic/proofs/593A/14076482.json",
+          "sourceHashBearingReceiptSha256": "78cd448c75b8997e6429344e3f0d66e935c7814f3d18396dd67a43e8c963d3e3",
+          "validLF": "1\na\n",
+          "validLFInputSha256": "2ca6ff62f75b34051d34914c29499688dd1a80a1e6f2fc3d316ca2ed7f9952c3"
+        },
+        "excludedNonAlgorithmicCauses": "main actually calls solve; the stderr helper is unused. input().strip() eliminates CR artifacts, and the LF log exits 0 with sole integer 0. The absent singleton candidate is a real mathematical optimization omission, not formatting or a placeholder.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/593A/lf-14076482.json",
+          "originalLfLogSha256": "cb2104c054cf3b7763a1ce2509e5da5e05ce7a9b985da274f1bac25ddbd1726f",
+          "outputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "sourceHash": "77003cc71a1e8ec90f3342b93e3016583928592609cf9f36e319e2bb08732bf4",
+          "sourceHashBearingReceiptPath": "semantic/proofs/593A/14076482.json",
+          "sourceHashBearingReceiptSha256": "78cd448c75b8997e6429344e3f0d66e935c7814f3d18396dd67a43e8c963d3e3",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "It considers only pairs from the present alphabet. If the alphabet contains one letter, itertools.combinations(all_letters,2) is empty and maxval stays 0 despite a valid one-letter article.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "solve filters out words with more than two letters, builds the set of letters present, enumerates every pair of distinct letters and sums lengths of whole words whose counters use only that pair. main strips input lines and calls solve.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "77003cc71a1e8ec90f3342b93e3016583928592609cf9f36e319e2bb08732bf4",
+        "sourceLineCount": 43,
+        "sourceLines": [
+          {
+            "code": "def solve(xs):\n    counts = [collections.Counter(s) for s in xs if len(set(s)) <= 2]\n    all_letters = set(it.chain.from_iterable(counts))\n    maxval = 0\n    for (a, b) in it.combinations(all_letters, 2):\n        maxlocal = 0\n        for d in counts:\n            if all(l in (a, b) for l in d):\n                maxlocal += d[a] + d[b]\n        maxval = max(maxval, maxlocal)\n    return maxval",
+            "end": 28,
+            "start": 18
+          },
+          {
+            "code": "def main():\n    n = int(input())\n    xs = [input().strip() for _ in range(n)]\n    result = solve(xs)\n    print(result)\n\n\nif __name__ == '__main__':\n    main()",
+            "end": 43,
+            "start": 35
+          }
+        ]
+      },
       "sourceHash": "77003cc71a1e8ec90f3342b93e3016583928592609cf9f36e319e2bb08732bf4",
       "test": "0003"
     },
@@ -11927,7 +12043,36 @@
         "verdict": "WA"
       },
       "kind": "line-ending-artifact",
-      "reason": "Builds its alphabet from unstripped input lines; CR becomes a third letter and discards otherwise eligible words. LF counted test returns the correct 9 instead of 4. It has a separate single-letter issue, but that is not the counted counterexample.",
+      "reason": "A retained CR becomes an extra letter of each input word. On LF-0001 it correctly chooses a/b words of total length 9, so the original 4 is only the line-ending artifact there. Missing singleton-pair enumeration is a separate uncounted defect.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "The counted LF replay is AC with normal integer output 9. It is not permissible to reuse a different singleton counterexample without replacing and fully validating the designated evidence; this recorded entry remains nonqualifying.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/593A/lf-14079331.json",
+          "originalLfLogSha256": "81ed40d37a9e054c346c3ddaf01d3e30d6f94b9dd0a62a4c193d3ac11aa48941",
+          "outputHash": "2e6d31a5983a91251bfae5aefa1c0a19d8ba3cf601d0e8a706b4cfa9661a6b8a",
+          "sourceHash": "43e554a060199340135d9f439eb6626c502968689e735a0f74ad49068672ab27",
+          "sourceHashBearingReceiptPath": "semantic/proofs/593A/14079331.json",
+          "sourceHashBearingReceiptSha256": "88238914dc70fb1221581c16851a207d5406d6ecb35a0c271e644959ed89142f",
+          "timeout": false,
+          "verdict": "AC"
+        },
+        "faultyLogic": "A retained CR becomes an extra letter of each input word. On LF-0001 it correctly chooses a/b words of total length 9, so the original 4 is only the line-ending artifact there. Missing singleton-pair enumeration is a separate uncounted defect.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Builds the alphabet from all unstripped input characters, enumerates alphabet pairs, and for each pair sums the lengths of whole words whose characters all belong to that pair.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "43e554a060199340135d9f439eb6626c502968689e735a0f74ad49068672ab27",
+        "sourceLineCount": 28,
+        "sourceLines": [
+          {
+            "code": "n = int(input())\nwords = [input() for x in range(n)]\nletterList = []\nfor i in words:\n    for character in i:\n        if character not in letterList:\n            letterList.append(character)\n\nmaxLength = 0\nallCombinations = itertools.combinations(letterList,2)\n\nfor c in allCombinations:\n    a,b = list(c)[0],list(c)[1]\n    length = 0\n    for word in words:\n        j = 0\n        for character in word:\n            j += 1\n            if character != a and character != b:\n                break\n            if j == len(word):\n                length += len(word)\n    if length > maxLength:\n        maxLength = length\n\nprint(maxLength)",
+            "end": 28,
+            "start": 3
+          }
+        ]
+      },
       "sourceHash": "43e554a060199340135d9f439eb6626c502968689e735a0f74ad49068672ab27",
       "test": "0001"
     },
@@ -11951,7 +12096,55 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Adds the two most frequent individual characters even when they occur in words containing a forbidden third letter; the recorded corpus returns 10 rather than the attainable whole-word length 9.",
+      "reason": "The article may concatenate whole words only. Counting a characters from cacc while ignoring that word's c characters invents a forbidden partial-word selection. The two highest character frequencies are a=5 and b=5, giving 10 instead of the attainable whole-word maximum 9.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "10",
+          "actualAnswerAfterRemovingDiagnostics": "10",
+          "constraintsExplanation": "n=4 whole lowercase nonempty words, every length <=1000. All word subsets were separately enumerated; no partial word selection is allowed.",
+          "correctAnswer": "9",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0001",
+          "lfExecutionLogPath": "fresh/593A/lf-14081751.json",
+          "lfExecutionLogSha256": "0f35af3e09912de5776407e9190684583d3e50d8c11d2bb241653adca5b75960",
+          "lfExecutionOutputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+          "mathematicalDerivation": "For words abb,cacc,aaa,bbb, the a/b pair allows abb+aaa+bbb of lengths 3+3+3=9. The a/c pair allows cacc+aaa of lengths 4+3=7; b/c allows only bbb of length 3. Other pairs cannot improve these. The frequency total 5 a plus 5 b counts two a characters from the excluded whole word cacc and is unattainable.",
+          "mathematicalTracePath": null,
+          "originalIncludedInputPath": "1200/packages/593A/tests/0001.in",
+          "originalInputSha256": "3fb432bc792b9df3c6bfc486a1f451d432a7b75595f50299761de6eb23bc991d",
+          "sourceHash": "8f99c8cbd7823dd623bfee350a65f952d8722df3728994a84cc8f14aca8f46b8",
+          "sourceHashBearingReceiptPath": "semantic/proofs/593A/14081751.json",
+          "sourceHashBearingReceiptSha256": "0148bdc1e630760162210d0100ffd1d5232f3d00913aff73b2d840752ff8c2f9",
+          "validLF": "4\nabb\ncacc\naaa\nbbb\n",
+          "validLFInputSha256": "8196babc863ec2107fd35de5f925aa594e871afdfe46cc17d354bd23601274c0"
+        },
+        "excludedNonAlgorithmicCauses": "The top-level frequency algorithm executes and the LF log contains only 10 with exit 0. Its a-z scan ignores retained CR anyway. No debug line, unsupported runtime, constant output or decimal formatting causes the discrepancy.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/593A/lf-14081751.json",
+          "originalLfLogSha256": "0f35af3e09912de5776407e9190684583d3e50d8c11d2bb241653adca5b75960",
+          "outputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+          "sourceHash": "8f99c8cbd7823dd623bfee350a65f952d8722df3728994a84cc8f14aca8f46b8",
+          "sourceHashBearingReceiptPath": "semantic/proofs/593A/14081751.json",
+          "sourceHashBearingReceiptSha256": "0148bdc1e630760162210d0100ffd1d5232f3d00913aff73b2d840752ff8c2f9",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "The article may concatenate whole words only. Counting a characters from cacc while ignoring that word's c characters invents a forbidden partial-word selection. The two highest character frequencies are a=5 and b=5, giving 10 instead of the attainable whole-word maximum 9.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Counts individual occurrences of each character across every input word, finds the two greatest a-z character frequencies, and prints their sum, without selecting eligible whole words.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "8f99c8cbd7823dd623bfee350a65f952d8722df3728994a84cc8f14aca8f46b8",
+        "sourceLineCount": 24,
+        "sourceLines": [
+          {
+            "code": "for i in range(int(n)):\n    s=input()\n    for c in s:\n        if c in d:\n            d[c]+=1\n        else:\n            d[c]=1\nm1=0\nm2=0\n\nfor i in range(97,123):\n    if d.get(chr(i),0)>m1:\n        m2=m1\n        m1=d.get(chr(i),0)\n    else:\n        if d.get(chr(i),0)==m1:\n            m2=m1\n        else:\n            if d.get(chr(i),0)>m2:\n                m2=d.get(chr(i),0)\n\nprint(m1+m2)",
+            "end": 24,
+            "start": 3
+          }
+        ]
+      },
       "sourceHash": "8f99c8cbd7823dd623bfee350a65f952d8722df3728994a84cc8f14aca8f46b8",
       "test": "0001"
     }
@@ -15485,13 +15678,22 @@
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
-    "14067064: line-ending-artifact: input() retains CR from the binary CRLF input. Extra CR makes two-letter words appear to have three letters and excludes them; the counted test changes from 4 to the correct 9 on LF.",
-    "14076196: debug-output: Prints maxsum as an extra first answer, then prints the actual answer. LF-normalized counted test prints 6 then 9; its final answer is correct. Extra output is ineligible.",
-    "14079331: line-ending-artifact: Builds its alphabet from unstripped input lines; CR becomes a third letter and discards otherwise eligible words. LF counted test returns the correct 9 instead of 4. It has a separate single-letter issue, but that is not the counted counterexample."
+    "14067064: line-ending-artifact: Unstripped input() retains CR in the binary CRLF input, so a genuinely two-letter word such as abb gains a third set member and is discarded. The counted LF corpus produces the correct 9. Set-key ordering and second-largest tracking may fail on other corpora, but are not the counted proof.",
+    "14076196: debug-output: It actively prints the intermediate singleton candidate maxsum before printing the final maximum. For the counted LF corpus these are 6 and 9; the final mathematical answer 9 is correct.",
+    "14079331: line-ending-artifact: A retained CR becomes an extra letter of each input word. On LF-0001 it correctly chooses a/b words of total length 9, so the original 4 is only the line-ending artifact there. Missing singleton-pair enumeration is a separate uncounted defect."
   ],
   "reviewUrl": "https://staging.itsdev.in/sessions/9cabeccbc762495b8866ac872dfd4fea",
   "reviewer": "devin-9cabeccbc762495b8866ac872dfd4fea",
   "schemaVersion": 1,
+  "sourceSemanticReview": {
+    "designatedWrongSourceCount": 5,
+    "fullSourcesRead": 5,
+    "genuineAlgorithmicallyWrongCount": 2,
+    "newPublicProgramExecutions": 0,
+    "originalProofsReused": true,
+    "parentFinalVerificationPending": true,
+    "reviewUrl": "https://staging.itsdev.in/sessions/9cabeccbc762495b8866ac872dfd4fea"
+  },
   "sourceVerification": {
     "apiRating": 1200,
     "apiSnapshotHash": "064c4396494cd7a813222335d396816a314d39fad3d9c8680726ab784458b7e0",
@@ -15499,6 +15701,11 @@
     "bundledProvenanceAndSourceHashesVerified": true,
     "independentlyDownloadedStatementAndSubmissionBytes": false,
     "nestedArchiveHash": "1d438792468549b751984f56859643f5a4c7bef2effcc63f36bf2b6347902534",
-    "pending": "Parent independently crosschecks pinned Hugging Face statement/submission bytes and API identities across batches."
+    "parentReportedUpstreamVerification": {
+      "complete": true,
+      "independentlyReplicatedByThisChild": false,
+      "performedBy": "parent",
+      "scope": "67 pinned files, 600 submission bytes/rows, 60 statement rows, 38 generated suites and frozen API; parent reported exact matches."
+    }
   }
 }
