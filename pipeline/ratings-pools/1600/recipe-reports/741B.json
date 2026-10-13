@@ -1,0 +1,306 @@
+{
+  "id": "741B",
+  "role": "recipe-author",
+  "notAudit": "Author report only. Not an independent audit, signoff, qualification or validated-problem count; parent qualification and a different-agent audit are still required.",
+  "title": "Arpa's weak amphitheater and Mehrdad's valuable Hoses",
+  "aliases": [
+    "741/B",
+    "742/D"
+  ],
+  "inputIntegrity": {
+    "archive": "rating1600-source-backed-recipe-inputs.tar.gz",
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "archiveBytes": 4542856,
+    "inputFile": "inputs/741B.json",
+    "inputSha256": "d89d6e0756389ddc394ad66e7825bcf3f1f02a8eaa2181cbb859e1fc0ca5874e",
+    "inputBytes": 68216,
+    "manifestMatch": true,
+    "sourceRowHash": "90d8271fa8d78a0f620171865304909c2cf8b65abcb0a12f2a4d76f8464786a5",
+    "recomputedSourceRowHash": "90d8271fa8d78a0f620171865304909c2cf8b65abcb0a12f2a4d76f8464786a5",
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "sourceShard": {
+      "bytes": 281027001,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00007-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "7e2117698a2a6c20e2047d0b478a77c58f9644ba25777911fa40145afacf18b2",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00007-of-00011.parquet"
+    }
+  },
+  "publicStatement": {
+    "url": "https://codeforces.me/problemset/problem/741/B?locale=en",
+    "httpStatus": 200,
+    "bodyBytes": 62528,
+    "bodySha256": "b4a8e34dcc2725bde51b2bb0928a32da52e6201f71de3d1fda6f184f5a01e692",
+    "problemStatementDiv": {
+      "byteRange": [
+        36789,
+        43580
+      ],
+      "bytes": 6791,
+      "sha256": "32fad2d82873e0c49f5f83b9e377026ce80547dbeae34b4a8f189647195dabae",
+      "savedCopy": "statement-sources/741B.recipe-author.original.html"
+    },
+    "images": [
+      {
+        "url": "https://espresso.codeforces.com/d7c2e8a9e8825bf9bd011e1092ebea5aeb2a1238.png",
+        "sha256": "09c78c061d5e16b4a5df9bcb2a3d08ade6bd533be6308690879f8b26575b7ae5",
+        "role": "m-constraint formula",
+        "visualReading": "0 <= m <= min(n(n-1)/2, 10^5)",
+        "agreesWithSourceRowTeX": true
+      },
+      {
+        "url": "https://espresso.codeforces.com/06c6e83602b56f97aa5d67634ad76cab1cb35a69.png",
+        "sha256": "16f067d55b3a82d66738caa0a9dd8b41b9354cdb4bbe6319b4d60fc9060780f2",
+        "role": "decorative illustration; defines no semantics"
+      }
+    ]
+  },
+  "sourceCorrectionProposals": [
+    {
+      "field": "input_format",
+      "upstreamText": "(1 ≤ bi ≤ 106)",
+      "proposed": "(1 ≤ b_i ≤ 10^6)",
+      "evidence": "public statement HTML: 10<sup class=\"upper-index\">6</sup> inside the b_i constraint span",
+      "appliedToImportedBytes": false
+    }
+  ],
+  "noCorrectionNeeded": [
+    "n <= 1000, w <= 1000 and w_i <= 1000 are literal in both sources",
+    "m bound already TeX ($$0 \\leq m \\leq \\min(...,10^5)$$) in the row and matches the formula image"
+  ],
+  "semantics": "Line 1: n m w (1<=n<=1000, 0<=m<=min(n(n-1)/2,10^5), 1<=w<=1000); line 2: n weights 1..1000; line 3: n beauties 1..10^6; then m lines x y (1<=x,y<=n, x!=y, all pairs distinct). Friendship groups are connected components; from each group invite all of it, exactly one member, or nobody. Print the unique maximum total beauty with total weight <= w (0 when nothing fits; at most 1000*10^6 = 10^9). Oracle: union-find components plus grouped knapsack over capacities in O((n+groups)*w); checked against subset enumeration with transitive-closure groups, per-group option enumeration, and a sparse exact-weight DP.",
+  "interpretationNotes": [
+    "Friendship pairs are treated as unordered: a pair and its reverse are rejected together as duplicates (m <= n(n-1)/2 only makes sense for unordered pairs); a lone reversed pair is valid.",
+    "Unique scalar output; stdio; no checker needed (generated_checker is null); not interactive, no floating point, no multiple valid outputs.",
+    "Parser requires exactly 3 + m non-empty lines (LF or CRLF, optional final newline), canonical decimal integers without sign/leading zeros."
+  ],
+  "exclusion": null,
+  "officialSuite": {
+    "declaredTestsetSize": 68,
+    "suppliedOfficialTests": 9,
+    "officialTestsComplete": false,
+    "generatedTestsInRow": 20,
+    "validationBlockers": [
+      "incomplete-official-suite"
+    ],
+    "maxSuppliedN": 10,
+    "results": [
+      {
+        "index": 1,
+        "inputSha256": "243eac0383800b9209e3c62d95d185406801d3c999befd7e09ba012809116208",
+        "n": 3,
+        "m": 1,
+        "w": 5,
+        "recordedOutput": "6",
+        "oracle": 6,
+        "crlf": true,
+        "status": "match"
+      },
+      {
+        "index": 2,
+        "inputSha256": "2421c9824266090b80443bc2ab41fdab48ea418b800a2b3ab42cec0f131e765d",
+        "n": 4,
+        "m": 2,
+        "w": 11,
+        "recordedOutput": "7",
+        "oracle": 7,
+        "crlf": true,
+        "status": "match"
+      },
+      {
+        "index": 3,
+        "inputSha256": "e685275a63d51de3c0e23baa1e2aabe07ca58b68c8ed776786be658b7669c866",
+        "n": 10,
+        "m": 5,
+        "w": 100,
+        "recordedOutput": "2383854",
+        "oracle": 2383854,
+        "crlf": true,
+        "status": "match"
+      },
+      {
+        "index": 4,
+        "inputSha256": "81521083626ec482476f7af7ffff90a06d0dcf9b330a883e4e75a3c976e6a661",
+        "n": 10,
+        "m": 5,
+        "w": 100,
+        "recordedOutput": "1495706",
+        "oracle": 1495706,
+        "crlf": true,
+        "status": "match"
+      },
+      {
+        "index": 5,
+        "inputSha256": "dcf77918f3056a48994f9eecdda64d78c1a1ab78d8b5c9acef59104f0db4bdb1",
+        "n": 10,
+        "m": 5,
+        "w": 100,
+        "recordedOutput": "2050129",
+        "oracle": 2050129,
+        "crlf": true,
+        "status": "match"
+      },
+      {
+        "index": 6,
+        "inputSha256": "5c0ab05eb4f6b541dd1dfe1c50647806ee8818998240ff7f00b519da92080bb8",
+        "n": 10,
+        "m": 5,
+        "w": 100,
+        "recordedOutput": "1791132",
+        "oracle": 1791132,
+        "crlf": true,
+        "status": "match"
+      },
+      {
+        "index": 7,
+        "inputSha256": "d62e9d7ab6cb99b3b2b70f1226f93c2c37a656468d7f442954e81eea7e255f26",
+        "n": 10,
+        "m": 5,
+        "w": 100,
+        "recordedOutput": "2237435",
+        "oracle": 2237435,
+        "crlf": true,
+        "status": "match"
+      },
+      {
+        "index": 8,
+        "inputSha256": "229f03583cc6c7a092998520d4f642cc187b2eab814130a03ac0d3b2e72f8cab",
+        "n": 10,
+        "m": 5,
+        "w": 100,
+        "recordedOutput": "1922676",
+        "oracle": 1922676,
+        "crlf": true,
+        "status": "match"
+      },
+      {
+        "index": 9,
+        "inputSha256": "1f9db75baa67829399360ded86a5692fd0fb8752365f39ed555d1223809308a2",
+        "n": 10,
+        "m": 5,
+        "w": 100,
+        "recordedOutput": "2456033",
+        "oracle": 2456033,
+        "crlf": true,
+        "status": "match"
+      }
+    ],
+    "samples": [
+      {
+        "index": 1,
+        "recordedOutput": "6",
+        "oracle": 6,
+        "status": "match"
+      },
+      {
+        "index": 2,
+        "recordedOutput": "7",
+        "oracle": 7,
+        "status": "match"
+      }
+    ],
+    "reviewErrors": []
+  },
+  "malformedOrContradictoryUpstreamPairs": [],
+  "authoredExtras": {
+    "count": 150,
+    "categories": {
+      "boundary": 15,
+      "adversarial": 129,
+      "maxSize": 6
+    },
+    "seed": 741002,
+    "sha256OfJson": "ee22384c6b1b4c30da008243ae454a3b3d5cb0bdf49f83dea2310ed2e789661f",
+    "maxDimensionCases": [
+      [
+        447,
+        99681
+      ],
+      [
+        1000,
+        0
+      ],
+      [
+        1000,
+        500
+      ],
+      [
+        1000,
+        999
+      ],
+      [
+        1000,
+        100000
+      ]
+    ],
+    "notes": "All extras re-parse under the strict parser and their outputs are re-derived by sparse_exact (and, for n <= 10, by exhaustive subset and group-choice enumeration) in the unit tests."
+  },
+  "independentChecks": {
+    "bruteChecks": {
+      "741B": 111534
+    },
+    "references": [
+      "brute_subsets: exhaustive 2^n subset validity using closure-based groups",
+      "brute_choices: group-choice enumeration over propagation-computed components",
+      "sparse_exact: dict-based exact-weight DP independent of the dense DSU oracle"
+    ]
+  },
+  "unitTests": {
+    "file": "test_recipe_741B.py",
+    "testMethods": 11,
+    "assertionCallsExecuted": 5063
+  },
+  "selectedSubmissions": {
+    "count": 26,
+    "verdicts": {
+      "OK": 12,
+      "TIME_LIMIT_EXCEEDED": 7,
+      "WRONG_ANSWER": 7
+    },
+    "executed": false,
+    "inspectedWrongAnswerModels": [
+      {
+        "submissionId": "22883084",
+        "passedTestCount": 2,
+        "model": "index used as weight"
+      },
+      {
+        "submissionId": "24463764",
+        "passedTestCount": 3,
+        "model": "one-directional adjacency"
+      },
+      {
+        "submissionId": "31203300",
+        "passedTestCount": 1,
+        "model": "members of a group chosen independently"
+      },
+      {
+        "submissionId": "99278712",
+        "passedTestCount": 2,
+        "model": "best-ratio representative / dropped DP carry"
+      },
+      {
+        "submissionId": "99288023",
+        "passedTestCount": 3,
+        "model": "groups as consecutive index slices"
+      },
+      {
+        "submissionId": "217131005",
+        "passedTestCount": 1,
+        "model": "group-blind 0/1 knapsack"
+      },
+      {
+        "submissionId": "217134094",
+        "passedTestCount": 0,
+        "model": "friend-skipping beauty greedy"
+      }
+    ],
+    "caveat": "Wrong-answer models are Python re-implementations from reading the sources (never executed). Unit tests check each model matches the first passedTestCount supplied official rows and differs on the next; this assumes supplied rows are the first official tests in order and is not a proof of algorithmic kills. TLE submissions are not used as algorithmic evidence."
+  },
+  "publicProgramsExecuted": false
+}
