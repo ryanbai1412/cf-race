@@ -1,20 +1,34 @@
 {
   "authoredSuite": {
+    "actualCases": 155,
+    "allLayoutValid": true,
+    "allOutputsMatchIndependentLiteralPrefixReference": true,
+    "categories": {
+      "adversarial": 81,
+      "boundary": 71,
+      "maxSize": 3
+    },
     "design": "All 32 single differing-bit positions; legal /1,/31 endpoints; forbid /0,/32; impossible skipped counts; minimal-prefix plateaus; octet boundaries; unsorted inputs; all-k sample topology; 64 fixed-seed small full-range/shared-prefix cases; three actual maximum-n cases.",
+    "hashSeedsChecked": [
+      1,
+      98765
+    ],
     "maxCases": 3,
     "maxN": 100000,
     "plannedRange": "120-180 distinct cases",
-    "status": "pending checks"
+    "status": "local checks passed",
+    "suiteDigest": "4c6aab17cf0cdedaccc6bc0554c62d904070fe0032e35a9b22f599cbbb35d7c3"
   },
   "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
   "bruteCrossChecks": {
+    "actualAssertions": 8656,
     "domain": "Every nonempty subset of 8 values, at shifts 0,7,8,15,16,23,24,29; every legal k from 1 through subset size.",
     "exhaustiveAssertions": 8192,
     "expectedAssertions": 8656,
     "randomAssertions": 400,
     "randomSeed": 29101600,
     "singleBitAssertions": 64,
-    "status": "pending checks"
+    "status": "passed"
   },
   "datasetDocsRead": [
     "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
@@ -44,6 +58,30 @@
       "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00000-of-00011.parquet"
     },
     "verification": "Archive and file hashes verified; canonical full sourceRow digest matches. Upstream shard attestation is inherited from authenticated attachment; shard not downloaded again. No input bytes edited."
+  },
+  "localChecks": {
+    "assertionAccounting": {
+      "authoredPairsIndependentlyChecked": 155,
+      "bruteChecksFunctionAssertions": 8656,
+      "note": "Counts refer to local author reference comparisons, not independently validated problems or different-agent audit.",
+      "upstreamPairsIndependentlyChecked": 18
+    },
+    "astSyntax": {
+      "files": [
+        "recipe_291C.py",
+        "test_recipe_291C.py"
+      ],
+      "result": "passed"
+    },
+    "determinism": "Canonical generated suite digest identical with PYTHONHASHSEED=1 and 98765",
+    "gitDiffCheck": "git diff --check 5b28d33..HEAD passed",
+    "jsonSyntax": "passed",
+    "unitTests": {
+      "command": "RECIPE_291C_INPUT=<authenticated inputs/291C.json> python3 -m unittest discover -s pipeline/ratings-pools/1600 -p test_recipe_291C.py -v",
+      "methods": 9,
+      "result": "passed",
+      "skipped": 0
+    }
   },
   "normalizationProposal": {
     "applied": false,
@@ -153,9 +191,19 @@
       }
     ]
   },
+  "qualificationGaps": [
+    "Incomplete official suite: 15 supplied pairs versus declared testset size 37.",
+    "Only 4 selected CF-WRONG_ANSWER sources, alongside 6 selected TLE sources: cannot claim five genuine algorithmic WA validators from selected verdicts; parent must obtain/review more sources independently.",
+    "No selected source was executed; no AC/WA claim, sixth external oracle or different-agent audit performed."
+  ],
   "remainingForParent": "Integrate recipe and attested statement normalization; resolve incomplete official suite via separate qualification including 5 actual AC/5 genuine algorithmic WA and a disjoint sixth accepted oracle, then later different-agent audit. Author output is not qualification.",
   "role": "recipe-author",
   "scope": "Only 291C recipe, unit tests, this factual report, and attributed original English HTML excerpt. No registrations, packages, audits, signoffs or shared gate changes.",
+  "selectedSourceVerdictCounts": {
+    "OK": 12,
+    "TIME_LIMIT_EXCEEDED": 5,
+    "WRONG_ANSWER": 4
+  },
   "selectedSourcesUnchanged": [
     {
       "provenance": {
@@ -471,14 +519,20 @@
     "savedSha256": "d36af8a2de1cc0620a081b06f3f1d19782ec326868e97da12930cce76f8df30c",
     "url": "https://codeforces.me/problemset/problem/291/C?locale=en"
   },
-  "status": "authored-local-validation-pending",
+  "status": "authored-local-checks-passed-not-qualified",
   "upstreamReview": {
     "declaredTestsetSize": 37,
+    "failedPairs": [],
+    "independentLiteralPrefixReferenceChecks": 18,
+    "inputBytesChanged": false,
     "inventoryOfficialCount": 37,
+    "malformedPairs": [],
     "note": "Only 15 official pairs and 3 samples actually supplied. Metadata reports 37 official tests and 12 generated tests; generated_tests is a count, not supplied pairs. No missing tests invented; suite remains incomplete.",
     "officialTestsComplete": false,
+    "oracleContradictions": [],
+    "outputBytesChanged": false,
     "rowGeneratedTestsField": 12,
-    "status": "pending checks",
+    "status": "all supplied pairs passed constraint and exact oracle review",
     "suppliedOfficialPairs": 15,
     "suppliedSamples": 3
   }
