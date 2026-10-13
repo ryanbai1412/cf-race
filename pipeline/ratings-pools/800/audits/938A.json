@@ -1,0 +1,416 @@
+{
+  "schemaVersion": 1,
+  "id": "938A",
+  "rating": 800,
+  "approved": true,
+  "reviewer": "devin-8868d1bfd2e6427e836d89e539a0b515",
+  "reviewUrl": "https://staging.itsdev.in/sessions/8868d1bfd2e6427e836d89e539a0b515",
+  "qualificationBasis": "official",
+  "packageHash": "3c4140785b75b50f26ba32b650526257b669e6886e7ffa5042751fb2334bfe7f",
+  "evidenceHash": "27456c65df9f54402951e187608af771917ac9f52b136adac781b14e2180f0f5",
+  "checks": {
+    "sourceAttribution": true,
+    "fullTests": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "noSpecialChecker": true,
+    "hashes": true,
+    "statementComplete": true,
+    "inputConstraints": true,
+    "algorithmicallyWrong": true,
+    "independentSupplementalReference": true
+  },
+  "incorrectAnalysis": {
+    "35341765": {
+      "kind": "wrong-answer",
+      "test": "0001",
+      "failedTest": "0001",
+      "reason": "For weird it suppresses the first vowel of a consecutive run (e) by looking ahead and retains the last (i), printing wird instead of keeping e and deleting i to produce werd.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "19411365c23644108ac72920a1b980960624412d6006bc27bddd31ec04212170",
+      "lfOutputHash": "19411365c23644108ac72920a1b980960624412d6006bc27bddd31ec04212170",
+      "rawOutputBase64": "d2lyZA==",
+      "lfOutputBase64": "d2lyZA==",
+      "rawInputHash": "cdedc6e80cec63b2428f0d34dde33fe468d12720ba6004a1aecb0d2e15199cb2",
+      "lfInput": {
+        "path": "proof/938A/counterexamples/35341765-0001.lf.in",
+        "sha256": "60d220c92484f1675d33fdd1454310e1523175bf766ca71bc0bf9185f36e9593",
+        "bytes": 8
+      },
+      "expectedOutputHash": "f7cea2659fbd41fcb34088771c606deaec6000bbd5d47d37b10b6c635ace7825",
+      "sourceHash": "6fc8fe460c20fa41291a4dbce7a0c2872dbb6b6b5a915c9d053b43b446da9335",
+      "sourceProvenance": {
+        "bytes": 140412577,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00033-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c1c01dc680363e4a9440b9b02051a830e28b471e1032a12a3c20c10b68d6353f",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00033-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/938/submission/35341765",
+      "sourceProof": {
+        "path": "proof/938A/source-review/35341765.txt",
+        "sha256": "6fc8fe460c20fa41291a4dbce7a0c2872dbb6b6b5a915c9d053b43b446da9335",
+        "bytes": 3075
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        113
+      ],
+      "faultySourceLineRange": [
+        96,
+        111
+      ],
+      "faultyImplementedStep": "96:     string a = \"aeiouy\";\n97:     for (int i = 0; i < n - 1; i++)\n98:     {\n99:         bool ch1 = false;\n100:         for (int x = 0; x < 6; x++)\n101:             if (a[x] == s[i])\n102:                 ch1 = 1;\n103:         bool ch2 = false;\n104:         for (int x = 0; x < 6; x++)\n105:             if (a[x] == s[i + 1])\n106:                 ch2 = 1;\n107:         if (ch1 && ch2)\n108:             continue;\n109:         cout << s[i];\n110:     }\n111:     cout << s[n - 1];",
+      "completeLfInput": "5\nweird\n",
+      "expectedOutput": "werd\n",
+      "rawActualOutput": "wird",
+      "lfActualOutput": "wird",
+      "mathematicalRequirement": "The rewritten string is each maximal vowel run replaced with its first character, leaving non-vowels unchanged; vowels include y.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "35341771": {
+      "kind": "wrong-answer",
+      "test": "0004",
+      "failedTest": "0004",
+      "reason": "On the recorded length-100 word its vowel predicate omits y. Runs oyoy... and eyiyuy... are not fully collapsed and the retained output differs from the deterministic correction.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "775f2612520694a9bbf6d53a0898c15f9542c600543feedfa457483401170bb9",
+      "lfOutputHash": "775f2612520694a9bbf6d53a0898c15f9542c600543feedfa457483401170bb9",
+      "rawOutputBase64": "YWJiYmJib3lveW95b3lveWFjYWRhYmJiYmJpZmdpaGphYmJia2xib3lveW95b3lveWFiYmJiYmliYmJiYmV5aXl1eXp5dw==",
+      "lfOutputBase64": "YWJiYmJib3lveW95b3lveWFjYWRhYmJiYmJpZmdpaGphYmJia2xib3lveW95b3lveWFiYmJiYmliYmJiYmV5aXl1eXp5dw==",
+      "rawInputHash": "f13c7017b72dfa8b7f433c96d62491c299c9d4861c30359faca927ac992d5b62",
+      "lfInput": {
+        "path": "proof/938A/counterexamples/35341771-0004.lf.in",
+        "sha256": "07d3495d9730649cd0ac03ded818b617185e92b0a3c2d551acdea2a4a3a4cd53",
+        "bytes": 105
+      },
+      "expectedOutputHash": "b18d5535994fb76ed931bb2036f83c8e48b76d4d078df17102a39b91ffcce845",
+      "sourceHash": "0ed47a0d5deffee3524fa00febd598b1f325886f87a34c0ec51fd8d767df234d",
+      "sourceProvenance": {
+        "bytes": 140412577,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00033-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c1c01dc680363e4a9440b9b02051a830e28b471e1032a12a3c20c10b68d6353f",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00033-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/938/submission/35341771",
+      "sourceProof": {
+        "path": "proof/938A/source-review/35341771.txt",
+        "sha256": "0ed47a0d5deffee3524fa00febd598b1f325886f87a34c0ec51fd8d767df234d",
+        "bytes": 1210
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        49
+      ],
+      "faultySourceLineRange": [
+        32,
+        44
+      ],
+      "faultyImplementedStep": "32: bool vowel(char c) {\n33:     return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';\n34: }\n35: \n36: vector<char> ans;\n37: \n38: int main() {\n39:     ios_base::sync_with_stdio(0); cin.tie(0);\n40:  cin >> n >> s;\n41:  for (char c: s) {\n42:      ans.pb(c);\n43:      while (sz(ans) > 1 && vowel(ans[sz(ans)-2]) && vowel(ans.back())) ans.pop_back();\n44:  }",
+      "completeLfInput": "100\naaaaabbbbboyoyoyoyoyacadabbbbbiuiufgiuiuaahjabbbklboyoyoyoyoyaaaaabbbbbiuiuiuiuiuaaaaabbbbbeyiyuyzyw\n",
+      "expectedOutput": "abbbbbocadabbbbbifgihjabbbklbobbbbbibbbbbezyw\n",
+      "rawActualOutput": "abbbbboyoyoyoyoyacadabbbbbifgihjabbbklboyoyoyoyoyabbbbbibbbbbeyiyuyzyw",
+      "lfActualOutput": "abbbbboyoyoyoyoyacadabbbbbifgihjabbbklboyoyoyoyoyabbbbbibbbbbeyiyuyzyw",
+      "mathematicalRequirement": "The rewritten string is each maximal vowel run replaced with its first character, leaving non-vowels unchanged; vowels include y.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "35341772": {
+      "kind": "wrong-answer",
+      "test": "0001",
+      "failedTest": "0001",
+      "reason": "For weird its look-ahead condition retains the last vowel of the ei run instead of the first. Prints wird instead of werd under the specified deletion rule.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "f0debc39120c35708581525564fca17c0a4030901b785b66f90a05e4a5f907db",
+      "lfOutputHash": "f0debc39120c35708581525564fca17c0a4030901b785b66f90a05e4a5f907db",
+      "rawOutputBase64": "d2lyZAo=",
+      "lfOutputBase64": "d2lyZAo=",
+      "rawInputHash": "cdedc6e80cec63b2428f0d34dde33fe468d12720ba6004a1aecb0d2e15199cb2",
+      "lfInput": {
+        "path": "proof/938A/counterexamples/35341772-0001.lf.in",
+        "sha256": "60d220c92484f1675d33fdd1454310e1523175bf766ca71bc0bf9185f36e9593",
+        "bytes": 8
+      },
+      "expectedOutputHash": "f7cea2659fbd41fcb34088771c606deaec6000bbd5d47d37b10b6c635ace7825",
+      "sourceHash": "161c7cccd08c18bb1786c99c29087b19c590e4f3503fe10820d645cb6bd04378",
+      "sourceProvenance": {
+        "bytes": 140412577,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00033-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c1c01dc680363e4a9440b9b02051a830e28b471e1032a12a3c20c10b68d6353f",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00033-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/938/submission/35341772",
+      "sourceProof": {
+        "path": "proof/938A/source-review/35341772.txt",
+        "sha256": "161c7cccd08c18bb1786c99c29087b19c590e4f3503fe10820d645cb6bd04378",
+        "bytes": 2291
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        95
+      ],
+      "faultySourceLineRange": [
+        73,
+        86
+      ],
+      "faultyImplementedStep": "73: bool is_v( char ctmp ){\n74:   if( ctmp == 'a' ) return true;\n75:   if( ctmp == 'e' ) return true;\n76:   if( ctmp == 'i' ) return true;\n77:   if( ctmp == 'o' ) return true;\n78:   if( ctmp == 'u' ) return true;\n79:   if( ctmp == 'y' ) return true;\n80:   return false;\n81: }\n82: void solve(){\n83:   for( int i = 0 ; i < n ; i ++ )\n84:     if( i + 1 == n or not is_v( c[ i ] ) or not is_v( c[ i + 1 ] ) )\n85:       putchar( c[ i ] );\n86:   puts( \"\" );",
+      "completeLfInput": "5\nweird\n",
+      "expectedOutput": "werd\n",
+      "rawActualOutput": "wird\n",
+      "lfActualOutput": "wird\n",
+      "mathematicalRequirement": "The rewritten string is each maximal vowel run replaced with its first character, leaving non-vowels unchanged; vowels include y.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "35341785": {
+      "kind": "wrong-answer",
+      "test": "0004",
+      "failedTest": "0004",
+      "reason": "On the recorded length-100 word it omits y from both vowel tests, retaining the oyoy and eyiyuy runs instead of collapsing each whole aeiouy run.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "775f2612520694a9bbf6d53a0898c15f9542c600543feedfa457483401170bb9",
+      "lfOutputHash": "775f2612520694a9bbf6d53a0898c15f9542c600543feedfa457483401170bb9",
+      "rawOutputBase64": "YWJiYmJib3lveW95b3lveWFjYWRhYmJiYmJpZmdpaGphYmJia2xib3lveW95b3lveWFiYmJiYmliYmJiYmV5aXl1eXp5dw==",
+      "lfOutputBase64": "YWJiYmJib3lveW95b3lveWFjYWRhYmJiYmJpZmdpaGphYmJia2xib3lveW95b3lveWFiYmJiYmliYmJiYmV5aXl1eXp5dw==",
+      "rawInputHash": "f13c7017b72dfa8b7f433c96d62491c299c9d4861c30359faca927ac992d5b62",
+      "lfInput": {
+        "path": "proof/938A/counterexamples/35341785-0004.lf.in",
+        "sha256": "07d3495d9730649cd0ac03ded818b617185e92b0a3c2d551acdea2a4a3a4cd53",
+        "bytes": 105
+      },
+      "expectedOutputHash": "b18d5535994fb76ed931bb2036f83c8e48b76d4d078df17102a39b91ffcce845",
+      "sourceHash": "932b24a40a3f0b0ee80adae1c341ac07c09dfcbf7b8c591489548a3d48095f58",
+      "sourceProvenance": {
+        "bytes": 140412577,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00033-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c1c01dc680363e4a9440b9b02051a830e28b471e1032a12a3c20c10b68d6353f",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00033-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/938/submission/35341785",
+      "sourceProof": {
+        "path": "proof/938A/source-review/35341785.txt",
+        "sha256": "932b24a40a3f0b0ee80adae1c341ac07c09dfcbf7b8c591489548a3d48095f58",
+        "bytes": 1742
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        65
+      ],
+      "faultySourceLineRange": [
+        51,
+        56
+      ],
+      "faultyImplementedStep": "51: void ProSolve() {\n52:  for (i64 i=0; i<n; i++) {\n53:   if (i == 0) {cout << s[i]; continue;}\n54:   if (s[i] != 'a' && s[i] != 'e' && s[i] != 'i' && s[i] != 'o' && s[i] != 'u') {cout << s[i]; continue;}\n55:   if (s[i-1] != 'a' && s[i-1] != 'e' && s[i-1] != 'i' && s[i-1] != 'o' && s[i-1] != 'u') cout << s[i];\n56:  }",
+      "completeLfInput": "100\naaaaabbbbboyoyoyoyoyacadabbbbbiuiufgiuiuaahjabbbklboyoyoyoyoyaaaaabbbbbiuiuiuiuiuaaaaabbbbbeyiyuyzyw\n",
+      "expectedOutput": "abbbbbocadabbbbbifgihjabbbklbobbbbbibbbbbezyw\n",
+      "rawActualOutput": "abbbbboyoyoyoyoyacadabbbbbifgihjabbbklboyoyoyoyoyabbbbbibbbbbeyiyuyzyw",
+      "lfActualOutput": "abbbbboyoyoyoyoyacadabbbbbifgihjabbbklboyoyoyoyoyabbbbbibbbbbeyiyuyzyw",
+      "mathematicalRequirement": "The rewritten string is each maximal vowel run replaced with its first character, leaving non-vowels unchanged; vowels include y.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "35341786": {
+      "kind": "wrong-answer",
+      "test": "0004",
+      "failedTest": "0004",
+      "reason": "On the recorded length-100 word its vowel set has only a,i,u,e,o. Missing y breaks oyoy and eyiyuy runs and produces the retained incorrect uncollapsed word.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "1a5eb51fc84ecef3093ff26cc524a6c4fbc8b11b3f17c2fe5bd5ca83a0ecb5c1",
+      "lfOutputHash": "1a5eb51fc84ecef3093ff26cc524a6c4fbc8b11b3f17c2fe5bd5ca83a0ecb5c1",
+      "rawOutputBase64": "YWJiYmJib3lveW95b3lveWFjYWRhYmJiYmJpZmdpaGphYmJia2xib3lveW95b3lveWFiYmJiYmliYmJiYmV5aXl1eXp5dwo=",
+      "lfOutputBase64": "YWJiYmJib3lveW95b3lveWFjYWRhYmJiYmJpZmdpaGphYmJia2xib3lveW95b3lveWFiYmJiYmliYmJiYmV5aXl1eXp5dwo=",
+      "rawInputHash": "f13c7017b72dfa8b7f433c96d62491c299c9d4861c30359faca927ac992d5b62",
+      "lfInput": {
+        "path": "proof/938A/counterexamples/35341786-0004.lf.in",
+        "sha256": "07d3495d9730649cd0ac03ded818b617185e92b0a3c2d551acdea2a4a3a4cd53",
+        "bytes": 105
+      },
+      "expectedOutputHash": "b18d5535994fb76ed931bb2036f83c8e48b76d4d078df17102a39b91ffcce845",
+      "sourceHash": "734929934c800ed4d69152092dfc5ca4a523d29f0dd27cd26498bc44ed9500bf",
+      "sourceProvenance": {
+        "bytes": 140412577,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00033-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c1c01dc680363e4a9440b9b02051a830e28b471e1032a12a3c20c10b68d6353f",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00033-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/938/submission/35341786",
+      "sourceProof": {
+        "path": "proof/938A/source-review/35341786.txt",
+        "sha256": "734929934c800ed4d69152092dfc5ca4a523d29f0dd27cd26498bc44ed9500bf",
+        "bytes": 1309
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        42
+      ],
+      "faultySourceLineRange": [
+        29,
+        38
+      ],
+      "faultyImplementedStep": "29:   set<char> se;\n30:   se.in('a');se.in('i');se.in('u');se.in('e');se.in('o');\n31:   string s,t=\"\";\n32:   int n;\n33:   cin >> n >> s;\n34:   t+=s[0];\n35:   REP(i,1,s.size()) {\n36:     if(se.count(t.back())&&se.count(s[i])) continue;\n37:     t+=s[i];\n38:   }",
+      "completeLfInput": "100\naaaaabbbbboyoyoyoyoyacadabbbbbiuiufgiuiuaahjabbbklboyoyoyoyoyaaaaabbbbbiuiuiuiuiuaaaaabbbbbeyiyuyzyw\n",
+      "expectedOutput": "abbbbbocadabbbbbifgihjabbbklbobbbbbibbbbbezyw\n",
+      "rawActualOutput": "abbbbboyoyoyoyoyacadabbbbbifgihjabbbklboyoyoyoyoyabbbbbibbbbbeyiyuyzyw\n",
+      "lfActualOutput": "abbbbboyoyoyoyoyacadabbbbbifgihjabbbklboyoyoyoyoyabbbbbibbbbbeyiyuyzyw\n",
+      "mathematicalRequirement": "The rewritten string is each maximal vowel run replaced with its first character, leaving non-vowels unchanged; vowels include y.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    }
+  },
+  "reason": "All independent checks passed for these exact bytes; local audit candidate only.",
+  "statementReview": {
+    "fullStatementInputOutputSamplesRead": true,
+    "numericBoundsAccurate": true,
+    "deterministicUniqueOutput": true,
+    "tokenCheckerAppropriate": true,
+    "review": "Delete each vowel with a preceding vowel; aeiouy are vowels. Keep first of each maximal vowel run; unique word.",
+    "defects": [],
+    "hash": "4044a6ca80f5fdc8d32ec2d076ff57bf14ed443d11dc4b1e96afae14fb81de67",
+    "sampleCount": 3,
+    "attribution": "Codeforces contest authors; open-r1/CodeForces (Penedo et al., 2025).",
+    "ratingApiProof": {
+      "contestId": 938,
+      "index": "A",
+      "name": "Word Correction",
+      "rating": 800,
+      "tags": [
+        "implementation"
+      ],
+      "type": "PROGRAMMING"
+    }
+  },
+  "coverageReview": {
+    "packageTestBasis": {
+      "extraTestsHash": "8838537e9d74a24772e09f9c216dd2e42d1591e007f7e14218b2932fe3c67b0b",
+      "generatedAdvertised": 0,
+      "generatedIncluded": 0,
+      "generatedSource": null,
+      "officialAdvertised": 49,
+      "officialComplete": true,
+      "officialIncluded": 49,
+      "officialRole": "qualification"
+    },
+    "labelsIndependentlyInspected": true,
+    "builderCoverage": {
+      "adversarial": [
+        {
+          "reason": "y counts as vowel",
+          "test": "0050"
+        }
+      ],
+      "boundary": [
+        {
+          "reason": "n=1 (input already in upstream suite)",
+          "test": "0013"
+        }
+      ],
+      "checkerSemantics": "Correction result is deterministic. The authored reference reproduced every upstream expected output under the token/YES-NO checker; worker outputs come from that reference and are re-checked against five accepted programs.",
+      "inputConstraints": "Authored validate() asserts: n in 1..100, then a lowercase word of exactly n letters. It accepted all 3 samples, 49 official and 0 open-r1 generated inputs, and all 3 distinct worker-generated inputs (categorized inputs already present upstream reference the upstream test).",
+      "maxSize": [
+        {
+          "reason": "100 vowels collapse to one",
+          "test": "0051"
+        },
+        {
+          "reason": "100 consonants",
+          "test": "0052"
+        }
+      ],
+      "packageHash": "3c4140785b75b50f26ba32b650526257b669e6886e7ffa5042751fb2334bfe7f",
+      "recipeHash": "2749ab927296c49e25b0678b8e199923fa997d83936e2f50d71c4824f37a0d42",
+      "recipeReportHash": "ca31485bbfaba968a1e8d327bd7697e6cf79fa46ab7988cdc65d07522b4e575f",
+      "statementComplete": "Reviewed full statement: vowels aeiouy; drop any vowel preceded by a kept vowel.",
+      "testBasis": {
+        "officialAdvertised": 49,
+        "officialComplete": true,
+        "officialIncluded": 49,
+        "openR1Generated": 0,
+        "workerGenerated": 3
+      }
+    },
+    "validatorAndExpectedOutputs": {
+      "path": "proof/938A/recipe.json",
+      "sha256": "1f0b0b37d8565087689364cef8d5c6e797daa3d23df551d606a0478ff0d9e592",
+      "bytes": 20012
+    },
+    "independentValidatorAndReference": {
+      "path": "proof/938A/independent-package-reference.json",
+      "sha256": "92bca1cde0eb8630d53da66807b743df70829fab1ebb02d9bc6bb55117080416",
+      "bytes": 18599
+    },
+    "supplement": {
+      "generatorHash": "ade09d15e6788110a430de78bb3910cb3cb0e63511bf82d66157c744a4882ae7",
+      "oracleHash": "78cc08548ff412e15d1736be0a4ef3fbaa4853073260a65acadcbfca0588134c",
+      "pairsHash": "9a6dfb8b1ddde6a76477b613f9d3da293d7ac8ad533176fe3fd3752888684ec4",
+      "supplementCount": 1096,
+      "seed": 918273645,
+      "packageReferenceVerdict": "AC",
+      "acceptedComparisons": [
+        {
+          "submissionId": "35341766",
+          "sourceHash": "8cfb6fe33bfe6cdb903db7cf4da34e8515c3aff5e90d82eec93cb68385b028c1",
+          "result": "AC",
+          "testsRun": 1096
+        },
+        {
+          "submissionId": "35341768",
+          "sourceHash": "fa405eb9ac2793badde6ed25b94d3cf7ceabbab01c4deba08cc90b933def0efa",
+          "result": "AC",
+          "testsRun": 1096
+        }
+      ]
+    },
+    "supplementPairs": {
+      "path": "proof/938A/supplement-pairs.json",
+      "sha256": "9a6dfb8b1ddde6a76477b613f9d3da293d7ac8ad533176fe3fd3752888684ec4",
+      "bytes": 132077
+    },
+    "supplementOracle": {
+      "path": "proof/938A/independent-oracle.py",
+      "sha256": "78cc08548ff412e15d1736be0a4ef3fbaa4853073260a65acadcbfca0588134c",
+      "bytes": 9842
+    },
+    "supplementGenerator": {
+      "path": "proof/938A/independent-generator.py",
+      "sha256": "ade09d15e6788110a430de78bb3910cb3cb0e63511bf82d66157c744a4882ae7",
+      "bytes": 9837
+    },
+    "finiteDomainNotes": "918A: all 1000 legal inputs. 931A: every distance 1..999 in both orders; translation invariance follows directly from distance-only movement costs. Other arrays/strings: exhaustive small domains or category domains plus max-size. 935A full 99999-input domain not exhausted: current package rejected for malformed statement; 205 small/boundary cases independently tested."
+  },
+  "proofs": {
+    "metadata": {
+      "path": "proof/938A/metadata-verification.json",
+      "sha256": "b224bfef730782454817e6405e64c369032a21ae18a79c966d53fb5f551e7705",
+      "bytes": 13184
+    },
+    "independent": {
+      "path": "proof/938A/independent.json",
+      "sha256": "3754fe28bdecaafebdd51ae72bd1f4a400254fc016b56a5203f6f0d3d4ba19b0",
+      "bytes": 151133
+    },
+    "generated": null
+  },
+  "gaps": [
+    "Codeforces API documentation returned HTTP 403; no Codeforces API/proxy calls made, no auth bypass. Rating independently checked against hashed bundled official API snapshot."
+  ]
+}

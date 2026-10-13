@@ -1,0 +1,434 @@
+{
+  "schemaVersion": 1,
+  "id": "899A",
+  "rating": 800,
+  "approved": false,
+  "reviewer": "devin-8868d1bfd2e6427e836d89e539a0b515",
+  "reviewUrl": "https://staging.itsdev.in/sessions/8868d1bfd2e6427e836d89e539a0b515",
+  "qualificationBasis": "generated",
+  "packageHash": "de5bea5dbbddc0366dc16e76309c0c388c98e41faacf7564a8cbb178cd23b4e1",
+  "evidenceHash": "83c851ac891c682ae7fb928cd21e1bc89cdcfe3e94cb993866b5342c882f0b31",
+  "checks": {
+    "sourceAttribution": true,
+    "fullTests": true,
+    "coverage": false,
+    "fiveAcceptedFiveIncorrect": true,
+    "noSpecialChecker": true,
+    "hashes": true,
+    "statementComplete": false,
+    "inputConstraints": false,
+    "algorithmicallyWrong": true,
+    "independentSupplementalReference": true,
+    "deterministicGeneration": true,
+    "independentOracle": true,
+    "generatedBasis": true
+  },
+  "incorrectAnalysis": {
+    "33351470": {
+      "kind": "wrong-answer",
+      "test": "0001",
+      "failedTest": "0001",
+      "reason": "For n=4,a=1,1,2,1 it reads only the first line (the group count 4) as group sizes. It sees no singletons and outputs 0 instead of using three singles to make one team.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "lfOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "rawOutputBase64": "MAo=",
+      "lfOutputBase64": "MAo=",
+      "rawInputHash": "84ff1b39540c4409603db64e421d000680ca4088bd8be2f968ec708c3b2dd7cd",
+      "lfInput": {
+        "path": "proof/899A/counterexamples/33351470-0001.lf.in",
+        "sha256": "4a6a95899b32dbe80fb6b285548e84c9e7848a78f452666a24e4aa372ed3112f",
+        "bytes": 10
+      },
+      "expectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "sourceHash": "c13d88d864d360cd4d89dc4c09098958c0bfcc61d159926480a673c64317600c",
+      "sourceProvenance": {
+        "bytes": 127376471,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00030-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00030-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/899/submission/33351470",
+      "sourceProof": {
+        "path": "proof/899A/source-review/33351470.txt",
+        "sha256": "c13d88d864d360cd4d89dc4c09098958c0bfcc61d159926480a673c64317600c",
+        "bytes": 209
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        14
+      ],
+      "faultySourceLineRange": [
+        1,
+        7
+      ],
+      "faultyImplementedStep": "1: a=input().split()\n2: one=0\n3: two=0\n4: res=0\n5: for i in range(0,len(a)):\n6: \tif int(a[i]) == 1: one+=1\n7: \telse: two+=1",
+      "completeLfInput": "4\n1 1 2 1\n",
+      "expectedOutput": "1\n",
+      "rawActualOutput": "0\n",
+      "lfActualOutput": "0\n",
+      "mathematicalRequirement": "min(singles,doubles)+floor((singles-min(singles,doubles))/3); pairs cannot be split.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "33354051": {
+      "kind": "wrong-answer",
+      "test": "0004",
+      "failedTest": "0004",
+      "reason": "For three singletons, while single>3 refuses to make the team when single==3; prints 0 instead of 1.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "lfOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "rawOutputBase64": "MAo=",
+      "lfOutputBase64": "MAo=",
+      "rawInputHash": "bfacca0e07f0a2186293ef743acc0ab60b56a7de33736e6780d3684168b245e2",
+      "lfInput": {
+        "path": "proof/899A/counterexamples/33354051-0004.lf.in",
+        "sha256": "dcb2828204cec0d4a76afd3c51c7f9bfa1ccb2aa5b9a1abc08a28ee818aae859",
+        "bytes": 8
+      },
+      "expectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "sourceHash": "8e55e9ddaa8eb4798c11eca5ea40c5e95c4129f423817e40380bef7e90ee6310",
+      "sourceProvenance": {
+        "bytes": 127376471,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00030-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00030-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/899/submission/33354051",
+      "sourceProof": {
+        "path": "proof/899A/source-review/33354051.txt",
+        "sha256": "8e55e9ddaa8eb4798c11eca5ea40c5e95c4129f423817e40380bef7e90ee6310",
+        "bytes": 328
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        18
+      ],
+      "faultySourceLineRange": [
+        11,
+        18
+      ],
+      "faultyImplementedStep": "11: while single > 0 and double > 0:\n12:     single -= 1\n13:     double -= 1\n14:     group += 1\n15: while single > 3:\n16:     group += 1\n17:     single -= 3\n18: print(group)",
+      "completeLfInput": "3\n1 1 1\n",
+      "expectedOutput": "1\n",
+      "rawActualOutput": "0\n",
+      "lfActualOutput": "0\n",
+      "mathematicalRequirement": "min(singles,doubles)+floor((singles-min(singles,doubles))/3); pairs cannot be split.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "33358526": {
+      "kind": "wrong-answer",
+      "test": "0010",
+      "failedTest": "0010",
+      "reason": "For 2,2,2,1,2 it returns cnt_2=4 when cnt_1<=cnt_2. Only the one singleton can complete a team with a double group; maximum is 1.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "lfOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "rawOutputBase64": "NAo=",
+      "lfOutputBase64": "NAo=",
+      "rawInputHash": "29bee03b4feef88932d006e34bc2876d740c51fb6d6be8c6852e2748e4867306",
+      "lfInput": {
+        "path": "proof/899A/counterexamples/33358526-0010.lf.in",
+        "sha256": "84b95f255aea58ab3a980aaf394cbdabf4940bc3b518262b544f97bda7297bad",
+        "bytes": 12
+      },
+      "expectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "sourceHash": "555279728e24abe6ac0887ed875da1f76313a1ea2fd1d2f90d661e449c32c3a9",
+      "sourceProvenance": {
+        "bytes": 127376471,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00030-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00030-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/899/submission/33358526",
+      "sourceProof": {
+        "path": "proof/899A/source-review/33358526.txt",
+        "sha256": "555279728e24abe6ac0887ed875da1f76313a1ea2fd1d2f90d661e449c32c3a9",
+        "bytes": 254
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        13
+      ],
+      "faultySourceLineRange": [
+        9,
+        13
+      ],
+      "faultyImplementedStep": "9: else:\n10:     if cnt_1<=cnt_2:\n11:         print(cnt_2)\n12:     else:\n13:         print(cnt_2+(cnt_1-cnt_2)//3)",
+      "completeLfInput": "5\n2 2 2 1 2\n",
+      "expectedOutput": "1\n",
+      "rawActualOutput": "4\n",
+      "lfActualOutput": "4\n",
+      "mathematicalRequirement": "min(singles,doubles)+floor((singles-min(singles,doubles))/3); pairs cannot be split.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "33359134": {
+      "kind": "wrong-answer",
+      "test": "0002",
+      "failedTest": "0002",
+      "reason": "For two inseparable groups 2,2 it divides their four people by three and prints 1, although no team can be formed without splitting a pair; correct is 0.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "lfOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "rawOutputBase64": "MQo=",
+      "lfOutputBase64": "MQo=",
+      "rawInputHash": "bc2f651e7c796f26e3fe454a5c3bd7e005c2fde2c17f716d665981061171ec1d",
+      "lfInput": {
+        "path": "proof/899A/counterexamples/33359134-0002.lf.in",
+        "sha256": "f241e49ae60c2558622ec98e17be9ec1ef3ee199807582711c365240483f6869",
+        "bytes": 6
+      },
+      "expectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "sourceHash": "5c2926263237bb4e0143e94e8956d6868494ca7d77e5022383484601c39db6f7",
+      "sourceProvenance": {
+        "bytes": 127376471,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00030-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00030-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/899/submission/33359134",
+      "sourceProof": {
+        "path": "proof/899A/source-review/33359134.txt",
+        "sha256": "5c2926263237bb4e0143e94e8956d6868494ca7d77e5022383484601c39db6f7",
+        "bytes": 152
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        9
+      ],
+      "faultySourceLineRange": [
+        5,
+        9
+      ],
+      "faultyImplementedStep": "5: x1 = (a.count(2)*2 + a.count(1))//3\n6: x2 = (a.count(2)*2 + a.count(1))%3\n7: x2 = x2//3\n8: \n9: print(x1 + x2)",
+      "completeLfInput": "2\n2 2\n",
+      "expectedOutput": "0\n",
+      "rawActualOutput": "1\n",
+      "lfActualOutput": "1\n",
+      "mathematicalRequirement": "min(singles,doubles)+floor((singles-min(singles,doubles))/3); pairs cannot be split.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "33359490": {
+      "kind": "wrong-answer",
+      "test": "0002",
+      "failedTest": "0002",
+      "reason": "For groups 2,2 it creates a team for each double group while decrementing the absent singleton count below zero; prints 2 although no valid team exists.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "lfOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "rawOutputBase64": "Mgo=",
+      "lfOutputBase64": "Mgo=",
+      "rawInputHash": "bc2f651e7c796f26e3fe454a5c3bd7e005c2fde2c17f716d665981061171ec1d",
+      "lfInput": {
+        "path": "proof/899A/counterexamples/33359490-0002.lf.in",
+        "sha256": "f241e49ae60c2558622ec98e17be9ec1ef3ee199807582711c365240483f6869",
+        "bytes": 6
+      },
+      "expectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "sourceHash": "a1b779c274974ebaa55e5655b61323f73502354c752f2730638e01d3e1d803a0",
+      "sourceProvenance": {
+        "bytes": 127376471,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00030-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00030-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/899/submission/33359490",
+      "sourceProof": {
+        "path": "proof/899A/source-review/33359490.txt",
+        "sha256": "a1b779c274974ebaa55e5655b61323f73502354c752f2730638e01d3e1d803a0",
+        "bytes": 163
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        13
+      ],
+      "faultySourceLineRange": [
+        6,
+        12
+      ],
+      "faultyImplementedStep": "6: while d>0:\n7:     d-=1\n8:     c-=1\n9:     cnt+=1\n10: while c-3>0:\n11:     c-=3\n12:     cnt+=1",
+      "completeLfInput": "2\n2 2\n",
+      "expectedOutput": "0\n",
+      "rawActualOutput": "2\n",
+      "lfActualOutput": "2\n",
+      "mathematicalRequirement": "min(singles,doubles)+floor((singles-min(singles,doubles))/3); pairs cannot be split.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    }
+  },
+  "reason": "Rejected current bytes: Input n upper bound is rendered as 2\u00b7105, not 2\u00b710^5; validator/test suite use 200000. No upstream-attested normalization.",
+  "statementReview": {
+    "fullStatementInputOutputSamplesRead": true,
+    "numericBoundsAccurate": false,
+    "deterministicUniqueOutput": true,
+    "tokenCheckerAppropriate": true,
+    "review": "Inseparable pairs require a singleton for a three-person team; leftovers may be unused. Unique maximum integer.",
+    "defects": [
+      "Input n upper bound is rendered as 2\u00b7105, not 2\u00b710^5; validator/test suite use 200000. No upstream-attested normalization."
+    ],
+    "hash": "b8a9df9a3f51130506f885066c10a2b145d6fcc8dc5ce7579eb03cbc80b1adf2",
+    "sampleCount": 4,
+    "attribution": "Codeforces contest authors; open-r1/CodeForces (Penedo et al., 2025).",
+    "ratingApiProof": {
+      "contestId": 899,
+      "index": "A",
+      "name": "Splitting in Teams",
+      "points": 500.0,
+      "rating": 800,
+      "tags": [
+        "constructive algorithms",
+        "greedy",
+        "math"
+      ],
+      "type": "PROGRAMMING"
+    }
+  },
+  "coverageReview": {
+    "packageTestBasis": {
+      "extraTestsHash": null,
+      "generatedAdvertised": 8,
+      "generatedIncluded": 8,
+      "generatedSource": {
+        "bytes": 5404872,
+        "dataset": "open-r1/codeforces",
+        "path": "generated_tests/test_cases_0899.parquet",
+        "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+        "sha256": "d5f1f84482fd9e4822a6c5cf98c5627a7cec0f56836581840bcf4fa307781466",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/generated_tests/test_cases_0899.parquet"
+      },
+      "officialAdvertised": 67,
+      "officialComplete": false,
+      "officialIncluded": 42,
+      "officialRole": "supplementary"
+    },
+    "labelsIndependentlyInspected": true,
+    "builderCoverage": {
+      "adversarial": [
+        {
+          "reason": "pair+single beats leftover singles",
+          "test": "0052"
+        }
+      ],
+      "boundary": [
+        {
+          "reason": "two pairs, no team",
+          "test": "0051"
+        }
+      ],
+      "checkerSemantics": "Unique integer. Authored outputs come from the worker reference and every supplied pair was re-checked by the separately sourced oracle in the sandbox under the token checker.",
+      "genRecipeHash": "7176aee9e794326b63c594dbe1e032963783d100ffa6f2593b0a5e8bb352aca1",
+      "generatorSourceHash": "b4cd0deb3fb9c5230fce9da0013215fe6de1daddaddbed20c12bbb979ae2cff1",
+      "inputConstraints": "Generator validate() asserts n in 2..2*10^5; a_i in {1, 2}. before emitting each of the 150 distinct authored inputs; the same validator accepted every upstream sample, 42 supplementary official and 8 open-r1 generated inputs.",
+      "maxSize": [
+        {
+          "reason": "n=2*10^5 mixed",
+          "test": "0053"
+        }
+      ],
+      "packageHash": "de5bea5dbbddc0366dc16e76309c0c388c98e41faacf7564a8cbb178cd23b4e1",
+      "statementComplete": "Reviewed full statement: max teams of three from singles and inseparable pairs.",
+      "testBasis": {
+        "basis": "generated",
+        "generatorMode": "extensive",
+        "officialAdvertised": 67,
+        "officialComplete": false,
+        "officialIncluded": 42,
+        "officialRole": "supplementary",
+        "openR1Generated": 8,
+        "workerGenerated": 150
+      }
+    },
+    "validatorAndExpectedOutputs": {
+      "path": "proof/899A/recipe.json",
+      "sha256": "dcd48899c5409fb73809202808cb9880b005566c52de1a717215eb46a79f8f4a",
+      "bytes": 69838
+    },
+    "independentValidatorAndReference": {
+      "path": "proof/899A/independent-package-reference.json",
+      "sha256": "fe139adba8d6bdeabb43909f46985709b17fa367adf7ecc5fd78e42e38ed46be",
+      "bytes": 65111
+    },
+    "supplement": {
+      "generatorHash": "d039f76f9a74316d3bc13944e474e6bf45cfdfc2e427b382cd6825c45dec91a8",
+      "oracleHash": "24856c2026b3ba3e23b011b8ed8c343a91139140f9d402b5c57d1d4266bef162",
+      "pairsHash": "1e91355893501be87acfd318b9bd2ab562869e598eddae9fb6e9ff2f19f37c27",
+      "supplementCount": 256,
+      "seed": 918273645,
+      "packageReferenceVerdict": "AC",
+      "acceptedComparisons": [
+        {
+          "submissionId": "33330665",
+          "sourceHash": "8b2f7d8162583766798fb5b60d37982e9f5c56a950db424c5921e1ab2ff77e96",
+          "result": "AC",
+          "testsRun": 256
+        },
+        {
+          "submissionId": "33330669",
+          "sourceHash": "a688168dc4bccc7aaf89bab9632f20f32d94de1a3a61bb0c0b7abe72f1d16cd3",
+          "result": "AC",
+          "testsRun": 256
+        }
+      ]
+    },
+    "supplementPairs": {
+      "path": "proof/899A/supplement-pairs.json",
+      "sha256": "1e91355893501be87acfd318b9bd2ab562869e598eddae9fb6e9ff2f19f37c27",
+      "bytes": 1630423
+    },
+    "supplementOracle": {
+      "path": "proof/899A/independent-oracle.py",
+      "sha256": "24856c2026b3ba3e23b011b8ed8c343a91139140f9d402b5c57d1d4266bef162",
+      "bytes": 9842
+    },
+    "supplementGenerator": {
+      "path": "proof/899A/independent-generator.py",
+      "sha256": "d039f76f9a74316d3bc13944e474e6bf45cfdfc2e427b382cd6825c45dec91a8",
+      "bytes": 9837
+    },
+    "finiteDomainNotes": "918A: all 1000 legal inputs. 931A: every distance 1..999 in both orders; translation invariance follows directly from distance-only movement costs. Other arrays/strings: exhaustive small domains or category domains plus max-size. 935A full 99999-input domain not exhausted: current package rejected for malformed statement; 205 small/boundary cases independently tested."
+  },
+  "proofs": {
+    "metadata": {
+      "path": "proof/899A/metadata-verification.json",
+      "sha256": "8977ac5f445d056b785fa8afdfadfc201265b0bbf7dadc3ff00b47390c2190bb",
+      "bytes": 50012
+    },
+    "independent": {
+      "path": "proof/899A/independent.json",
+      "sha256": "3f4cf8911e1c5a203dd9fe73de2318147e0a65f14f03d2c59df44329f398f3b1",
+      "bytes": 2169081
+    },
+    "generated": {
+      "path": "proof/899A/qualification.json",
+      "sha256": "29cdf51f566b03dcc63c67cf16f88254677d361a69b6f6bcdcd0e301a8790b0b",
+      "bytes": 2045580
+    }
+  },
+  "gaps": [
+    "Codeforces API documentation returned HTTP 403; no Codeforces API/proxy calls made, no auth bypass. Rating independently checked against hashed bundled official API snapshot."
+  ]
+}

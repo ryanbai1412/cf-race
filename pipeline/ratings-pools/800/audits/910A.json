@@ -1,0 +1,420 @@
+{
+  "schemaVersion": 1,
+  "id": "910A",
+  "rating": 800,
+  "approved": false,
+  "reviewer": "devin-8868d1bfd2e6427e836d89e539a0b515",
+  "reviewUrl": "https://staging.itsdev.in/sessions/8868d1bfd2e6427e836d89e539a0b515",
+  "qualificationBasis": "official",
+  "packageHash": "21f1e3b9ee98bbfdd9706e64608f796d446be62d0b9fb3b45ba7cc224d04eb04",
+  "evidenceHash": "7d4943c725a926e757be3d7b2aaa411a00da63474875baff1f54405c2aeb92f1",
+  "checks": {
+    "sourceAttribution": true,
+    "fullTests": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "noSpecialChecker": true,
+    "hashes": true,
+    "statementComplete": true,
+    "inputConstraints": true,
+    "algorithmicallyWrong": false,
+    "independentSupplementalReference": true
+  },
+  "incorrectAnalysis": {
+    "33502149": {
+      "kind": "non-algorithmic",
+      "test": "0015",
+      "failedTest": "0015",
+      "reason": "At recorded n=99,d=4,all lilies except one interior zero it times out exploring exponentially many recursive branches. Its overwritten final recursive choice follows the farthest valid lily and yields the correct greedy path on this input if completed. There is no retained wrong output on the recorded test; TLE-only slow/correct is excluded.",
+      "algorithmicKill": false,
+      "rawVerdict": "TLE",
+      "lfVerdict": "TLE",
+      "rawOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "lfOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rawOutputBase64": "",
+      "lfOutputBase64": "",
+      "rawInputHash": "efc83aea7d3e879fb101b69cfef088bb725d6e2a2d1d3632ded40e666bb85c4b",
+      "lfInput": {
+        "path": "proof/910A/counterexamples/33502149-0015.lf.in",
+        "sha256": "d8dd7283eb19884cfab112d93bf61072541fad8258c85c3fa2559c261e2743b5",
+        "bytes": 105
+      },
+      "expectedOutputHash": "50e1c70ff6acbb8a6c78e18ccc9428fb7b473a6be9320e52019a66cd32afba95",
+      "sourceHash": "90f997d5b6a2c237aa74f42a8a762c4f41490b343fac92b8055b0dcb897f0270",
+      "sourceProvenance": {
+        "bytes": 127376471,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00030-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00030-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/910/submission/33502149",
+      "sourceProof": {
+        "path": "proof/910A/source-review/33502149.txt",
+        "sha256": "90f997d5b6a2c237aa74f42a8a762c4f41490b343fac92b8055b0dcb897f0270",
+        "bytes": 551
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        39
+      ],
+      "faultySourceLineRange": [
+        14,
+        28
+      ],
+      "faultyImplementedStep": "14: int rec(const string& s, int cur, int d) {\n15:  if (cur == (int)s.size() - 1) {\n16:   return 0;\n17:  }\n18:  int ans = -1;\n19:  for (int i = 1; i <= d; ++i) {\n20:   if (cur + i >= (int)s.size()) {\n21:    break;\n22:   }\n23:   if (s[cur + i] == '0') {\n24:    continue;\n25:   }\n26:   ans = rec(s, cur + i, d) + 1;\n27:  }\n28:  return ans;",
+      "completeLfInput": "99 4\n111111111111111111111111111111111111111111111111111111111011111111111111111111111111111111111111111\n",
+      "expectedOutput": "25\n",
+      "rawActualOutput": "",
+      "lfActualOutput": "",
+      "mathematicalRequirement": "Minimum length of path from 1 to n in the directed graph of lily vertices with edges 1..d to the right; unreachable is -1.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "33502199": {
+      "kind": "wrong-answer",
+      "test": "0040",
+      "failedTest": "0040",
+      "reason": "At n=100,d=1 with a zero at position 17 it gets stuck after 15 jumps but prints cnt=15 because cnt is nonzero, instead of rejecting inability to reach home with -1.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "e629fa6598d732768f7c726b4b621285f9c3b85303900aa912017db7617d8bdb",
+      "lfOutputHash": "e629fa6598d732768f7c726b4b621285f9c3b85303900aa912017db7617d8bdb",
+      "rawOutputBase64": "MTU=",
+      "lfOutputBase64": "MTU=",
+      "rawInputHash": "afc2a432187d626b2012f0622f18f4994eed2e9f9a5870c98de617b17c129ee9",
+      "lfInput": {
+        "path": "proof/910A/counterexamples/33502199-0040.lf.in",
+        "sha256": "53ddb624c99de98a0485949c198c634498f11ac41398aaf38ff365cfe0124747",
+        "bytes": 107
+      },
+      "expectedOutputHash": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577",
+      "sourceHash": "8675397025619c32aed4abfa4c90fb09186ff44408451e4fa2d1ad5c809f4083",
+      "sourceProvenance": {
+        "bytes": 127376471,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00030-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00030-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/910/submission/33502199",
+      "sourceProof": {
+        "path": "proof/910A/source-review/33502199.txt",
+        "sha256": "8675397025619c32aed4abfa4c90fb09186ff44408451e4fa2d1ad5c809f4083",
+        "bytes": 295
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        18
+      ],
+      "faultySourceLineRange": [
+        11,
+        17
+      ],
+      "faultyImplementedStep": "11:  while(con != 0)\n12:  { \n13:   if(s[p + con] == '1') p += con, cnt++, con = d;\n14:   else con--; \n15:  }\n16:  if(cnt == 0) cout << -1, exit(0);\n17:  else cout << cnt, exit(0);",
+      "completeLfInput": "100 1\n1111111111111111011111111111111111111111111111111111111111111111111101111111111111111111111111111111\n",
+      "expectedOutput": "-1\n",
+      "rawActualOutput": "15",
+      "lfActualOutput": "15",
+      "mathematicalRequirement": "Minimum length of path from 1 to n in the directed graph of lily vertices with edges 1..d to the right; unreachable is -1.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "33502234": {
+      "kind": "wrong-answer",
+      "test": "0040",
+      "failedTest": "0040",
+      "reason": "At recorded d=1 with gaps it initializes unreachable dp entries to zero. A later lily inherits dp[j]+1 from an unreachable predecessor and restarts the path, printing 30 instead of -1.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "624b60c58c9d8bfb6ff1886c2fd605d2adeb6ea4da576068201b6c6958ce93f4",
+      "lfOutputHash": "624b60c58c9d8bfb6ff1886c2fd605d2adeb6ea4da576068201b6c6958ce93f4",
+      "rawOutputBase64": "MzA=",
+      "lfOutputBase64": "MzA=",
+      "rawInputHash": "afc2a432187d626b2012f0622f18f4994eed2e9f9a5870c98de617b17c129ee9",
+      "lfInput": {
+        "path": "proof/910A/counterexamples/33502234-0040.lf.in",
+        "sha256": "53ddb624c99de98a0485949c198c634498f11ac41398aaf38ff365cfe0124747",
+        "bytes": 107
+      },
+      "expectedOutputHash": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577",
+      "sourceHash": "ce8d0115cff80250783fa79cf2802e2d5f44b9ded4cdd4c55201a4c20c052e66",
+      "sourceProvenance": {
+        "bytes": 127376471,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00030-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00030-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/910/submission/33502234",
+      "sourceProof": {
+        "path": "proof/910A/source-review/33502234.txt",
+        "sha256": "ce8d0115cff80250783fa79cf2802e2d5f44b9ded4cdd4c55201a4c20c052e66",
+        "bytes": 517
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        27
+      ],
+      "faultySourceLineRange": [
+        10,
+        21
+      ],
+      "faultyImplementedStep": "10: int dp[1000];\n11: int main(){\n12:  int n,m;cin>>n>>m;\n13:  string str;cin>>str;\n14:  for (int i = 1; i < n; ++i)\n15:  {\n16:   if(str[i]=='1'){\n17:    int men = 1e9;\n18:    for(int j=i-1;j>=i-m && j>=0;j--){\n19:     if(str[j]=='1')men=min(men,dp[j]+1);\n20:    }\n21:    if(men!=1e9)dp[i]=men;",
+      "completeLfInput": "100 1\n1111111111111111011111111111111111111111111111111111111111111111111101111111111111111111111111111111\n",
+      "expectedOutput": "-1\n",
+      "rawActualOutput": "30",
+      "lfActualOutput": "30",
+      "mathematicalRequirement": "Minimum length of path from 1 to n in the directed graph of lily vertices with edges 1..d to the right; unreachable is -1.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "33502264": {
+      "kind": "wrong-answer",
+      "test": "0032",
+      "failedTest": "0032",
+      "reason": "At recorded n=100,d=22 it searches indices up to now+d without limiting them to n. Once near the end it consults beyond the valid lily-array/string domain and can jump past home; run prints -1 instead of the valid seven-jump path.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+      "lfOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+      "rawOutputBase64": "LTEK",
+      "lfOutputBase64": "LTEK",
+      "rawInputHash": "748b9aeb4235953792b55ae026d2f88c4b2aaeee37eb314a6ad0729fedd4234b",
+      "lfInput": {
+        "path": "proof/910A/counterexamples/33502264-0032.lf.in",
+        "sha256": "a2f09eab054633d2fd0856edaf1f4f8c962c7012a00b623cf12a222a21f24f4a",
+        "bytes": 108
+      },
+      "expectedOutputHash": "9b6dd0f55d1cea37555db317f53a0631f694bd46df8018cc2aeed3d9e2f32f5f",
+      "sourceHash": "6f8cfc41b11ddf680e34ab7923df931ad7b31fbb826c6c4424c4937e489f1172",
+      "sourceProvenance": {
+        "bytes": 127376471,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00030-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00030-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/910/submission/33502264",
+      "sourceProof": {
+        "path": "proof/910A/source-review/33502264.txt",
+        "sha256": "6f8cfc41b11ddf680e34ab7923df931ad7b31fbb826c6c4424c4937e489f1172",
+        "bytes": 1324
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        64
+      ],
+      "faultySourceLineRange": [
+        49,
+        60
+      ],
+      "faultyImplementedStep": "49:  int now=1,ans=0;\n50:  while(now!=n)\n51:  {\n52:   bool f=0;\n53:   for(int i=now+d;i>=now+1;i--)\n54:    if(ok[i])\n55:    {\n56:     f=1;\n57:     now=i; ans++;\n58:     break;\n59:    }\n60:   if(!f) {puts(\"-1\"); return 0;}",
+      "completeLfInput": "100 22\n1000100000001010000000000000000001000000100000000000000000010000000000001000000000000000000100000001\n",
+      "expectedOutput": "7\n",
+      "rawActualOutput": "-1\n",
+      "lfActualOutput": "-1\n",
+      "mathematicalRequirement": "Minimum length of path from 1 to n in the directed graph of lily vertices with edges 1..d to the right; unreachable is -1.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "33502276": {
+      "kind": "wrong-answer",
+      "test": "0040",
+      "failedTest": "0040",
+      "reason": "At recorded d=1 with gaps it updates from f[j]=-1 without a reachability check, producing zero at a new unreachable lily and propagating a spurious path. Prints 29 instead of -1.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "3840bc236ee03aacbb1ef7d5108ddfa347c59f10b68d4174affbb53140f31273",
+      "lfOutputHash": "3840bc236ee03aacbb1ef7d5108ddfa347c59f10b68d4174affbb53140f31273",
+      "rawOutputBase64": "MjkK",
+      "lfOutputBase64": "MjkK",
+      "rawInputHash": "afc2a432187d626b2012f0622f18f4994eed2e9f9a5870c98de617b17c129ee9",
+      "lfInput": {
+        "path": "proof/910A/counterexamples/33502276-0040.lf.in",
+        "sha256": "53ddb624c99de98a0485949c198c634498f11ac41398aaf38ff365cfe0124747",
+        "bytes": 107
+      },
+      "expectedOutputHash": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577",
+      "sourceHash": "2bf8d5941f5bc4e53d7351c0f29b1c8109badd261c23868ba07a5be158f00d5e",
+      "sourceProvenance": {
+        "bytes": 127376471,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00030-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00030-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/910/submission/33502276",
+      "sourceProof": {
+        "path": "proof/910A/source-review/33502276.txt",
+        "sha256": "2bf8d5941f5bc4e53d7351c0f29b1c8109badd261c23868ba07a5be158f00d5e",
+        "bytes": 491
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        25
+      ],
+      "faultySourceLineRange": [
+        10,
+        21
+      ],
+      "faultyImplementedStep": "10:   for (int i=0; i<a; i++) f[i] =  -1;\n11:   f[0] = 0;\n12:   for (int i=0; i<s.length(); i++){\n13:     if (s[i] == '1'){\n14:       for (int j=i-1; j>=max(i-b,0); j--)\n15:       if (s[j] == '1'){\n16:         if (f[i] == -1){\n17:           f[i] = f[j]+1;\n18:         } else{\n19:           f[i] = min(f[i],f[j]+1);\n20:         }\n21:       }",
+      "completeLfInput": "100 1\n1111111111111111011111111111111111111111111111111111111111111111111101111111111111111111111111111111\n",
+      "expectedOutput": "-1\n",
+      "rawActualOutput": "29\n",
+      "lfActualOutput": "29\n",
+      "mathematicalRequirement": "Minimum length of path from 1 to n in the directed graph of lily vertices with edges 1..d to the right; unreachable is -1.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    }
+  },
+  "reason": "Rejected current bytes: 33502149@0015: At recorded n=99,d=4,all lilies except one interior zero it times out exploring exponentially many recursive branches. Its overwritten final recursive choice follows the farthest valid lily and yields the correct greedy path on this input if completed. There is no retained wrong output on the recorded test; TLE-only slow/correct is excluded.",
+  "statementReview": {
+    "fullStatementInputOutputSamplesRead": true,
+    "numericBoundsAccurate": true,
+    "deterministicUniqueOutput": true,
+    "tokenCheckerAppropriate": true,
+    "review": "Rightward jumps of length 1..d only onto lilies; endpoints are lilies. Unique minimum integer or -1.",
+    "defects": [],
+    "hash": "6d6d04a7dedb18d46c8e911bef17d0ba0ae5a1c727421da3d445de550561c6ea",
+    "sampleCount": 4,
+    "attribution": "Codeforces contest authors; open-r1/CodeForces (Penedo et al., 2025).",
+    "ratingApiProof": {
+      "contestId": 910,
+      "index": "A",
+      "name": "The Way to Home",
+      "points": 500.0,
+      "rating": 800,
+      "tags": [
+        "dfs and similar",
+        "dp",
+        "greedy",
+        "implementation"
+      ],
+      "type": "PROGRAMMING"
+    }
+  },
+  "coverageReview": {
+    "packageTestBasis": {
+      "extraTestsHash": null,
+      "generatedAdvertised": 0,
+      "generatedIncluded": 0,
+      "generatedSource": null,
+      "officialAdvertised": 63,
+      "officialComplete": true,
+      "officialIncluded": 63,
+      "officialRole": "qualification"
+    },
+    "labelsIndependentlyInspected": true,
+    "builderCoverage": {
+      "adversarial": [
+        {
+          "reason": "gap too wide (input already in upstream suite)",
+          "test": "0002"
+        }
+      ],
+      "boundary": [
+        {
+          "reason": "n=2 d=1 (input already in upstream suite)",
+          "test": "0063"
+        }
+      ],
+      "checkerSemantics": "Unique integer. The authored reference reproduced every upstream expected output under the token/YES-NO checker; worker outputs come from that reference and are re-checked against five accepted programs.",
+      "inputConstraints": "Authored validate() asserts: n in 2..100, d in 1..n-1; binary string of length n starting and ending with 1. It accepted all 4 samples, 63 official and 0 open-r1 generated inputs, and all 0 distinct worker-generated inputs (categorized inputs already present upstream reference the upstream test).",
+      "maxSize": [
+        {
+          "reason": "n=100 d=1 all lilies (99 jumps) (input already in upstream suite)",
+          "test": "0038"
+        },
+        {
+          "reason": "n=100 d=99 single jump (input already in upstream suite)",
+          "test": "0037"
+        }
+      ],
+      "packageHash": "21f1e3b9ee98bbfdd9706e64608f796d446be62d0b9fb3b45ba7cc224d04eb04",
+      "recipeHash": "d1e9819f4d4e408df63c58c7ffbe1181bdd1177472002d45d5e3c41b7ffdb961",
+      "recipeReportHash": "27c6260563be2cc5531e8086727493f5be184383e7e81042deb7cee0b5b1dbf6",
+      "statementComplete": "Reviewed full statement: minimum jumps (<= d) on lilies, -1 if impossible.",
+      "testBasis": {
+        "officialAdvertised": 63,
+        "officialComplete": true,
+        "officialIncluded": 63,
+        "openR1Generated": 0,
+        "workerGenerated": 0
+      }
+    },
+    "validatorAndExpectedOutputs": {
+      "path": "proof/910A/recipe.json",
+      "sha256": "38023c2f6872c5a4867a8d5930ce12366e81323958a8b0cc44c25425ed256e94",
+      "bytes": 23108
+    },
+    "independentValidatorAndReference": {
+      "path": "proof/910A/independent-package-reference.json",
+      "sha256": "60cceb1612608c178c4e2168ef88c997e477769b9650f51f44da64f9a1d5d1b4",
+      "bytes": 21418
+    },
+    "supplement": {
+      "generatorHash": "9ccdb8342ad3ded06764e05078f0a5e621bfebc6f6fe4015d15ae8a7df70d347",
+      "oracleHash": "4c746118a10e596b8cd7191b935c4a70ef82b45f846cba94a316ca9c6213c16e",
+      "pairsHash": "19cf6960347e771fb12a3708f81bd68ced76660096d94c5e5e53605147bd0cd5",
+      "supplementCount": 333,
+      "seed": 918273645,
+      "packageReferenceVerdict": "AC",
+      "acceptedComparisons": [
+        {
+          "submissionId": "33502104",
+          "sourceHash": "2a323f83f54b0c1d9762487ed1b266f059caa6b29be95922c000e631accf5f61",
+          "result": "AC",
+          "testsRun": 333
+        },
+        {
+          "submissionId": "33502106",
+          "sourceHash": "81a347457f7a1296677f111f0a0c40e21c3fc7ce0520ba048c04478bbdb4bdca",
+          "result": "AC",
+          "testsRun": 333
+        }
+      ]
+    },
+    "supplementPairs": {
+      "path": "proof/910A/supplement-pairs.json",
+      "sha256": "19cf6960347e771fb12a3708f81bd68ced76660096d94c5e5e53605147bd0cd5",
+      "bytes": 33954
+    },
+    "supplementOracle": {
+      "path": "proof/910A/independent-oracle.py",
+      "sha256": "4c746118a10e596b8cd7191b935c4a70ef82b45f846cba94a316ca9c6213c16e",
+      "bytes": 9842
+    },
+    "supplementGenerator": {
+      "path": "proof/910A/independent-generator.py",
+      "sha256": "9ccdb8342ad3ded06764e05078f0a5e621bfebc6f6fe4015d15ae8a7df70d347",
+      "bytes": 9837
+    },
+    "finiteDomainNotes": "918A: all 1000 legal inputs. 931A: every distance 1..999 in both orders; translation invariance follows directly from distance-only movement costs. Other arrays/strings: exhaustive small domains or category domains plus max-size. 935A full 99999-input domain not exhausted: current package rejected for malformed statement; 205 small/boundary cases independently tested."
+  },
+  "proofs": {
+    "metadata": {
+      "path": "proof/910A/metadata-verification.json",
+      "sha256": "1d1d861343a888677b837e9222d360565b9a8d0d915d75799c8d47f806e0e220",
+      "bytes": 15814
+    },
+    "independent": {
+      "path": "proof/910A/independent.json",
+      "sha256": "98213e8b71b509e950fe2540641b0ecbb490e6637653d9f8e5694b16a5cea5c5",
+      "bytes": 38610
+    },
+    "generated": null
+  },
+  "gaps": [
+    "Codeforces API documentation returned HTTP 403; no Codeforces API/proxy calls made, no auth bypass. Rating independently checked against hashed bundled official API snapshot."
+  ]
+}

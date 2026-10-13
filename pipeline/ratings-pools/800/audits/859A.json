@@ -1,0 +1,420 @@
+{
+  "schemaVersion": 1,
+  "id": "859A",
+  "rating": 800,
+  "approved": false,
+  "reviewer": "devin-8868d1bfd2e6427e836d89e539a0b515",
+  "reviewUrl": "https://staging.itsdev.in/sessions/8868d1bfd2e6427e836d89e539a0b515",
+  "qualificationBasis": "official",
+  "packageHash": "281ec20d66655f6fe91b971123379974f7594e4ae16dd00956d63962e37e199c",
+  "evidenceHash": "30ab6be5c653fe8a5940ee5f0fcfa36cda8bdebe2a310608e32ffa0c5d85f3c2",
+  "checks": {
+    "sourceAttribution": true,
+    "fullTests": true,
+    "coverage": false,
+    "fiveAcceptedFiveIncorrect": true,
+    "noSpecialChecker": true,
+    "hashes": true,
+    "statementComplete": false,
+    "inputConstraints": false,
+    "algorithmicallyWrong": true,
+    "independentSupplementalReference": true
+  },
+  "incorrectAnalysis": {
+    "30406544": {
+      "kind": "wrong-answer",
+      "test": "0002",
+      "failedTest": "0002",
+      "reason": "For ranks 16,23,8,15,4 the largest rank is 23; maxrank-25 prints -2 instead of clipping the required declines to zero.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "4b883e04ed1a2af32c21811a12f2ccc766a1d73040b533ae4bcdfad8aca74293",
+      "lfOutputHash": "4b883e04ed1a2af32c21811a12f2ccc766a1d73040b533ae4bcdfad8aca74293",
+      "rawOutputBase64": "LTIK",
+      "lfOutputBase64": "LTIK",
+      "rawInputHash": "a5b63502fa80677edc6a113ae64a11706e63b6ac415868cf0f025465c749f311",
+      "lfInput": {
+        "path": "proof/859A/counterexamples/30406544-0002.lf.in",
+        "sha256": "ab7f4b958545054fe2efbda6be32f51fc88ca25aafdc7d719128c126b2abf868",
+        "bytes": 15
+      },
+      "expectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "sourceHash": "3d2feb574012380907ae0e289cfb2381e61f21791cd2420003f48a38942baaba",
+      "sourceProvenance": {
+        "bytes": 132018645,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00029-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "5a38b91fc4de6c895d6b916ef638e1c61c05f15b40cb942ee59854777134740e",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00029-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/859/submission/30406544",
+      "sourceProof": {
+        "path": "proof/859A/source-review/30406544.txt",
+        "sha256": "3d2feb574012380907ae0e289cfb2381e61f21791cd2420003f48a38942baaba",
+        "bytes": 317
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        16
+      ],
+      "faultySourceLineRange": [
+        10,
+        16
+      ],
+      "faultyImplementedStep": "10: for i in range( 0 , len(ranksplit) ):\n11:     rank = int(ranksplit[i])\n12:     if maxrank < rank:\n13:         maxrank = rank\n14: numberDeclined = maxrank - 25\n15: \n16: print( numberDeclined )",
+      "completeLfInput": "5\n16 23 8 15 4\n",
+      "expectedOutput": "0\n",
+      "rawActualOutput": "-2\n",
+      "lfActualOutput": "-2\n",
+      "mathematicalRequirement": "max(0,max(ranks)-25): R slots through largest rank R require at least R-25 declines, irrespective of which known finalist occupies a slot.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "30414703": {
+      "kind": "wrong-answer",
+      "test": "0004",
+      "failedTest": "0004",
+      "reason": "The backwards range is empty for the recorded singleton rank 1000000, so it prints 0 instead of 999975. It never accounts for invitations before the smallest known rank.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "lfOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "rawOutputBase64": "MAo=",
+      "lfOutputBase64": "MAo=",
+      "rawInputHash": "5375833d269c02daf8e7e9918bf0c56cf844835fa2b99484bdce9290eca305dd",
+      "lfInput": {
+        "path": "proof/859A/counterexamples/30414703-0004.lf.in",
+        "sha256": "2d71fd9250e00bd67405d89c8ed5b29827e63cbdbd279b2c8161ef83a790d8bc",
+        "bytes": 10
+      },
+      "expectedOutputHash": "a9483cb5882d7c8c846b12c1e87ec33d4195f9a8c1f6e3539aa4ae3ce6ad7e5d",
+      "sourceHash": "0a19a8ab23a398825f2dea817f91043a0e5ff4e4e103012d6d1174a7072e2102",
+      "sourceProvenance": {
+        "bytes": 132018645,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00029-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "5a38b91fc4de6c895d6b916ef638e1c61c05f15b40cb942ee59854777134740e",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00029-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/859/submission/30414703",
+      "sourceProof": {
+        "path": "proof/859A/source-review/30414703.txt",
+        "sha256": "0a19a8ab23a398825f2dea817f91043a0e5ff4e4e103012d6d1174a7072e2102",
+        "bytes": 236
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        14
+      ],
+      "faultySourceLineRange": [
+        6,
+        14
+      ],
+      "faultyImplementedStep": "6: for i in range(k-1,0,-1):\n7:     if a[i]>25 and a[i-1]>25:\n8:         t+=a[i]-a[i-1]-1\n9:         w+=1\n10:     elif a[i]>25 and a[i-1]<=25:\n11:         t+=a[i]-26\n12:         w+=1\n13: \n14: print(t+w)",
+      "completeLfInput": "1\n1000000\n",
+      "expectedOutput": "999975\n",
+      "rawActualOutput": "0\n",
+      "lfActualOutput": "0\n",
+      "mathematicalRequirement": "max(0,max(ranks)-25): R slots through largest rank R require at least R-25 declines, irrespective of which known finalist occupies a slot.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "30416486": {
+      "kind": "wrong-answer",
+      "test": "0001",
+      "failedTest": "0001",
+      "reason": "Recorded max rank 28 requires three declines, but it additionally counts the two known finalists above rank 25 and prints 5; those finalists do not require additional declined invitations.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+      "lfOutputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+      "rawOutputBase64": "NQo=",
+      "lfOutputBase64": "NQo=",
+      "rawInputHash": "987e1ada0f393653934b544ddc178adfbae0d2685dc9f4c6350bc0b72f42b2df",
+      "lfInput": {
+        "path": "proof/859A/counterexamples/30416486-0001.lf.in",
+        "sha256": "55070352bb20ea93310531a777f014b9b80832ebd2aa0f4752655ab8acbe0e42",
+        "bytes": 70
+      },
+      "expectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "sourceHash": "6cc0354248018158a83b518d559a3889740f7968a1315c2c7642255276b015c7",
+      "sourceProvenance": {
+        "bytes": 132018645,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00029-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "5a38b91fc4de6c895d6b916ef638e1c61c05f15b40cb942ee59854777134740e",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00029-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/859/submission/30416486",
+      "sourceProof": {
+        "path": "proof/859A/source-review/30416486.txt",
+        "sha256": "6cc0354248018158a83b518d559a3889740f7968a1315c2c7642255276b015c7",
+        "bytes": 128
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        8
+      ],
+      "faultySourceLineRange": [
+        4,
+        8
+      ],
+      "faultyImplementedStep": "4: for i in range(k-1,-1,-1):\n5:     if a[i]>25:\n6:         t+=1\n7: \n8: print(max(a)+t-25)",
+      "completeLfInput": "25\n2 3 4 5 6 7 8 9 10 11 12 14 15 16 17 18 19 20 21 22 23 24 25 26 28\n",
+      "expectedOutput": "3\n",
+      "rawActualOutput": "5\n",
+      "lfActualOutput": "5\n",
+      "mathematicalRequirement": "max(0,max(ranks)-25): R slots through largest rank R require at least R-25 declines, irrespective of which known finalist occupies a slot.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "30417676": {
+      "kind": "wrong-answer",
+      "test": "0001",
+      "failedTest": "0001",
+      "reason": "On the recorded 25 known ranks with no rank 1, appending a fictitious rank 0 and increasing n introduces an extra invitation slot. It prints 4 instead of 3.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "lfOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "rawOutputBase64": "NAo=",
+      "lfOutputBase64": "NAo=",
+      "rawInputHash": "987e1ada0f393653934b544ddc178adfbae0d2685dc9f4c6350bc0b72f42b2df",
+      "lfInput": {
+        "path": "proof/859A/counterexamples/30417676-0001.lf.in",
+        "sha256": "55070352bb20ea93310531a777f014b9b80832ebd2aa0f4752655ab8acbe0e42",
+        "bytes": 70
+      },
+      "expectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "sourceHash": "5499373aa6e695746012140659d172c4cf5bc41b888992f0bae1c1eb17cde09e",
+      "sourceProvenance": {
+        "bytes": 132018645,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00029-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "5a38b91fc4de6c895d6b916ef638e1c61c05f15b40cb942ee59854777134740e",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00029-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/859/submission/30417676",
+      "sourceProof": {
+        "path": "proof/859A/source-review/30417676.txt",
+        "sha256": "5499373aa6e695746012140659d172c4cf5bc41b888992f0bae1c1eb17cde09e",
+        "bytes": 258
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        14
+      ],
+      "faultySourceLineRange": [
+        7,
+        14
+      ],
+      "faultyImplementedStep": "7: \t\tif 1 not in arr:\n8: \t\t\tarr.append(0)\n9: \t\t\tn+=1\n10: \t\tans = 0\n11: \t\tarr.sort()\n12: \t\tfor i in range(1,n):\n13: \t\t\tans += (arr[i]-arr[i-1]-1)\n14: \t\tprint(ans-(25-n))",
+      "completeLfInput": "25\n2 3 4 5 6 7 8 9 10 11 12 14 15 16 17 18 19 20 21 22 23 24 25 26 28\n",
+      "expectedOutput": "3\n",
+      "rawActualOutput": "4\n",
+      "lfActualOutput": "4\n",
+      "mathematicalRequirement": "max(0,max(ranks)-25): R slots through largest rank R require at least R-25 declines, irrespective of which known finalist occupies a slot.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "30686979": {
+      "kind": "wrong-answer",
+      "test": "0002",
+      "failedTest": "0002",
+      "reason": "Recorded max rank 23 causes max(ranks)-25=-2; declines cannot be negative, and the minimum is 0.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "4b883e04ed1a2af32c21811a12f2ccc766a1d73040b533ae4bcdfad8aca74293",
+      "lfOutputHash": "4b883e04ed1a2af32c21811a12f2ccc766a1d73040b533ae4bcdfad8aca74293",
+      "rawOutputBase64": "LTIK",
+      "lfOutputBase64": "LTIK",
+      "rawInputHash": "a5b63502fa80677edc6a113ae64a11706e63b6ac415868cf0f025465c749f311",
+      "lfInput": {
+        "path": "proof/859A/counterexamples/30686979-0002.lf.in",
+        "sha256": "ab7f4b958545054fe2efbda6be32f51fc88ca25aafdc7d719128c126b2abf868",
+        "bytes": 15
+      },
+      "expectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "sourceHash": "a3d3ee6868dd4ff41127e0b1c0e0c7407552fd75e03dbc130979e3c40231bc98",
+      "sourceProvenance": {
+        "bytes": 132018645,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00029-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "5a38b91fc4de6c895d6b916ef638e1c61c05f15b40cb942ee59854777134740e",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00029-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/859/submission/30686979",
+      "sourceProof": {
+        "path": "proof/859A/source-review/30686979.txt",
+        "sha256": "a3d3ee6868dd4ff41127e0b1c0e0c7407552fd75e03dbc130979e3c40231bc98",
+        "bytes": 86
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        4
+      ],
+      "faultySourceLineRange": [
+        1,
+        4
+      ],
+      "faultyImplementedStep": "1: n = int(input())\n2: ranks = [int(x) for x in input().split(\" \")]\n3: \n4: print (max(ranks) - 25)",
+      "completeLfInput": "5\n16 23 8 15 4\n",
+      "expectedOutput": "0\n",
+      "rawActualOutput": "-2\n",
+      "lfActualOutput": "-2\n",
+      "mathematicalRequirement": "max(0,max(ranks)-25): R slots through largest rank R require at least R-25 declines, irrespective of which known finalist occupies a slot.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    }
+  },
+  "reason": "Rejected current bytes: Input ranks upper bound is rendered as 106 rather than an exponent, but suite and validator allow 1000000. No upstream-attested normalization accompanies these exact statement bytes.",
+  "statementReview": {
+    "fullStatementInputOutputSamplesRead": true,
+    "numericBoundsAccurate": false,
+    "deterministicUniqueOutput": true,
+    "tokenCheckerAppropriate": true,
+    "review": "Minimum declined invitations; unique nonnegative integer. Distinct known ranks and max-rank threshold reviewed.",
+    "defects": [
+      "Input ranks upper bound is rendered as 106 rather than an exponent, but suite and validator allow 1000000. No upstream-attested normalization accompanies these exact statement bytes."
+    ],
+    "hash": "313663f12e0597317bd8bf76620e96a52cb174f464eb1b6e87c314c40c9a750c",
+    "sampleCount": 3,
+    "attribution": "Codeforces contest authors; open-r1/CodeForces (Penedo et al., 2025).",
+    "ratingApiProof": {
+      "contestId": 859,
+      "index": "A",
+      "name": "Declined Finalists",
+      "points": 500.0,
+      "rating": 800,
+      "tags": [
+        "greedy",
+        "implementation"
+      ],
+      "type": "PROGRAMMING"
+    }
+  },
+  "coverageReview": {
+    "packageTestBasis": {
+      "extraTestsHash": "f0a0655aae68c1a1be0ad6b28dd80a080a9cb5f591cfd1753282d9809aa0249f",
+      "generatedAdvertised": 0,
+      "generatedIncluded": 0,
+      "generatedSource": null,
+      "officialAdvertised": 25,
+      "officialComplete": true,
+      "officialIncluded": 25,
+      "officialRole": "qualification"
+    },
+    "labelsIndependentlyInspected": true,
+    "builderCoverage": {
+      "adversarial": [
+        {
+          "reason": "rank 26",
+          "test": "0027"
+        }
+      ],
+      "boundary": [
+        {
+          "reason": "K=1 rank 1 (input already in upstream suite)",
+          "test": "0010"
+        },
+        {
+          "reason": "rank exactly 25",
+          "test": "0026"
+        }
+      ],
+      "checkerSemantics": "Unique integer. The authored reference reproduced every upstream expected output under the token/YES-NO checker; worker outputs come from that reference and are re-checked against five accepted programs.",
+      "inputConstraints": "Authored validate() asserts: K in 1..25, then K distinct ranks in 1..10^6. It accepted all 3 samples, 25 official and 0 open-r1 generated inputs, and all 3 distinct worker-generated inputs (categorized inputs already present upstream reference the upstream test).",
+      "maxSize": [
+        {
+          "reason": "K=25 with max rank 10^6",
+          "test": "0028"
+        }
+      ],
+      "packageHash": "281ec20d66655f6fe91b971123379974f7594e4ae16dd00956d63962e37e199c",
+      "recipeHash": "0a8bab5cf68d5e6c2825008d09402d591cbf25763e24597df68b6014343ced61",
+      "recipeReportHash": "c680eefc96c527b199cb76bbd1c54e01b10c62631f62558eca1db4d26f1b9f01",
+      "statementComplete": "Reviewed full statement: max(0, max rank - 25).",
+      "testBasis": {
+        "officialAdvertised": 25,
+        "officialComplete": true,
+        "officialIncluded": 25,
+        "openR1Generated": 0,
+        "workerGenerated": 3
+      }
+    },
+    "validatorAndExpectedOutputs": {
+      "path": "proof/859A/recipe.json",
+      "sha256": "ca7cb67a925e41c3524606577a9dfea707f747462a52733334969be38b630f0f",
+      "bytes": 10969
+    },
+    "independentValidatorAndReference": {
+      "path": "proof/859A/independent-package-reference.json",
+      "sha256": "07f8da7bc29146d651be633401186b56cffa5345d36ca9597474b6a49c4b1493",
+      "bytes": 10071
+    },
+    "supplement": {
+      "generatorHash": "d590faf2c65bcde15c89d28a8fabac8bec0f8d623076da7cb3e0f948aeb7d511",
+      "oracleHash": "476a690d7cd6c7badf2e088e6e91c7d4b7d1fe6f162331a1d2c81929315d172b",
+      "pairsHash": "562597f63c147d456a5345e617dcc123e26bfa149395aad18905e17cd2ccf11d",
+      "supplementCount": 129,
+      "seed": 918273645,
+      "packageReferenceVerdict": "AC",
+      "acceptedComparisons": [
+        {
+          "submissionId": "30389460",
+          "sourceHash": "0758bf666a831c91491f137a666af3a1092cdf93ba4e888b36f376615a2efc93",
+          "result": "AC",
+          "testsRun": 129
+        },
+        {
+          "submissionId": "30389461",
+          "sourceHash": "a9741c6009f1a73b16e858e00d82e7964070abd926a7aaf96e489a92ed2459d3",
+          "result": "AC",
+          "testsRun": 129
+        }
+      ]
+    },
+    "supplementPairs": {
+      "path": "proof/859A/supplement-pairs.json",
+      "sha256": "562597f63c147d456a5345e617dcc123e26bfa149395aad18905e17cd2ccf11d",
+      "bytes": 22884
+    },
+    "supplementOracle": {
+      "path": "proof/859A/independent-oracle.py",
+      "sha256": "476a690d7cd6c7badf2e088e6e91c7d4b7d1fe6f162331a1d2c81929315d172b",
+      "bytes": 9842
+    },
+    "supplementGenerator": {
+      "path": "proof/859A/independent-generator.py",
+      "sha256": "d590faf2c65bcde15c89d28a8fabac8bec0f8d623076da7cb3e0f948aeb7d511",
+      "bytes": 9837
+    },
+    "finiteDomainNotes": "918A: all 1000 legal inputs. 931A: every distance 1..999 in both orders; translation invariance follows directly from distance-only movement costs. Other arrays/strings: exhaustive small domains or category domains plus max-size. 935A full 99999-input domain not exhausted: current package rejected for malformed statement; 205 small/boundary cases independently tested."
+  },
+  "proofs": {
+    "metadata": {
+      "path": "proof/859A/metadata-verification.json",
+      "sha256": "f446e83e60aa75fd2b6a86fcb5ee9fa210127cf2d48d6a2f7b5b7e2b712274bb",
+      "bytes": 7536
+    },
+    "independent": {
+      "path": "proof/859A/independent.json",
+      "sha256": "7fe11d3a5bc3ff27643840a946decf49a895c8828184d121ca17c4a619e89720",
+      "bytes": 28735
+    },
+    "generated": null
+  },
+  "gaps": [
+    "Codeforces API documentation returned HTTP 403; no Codeforces API/proxy calls made, no auth bypass. Rating independently checked against hashed bundled official API snapshot."
+  ]
+}

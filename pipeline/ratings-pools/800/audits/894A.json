@@ -1,0 +1,422 @@
+{
+  "schemaVersion": 1,
+  "id": "894A",
+  "rating": 800,
+  "approved": false,
+  "reviewer": "devin-8868d1bfd2e6427e836d89e539a0b515",
+  "reviewUrl": "https://staging.itsdev.in/sessions/8868d1bfd2e6427e836d89e539a0b515",
+  "qualificationBasis": "official",
+  "packageHash": "65d16d07fb8dedef0df14db382cd6f48098cd793be1728a6c383fe7c84da93a0",
+  "evidenceHash": "c3fce0a072351c307d1c70ecedb61daaf06d37e19ddc939a3e9612fb9a16a84e",
+  "checks": {
+    "sourceAttribution": true,
+    "fullTests": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "noSpecialChecker": true,
+    "hashes": true,
+    "statementComplete": true,
+    "inputConstraints": true,
+    "algorithmicallyWrong": false,
+    "independentSupplementalReference": true
+  },
+  "incorrectAnalysis": {
+    "80717040": {
+      "kind": "wrong-answer",
+      "test": "0003",
+      "failedTest": "0003",
+      "reason": "For QA, which has no trailing Q and no QAQ subsequence, it accumulates ac=2 and unconditionally prints ac+1=3 instead of 0.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "lfOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "rawOutputBase64": "Mwo=",
+      "lfOutputBase64": "Mwo=",
+      "rawInputHash": "8731aa98a1dd61c783e2b51269f82ca416dba02283c068d8a7b2bf406600ce75",
+      "lfInput": {
+        "path": "proof/894A/counterexamples/80717040-0003.lf.in",
+        "sha256": "fa60690ce6beefcc02e11a50dd4c53373cd0c7e9ed84497220eac4b76307547b",
+        "bytes": 3
+      },
+      "expectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "sourceHash": "0b2ac39db57f4a3dcc2827f260906e593f6d866df0396a69749ef747aa5bbb8f",
+      "sourceProvenance": {
+        "bytes": 135584076,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00031-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "1e4c2582125f31e1fb50b03b5d47811d2890fac3e97e54d05c1c2c85c1bc260a",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00031-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/894/submission/80717040",
+      "sourceProof": {
+        "path": "proof/894A/source-review/80717040.txt",
+        "sha256": "0b2ac39db57f4a3dcc2827f260906e593f6d866df0396a69749ef747aa5bbb8f",
+        "bytes": 148
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        8
+      ],
+      "faultySourceLineRange": [
+        3,
+        8
+      ],
+      "faultyImplementedStep": "3: for i in range(len(l)):\n4:     if l[i]==\"q\":\n5:         qc+=1\n6:     elif l[i]==\"a\" and qc>0:\n7:         ac=max(ac,qc)+1\n8: print(ac+1)",
+      "completeLfInput": "QA\n",
+      "expectedOutput": "0\n",
+      "rawActualOutput": "3\n",
+      "lfActualOutput": "3\n",
+      "mathematicalRequirement": "Sum, over each A position, number of preceding Q times number of following Q.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "80852521": {
+      "kind": "wrong-answer",
+      "test": "0004",
+      "failedTest": "0004",
+      "reason": "On IAQVAQZLQBQVQFTQQQADAQJA it uses character position i as an index into q count in len(q)-i-1. The count becomes negative (-70 instead of 24); trailing Q availability must be counted after each A.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "991ab106692fd1169b6406a442545f2643f1e53feef0dc0852ff31bc52331fbf",
+      "lfOutputHash": "991ab106692fd1169b6406a442545f2643f1e53feef0dc0852ff31bc52331fbf",
+      "rawOutputBase64": "LTcwCg==",
+      "lfOutputBase64": "LTcwCg==",
+      "rawInputHash": "3b088929a10358ad5d53ade291437d41676c108f39c9c2f2de8d7e5b6eafa294",
+      "lfInput": {
+        "path": "proof/894A/counterexamples/80852521-0004.lf.in",
+        "sha256": "0c52cbe9f2e683cefe73f595fe85ddcbb9cbd500896ac81bd863c8e8f99f00c8",
+        "bytes": 25
+      },
+      "expectedOutputHash": "f6bca0e7f46a94bd3349fdb86511cbec4a9091e409b62dd2d6b8c1fdb9a3ce00",
+      "sourceHash": "4678210c561c17e48aee3035f7c6e8a7565920c30aad866e939985fdf5c87404",
+      "sourceProvenance": {
+        "bytes": 135584076,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00031-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "1e4c2582125f31e1fb50b03b5d47811d2890fac3e97e54d05c1c2c85c1bc260a",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00031-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/894/submission/80852521",
+      "sourceProof": {
+        "path": "proof/894A/source-review/80852521.txt",
+        "sha256": "4678210c561c17e48aee3035f7c6e8a7565920c30aad866e939985fdf5c87404",
+        "bytes": 247
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        17
+      ],
+      "faultySourceLineRange": [
+        11,
+        15
+      ],
+      "faultyImplementedStep": "11: for i in q:\n12:     j=0 \n13:     while(j<len(a) and a[j]<=i):\n14:         j=j+1 \n15:     ss=ss+(len(a)-j)*(len(q)-i-1) ",
+      "completeLfInput": "IAQVAQZLQBQVQFTQQQADAQJA\n",
+      "expectedOutput": "24\n",
+      "rawActualOutput": "-70\n",
+      "lfActualOutput": "-70\n",
+      "mathematicalRequirement": "Sum, over each A position, number of preceding Q times number of following Q.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "82454101": {
+      "kind": "non-algorithmic",
+      "test": "0004",
+      "failedTest": "0004",
+      "reason": "At the recorded 24-character input the recursive powerset enumeration is exponential and times out. It counts exactly QAQ at each completed subsequence and is functionally correct if completed; under the assignment's explicit TLE-only slow/correct exclusion this cannot supply an algorithmic wrong answer on the recorded test.",
+      "algorithmicKill": false,
+      "rawVerdict": "TLE",
+      "lfVerdict": "TLE",
+      "rawOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "lfOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rawOutputBase64": "",
+      "lfOutputBase64": "",
+      "rawInputHash": "3b088929a10358ad5d53ade291437d41676c108f39c9c2f2de8d7e5b6eafa294",
+      "lfInput": {
+        "path": "proof/894A/counterexamples/82454101-0004.lf.in",
+        "sha256": "0c52cbe9f2e683cefe73f595fe85ddcbb9cbd500896ac81bd863c8e8f99f00c8",
+        "bytes": 25
+      },
+      "expectedOutputHash": "f6bca0e7f46a94bd3349fdb86511cbec4a9091e409b62dd2d6b8c1fdb9a3ce00",
+      "sourceHash": "94da47f67997c6b19fadd412e76d283a1287390f7ab68e0bb2b00c87eba5a8b6",
+      "sourceProvenance": {
+        "bytes": 135584076,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00031-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "1e4c2582125f31e1fb50b03b5d47811d2890fac3e97e54d05c1c2c85c1bc260a",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00031-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/894/submission/82454101",
+      "sourceProof": {
+        "path": "proof/894A/source-review/82454101.txt",
+        "sha256": "94da47f67997c6b19fadd412e76d283a1287390f7ab68e0bb2b00c87eba5a8b6",
+        "bytes": 327
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        15
+      ],
+      "faultySourceLineRange": [
+        2,
+        15
+      ],
+      "faultyImplementedStep": "2: def powerSet(string,index,curr):\n3:     global cnt\n4:     if(index==len(string)):\n5:        if(curr==\"QAQ\"):\n6:            cnt+=1\n7:        return\n8:     powerSet(string,index+1,curr+string[index])\n9:     powerSet(string,index+1,curr)\n10: if(__name__=='__main__'):\n11:     s1=input()\n12:     index=0\n13:     curr=\"\"\n14:     powerSet(s1,index,curr)\n15:     print(cnt)",
+      "completeLfInput": "IAQVAQZLQBQVQFTQQQADAQJA\n",
+      "expectedOutput": "24\n",
+      "rawActualOutput": "",
+      "lfActualOutput": "",
+      "mathematicalRequirement": "Sum, over each A position, number of preceding Q times number of following Q.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "82454916": {
+      "kind": "wrong-answer",
+      "test": "0001",
+      "failedTest": "0001",
+      "reason": "On QAQAQYSYIOIWIN it compares an individual one-character arr[j] to the three-character string QAQ, which is impossible. It counts zero instead of four subsequences.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "lfOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "rawOutputBase64": "MAo=",
+      "lfOutputBase64": "MAo=",
+      "rawInputHash": "425ec9d0f5bce549ad94e3d2eeca96b946127480bb4d83834ab47f8e4e941fdd",
+      "lfInput": {
+        "path": "proof/894A/counterexamples/82454916-0001.lf.in",
+        "sha256": "cd2c4181c1c313d4a3e6e3d6428ac1304e10190530c272aabeaf86ed0eaa4bf9",
+        "bytes": 15
+      },
+      "expectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+      "sourceHash": "da50bc4072bef16bb087939fc0ebc5d5b7134b10a5402e499cf8f7f574e3a336",
+      "sourceProvenance": {
+        "bytes": 135584076,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00031-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "1e4c2582125f31e1fb50b03b5d47811d2890fac3e97e54d05c1c2c85c1bc260a",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00031-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/894/submission/82454916",
+      "sourceProof": {
+        "path": "proof/894A/source-review/82454916.txt",
+        "sha256": "da50bc4072bef16bb087939fc0ebc5d5b7134b10a5402e499cf8f7f574e3a336",
+        "bytes": 365
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        16
+      ],
+      "faultySourceLineRange": [
+        3,
+        10
+      ],
+      "faultyImplementedStep": "3: def powerSet(arr, n) :\n4:     global cnt\n5:     opsize = math.pow(2, n)\n6:     for counter in range( 1, (int)(opsize)) : \n7:         for j in range(0, n) : \n8:             if (counter & (1<<j)) :\n9:                 if(arr[j]==\"QAQ\"):\n10:                     cnt+=1",
+      "completeLfInput": "QAQAQYSYIOIWIN\n",
+      "expectedOutput": "4\n",
+      "rawActualOutput": "0\n",
+      "lfActualOutput": "0\n",
+      "mathematicalRequirement": "Sum, over each A position, number of preceding Q times number of following Q.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "82460904": {
+      "kind": "non-algorithmic",
+      "test": "0004",
+      "failedTest": "0004",
+      "reason": "The executed powerset function enumerates all subsequence combinations and counts those exactly equal to QAQ. On the recorded 24-character case it times out but is functionally correct if completed; the unused debug-print function is not called. TLE-only slow/correct is excluded by the assignment.",
+      "algorithmicKill": false,
+      "rawVerdict": "TLE",
+      "lfVerdict": "TLE",
+      "rawOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "lfOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rawOutputBase64": "",
+      "lfOutputBase64": "",
+      "rawInputHash": "3b088929a10358ad5d53ade291437d41676c108f39c9c2f2de8d7e5b6eafa294",
+      "lfInput": {
+        "path": "proof/894A/counterexamples/82460904-0004.lf.in",
+        "sha256": "0c52cbe9f2e683cefe73f595fe85ddcbb9cbd500896ac81bd863c8e8f99f00c8",
+        "bytes": 25
+      },
+      "expectedOutputHash": "f6bca0e7f46a94bd3349fdb86511cbec4a9091e409b62dd2d6b8c1fdb9a3ce00",
+      "sourceHash": "51704785de0b7ad46af1a6a1700e29f316f9297f4c297913ce4b1777e441dc3c",
+      "sourceProvenance": {
+        "bytes": 135584076,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00031-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "1e4c2582125f31e1fb50b03b5d47811d2890fac3e97e54d05c1c2c85c1bc260a",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00031-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/894/submission/82460904",
+      "sourceProof": {
+        "path": "proof/894A/source-review/82460904.txt",
+        "sha256": "51704785de0b7ad46af1a6a1700e29f316f9297f4c297913ce4b1777e441dc3c",
+        "bytes": 660
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        28
+      ],
+      "faultySourceLineRange": [
+        5,
+        10
+      ],
+      "faultyImplementedStep": "5: def powerset(string):\n6:     global cnt\n7:     for i in range(0,len(string)+1):\n8:         for element in combinations(string,i):\n9:             if(''.join(element)==\"QAQ\"):\n10:                 cnt+=1",
+      "completeLfInput": "IAQVAQZLQBQVQFTQQQADAQJA\n",
+      "expectedOutput": "24\n",
+      "rawActualOutput": "",
+      "lfActualOutput": "",
+      "mathematicalRequirement": "Sum, over each A position, number of preceding Q times number of following Q.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    }
+  },
+  "reason": "Rejected current bytes: 82454101@0004: At the recorded 24-character input the recursive powerset enumeration is exponential and times out. It counts exactly QAQ at each completed subsequence and is functionally correct if completed; under the assignment's explicit TLE-only slow/correct exclusion this cannot supply an algorithmic wrong answer on the recorded test. | 82460904@0004: The executed powerset function enumerates all subsequence combinations and counts those exactly equal to QAQ. On the recorded 24-character case it times out but is functionally correct if completed; the unused debug-print function is not called. TLE-only slow/correct is excluded by the assignment.",
+  "statementReview": {
+    "fullStatementInputOutputSamplesRead": true,
+    "numericBoundsAccurate": true,
+    "deterministicUniqueOutput": true,
+    "tokenCheckerAppropriate": true,
+    "review": "Count ordered Q,A,Q index triples, not necessarily consecutive. Unique integer; uppercase input, n<=100.",
+    "defects": [],
+    "hash": "38a66ca5fc800895bd5805f9717766c73719483a53f11ef48b5a566ef2688d0b",
+    "sampleCount": 2,
+    "attribution": "Codeforces contest authors; open-r1/CodeForces (Penedo et al., 2025).",
+    "ratingApiProof": {
+      "contestId": 894,
+      "index": "A",
+      "name": "QAQ",
+      "points": 500.0,
+      "rating": 800,
+      "tags": [
+        "brute force",
+        "dp"
+      ],
+      "type": "PROGRAMMING"
+    }
+  },
+  "coverageReview": {
+    "packageTestBasis": {
+      "extraTestsHash": "bdbb965cf3260b280453c5bcd5f1132d0b6e520ef5dbe1b68c7d5ea8216f8b2c",
+      "generatedAdvertised": 0,
+      "generatedIncluded": 0,
+      "generatedSource": null,
+      "officialAdvertised": 43,
+      "officialComplete": true,
+      "officialIncluded": 43,
+      "officialRole": "qualification"
+    },
+    "labelsIndependentlyInspected": true,
+    "builderCoverage": {
+      "adversarial": [
+        {
+          "reason": "AQQA no match",
+          "test": "0045"
+        }
+      ],
+      "boundary": [
+        {
+          "reason": "single Q (input already in upstream suite)",
+          "test": "0040"
+        },
+        {
+          "reason": "exact QAQ",
+          "test": "0044"
+        }
+      ],
+      "checkerSemantics": "Unique integer. The authored reference reproduced every upstream expected output under the token/YES-NO checker; worker outputs come from that reference and are re-checked against five accepted programs.",
+      "inputConstraints": "Authored validate() asserts: one string of 1..100 uppercase letters. It accepted all 2 samples, 43 official and 0 open-r1 generated inputs, and all 3 distinct worker-generated inputs (categorized inputs already present upstream reference the upstream test).",
+      "maxSize": [
+        {
+          "reason": "33 Q, 34 A, 33 Q (max count)",
+          "test": "0046"
+        },
+        {
+          "reason": "QA repeated (input already in upstream suite)",
+          "test": "0038"
+        }
+      ],
+      "packageHash": "65d16d07fb8dedef0df14db382cd6f48098cd793be1728a6c383fe7c84da93a0",
+      "recipeHash": "ea53191128170dbc891884e778f45b943ddedab8a8b5e7bb21f3f7efaadaf4e2",
+      "recipeReportHash": "903e05f12f9ecf6b9efe82276230f6696980a30093c15de4fd4405f9819cb06e",
+      "statementComplete": "Reviewed full statement: number of QAQ subsequences.",
+      "testBasis": {
+        "officialAdvertised": 43,
+        "officialComplete": true,
+        "officialIncluded": 43,
+        "openR1Generated": 0,
+        "workerGenerated": 3
+      }
+    },
+    "validatorAndExpectedOutputs": {
+      "path": "proof/894A/recipe.json",
+      "sha256": "ef62e31b0c4fe773160cb8772270e35a43403b1940c63b1a20c29b5f7fab39e2",
+      "bytes": 16789
+    },
+    "independentValidatorAndReference": {
+      "path": "proof/894A/independent-package-reference.json",
+      "sha256": "f059f7eb368981a7abdaa2b37ef9cfe47d9b3f2c10b0b168146a4fedc0509870",
+      "bytes": 15451
+    },
+    "supplement": {
+      "generatorHash": "8a48832636d20e4946a96c72fde275705c90174be892c9b27ced0dfa4eee0fc3",
+      "oracleHash": "e63a8297f3d3acee28db0ec89454401f72427d01116284717184a364b167754d",
+      "pairsHash": "31bd5f1defb321eb1fc076255a442a3a8873e535d4cc96a27985453211e96604",
+      "supplementCount": 367,
+      "seed": 918273645,
+      "packageReferenceVerdict": "AC",
+      "acceptedComparisons": [
+        {
+          "submissionId": "32458485",
+          "sourceHash": "f990487da4fe1912c4e704043a84f6417c8bfd71321444787b30513cd38f07ce",
+          "result": "AC",
+          "testsRun": 367
+        },
+        {
+          "submissionId": "32458490",
+          "sourceHash": "4c563055177a7e61ab2cf92db92b29b81db623c4d84e3fff6a267d3c33f93712",
+          "result": "AC",
+          "testsRun": 367
+        }
+      ]
+    },
+    "supplementPairs": {
+      "path": "proof/894A/supplement-pairs.json",
+      "sha256": "31bd5f1defb321eb1fc076255a442a3a8873e535d4cc96a27985453211e96604",
+      "bytes": 37203
+    },
+    "supplementOracle": {
+      "path": "proof/894A/independent-oracle.py",
+      "sha256": "e63a8297f3d3acee28db0ec89454401f72427d01116284717184a364b167754d",
+      "bytes": 9842
+    },
+    "supplementGenerator": {
+      "path": "proof/894A/independent-generator.py",
+      "sha256": "8a48832636d20e4946a96c72fde275705c90174be892c9b27ced0dfa4eee0fc3",
+      "bytes": 9837
+    },
+    "finiteDomainNotes": "918A: all 1000 legal inputs. 931A: every distance 1..999 in both orders; translation invariance follows directly from distance-only movement costs. Other arrays/strings: exhaustive small domains or category domains plus max-size. 935A full 99999-input domain not exhausted: current package rejected for malformed statement; 205 small/boundary cases independently tested."
+  },
+  "proofs": {
+    "metadata": {
+      "path": "proof/894A/metadata-verification.json",
+      "sha256": "4e9065db954426e35d2767f14176c57a56d4705ef91c2dd993f9347eccca2203",
+      "bytes": 11780
+    },
+    "independent": {
+      "path": "proof/894A/independent.json",
+      "sha256": "79e1746e56217a66a87c40f3d2ab4eea002c043d00de302dc7f39fe561ba4949",
+      "bytes": 42113
+    },
+    "generated": null
+  },
+  "gaps": [
+    "Codeforces API documentation returned HTTP 403; no Codeforces API/proxy calls made, no auth bypass. Rating independently checked against hashed bundled official API snapshot."
+  ]
+}

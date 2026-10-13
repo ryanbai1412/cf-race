@@ -1,0 +1,433 @@
+{
+  "schemaVersion": 1,
+  "id": "900A",
+  "rating": 800,
+  "approved": false,
+  "reviewer": "devin-8868d1bfd2e6427e836d89e539a0b515",
+  "reviewUrl": "https://staging.itsdev.in/sessions/8868d1bfd2e6427e836d89e539a0b515",
+  "qualificationBasis": "generated",
+  "packageHash": "2bee32d28ebc01fe03650be760dac4c88938a8a5423e6295631f86fe81ecb7e6",
+  "evidenceHash": "84a3d507df237b2d65c07438edbeebdad8236995ccf4ec5065a0da6cef85ddb9",
+  "checks": {
+    "sourceAttribution": true,
+    "fullTests": true,
+    "coverage": false,
+    "fiveAcceptedFiveIncorrect": false,
+    "noSpecialChecker": true,
+    "hashes": true,
+    "statementComplete": false,
+    "inputConstraints": false,
+    "algorithmicallyWrong": false,
+    "independentSupplementalReference": true,
+    "deterministicGeneration": true,
+    "independentOracle": true,
+    "generatedBasis": true
+  },
+  "incorrectAnalysis": {
+    "33184599": {
+      "kind": "non-algorithmic",
+      "test": "0001",
+      "failedTest": "0001",
+      "reason": "Recorded coordinates have one negative and two positive x values, and its decision YES is correct. Output YES 1 2 includes diagnostic side counts; only output structure fails on this counterexample.",
+      "algorithmicKill": false,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "7297a27f0ad9e544ea225a09fda08f13058e452ebb597ed95997f04daf270ef0",
+      "lfOutputHash": "7297a27f0ad9e544ea225a09fda08f13058e452ebb597ed95997f04daf270ef0",
+      "rawOutputBase64": "WUVTIDEgMgo=",
+      "lfOutputBase64": "WUVTIDEgMgo=",
+      "rawInputHash": "afbee34c1f5d487b75c2ada37226f6a445f0258b1b28c61fa8768e7acea677b3",
+      "lfInput": {
+        "path": "proof/900A/counterexamples/33184599-0001.lf.in",
+        "sha256": "6fd6ce1d8bf66e523bb98e40165745d38af58958dea5e6bb0bddecc0c0e2eab1",
+        "bytes": 17
+      },
+      "expectedOutputHash": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+      "sourceHash": "a6c290c2c61f0e15cc6ec8abed752dc8b88e9ba2e0a22d7a83403180858987ee",
+      "sourceProvenance": {
+        "bytes": 135584076,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00031-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "1e4c2582125f31e1fb50b03b5d47811d2890fac3e97e54d05c1c2c85c1bc260a",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00031-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/900/submission/33184599",
+      "sourceProof": {
+        "path": "proof/900A/source-review/33184599.txt",
+        "sha256": "a6c290c2c61f0e15cc6ec8abed752dc8b88e9ba2e0a22d7a83403180858987ee",
+        "bytes": 256
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        17
+      ],
+      "faultySourceLineRange": [
+        13,
+        17
+      ],
+      "faultyImplementedStep": "13:     if otr>1 and pol>1:\n14:         print('NO')\n15:         break\n16: else:\n17:     print('YES',otr,pol)",
+      "completeLfInput": "3\n1 1\n-1 -1\n2 -1\n",
+      "expectedOutput": "Yes",
+      "rawActualOutput": "YES 1 2\n",
+      "lfActualOutput": "YES 1 2\n",
+      "mathematicalRequirement": "YES exactly when min(number of negative x,number of positive x)<=1.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "33195566": {
+      "kind": "wrong-answer",
+      "test": "0001",
+      "failedTest": "0001",
+      "reason": "For one negative and two positive points it requires a side count greater than 2, prints No, and misses that removing the negative point leaves all remaining points on the positive side.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "31375587f8bedb1f33f6eca3d8cee94ab70845a6dd1a7c7eeb929f4aa7dc10ab",
+      "lfOutputHash": "31375587f8bedb1f33f6eca3d8cee94ab70845a6dd1a7c7eeb929f4aa7dc10ab",
+      "rawOutputBase64": "Tm8K",
+      "lfOutputBase64": "Tm8K",
+      "rawInputHash": "afbee34c1f5d487b75c2ada37226f6a445f0258b1b28c61fa8768e7acea677b3",
+      "lfInput": {
+        "path": "proof/900A/counterexamples/33195566-0001.lf.in",
+        "sha256": "6fd6ce1d8bf66e523bb98e40165745d38af58958dea5e6bb0bddecc0c0e2eab1",
+        "bytes": 17
+      },
+      "expectedOutputHash": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+      "sourceHash": "a1e8761776cec8dad13c271d486ba7da32cdb6bf54ae08749d73a8502c42de9f",
+      "sourceProvenance": {
+        "bytes": 135584076,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00031-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "1e4c2582125f31e1fb50b03b5d47811d2890fac3e97e54d05c1c2c85c1bc260a",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00031-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/900/submission/33195566",
+      "sourceProof": {
+        "path": "proof/900A/source-review/33195566.txt",
+        "sha256": "a1e8761776cec8dad13c271d486ba7da32cdb6bf54ae08749d73a8502c42de9f",
+        "bytes": 214
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        13
+      ],
+      "faultySourceLineRange": [
+        10,
+        13
+      ],
+      "faultyImplementedStep": "10: if positive>2 or negative>2:\n11: \tprint(\"Yes\")\n12: else:\n13: \tprint(\"No\")",
+      "completeLfInput": "3\n1 1\n-1 -1\n2 -1\n",
+      "expectedOutput": "Yes",
+      "rawActualOutput": "No\n",
+      "lfActualOutput": "No\n",
+      "mathematicalRequirement": "YES exactly when min(number of negative x,number of positive x)<=1.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "33196659": {
+      "kind": "wrong-answer",
+      "test": "0004",
+      "failedTest": "0004",
+      "reason": "For nine positive points and one negative it tests whether side-count difference equals 1, rejecting the valid removal of the lone negative point. Prints No instead of Yes.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "31375587f8bedb1f33f6eca3d8cee94ab70845a6dd1a7c7eeb929f4aa7dc10ab",
+      "lfOutputHash": "31375587f8bedb1f33f6eca3d8cee94ab70845a6dd1a7c7eeb929f4aa7dc10ab",
+      "rawOutputBase64": "Tm8K",
+      "lfOutputBase64": "Tm8K",
+      "rawInputHash": "273aa06e9f9cae39f5ea950df1ad71d04c24418a7922871631e88719f60737ef",
+      "lfInput": {
+        "path": "proof/900A/counterexamples/33196659-0004.lf.in",
+        "sha256": "4c1130b610c64f089b2f39465307deef14025430d3419eb19a4d02d49f5f2ab3",
+        "bytes": 45
+      },
+      "expectedOutputHash": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+      "sourceHash": "84b19a047f6b74dc33a210b2d85eacd2d9d2caefe5c908f526e2f7f0409e82ad",
+      "sourceProvenance": {
+        "bytes": 135584076,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00031-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "1e4c2582125f31e1fb50b03b5d47811d2890fac3e97e54d05c1c2c85c1bc260a",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00031-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/900/submission/33196659",
+      "sourceProof": {
+        "path": "proof/900A/source-review/33196659.txt",
+        "sha256": "84b19a047f6b74dc33a210b2d85eacd2d9d2caefe5c908f526e2f7f0409e82ad",
+        "bytes": 383
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        24
+      ],
+      "faultySourceLineRange": [
+        18,
+        24
+      ],
+      "faultyImplementedStep": "18: if positive ==0 or negetive==0:\n19:   print(\"Yes\")\n20: else:  \n21:     if positive - negetive == 1 or negetive - positive ==1 :\n22:       print(\"Yes\")\n23:     else:\n24:       print(\"No\")",
+      "completeLfInput": "10\n1 1\n2 2\n3 3\n4 4\n5 5\n6 6\n7 7\n8 8\n9 9\n-1 -1\n",
+      "expectedOutput": "Yes",
+      "rawActualOutput": "No\n",
+      "lfActualOutput": "No\n",
+      "mathematicalRequirement": "YES exactly when min(number of negative x,number of positive x)<=1.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "33211437": {
+      "kind": "wrong-answer",
+      "test": "0006",
+      "failedTest": "0006",
+      "reason": "For 22 negative points and one positive it rejects because len(negative)>1. It never checks the symmetric case of removing the lone positive point; prints No instead of Yes.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "31375587f8bedb1f33f6eca3d8cee94ab70845a6dd1a7c7eeb929f4aa7dc10ab",
+      "lfOutputHash": "31375587f8bedb1f33f6eca3d8cee94ab70845a6dd1a7c7eeb929f4aa7dc10ab",
+      "rawOutputBase64": "Tm8K",
+      "lfOutputBase64": "Tm8K",
+      "rawInputHash": "ff56c5f1c898b67155c021214e15299370b43aacfd59264ffa04c9774a4da24e",
+      "lfInput": {
+        "path": "proof/900A/counterexamples/33211437-0006.lf.in",
+        "sha256": "74a109e89d5e3c39f40dfab0981bddeb603a41829e0c857a3fdd6788d2cbf09f",
+        "bytes": 132
+      },
+      "expectedOutputHash": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+      "sourceHash": "26d4109c446eed055aca3b796742c71a6563a6c476a2a313c2cc38d2d18a6877",
+      "sourceProvenance": {
+        "bytes": 135584076,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00031-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "1e4c2582125f31e1fb50b03b5d47811d2890fac3e97e54d05c1c2c85c1bc260a",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00031-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/900/submission/33211437",
+      "sourceProof": {
+        "path": "proof/900A/source-review/33211437.txt",
+        "sha256": "26d4109c446eed055aca3b796742c71a6563a6c476a2a313c2cc38d2d18a6877",
+        "bytes": 195
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        16
+      ],
+      "faultySourceLineRange": [
+        9,
+        16
+      ],
+      "faultyImplementedStep": "9: for i in range(a):\n10: \tif e[i]<0:\n11: \t\tq.append(e[i])\n12: \n13: if len(q)>1:\n14: \tprint('No')\n15: else:\n16: \tprint('Yes')",
+      "completeLfInput": "23\n-1 1\n-1 2\n-2 4\n-7 -8\n-3 3\n-9 -14\n-5 3\n-6 2\n-7 11\n-4 4\n-8 5\n1 1\n-1 -1\n-1 -2\n-2 -4\n-7 8\n-3 -3\n-9 14\n-5 -3\n-6 -2\n-7 -11\n-4 -4\n-8 -5\n",
+      "expectedOutput": "Yes",
+      "rawActualOutput": "No\n",
+      "lfActualOutput": "No\n",
+      "mathematicalRequirement": "YES exactly when min(number of negative x,number of positive x)<=1.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "33231987": {
+      "kind": "wrong-answer",
+      "test": "0003",
+      "failedTest": "0003",
+      "reason": "For three points all with positive x it requires a side count exactly 1 and outputs No. Any removal leaves the other two positive; counts of zero on one side also qualify.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "31375587f8bedb1f33f6eca3d8cee94ab70845a6dd1a7c7eeb929f4aa7dc10ab",
+      "lfOutputHash": "31375587f8bedb1f33f6eca3d8cee94ab70845a6dd1a7c7eeb929f4aa7dc10ab",
+      "rawOutputBase64": "Tm8K",
+      "lfOutputBase64": "Tm8K",
+      "rawInputHash": "1182cf4d7296b0405057c7966c1c760d420cadfb22f7207f453b5ebd85fea8b1",
+      "lfInput": {
+        "path": "proof/900A/counterexamples/33231987-0003.lf.in",
+        "sha256": "b4c1b54cd54393b78d7eb28ecb756603cc7e9eee29c406fe9bb19a4d14b1d433",
+        "bytes": 15
+      },
+      "expectedOutputHash": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+      "sourceHash": "ea58b1b2de1b4c17be6ebb21e97df09b9e3d20c04190a8f8f6f3ea1c2045fa0c",
+      "sourceProvenance": {
+        "bytes": 135584076,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00031-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "1e4c2582125f31e1fb50b03b5d47811d2890fac3e97e54d05c1c2c85c1bc260a",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00031-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/900/submission/33231987",
+      "sourceProof": {
+        "path": "proof/900A/source-review/33231987.txt",
+        "sha256": "ea58b1b2de1b4c17be6ebb21e97df09b9e3d20c04190a8f8f6f3ea1c2045fa0c",
+        "bytes": 286
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        15
+      ],
+      "faultySourceLineRange": [
+        12,
+        15
+      ],
+      "faultyImplementedStep": "12: if left_points == 1 or right_points == 1:\n13:   print('Yes')\n14: else:\n15:   print('No')",
+      "completeLfInput": "3\n1 2\n2 1\n4 60\n",
+      "expectedOutput": "Yes",
+      "rawActualOutput": "No\n",
+      "lfActualOutput": "No\n",
+      "mathematicalRequirement": "YES exactly when min(number of negative x,number of positive x)<=1.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    }
+  },
+  "reason": "Rejected current bytes: Input n upper bound is rendered as 105 and coordinate magnitude bound as 109, not 10^5 and 10^9; suite uses intended large bounds without upstream-attested statement normalization. | 33184599@0001: Recorded coordinates have one negative and two positive x values, and its decision YES is correct. Output YES 1 2 includes diagnostic side counts; only output structure fails on this counterexample.",
+  "statementReview": {
+    "fullStatementInputOutputSamplesRead": true,
+    "numericBoundsAccurate": false,
+    "deterministicUniqueOutput": true,
+    "tokenCheckerAppropriate": true,
+    "review": "Remove exactly one of n>=2 distinct points, no zero x; either side count <=1. Case-insensitive YES/NO.",
+    "defects": [
+      "Input n upper bound is rendered as 105 and coordinate magnitude bound as 109, not 10^5 and 10^9; suite uses intended large bounds without upstream-attested statement normalization."
+    ],
+    "hash": "8bbb4dd9444cd10cec4e57552537296d72ae56716cf1a754a0c2576b60397d02",
+    "sampleCount": 3,
+    "attribution": "Codeforces contest authors; open-r1/CodeForces (Penedo et al., 2025).",
+    "ratingApiProof": {
+      "contestId": 900,
+      "index": "A",
+      "name": "Find Extra One",
+      "points": 500.0,
+      "rating": 800,
+      "tags": [
+        "geometry",
+        "implementation"
+      ],
+      "type": "PROGRAMMING"
+    }
+  },
+  "coverageReview": {
+    "packageTestBasis": {
+      "extraTestsHash": null,
+      "generatedAdvertised": 9,
+      "generatedIncluded": 9,
+      "generatedSource": {
+        "bytes": 9861428,
+        "dataset": "open-r1/codeforces",
+        "path": "generated_tests/test_cases_0900.parquet",
+        "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+        "sha256": "902be3c1eb284774a9750586445fd6cf6bca96aac59c53a75a2d26183e2c812e",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/generated_tests/test_cases_0900.parquet"
+      },
+      "officialAdvertised": 71,
+      "officialComplete": false,
+      "officialIncluded": 59,
+      "officialRole": "supplementary"
+    },
+    "labelsIndependentlyInspected": true,
+    "builderCoverage": {
+      "adversarial": [
+        {
+          "reason": "two on each side",
+          "test": "0070"
+        }
+      ],
+      "boundary": [
+        {
+          "reason": "two points opposite sides",
+          "test": "0069"
+        }
+      ],
+      "checkerSemantics": "Decision problem; we emit 'Yes'/'No'. Authored outputs come from the worker reference and every supplied pair was re-checked by the separately sourced oracle in the sandbox under the token checker.",
+      "genRecipeHash": "441b5ea296d02f069755c83ab12113d526c801c762288df313655f146ca3c339",
+      "generatorSourceHash": "b9183148f69034babab456f512d342698f99ee0d5266b264da8d70725a8761c1",
+      "inputConstraints": "Generator validate() asserts n in 2..10^5; distinct points, |x|, |y| <= 10^9, x != 0. before emitting each of the 150 distinct authored inputs; the same validator accepted every upstream sample, 59 supplementary official and 9 open-r1 generated inputs.",
+      "maxSize": [
+        {
+          "reason": "n=10^5 one negative",
+          "test": "0071"
+        }
+      ],
+      "packageHash": "2bee32d28ebc01fe03650be760dac4c88938a8a5423e6295631f86fe81ecb7e6",
+      "statementComplete": "Reviewed full statement: Yes iff at most one point on one side of OY.",
+      "testBasis": {
+        "basis": "generated",
+        "generatorMode": "extensive",
+        "officialAdvertised": 71,
+        "officialComplete": false,
+        "officialIncluded": 59,
+        "officialRole": "supplementary",
+        "openR1Generated": 9,
+        "workerGenerated": 150
+      }
+    },
+    "validatorAndExpectedOutputs": {
+      "path": "proof/900A/recipe.json",
+      "sha256": "953bc9f2c96857732295e9b29c16364eaaf96590137acdfcf3cffe2ba5fea892",
+      "bytes": 75891
+    },
+    "independentValidatorAndReference": {
+      "path": "proof/900A/independent-package-reference.json",
+      "sha256": "b2d68baeb87a511eec7ed54ba23a8c695555875c58e8126935b21acecde95fde",
+      "bytes": 70811
+    },
+    "supplement": {
+      "generatorHash": "76e58b20bdcbb968e77f7a33f5843715e4169481baf15a19649cba4cb25b7736",
+      "oracleHash": "ff6fd7f5b6c72c6c0ccd24924f589f678c533f1cd0bb5249671d8da1569d0b73",
+      "pairsHash": "36f604822c490bc68cefc7e6a997c98421f36f337251a90a56fa998530e72c65",
+      "supplementCount": 258,
+      "seed": 918273645,
+      "packageReferenceVerdict": "AC",
+      "acceptedComparisons": [
+        {
+          "submissionId": "33111053",
+          "sourceHash": "f914bda9c2978a67d2d8546f8764fdac9b42b28d13d953e89887c6c18a0fa58b",
+          "result": "AC",
+          "testsRun": 258
+        },
+        {
+          "submissionId": "33111057",
+          "sourceHash": "059e3c1439b7fd1bc697c5c17cb1abc2d2f5a761088f4a89048761f294cebd90",
+          "result": "AC",
+          "testsRun": 258
+        }
+      ]
+    },
+    "supplementPairs": {
+      "path": "proof/900A/supplement-pairs.json",
+      "sha256": "36f604822c490bc68cefc7e6a997c98421f36f337251a90a56fa998530e72c65",
+      "bytes": 4682094
+    },
+    "supplementOracle": {
+      "path": "proof/900A/independent-oracle.py",
+      "sha256": "ff6fd7f5b6c72c6c0ccd24924f589f678c533f1cd0bb5249671d8da1569d0b73",
+      "bytes": 9924
+    },
+    "supplementGenerator": {
+      "path": "proof/900A/independent-generator.py",
+      "sha256": "76e58b20bdcbb968e77f7a33f5843715e4169481baf15a19649cba4cb25b7736",
+      "bytes": 9919
+    },
+    "finiteDomainNotes": "918A: all 1000 legal inputs. 931A: every distance 1..999 in both orders; translation invariance follows directly from distance-only movement costs. Other arrays/strings: exhaustive small domains or category domains plus max-size. 935A full 99999-input domain not exhausted: current package rejected for malformed statement; 205 small/boundary cases independently tested."
+  },
+  "proofs": {
+    "metadata": {
+      "path": "proof/900A/metadata-verification.json",
+      "sha256": "f6392e5e1537519ccdc8f7f08704c0ec7cf51108e5a69ec08fde7cca58b3bb2f",
+      "bytes": 54262
+    },
+    "independent": {
+      "path": "proof/900A/independent.json",
+      "sha256": "663b4116539fe920f5809d94d739c0ffeece9dec2fd546c2295261b3b18afffc",
+      "bytes": 6237918
+    },
+    "generated": {
+      "path": "proof/900A/qualification.json",
+      "sha256": "20c03db7390d6fcfd3f1f7385ebf34637c8f8e0c3fc344a1606d43b82924d5ac",
+      "bytes": 7874951
+    }
+  },
+  "gaps": [
+    "Codeforces API documentation returned HTTP 403; no Codeforces API/proxy calls made, no auth bypass. Rating independently checked against hashed bundled official API snapshot."
+  ]
+}

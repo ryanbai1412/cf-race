@@ -1,0 +1,420 @@
+{
+  "schemaVersion": 1,
+  "id": "935A",
+  "rating": 800,
+  "approved": false,
+  "reviewer": "devin-8868d1bfd2e6427e836d89e539a0b515",
+  "reviewUrl": "https://staging.itsdev.in/sessions/8868d1bfd2e6427e836d89e539a0b515",
+  "qualificationBasis": "official",
+  "packageHash": "3e00f78b2d50eaf2de8901cbdf9c564cf7773d1b870f47bfeafeedf4cf7f2ebd",
+  "evidenceHash": "c21736c703555cee3ee1740f9ae7583ea9dd1d5d8f768c901cca1244f8324420",
+  "checks": {
+    "sourceAttribution": true,
+    "fullTests": true,
+    "coverage": false,
+    "fiveAcceptedFiveIncorrect": true,
+    "noSpecialChecker": true,
+    "hashes": true,
+    "statementComplete": false,
+    "inputConstraints": false,
+    "algorithmicallyWrong": true,
+    "independentSupplementalReference": true
+  },
+  "incorrectAnalysis": {
+    "35481949": {
+      "kind": "wrong-answer",
+      "test": "0009",
+      "failedTest": "0009",
+      "reason": "For n=99999 it returns 1 for every odd n, ignoring nontrivial odd proper divisors. There are eleven possible leader counts.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "lfOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "rawOutputBase64": "MQo=",
+      "lfOutputBase64": "MQo=",
+      "rawInputHash": "f10f86317a3e7ba4915f0dd53e8f9cadb491885834942adff6b3073fcad5ff6b",
+      "lfInput": {
+        "path": "proof/935A/counterexamples/35481949-0009.lf.in",
+        "sha256": "27f8d822ea64f5bdb9564c533195e35d21689b84bf074d83bb2d7a866b5276d4",
+        "bytes": 6
+      },
+      "expectedOutputHash": "412a8da13330793d63a3a17bed32c76be361edad27fe0f6a0ceb144d3f0aa50e",
+      "sourceHash": "7c7b0df8a816a2d42a11f5d0b97daf7fcab45f4746dc3f3d0ac4186a3607182b",
+      "sourceProvenance": {
+        "bytes": 140412577,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00033-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c1c01dc680363e4a9440b9b02051a830e28b471e1032a12a3c20c10b68d6353f",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00033-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/935/submission/35481949",
+      "sourceProof": {
+        "path": "proof/935A/source-review/35481949.txt",
+        "sha256": "7c7b0df8a816a2d42a11f5d0b97daf7fcab45f4746dc3f3d0ac4186a3607182b",
+        "bytes": 265
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        16
+      ],
+      "faultySourceLineRange": [
+        7,
+        14
+      ],
+      "faultyImplementedStep": "7:     if(n%2!=0) cout<<\"1\"<<endl;\n8:     else {\n9:         int cnt=0;\n10:         for(int i=1;i<=n/2;i++){\n11:            int var=n-i;\n12:            if(var%i==0) cnt++;\n13:         }\n14:         cout<<cnt<<endl;",
+      "completeLfInput": "99999\n",
+      "expectedOutput": "11\n",
+      "rawActualOutput": "1\n",
+      "lfActualOutput": "1\n",
+      "mathematicalRequirement": "Leader count l qualifies iff 1<=l<n and n divisible by l. For 99999=3^2*41*271, tau(n)-1=3*2*2-1=11.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "35482888": {
+      "kind": "wrong-answer",
+      "test": "0010",
+      "failedTest": "0010",
+      "reason": "For prime n=10007 the sieve only stores primes through floor(sqrt(100000)); after exhausting them it ignores the remaining factor 10007. val stays 1 and prints 0 instead of one proper divisor.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "lfOutputHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "rawOutputBase64": "MA==",
+      "lfOutputBase64": "MA==",
+      "rawInputHash": "726dac69ded8f46fee518f0bc6f72edcfa744cdc8a0c828b25b1a6b16c2abef1",
+      "lfInput": {
+        "path": "proof/935A/counterexamples/35482888-0010.lf.in",
+        "sha256": "d8bbd1e63961dd019d962b8e040e03c17ae2715b426902e8728032781bbc6c80",
+        "bytes": 6
+      },
+      "expectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "sourceHash": "7f5fafe446eea2ac1ea0a280155d1e9362fa34cf7680851960e3f31c60b11445",
+      "sourceProvenance": {
+        "bytes": 140412577,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00033-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c1c01dc680363e4a9440b9b02051a830e28b471e1032a12a3c20c10b68d6353f",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00033-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/935/submission/35482888",
+      "sourceProof": {
+        "path": "proof/935A/source-review/35482888.txt",
+        "sha256": "7f5fafe446eea2ac1ea0a280155d1e9362fa34cf7680851960e3f31c60b11445",
+        "bytes": 668
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        34
+      ],
+      "faultySourceLineRange": [
+        13,
+        32
+      ],
+      "faultyImplementedStep": "13:     for(int64_t i=0;i*i<100001;i++)\n14:     {\n15:         if(a[i])\n16:             v.push_back(i);\n17:         for(int64_t j=2*i;a[i] && j<100001;j+=i)\n18:             a[j]=0;\n19:     }\n20:     int64_t n,i=0,val=1;\n21:     cin>>n;\n22:     for(i=0;i<v.size() && n;i+=1)\n23:     {\n24:         int64_t count=0;\n25:         while(n && n%v[i]==0)\n26:         {\n27:             count++;\n28:             n/=v[i];\n29:         }\n30:         val*=count+1;\n31:     }\n32:     cout<<val-1;",
+      "completeLfInput": "10007\n",
+      "expectedOutput": "1\n",
+      "rawActualOutput": "0",
+      "lfActualOutput": "0",
+      "mathematicalRequirement": "Leader count l qualifies iff 1<=l<n and n divisible by l. For 99999=3^2*41*271, tau(n)-1=3*2*2-1=11.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "35483395": {
+      "kind": "wrong-answer",
+      "test": "0009",
+      "failedTest": "0009",
+      "reason": "For n=99999 its odd-number shortcut returns 1, discarding ten further proper divisor choices; expected 11.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "lfOutputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "rawOutputBase64": "MQ==",
+      "lfOutputBase64": "MQ==",
+      "rawInputHash": "f10f86317a3e7ba4915f0dd53e8f9cadb491885834942adff6b3073fcad5ff6b",
+      "lfInput": {
+        "path": "proof/935A/counterexamples/35483395-0009.lf.in",
+        "sha256": "27f8d822ea64f5bdb9564c533195e35d21689b84bf074d83bb2d7a866b5276d4",
+        "bytes": 6
+      },
+      "expectedOutputHash": "412a8da13330793d63a3a17bed32c76be361edad27fe0f6a0ceb144d3f0aa50e",
+      "sourceHash": "c4e487e226c0e4b87bba71ddb2fe75cd5d6a2a02fb60dcae09f7b684bc9d4078",
+      "sourceProvenance": {
+        "bytes": 140412577,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00033-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c1c01dc680363e4a9440b9b02051a830e28b471e1032a12a3c20c10b68d6353f",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00033-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/935/submission/35483395",
+      "sourceProof": {
+        "path": "proof/935A/source-review/35483395.txt",
+        "sha256": "c4e487e226c0e4b87bba71ddb2fe75cd5d6a2a02fb60dcae09f7b684bc9d4078",
+        "bytes": 345
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        21
+      ],
+      "faultySourceLineRange": [
+        10,
+        19
+      ],
+      "faultyImplementedStep": "10:     if (n &1 == 1)\n11:         cout << 1;\n12:     else\n13:     {\n14:         for(long i = 1; i <= n/2+1; i++)\n15:             if ((n - i) % i == 0 && n - i != 0)\n16:                 {\n17:                     ans++;\n18:                 }\n19:         cout << ans;",
+      "completeLfInput": "99999\n",
+      "expectedOutput": "11\n",
+      "rawActualOutput": "1",
+      "lfActualOutput": "1",
+      "mathematicalRequirement": "Leader count l qualifies iff 1<=l<n and n divisible by l. For 99999=3^2*41*271, tau(n)-1=3*2*2-1=11.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "35483656": {
+      "kind": "wrong-answer",
+      "test": "0009",
+      "failedTest": "0009",
+      "reason": "For n=99999 the odd-n early return prints 1 instead of counting all eleven proper divisors.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "lfOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "rawOutputBase64": "MQo=",
+      "lfOutputBase64": "MQo=",
+      "rawInputHash": "f10f86317a3e7ba4915f0dd53e8f9cadb491885834942adff6b3073fcad5ff6b",
+      "lfInput": {
+        "path": "proof/935A/counterexamples/35483656-0009.lf.in",
+        "sha256": "27f8d822ea64f5bdb9564c533195e35d21689b84bf074d83bb2d7a866b5276d4",
+        "bytes": 6
+      },
+      "expectedOutputHash": "412a8da13330793d63a3a17bed32c76be361edad27fe0f6a0ceb144d3f0aa50e",
+      "sourceHash": "07dad0fec0c8d426c5105bff02d88b1d6df825ead3aee310a6a3d737f3c0fcbb",
+      "sourceProvenance": {
+        "bytes": 140412577,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00033-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c1c01dc680363e4a9440b9b02051a830e28b471e1032a12a3c20c10b68d6353f",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00033-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/935/submission/35483656",
+      "sourceProof": {
+        "path": "proof/935A/source-review/35483656.txt",
+        "sha256": "07dad0fec0c8d426c5105bff02d88b1d6df825ead3aee310a6a3d737f3c0fcbb",
+        "bytes": 290
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        20
+      ],
+      "faultySourceLineRange": [
+        7,
+        18
+      ],
+      "faultyImplementedStep": "7:     if(n%2!=0)\n8:     {\n9:         printf(\"1\\n\");\n10:         return 0;\n11:     }\n12:     int s=1;\n13:     for(int j=2;j<=n/2;j++)\n14:     {\n15:         int m=n-j;\n16:         if(m%j==0) s++;\n17:     }\n18:     printf(\"%d\\n\",s);",
+      "completeLfInput": "99999\n",
+      "expectedOutput": "11\n",
+      "rawActualOutput": "1\n",
+      "lfActualOutput": "1\n",
+      "mathematicalRequirement": "Leader count l qualifies iff 1<=l<n and n divisible by l. For 99999=3^2*41*271, tau(n)-1=3*2*2-1=11.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "35486846": {
+      "kind": "wrong-answer",
+      "test": "0009",
+      "failedTest": "0009",
+      "reason": "For n=99999 it returns 1 when n is odd; n has several odd factors and eleven proper divisors, so the shortcut is algorithmically invalid.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "lfOutputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "rawOutputBase64": "MQ==",
+      "lfOutputBase64": "MQ==",
+      "rawInputHash": "f10f86317a3e7ba4915f0dd53e8f9cadb491885834942adff6b3073fcad5ff6b",
+      "lfInput": {
+        "path": "proof/935A/counterexamples/35486846-0009.lf.in",
+        "sha256": "27f8d822ea64f5bdb9564c533195e35d21689b84bf074d83bb2d7a866b5276d4",
+        "bytes": 6
+      },
+      "expectedOutputHash": "412a8da13330793d63a3a17bed32c76be361edad27fe0f6a0ceb144d3f0aa50e",
+      "sourceHash": "be2fae32107162dc23e9d3e6f15f9d0cf0763932eb628f0b9009e5ab560e7c91",
+      "sourceProvenance": {
+        "bytes": 140412577,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00033-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c1c01dc680363e4a9440b9b02051a830e28b471e1032a12a3c20c10b68d6353f",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00033-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/935/submission/35486846",
+      "sourceProof": {
+        "path": "proof/935A/source-review/35486846.txt",
+        "sha256": "be2fae32107162dc23e9d3e6f15f9d0cf0763932eb628f0b9009e5ab560e7c91",
+        "bytes": 2279
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        141
+      ],
+      "faultySourceLineRange": [
+        38,
+        50
+      ],
+      "faultyImplementedStep": "38:     int n; cin>>n;\n39:     int c=0;\n40:     if(n==1)\n41:         cout<<0;\n42:         else if(n%2==1)\n43:             cout<<1;\n44:     else{\n45:         for(int i=n/2;i>0;i--)\n46:         {\n47:             if(n%i==0)\n48:                 c++;\n49:         }\n50:         cout<<c;",
+      "completeLfInput": "99999\n",
+      "expectedOutput": "11\n",
+      "rawActualOutput": "1",
+      "lfActualOutput": "1",
+      "mathematicalRequirement": "Leader count l qualifies iff 1<=l<n and n divisible by l. For 99999=3^2*41*271, tau(n)-1=3*2*2-1=11.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    }
+  },
+  "reason": "Rejected current bytes: Input n upper bound is rendered as 105 rather than 10^5, while tests/validator use 100000. No upstream-attested normalization.",
+  "statementReview": {
+    "fullStatementInputOutputSamplesRead": true,
+    "numericBoundsAccurate": false,
+    "deterministicUniqueOutput": true,
+    "tokenCheckerAppropriate": true,
+    "review": "Number of possible leader counts, not choices of employees; proper divisors of n. Unique integer.",
+    "defects": [
+      "Input n upper bound is rendered as 105 rather than 10^5, while tests/validator use 100000. No upstream-attested normalization."
+    ],
+    "hash": "02647861593c32636534f442d8845474c0d59f1173902b25320fd82338020fd1",
+    "sampleCount": 2,
+    "attribution": "Codeforces contest authors; open-r1/CodeForces (Penedo et al., 2025).",
+    "ratingApiProof": {
+      "contestId": 935,
+      "index": "A",
+      "name": "Fafa and his Company",
+      "points": 500.0,
+      "rating": 800,
+      "tags": [
+        "brute force",
+        "implementation"
+      ],
+      "type": "PROGRAMMING"
+    }
+  },
+  "coverageReview": {
+    "packageTestBasis": {
+      "extraTestsHash": "397bf3e80b037443311c07d8fc4a0ec163d8bb072639eeaaa5500ba5d43b19e4",
+      "generatedAdvertised": 0,
+      "generatedIncluded": 0,
+      "generatedSource": null,
+      "officialAdvertised": 33,
+      "officialComplete": true,
+      "officialIncluded": 33,
+      "officialRole": "qualification"
+    },
+    "labelsIndependentlyInspected": true,
+    "builderCoverage": {
+      "adversarial": [
+        {
+          "reason": "prime 99991",
+          "test": "0034"
+        },
+        {
+          "reason": "highly composite 83160 (input already in upstream suite)",
+          "test": "0029"
+        }
+      ],
+      "boundary": [
+        {
+          "reason": "n=2 (input already in upstream suite)",
+          "test": "0001"
+        }
+      ],
+      "checkerSemantics": "Unique integer. The authored reference reproduced every upstream expected output under the token/YES-NO checker; worker outputs come from that reference and are re-checked against five accepted programs.",
+      "inputConstraints": "Authored validate() asserts: a single integer n with 2 <= n <= 10^5. It accepted all 2 samples, 33 official and 0 open-r1 generated inputs, and all 1 distinct worker-generated inputs (categorized inputs already present upstream reference the upstream test).",
+      "maxSize": [
+        {
+          "reason": "n=10^5 (input already in upstream suite)",
+          "test": "0007"
+        }
+      ],
+      "packageHash": "3e00f78b2d50eaf2de8901cbdf9c564cf7773d1b870f47bfeafeedf4cf7f2ebd",
+      "recipeHash": "efee61b1a18ae1b1b92c60e03d054b2ba727c1130b1a9e8f778c5cf25dfeedff",
+      "recipeReportHash": "c14c0835500f8dc66f341493202131f784a1a229bee6511e9cd4902739ea1182",
+      "statementComplete": "Reviewed full statement: count l in 1..n-1 with l | n.",
+      "testBasis": {
+        "officialAdvertised": 33,
+        "officialComplete": true,
+        "officialIncluded": 33,
+        "openR1Generated": 0,
+        "workerGenerated": 1
+      }
+    },
+    "validatorAndExpectedOutputs": {
+      "path": "proof/935A/recipe.json",
+      "sha256": "81039650928a4bd75558bcdabbf9b8f81e97f71daaef0f20785b32792e2a1422",
+      "bytes": 12617
+    },
+    "independentValidatorAndReference": {
+      "path": "proof/935A/independent-package-reference.json",
+      "sha256": "d438257042faf887a72800e419805b7e890e89cf84fea8f7a81946b06a9c6a91",
+      "bytes": 11586
+    },
+    "supplement": {
+      "generatorHash": "39995452144dce830bf80c0b4b7484929d523e2509f7d406d15fe9fe160ab084",
+      "oracleHash": "3b36e35895206f1fc82569bd7bb938c1655d3cfa597ab159270549ff7d2676f2",
+      "pairsHash": "14bb04bb3425f0e1f46052f929b260296cc8453430cf0569edd7bba381e2e1b2",
+      "supplementCount": 205,
+      "seed": 918273645,
+      "packageReferenceVerdict": "AC",
+      "acceptedComparisons": [
+        {
+          "submissionId": "35476622",
+          "sourceHash": "4ada5fe5f30bf6a0db4cb771647a5dd2cb690dc40c38424831a07b0a0f2a2404",
+          "result": "AC",
+          "testsRun": 205
+        },
+        {
+          "submissionId": "35476635",
+          "sourceHash": "35889e5968efa8fbac6b45187ddc123baa112c77044c25119f05d5b3137c0fba",
+          "result": "AC",
+          "testsRun": 205
+        }
+      ]
+    },
+    "supplementPairs": {
+      "path": "proof/935A/supplement-pairs.json",
+      "sha256": "14bb04bb3425f0e1f46052f929b260296cc8453430cf0569edd7bba381e2e1b2",
+      "bytes": 22891
+    },
+    "supplementOracle": {
+      "path": "proof/935A/independent-oracle.py",
+      "sha256": "3b36e35895206f1fc82569bd7bb938c1655d3cfa597ab159270549ff7d2676f2",
+      "bytes": 9842
+    },
+    "supplementGenerator": {
+      "path": "proof/935A/independent-generator.py",
+      "sha256": "39995452144dce830bf80c0b4b7484929d523e2509f7d406d15fe9fe160ab084",
+      "bytes": 9837
+    },
+    "finiteDomainNotes": "918A: all 1000 legal inputs. 931A: every distance 1..999 in both orders; translation invariance follows directly from distance-only movement costs. Other arrays/strings: exhaustive small domains or category domains plus max-size. 935A full 99999-input domain not exhausted: current package rejected for malformed statement; 205 small/boundary cases independently tested."
+  },
+  "proofs": {
+    "metadata": {
+      "path": "proof/935A/metadata-verification.json",
+      "sha256": "09ee0e98f0cf2531ba4a6eef0ea0a138bb7ae8f1ec1723ed6020acc850699edd",
+      "bytes": 8949
+    },
+    "independent": {
+      "path": "proof/935A/independent.json",
+      "sha256": "6c1b2db734a12162e8b91a0fb1fb9c2be6e0ead945b0429dff24bdc0341b5618",
+      "bytes": 26919
+    },
+    "generated": null
+  },
+  "gaps": [
+    "Codeforces API documentation returned HTTP 403; no Codeforces API/proxy calls made, no auth bypass. Rating independently checked against hashed bundled official API snapshot."
+  ]
+}

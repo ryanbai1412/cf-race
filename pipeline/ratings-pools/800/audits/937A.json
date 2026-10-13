@@ -1,0 +1,414 @@
+{
+  "schemaVersion": 1,
+  "id": "937A",
+  "rating": 800,
+  "approved": false,
+  "reviewer": "devin-8868d1bfd2e6427e836d89e539a0b515",
+  "reviewUrl": "https://staging.itsdev.in/sessions/8868d1bfd2e6427e836d89e539a0b515",
+  "qualificationBasis": "official",
+  "packageHash": "70f5e5bb91ff84abcaa66486d0bd96b6e283019b7673a7ff6dafa29ce42127ca",
+  "evidenceHash": "4965cbba6f0571ae9d5aae69f32791a645787a68181f9be30a3d83f342e4ba15",
+  "checks": {
+    "sourceAttribution": true,
+    "fullTests": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "noSpecialChecker": true,
+    "hashes": true,
+    "statementComplete": true,
+    "inputConstraints": true,
+    "algorithmicallyWrong": false,
+    "independentSupplementalReference": true
+  },
+  "incorrectAnalysis": {
+    "35687471": {
+      "kind": "wrong-answer",
+      "test": "0008",
+      "failedTest": "0008",
+      "reason": "On the recorded 78 scores the set contains 0..13. It iterates over unique-score count but tests original a[i] instead of unique v[i]; the first fourteen original scores are all positive, so it counts fourteen including the zero-score threshold instead of thirteen.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "9a92adbc0cee38ef658c71ce1b1bf8c65668f166bfb213644c895ccb1ad07a25",
+      "lfOutputHash": "9a92adbc0cee38ef658c71ce1b1bf8c65668f166bfb213644c895ccb1ad07a25",
+      "rawOutputBase64": "MTQK",
+      "lfOutputBase64": "MTQK",
+      "rawInputHash": "6a5f667935308b6b761bce3aa00c2a10751b9562b07ac0cedd080db04bfd288c",
+      "lfInput": {
+        "path": "proof/937A/counterexamples/35687471-0008.lf.in",
+        "sha256": "fb800e87e4f4df79747db4d582853920bf0e3522417925016c1536b92dca18cf",
+        "bytes": 177
+      },
+      "expectedOutputHash": "f7c4f4cc6c99f0e5d21986eaf4e0ee5170b03b05ba444a6b2792a902e38f07b2",
+      "sourceHash": "af3a2cff7f951020760d1d0015951a3cbf74f4f0ae1a3ffc58eec8aca0affd30",
+      "sourceProvenance": {
+        "bytes": 140412577,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00033-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c1c01dc680363e4a9440b9b02051a830e28b471e1032a12a3c20c10b68d6353f",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00033-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/937/submission/35687471",
+      "sourceProof": {
+        "path": "proof/937A/source-review/35687471.txt",
+        "sha256": "af3a2cff7f951020760d1d0015951a3cbf74f4f0ae1a3ffc58eec8aca0affd30",
+        "bytes": 589
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        30
+      ],
+      "faultySourceLineRange": [
+        23,
+        29
+      ],
+      "faultyImplementedStep": "23:  for (int i : s)\n24:   v.push_back(i);\n25:  sort(v.begin(), v.end());\n26:  for (int i = v.size() - 1; i >= 0; i--)\n27:   if (a[i])\n28:    ans++;\n29:  cout << ans << endl;",
+      "completeLfInput": "78\n5 4 13 2 5 6 2 10 10 1 2 6 7 9 6 3 5 7 1 10 2 2 7 0 2 11 11 3 1 13 3 10 6 2 0 3 0 5 0 1 4 11 1 1 7 0 12 7 5 12 0 2 12 9 8 3 4 3 4 11 4 10 2 3 10 12 5 6 1 11 2 0 8 7 9 1 3 12\n",
+      "expectedOutput": "13\n",
+      "rawActualOutput": "14\n",
+      "lfActualOutput": "14\n",
+      "mathematicalRequirement": "Each distinct positive score defines exactly one nonempty upper-threshold award set. Zero is not a threshold.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "35687610": {
+      "kind": "wrong-answer",
+      "test": "0008",
+      "failedTest": "0008",
+      "reason": "On the recorded scores if(arr[i>0]) indexes positions 0 or 1 rather than testing arr[i]>0. Both selected values are nonzero, so zero scores are inserted into the set and it prints 14 instead of 13.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "9a92adbc0cee38ef658c71ce1b1bf8c65668f166bfb213644c895ccb1ad07a25",
+      "lfOutputHash": "9a92adbc0cee38ef658c71ce1b1bf8c65668f166bfb213644c895ccb1ad07a25",
+      "rawOutputBase64": "MTQK",
+      "lfOutputBase64": "MTQK",
+      "rawInputHash": "6a5f667935308b6b761bce3aa00c2a10751b9562b07ac0cedd080db04bfd288c",
+      "lfInput": {
+        "path": "proof/937A/counterexamples/35687610-0008.lf.in",
+        "sha256": "fb800e87e4f4df79747db4d582853920bf0e3522417925016c1536b92dca18cf",
+        "bytes": 177
+      },
+      "expectedOutputHash": "f7c4f4cc6c99f0e5d21986eaf4e0ee5170b03b05ba444a6b2792a902e38f07b2",
+      "sourceHash": "87370eaa5b35ca0d9fa757db04023ca857901bf2269116995960c09c29bc1b1c",
+      "sourceProvenance": {
+        "bytes": 140412577,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00033-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c1c01dc680363e4a9440b9b02051a830e28b471e1032a12a3c20c10b68d6353f",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00033-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/937/submission/35687610",
+      "sourceProof": {
+        "path": "proof/937A/source-review/35687610.txt",
+        "sha256": "87370eaa5b35ca0d9fa757db04023ca857901bf2269116995960c09c29bc1b1c",
+        "bytes": 240
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        16
+      ],
+      "faultySourceLineRange": [
+        9,
+        14
+      ],
+      "faultyImplementedStep": "9:    for(int i=0; i<n; i++)\n10:    {\n11:        cin>>arr[i];\n12:        if(arr[i>0])\n13:        st.insert(arr[i]);\n14:    }",
+      "completeLfInput": "78\n5 4 13 2 5 6 2 10 10 1 2 6 7 9 6 3 5 7 1 10 2 2 7 0 2 11 11 3 1 13 3 10 6 2 0 3 0 5 0 1 4 11 1 1 7 0 12 7 5 12 0 2 12 9 8 3 4 3 4 11 4 10 2 3 10 12 5 6 1 11 2 0 8 7 9 1 3 12\n",
+      "expectedOutput": "13\n",
+      "rawActualOutput": "14\n",
+      "lfActualOutput": "14\n",
+      "mathematicalRequirement": "Each distinct positive score defines exactly one nonempty upper-threshold award set. Zero is not a threshold.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "35688279": {
+      "kind": "wrong-answer",
+      "test": "0015",
+      "failedTest": "0015",
+      "reason": "For [0,1] it skips the zero and suppresses initial count when i==n-1, failing to count the sole positive-score threshold; prints 0 instead of 1.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "lfOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "rawOutputBase64": "MAo=",
+      "lfOutputBase64": "MAo=",
+      "rawInputHash": "bed68f691562d251cdbcbd00fc77053489eb6d62544423ed74d9aa9a6cad4cfd",
+      "lfInput": {
+        "path": "proof/937A/counterexamples/35688279-0015.lf.in",
+        "sha256": "1e7a4f32fb9185df1c6fd771a5cf931f03681ea1d0ee5e4efb66e78a58277eeb",
+        "bytes": 6
+      },
+      "expectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "sourceHash": "7bdb216c13429f716028d623a662ff12eefc5ccf70b0527653935224817818bd",
+      "sourceProvenance": {
+        "bytes": 140412577,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00033-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c1c01dc680363e4a9440b9b02051a830e28b471e1032a12a3c20c10b68d6353f",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00033-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/937/submission/35688279",
+      "sourceProof": {
+        "path": "proof/937A/source-review/35688279.txt",
+        "sha256": "7bdb216c13429f716028d623a662ff12eefc5ccf70b0527653935224817818bd",
+        "bytes": 425
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        22
+      ],
+      "faultySourceLineRange": [
+        17,
+        20
+      ],
+      "faultyImplementedStep": "17:   while(v[i]==0) ++i;\n18:   if(i!=n-1) count=1;\n19:   for(i=i+1; i<n; ++i)\n20:     if(v[i]!=v[i-1]) ++count;",
+      "completeLfInput": "2\n0 1\n",
+      "expectedOutput": "1\n",
+      "rawActualOutput": "0\n",
+      "lfActualOutput": "0\n",
+      "mathematicalRequirement": "Each distinct positive score defines exactly one nonempty upper-threshold award set. Zero is not a threshold.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "35689088": {
+      "kind": "non-algorithmic",
+      "test": "0019",
+      "failedTest": "0019",
+      "reason": "For n=1,score=5 it correctly prints the known answer 1 in its special branch, then appends unrelated initialized count=0, forming 10. The counted counterexample is output-concatenation only, not an erroneous score-threshold calculation; excluded under the assignment's output-artifact rule.",
+      "algorithmicKill": false,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "4a44dc15364204a80fe80e9039455cc1608281820fe2b24f1e5233ade6af1dd5",
+      "lfOutputHash": "4a44dc15364204a80fe80e9039455cc1608281820fe2b24f1e5233ade6af1dd5",
+      "rawOutputBase64": "MTA=",
+      "lfOutputBase64": "MTA=",
+      "rawInputHash": "3de6a6d731e1b844228bfab6d52555e92dbd9b4e5fe8bb4e4ebd8185ba7d6a85",
+      "lfInput": {
+        "path": "proof/937A/counterexamples/35689088-0019.lf.in",
+        "sha256": "ffdb2b471864a2f3bbb7753ece957f6e8f0915538d88a495ac6f28d2583c44f1",
+        "bytes": 4
+      },
+      "expectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "sourceHash": "222bf3a2e15f0ed08c76c2e107f9b60af5ebd5e0eff1e6bb245edaf7a6b62da4",
+      "sourceProvenance": {
+        "bytes": 140412577,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00033-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c1c01dc680363e4a9440b9b02051a830e28b471e1032a12a3c20c10b68d6353f",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00033-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/937/submission/35689088",
+      "sourceProof": {
+        "path": "proof/937A/source-review/35689088.txt",
+        "sha256": "222bf3a2e15f0ed08c76c2e107f9b60af5ebd5e0eff1e6bb245edaf7a6b62da4",
+        "bytes": 814
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        43
+      ],
+      "faultySourceLineRange": [
+        20,
+        41
+      ],
+      "faultyImplementedStep": "20:     int n, count = 0; bool f = true;\n21:     cin >> n;\n22:     int *a = new int[n+1];\n23:     if (n == 1) cout << 1;\n24:     else\n25:     {\n26:         for (int i = 1; i <= n; i++)\n27:         {\n28:             f = true;\n29:             cin >> a[i];\n30:             if (a[i] == 0) f = false;\n31:             for (int j = i-1; j > 0; j--)\n32:             {\n33:                 if (a[i] == a[j])\n34:                 {\n35:                     f = false;\n36:                 }\n37:             }\n38:             if (f == true) count++;\n39:         }\n40:     }\n41:     cout << count;",
+      "completeLfInput": "1\n5\n",
+      "expectedOutput": "1\n",
+      "rawActualOutput": "10",
+      "lfActualOutput": "10",
+      "mathematicalRequirement": "Each distinct positive score defines exactly one nonempty upper-threshold award set. Zero is not a threshold.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "35689374": {
+      "kind": "wrong-answer",
+      "test": "0008",
+      "failedTest": "0008",
+      "reason": "On the recorded 78 scores it sorts a[0..n-1] including the sentinel 0 but excluding the last score 12, then counts transitions through unsorted a[n]. The extra final transition yields 14 instead of 13.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "9a92adbc0cee38ef658c71ce1b1bf8c65668f166bfb213644c895ccb1ad07a25",
+      "lfOutputHash": "9a92adbc0cee38ef658c71ce1b1bf8c65668f166bfb213644c895ccb1ad07a25",
+      "rawOutputBase64": "MTQK",
+      "lfOutputBase64": "MTQK",
+      "rawInputHash": "6a5f667935308b6b761bce3aa00c2a10751b9562b07ac0cedd080db04bfd288c",
+      "lfInput": {
+        "path": "proof/937A/counterexamples/35689374-0008.lf.in",
+        "sha256": "fb800e87e4f4df79747db4d582853920bf0e3522417925016c1536b92dca18cf",
+        "bytes": 177
+      },
+      "expectedOutputHash": "f7c4f4cc6c99f0e5d21986eaf4e0ee5170b03b05ba444a6b2792a902e38f07b2",
+      "sourceHash": "b8d667c8a6e15ab677140309e99db15f0ba260ae86fd3b631d4ab1edc8757eb2",
+      "sourceProvenance": {
+        "bytes": 140412577,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00033-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c1c01dc680363e4a9440b9b02051a830e28b471e1032a12a3c20c10b68d6353f",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00033-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/937/submission/35689374",
+      "sourceProof": {
+        "path": "proof/937A/source-review/35689374.txt",
+        "sha256": "b8d667c8a6e15ab677140309e99db15f0ba260ae86fd3b631d4ab1edc8757eb2",
+        "bytes": 443
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        24
+      ],
+      "faultySourceLineRange": [
+        15,
+        21
+      ],
+      "faultyImplementedStep": "15:         a[0]=0;\n16:         sort(a,a+n);\n17:         int ans=0;\n18:         for(int i=1;i<=n;i++)\n19:             if(a[i]!=a[i-1])\n20:                 ans++;\n21:         printf(\"%d\\n\",ans);",
+      "completeLfInput": "78\n5 4 13 2 5 6 2 10 10 1 2 6 7 9 6 3 5 7 1 10 2 2 7 0 2 11 11 3 1 13 3 10 6 2 0 3 0 5 0 1 4 11 1 1 7 0 12 7 5 12 0 2 12 9 8 3 4 3 4 11 4 10 2 3 10 12 5 6 1 11 2 0 8 7 9 1 3 12\n",
+      "expectedOutput": "13\n",
+      "rawActualOutput": "14\n",
+      "lfActualOutput": "14\n",
+      "mathematicalRequirement": "Each distinct positive score defines exactly one nonempty upper-threshold award set. Zero is not a threshold.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    }
+  },
+  "reason": "Rejected current bytes: 35689088@0019: For n=1,score=5 it correctly prints the known answer 1 in its special branch, then appends unrelated initialized count=0, forming 10. The counted counterexample is output-concatenation only, not an erroneous score-threshold calculation; excluded under the assignment's output-artifact rule.",
+  "statementReview": {
+    "fullStatementInputOutputSamplesRead": true,
+    "numericBoundsAccurate": true,
+    "deterministicUniqueOutput": true,
+    "tokenCheckerAppropriate": true,
+    "review": "Count distinct positive-score thresholds; at least one score nonzero. Unique integer.",
+    "defects": [],
+    "hash": "b0e28c3cfaebbeb7aad457a351ddf40d9428cbc180b5f9460ad34e2ee54cbc0a",
+    "sampleCount": 3,
+    "attribution": "Codeforces contest authors; open-r1/CodeForces (Penedo et al., 2025).",
+    "ratingApiProof": {
+      "contestId": 937,
+      "index": "A",
+      "name": "Olympiad",
+      "points": 500.0,
+      "rating": 800,
+      "tags": [
+        "implementation",
+        "sortings"
+      ],
+      "type": "PROGRAMMING"
+    }
+  },
+  "coverageReview": {
+    "packageTestBasis": {
+      "extraTestsHash": "639e1a29181cb9fb9b6cb0702b9150edb0bd69c115f151cc193c945aaa27912a",
+      "generatedAdvertised": 0,
+      "generatedIncluded": 0,
+      "generatedSource": null,
+      "officialAdvertised": 21,
+      "officialComplete": true,
+      "officialIncluded": 21,
+      "officialRole": "qualification"
+    },
+    "labelsIndependentlyInspected": true,
+    "builderCoverage": {
+      "adversarial": [
+        {
+          "reason": "zeros and duplicates",
+          "test": "0023"
+        }
+      ],
+      "boundary": [
+        {
+          "reason": "n=1",
+          "test": "0022"
+        }
+      ],
+      "checkerSemantics": "Unique integer. The authored reference reproduced every upstream expected output under the token/YES-NO checker; worker outputs come from that reference and are re-checked against five accepted programs.",
+      "inputConstraints": "Authored validate() asserts: n in 1..100, n scores in 0..600, at least one nonzero. It accepted all 3 samples, 21 official and 0 open-r1 generated inputs, and all 3 distinct worker-generated inputs (categorized inputs already present upstream reference the upstream test).",
+      "maxSize": [
+        {
+          "reason": "n=100 all distinct",
+          "test": "0024"
+        }
+      ],
+      "packageHash": "70f5e5bb91ff84abcaa66486d0bd96b6e283019b7673a7ff6dafa29ce42127ca",
+      "recipeHash": "68e9c4644074e3b9efd2006a8290ed7e879942d613174c468f8e432547570701",
+      "recipeReportHash": "bd5380926c6703028efc7311f4e80ac7db43bd01c0debf481d0fa6b37808d197",
+      "statementComplete": "Reviewed full statement: number of distinct nonzero scores.",
+      "testBasis": {
+        "officialAdvertised": 21,
+        "officialComplete": true,
+        "officialIncluded": 21,
+        "openR1Generated": 0,
+        "workerGenerated": 3
+      }
+    },
+    "validatorAndExpectedOutputs": {
+      "path": "proof/937A/recipe.json",
+      "sha256": "ab009db4e1764d3b9ac4a3e9d3d988915f883c00dfbf38d2249b913fae6e7b63",
+      "bytes": 9550
+    },
+    "independentValidatorAndReference": {
+      "path": "proof/937A/independent-package-reference.json",
+      "sha256": "9ca0e33b82b04946efa0271a8106adc266ab262aa8aaf49f995a7e93d4b1db18",
+      "bytes": 8722
+    },
+    "supplement": {
+      "generatorHash": "b3e91f9b3bf6fabf3e54e3f7439175c736b54bb071112ef030c72715c7261994",
+      "oracleHash": "ede7a69f182f6fe3f508d5e26470e660417e4661b59109a30297f267b1aa9732",
+      "pairsHash": "a356bb59aaf1e7a762f17c6bc85867dc362606ab83a99ddd35861e370fc1115d",
+      "supplementCount": 360,
+      "seed": 918273645,
+      "packageReferenceVerdict": "AC",
+      "acceptedComparisons": [
+        {
+          "submissionId": "35686480",
+          "sourceHash": "db7d12bc9b00f7e8cf251a6f9c549384b15365b6600aff9c8456d1976f83a993",
+          "result": "AC",
+          "testsRun": 360
+        },
+        {
+          "submissionId": "35686482",
+          "sourceHash": "e8a8f74326c7a98c9b041e49f02a2dd6190342a87aa1ac2e82cca3c393ab730d",
+          "result": "AC",
+          "testsRun": 360
+        }
+      ]
+    },
+    "supplementPairs": {
+      "path": "proof/937A/supplement-pairs.json",
+      "sha256": "a356bb59aaf1e7a762f17c6bc85867dc362606ab83a99ddd35861e370fc1115d",
+      "bytes": 42370
+    },
+    "supplementOracle": {
+      "path": "proof/937A/independent-oracle.py",
+      "sha256": "ede7a69f182f6fe3f508d5e26470e660417e4661b59109a30297f267b1aa9732",
+      "bytes": 9842
+    },
+    "supplementGenerator": {
+      "path": "proof/937A/independent-generator.py",
+      "sha256": "b3e91f9b3bf6fabf3e54e3f7439175c736b54bb071112ef030c72715c7261994",
+      "bytes": 9837
+    },
+    "finiteDomainNotes": "918A: all 1000 legal inputs. 931A: every distance 1..999 in both orders; translation invariance follows directly from distance-only movement costs. Other arrays/strings: exhaustive small domains or category domains plus max-size. 935A full 99999-input domain not exhausted: current package rejected for malformed statement; 205 small/boundary cases independently tested."
+  },
+  "proofs": {
+    "metadata": {
+      "path": "proof/937A/metadata-verification.json",
+      "sha256": "fbe9a6730d855107b2f2c2790678c7452e83cde75ae762369f7c0bd8d4ba522f",
+      "bytes": 6580
+    },
+    "independent": {
+      "path": "proof/937A/independent.json",
+      "sha256": "28b10d5a5b5c4720e6b9786f9f7445001af8f398e8b17fe5f1e012ac4cc27662",
+      "bytes": 49182
+    },
+    "generated": null
+  },
+  "gaps": [
+    "Codeforces API documentation returned HTTP 403; no Codeforces API/proxy calls made, no auth bypass. Rating independently checked against hashed bundled official API snapshot."
+  ]
+}

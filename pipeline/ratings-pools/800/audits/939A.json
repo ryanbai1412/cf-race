@@ -1,0 +1,430 @@
+{
+  "schemaVersion": 1,
+  "id": "939A",
+  "rating": 800,
+  "approved": false,
+  "reviewer": "devin-8868d1bfd2e6427e836d89e539a0b515",
+  "reviewUrl": "https://staging.itsdev.in/sessions/8868d1bfd2e6427e836d89e539a0b515",
+  "qualificationBasis": "generated",
+  "packageHash": "704c76ebb483f3c8b66d45f0a380ce72dbfa962bb132666c69f3e0bc11ee825b",
+  "evidenceHash": "180ed66304a01228651d2b9133355e64943e4add94d71c98829c54e01970cac5",
+  "checks": {
+    "sourceAttribution": true,
+    "fullTests": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "noSpecialChecker": true,
+    "hashes": true,
+    "statementComplete": true,
+    "inputConstraints": true,
+    "algorithmicallyWrong": false,
+    "independentSupplementalReference": true,
+    "deterministicGeneration": true,
+    "independentOracle": true,
+    "generatedBasis": true
+  },
+  "incorrectAnalysis": {
+    "35388923": {
+      "kind": "wrong-answer",
+      "test": "0006",
+      "failedTest": "0006",
+      "reason": "On the recorded 100-node graph it decides a triangle by seeing three distinct vertices among a short walk. A tail entering a two-cycle also has three distinct vertices but no directed three-cycle; emits YES instead of NO.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "lfOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "rawOutputBase64": "WUVT",
+      "lfOutputBase64": "WUVT",
+      "rawInputHash": "212d8ce60fe69a4cc1e9e9911987d985cd3af9aab56dfe40a0ba5bcc1e146a33",
+      "lfInput": {
+        "path": "proof/939A/counterexamples/35388923-0006.lf.in",
+        "sha256": "b27316951ef895975f1e2213ace5498e787f323719d08628d0a5b6d62f9ddee6",
+        "bytes": 296
+      },
+      "expectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "sourceHash": "be9554eaf443e25b977bd603c1edeeb0b1127e3f55c5b99aff99176ae7c23cfc",
+      "sourceProvenance": {
+        "bytes": 140412577,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00033-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c1c01dc680363e4a9440b9b02051a830e28b471e1032a12a3c20c10b68d6353f",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00033-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/939/submission/35388923",
+      "sourceProof": {
+        "path": "proof/939A/source-review/35388923.txt",
+        "sha256": "be9554eaf443e25b977bd603c1edeeb0b1127e3f55c5b99aff99176ae7c23cfc",
+        "bytes": 711
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        39
+      ],
+      "faultySourceLineRange": [
+        12,
+        20
+      ],
+      "faultyImplementedStep": "12: bool is(int u)\n13: {\n14:           set<int> st;\n15:           st.insert(u);\n16:           st.insert(a[u]);\n17:           st.insert(a[a[u]]);\n18:           st.insert(a[a[a[u]]]);\n19:           st.insert(a[a[a[a[u]]]]);\n20:           return st.size()==3;",
+      "completeLfInput": "100\n50 40 60 87 39 58 44 84 46 68 16 57 77 87 92 95 42 31 74 15 36 84 30 3 47 15 87 90 76 66 6 63 74 19 40 49 6 84 41 9 77 34 7 12 11 73 58 24 81 14 81 29 65 100 1 85 64 32 38 4 54 67 32 81 80 7 100 71 29 80 4 52 47 7 78 56 52 75 81 37 16 41 27 28 58 60 62 47 29 40 37 14 59 91 12 54 25 58 12 43\n",
+      "expectedOutput": "NO\n",
+      "rawActualOutput": "YES",
+      "lfActualOutput": "YES",
+      "mathematicalRequirement": "A directed love triangle requires f[f[f[i]]]=i and three distinct vertices. A tail into a two-cycle cannot satisfy this return condition.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "35389253": {
+      "kind": "non-algorithmic",
+      "test": "0008",
+      "failedTest": "0008",
+      "reason": "For n=2,f=[2,1] it correctly decides NO, but prints it both in the special n==2 branch and again after the loop. NO NO is repeated correct output, not an algorithmic kill.",
+      "algorithmicKill": false,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "d82ec81972a0edcd06f1687a7483a938c8ca26caf593518425cce30b8dd832f1",
+      "lfOutputHash": "d82ec81972a0edcd06f1687a7483a938c8ca26caf593518425cce30b8dd832f1",
+      "rawOutputBase64": "Tk8KTk8K",
+      "lfOutputBase64": "Tk8KTk8K",
+      "rawInputHash": "bb916714245dc3de28b0b649efb2aa7e323a80ab2e3155f1cf53c4d511fe9d2d",
+      "lfInput": {
+        "path": "proof/939A/counterexamples/35389253-0008.lf.in",
+        "sha256": "eb89376776d7587133609459069ee357dc42447512374aa56829366dab516fcb",
+        "bytes": 6
+      },
+      "expectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "sourceHash": "d240bb4f3835e0348e1ca1eb6c33fc8339da7b6d24f5c05a6a965071ca50c6f3",
+      "sourceProvenance": {
+        "bytes": 140412577,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00033-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c1c01dc680363e4a9440b9b02051a830e28b471e1032a12a3c20c10b68d6353f",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00033-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/939/submission/35389253",
+      "sourceProof": {
+        "path": "proof/939A/source-review/35389253.txt",
+        "sha256": "d240bb4f3835e0348e1ca1eb6c33fc8339da7b6d24f5c05a6a965071ca50c6f3",
+        "bytes": 809
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        41
+      ],
+      "faultySourceLineRange": [
+        27,
+        39
+      ],
+      "faultyImplementedStep": "27:     if (n==2){\n28:         cout<<\"NO\"<<endl;\n29:     }\n30:     for (int i=1;i<=n;i++){\n31:         cin>>a[i];\n32:     }\n33:     for (int i=1;i<=n;i++){\n34:         if (a[a[a[i]]]==i){\n35:             cout<<\"YES\"<<endl;\n36:             return 0;\n37:         }\n38:     }\n39:     cout<<\"NO\"<<endl;",
+      "completeLfInput": "2\n2 1\n",
+      "expectedOutput": "NO\n",
+      "rawActualOutput": "NO\nNO\n",
+      "lfActualOutput": "NO\nNO\n",
+      "mathematicalRequirement": "A directed love triangle requires f[f[f[i]]]=i and three distinct vertices. A tail into a two-cycle cannot satisfy this return condition.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "35389304": {
+      "kind": "wrong-answer",
+      "test": "0006",
+      "failedTest": "0006",
+      "reason": "On the recorded 100-node graph its set of four walked destinations having size three does not require returning to the starting vertex. A tail into a two-cycle satisfies that count, so YES is falsely emitted although there is no triangle.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "lfOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "rawOutputBase64": "WUVTCg==",
+      "lfOutputBase64": "WUVTCg==",
+      "rawInputHash": "212d8ce60fe69a4cc1e9e9911987d985cd3af9aab56dfe40a0ba5bcc1e146a33",
+      "lfInput": {
+        "path": "proof/939A/counterexamples/35389304-0006.lf.in",
+        "sha256": "b27316951ef895975f1e2213ace5498e787f323719d08628d0a5b6d62f9ddee6",
+        "bytes": 296
+      },
+      "expectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "sourceHash": "573237705129cee0ffe7d42c377201c8e753fcbaf70ec742babfba4cd224e94b",
+      "sourceProvenance": {
+        "bytes": 140412577,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00033-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c1c01dc680363e4a9440b9b02051a830e28b471e1032a12a3c20c10b68d6353f",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00033-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/939/submission/35389304",
+      "sourceProof": {
+        "path": "proof/939A/source-review/35389304.txt",
+        "sha256": "573237705129cee0ffe7d42c377201c8e753fcbaf70ec742babfba4cd224e94b",
+        "bytes": 718
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        33
+      ],
+      "faultySourceLineRange": [
+        20,
+        28
+      ],
+      "faultyImplementedStep": "20:         int x=a[i];\n21:         set<int>s;\n22:         s.insert(a[i]);\n23:         s.insert(a[x]);\n24:         x=a[x];\n25:         s.insert(a[x]);\n26:         x=a[x];\n27:         s.insert(a[x]);\n28:         if(s.size()==3)ok=1;",
+      "completeLfInput": "100\n50 40 60 87 39 58 44 84 46 68 16 57 77 87 92 95 42 31 74 15 36 84 30 3 47 15 87 90 76 66 6 63 74 19 40 49 6 84 41 9 77 34 7 12 11 73 58 24 81 14 81 29 65 100 1 85 64 32 38 4 54 67 32 81 80 7 100 71 29 80 4 52 47 7 78 56 52 75 81 37 16 41 27 28 58 60 62 47 29 40 37 14 59 91 12 54 25 58 12 43\n",
+      "expectedOutput": "NO\n",
+      "rawActualOutput": "YES\n",
+      "lfActualOutput": "YES\n",
+      "mathematicalRequirement": "A directed love triangle requires f[f[f[i]]]=i and three distinct vertices. A tail into a two-cycle cannot satisfy this return condition.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "35389553": {
+      "kind": "non-algorithmic",
+      "test": "0008",
+      "failedTest": "0008",
+      "reason": "For n=2,f=[2,1] both decisions are correctly NO, but the first special-case print lacks a return and the final print concatenates NONO. This is repeated correct-answer output only.",
+      "algorithmicKill": false,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "fc48928efa6738fec399bc2c78937ae0db313536f1e5563a9f52a1fd23338665",
+      "lfOutputHash": "fc48928efa6738fec399bc2c78937ae0db313536f1e5563a9f52a1fd23338665",
+      "rawOutputBase64": "Tk9OTw==",
+      "lfOutputBase64": "Tk9OTw==",
+      "rawInputHash": "bb916714245dc3de28b0b649efb2aa7e323a80ab2e3155f1cf53c4d511fe9d2d",
+      "lfInput": {
+        "path": "proof/939A/counterexamples/35389553-0008.lf.in",
+        "sha256": "eb89376776d7587133609459069ee357dc42447512374aa56829366dab516fcb",
+        "bytes": 6
+      },
+      "expectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "sourceHash": "f7d699bc0ec8951e2b1928d16698bd5d8bec747d997fd56eb07002413b3dae42",
+      "sourceProvenance": {
+        "bytes": 140412577,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00033-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c1c01dc680363e4a9440b9b02051a830e28b471e1032a12a3c20c10b68d6353f",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00033-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/939/submission/35389553",
+      "sourceProof": {
+        "path": "proof/939A/source-review/35389553.txt",
+        "sha256": "f7d699bc0ec8951e2b1928d16698bd5d8bec747d997fd56eb07002413b3dae42",
+        "bytes": 499
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        30
+      ],
+      "faultySourceLineRange": [
+        18,
+        28
+      ],
+      "faultyImplementedStep": "18:  if(n==2){\n19:   cout<<\"NO\";\n20:  }\n21:  bool flag = false;\n22:  for(int i=1; i<=n; i++){\n23:   if(arr[arr[arr[i]]]==i){\n24:    cout<<\"YES\";\n25:    return 0;\n26:   }\n27:  }\n28:  cout<<\"NO\";",
+      "completeLfInput": "2\n2 1\n",
+      "expectedOutput": "NO\n",
+      "rawActualOutput": "NONO",
+      "lfActualOutput": "NONO",
+      "mathematicalRequirement": "A directed love triangle requires f[f[f[i]]]=i and three distinct vertices. A tail into a two-cycle cannot satisfy this return condition.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "35390736": {
+      "kind": "wrong-answer",
+      "test": "0011",
+      "failedTest": "0011",
+      "reason": "For f=[5,4,5,5,2], nodes 5->2->4->5 form a triangle. A walk from node 1 visits and marks those triangle nodes without returning to 1; global vis then skips starting from every triangle node. It emits NO instead of YES.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "lfOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "rawOutputBase64": "Tk8K",
+      "lfOutputBase64": "Tk8K",
+      "rawInputHash": "c092619d4a896d6d140c77341f42ce00e7e26950fdc2e210e702961ea14b63a9",
+      "lfInput": {
+        "path": "proof/939A/counterexamples/35390736-0011.lf.in",
+        "sha256": "411558da9a532f552de843f10ce82e1cb8fd2a6420a30050b34b40cb9c8bb2f4",
+        "bytes": 12
+      },
+      "expectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+      "sourceHash": "2a358f9a8215f421642b3d1b3ce9de7043667aaa38b18eaca8a085f6709a70c8",
+      "sourceProvenance": {
+        "bytes": 140412577,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00033-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c1c01dc680363e4a9440b9b02051a830e28b471e1032a12a3c20c10b68d6353f",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00033-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/939/submission/35390736",
+      "sourceProof": {
+        "path": "proof/939A/source-review/35390736.txt",
+        "sha256": "2a358f9a8215f421642b3d1b3ce9de7043667aaa38b18eaca8a085f6709a70c8",
+        "bytes": 473
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        33
+      ],
+      "faultySourceLineRange": [
+        16,
+        30
+      ],
+      "faultyImplementedStep": "16:     for(int i= 0;  i < n; ++i) {\n17:  if(vis[i]) continue;\n18:  vis[i] = true;\n19:  int cnt = 1;\n20:  int tmp = f[i];\n21:  vis[tmp] = true;\n22:  while(cnt < 3 && tmp != i) {\n23:      ++cnt;\n24:      tmp = f[tmp];\n25:      vis[tmp] = true;\n26:  }\n27:  if(tmp == i && cnt == 3) {\n28:      cout << \"YES\\n\";\n29:      return 0;\n30:  }",
+      "completeLfInput": "5\n5 4 5 5 2\n",
+      "expectedOutput": "YES\n",
+      "rawActualOutput": "NO\n",
+      "lfActualOutput": "NO\n",
+      "mathematicalRequirement": "A directed love triangle requires f[f[f[i]]]=i and three distinct vertices. A tail into a two-cycle cannot satisfy this return condition.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    }
+  },
+  "reason": "Rejected current bytes: 35389253@0008: For n=2,f=[2,1] it correctly decides NO, but prints it both in the special n==2 branch and again after the loop. NO NO is repeated correct output, not an algorithmic kill. | 35389553@0008: For n=2,f=[2,1] both decisions are correctly NO, but the first special-case print lacks a return and the final print concatenates NONO. This is repeated correct-answer output only.",
+  "statementReview": {
+    "fullStatementInputOutputSamplesRead": true,
+    "numericBoundsAccurate": true,
+    "deterministicUniqueOutput": true,
+    "tokenCheckerAppropriate": true,
+    "review": "Self-likes forbidden; a directed three-cycle, not three vertices on a walk. Case-insensitive YES/NO.",
+    "defects": [],
+    "hash": "532d07e3c912e1c74e5ce5800d09b0da5a4b6dd1054769a0cb5eeb1d778eed9f",
+    "sampleCount": 2,
+    "attribution": "Codeforces contest authors; open-r1/CodeForces (Penedo et al., 2025).",
+    "ratingApiProof": {
+      "contestId": 939,
+      "index": "A",
+      "name": "Love Triangle",
+      "points": 500.0,
+      "rating": 800,
+      "tags": [
+        "graphs"
+      ],
+      "type": "PROGRAMMING"
+    }
+  },
+  "coverageReview": {
+    "packageTestBasis": {
+      "extraTestsHash": null,
+      "generatedAdvertised": 19,
+      "generatedIncluded": 19,
+      "generatedSource": {
+        "bytes": 93483675,
+        "dataset": "open-r1/codeforces",
+        "path": "generated_tests/test_cases_0939.parquet",
+        "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+        "sha256": "09390a03d11ea1b7047771828fdb5494f8ba403f80e37fef86a895ce997b2dc4",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/generated_tests/test_cases_0939.parquet"
+      },
+      "officialAdvertised": 16,
+      "officialComplete": false,
+      "officialIncluded": 11,
+      "officialRole": "supplementary"
+    },
+    "labelsIndependentlyInspected": true,
+    "builderCoverage": {
+      "adversarial": [
+        {
+          "reason": "4-cycle is not a triangle",
+          "test": "0032"
+        }
+      ],
+      "boundary": [
+        {
+          "reason": "n=2 mutual",
+          "test": "0031"
+        }
+      ],
+      "checkerSemantics": "Decision problem. Authored outputs come from the worker reference and every supplied pair was re-checked by the separately sourced oracle in the sandbox under the token checker.",
+      "genRecipeHash": "c1509738c89dbd9b21a42c9edb9360bec67a7c08259a3d6dd44fa55b61625930",
+      "generatorSourceHash": "13c600758a5d6ab7e781b8db89263e673a3f88421d9111f8dcc111bf21c0adbb",
+      "inputConstraints": "Generator validate() asserts n in 2..5000; f_i in 1..n with f_i != i. before emitting each of the 150 distinct authored inputs; the same validator accepted every upstream sample, 11 supplementary official and 19 open-r1 generated inputs.",
+      "maxSize": [
+        {
+          "reason": "n=5000 long cycle",
+          "test": "0033"
+        }
+      ],
+      "packageHash": "704c76ebb483f3c8b66d45f0a380ce72dbfa962bb132666c69f3e0bc11ee825b",
+      "statementComplete": "Reviewed full statement: YES iff some i has f(f(f(i))) = i.",
+      "testBasis": {
+        "basis": "generated",
+        "generatorMode": "extensive",
+        "officialAdvertised": 16,
+        "officialComplete": false,
+        "officialIncluded": 11,
+        "officialRole": "supplementary",
+        "openR1Generated": 19,
+        "workerGenerated": 150
+      }
+    },
+    "validatorAndExpectedOutputs": {
+      "path": "proof/939A/recipe.json",
+      "sha256": "62bcd1340331f6ae52894e8d5950b3555516f26ee8a82f518693ba55d24b3e2b",
+      "bytes": 62288
+    },
+    "independentValidatorAndReference": {
+      "path": "proof/939A/independent-package-reference.json",
+      "sha256": "38d63b4e6dd7d6333ce132cd497e3c65a5b87be7809248bf0139a68daff3c25f",
+      "bytes": 58037
+    },
+    "supplement": {
+      "generatorHash": "eacf29d9f459b3ab155bc8e2733c2286b3f151afb918cdf4d0ad20ed75088dcd",
+      "oracleHash": "d7edc2abafdd8137f757f3d003c4e0384486e34c58b02328d3f44c2e5ad3cd44",
+      "pairsHash": "231253bcfe67dfd5c0c38fd9b3a9f9e85aeae1591be7fbec9e4d5716978c9ced",
+      "supplementCount": 1116,
+      "seed": 918273645,
+      "packageReferenceVerdict": "AC",
+      "acceptedComparisons": [
+        {
+          "submissionId": "35388608",
+          "sourceHash": "5a9119617324f5f9e40884ad3a8691d7b02526bd50f59bd39254ae7c654bf568",
+          "result": "AC",
+          "testsRun": 1116
+        },
+        {
+          "submissionId": "35388623",
+          "sourceHash": "2283a12a2f3e1cc953b37922f996cfbb3da4e52cf2a19f7db55d18f7c181951b",
+          "result": "AC",
+          "testsRun": 1116
+        }
+      ]
+    },
+    "supplementPairs": {
+      "path": "proof/939A/supplement-pairs.json",
+      "sha256": "231253bcfe67dfd5c0c38fd9b3a9f9e85aeae1591be7fbec9e4d5716978c9ced",
+      "bytes": 180173
+    },
+    "supplementOracle": {
+      "path": "proof/939A/independent-oracle.py",
+      "sha256": "d7edc2abafdd8137f757f3d003c4e0384486e34c58b02328d3f44c2e5ad3cd44",
+      "bytes": 9842
+    },
+    "supplementGenerator": {
+      "path": "proof/939A/independent-generator.py",
+      "sha256": "eacf29d9f459b3ab155bc8e2733c2286b3f151afb918cdf4d0ad20ed75088dcd",
+      "bytes": 9837
+    },
+    "finiteDomainNotes": "918A: all 1000 legal inputs. 931A: every distance 1..999 in both orders; translation invariance follows directly from distance-only movement costs. Other arrays/strings: exhaustive small domains or category domains plus max-size. 935A full 99999-input domain not exhausted: current package rejected for malformed statement; 205 small/boundary cases independently tested."
+  },
+  "proofs": {
+    "metadata": {
+      "path": "proof/939A/metadata-verification.json",
+      "sha256": "ccb67ba6941dbc3d4556f630ddbd10ba21548e042b7f3d89d4924dd427920d98",
+      "bytes": 45321
+    },
+    "independent": {
+      "path": "proof/939A/independent.json",
+      "sha256": "f697be5100846c6a6001a636401021158424e1f51e58c8b438103167143c8eab",
+      "bytes": 214781
+    },
+    "generated": {
+      "path": "proof/939A/qualification.json",
+      "sha256": "d7c6911d74cf3220af3c89ca5dfc6b5be85b2b4036eb735f64e2cd9eaab36624",
+      "bytes": 1310326
+    }
+  },
+  "gaps": [
+    "Codeforces API documentation returned HTTP 403; no Codeforces API/proxy calls made, no auth bypass. Rating independently checked against hashed bundled official API snapshot."
+  ]
+}

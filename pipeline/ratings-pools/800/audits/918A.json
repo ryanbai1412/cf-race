@@ -1,0 +1,418 @@
+{
+  "schemaVersion": 1,
+  "id": "918A",
+  "rating": 800,
+  "approved": true,
+  "reviewer": "devin-8868d1bfd2e6427e836d89e539a0b515",
+  "reviewUrl": "https://staging.itsdev.in/sessions/8868d1bfd2e6427e836d89e539a0b515",
+  "qualificationBasis": "official",
+  "packageHash": "8a50fb18a94024718e3d46a4e5d567ceea37ff547a38cde80d7a2872ec2a8926",
+  "evidenceHash": "5ece5c307bea20af10ef60c33c7a44f636bf670456cacc853272480349165b25",
+  "checks": {
+    "sourceAttribution": true,
+    "fullTests": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "noSpecialChecker": true,
+    "hashes": true,
+    "statementComplete": true,
+    "inputConstraints": true,
+    "algorithmicallyWrong": true,
+    "independentSupplementalReference": true
+  },
+  "incorrectAnalysis": {
+    "34664668": {
+      "kind": "wrong-answer",
+      "test": "0008",
+      "failedTest": "0008",
+      "reason": "On n=2 only vis[1] is marked and recurrence starts at i=3, which is never reached. It prints Oo rather than OO; position 2 is Fibonacci.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "73d7886be321a7a8364afdef92292a5d3db2a249d451b43e71a0d52aeff5918c",
+      "lfOutputHash": "73d7886be321a7a8364afdef92292a5d3db2a249d451b43e71a0d52aeff5918c",
+      "rawOutputBase64": "T28=",
+      "lfOutputBase64": "T28=",
+      "rawInputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "lfInput": {
+        "path": "proof/918A/counterexamples/34664668-0008.lf.in",
+        "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "bytes": 2
+      },
+      "expectedOutputHash": "7c337e80e7e5c5c4c941fa05352e3ad68baa288b0e10c48ef19b5d4b0c33e9ba",
+      "sourceHash": "9e4ccd15aff50cdb11e4708f2a4cc3264ee097ffa88c6d6d38ea3255ab4c1847",
+      "sourceProvenance": {
+        "bytes": 135584076,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00031-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "1e4c2582125f31e1fb50b03b5d47811d2890fac3e97e54d05c1c2c85c1bc260a",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00031-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/918/submission/34664668",
+      "sourceProof": {
+        "path": "proof/918A/source-review/34664668.txt",
+        "sha256": "9e4ccd15aff50cdb11e4708f2a4cc3264ee097ffa88c6d6d38ea3255ab4c1847",
+        "bytes": 1249
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        57
+      ],
+      "faultySourceLineRange": [
+        47,
+        55
+      ],
+      "faultyImplementedStep": "47:  vis[1] = 1; a[1] = a[2] = 1;\n48:  Rep(i, 3, n){\n49:   a[i] = a[i - 1] + a[i - 2];\n50:   if(a[i] > n)\n51:    break;\n52:   vis[a[i]] = 1;\n53:  }\n54:  Rep(i, 1, n)\n55:   putchar(vis[i]? 'O' : 'o');",
+      "completeLfInput": "2\n",
+      "expectedOutput": "OO\n",
+      "rawActualOutput": "Oo",
+      "lfActualOutput": "Oo",
+      "mathematicalRequirement": "Output O at Fibonacci positions 1,2,3,5,8,... and lowercase o at all remaining positions.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "34664690": {
+      "kind": "wrong-answer",
+      "test": "0008",
+      "failedTest": "0008",
+      "reason": "On n=2 only f[1] is marked; t[2]=1 is a sequence value, not a position flag. The recurrence loop is skipped and it prints Oo instead of OO.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "73d7886be321a7a8364afdef92292a5d3db2a249d451b43e71a0d52aeff5918c",
+      "lfOutputHash": "73d7886be321a7a8364afdef92292a5d3db2a249d451b43e71a0d52aeff5918c",
+      "rawOutputBase64": "T28=",
+      "lfOutputBase64": "T28=",
+      "rawInputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "lfInput": {
+        "path": "proof/918A/counterexamples/34664690-0008.lf.in",
+        "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "bytes": 2
+      },
+      "expectedOutputHash": "7c337e80e7e5c5c4c941fa05352e3ad68baa288b0e10c48ef19b5d4b0c33e9ba",
+      "sourceHash": "a0191eebbe471ce5ad2b559cfee6b150aed42445eec7ff7f6a22d5733249a39c",
+      "sourceProvenance": {
+        "bytes": 135584076,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00031-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "1e4c2582125f31e1fb50b03b5d47811d2890fac3e97e54d05c1c2c85c1bc260a",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00031-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/918/submission/34664690",
+      "sourceProof": {
+        "path": "proof/918A/source-review/34664690.txt",
+        "sha256": "a0191eebbe471ce5ad2b559cfee6b150aed42445eec7ff7f6a22d5733249a39c",
+        "bytes": 404
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        22
+      ],
+      "faultySourceLineRange": [
+        6,
+        19
+      ],
+      "faultyImplementedStep": "6:     t[1] = t[2] = f[1] = 1;\n7:     for(i = 3; i <= n; i++){\n8:         t[i] = t[i - 1] + t[i - 2];\n9:         if(t[i] > n){\n10:             break;\n11:         }\n12:         f[ t[i] ] = 1;\n13:     }\n14:     for(i = 1; i <= n; i++){\n15:         if(f[i] == 1){\n16:             cout<<\"O\";\n17:         }\n18:         else{\n19:             cout<<\"o\";",
+      "completeLfInput": "2\n",
+      "expectedOutput": "OO\n",
+      "rawActualOutput": "Oo",
+      "lfActualOutput": "Oo",
+      "mathematicalRequirement": "Output O at Fibonacci positions 1,2,3,5,8,... and lowercase o at all remaining positions.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "34664804": {
+      "kind": "wrong-answer",
+      "test": "0008",
+      "failedTest": "0008",
+      "reason": "On n=2 it scans only the first n Fibonacci sequence terms [1,1], omitting the third term 2. It marks position 1 twice and prints Oo instead of OO. Integer overflow elsewhere is not used as the kill.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "73d7886be321a7a8364afdef92292a5d3db2a249d451b43e71a0d52aeff5918c",
+      "lfOutputHash": "73d7886be321a7a8364afdef92292a5d3db2a249d451b43e71a0d52aeff5918c",
+      "rawOutputBase64": "T28=",
+      "lfOutputBase64": "T28=",
+      "rawInputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "lfInput": {
+        "path": "proof/918A/counterexamples/34664804-0008.lf.in",
+        "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "bytes": 2
+      },
+      "expectedOutputHash": "7c337e80e7e5c5c4c941fa05352e3ad68baa288b0e10c48ef19b5d4b0c33e9ba",
+      "sourceHash": "0a5e44782d3a52d087b58b5e30ecee1d55ba58d7e0cf9c389f1db6367ab3e454",
+      "sourceProvenance": {
+        "bytes": 135584076,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00031-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "1e4c2582125f31e1fb50b03b5d47811d2890fac3e97e54d05c1c2c85c1bc260a",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00031-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/918/submission/34664804",
+      "sourceProof": {
+        "path": "proof/918A/source-review/34664804.txt",
+        "sha256": "0a5e44782d3a52d087b58b5e30ecee1d55ba58d7e0cf9c389f1db6367ab3e454",
+        "bytes": 375
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        21
+      ],
+      "faultySourceLineRange": [
+        9,
+        18
+      ],
+      "faultyImplementedStep": "9:     f[0]=1,f[1]=1;\n10:     for(int i=2;i<N;i++)\n11:         f[i]=f[i-1]+f[i-2];\n12:     string ans;\n13:     cin>>n;\n14:     for(int i=0;i<n;i++) ans+='o';\n15:     for(int i=0;i<n;i++){\n16:         if(f[i]>n) break;\n17:         else ans[f[i]-1]='O';\n18:     }",
+      "completeLfInput": "2\n",
+      "expectedOutput": "OO\n",
+      "rawActualOutput": "Oo",
+      "lfActualOutput": "Oo",
+      "mathematicalRequirement": "Output O at Fibonacci positions 1,2,3,5,8,... and lowercase o at all remaining positions.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "34664808": {
+      "kind": "wrong-answer",
+      "test": "0008",
+      "failedTest": "0008",
+      "reason": "On n=2 it inserts only zero-based position 0 and never enters the i=2..n-1 recurrence. Thus position 2 is unmarked and Oo is emitted instead of OO.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "73d7886be321a7a8364afdef92292a5d3db2a249d451b43e71a0d52aeff5918c",
+      "lfOutputHash": "73d7886be321a7a8364afdef92292a5d3db2a249d451b43e71a0d52aeff5918c",
+      "rawOutputBase64": "T28=",
+      "lfOutputBase64": "T28=",
+      "rawInputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "lfInput": {
+        "path": "proof/918A/counterexamples/34664808-0008.lf.in",
+        "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "bytes": 2
+      },
+      "expectedOutputHash": "7c337e80e7e5c5c4c941fa05352e3ad68baa288b0e10c48ef19b5d4b0c33e9ba",
+      "sourceHash": "fd1d3bbb0498789c832cbcb89c5175793e09535e5c980509a7625bc63f2875a5",
+      "sourceProvenance": {
+        "bytes": 135584076,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00031-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "1e4c2582125f31e1fb50b03b5d47811d2890fac3e97e54d05c1c2c85c1bc260a",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00031-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/918/submission/34664808",
+      "sourceProof": {
+        "path": "proof/918A/source-review/34664808.txt",
+        "sha256": "fd1d3bbb0498789c832cbcb89c5175793e09535e5c980509a7625bc63f2875a5",
+        "bytes": 496
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        33
+      ],
+      "faultySourceLineRange": [
+        11,
+        24
+      ],
+      "faultyImplementedStep": "11:     d[0] = 1;\n12:     d[1] = 1;\n13:     unordered_set<int> s;\n14:     s.insert(0);\n15:     for (int i = 2; i < n; ++i) {\n16:         d[i] = d[i - 2] + d[i - 1];\n17:         s.insert(d[i] - 1);\n18:     }\n19:     for (int i = 0; i < n; ++i) {\n20:         if (s.count(i)) {\n21:             cout << 'O';\n22:         }\n23:         else {\n24:             cout << 'o';",
+      "completeLfInput": "2\n",
+      "expectedOutput": "OO\n",
+      "rawActualOutput": "Oo",
+      "lfActualOutput": "Oo",
+      "mathematicalRequirement": "Output O at Fibonacci positions 1,2,3,5,8,... and lowercase o at all remaining positions.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "34664931": {
+      "kind": "wrong-answer",
+      "test": "0008",
+      "failedTest": "0008",
+      "reason": "On n=2 F[3] is never initialized to 2. After the first marked position ind advances through zero values and cannot match position 2; prints Oo instead of OO. The root cause is conflating term count with largest position.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "856c83d8451187c47c0b75c62929f2505eb2d3033e43a23f205d4e2b91b41f93",
+      "lfOutputHash": "856c83d8451187c47c0b75c62929f2505eb2d3033e43a23f205d4e2b91b41f93",
+      "rawOutputBase64": "T28K",
+      "lfOutputBase64": "T28K",
+      "rawInputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "lfInput": {
+        "path": "proof/918A/counterexamples/34664931-0008.lf.in",
+        "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "bytes": 2
+      },
+      "expectedOutputHash": "7c337e80e7e5c5c4c941fa05352e3ad68baa288b0e10c48ef19b5d4b0c33e9ba",
+      "sourceHash": "8b9c722b489f6009d89980be1e859d187ec4e266949ca28f39cc72fb1929072c",
+      "sourceProvenance": {
+        "bytes": 135584076,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00031-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "1e4c2582125f31e1fb50b03b5d47811d2890fac3e97e54d05c1c2c85c1bc260a",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00031-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/918/submission/34664931",
+      "sourceProof": {
+        "path": "proof/918A/source-review/34664931.txt",
+        "sha256": "8b9c722b489f6009d89980be1e859d187ec4e266949ca28f39cc72fb1929072c",
+        "bytes": 492
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        31
+      ],
+      "faultySourceLineRange": [
+        8,
+        27
+      ],
+      "faultyImplementedStep": "8:     F[1]=1;\n9:     F[2]=1;\n10:     for(i=3; i<=n; i++)\n11:     {\n12:         F[i]=F[i-1]+F[i-2];\n13:         if(F[i]>n)\n14:             break;\n15:     }\n16:     ind=2;\n17:     for(i=1; i<=n; i++)\n18:     {\n19:         while(F[ind]<i)\n20:             ind++;\n21:         if(F[ind]==i)\n22:         {\n23:             cout<<\"O\";\n24:             ind++;\n25:         }\n26:         else\n27:             cout<<\"o\";",
+      "completeLfInput": "2\n",
+      "expectedOutput": "OO\n",
+      "rawActualOutput": "Oo\n",
+      "lfActualOutput": "Oo\n",
+      "mathematicalRequirement": "Output O at Fibonacci positions 1,2,3,5,8,... and lowercase o at all remaining positions.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    }
+  },
+  "reason": "All independent checks passed for these exact bytes; local audit candidate only.",
+  "statementReview": {
+    "fullStatementInputOutputSamplesRead": true,
+    "numericBoundsAccurate": true,
+    "deterministicUniqueOutput": true,
+    "tokenCheckerAppropriate": true,
+    "review": "Fibonacci terms 1,1,2,... mark positions 1..n. O/o are case-sensitive. Unique word, legal domain n=1..1000.",
+    "defects": [],
+    "hash": "48f76b9f1e8ba07b8ebe81d7463d6565dc611c1f3208e261a9688437af9bd7b4",
+    "sampleCount": 2,
+    "attribution": "Codeforces contest authors; open-r1/CodeForces (Penedo et al., 2025).",
+    "ratingApiProof": {
+      "contestId": 918,
+      "index": "A",
+      "name": "Eleven",
+      "points": 500.0,
+      "rating": 800,
+      "tags": [
+        "brute force",
+        "implementation"
+      ],
+      "type": "PROGRAMMING"
+    }
+  },
+  "coverageReview": {
+    "packageTestBasis": {
+      "extraTestsHash": "dfaeb025be16c27680a44b6422fed165cfd1969a91411368543f8b5e27f38577",
+      "generatedAdvertised": 0,
+      "generatedIncluded": 0,
+      "generatedSource": null,
+      "officialAdvertised": 18,
+      "officialComplete": true,
+      "officialIncluded": 18,
+      "officialRole": "qualification"
+    },
+    "labelsIndependentlyInspected": true,
+    "builderCoverage": {
+      "adversarial": [
+        {
+          "reason": "n=4 (4 not Fibonacci)",
+          "test": "0019"
+        }
+      ],
+      "boundary": [
+        {
+          "reason": "n=1 (input already in upstream suite)",
+          "test": "0007"
+        }
+      ],
+      "checkerSemantics": "Name is fully determined. The authored reference reproduced every upstream expected output under the token/YES-NO checker; worker outputs come from that reference and are re-checked against five accepted programs.",
+      "inputConstraints": "Authored validate() asserts: a single integer n with 1 <= n <= 1000. It accepted all 2 samples, 18 official and 0 open-r1 generated inputs, and all 2 distinct worker-generated inputs (categorized inputs already present upstream reference the upstream test).",
+      "maxSize": [
+        {
+          "reason": "n=1000 (input already in upstream suite)",
+          "test": "0006"
+        },
+        {
+          "reason": "n=987 Fibonacci end",
+          "test": "0020"
+        }
+      ],
+      "packageHash": "8a50fb18a94024718e3d46a4e5d567ceea37ff547a38cde80d7a2872ec2a8926",
+      "recipeHash": "99a5fe2ab44a8e05c72d34bd045da5193121dffe5d0a540dbbb321c2c18e8ea5",
+      "recipeReportHash": "aaf29c146826f12c76e1917e08a814f4b27b81f2ddd8ccbaa1e74beba4796f6e",
+      "statementComplete": "Reviewed full statement: 'O' at Fibonacci positions, 'o' elsewhere.",
+      "testBasis": {
+        "officialAdvertised": 18,
+        "officialComplete": true,
+        "officialIncluded": 18,
+        "openR1Generated": 0,
+        "workerGenerated": 2
+      }
+    },
+    "validatorAndExpectedOutputs": {
+      "path": "proof/918A/recipe.json",
+      "sha256": "623706b30f73129b86764f93eb8b147924c7098f82c7a5a980041acb074b908b",
+      "bytes": 17036
+    },
+    "independentValidatorAndReference": {
+      "path": "proof/918A/independent-package-reference.json",
+      "sha256": "b794962daae9f54edad1120436a6bf8436da7c4203a6e1a573bdbe39ffa160fc",
+      "bytes": 16373
+    },
+    "supplement": {
+      "generatorHash": "7b048d081be5c2e106237b0873d9a73a1af067ee662a722c025548b686be060d",
+      "oracleHash": "da7ccb1c58ea6214a30e41183154a2c7d1a9f59eb4e6db99102def8bc459c571",
+      "pairsHash": "b641c5faa62aad207a5128e946bb9877340f747cf065c3dea5d1c544c01de113",
+      "supplementCount": 1000,
+      "seed": 918273645,
+      "packageReferenceVerdict": "AC",
+      "acceptedComparisons": [
+        {
+          "submissionId": "34664658",
+          "sourceHash": "5d9262f7fab61331804136a2060129a2987f944298382367747d6f05387780ae",
+          "result": "AC",
+          "testsRun": 1000
+        },
+        {
+          "submissionId": "34664660",
+          "sourceHash": "b6e62fdb3b9168e18fb590c46f58efddbb6b9cb94ee9159c9f45736eb436f8ef",
+          "result": "AC",
+          "testsRun": 1000
+        }
+      ]
+    },
+    "supplementPairs": {
+      "path": "proof/918A/supplement-pairs.json",
+      "sha256": "b641c5faa62aad207a5128e946bb9877340f747cf065c3dea5d1c544c01de113",
+      "bytes": 597395
+    },
+    "supplementOracle": {
+      "path": "proof/918A/independent-oracle.py",
+      "sha256": "da7ccb1c58ea6214a30e41183154a2c7d1a9f59eb4e6db99102def8bc459c571",
+      "bytes": 9842
+    },
+    "supplementGenerator": {
+      "path": "proof/918A/independent-generator.py",
+      "sha256": "7b048d081be5c2e106237b0873d9a73a1af067ee662a722c025548b686be060d",
+      "bytes": 9837
+    },
+    "finiteDomainNotes": "918A: all 1000 legal inputs. 931A: every distance 1..999 in both orders; translation invariance follows directly from distance-only movement costs. Other arrays/strings: exhaustive small domains or category domains plus max-size. 935A full 99999-input domain not exhausted: current package rejected for malformed statement; 205 small/boundary cases independently tested."
+  },
+  "proofs": {
+    "metadata": {
+      "path": "proof/918A/metadata-verification.json",
+      "sha256": "f371ec6a69f155e8b2152d432161fed51859a462141a968a6bfa2780ab0c0172",
+      "bytes": 5625
+    },
+    "independent": {
+      "path": "proof/918A/independent.json",
+      "sha256": "d7cfa252144571b34862957d189b73cc1712b1efecf67a252ee6d4920135df9c",
+      "bytes": 773849
+    },
+    "generated": null
+  },
+  "gaps": [
+    "Codeforces API documentation returned HTTP 403; no Codeforces API/proxy calls made, no auth bypass. Rating independently checked against hashed bundled official API snapshot."
+  ]
+}

@@ -1,0 +1,421 @@
+{
+  "schemaVersion": 1,
+  "id": "867A",
+  "rating": 800,
+  "approved": false,
+  "reviewer": "devin-8868d1bfd2e6427e836d89e539a0b515",
+  "reviewUrl": "https://staging.itsdev.in/sessions/8868d1bfd2e6427e836d89e539a0b515",
+  "qualificationBasis": "official",
+  "packageHash": "18731d498f5dc9752ea9de4102f7182cd91cc4c6d2fb76b5a155028bfff066d6",
+  "evidenceHash": "16d739f14bed5d807fdf0db1122801306b991c5b8e229b86a6ab2189bb95556f",
+  "checks": {
+    "sourceAttribution": true,
+    "fullTests": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "noSpecialChecker": true,
+    "hashes": true,
+    "statementComplete": true,
+    "inputConstraints": true,
+    "algorithmicallyWrong": false,
+    "independentSupplementalReference": true
+  },
+  "incorrectAnalysis": {
+    "46023064": {
+      "kind": "wrong-answer",
+      "test": "0001",
+      "failedTest": "0001",
+      "reason": "For FSSF it starts at index 1 and omits the initial FS flight. It sees one SF and zero FS, prints YES, although the two real flights tie and require NO.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "lfOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "rawOutputBase64": "WUVTCg==",
+      "lfOutputBase64": "WUVTCg==",
+      "rawInputHash": "499e8cef12668bbb157586bc425cff072e6ee1ec75a875e1409f0c16d28d102b",
+      "lfInput": {
+        "path": "proof/867A/counterexamples/46023064-0001.lf.in",
+        "sha256": "53bdd9bccdecb5004ceef73e79239171197b3d17304f5cd199f2f541074a6895",
+        "bytes": 7
+      },
+      "expectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "sourceHash": "fbf398e985716a890935e3c4f7d702b872cd2ddbcfd1ce21c199df29b0047047",
+      "sourceProvenance": {
+        "bytes": 127376471,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00030-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00030-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/867/submission/46023064",
+      "sourceProof": {
+        "path": "proof/867A/source-review/46023064.txt",
+        "sha256": "fbf398e985716a890935e3c4f7d702b872cd2ddbcfd1ce21c199df29b0047047",
+        "bytes": 226
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        13
+      ],
+      "faultySourceLineRange": [
+        5,
+        10
+      ],
+      "faultyImplementedStep": "5: for i in range(1,n-1):\n6:     if c[i] == \"S\" and c[i+1] == \"F\":\n7:         g += 1\n8:     elif c[i] == \"F\" and c[i+1] == \"S\":\n9:         l += 1\n10: if g > l:",
+      "completeLfInput": "4\nFSSF\n",
+      "expectedOutput": "NO\n",
+      "rawActualOutput": "YES\n",
+      "lfActualOutput": "YES\n",
+      "mathematicalRequirement": "Compare only adjacent unequal SF and FS pairs; strictly more SF is YES, a tie is NO.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "46510476": {
+      "kind": "wrong-answer",
+      "test": "0001",
+      "failedTest": "0001",
+      "reason": "For FSSF the first FS transition is not counted: s is incremented only after a synthetic K state created by an SF transition. Thus f=1,s=0 and YES rather than the correct tie NO.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "lfOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "rawOutputBase64": "WUVTCg==",
+      "lfOutputBase64": "WUVTCg==",
+      "rawInputHash": "499e8cef12668bbb157586bc425cff072e6ee1ec75a875e1409f0c16d28d102b",
+      "lfInput": {
+        "path": "proof/867A/counterexamples/46510476-0001.lf.in",
+        "sha256": "53bdd9bccdecb5004ceef73e79239171197b3d17304f5cd199f2f541074a6895",
+        "bytes": 7
+      },
+      "expectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "sourceHash": "41d9a96d637a6d1a6f869c6b65300da7c0ca463a3c74e8882c345d227904cc74",
+      "sourceProvenance": {
+        "bytes": 127376471,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00030-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00030-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/867/submission/46510476",
+      "sourceProof": {
+        "path": "proof/867A/source-review/46510476.txt",
+        "sha256": "41d9a96d637a6d1a6f869c6b65300da7c0ca463a3c74e8882c345d227904cc74",
+        "bytes": 280
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        22
+      ],
+      "faultySourceLineRange": [
+        8,
+        19
+      ],
+      "faultyImplementedStep": "8: for i in st:\n9:     if x == 'S' and i == 'F':\n10:          f += 1\n11:          x = 'K'\n12:     elif x == 'K' and i == 'S':\n13:          s += 1\n14:          x = 'S'\n15:     else:\n16:           x = i\n17: \n18:          \n19: if f > s:",
+      "completeLfInput": "4\nFSSF\n",
+      "expectedOutput": "NO\n",
+      "rawActualOutput": "YES\n",
+      "lfActualOutput": "YES\n",
+      "mathematicalRequirement": "Compare only adjacent unequal SF and FS pairs; strictly more SF is YES, a tie is NO.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "46785029": {
+      "kind": "wrong-answer",
+      "test": "0001",
+      "failedTest": "0001",
+      "reason": "For FSSF the transition balance is zero, but res<0 rather than res<=0 classifies the tie as YES instead of NO.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "lfOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "rawOutputBase64": "WUVTCg==",
+      "lfOutputBase64": "WUVTCg==",
+      "rawInputHash": "499e8cef12668bbb157586bc425cff072e6ee1ec75a875e1409f0c16d28d102b",
+      "lfInput": {
+        "path": "proof/867A/counterexamples/46785029-0001.lf.in",
+        "sha256": "53bdd9bccdecb5004ceef73e79239171197b3d17304f5cd199f2f541074a6895",
+        "bytes": 7
+      },
+      "expectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "sourceHash": "870a4ae073ae85c52856fcc0178482ab656a8901bae608d44bda879cd5d68b9f",
+      "sourceProvenance": {
+        "bytes": 127376471,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00030-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00030-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/867/submission/46785029",
+      "sourceProof": {
+        "path": "proof/867A/source-review/46785029.txt",
+        "sha256": "870a4ae073ae85c52856fcc0178482ab656a8901bae608d44bda879cd5d68b9f",
+        "bytes": 229
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        15
+      ],
+      "faultySourceLineRange": [
+        6,
+        15
+      ],
+      "faultyImplementedStep": "6: for i in range(1,len(ch)):\n7:     if (ch[i-1]=='S')and(ch[i]=='F'):\n8:         res+=1\n9:     elif (ch[i-1]=='F')and(ch[i]=='S'):  \n10:         res-=1\n11:         \n12: if(res<0):\n13:     print(\"NO\")\n14: else:\n15:     print(\"YES\")",
+      "completeLfInput": "4\nFSSF\n",
+      "expectedOutput": "NO\n",
+      "rawActualOutput": "YES\n",
+      "lfActualOutput": "YES\n",
+      "mathematicalRequirement": "Compare only adjacent unequal SF and FS pairs; strictly more SF is YES, a tie is NO.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "46785344": {
+      "kind": "non-algorithmic",
+      "test": "0001",
+      "failedTest": "0001",
+      "reason": "For FSSF the compressed list is F,S,F and its final decision is correctly NO. The recorded mismatch consists only of three printed debug lists before NO; this is not an algorithmic kill.",
+      "algorithmicKill": false,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "9141eb31940d9ca5aedd3a344b767f23aef3ddbd4598af01018c6b85093bedaf",
+      "lfOutputHash": "9141eb31940d9ca5aedd3a344b767f23aef3ddbd4598af01018c6b85093bedaf",
+      "rawOutputBase64": "WydGJywgJ1MnXQpbJ0YnLCAnUyddClsnRicsICdTJywgJ0YnXQpOTwo=",
+      "lfOutputBase64": "WydGJywgJ1MnXQpbJ0YnLCAnUyddClsnRicsICdTJywgJ0YnXQpOTwo=",
+      "rawInputHash": "499e8cef12668bbb157586bc425cff072e6ee1ec75a875e1409f0c16d28d102b",
+      "lfInput": {
+        "path": "proof/867A/counterexamples/46785344-0001.lf.in",
+        "sha256": "53bdd9bccdecb5004ceef73e79239171197b3d17304f5cd199f2f541074a6895",
+        "bytes": 7
+      },
+      "expectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "sourceHash": "0464172a6aac4cea904d634a5e14dda13c2b0cd00a94291edc987d5377aa7db6",
+      "sourceProvenance": {
+        "bytes": 127376471,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00030-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00030-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/867/submission/46785344",
+      "sourceProof": {
+        "path": "proof/867A/source-review/46785344.txt",
+        "sha256": "0464172a6aac4cea904d634a5e14dda13c2b0cd00a94291edc987d5377aa7db6",
+        "bytes": 207
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        15
+      ],
+      "faultySourceLineRange": [
+        6,
+        15
+      ],
+      "faultyImplementedStep": "6: for i in range(1,n):\n7:     if(ch[i-1]!=ch[i]):\n8:         l.append(ch[i])\n9:     print(l)    \n10:     \n11:         \n12: if(l.count('F')>l.count('S')):\n13:     print(\"NO\")\n14: else:\n15:     print(\"YES\")",
+      "completeLfInput": "4\nFSSF\n",
+      "expectedOutput": "NO\n",
+      "rawActualOutput": "['F', 'S']\n['F', 'S']\n['F', 'S', 'F']\nNO\n",
+      "lfActualOutput": "['F', 'S']\n['F', 'S']\n['F', 'S', 'F']\nNO\n",
+      "mathematicalRequirement": "Compare only adjacent unequal SF and FS pairs; strictly more SF is YES, a tie is NO.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "46785762": {
+      "kind": "wrong-answer",
+      "test": "0001",
+      "failedTest": "0001",
+      "reason": "For FSSF it counts every day according to the preceding office, including SS stays, yielding s=2,f=1 and YES. Counting only actual changes gives one flight each and NO.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "lfOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "rawOutputBase64": "WUVTCg==",
+      "lfOutputBase64": "WUVTCg==",
+      "rawInputHash": "499e8cef12668bbb157586bc425cff072e6ee1ec75a875e1409f0c16d28d102b",
+      "lfInput": {
+        "path": "proof/867A/counterexamples/46785762-0001.lf.in",
+        "sha256": "53bdd9bccdecb5004ceef73e79239171197b3d17304f5cd199f2f541074a6895",
+        "bytes": 7
+      },
+      "expectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "sourceHash": "b3ff5725aeacd03a01900fa34a72475b0a48d04e1ae9a07fafa25c7304565a49",
+      "sourceProvenance": {
+        "bytes": 127376471,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00030-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00030-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/867/submission/46785762",
+      "sourceProof": {
+        "path": "proof/867A/source-review/46785762.txt",
+        "sha256": "b3ff5725aeacd03a01900fa34a72475b0a48d04e1ae9a07fafa25c7304565a49",
+        "bytes": 285
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        16
+      ],
+      "faultySourceLineRange": [
+        7,
+        14
+      ],
+      "faultyImplementedStep": "7: for i in range(1,n):\n8:     if((ch[i-1]=='F')and(ch[i]=='S'))or((ch[i-1]=='F')and(ch[i]=='F')):\n9:         f+=1\n10:     elif((ch[i-1]=='S')and(ch[i]=='F'))or((ch[i-1]=='S')and(ch[i]=='S')):\n11:         s+=1\n12:         \n13: if(s>f):\n14:     print(\"YES\")",
+      "completeLfInput": "4\nFSSF\n",
+      "expectedOutput": "NO\n",
+      "rawActualOutput": "YES\n",
+      "lfActualOutput": "YES\n",
+      "mathematicalRequirement": "Compare only adjacent unequal SF and FS pairs; strictly more SF is YES, a tie is NO.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    }
+  },
+  "reason": "Rejected current bytes: 46785344@0001: For FSSF the compressed list is F,S,F and its final decision is correctly NO. The recorded mismatch consists only of three printed debug lists before NO; this is not an algorithmic kill.",
+  "statementReview": {
+    "fullStatementInputOutputSamplesRead": true,
+    "numericBoundsAccurate": true,
+    "deterministicUniqueOutput": true,
+    "tokenCheckerAppropriate": true,
+    "review": "Strict excess of SF over FS transitions; tie is NO. Case-insensitive YES/NO matches statement.",
+    "defects": [],
+    "hash": "5fdf6ac538c9dc420b1cc9d8a77de9a369a8541542f54f69676dd5a428f3d628",
+    "sampleCount": 4,
+    "attribution": "Codeforces contest authors; open-r1/CodeForces (Penedo et al., 2025).",
+    "ratingApiProof": {
+      "contestId": 867,
+      "index": "A",
+      "name": "Between the Offices",
+      "points": 500.0,
+      "rating": 800,
+      "tags": [
+        "implementation"
+      ],
+      "type": "PROGRAMMING"
+    }
+  },
+  "coverageReview": {
+    "packageTestBasis": {
+      "extraTestsHash": "fef3951a1ca3b1004738e0967c4e8b9665542073e08b7f916e78be0635e2b429",
+      "generatedAdvertised": 0,
+      "generatedIncluded": 0,
+      "generatedSource": null,
+      "officialAdvertised": 34,
+      "officialComplete": true,
+      "officialIncluded": 34,
+      "officialRole": "qualification"
+    },
+    "labelsIndependentlyInspected": true,
+    "builderCoverage": {
+      "adversarial": [
+        {
+          "reason": "equal transitions",
+          "test": "0036"
+        }
+      ],
+      "boundary": [
+        {
+          "reason": "n=2 SF (input already in upstream suite)",
+          "test": "0002"
+        },
+        {
+          "reason": "n=2 FS",
+          "test": "0035"
+        }
+      ],
+      "checkerSemantics": "Decision problem: YES/NO. The authored reference reproduced every upstream expected output under the token/YES-NO checker; worker outputs come from that reference and are re-checked against five accepted programs.",
+      "inputConstraints": "Authored validate() asserts: n in 2..100, then a string of n characters over S/F. It accepted all 4 samples, 34 official and 0 open-r1 generated inputs, and all 3 distinct worker-generated inputs (categorized inputs already present upstream reference the upstream test).",
+      "maxSize": [
+        {
+          "reason": "n=100 alternating starting S ending F",
+          "test": "0037"
+        },
+        {
+          "reason": "n=100 all S (input already in upstream suite)",
+          "test": "0021"
+        }
+      ],
+      "packageHash": "18731d498f5dc9752ea9de4102f7182cd91cc4c6d2fb76b5a155028bfff066d6",
+      "recipeHash": "21704cf02e00ca5bb93d4896998f942b5d96a2e8b817117205189ff4a90db363",
+      "recipeReportHash": "e87b65801097969203b3d781acb0108e53e93b095d83d225aa3746c417d90438",
+      "statementComplete": "Reviewed full statement: count SF transitions > FS transitions.",
+      "testBasis": {
+        "officialAdvertised": 34,
+        "officialComplete": true,
+        "officialIncluded": 34,
+        "openR1Generated": 0,
+        "workerGenerated": 3
+      }
+    },
+    "validatorAndExpectedOutputs": {
+      "path": "proof/867A/recipe.json",
+      "sha256": "4740ef7bce9f8be53d21d88e2f6449b3f5289fb802257eab75ebff4beda6d9e5",
+      "bytes": 14400
+    },
+    "independentValidatorAndReference": {
+      "path": "proof/867A/independent-package-reference.json",
+      "sha256": "267ec9bbd7c6e04abeefe7c2ff39475ac3f9415f42bc6582e93a0609d19452f2",
+      "bytes": 13232
+    },
+    "supplement": {
+      "generatorHash": "4c5497d8374594c7bcb7bcac30b3edf6b212a910190c53ab3564cf3f1e543e99",
+      "oracleHash": "aa5c1afe8afe7db5db40c95ead439d92e9577132220b460d47cff6b5717d2404",
+      "pairsHash": "3381c5a8a81816beeaeaad43dc8628951831de678fed11c2b5a091da94042448",
+      "supplementCount": 256,
+      "seed": 918273645,
+      "packageReferenceVerdict": "AC",
+      "acceptedComparisons": [
+        {
+          "submissionId": "30872512",
+          "sourceHash": "20d26269ff4f8eb589a336d3a8d0c709a90f8f157b028422c3d6f3450f229beb",
+          "result": "AC",
+          "testsRun": 256
+        },
+        {
+          "submissionId": "30872514",
+          "sourceHash": "a9c4d097b89fd05e4d5b09b597e020f9f174d834aadaca400df865f5c112e807",
+          "result": "AC",
+          "testsRun": 256
+        }
+      ]
+    },
+    "supplementPairs": {
+      "path": "proof/867A/supplement-pairs.json",
+      "sha256": "3381c5a8a81816beeaeaad43dc8628951831de678fed11c2b5a091da94042448",
+      "bytes": 24294
+    },
+    "supplementOracle": {
+      "path": "proof/867A/independent-oracle.py",
+      "sha256": "aa5c1afe8afe7db5db40c95ead439d92e9577132220b460d47cff6b5717d2404",
+      "bytes": 9842
+    },
+    "supplementGenerator": {
+      "path": "proof/867A/independent-generator.py",
+      "sha256": "4c5497d8374594c7bcb7bcac30b3edf6b212a910190c53ab3564cf3f1e543e99",
+      "bytes": 9837
+    },
+    "finiteDomainNotes": "918A: all 1000 legal inputs. 931A: every distance 1..999 in both orders; translation invariance follows directly from distance-only movement costs. Other arrays/strings: exhaustive small domains or category domains plus max-size. 935A full 99999-input domain not exhausted: current package rejected for malformed statement; 205 small/boundary cases independently tested."
+  },
+  "proofs": {
+    "metadata": {
+      "path": "proof/867A/metadata-verification.json",
+      "sha256": "74a571ba396dc8b9ee3053f4fb58638ad348f2cb0f5e1d9f32c6894df011f8cf",
+      "bytes": 9654
+    },
+    "independent": {
+      "path": "proof/867A/independent.json",
+      "sha256": "cd4bf0111f02ee508d52022dbc96d8364aa0ef8f4949de27c3f6a0cd07868925",
+      "bytes": 27565
+    },
+    "generated": null
+  },
+  "gaps": [
+    "Codeforces API documentation returned HTTP 403; no Codeforces API/proxy calls made, no auth bypass. Rating independently checked against hashed bundled official API snapshot."
+  ]
+}

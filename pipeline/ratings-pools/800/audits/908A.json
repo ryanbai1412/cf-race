@@ -1,0 +1,418 @@
+{
+  "schemaVersion": 1,
+  "id": "908A",
+  "rating": 800,
+  "approved": false,
+  "reviewer": "devin-8868d1bfd2e6427e836d89e539a0b515",
+  "reviewUrl": "https://staging.itsdev.in/sessions/8868d1bfd2e6427e836d89e539a0b515",
+  "qualificationBasis": "official",
+  "packageHash": "566204d73bbd3c49206ae84916e014120e6a7e987d5673a72a200a57d30844a4",
+  "evidenceHash": "cf24d4113c440a7b405f3df2a3cb0e117aa2b2f08026b5c4f46d1a8b6a8bfc31",
+  "checks": {
+    "sourceAttribution": true,
+    "fullTests": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "noSpecialChecker": true,
+    "hashes": true,
+    "statementComplete": true,
+    "inputConstraints": true,
+    "algorithmicallyWrong": false,
+    "independentSupplementalReference": true
+  },
+  "incorrectAnalysis": {
+    "33800117": {
+      "kind": "wrong-answer",
+      "test": "0004",
+      "failedTest": "0004",
+      "reason": "On 0abcdefghijklmnopqrstuvwxyz1234567896 it flips even digits instead of odd digits. Two extra even digits make its count 11 rather than the five vowels plus five odd digits, 10.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "25d4f2a86deb5e2574bb3210b67bb24fcc4afb19f93a7b65a057daa874a9d18e",
+      "lfOutputHash": "25d4f2a86deb5e2574bb3210b67bb24fcc4afb19f93a7b65a057daa874a9d18e",
+      "rawOutputBase64": "MTEK",
+      "lfOutputBase64": "MTEK",
+      "rawInputHash": "ed1f9ffb6823a6af0745456438aedf55614b98da4bffe6b00d06899ae0e45ef9",
+      "lfInput": {
+        "path": "proof/908A/counterexamples/33800117-0004.lf.in",
+        "sha256": "604ddeae0ef85404af861bbb0548e39ef28599527d289729492f2a99ee6e6ffc",
+        "bytes": 38
+      },
+      "expectedOutputHash": "4593c89b4d60161d78fef3f48312d7833649b876a0c1d762cb5b9d73acaa0a20",
+      "sourceHash": "291e98055c3e506b78f581466524c62384fd1b6f2ec299a8c281e744c5813a99",
+      "sourceProvenance": {
+        "bytes": 135584076,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00031-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "1e4c2582125f31e1fb50b03b5d47811d2890fac3e97e54d05c1c2c85c1bc260a",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00031-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/908/submission/33800117",
+      "sourceProof": {
+        "path": "proof/908A/source-review/33800117.txt",
+        "sha256": "291e98055c3e506b78f581466524c62384fd1b6f2ec299a8c281e744c5813a99",
+        "bytes": 131
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        8
+      ],
+      "faultySourceLineRange": [
+        2,
+        6
+      ],
+      "faultyImplementedStep": "2: digits = [\"a\",\"e\",\"i\",\"o\",\"u\",\"0\",\"2\",\"4\",\"6\",\"8\"]\n3: ans = 0\n4: for x in item:\n5: \tif (x in digits):\n6: \t\tans += 1",
+      "completeLfInput": "0abcdefghijklmnopqrstuvwxyz1234567896\n",
+      "expectedOutput": "10\n",
+      "rawActualOutput": "11\n",
+      "lfActualOutput": "11\n",
+      "mathematicalRequirement": "Count characters in aeiou13579; other letters, even digits and line terminators do not count.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "33803444": {
+      "kind": "non-algorithmic",
+      "test": "0001",
+      "failedTest": "0001",
+      "reason": "The recorded input is ee with CRLF. Python input leaves a trailing carriage return, and c not in the even-digit list counts it as a third card. LF-normalized exact input prints 2 and is AC. Do not substitute a different counterexample.",
+      "algorithmicKill": false,
+      "rawVerdict": "WA",
+      "lfVerdict": "AC",
+      "rawOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "lfOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "rawOutputBase64": "Mwo=",
+      "lfOutputBase64": "Mgo=",
+      "rawInputHash": "547de070a50408cc3afd83fa00d8461e296fa74c853a1db1e6964006fd9c9b2d",
+      "lfInput": {
+        "path": "proof/908A/counterexamples/33803444-0001.lf.in",
+        "sha256": "828e733b00a09b99484b7c9347e56cc69d60348e2a752f8c3f9798fbbcccc556",
+        "bytes": 3
+      },
+      "expectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "sourceHash": "65c9f0be96cd33831f8b529f7f9bac38a7d6dc4d00d5d4b066d3179fe563ebc1",
+      "sourceProvenance": {
+        "bytes": 135584076,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00031-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "1e4c2582125f31e1fb50b03b5d47811d2890fac3e97e54d05c1c2c85c1bc260a",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00031-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/908/submission/33803444",
+      "sourceProof": {
+        "path": "proof/908A/source-review/33803444.txt",
+        "sha256": "65c9f0be96cd33831f8b529f7f9bac38a7d6dc4d00d5d4b066d3179fe563ebc1",
+        "bytes": 144
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        8
+      ],
+      "faultySourceLineRange": [
+        4,
+        6
+      ],
+      "faultyImplementedStep": "4: for c in s:\n5:     if (c in ['a', 'e', 'i', 'o' or 'u']) or (c not in ['0', '2', '4', '6', '8']):\n6:         cnt += 1",
+      "completeLfInput": "ee\n",
+      "expectedOutput": "2\n",
+      "rawActualOutput": "3\n",
+      "lfActualOutput": "2\n",
+      "mathematicalRequirement": "Count characters in aeiou13579; other letters, even digits and line terminators do not count.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "33803875": {
+      "kind": "wrong-answer",
+      "test": "0006",
+      "failedTest": "0006",
+      "reason": "The recorded string consists solely of digits 0123456789 repeated five times. Because c2==0 it prints zero, although all 25 odd-digit cards must be flipped even when no vowels are visible.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "lfOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "rawOutputBase64": "MAo=",
+      "lfOutputBase64": "MAo=",
+      "rawInputHash": "6940451004a37ba53bda44135b54ea3f34f9f81f271910cee894ab104a5c9f73",
+      "lfInput": {
+        "path": "proof/908A/counterexamples/33803875-0006.lf.in",
+        "sha256": "179c1ce238f8d73ef6ff776abd51bad060c70810c0f812cb1396792a28a4a045",
+        "bytes": 51
+      },
+      "expectedOutputHash": "50e1c70ff6acbb8a6c78e18ccc9428fb7b473a6be9320e52019a66cd32afba95",
+      "sourceHash": "dd2fcf5ab2905be11e375cef2c181ec84ee44c027c14e7f3331160f472e88a09",
+      "sourceProvenance": {
+        "bytes": 135584076,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00031-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "1e4c2582125f31e1fb50b03b5d47811d2890fac3e97e54d05c1c2c85c1bc260a",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00031-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/908/submission/33803875",
+      "sourceProof": {
+        "path": "proof/908A/source-review/33803875.txt",
+        "sha256": "dd2fcf5ab2905be11e375cef2c181ec84ee44c027c14e7f3331160f472e88a09",
+        "bytes": 212
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        14
+      ],
+      "faultySourceLineRange": [
+        5,
+        14
+      ],
+      "faultyImplementedStep": "5: for c in st:\n6:     if c>='0' and c<='9':\n7:         if int(c)%2 :\n8:             c1+=1\n9:     elif c in lis:\n10:         c2+=1\n11: if c2==0:\n12:     print(0)\n13: else:\n14:     print(c1+c2)",
+      "completeLfInput": "01234567890123456789012345678901234567890123456789\n",
+      "expectedOutput": "25\n",
+      "rawActualOutput": "0\n",
+      "lfActualOutput": "0\n",
+      "mathematicalRequirement": "Count characters in aeiou13579; other letters, even digits and line terminators do not count.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "33808734": {
+      "kind": "non-algorithmic",
+      "test": "0001",
+      "failedTest": "0001",
+      "reason": "find(c) does not throw for absent characters, so it counts every input character. On the recorded ee case this is correct for the two real cards; the third count is only a retained carriage return. LF-normalized exact counterexample is AC with output 2.",
+      "algorithmicKill": false,
+      "rawVerdict": "WA",
+      "lfVerdict": "AC",
+      "rawOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "lfOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "rawOutputBase64": "Mwo=",
+      "lfOutputBase64": "Mgo=",
+      "rawInputHash": "547de070a50408cc3afd83fa00d8461e296fa74c853a1db1e6964006fd9c9b2d",
+      "lfInput": {
+        "path": "proof/908A/counterexamples/33808734-0001.lf.in",
+        "sha256": "828e733b00a09b99484b7c9347e56cc69d60348e2a752f8c3f9798fbbcccc556",
+        "bytes": 3
+      },
+      "expectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "sourceHash": "cbc75f7b8d4f2a45ffd371a77466f95ce644a224a8aabca31fd454bc1fc0eb19",
+      "sourceProvenance": {
+        "bytes": 135584076,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00031-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "1e4c2582125f31e1fb50b03b5d47811d2890fac3e97e54d05c1c2c85c1bc260a",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00031-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/908/submission/33808734",
+      "sourceProof": {
+        "path": "proof/908A/source-review/33808734.txt",
+        "sha256": "cbc75f7b8d4f2a45ffd371a77466f95ce644a224a8aabca31fd454bc1fc0eb19",
+        "bytes": 122
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        9
+      ],
+      "faultySourceLineRange": [
+        3,
+        8
+      ],
+      "faultyImplementedStep": "3: for c in s:\n4:     try:\n5:         \"aeiou13579\".find(c)\n6:         cnt += 1\n7:     except:\n8:         pass",
+      "completeLfInput": "ee\n",
+      "expectedOutput": "2\n",
+      "rawActualOutput": "3\n",
+      "lfActualOutput": "2\n",
+      "mathematicalRequirement": "Count characters in aeiou13579; other letters, even digits and line terminators do not count.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "33811032": {
+      "kind": "wrong-answer",
+      "test": "0004",
+      "failedTest": "0004",
+      "reason": "On 0abcdefghijklmnopqrstuvwxyz1234567896 it counts y as a vowel and ignores all odd digits; prints six instead of five actual vowels plus five odd digits, ten.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "lfOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "rawOutputBase64": "Ngo=",
+      "lfOutputBase64": "Ngo=",
+      "rawInputHash": "ed1f9ffb6823a6af0745456438aedf55614b98da4bffe6b00d06899ae0e45ef9",
+      "lfInput": {
+        "path": "proof/908A/counterexamples/33811032-0004.lf.in",
+        "sha256": "604ddeae0ef85404af861bbb0548e39ef28599527d289729492f2a99ee6e6ffc",
+        "bytes": 38
+      },
+      "expectedOutputHash": "4593c89b4d60161d78fef3f48312d7833649b876a0c1d762cb5b9d73acaa0a20",
+      "sourceHash": "8179c2dfdabfdbf9da8c1268cb19e9af03fa165ba29beceaf1f4018a48687c36",
+      "sourceProvenance": {
+        "bytes": 135584076,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00031-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "1e4c2582125f31e1fb50b03b5d47811d2890fac3e97e54d05c1c2c85c1bc260a",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00031-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/908/submission/33811032",
+      "sourceProof": {
+        "path": "proof/908A/source-review/33811032.txt",
+        "sha256": "8179c2dfdabfdbf9da8c1268cb19e9af03fa165ba29beceaf1f4018a48687c36",
+        "bytes": 97
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        4
+      ],
+      "faultySourceLineRange": [
+        1,
+        4
+      ],
+      "faultyImplementedStep": "1: s = input().lower()\n2: g = ('a', 'e', 'i', 'o', 'u', 'y')\n3: n = [c for c in s if c in g]\n4: print(len(n))",
+      "completeLfInput": "0abcdefghijklmnopqrstuvwxyz1234567896\n",
+      "expectedOutput": "10\n",
+      "rawActualOutput": "6\n",
+      "lfActualOutput": "6\n",
+      "mathematicalRequirement": "Count characters in aeiou13579; other letters, even digits and line terminators do not count.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    }
+  },
+  "reason": "Rejected current bytes: 33803444@0001: The recorded input is ee with CRLF. Python input leaves a trailing carriage return, and c not in the even-digit list counts it as a third card. LF-normalized exact input prints 2 and is AC. Do not substitute a different counterexample. | 33808734@0001: find(c) does not throw for absent characters, so it counts every input character. On the recorded ee case this is correct for the two real cards; the third count is only a retained carriage return. LF-normalized exact counterexample is AC with output 2.",
+  "statementReview": {
+    "fullStatementInputOutputSamplesRead": true,
+    "numericBoundsAccurate": true,
+    "deterministicUniqueOutput": true,
+    "tokenCheckerAppropriate": true,
+    "review": "Visible aeiou or odd digits must be flipped; y is not a vowel here. Unique minimum integer.",
+    "defects": [],
+    "hash": "ee7303c0b2bcf0cdbb42b4c59c651fc95a26ba56cf09ba514dc1779d175508fd",
+    "sampleCount": 3,
+    "attribution": "Codeforces contest authors; open-r1/CodeForces (Penedo et al., 2025).",
+    "ratingApiProof": {
+      "contestId": 908,
+      "index": "A",
+      "name": "New Year and Counting Cards",
+      "points": 500.0,
+      "rating": 800,
+      "tags": [
+        "brute force",
+        "implementation"
+      ],
+      "type": "PROGRAMMING"
+    }
+  },
+  "coverageReview": {
+    "packageTestBasis": {
+      "extraTestsHash": "c0747d7bbee42cdc74a360de40194e147e0dd1163fb321a6fd682b35368c661a",
+      "generatedAdvertised": 0,
+      "generatedIncluded": 0,
+      "generatedSource": null,
+      "officialAdvertised": 38,
+      "officialComplete": true,
+      "officialIncluded": 38,
+      "officialRole": "qualification"
+    },
+    "labelsIndependentlyInspected": true,
+    "builderCoverage": {
+      "adversarial": [
+        {
+          "reason": "y is not a vowel",
+          "test": "0040"
+        }
+      ],
+      "boundary": [
+        {
+          "reason": "single even digit (input already in upstream suite)",
+          "test": "0016"
+        },
+        {
+          "reason": "single vowel",
+          "test": "0039"
+        }
+      ],
+      "checkerSemantics": "Unique integer. The authored reference reproduced every upstream expected output under the token/YES-NO checker; worker outputs come from that reference and are re-checked against five accepted programs.",
+      "inputConstraints": "Authored validate() asserts: one string of 1..50 lowercase letters or digits. It accepted all 3 samples, 38 official and 0 open-r1 generated inputs, and all 3 distinct worker-generated inputs (categorized inputs already present upstream reference the upstream test).",
+      "maxSize": [
+        {
+          "reason": "50 vowels/odds",
+          "test": "0041"
+        }
+      ],
+      "packageHash": "566204d73bbd3c49206ae84916e014120e6a7e987d5673a72a200a57d30844a4",
+      "recipeHash": "939d8df0fad5e84f80a3c59f5f34c8c5df21fedbd156a85dec51e9f6959f0516",
+      "recipeReportHash": "30c0f713a2a861632d57e0e3b19a257f4e24250385ed3db826b054228a3ca70b",
+      "statementComplete": "Reviewed full statement: turn vowels and odd digits.",
+      "testBasis": {
+        "officialAdvertised": 38,
+        "officialComplete": true,
+        "officialIncluded": 38,
+        "openR1Generated": 0,
+        "workerGenerated": 3
+      }
+    },
+    "validatorAndExpectedOutputs": {
+      "path": "proof/908A/recipe.json",
+      "sha256": "af052ecbec616f6eae85c925074c0ee0bcf4ba073dbb8ad94797bb95a3ff6377",
+      "bytes": 15300
+    },
+    "independentValidatorAndReference": {
+      "path": "proof/908A/independent-package-reference.json",
+      "sha256": "11e93770c7c1e7ee6bc55734458f4f1d777bc47a93cf3d15743b2fbe8e66d0d3",
+      "bytes": 14151
+    },
+    "supplement": {
+      "generatorHash": "2fe4a04369f476511da97ea53e31432a2d7498aa70c4101a096f77f1c97c16d7",
+      "oracleHash": "a2969327220f16e3e43aa318e589431810ade0f6cde1cb552901b058c4e4e643",
+      "pairsHash": "a39669da6c6ace42f5072b0411c0bc52ade5e2d773cbf06e7ba5820a28dc2ee4",
+      "supplementCount": 165,
+      "seed": 918273645,
+      "packageReferenceVerdict": "AC",
+      "acceptedComparisons": [
+        {
+          "submissionId": "33763702",
+          "sourceHash": "d1d6b51a17c679521a8f592181e901e99c93742503d9d75e64f3920a653935c7",
+          "result": "AC",
+          "testsRun": 165
+        },
+        {
+          "submissionId": "33763725",
+          "sourceHash": "c96cf1604833fbb62cb48efaa8a8c65663cf9255fd0bee7a15415eb397046b7d",
+          "result": "AC",
+          "testsRun": 165
+        }
+      ]
+    },
+    "supplementPairs": {
+      "path": "proof/908A/supplement-pairs.json",
+      "sha256": "a39669da6c6ace42f5072b0411c0bc52ade5e2d773cbf06e7ba5820a28dc2ee4",
+      "bytes": 18142
+    },
+    "supplementOracle": {
+      "path": "proof/908A/independent-oracle.py",
+      "sha256": "a2969327220f16e3e43aa318e589431810ade0f6cde1cb552901b058c4e4e643",
+      "bytes": 9842
+    },
+    "supplementGenerator": {
+      "path": "proof/908A/independent-generator.py",
+      "sha256": "2fe4a04369f476511da97ea53e31432a2d7498aa70c4101a096f77f1c97c16d7",
+      "bytes": 9837
+    },
+    "finiteDomainNotes": "918A: all 1000 legal inputs. 931A: every distance 1..999 in both orders; translation invariance follows directly from distance-only movement costs. Other arrays/strings: exhaustive small domains or category domains plus max-size. 935A full 99999-input domain not exhausted: current package rejected for malformed statement; 205 small/boundary cases independently tested."
+  },
+  "proofs": {
+    "metadata": {
+      "path": "proof/908A/metadata-verification.json",
+      "sha256": "3ab6378be6b99f30badf1041ebbdd10b49a1faf718fc535f2edcced50f1e9dda",
+      "bytes": 10631
+    },
+    "independent": {
+      "path": "proof/908A/independent.json",
+      "sha256": "96e6dbe153cf6ea6e6ddf8687e1ab0cb117e9d00c56b7325750ff756a7602e99",
+      "bytes": 21547
+    },
+    "generated": null
+  },
+  "gaps": [
+    "Codeforces API documentation returned HTTP 403; no Codeforces API/proxy calls made, no auth bypass. Rating independently checked against hashed bundled official API snapshot."
+  ]
+}

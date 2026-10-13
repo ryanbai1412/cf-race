@@ -1,0 +1,416 @@
+{
+  "schemaVersion": 1,
+  "id": "873A",
+  "rating": 800,
+  "approved": true,
+  "reviewer": "devin-8868d1bfd2e6427e836d89e539a0b515",
+  "reviewUrl": "https://staging.itsdev.in/sessions/8868d1bfd2e6427e836d89e539a0b515",
+  "qualificationBasis": "official",
+  "packageHash": "fa64a7ea9811603cb6e87e59bc4d7d69451ece619eae8a87ecbcfa2d5888a299",
+  "evidenceHash": "de26079a2b57ea042d4c1e0a2a828f1ab5f902bd135ebd5f6ef45f821f55b634",
+  "checks": {
+    "sourceAttribution": true,
+    "fullTests": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "noSpecialChecker": true,
+    "hashes": true,
+    "statementComplete": true,
+    "inputConstraints": true,
+    "algorithmicallyWrong": true,
+    "independentSupplementalReference": true
+  },
+  "incorrectAnalysis": {
+    "31243849": {
+      "kind": "wrong-answer",
+      "test": "0002",
+      "failedTest": "0002",
+      "reason": "On n=5,k=2,x=1 with five 100-valued chores, it adds a[i]+x only for k chores, printing 202 instead of 302. It discards unmodified chores and adds rather than replaces their old costs.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "1a55a7d16b47deb40890edb52c2234c4adddf330dbac2e1f1eedf0a9723a4c70",
+      "lfOutputHash": "1a55a7d16b47deb40890edb52c2234c4adddf330dbac2e1f1eedf0a9723a4c70",
+      "rawOutputBase64": "MjAyCg==",
+      "lfOutputBase64": "MjAyCg==",
+      "rawInputHash": "2d16e96bffd606618a37068c40f5cb28c141f28a10877275709fc28fcf31afa2",
+      "lfInput": {
+        "path": "proof/873A/counterexamples/31243849-0002.lf.in",
+        "sha256": "c97dd7f42f1f71d0affac6fe24173dfea68004a95431e82c4270c50e509addef",
+        "bytes": 26
+      },
+      "expectedOutputHash": "2626af3c6db973ce1d427e24db537b4f22052e52fd2a9d813a2d9d8cf3e17c56",
+      "sourceHash": "03b5c983c52b8961a147c1bb8181e03b7520bd95ff6d7a48181fef379d1b9608",
+      "sourceProvenance": {
+        "bytes": 127376471,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00030-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00030-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/873/submission/31243849",
+      "sourceProof": {
+        "path": "proof/873A/source-review/31243849.txt",
+        "sha256": "03b5c983c52b8961a147c1bb8181e03b7520bd95ff6d7a48181fef379d1b9608",
+        "bytes": 148
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        8
+      ],
+      "faultySourceLineRange": [
+        6,
+        8
+      ],
+      "faultyImplementedStep": "6: for i in range(K):\n7:     total += lst[i] + X\n8: print(total)",
+      "completeLfInput": "5 2 1\n100 100 100 100 100\n",
+      "expectedOutput": "302\n",
+      "rawActualOutput": "202\n",
+      "lfActualOutput": "202\n",
+      "mathematicalRequirement": "sum(a[0:n-k])+k*x: all costs strictly exceed x and replacing the k largest saves the most.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "31245078": {
+      "kind": "wrong-answer",
+      "test": "0003",
+      "failedTest": "0003",
+      "reason": "On n=k=1,x=1,a=[100], it retains the old cost 100 and adds k*x, printing 101 instead of replacing the sole cost and printing 1.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "39b8dc3fc8b44765c8e6f1adee04c5b465e555ab791cc42d0d9e810d5b64297c",
+      "lfOutputHash": "39b8dc3fc8b44765c8e6f1adee04c5b465e555ab791cc42d0d9e810d5b64297c",
+      "rawOutputBase64": "MTAxCg==",
+      "lfOutputBase64": "MTAxCg==",
+      "rawInputHash": "ffd27b4c7ebf6aecff110e20bddbb36c12afb23bd45e0654201e9b353499344e",
+      "lfInput": {
+        "path": "proof/873A/counterexamples/31245078-0003.lf.in",
+        "sha256": "3a2f93691552ccf35208daecc8b0cddb89fd7e1f5c1d2e0a3bb1c261c998c148",
+        "bytes": 10
+      },
+      "expectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "sourceHash": "e718ff1aa79c3dc7b36ffbd4db05f26d8dbb2a0ac2aeef47614003269deffa9e",
+      "sourceProvenance": {
+        "bytes": 127376471,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00030-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00030-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/873/submission/31245078",
+      "sourceProof": {
+        "path": "proof/873A/source-review/31245078.txt",
+        "sha256": "e718ff1aa79c3dc7b36ffbd4db05f26d8dbb2a0ac2aeef47614003269deffa9e",
+        "bytes": 162
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        7
+      ],
+      "faultySourceLineRange": [
+        3,
+        7
+      ],
+      "faultyImplementedStep": "3: ost = n//2 if n%2 == 0 else n//2+1\n4: res = 0\n5: for i in range(ost):\n6:     res+=a[i]\n7: print(res+k*x)",
+      "completeLfInput": "1 1 1\n100\n",
+      "expectedOutput": "1\n",
+      "rawActualOutput": "101\n",
+      "lfActualOutput": "101\n",
+      "mathematicalRequirement": "sum(a[0:n-k])+k*x: all costs strictly exceed x and replacing the k largest saves the most.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "31245121": {
+      "kind": "wrong-answer",
+      "test": "0005",
+      "failedTest": "0005",
+      "reason": "On n=k=100,x=1,all a=100, the condition m[j]>k is false. It skips every replacement and prints 10000 instead of 100; eligibility depends on x, not k.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "876e13f4e07bb39705302c01f445ffd2d2c3b180a207e4d959d6b671c67da09b",
+      "lfOutputHash": "876e13f4e07bb39705302c01f445ffd2d2c3b180a207e4d959d6b671c67da09b",
+      "rawOutputBase64": "MTAwMDAK",
+      "lfOutputBase64": "MTAwMDAK",
+      "rawInputHash": "ec0cca8b39b0b505fac247b64108f84490cd27a8ce5ae8931a1acf3fbdb23a40",
+      "lfInput": {
+        "path": "proof/873A/counterexamples/31245121-0005.lf.in",
+        "sha256": "6bb011110781b89c7678a734eb31f205c3db3777ef7a1510f3c3693fb5bd2bd9",
+        "bytes": 410
+      },
+      "expectedOutputHash": "90b53df56816c127246136d4403aba3b26cec599b2b950fb2ba78d6c1fb4e6bf",
+      "sourceHash": "4b6a4c7915b693a22a3460df788cad62ac057d792bd5b4434c4e6f7476880d04",
+      "sourceProvenance": {
+        "bytes": 127376471,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00030-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00030-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/873/submission/31245121",
+      "sourceProof": {
+        "path": "proof/873A/source-review/31245121.txt",
+        "sha256": "4b6a4c7915b693a22a3460df788cad62ac057d792bd5b4434c4e6f7476880d04",
+        "bytes": 178
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        10
+      ],
+      "faultySourceLineRange": [
+        6,
+        10
+      ],
+      "faultyImplementedStep": "6: for i in range(k):\n7:     j=n-1-i\n8:     if m[j]>k:\n9:         e=e-m[j]+x\n10: print(e)",
+      "completeLfInput": "100 100 1\n100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100\n",
+      "expectedOutput": "100\n",
+      "rawActualOutput": "10000\n",
+      "lfActualOutput": "10000\n",
+      "mathematicalRequirement": "sum(a[0:n-k])+k*x: all costs strictly exceed x and replacing the k largest saves the most.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "31249307": {
+      "kind": "wrong-answer",
+      "test": "0004",
+      "failedTest": "0004",
+      "reason": "On n=100,k=1,x=99,all a=100, a[:-2] drops two old costs although only one replacement is allowed. It prints 9800+99=9899 instead of 9900+99=9999.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "6c180d788da6a48b6e8f2c4f905129d07f0b81bae51a164578e7aa3d3fe51662",
+      "lfOutputHash": "6c180d788da6a48b6e8f2c4f905129d07f0b81bae51a164578e7aa3d3fe51662",
+      "rawOutputBase64": "OTg5OQo=",
+      "lfOutputBase64": "OTg5OQo=",
+      "rawInputHash": "8e80d93e7db5b6388b3cfc1aa8cf2cb13e2a07e9a19a4d8e0d5d08a730834369",
+      "lfInput": {
+        "path": "proof/873A/counterexamples/31249307-0004.lf.in",
+        "sha256": "c23ae2eb5b53214461c8b77cb9c4e7ee6d2b61298dda50e2c37833dc8ead728e",
+        "bytes": 409
+      },
+      "expectedOutputHash": "3eaf9d51cb95a290f1273046ce384d44f701d6bcdffaf7dabde18bd15b4a8d09",
+      "sourceHash": "17d8283c740e818ef5ca1389aa29838351c92f5b3d54b382814c9d7f04ea9387",
+      "sourceProvenance": {
+        "bytes": 127376471,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00030-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00030-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/873/submission/31249307",
+      "sourceProof": {
+        "path": "proof/873A/source-review/31249307.txt",
+        "sha256": "17d8283c740e818ef5ca1389aa29838351c92f5b3d54b382814c9d7f04ea9387",
+        "bytes": 108
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        3
+      ],
+      "faultySourceLineRange": [
+        1,
+        3
+      ],
+      "faultyImplementedStep": "1: n, ta, tt = list(map(int, input().split()))\n2: a = list(map(int, input().split()))\n3: print(sum(a[:-2]) + ta * tt)",
+      "completeLfInput": "100 1 99\n100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100\n",
+      "expectedOutput": "9999\n",
+      "rawActualOutput": "9899\n",
+      "lfActualOutput": "9899\n",
+      "mathematicalRequirement": "sum(a[0:n-k])+k*x: all costs strictly exceed x and replacing the k largest saves the most.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    },
+    "31249493": {
+      "kind": "wrong-answer",
+      "test": "0004",
+      "failedTest": "0004",
+      "reason": "On n=100,k=1,x=99,all a=100, its fixed slice a[:-2] removes two chores rather than k=1. It prints 9899 instead of 9999.",
+      "algorithmicKill": true,
+      "rawVerdict": "WA",
+      "lfVerdict": "WA",
+      "rawOutputHash": "6c180d788da6a48b6e8f2c4f905129d07f0b81bae51a164578e7aa3d3fe51662",
+      "lfOutputHash": "6c180d788da6a48b6e8f2c4f905129d07f0b81bae51a164578e7aa3d3fe51662",
+      "rawOutputBase64": "OTg5OQo=",
+      "lfOutputBase64": "OTg5OQo=",
+      "rawInputHash": "8e80d93e7db5b6388b3cfc1aa8cf2cb13e2a07e9a19a4d8e0d5d08a730834369",
+      "lfInput": {
+        "path": "proof/873A/counterexamples/31249493-0004.lf.in",
+        "sha256": "c23ae2eb5b53214461c8b77cb9c4e7ee6d2b61298dda50e2c37833dc8ead728e",
+        "bytes": 409
+      },
+      "expectedOutputHash": "3eaf9d51cb95a290f1273046ce384d44f701d6bcdffaf7dabde18bd15b4a8d09",
+      "sourceHash": "4ff51460f1669ea83115a25b6fbb5f69719534e19601f45d7d1e24c79e4fb903",
+      "sourceProvenance": {
+        "bytes": 127376471,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00030-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00030-of-00036.parquet"
+      },
+      "sourceUrl": "https://codeforces.com/contest/873/submission/31249493",
+      "sourceProof": {
+        "path": "proof/873A/source-review/31249493.txt",
+        "sha256": "4ff51460f1669ea83115a25b6fbb5f69719534e19601f45d7d1e24c79e4fb903",
+        "bytes": 138
+      },
+      "completeSourceRead": true,
+      "sourceReviewRange": [
+        1,
+        6
+      ],
+      "faultySourceLineRange": [
+        3,
+        6
+      ],
+      "faultyImplementedStep": "3: if n == 1:\n4: \tprint (tt)\n5: else:\n6: \tprint(sum(a[:-2]) + ta * tt)",
+      "completeLfInput": "100 1 99\n100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100\n",
+      "expectedOutput": "9999\n",
+      "rawActualOutput": "9899\n",
+      "lfActualOutput": "9899\n",
+      "mathematicalRequirement": "sum(a[0:n-k])+k*x: all costs strictly exceed x and replacing the k largest saves the most.",
+      "lfInputBoundsReview": "Independently validated by both recipe and distinct reference on every included package input; original CRLF changed only to LF. Intended pinned upstream bounds are used for rejected flattened-bound statements, not a claim that the current malformed statement is valid."
+    }
+  },
+  "reason": "All independent checks passed for these exact bytes; local audit candidate only.",
+  "statementReview": {
+    "fullStatementInputOutputSamplesRead": true,
+    "numericBoundsAccurate": true,
+    "deterministicUniqueOutput": true,
+    "tokenCheckerAppropriate": true,
+    "review": "At most k replacements, x strictly below every cost, so use k largest sorted costs. Integer minimum is unique. Flattened indices are disambiguated by explicit sorted-sequence prose; numeric input bounds are intact.",
+    "defects": [],
+    "hash": "02302fa0e6396a5a6cd66d695ef5f669734c08ae978a28c8c3983f7287abae43",
+    "sampleCount": 2,
+    "attribution": "Codeforces contest authors; open-r1/CodeForces (Penedo et al., 2025).",
+    "ratingApiProof": {
+      "contestId": 873,
+      "index": "A",
+      "name": "Chores",
+      "rating": 800,
+      "tags": [
+        "implementation"
+      ],
+      "type": "PROGRAMMING"
+    }
+  },
+  "coverageReview": {
+    "packageTestBasis": {
+      "extraTestsHash": "d8f08901004d225a965017cda73e21ac6e0339a973c740e949bbb325329fa8a9",
+      "generatedAdvertised": 0,
+      "generatedIncluded": 0,
+      "generatedSource": null,
+      "officialAdvertised": 11,
+      "officialComplete": true,
+      "officialIncluded": 11,
+      "officialRole": "qualification"
+    },
+    "labelsIndependentlyInspected": true,
+    "builderCoverage": {
+      "adversarial": [
+        {
+          "reason": "k=n all replaced",
+          "test": "0013"
+        }
+      ],
+      "boundary": [
+        {
+          "reason": "n=k=1",
+          "test": "0012"
+        }
+      ],
+      "checkerSemantics": "Unique integer. The authored reference reproduced every upstream expected output under the token/YES-NO checker; worker outputs come from that reference and are re-checked against five accepted programs.",
+      "inputConstraints": "Authored validate() asserts: 1 <= k <= n <= 100, x in 1..99; n sorted a_i in 2..100 with x < min a. It accepted all 2 samples, 11 official and 0 open-r1 generated inputs, and all 3 distinct worker-generated inputs (categorized inputs already present upstream reference the upstream test).",
+      "maxSize": [
+        {
+          "reason": "n=100 k=1 all 100 (input already in upstream suite)",
+          "test": "0004"
+        },
+        {
+          "reason": "n=100 k=50 increasing",
+          "test": "0014"
+        }
+      ],
+      "packageHash": "fa64a7ea9811603cb6e87e59bc4d7d69451ece619eae8a87ecbcfa2d5888a299",
+      "recipeHash": "0f85d3ea8c8e478efd3a0d82637b9a00f82efc8e99a5d9eef9fd474907270fff",
+      "recipeReportHash": "42218937258b037d51a304d9439ffd7dfc74c30c40806fb71f5329785a1e3ced",
+      "statementComplete": "Reviewed full statement: replace the k largest chores with x.",
+      "testBasis": {
+        "officialAdvertised": 11,
+        "officialComplete": true,
+        "officialIncluded": 11,
+        "openR1Generated": 0,
+        "workerGenerated": 3
+      }
+    },
+    "validatorAndExpectedOutputs": {
+      "path": "proof/873A/recipe.json",
+      "sha256": "198be7b03f0dfec1c6525f129444c2049ded090612fe10169d9e53c04f27f393",
+      "bytes": 5892
+    },
+    "independentValidatorAndReference": {
+      "path": "proof/873A/independent-package-reference.json",
+      "sha256": "84d69345ca39399866c214e6e23974c8947234ad22abd48659c9b21fa6cbb60d",
+      "bytes": 5299
+    },
+    "supplement": {
+      "generatorHash": "2dace001fd8e94992e0078ba964f47552191a4296ff089307cf409475824b7d8",
+      "oracleHash": "f78e72b2eab53c2d8961f858945e7b10e7210f345917e84755ff9eda0fd4086e",
+      "pairsHash": "9c44f286183687e7cd23ad944c08352a8409ce699c2a2cc497e95a97e511967b",
+      "supplementCount": 111,
+      "seed": 918273645,
+      "packageReferenceVerdict": "AC",
+      "acceptedComparisons": [
+        {
+          "submissionId": "31242928",
+          "sourceHash": "4480feb908e2a9a53bb268679b35ee84ce851c5112be1c2edf156c21ec750692",
+          "result": "AC",
+          "testsRun": 111
+        },
+        {
+          "submissionId": "31242934",
+          "sourceHash": "6966fbf128b3933abe6b68ec412610ee891e90ad08cb2947cbd61626aa9b5a70",
+          "result": "AC",
+          "testsRun": 111
+        }
+      ]
+    },
+    "supplementPairs": {
+      "path": "proof/873A/supplement-pairs.json",
+      "sha256": "9c44f286183687e7cd23ad944c08352a8409ce699c2a2cc497e95a97e511967b",
+      "bytes": 15369
+    },
+    "supplementOracle": {
+      "path": "proof/873A/independent-oracle.py",
+      "sha256": "f78e72b2eab53c2d8961f858945e7b10e7210f345917e84755ff9eda0fd4086e",
+      "bytes": 9842
+    },
+    "supplementGenerator": {
+      "path": "proof/873A/independent-generator.py",
+      "sha256": "2dace001fd8e94992e0078ba964f47552191a4296ff089307cf409475824b7d8",
+      "bytes": 9837
+    },
+    "finiteDomainNotes": "918A: all 1000 legal inputs. 931A: every distance 1..999 in both orders; translation invariance follows directly from distance-only movement costs. Other arrays/strings: exhaustive small domains or category domains plus max-size. 935A full 99999-input domain not exhausted: current package rejected for malformed statement; 205 small/boundary cases independently tested."
+  },
+  "proofs": {
+    "metadata": {
+      "path": "proof/873A/metadata-verification.json",
+      "sha256": "f22d01e003a3f342dbf9cc940f5e48338a8981e243089794c69593a79cb0a234",
+      "bytes": 4169
+    },
+    "independent": {
+      "path": "proof/873A/independent.json",
+      "sha256": "4e29dadfba819a9e2aa7dc4a8beccf33f790b11ae06aa3288aac3153d336481d",
+      "bytes": 19145
+    },
+    "generated": null
+  },
+  "gaps": [
+    "Codeforces API documentation returned HTTP 403; no Codeforces API/proxy calls made, no auth bypass. Rating independently checked against hashed bundled official API snapshot."
+  ]
+}
