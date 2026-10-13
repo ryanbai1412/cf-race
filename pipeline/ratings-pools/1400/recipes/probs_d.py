@@ -395,7 +395,8 @@ class P954B:
     def G():
         return [("boundary", "n=1", "1\na\n"), ("maxSize", "n=100 all same", "100\n" + "a" * 100 + "\n"),
                 ("maxSize", "n=100 half repeated", "100\n" + "abcdefghij" * 5 + "zyxwvutsrq" * 5 + "\n"), ("adversarial", "repeat only of short prefix", "7\nababxab\n"),
-                ("adversarial", "no repeat", "100\n" + "".join(chr(97 + (i * 7) % 26) for i in range(100)) + "\n")]
+                ("adversarial", "period-26 string: copy the 26-letter prefix", "100\n" + "".join(chr(97 + (i * 7) % 26) for i in range(100)) + "\n"),
+                ("adversarial", "no repeatable prefix: a then 99 b", "100\na" + "b" * 99 + "\n")]
 
 
 @problem("958A1", "N in [1,10]; 2N lines of N chars from X/O", 0)

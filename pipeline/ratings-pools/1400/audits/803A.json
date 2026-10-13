@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "55da5cac98ad746c836ecbd37d57c4a69eda3ae0f79bcc51a809d1f410e6a39d",
+  "incorrectAnalysis": {
+    "26722359": {
+      "kind": "wrong-answer",
+      "reason": "Fills the whole diagonal first and then off-diagonal pairs, which is not the lexicographically maximal fill order (row-major greedy); 0008 (n=100,k=3574) gets a valid symmetric matrix that is lexicographically smaller than expected.",
+      "test": "0008"
+    },
+    "26722992": {
+      "kind": "wrong-answer",
+      "reason": "Row-major greedy revisits cells below the diagonal that were already set by symmetry and spends 2 more ones on them, so it under-fills (and its -1 test is wrong); 0006 (n=20,k=398) yields a wrong matrix.",
+      "test": "0006"
+    },
+    "26723404": {
+      "kind": "wrong-answer",
+      "reason": "Places all diagonal ones first, then off-diagonal pairs; not lexicographically maximal. 0008 (n=100,k=3574) is wrong.",
+      "test": "0008"
+    },
+    "26723568": {
+      "kind": "wrong-answer",
+      "reason": "Only places ones on the diagonal and prints -1 whenever k>n, ignoring symmetric off-diagonal pairs; prints -1 on 0006 (n=20,k=398) where a matrix exists.",
+      "test": "0006"
+    },
+    "26723666": {
+      "kind": "wrong-answer",
+      "reason": "Diagonal-first fill (and a parity -1 test based on k-n), not lexicographically maximal; 0008 (n=100,k=3574) is wrong.",
+      "test": "0008"
+    }
+  },
+  "packageHash": "407b219f5fc083f007e53e3412f7d6c7669c3c9402725a45f3c9304002ebc57c",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/5ece4ba84048426c850650a085b8b7b7",
+  "reviewer": "devin-audit-session-5ece4ba84048426c850650a085b8b7b7"
+}

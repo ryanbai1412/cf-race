@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "36611043f66fdb9b15eb8da9a6f5a5f018febbbc2639d49c02946df0fd5e0db5",
+  "incorrectAnalysis": {
+    "26983984": {
+      "kind": "complexity",
+      "reason": "Correct greedy, but consumes the sorted lists with repeated `del(list[0])`, each O(len), so total O(m^2) for m=3e5; exceeds the 2 s limit (>=4 s CPU in sandbox, raw and LF) on 0034 (a=b=c=1e5, m=3e5).",
+      "test": "0034"
+    },
+    "34499211": {
+      "kind": "wrong-answer",
+      "reason": "Adds sum(USB[:n2]) instead of sum(PS2[:n2]) for the PS/2-only computers, so the PS/2 cost is taken from the wrong list; on sample 0001 prints `3 16` instead of `3 14`.",
+      "test": "0001"
+    },
+    "49169307": {
+      "kind": "wrong-answer",
+      "reason": "Interleaved greedy hands mice to dual-port computers while dedicated ports are still free and then reports m-a-b-c (can exceed the number of computers); on 0002 prints `11 2345344274` instead of `8 2345344274`.",
+      "test": "0002"
+    },
+    "51962277": {
+      "kind": "wrong-answer",
+      "reason": "Concatenates the USB and PS/2 leftovers without re-sorting before taking the c cheapest for dual-port computers, so it does not pick the cheapest leftovers; 0004 gives cost 2707359447 instead of 1840824320.",
+      "test": "0004"
+    },
+    "51962393": {
+      "kind": "wrong-answer",
+      "reason": "Sorts the mice as string pairs, i.e. lexicographically by price text rather than numerically, so the greedy takes non-cheapest mice; 0002 gives cost 2658907549 instead of 2345344274.",
+      "test": "0002"
+    }
+  },
+  "packageHash": "5244588cd0db5b78307b0b956b400209561c1eb9d1f6f71c3d93ccee1653ccf8",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/5ece4ba84048426c850650a085b8b7b7",
+  "reviewer": "devin-audit-session-5ece4ba84048426c850650a085b8b7b7"
+}

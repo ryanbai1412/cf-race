@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "2b82bc62219da219fc7a2a2b70c17e6e8f6e49831e6396630d90f86903c0453d",
+  "incorrectAnalysis": {
+    "35620420": {
+      "kind": "wrong-answer",
+      "reason": "Uses sentinel INF=2^60 (~1.15e18) as the initial minimum, but with k=1 the true answer (n-1)*A reaches 3999999998000000000; on 0044 (n=2e9,k=1,A=2e9,B=98) prints 1152921504606846976.",
+      "test": "0044"
+    },
+    "35621925": {
+      "kind": "wrong-answer",
+      "reason": "Always divides whenever divisible (pays B) without comparing B against subtracting down to x/k ((x-x/k)*A); only compares the whole greedy with all-subtraction. On 0010 (n=1999888325,k=3,A=2,B=2e9) prints 3999776648 instead of 3333258884.",
+      "test": "0010"
+    },
+    "35623068": {
+      "kind": "wrong-answer",
+      "reason": "Same greedy defect: divides every time n%k==0 regardless of cost, only taking min with pure subtraction; 0010 gives 3999776648 instead of 3333258884.",
+      "test": "0010"
+    },
+    "35623107": {
+      "kind": "wrong-answer",
+      "reason": "Always pays B for each division while x>=k without comparing to the subtraction cost; 0010 gives 3999776648 instead of 3333258884.",
+      "test": "0010"
+    },
+    "35623175": {
+      "kind": "wrong-answer",
+      "reason": "Initial minimum INF=1e18 is below the k=1 answer (n-1)*A=3999999998000000000; on 0044 (k=1) prints 1000000000000000000.",
+      "test": "0044"
+    }
+  },
+  "packageHash": "4223c503d9e5e793bd6e090f5db88f2e3eb47f40c4e90c39eec542b2e2942c2b",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/5ece4ba84048426c850650a085b8b7b7",
+  "reviewer": "devin-audit-session-5ece4ba84048426c850650a085b8b7b7"
+}

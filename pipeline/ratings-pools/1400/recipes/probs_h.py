@@ -626,7 +626,8 @@ class P799B:
         return [("boundary", "n=m=1 no match", "1\n5\n1\n1\n1\n2\n"), ("boundary", "n=m=1 match back", "1\n1000000000\n1\n3\n1\n3\n"),
                 ("maxSize", "n=m=2e5 random", J(n, p, [r.randint(1, 3) for _ in range(n)], [r.randint(1, 3) for _ in range(n)], n, [r.randint(1, 3) for _ in range(n)])),
                 ("adversarial", "n=m=6e4 all color 1 buyers color 1 then -1s", J(60000, p[:60000], [1] * 60000, [1] * 60000, 60000, [1] * 30000 + [2] * 30000)),
-                ("adversarial", "shirt sold via front then not available via back", "2\n1 2\n1 2\n2 1\n3\n2 1 2\n"),
+                ("adversarial", "shirt sold via back then not available via front", "2\n1 2\n1 2\n2 1\n3\n2 1 2\n"),
+                ("adversarial", "shirt sold via front then not available via back", "2\n1 2\n1 2\n2 1\n3\n1 2 2\n"),
                 ("adversarial", "more buyers than shirts", "1\n7\n2\n3\n4\n3 2 3 1\n")]
 
 
