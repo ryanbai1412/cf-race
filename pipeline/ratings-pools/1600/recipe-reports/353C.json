@@ -1,0 +1,463 @@
+{
+ "baseCommit": "5b28d333",
+ "bruteChecks": 3602,
+ "bruteReference": "brute_enumerate: direct enumeration of every x in [0, m] summing a over set bits (n<=12). brute_dp: tight/free digit DP from the top bit, structurally different from the prefix/suffix oracle. brute_checks: all 2^n masks for n=1..8 with 3 fixed-seed a arrays each, checked against both oracle and DP (2 assertions each); 400 random n in 30..400 oracle vs DP; every extra output vs enumeration (n<=12) or DP.",
+ "exclusionCheck": {
+  "customChecker": false,
+  "fileIO": false,
+  "floating": false,
+  "imageMissing": false,
+  "interactive": false,
+  "multipleValidOutputs": false,
+  "note": "Single integer output, unique; token comparison exact. The three formula images in the original (f(x) sum, m sum, x in [0..m]) are carried as TeX $$...$$ in the pinned row, so no semantic content is missing."
+ },
+ "extras": {
+  "categories": {
+   "adversarial": 126,
+   "boundary": 11,
+   "maxSize": 5
+  },
+  "count": 142,
+  "includes": "n=1 minima with m in {0,1}; m=0; m=2^n-1; single top bit; trailing zeros of s; middle-bit optimum; 60 fixed-seed random n<=10; random n 11..60; n=2000/5000; five n=10^5 cases (all 10^4 with m=2^n-1 giving 10^9, only top bit, m=0, random, middle-bit optimum).",
+  "maxN": 100000,
+  "motivation": "Selected WA sources read (not executed): m-or-drop-top-only (28011242, 110514694, 111994560), per-segment greedy max(con,a_i) (99587139), loop range(1,n-1) skipping last index (82906026), x in range(0,m) excluding m (110514252). Unit test re-implements each as a mutant and asserts a labeled extra kills it.",
+  "seed": 353003,
+  "totalInputBytes": 3244192
+ },
+ "failedUpstreamPairs": [],
+ "id": "353C",
+ "inputs": {
+  "archiveBytes": 4542856,
+  "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+  "file": "inputs/353C.json",
+  "fileBytes": 50146,
+  "fileSha256": "ea4cf5a92cbcf1a04ad9d3c26af199ccd69b8be9ae31c710399e0e4a3306fb07",
+  "manifestEntry": {
+   "bytes": 50146,
+   "sha256": "ea4cf5a92cbcf1a04ad9d3c26af199ccd69b8be9ae31c710399e0e4a3306fb07"
+  },
+  "manifestMatches": true,
+  "pins": {
+   "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+   "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+  },
+  "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+  "sourceRowHash": "349bae3d15735bdc30794fdf7eea5500ab250d7a15115411981af7fd0f0987a5",
+  "sourceRowHashMatches": true,
+  "sourceRowHashRecomputed": "349bae3d15735bdc30794fdf7eea5500ab250d7a15115411981af7fd0f0987a5",
+  "sourceShard": {
+   "bytes": 289522359,
+   "dataset": "open-r1/codeforces",
+   "path": "data/train-00000-of-00011.parquet",
+   "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+   "sha256": "898933339ad702a38a922b793275df0f3c32fc8746e95b71a57d14dd56c85bc0",
+   "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00000-of-00011.parquet"
+  }
+ },
+ "notAuditNotSignoffNotValidated": true,
+ "officialReview": {
+  "failures": [],
+  "generatedTests": "row declares generated_tests=18 but the input file carries only the count; not reviewed here (parent should run review() over rated_pool.generated_tests).",
+  "lineEndings": "All official tests are CRLF (input and output); parse uses splitlines so CRLF and LF are accepted with exact 3-line layout. Samples have no trailing newline.",
+  "maxOfficialN": 43,
+  "officialComplete": false,
+  "officialCount": 12,
+  "officialCountDeclared": 36,
+  "samples": 2
+ },
+ "oracle": "O(n) scan from the top bit: suffix = sum of a_j over set bits j>i, prefix = a_0+..+a_{i-1}; answer = max(sum of a over set bits of m, max over set bits i of prefix+suffix). Valid because a_i>=0: any x<m agrees with m above the highest differing bit i (m has 1, x has 0) and is unconstrained below it.",
+ "recipeFiles": [
+  "pipeline/ratings-pools/1600/recipe_353C.py",
+  "pipeline/ratings-pools/1600/test_recipe_353C.py"
+ ],
+ "role": "recipe-author",
+ "selectedSubmissions": {
+  "count": 32,
+  "entries": [
+   {
+    "language": "GNU C++0x",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 36.0,
+    "sourceBytes": 469,
+    "sourceSha256": "67ba8c3837216b2859551a95933526bf8a3a35d136b331502c6ed177c559bc23",
+    "submissionId": "4727160",
+    "verdict": "OK"
+   },
+   {
+    "language": "GNU C++",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 36.0,
+    "sourceBytes": 1581,
+    "sourceSha256": "9ac1100c6232ef2770166834087b37ced66f6523f9f500992bae955d5002fb23",
+    "submissionId": "4727385",
+    "verdict": "OK"
+   },
+   {
+    "language": "GNU C++",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 36.0,
+    "sourceBytes": 372,
+    "sourceSha256": "63acaf0831c70092bf3066c6cb75698ef82f384b0b01a9e7eb2d86669888dd6a",
+    "submissionId": "4727403",
+    "verdict": "OK"
+   },
+   {
+    "language": "GNU C++",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 36.0,
+    "sourceBytes": 782,
+    "sourceSha256": "0a7b05cb24343ffa3a32e07ac303d8c9cfa1480a5fe27bbe64b9129a337fcc35",
+    "submissionId": "4727414",
+    "verdict": "OK"
+   },
+   {
+    "language": "GNU C++",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 36.0,
+    "sourceBytes": 840,
+    "sourceSha256": "c02ded5d987864a8ef76f33bceb0bf76483c06b42d80b4068a41fa1021db6e68",
+    "submissionId": "4727560",
+    "verdict": "OK"
+   },
+   {
+    "language": "GNU C++",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 36.0,
+    "sourceBytes": 1267,
+    "sourceSha256": "a7120ae676ecebf19b9bc92603d3ebcbf9bf6851b056b612d743c7e8ac1dbffc",
+    "submissionId": "4727586",
+    "verdict": "OK"
+   },
+   {
+    "language": "GNU C++",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 36.0,
+    "sourceBytes": 860,
+    "sourceSha256": "ece1cfe90b98d6d0fa8ce06412f862dffbcd76502226864a0edb12d239dae5e8",
+    "submissionId": "4727593",
+    "verdict": "OK"
+   },
+   {
+    "language": "GNU C++",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 36.0,
+    "sourceBytes": 1630,
+    "sourceSha256": "f34914f357676e25a2d02234d750f6991cb49b2e7a01311b9ea12a963609cbef",
+    "submissionId": "4727678",
+    "verdict": "OK"
+   },
+   {
+    "language": "GNU C++",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 36.0,
+    "sourceBytes": 569,
+    "sourceSha256": "9bfd92679958d515864db556e47aa281fabd450749ab03536743c9864a85f76e",
+    "submissionId": "4727820",
+    "verdict": "OK"
+   },
+   {
+    "language": "GNU C++",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 36.0,
+    "sourceBytes": 1323,
+    "sourceSha256": "be1a9548b3fb0052eaf8ffed6ddd0bc1d231b85e1b4633c89b5b0b5a1f97f0f6",
+    "submissionId": "4727909",
+    "verdict": "OK"
+   },
+   {
+    "language": "GNU C++",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 36.0,
+    "sourceBytes": 1068,
+    "sourceSha256": "3154c88dd7bd7297681e0be353792b3d19d1302c7077bc75bbb86832ebbd624e",
+    "submissionId": "4727947",
+    "verdict": "OK"
+   },
+   {
+    "language": "GNU C++",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 36.0,
+    "sourceBytes": 1282,
+    "sourceSha256": "d30da476353dbd25c032232a177287e9632da6d8c12761cb3136a9d1abeab5c2",
+    "submissionId": "4728136",
+    "verdict": "OK"
+   },
+   {
+    "language": "Python 3",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 2.0,
+    "sourceBytes": 528,
+    "sourceSha256": "8ab2141d335d05c2cb7a949ab0450a3e7b3dd5259d16c2e0c5c07041a536ebe5",
+    "submissionId": "4746304",
+    "verdict": "WRONG_ANSWER"
+   },
+   {
+    "language": "Python 3",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 2.0,
+    "sourceBytes": 381,
+    "sourceSha256": "4ba6bf438dcff3f86cd1705950c84b54b9b2e8a9364c063467532d9364e0ae46",
+    "submissionId": "4784599",
+    "verdict": "TIME_LIMIT_EXCEEDED"
+   },
+   {
+    "language": "Python 3",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 0.0,
+    "sourceBytes": 334,
+    "sourceSha256": "5af90a87d0542fcfa8bd631e1c1952231890c02339a067c33106eebe32f3de7a",
+    "submissionId": "5242893",
+    "verdict": "WRONG_ANSWER"
+   },
+   {
+    "language": "Python 3",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 2.0,
+    "sourceBytes": 439,
+    "sourceSha256": "ace96635a8ff992cc345cda40733a7babfbd8c88d00d8e3f64f9d03f21096ddf",
+    "submissionId": "5318869",
+    "verdict": "WRONG_ANSWER"
+   },
+   {
+    "language": "Python 3",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 4.0,
+    "sourceBytes": 586,
+    "sourceSha256": "08f7deddfd8e1c2a39467ae98b27f4cd7a4c4410f8cbaa9504976cd5f07c616d",
+    "submissionId": "5318962",
+    "verdict": "WRONG_ANSWER"
+   },
+   {
+    "language": "Python 3",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 1.0,
+    "sourceBytes": 683,
+    "sourceSha256": "39fbc314fbb78feba72bd868b95eca7522d02540474f3457baa17ad3ef63161f",
+    "submissionId": "20599227",
+    "verdict": "WRONG_ANSWER"
+   },
+   {
+    "language": "Python 3",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 0.0,
+    "sourceBytes": 753,
+    "sourceSha256": "97f5e03ed361f899398f8fd2dc12d0ec68a372a30cd0d1ef4d5e3fa2002ea3d5",
+    "submissionId": "20599381",
+    "verdict": "WRONG_ANSWER"
+   },
+   {
+    "language": "Python 3",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 2.0,
+    "sourceBytes": 232,
+    "sourceSha256": "944e9d26cd6ae550d6253ef86dc7585848e5dfa856a90cd30b7038073edc2daa",
+    "submissionId": "28011242",
+    "verdict": "WRONG_ANSWER"
+   },
+   {
+    "language": "Python 3",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 4.0,
+    "sourceBytes": 421,
+    "sourceSha256": "a910e6056f1eb273e5e4ad13f387b391f927b418315fe7a3ff546beb1eef6e5a",
+    "submissionId": "28012471",
+    "verdict": "WRONG_ANSWER"
+   },
+   {
+    "language": "Python 3",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 2.0,
+    "sourceBytes": 1737,
+    "sourceSha256": "971b40e0362601547cd84d2dda5c45e460efaf1e64e2f9a5c03cae5b40faf25e",
+    "submissionId": "43459898",
+    "verdict": "WRONG_ANSWER"
+   },
+   {
+    "language": "Python 3",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 3.0,
+    "sourceBytes": 674,
+    "sourceSha256": "6405f03a5141344a05f07f4b88ccdc974c11c488c0cd233300f211eeec2d674a",
+    "submissionId": "49223246",
+    "verdict": "TIME_LIMIT_EXCEEDED"
+   },
+   {
+    "language": "Python 3",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 3.0,
+    "sourceBytes": 484,
+    "sourceSha256": "e721a633001dd6e74c803c947b21c450c66de930c4e074da336015547a9377ac",
+    "submissionId": "61253266",
+    "verdict": "TIME_LIMIT_EXCEEDED"
+   },
+   {
+    "language": "Python 3",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 3.0,
+    "sourceBytes": 610,
+    "sourceSha256": "8b9cb7d3421e9426ee18a13430e19711cd236d93be2b193f24280c39cc65a974",
+    "submissionId": "82906026",
+    "verdict": "WRONG_ANSWER"
+   },
+   {
+    "language": "Python 3",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 2.0,
+    "sourceBytes": 286,
+    "sourceSha256": "b8c7ed8f1cced8b562f701678d7ba8921c4dff6c258f472328b02e4bca99f6ba",
+    "submissionId": "93946913",
+    "verdict": "WRONG_ANSWER"
+   },
+   {
+    "language": "Python 3",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 2.0,
+    "sourceBytes": 300,
+    "sourceSha256": "2da6c4a08d998d46b05dfb773697ca032e5e562e510acd00416bdfdd825bc90f",
+    "submissionId": "94490490",
+    "verdict": "TIME_LIMIT_EXCEEDED"
+   },
+   {
+    "language": "Python 3",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 2.0,
+    "sourceBytes": 197,
+    "sourceSha256": "74791fab35cdaac609fe147bba5a3bd5ee97aa95ec0ce2198b0b67940b9bdba8",
+    "submissionId": "99587139",
+    "verdict": "WRONG_ANSWER"
+   },
+   {
+    "language": "Python 3",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 0.0,
+    "sourceBytes": 301,
+    "sourceSha256": "6676476dacfdbddd8f7c70dd340ea7ea56afba3fa2e889a4cf8ff4930e40ef21",
+    "submissionId": "110514252",
+    "verdict": "WRONG_ANSWER"
+   },
+   {
+    "language": "Python 3",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 2.0,
+    "sourceBytes": 255,
+    "sourceSha256": "37c6e5466d2cf39217a7bc228a4a4562441006a2b9d483fb36eee1747524675a",
+    "submissionId": "110514694",
+    "verdict": "WRONG_ANSWER"
+   },
+   {
+    "language": "Python 3",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 2.0,
+    "sourceBytes": 112,
+    "sourceSha256": "5d5dcc862a18d944cdc2a20232a8b0333fb31bb8f5b0ae017ed9b5c55be4832a",
+    "submissionId": "110514713",
+    "verdict": "WRONG_ANSWER"
+   },
+   {
+    "language": "Python 3",
+    "parquet": "data/train-00023-of-00036.parquet",
+    "parquetSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+    "passedTestCount": 2.0,
+    "sourceBytes": 260,
+    "sourceSha256": "81109d3899a29e52ace3c0dd3b762f7133b9dda0b8e2500dccc3b250a672f836",
+    "submissionId": "111994560",
+    "verdict": "WRONG_ANSWER"
+   }
+  ],
+  "executed": false,
+  "note": "Author read sources only; no public program executed. 5242893 prints twice (format), 110514713 hard-codes sample answers, 20599227/20599381 compare against m itself; TLE verdicts are brute enumeration of x (correct but slow, not algorithmic proof). Genuine-WA classification and sixth-oracle selection are left to parent qualification."
+ },
+ "semantics": "Three lines: n (1<=n<=10^5); n integers 0<=a_i<=10^4; one string s_0..s_{n-1} of exactly n binary digits, m = sum 2^i*s_i (s_0 is the least significant bit, trailing zeros of s are leading zeros of m). Output max over 0<=x<=m of f(x) = sum of a_i over set bits i of x, as one integer (<=10^9). Since a_i>=0, the optimum is x=m or, for some set bit i of m, clear bit i, keep every higher set bit and set every lower bit: prefix(a_0..a_{i-1}) + sum of a_j over set bits j>i. Unique integer output; cross-checked against direct enumeration of every x in [0, m] and an independent tight/free bit DP.",
+ "sourceCorrectionProposal": {
+  "description": [
+   [
+    "from 0 to 2n - 1 as",
+    "from 0 to 2<sup>n</sup> - 1 as",
+    1
+   ],
+   [
+    "(11 = 20 + 21 + 23)",
+    "(11 = 2<sup>0</sup> + 2<sup>1</sup> + 2<sup>3</sup>)",
+    1
+   ]
+  ],
+  "input_format": [
+   [
+    "(1 ≤ n ≤ 105)",
+    "(1 ≤ n ≤ 10<sup>5</sup>)",
+    1
+   ],
+   [
+    "(0 ≤ ai ≤ 104)",
+    "(0 ≤ ai ≤ 10<sup>4</sup>)",
+    1
+   ]
+  ],
+  "note": [
+   [
+    "m = 20 = 1,",
+    "m = 2<sup>0</sup> = 1,",
+    1
+   ],
+   [
+    "m = 20 + 21 + 23 = 11,",
+    "m = 2<sup>0</sup> + 2<sup>1</sup> + 2<sup>3</sup> = 11,",
+    1
+   ]
+  ],
+  "remark": "Proposal only; row bytes left unchanged. Same restoration style as normalize_statement.py MULTI_REPAIRS; every restored exponent is attested in the committed problem-statement div."
+ },
+ "statementAttestation": {
+  "agreement": "Original HTML matches the pinned row word for word except lost superscripts: 2<sup>n</sup> - 1, 10<sup>5</sup>, 10<sup>4</sup>, and the 2<sup>0</sup>+2<sup>1</sup>+2<sup>3</sup> expansions in description and note. Samples identical.",
+  "attestedMarkup": [
+   "2<sup class=\"upper-index\"><i>n</i></sup> - 1",
+   "10<sup class=\"upper-index\">5</sup>",
+   "10<sup class=\"upper-index\">4</sup>",
+   "2<sup class=\"upper-index\">0</sup> + 2<sup class=\"upper-index\">1</sup> + 2<sup class=\"upper-index\">3</sup>",
+   "<i>m</i> = 2<sup class=\"upper-index\">0</sup> = 1"
+  ],
+  "attestedMarkupNote": "Matched after mapping U+2009 thin spaces in the original HTML to ASCII spaces; committed copy keeps original bytes.",
+  "bodyBytes": 62098,
+  "bodySha256": "7e69b8e5a427ff660af1d4ff43aa86f4937b578ac80e0248bf0141940be02789",
+  "committedCopy": "pipeline/ratings-pools/1600/statement-sources/353C.recipe-author.original.html",
+  "problemStatementDivByteRange": [
+   38111,
+   43159
+  ],
+  "problemStatementDivSha256": "91a2741f4fd93d368b759e326cf7d387e3e648c1e72b9b65b328c3b219e45988",
+  "transport": "public HTTP GET, status 200, fetched 2026-10-13",
+  "url": "https://codeforces.me/problemset/problem/353/C?locale=en"
+ },
+ "statementNormalizationNeeded": "superscript markup lost in row text (description, input_format, note); constraints are n<=10^5 and a_i<=10^4, not 105/104"
+}
