@@ -59,8 +59,11 @@ def extract(archive, destination, expected_sha256, max_bytes=8 * 1024 ** 3,
                 if size != member.size:
                     raise ValueError("truncated archive member")
                 files[name] = {"sha256": h.hexdigest(), "bytes": size}
-            while compressed.read(1024 * 1024):
-                pass
+            trailing_bytes = 0
+            for chunk in iter(lambda: compressed.read(1024 * 1024), b""):
+                trailing_bytes += len(chunk)
+                if expanded + trailing_bytes > max_bytes:
+                    raise ValueError("expanded archive size limit exceeded")
         return {"archiveSHA256": expected_sha256, "expandedBytes": expanded,
                 "members": len(seen), "files": files}
     except Exception:
