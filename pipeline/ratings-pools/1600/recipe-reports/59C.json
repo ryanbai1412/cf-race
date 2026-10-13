@@ -1,0 +1,90 @@
+{
+  "id": "59C",
+  "rating": 1600,
+  "role": "recipe-author",
+  "status": "authored-pending-local-checks",
+  "qualification": "Not performed. No public submissions executed. This recipe/report is not an independent audit, signoff, or validated-pool count.",
+  "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
+  "inputBinding": {
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "archiveBytes": 4542856,
+    "manifestSha256": "c5aa6b8341d4ab6814424de54e241e91390fdc4c079e7f1daa4379bf07075381",
+    "file": "inputs/59C.json",
+    "fileSha256": "225062a3d32b22274cf57124fbfa14803c0dcc16ace40bb53def1fac56174b18",
+    "fileBytes": 75341,
+    "sourceRowHash": "97ecc58b37da5fcfd6849f80ba5a1efe0152659d337f3838cef241e8e9a9763f",
+    "canonicalDigestFunction": "pool_contract.digest",
+    "payloadDigest": "2a13ba0669a1a1dfd69972b25f4ca72e00a88f09d9757f3e4bb15a6bb8e683e0",
+    "statementFieldsDigest": "490102505c75ec21fa6818f0d5a9230889da967d4f936dea6037ae7d37c402d9",
+    "officialTestsDigest": "af4e59a5055e0451cc0d75623a43ce5c0d055e865b2ede0b339bf7a095bdf46a",
+    "examplesDigest": "93acba61d8a1bd3d3a9f4666b85ec3ffe71478772b7d2cd0c64280f2bdbc7253",
+    "selectedSubmissionsDigest": "1295c47d698ff593ed86fac00434bf7d7b785b2bb9c33bf3412f47a4f235e52d",
+    "selectedSubmissionsCount": 31,
+    "upstreamShard": {
+      "path": "data/train-00004-of-00011.parquet",
+      "bytes": 176416778,
+      "sha256": "279d1384d6f5160a6eafd019955d009cc4d74527b8e26466338413af44450e2c",
+      "verificationScope": "Authenticated attachment provides this provenance; author verified the per-file hash and canonical row digest, not the full upstream shard again."
+    },
+    "preservation": "Original statement fields, all 76 official pairs, all 3 samples and selected public-source rows remain unchanged in the attachment; no package/state edits."
+  },
+  "pins": {
+    "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+    "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+  },
+  "datasetDocsReadBeforeFurtherRequests": [
+    "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
+    "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md"
+  ],
+  "publicStatement": {
+    "sourceUrl": "https://codeforces.me/problemset/problem/59/C?locale=en",
+    "attribution": "Codeforces Beta Round 55 (Div. 2), problem 59C Title; original English statement displayed by public codeforces.me mirror.",
+    "httpStatus": 200,
+    "responseBodyBytes": 59642,
+    "responseBodySha256": "1901b8d6f7f98d518927ec8ce334e5e412dbfe91c009322cdd3355758a14c9f4",
+    "capturedPath": "statement-sources/59C.recipe-author.original.html",
+    "capturedByteRange": [36429, 40703],
+    "byteRangeConvention": "zero-based start inclusive, end exclusive",
+    "capturedSha256": "2dec6a6720d1f510274bca74a3e6925afa9b1baf335b3222b89f73d901377c89",
+    "capturePolicy": "Byte-exact complete problem-statement div; no text rewriting; page chrome omitted.",
+    "constraints": {"k": [1, 26], "templateLength": [1, 100], "layout": "exactly two lines: one integer k; one template token", "alphabet": "first k lowercase ASCII Latin letters and ?"},
+    "inputAttestations": ["1\u2009\u2264\u2009<i>k</i>\u2009\u2264\u200926", "the length of <span class=\"tex-span\"><i>s</i></span> is from 1 to 100 characters inclusively."],
+    "uniqueOutputAttestation": "If there are several suitable titles, print the lexicographically minimal one.",
+    "unsupportedSemantics": []
+  },
+  "sourceCorrectionProposal": {
+    "needed": false,
+    "replacements": [],
+    "reason": "Public input constraints exactly confirm the pinned source. No flattened superscripts in constraints or missing question/image. ai/bi/aj/bj in the explanatory lexicographic paragraph correspond to public subscript markup; no change is needed to recover the uniquely specified task."
+  },
+  "oracle": {
+    "algorithm": "Process mirror groups, propagate known letters, reject conflicting fixed mirrors. Remove present letters from the required alphabet. If missing letters outnumber fully unknown groups, return IMPOSSIBLE. Otherwise put ascending missing letters in the last free groups and a in all earlier free groups.",
+    "center": "An odd-length center is exactly one mirror group, never two capacity units.",
+    "uniquenessReason": "Lexicographic order is determined by groups in increasing left index. Extra groups can be a, while each missing letter needs one group. Moving a larger missing letter left when a later free group is available worsens the prefix; the necessary distinct letters belong in ascending order at the rightmost free groups.",
+    "complexity": "O(length+k) time and O(length+k) space.",
+    "independentBrute": "Enumerate every full-string substitution for every legal template over k=1..3, length=1..6; filter literal palindromes with exact alphabet coverage and minimize complete strings. Also 300 fixed-seed random small templates with k<=5 and at most 5 unknown positions.",
+    "additionalReference": "Unit tests use separate per-group candidate lookahead with suffix feasibility, checked against literal enumeration and used for every generated pair and imported pair, including full size."
+  },
+  "generatedSuite": {
+    "targetCount": 160,
+    "categories": ["boundary", "adversarial", "maxSize"],
+    "maxDimension": 100,
+    "seeds": {"extras": 591600, "bruteRandom": 59001600},
+    "coverage": ["single-character minimum", "k=1 and k=26", "odd/even exact and deficient coverage capacity", "fixed asymmetric mirrors", "fixed conflict", "known and unknown centers", "lexicographic slack before required inner letters", "legal 100-character maximum", "small arbitrary random templates", "medium feasible random templates"],
+    "publicSourceMotivation": {
+      "submissionId": "226245456",
+      "verdict": "WRONG_ANSWER",
+      "sourceSha256": "ef986ffc9b2e92e32b73d2851a02807af03855ef9788c9ece40e8f0c6d54ca1f",
+      "observation": "Static inspection: only a known odd center is removed from missing letters, and filling considers len(a)//2 mirrored pairs, not an unknown center. The legal template 2 / ??? needs the center as an independent usable group (aba).",
+      "execution": "None. This is test motivation, not an executed WA qualification witness."
+    }
+  },
+  "checks": {
+    "status": "pending-after-first-push",
+    "bruteAssertions": null,
+    "generatedPairsReviewed": null,
+    "officialPairsReviewed": null,
+    "samplesReviewed": null,
+    "failedUpstreamPairs": null
+  }
+}
