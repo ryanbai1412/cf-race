@@ -15,28 +15,113 @@
   "evidenceHash": "b660093fe02fc97a345bb72c9957871ec3eda297834e2c0393babba9af92af10",
   "incorrectAnalysis": {
     "44944571": {
+      "actualOutput": "0\n",
+      "actualOutputLfInput": "0\n",
+      "expectedOutput": "1",
+      "explanation": "73 32 99: Simon's first move should be gcd(73,99)=1, but fx(73,99): a=99,b=73 -> c=26 -> b=99,a=26 -> c=26 -> b=26,a=26 -> returns 26. The game is simulated with wrong move sizes; true game (oracle) ends with Simon unable to move -> 1. Program prints 0.",
+      "faultyStep": "custom gcd fx is not Euclid: after a%b!=0 it sets b=a, a=c instead of (a,b)=(b,a%b)",
+      "input": "73 32 99\n",
       "kind": "wrong-answer",
-      "reason": "Custom gcd fx is not Euclid (swaps to b=a,a=c); fx(73,99) returns 26 instead of 1, so the simulated game removes wrong stone counts and reports Simon winning (0) instead of 1.",
+      "lfRerunVerdict": "WA",
+      "reason": "custom gcd fx is not Euclid: after a%b!=0 it sets b=a, a=c instead of (a,b)=(b,a%b). 73 32 99: Simon's first move should be gcd(73,99)=1, but fx(73,99): a=99,b=73 -> c=26 -> b=99,a=26 -> c=26 -> b=26,a=26 -> returns 26. The game is simulated with wrong move sizes; true game (oracle) ends with Simon unable to move -> 1. Program prints 0.",
+      "rerunVerdict": "WA",
+      "sourceHash": "f81952612742c40a83809c7e4ceac7d3edebe70b21bf967872b059a18596e345",
+      "sourceLines": "1-14,17",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "parquetRowVerified": true,
+        "path": "data/train-00002-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "55e4fb5ee2e811688d9da119ebce166d9b4bd9952453b105f9e1de5208e8341d"
+      },
       "test": "0005"
     },
     "45033245": {
+      "actualOutput": "0\n",
+      "actualOutputLfInput": "0\n",
+      "expectedOutput": "1",
+      "explanation": "12 24 26: true game S: gcd(12,26)=2 -> 24; A: gcd(24,24)=24 -> 0; S: gcd(12,0)=12 > 0 cannot move -> Simon loses -> 1. Program's gcd(24,24) returns 12 (24 excluded), so the game continues with wrong values and it prints 0.",
+      "faultyStep": "gcd loop `for i in range(1,min(a,b))` excludes min(a,b) itself, and gcd(x,0) returns 1",
+      "input": "12 24 26\n",
       "kind": "wrong-answer",
-      "reason": "gcd loop uses range(1,min(a,b)) which excludes min itself; on 12 24 26 Antisimon's gcd(24,24) becomes 12 instead of 24, changing the game and the winner (prints 0, correct 1).",
+      "lfRerunVerdict": "WA",
+      "reason": "gcd loop `for i in range(1,min(a,b))` excludes min(a,b) itself, and gcd(x,0) returns 1. 12 24 26: true game S: gcd(12,26)=2 -> 24; A: gcd(24,24)=24 -> 0; S: gcd(12,0)=12 > 0 cannot move -> Simon loses -> 1. Program's gcd(24,24) returns 12 (24 excluded), so the game continues with wrong values and it prints 0.",
+      "rerunVerdict": "WA",
+      "sourceHash": "f65ff1be602918ff3dfaebaea078b01588f42740285bfc9d19ca37f16d099aa8",
+      "sourceLines": "1-6,11,14",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "parquetRowVerified": true,
+        "path": "data/train-00002-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "55e4fb5ee2e811688d9da119ebce166d9b4bd9952453b105f9e1de5208e8341d"
+      },
       "test": "0010"
     },
     "45122506": {
+      "actualOutput": "0\n",
+      "actualOutputLfInput": "0\n",
+      "expectedOutput": "1",
+      "explanation": "95 26 29: gcd(95,26)=1, so it decides by parity of 29 -> d=29 odd -> 0. True game: S gcd(95,29)=1 ->28; A gcd(26,28)=2 ->26; S gcd(95,26)=1 ->25; A gcd(26,25)=1 ->24; ... move sizes vary with n, and the oracle-verified winner is Antisimon -> 1.",
+      "faultyStep": "subtracts the fixed x=gcd(a,b) every turn instead of gcd(current player's number, remaining n)",
+      "input": "95 26 29\n",
       "kind": "wrong-answer",
-      "reason": "Subtracts the fixed gcd(a,b) every turn instead of gcd(player's number, remaining n); for 95 26 29 this yields odd parity 0 while the real game gives 1.",
+      "lfRerunVerdict": "WA",
+      "reason": "subtracts the fixed x=gcd(a,b) every turn instead of gcd(current player's number, remaining n). 95 26 29: gcd(95,26)=1, so it decides by parity of 29 -> d=29 odd -> 0. True game: S gcd(95,29)=1 ->28; A gcd(26,28)=2 ->26; S gcd(95,26)=1 ->25; A gcd(26,25)=1 ->24; ... move sizes vary with n, and the oracle-verified winner is Antisimon -> 1.",
+      "rerunVerdict": "WA",
+      "sourceHash": "4d7917dcf6e350e078da40f65bf6007135841255b42dd9fa0e4829775a18b545",
+      "sourceLines": "4-12",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "parquetRowVerified": true,
+        "path": "data/train-00002-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "55e4fb5ee2e811688d9da119ebce166d9b4bd9952453b105f9e1de5208e8341d"
+      },
       "test": "0004"
     },
     "45452404": {
+      "actualOutput": "0\n",
+      "actualOutputLfInput": "0\n",
+      "expectedOutput": "1",
+      "explanation": "95 26 29: c=gcd(95,26)=1, 29 odd and divisible -> prints 0. Real moves use gcd(95,n)/gcd(26,n) (e.g. Antisimon takes gcd(26,28)=2), changing the parity; correct 1.",
+      "faultyStep": "decides by parity of n/gcd(a,b) instead of simulating gcd(own number, remaining n) per move",
+      "input": "95 26 29\n",
       "kind": "wrong-answer",
-      "reason": "Decides by parity of n/gcd(a,b) instead of simulating gcd(own, n) per move; 95 26 29 -> 0, correct 1.",
+      "lfRerunVerdict": "WA",
+      "reason": "decides by parity of n/gcd(a,b) instead of simulating gcd(own number, remaining n) per move. 95 26 29: c=gcd(95,26)=1, 29 odd and divisible -> prints 0. Real moves use gcd(95,n)/gcd(26,n) (e.g. Antisimon takes gcd(26,28)=2), changing the parity; correct 1.",
+      "rerunVerdict": "WA",
+      "sourceHash": "f0e0211de3f55c769aecdc0d438534a3ecf28cddce149e2992b758518f9e3db0",
+      "sourceLines": "7-11",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "parquetRowVerified": true,
+        "path": "data/train-00002-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "55e4fb5ee2e811688d9da119ebce166d9b4bd9952453b105f9e1de5208e8341d"
+      },
       "test": "0004"
     },
     "45452910": {
+      "actualOutput": "1\n",
+      "actualOutputLfInput": "1\n",
+      "expectedOutput": "0",
+      "explanation": "3 5 9: S takes 3 ->6, A takes 1 ->5, S 1 ->4, A 1 ->3, S takes gcd(3,3)=3 ->0, A needs gcd(5,0)=5 > 0 and loses, so Simon wins -> 0. Program exits the loop when n=3 with s=4 and prints 1 since 4//2 != 1.",
+      "faultyStep": "loop stops as soon as n equals the current gcd (the player takes the last stones but the turn is not passed) and the winner test `s//2 == 1` is not parity",
+      "input": "3 5 9\n",
       "kind": "wrong-answer",
-      "reason": "Loop stops when n equals the current gcd (does not let that player take the last stones and pass the turn) and tests s//2==1 instead of parity; 3 5 9 -> 1, correct 0.",
+      "lfRerunVerdict": "WA",
+      "reason": "loop stops as soon as n equals the current gcd (the player takes the last stones but the turn is not passed) and the winner test `s//2 == 1` is not parity. 3 5 9: S takes 3 ->6, A takes 1 ->5, S 1 ->4, A 1 ->3, S takes gcd(3,3)=3 ->0, A needs gcd(5,0)=5 > 0 and loses, so Simon wins -> 0. Program exits the loop when n=3 with s=4 and prints 1 since 4//2 != 1.",
+      "rerunVerdict": "WA",
+      "sourceHash": "d67b0ee1f594b00fe540ce62a91261f67a18eead09dadde455c65a9cb6f40cfe",
+      "sourceLines": "10-17",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "parquetRowVerified": true,
+        "path": "data/train-00002-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "55e4fb5ee2e811688d9da119ebce166d9b4bd9952453b105f9e1de5208e8341d"
+      },
       "test": "0001"
     }
   },

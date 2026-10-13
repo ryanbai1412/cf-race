@@ -17,28 +17,113 @@
   "evidenceHash": "8c2d3844df4661afdb45f16b3807fbbca34f0439cbee1b72f3cf613b482e5b53",
   "incorrectAnalysis": {
     "187712085": {
+      "actualOutput": "4\n",
+      "actualOutputLfInput": "4\n",
+      "expectedOutput": "2\r\n",
+      "explanation": "5 / 100 36 53 7 81: numerically 36 (new min) and 7 (new min) are amazing -> 2. Lexicographically '36'>'100', '53'>'100','36', '7'>all, so i=1,2,3 all count as records; output 4.",
+      "faultyStep": "keeps scores as strings (x=input().split()) so comparisons are lexicographic, and range(n-1) never evaluates the last contest",
+      "input": "5\n100 36 53 7 81\n",
       "kind": "wrong-answer",
-      "reason": "Compares the scores as strings (lexicographic) and its range(n-1) loop never evaluates the last contest; 100 36 53 7 81 yields 4, correct 2.",
+      "lfRerunVerdict": "WA",
+      "reason": "keeps scores as strings (x=input().split()) so comparisons are lexicographic, and range(n-1) never evaluates the last contest. 5 / 100 36 53 7 81: numerically 36 (new min) and 7 (new min) are amazing -> 2. Lexicographically '36'>'100', '53'>'100','36', '7'>all, so i=1,2,3 all count as records; output 4.",
+      "rerunVerdict": "WA",
+      "sourceHash": "6f40e767814f1cb04c99f35ceb5449c5805daa168b9db5f94c335f33e69419d5",
+      "sourceLines": "4,6-15",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "parquetRowVerified": true,
+        "path": "data/train-00016-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "91b6f38ce6f7ff72bc870e819e589ec154911c508724f4ba789995b3578ab530"
+      },
       "test": "0005"
     },
     "187984071": {
+      "actualOutput": "3\n",
+      "actualOutputLfInput": "3\n",
+      "expectedOutput": "4\r\n",
+      "explanation": "10 / 4664 6496 5814 7010 5762 5736 6944 4850 3698 7242: records are 6496 (max), 7010 (max), 3698 (min), 7242 (max) -> 4. Last element 7242 is never examined -> 3.",
+      "faultyStep": "loop range(1,len-1) skips the last contest (and line 12 `a_min - point_01[i]` never updates the minimum)",
+      "input": "10\n4664 6496 5814 7010 5762 5736 6944 4850 3698 7242\n",
       "kind": "wrong-answer",
-      "reason": "Loop range(1,len-1) skips the last contest (and min update is a no-op expression); the final 7242 is a new maximum, so it outputs 3 instead of 4.",
+      "lfRerunVerdict": "WA",
+      "reason": "loop range(1,len-1) skips the last contest (and line 12 `a_min - point_01[i]` never updates the minimum). 10 / 4664 6496 5814 7010 5762 5736 6944 4850 3698 7242: records are 6496 (max), 7010 (max), 3698 (min), 7242 (max) -> 4. Last element 7242 is never examined -> 3.",
+      "rerunVerdict": "WA",
+      "sourceHash": "31ec1e4293a2782147528652ba0b8cf860df0c9dbdac0cf0bb880730f4ae2454",
+      "sourceLines": "7,12",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "parquetRowVerified": true,
+        "path": "data/train-00016-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "91b6f38ce6f7ff72bc870e819e589ec154911c508724f4ba789995b3578ab530"
+      },
       "test": "0002"
     },
     "188069014": {
+      "actualOutput": "0\n",
+      "actualOutputLfInput": "0\n",
+      "expectedOutput": "1\r\n",
+      "explanation": "2 / 2 1: 1 < 2 is a new strict minimum -> 1. Program skips because l[0]>l[1] -> 0.",
+      "faultyStep": "counts adjacent non-decreasing steps instead of strict new max/min against all previous contests",
+      "input": "2\n2 1\n",
       "kind": "wrong-answer",
-      "reason": "Counts adjacent non-decreasing steps instead of new strict records against all previous; on 2 1 the new minimum 1 is missed (0, correct 1).",
+      "lfRerunVerdict": "WA",
+      "reason": "counts adjacent non-decreasing steps instead of strict new max/min against all previous contests. 2 / 2 1: 1 < 2 is a new strict minimum -> 1. Program skips because l[0]>l[1] -> 0.",
+      "rerunVerdict": "WA",
+      "sourceHash": "45fe369a7e807bc1b69bea37ccd67fbb90621fb75ccccb8693fc88c069b1c81c",
+      "sourceLines": "4-6",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "parquetRowVerified": true,
+        "path": "data/train-00016-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "91b6f38ce6f7ff72bc870e819e589ec154911c508724f4ba789995b3578ab530"
+      },
       "test": "0004"
     },
     "188346789": {
+      "actualOutput": "0\n",
+      "actualOutputLfInput": "0\n",
+      "expectedOutput": "1\r\n",
+      "explanation": "2 / 2 1: correct 1 (new minimum). Program counts increases only -> 0.",
+      "faultyStep": "counts only adjacent increases; new minimums are never counted",
+      "input": "2\n2 1\n",
       "kind": "wrong-answer",
-      "reason": "Counts adjacent increases only, ignoring new minimums and non-adjacent records; 2 1 -> 0, correct 1.",
+      "lfRerunVerdict": "WA",
+      "reason": "counts only adjacent increases; new minimums are never counted. 2 / 2 1: correct 1 (new minimum). Program counts increases only -> 0.",
+      "rerunVerdict": "WA",
+      "sourceHash": "fd44650e6fb03cd0f99d89c0092a13ea6001d2953c16f886895bf6553218f00a",
+      "sourceLines": "6-8",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "parquetRowVerified": true,
+        "path": "data/train-00016-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "91b6f38ce6f7ff72bc870e819e589ec154911c508724f4ba789995b3578ab530"
+      },
       "test": "0004"
     },
     "188347970": {
+      "actualOutput": "0\n",
+      "actualOutputLfInput": "0\n",
+      "expectedOutput": "1\r\n",
+      "explanation": "2 / 2 1: increases 0, decreases 1, prints min = 0; correct 1.",
+      "faultyStep": "prints min(#adjacent increases, #adjacent decreases) instead of counting strict records",
+      "input": "2\n2 1\n",
       "kind": "wrong-answer",
-      "reason": "Prints min(adjacent increases, adjacent decreases) rather than counting strict records; 2 1 -> min(0,1)=0, correct 1.",
+      "lfRerunVerdict": "WA",
+      "reason": "prints min(#adjacent increases, #adjacent decreases) instead of counting strict records. 2 / 2 1: increases 0, decreases 1, prints min = 0; correct 1.",
+      "rerunVerdict": "WA",
+      "sourceHash": "52726a37cda65a428366efc3d62d5520e504984f65894f7d982a28810e25de91",
+      "sourceLines": "7-16",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "parquetRowVerified": true,
+        "path": "data/train-00016-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "91b6f38ce6f7ff72bc870e819e589ec154911c508724f4ba789995b3578ab530"
+      },
       "test": "0004"
     }
   },

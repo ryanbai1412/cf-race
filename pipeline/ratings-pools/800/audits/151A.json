@@ -15,28 +15,113 @@
   "evidenceHash": "d96cd5a57a67baacdf33cbb320717c1bfb25b03b9b30f349a814781e6f4eff68",
   "incorrectAnalysis": {
     "182333585": {
+      "actualOutput": "8\n",
+      "actualOutputLfInput": "8\n",
+      "expectedOutput": "4\r\n",
+      "explanation": "1 7 4 5 5 8 3 2: drink toasts 28//3=9, lime 25, salt 8//2=4 -> min 4 // n=1 = 4. Program: min(28,25,8)//1 = 8.",
+      "faultyStep": "computes min(k*l//n, c*d, p)//n: divides drink by n instead of nl and uses p instead of p//np",
+      "input": "1 7 4 5 5 8 3 2\n",
       "kind": "wrong-answer",
-      "reason": "Uses k*l//n instead of k*l//nl and p instead of p//np; on 1 7 4 5 5 8 3 2 gets min(28,25,8)=8, correct min(9,25,4)=4.",
+      "lfRerunVerdict": "WA",
+      "reason": "computes min(k*l//n, c*d, p)//n: divides drink by n instead of nl and uses p instead of p//np. 1 7 4 5 5 8 3 2: drink toasts 28//3=9, lime 25, salt 8//2=4 -> min 4 // n=1 = 4. Program: min(28,25,8)//1 = 8.",
+      "rerunVerdict": "WA",
+      "sourceHash": "93fc9be536bde0bae80546b1b2e44622df61e1ffd8b20e56e31a682bbfd2ca16",
+      "sourceLines": "3",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "parquetRowVerified": true,
+        "path": "data/train-00015-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c384f32f1e44f5594f3baf58d0ffab08ecce8d25b6f5bf3dd745181082135387"
+      },
       "test": "0004"
     },
     "182439668": {
+      "actualOutput": "6\n",
+      "actualOutputLfInput": "6\n",
+      "expectedOutput": "3\r\n",
+      "explanation": "5 100 10 1 19 90 4 3: drink 1000//4=250, lime 19, salt 90//3=30 -> min 19 // 5 = 3. Program prints 19//3 = 6.",
+      "faultyStep": "divides the minimum by the constant 3 instead of n",
+      "input": "5 100 10 1 19 90 4 3\n",
       "kind": "wrong-answer",
-      "reason": "Divides the minimum by the constant 3 instead of n; 5 100 10 1 19 90 4 3 gives 19//3=6, correct 19//5=3.",
+      "lfRerunVerdict": "WA",
+      "reason": "divides the minimum by the constant 3 instead of n. 5 100 10 1 19 90 4 3: drink 1000//4=250, lime 19, salt 90//3=30 -> min 19 // 5 = 3. Program prints 19//3 = 6.",
+      "rerunVerdict": "WA",
+      "sourceHash": "9c9513301c44910b2ad5717846727efb8e6f146d25feaf737b6bf2c4f5f19338",
+      "sourceLines": "11-15",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "parquetRowVerified": true,
+        "path": "data/train-00015-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c384f32f1e44f5594f3baf58d0ffab08ecce8d25b6f5bf3dd745181082135387"
+      },
       "test": "0002"
     },
     "182553093": {
+      "actualOutput": "10\n",
+      "actualOutputLfInput": "10\n",
+      "expectedOutput": "6\r\n",
+      "explanation": "1 4 5 5 3 10 3 1: drink 20//3=6, lime 15, salt 10 -> 6. Program: min(20,15,10)//1 = 10.",
+      "faultyStep": "drink toasts computed as k*l//n instead of k*l//nl",
+      "input": "1 4 5 5 3 10 3 1\n",
       "kind": "wrong-answer",
-      "reason": "Drink toasts computed as k*l//n instead of k*l//nl; 1 4 5 5 3 10 3 1 gives min(20,15,10)=10, correct min(6,15,10)=6.",
+      "lfRerunVerdict": "WA",
+      "reason": "drink toasts computed as k*l//n instead of k*l//nl. 1 4 5 5 3 10 3 1: drink 20//3=6, lime 15, salt 10 -> 6. Program: min(20,15,10)//1 = 10.",
+      "rerunVerdict": "WA",
+      "sourceHash": "32f6b8c759371b48e61cef4b4cad91baa50d9801ef014c101e6319f3b95c3ecb",
+      "sourceLines": "2",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "parquetRowVerified": true,
+        "path": "data/train-00015-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c384f32f1e44f5594f3baf58d0ffab08ecce8d25b6f5bf3dd745181082135387"
+      },
       "test": "0010"
     },
     "182591760": {
+      "actualOutput": "6\n",
+      "actualOutputLfInput": "6\n",
+      "expectedOutput": "3\r\n",
+      "explanation": "5 100 10 1 19 90 4 3: min(250,30,19)=19 -> 19//5=3. Program 19//3 = 6.",
+      "faultyStep": "divides the minimum by the constant 3 instead of n",
+      "input": "5 100 10 1 19 90 4 3\n",
       "kind": "wrong-answer",
-      "reason": "Divides by the constant 3 instead of n friends; 5 100 10 1 19 90 4 3 gives 6, correct 3.",
+      "lfRerunVerdict": "WA",
+      "reason": "divides the minimum by the constant 3 instead of n. 5 100 10 1 19 90 4 3: min(250,30,19)=19 -> 19//5=3. Program 19//3 = 6.",
+      "rerunVerdict": "WA",
+      "sourceHash": "a8d20364bb360ab5ea2ad67a7dc66f36214208b740cbdd76138a600e0ea430d3",
+      "sourceLines": "3-8",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "parquetRowVerified": true,
+        "path": "data/train-00015-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c384f32f1e44f5594f3baf58d0ffab08ecce8d25b6f5bf3dd745181082135387"
+      },
       "test": "0002"
     },
     "182956103": {
+      "actualOutput": "9\n",
+      "actualOutputLfInput": "9\n",
+      "expectedOutput": "4\r\n",
+      "explanation": "1 7 4 5 5 8 3 2: correct min(9,25,8//2=4)=4. Program q=8*2=16 -> min(9,25,16)=9.",
+      "faultyStep": "salt toasts computed as p*np instead of p//np",
+      "input": "1 7 4 5 5 8 3 2\n",
       "kind": "wrong-answer",
-      "reason": "Salt toasts computed as p*np instead of p//np; 1 7 4 5 5 8 3 2 gives min(9,25,16)=9, correct min(9,25,4)=4.",
+      "lfRerunVerdict": "WA",
+      "reason": "salt toasts computed as p*np instead of p//np. 1 7 4 5 5 8 3 2: correct min(9,25,8//2=4)=4. Program q=8*2=16 -> min(9,25,16)=9.",
+      "rerunVerdict": "WA",
+      "sourceHash": "17a398dfa329ef3a448884c449c87cd8aa6340b629beec32f17c6d043fbd59d2",
+      "sourceLines": "2-6",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "parquetRowVerified": true,
+        "path": "data/train-00015-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "c384f32f1e44f5594f3baf58d0ffab08ecce8d25b6f5bf3dd745181082135387"
+      },
       "test": "0004"
     }
   },

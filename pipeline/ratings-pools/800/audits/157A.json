@@ -17,28 +17,113 @@
   "evidenceHash": "1a576e5666936dd73d05040ab16d5a3bec3188d0f62d50e7d2cba665095b232a",
   "incorrectAnalysis": {
     "57583170": {
+      "actualOutput": "12\n",
+      "actualOutputLfInput": "12\n",
+      "expectedOutput": "13\r\n",
+      "explanation": "5x5 matrix of test 0009: 25 cells, cell wins iff column sum > row sum; oracle count 13. Program counts column < row, giving 12 (no ties in this input).",
+      "faultyStep": "counts (column sum, row sum) pairs with column < row: the inverted comparison (losing cells)",
+      "input": "5\n1 98 22 9 39\n10 9 44 49 66\n79 17 23 8 47\n59 69 72 47 14\n94 91 98 19 54\n",
       "kind": "wrong-answer",
-      "reason": "Counts (column, row) pairs with column sum < row sum, the inverted comparison (losing cells), giving 12 instead of 13 winning cells.",
+      "lfRerunVerdict": "WA",
+      "reason": "counts (column sum, row sum) pairs with column < row: the inverted comparison (losing cells). 5x5 matrix of test 0009: 25 cells, cell wins iff column sum > row sum; oracle count 13. Program counts column < row, giving 12 (no ties in this input).",
+      "rerunVerdict": "WA",
+      "sourceHash": "230207c296cc9f4b640fd5f98faaf2dd95713a37d97428ba8c7152d61c8cfdfc",
+      "sourceLines": "19-22",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "parquetRowVerified": true,
+        "path": "data/train-00017-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "4ea2154fa0818635cc2b6b1aac659ff128f5da8e355e3c5c7680b6e9c2117ab4"
+      },
       "test": "0009"
     },
     "77109339": {
+      "actualOutput": "3\n",
+      "actualOutputLfInput": "3\n",
+      "expectedOutput": "6\r\n",
+      "explanation": "4x4 matrix 5 7 8 4 / 9 5 3 2 / 1 6 6 4 / 9 5 7 3: row sums 24,19,17,24; column sums 24,23,24,13 -> 6 winning cells. Program compares row i with cumulative col sums 24,47,71,84 -> 3.",
+      "faultyStep": "col_sum is never reset between columns and only cell (i,i) per column is tested, i.e. n comparisons instead of n*n",
+      "input": "4\n5 7 8 4\n9 5 3 2\n1 6 6 4\n9 5 7 3\n",
       "kind": "wrong-answer",
-      "reason": "Never resets col_sum between columns and compares only row i with accumulated column i (n checks instead of n*n cells); outputs 3, correct 6.",
+      "lfRerunVerdict": "WA",
+      "reason": "col_sum is never reset between columns and only cell (i,i) per column is tested, i.e. n comparisons instead of n*n. 4x4 matrix 5 7 8 4 / 9 5 3 2 / 1 6 6 4 / 9 5 7 3: row sums 24,19,17,24; column sums 24,23,24,13 -> 6 winning cells. Program compares row i with cumulative col sums 24,47,71,84 -> 3.",
+      "rerunVerdict": "WA",
+      "sourceHash": "857942ce8d414ff38fa5e364b868ce3039faa63285cf323e4be2302f0172d87a",
+      "sourceLines": "4,7-12",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "parquetRowVerified": true,
+        "path": "data/train-00017-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "4ea2154fa0818635cc2b6b1aac659ff128f5da8e355e3c5c7680b6e9c2117ab4"
+      },
       "test": "0003"
     },
     "77111999": {
+      "actualOutput": "1\n",
+      "actualOutputLfInput": "1\n",
+      "expectedOutput": "6\r\n",
+      "explanation": "Same 4x4 matrix: correct count 6. Program: max column 0 (24), min row 2 (17), 17<24 -> prints dl[2][0]=1.",
+      "faultyStep": "prints a single cell value dl[r][e] (min row, max column) instead of the count of winning cells",
+      "input": "4\n5 7 8 4\n9 5 3 2\n1 6 6 4\n9 5 7 3\n",
       "kind": "wrong-answer",
-      "reason": "Prints a single cell value dl[r][e] for min-row/max-column instead of counting winning cells; outputs 1, correct 6.",
+      "lfRerunVerdict": "WA",
+      "reason": "prints a single cell value dl[r][e] (min row, max column) instead of the count of winning cells. Same 4x4 matrix: correct count 6. Program: max column 0 (24), min row 2 (17), 17<24 -> prints dl[2][0]=1.",
+      "rerunVerdict": "WA",
+      "sourceHash": "de4d5ff2b4a11e03526caf898c405a378f2d40fd7d2965b5ff8d39fe61e4b72b",
+      "sourceLines": "19-24",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "parquetRowVerified": true,
+        "path": "data/train-00017-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "4ea2154fa0818635cc2b6b1aac659ff128f5da8e355e3c5c7680b6e9c2117ab4"
+      },
       "test": "0003"
     },
     "83585543": {
+      "actualOutput": "1\n",
+      "actualOutputLfInput": "1\n",
+      "expectedOutput": "2\r\n",
+      "explanation": "2 / 1 2 / 3 4: row sums 3,7, column sums 4,6; winning cells (0,0) 4>3 and (0,1) 6>3 -> 2. Program checks only (0,0) yes and (1,1) 6>7 no -> 1.",
+      "faultyStep": "compares only row j with column j (one cell per row) instead of every (row, column) cell",
+      "input": "2\n1 2\n3 4\n",
       "kind": "wrong-answer",
-      "reason": "Compares only cell (i,i) (row i vs column i) instead of all n*n cells; on [[1,2],[3,4]] counts 1, correct 2.",
+      "lfRerunVerdict": "WA",
+      "reason": "compares only row j with column j (one cell per row) instead of every (row, column) cell. 2 / 1 2 / 3 4: row sums 3,7, column sums 4,6; winning cells (0,0) 4>3 and (0,1) 6>3 -> 2. Program checks only (0,0) yes and (1,1) 6>7 no -> 1.",
+      "rerunVerdict": "WA",
+      "sourceHash": "43e68a8fa8674a70f7001727cb9cf3c158adf7349b96abe9cb5c1a9ced36ac55",
+      "sourceLines": "17-24",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "parquetRowVerified": true,
+        "path": "data/train-00017-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "4ea2154fa0818635cc2b6b1aac659ff128f5da8e355e3c5c7680b6e9c2117ab4"
+      },
       "test": "0002"
     },
     "86255988": {
+      "actualOutput": "0\n",
+      "actualOutputLfInput": "0\n",
+      "expectedOutput": "2\r\n",
+      "explanation": "2 / 1 2 / 3 4: correct 2 (see column sums 4,6 vs row sum 3). Program compares 3>3 and 7>7 -> 0.",
+      "faultyStep": "s1 is the row sum of a[i] (same as s2) instead of the column sum of column j, so s1>s2 is never true",
+      "input": "2\n1 2\n3 4\n",
       "kind": "wrong-answer",
-      "reason": "s1 is computed as the row sum a[i][*] again instead of the column sum, so s1>s2 never holds; outputs 0, correct 2.",
+      "lfRerunVerdict": "WA",
+      "reason": "s1 is the row sum of a[i] (same as s2) instead of the column sum of column j, so s1>s2 is never true. 2 / 1 2 / 3 4: correct 2 (see column sums 4,6 vs row sum 3). Program compares 3>3 and 7>7 -> 0.",
+      "rerunVerdict": "WA",
+      "sourceHash": "92ca69b967c332ed8e7c808d803dd54d99b1e8c564b7b7e6f009116eda4ac950",
+      "sourceLines": "5-8",
+      "sourceProvenance": {
+        "dataset": "open-r1/codeforces-submissions",
+        "parquetRowVerified": true,
+        "path": "data/train-00017-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "4ea2154fa0818635cc2b6b1aac659ff128f5da8e355e3c5c7680b6e9c2117ab4"
+      },
       "test": "0002"
     }
   },
