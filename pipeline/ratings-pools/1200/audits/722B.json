@@ -20,30 +20,264 @@
     "21074803": {
       "kind": "format-only-not-counted",
       "reason": "decision correct, repeated NO lines",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "binding": "bindings/722B-21074803.json",
+        "diagnosticCopy": {
+          "log": "archive/quirk-removal/722B-21074803.json",
+          "logSha256": "d450d3f307cee4ab6f653adb3bb2dfe3bd97b16b21005b3b294d0137b543b2ec",
+          "markedDiagnosticCopy": true,
+          "originalSourceUnchanged": true,
+          "patchedSha256": "a845c9bfc75cc810b81a226ffaf939f0b54604feaf7d6ccd732cf8c1bd5d3d02",
+          "patchedSource": "archive/quirk-removal/722B-21074803.patched.py",
+          "verdicts": [
+            "AC",
+            "AC"
+          ]
+        },
+        "excludedNonAlgorithmicCauses": "Format-only: on 0006 three lines mismatch, output 'NO\\nNO\\nNO'; audit copy with a break after the first NO is AC raw and LF (quirk-removal/722B-21074803.json). Not counted.",
+        "faultyLogic": "Decision logic is correct; line 12 prints 'NO' once per mismatching line (no break), producing repeated output.",
+        "implementedAlgorithm": "Counts vowels including 'y' per line and compares with p[i]; prints 'NO' for each mismatching line, 'YES' if none.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/722B/sub-21074803.json",
+          "fullRunLogSha256": "744fcbbdfeb6f4a418426b13ae3fe7bea27201a9cbeacfb38a55718fcc8e412a",
+          "outputHash": "2be3283c7b00c8b87de665ccbdbd269c813e435cbd4d0e38b59931fd862d226f",
+          "path": "archive/722B/sub-21074803-lf.json",
+          "sha256": "dc2a8a4d2acdc259dd15a26237f00c5d6201e8b0864e3060e877158f3aaaa120",
+          "sourceFile": "archive/722B/source-21074803.txt",
+          "sourceFileSha256": "1f4fc92d27eb7479dd04ee2f1c5abaf57d822533e61047999a1f291c4286a2d3",
+          "verdict": "WA"
+        },
+        "sourceHash": "1f4fc92d27eb7479dd04ee2f1c5abaf57d822533e61047999a1f291c4286a2d3",
+        "sourceLines": [
+          {
+            "code": "for i in range(n):\n\tline=input()\n\ttotal=0\n\tfor s in line:\n\t\tif s in [\"a\", \"e\", \"i\", \"u\", \"o\", \"y\"]:\n\t\t\ttotal+=1\n\tif total!=p[i]:\n\t\tprint(\"NO\")\n\t\tbroken=True\nif not broken:\n\tprint(\"YES\")",
+            "end": 15,
+            "start": 5
+          }
+        ]
+      },
       "test": "0006"
     },
     "21082277": {
       "kind": "wrong-answer",
       "reason": "checks vowels < p_i only (accepts lines with more vowels than p_i); failedTest 0005 -> YES, correct NO",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/722B-21082277.json",
+        "counterexample": {
+          "actualAnswer": "YES\n",
+          "actualOutputSha256": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+          "constraints": "n=5, p_i<=100, lines <=100 chars lowercase.",
+          "correctAnswer": "NO",
+          "derivation": "Each word containing >=1 vowel (a,e,i,o,u,y) splits into exactly (#vowels) syllables; consonant-only words are ignored, so line i matches iff its vowel count equals p_i. Answer YES iff all lines match. Test 0005 line 4 'yocpyivudobua' has 8 vowels (y,o,y,i,u,o,u,a) but p_4=7 -> NO; source accepts (8<7 false) -> YES.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "e48a971440de72940182a10d0659ab56f6c1f5546aa8378801a6f553bfadf803",
+          "packageExpectedOutput": "NO",
+          "test": "0005",
+          "validLFInput": "5\n2 11 10 7 9\nhy of\nyur pjyacbatdoylojayu\nemd ibweioiimyxya\nyocpyivudobua\nuiraueect impxqhzpty e\n",
+          "validLFInputSha256": "7cbdaf367ebaf66e888de392449da5c5f0d0ea7d62914bc995b090e9bfe7aece"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input.",
+        "faultyLogic": "Line 14 is a one-sided test: a line with more vowels than p_i cannot be split into exactly p_i syllables, but is accepted.",
+        "implementedAlgorithm": "Counts vowels including 'y' per line; fails only if vowels < p_i.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/722B/sub-21082277.json",
+          "fullRunLogSha256": "02a397b7976aea72a1a762a3978fb92e45860f4a3a5547e5f373fa6c0c0fd3e8",
+          "outputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+          "path": "archive/722B/sub-21082277-lf.json",
+          "sha256": "1b3940cdb9165ce0bcd6b9733b08ab66a6fb5c605ededaec0bfd93ec727daecc",
+          "sourceFile": "archive/722B/source-21082277.txt",
+          "sourceFileSha256": "056f9743c1fd0c035c605cd5a97bff5f3350324f11d45f0f9f7f1fb002e824f7",
+          "verdict": "WA"
+        },
+        "sourceHash": "056f9743c1fd0c035c605cd5a97bff5f3350324f11d45f0f9f7f1fb002e824f7",
+        "sourceLines": [
+          {
+            "code": "for i in range(N):\n    vowels=0\n    string=input()\n    #print(string)\n    j=0\n    while(j<len(string)):\n        if(string[j]=='a' or string[j]=='e' or string[j]=='i' or string[j]=='o' or string[j]=='u' or string[j]=='y'):\n            vowels=vowels+1\n        j=j+1\n    if(vowels<int(Arr[i])):\n        found=1\nif(found==0):\n    print(\"YES\")\nelse:\n    print(\"NO\")",
+            "end": 19,
+            "start": 5
+          }
+        ]
+      },
       "test": "0005"
     },
     "21098186": {
       "kind": "wrong-answer",
       "reason": "same one-sided check vowels < p_i; failedTest 0005 -> YES, correct NO",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/722B-21098186.json",
+        "counterexample": {
+          "actualAnswer": "YES\n",
+          "actualOutputSha256": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+          "constraints": "n=5.",
+          "correctAnswer": "NO",
+          "derivation": "Each word containing >=1 vowel (a,e,i,o,u,y) splits into exactly (#vowels) syllables; consonant-only words are ignored, so line i matches iff its vowel count equals p_i. Answer YES iff all lines match. Test 0005 line 4: 8 vowels vs p=7 -> NO; source YES.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "e48a971440de72940182a10d0659ab56f6c1f5546aa8378801a6f553bfadf803",
+          "packageExpectedOutput": "NO",
+          "test": "0005",
+          "validLFInput": "5\n2 11 10 7 9\nhy of\nyur pjyacbatdoylojayu\nemd ibweioiimyxya\nyocpyivudobua\nuiraueect impxqhzpty e\n",
+          "validLFInputSha256": "7cbdaf367ebaf66e888de392449da5c5f0d0ea7d62914bc995b090e9bfe7aece"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input.",
+        "faultyLogic": "Line 11 one-sided comparison accepts lines with too many vowels.",
+        "implementedAlgorithm": "Same as 21082277: vowels incl. 'y'; invalid only if num < p[i].",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/722B/sub-21098186.json",
+          "fullRunLogSha256": "7143e52493d84f9fa7b0ff314bdc4ddb5caa20b05b92bbba689e9dafdc51eda1",
+          "outputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+          "path": "archive/722B/sub-21098186-lf.json",
+          "sha256": "72d9d2b37dc1ae4e8a70644beb4bf6ff72ec05f9242329a23f98d27b6920a461",
+          "sourceFile": "archive/722B/source-21098186.txt",
+          "sourceFileSha256": "7ae6b8fe2339854dcc571c98946f5dd460099f544674925b27e548a25276dcbc",
+          "verdict": "WA"
+        },
+        "sourceHash": "7ae6b8fe2339854dcc571c98946f5dd460099f544674925b27e548a25276dcbc",
+        "sourceLines": [
+          {
+            "code": "for i in range(n):\n    s=input()\n    num=0\n    for c in s:\n        if c=='a' or c=='e' or c=='i' \\\n                or c=='o' or c=='u' or c=='y':\n            num+=1\n    if num<p[i]:\n        valid=False\nprint('YES' if valid else 'NO')",
+            "end": 13,
+            "start": 4
+          }
+        ]
+      },
       "test": "0005"
     },
     "21110196": {
       "kind": "wrong-answer",
       "reason": "omits 'y' from the vowel set; failedTest 0015 (i yu ...) -> NO, correct YES",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/722B-21110196.json",
+        "counterexample": {
+          "actualAnswer": "NO\n",
+          "actualOutputSha256": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "constraints": "n=5.",
+          "correctAnswer": "YES",
+          "derivation": "Each word containing >=1 vowel (a,e,i,o,u,y) splits into exactly (#vowels) syllables; consonant-only words are ignored, so line i matches iff its vowel count equals p_i. Answer YES iff all lines match. Test 0015: counts with y are 3,2,2,4,2 = p -> YES; source counts 'i yu' as 2 -> NO.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "746c26cdd4a5699cbcbbaa57ff0c511a852615474605fdca65b1210d8ff1f19a",
+          "packageExpectedOutput": "YES",
+          "test": "0015",
+          "validLFInput": "5\n3 2 2 4 2\ni yu\niu\noa\naiio\nuo\n",
+          "validLFInputSha256": "7b7d485de1b4af5b17eade0cd5c28bc5199de114dfb1e5f17c7a66b79c5c1fff"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input.",
+        "faultyLogic": "Line 3 omits 'y', which the statement defines as a vowel.",
+        "implementedAlgorithm": "Counts characters in set('aeiou') per line and compares the list with p.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/722B/sub-21110196.json",
+          "fullRunLogSha256": "2b3cefafb0eb012c8a48b4985ef55b370e03f908c4d5aa7d825ff20686267832",
+          "outputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "path": "archive/722B/sub-21110196-lf.json",
+          "sha256": "90958613c6ebd0167929d696d5d3a2351709e2ec03c9417e831db49b42c9d4ff",
+          "sourceFile": "archive/722B/source-21110196.txt",
+          "sourceFileSha256": "c2c84e621f230899dd3e980b8416aa0ccb7dd13ac821c3aafe6068495e2fe77d",
+          "verdict": "WA"
+        },
+        "sourceHash": "c2c84e621f230899dd3e980b8416aa0ccb7dd13ac821c3aafe6068495e2fe77d",
+        "sourceLines": [
+          {
+            "code": "s = set(list(\"aeiou\"))\nlis = [ len(\"\".join(filter(lambda x: x in s,input()))) for x in range(num)]\nprint(\"YES\" if lis == li else \"NO\")",
+            "end": 5,
+            "start": 3
+          }
+        ]
+      },
       "test": "0015"
     },
     "21112557": {
       "kind": "wrong-answer",
       "reason": "omits 'y' from vowels and compares only the sum over lines; failedTest 0015 -> NO, correct YES",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/722B-21112557.json",
+        "counterexample": {
+          "actualAnswer": "NO\n",
+          "actualOutputSha256": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "constraints": "n=5.",
+          "correctAnswer": "YES",
+          "derivation": "Each word containing >=1 vowel (a,e,i,o,u,y) splits into exactly (#vowels) syllables; consonant-only words are ignored, so line i matches iff its vowel count equals p_i. Answer YES iff all lines match. Test 0015 -> YES; source: tmpl[0]=3-2=1, sum 1 -> NO.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "746c26cdd4a5699cbcbbaa57ff0c511a852615474605fdca65b1210d8ff1f19a",
+          "packageExpectedOutput": "YES",
+          "test": "0015",
+          "validLFInput": "5\n3 2 2 4 2\ni yu\niu\noa\naiio\nuo\n",
+          "validLFInputSha256": "7b7d485de1b4af5b17eade0cd5c28bc5199de114dfb1e5f17c7a66b79c5c1fff"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input.",
+        "faultyLogic": "Line 9 omits 'y' as a vowel, and line 13 only checks the sum (errors on different lines can cancel).",
+        "implementedAlgorithm": "Subtracts the number of 'aeiou' characters of each line from p_i and prints YES iff the total sum is 0.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/722B/sub-21112557.json",
+          "fullRunLogSha256": "55a0a7325357f65dcd1b2e5cac37932bb3d6def1e45970d90a86befbbe21ddb6",
+          "outputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "path": "archive/722B/sub-21112557-lf.json",
+          "sha256": "2863775afef970236f3f13ae9c2e676e2ef407e5d059eba7f67e900bfbb96417",
+          "sourceFile": "archive/722B/source-21112557.txt",
+          "sourceFileSha256": "02b2511d7b1ef5b54469493e21e9ca3ca99100e713003b82602a5100d79aa533",
+          "verdict": "WA"
+        },
+        "sourceHash": "02b2511d7b1ef5b54469493e21e9ca3ca99100e713003b82602a5100d79aa533",
+        "sourceLines": [
+          {
+            "code": "for s in range(0, n):\n    for ch in strs[s]:\n        if ch in 'aeiou':\n            tmpl[s] -= 1\n\n#print(n,tmpl,strs)\nif sum(tmpl) == 0:\n    print('YES')\nelse:\n    print('NO')",
+            "end": 16,
+            "start": 7
+          }
+        ]
+      },
       "test": "0015"
     }
   },
   "packageHash": "e82bc74debfde61cadc24666a9b140fd1c74d71b64def1190dd781b13fa71ee5",
+  "previousAuditDigest": "a11eaedca7d76f4b7dab0d8479afd8afbd3415aa24b68972f82ae51d23dfa6f4",
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
@@ -53,6 +287,8 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4",
   "reviewer": "devin-21803116a99741d7a7672cde5aff36d4 (independent rating1200 auditor, https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4)",
   "schemaVersion": 1,
+  "semanticReviewArchive": "rating1200-semantic-645B-9C.tar.gz (see README)",
+  "semanticReviewPerformed": "Source-specific semantic re-review: the auditor read the full code of each of the 5 designated-wrong sources, wrote the implemented algorithm/fault from that code, cited exact source lines, and derived each correct answer from the problem semantics. Counterexamples bind to unchanged executionVersion2 LF execution logs in the original archive.",
   "verification": {
     "archiveFilesAllMatchProvenance": true,
     "archiveSha256": "5e5c8e1d20202de5ca4f448c9fc54d696cc4d5076f3ba9a6ff582dcd5c2757de",

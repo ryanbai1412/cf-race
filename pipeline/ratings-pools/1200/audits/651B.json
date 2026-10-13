@@ -20,30 +20,266 @@
     "56712611": {
       "kind": "wrong-answer",
       "reason": "with any duplicate prints (#distinct)-1, ignoring that later copies form additional increasing layers; 200 100 100 200 -> 1, correct 2",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/651B-56712611.json",
+        "counterexample": {
+          "actualAnswer": "1\n",
+          "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "constraints": "n=4, values in 1..1000.",
+          "correctAnswer": "2",
+          "derivation": "Answer = n - (maximum multiplicity): sort values into layers (each layer = one copy of each remaining distinct value, increasing); concatenating layers gives sum(|layer|-1) = n - #layers = n - maxfreq happy transitions, and no arrangement does better because each copy of the most frequent value beyond the first must be preceded by a non-increase. 200 100 100 200: maxfreq 2 -> 4-2=2 (order 100 200 100 200).",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "dba6db0ea64acf15a5d30d2fd75fd5396600d2ebcbae091f2c5af410175a92b5",
+          "packageExpectedOutput": "2",
+          "test": "0002",
+          "validLFInput": "4\n200 100 100 200\n",
+          "validLFInputSha256": "8e0651ed32e3a15d1bacf61f9cc32c1a3b53a684e885f26aaa74f137c75c823b"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input.",
+        "faultyLogic": "Lines 6-7: with duplicates only one increasing layer is credited; later copies can form further increasing layers.",
+        "implementedAlgorithm": "If all values are distinct prints n-1, otherwise prints (#distinct values)-1.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/651B/sub-56712611.json",
+          "fullRunLogSha256": "d4178ccc622d31d903d92b6fc54b0b3b4ab716fc89ee42ff6f0aa76d665ef50a",
+          "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "path": "archive/651B/sub-56712611-lf.json",
+          "sha256": "a7a67128318b165600436f31870eaa098efc2189c44190f688d0f92a1ec1c900",
+          "sourceFile": "archive/651B/source-56712611.txt",
+          "sourceFileSha256": "a182f9a98b2bd1c4ac59a811a52331bdd8782305552b2528a1311b73a11ca7bb",
+          "verdict": "WA"
+        },
+        "sourceHash": "a182f9a98b2bd1c4ac59a811a52331bdd8782305552b2528a1311b73a11ca7bb",
+        "sourceLines": [
+          {
+            "code": "s=list(set(l))\nif(len(l)==len(s)):\n\tprint(len(l)-1)\nelse:\n\tprint(len(s)-1)",
+            "end": 7,
+            "start": 3
+          }
+        ]
+      },
       "test": "0002"
     },
     "60416340": {
       "kind": "wrong-answer",
       "reason": "prints the length (element count, not transitions) of the longest strictly increasing run of the sorted array (and 1 for n=1); 20 30 10 50 40 -> 5, correct 4",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/651B-60416340.json",
+        "counterexample": {
+          "actualAnswer": "5\n",
+          "actualOutputSha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+          "constraints": "n=5 (sample).",
+          "correctAnswer": "4",
+          "derivation": "Answer = n - (maximum multiplicity): sort values into layers (each layer = one copy of each remaining distinct value, increasing); concatenating layers gives sum(|layer|-1) = n - #layers = n - maxfreq happy transitions, and no arrangement does better because each copy of the most frequent value beyond the first must be preceded by a non-increase. 20 30 10 50 40: all distinct -> 5-1=4.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "3f7b7c58540af4bb569c9aa69bea2befaad8da28b3f0ca09414d6dbecaea9b9a",
+          "packageExpectedOutput": "4",
+          "test": "0001",
+          "validLFInput": "5\n20 30 10 50 40\n",
+          "validLFInputSha256": "2e897d0bccd0af718d52a218e4b15acd514d460c4809ac4b4faf44667709a4bc"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input.",
+        "faultyLogic": "Lines 14-23 count elements of one run instead of transitions over all layers (off by one and ignores additional layers); line 7 prints 1 for n=1 where the answer is 0.",
+        "implementedAlgorithm": "Sorts; n==1 -> prints 1; n==2 -> 2 or 1; otherwise prints the length (number of elements) of the longest strictly increasing consecutive run of the sorted array.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/651B/sub-60416340.json",
+          "fullRunLogSha256": "c9ae5fe85cb4e9bb401968900e7a0ece40c07a0bdbd199f2a5cb91de0010c2d6",
+          "outputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+          "path": "archive/651B/sub-60416340-lf.json",
+          "sha256": "723b5a4d3f2893b3604171ae8558b65cf48fd4185e270acb6e7822d8df98f629",
+          "sourceFile": "archive/651B/source-60416340.txt",
+          "sourceFileSha256": "6bb350046affc3b048d4db2015b6f8d2494f4547bff246b983d42900216af1b6",
+          "verdict": "WA"
+        },
+        "sourceHash": "6bb350046affc3b048d4db2015b6f8d2494f4547bff246b983d42900216af1b6",
+        "sourceLines": [
+          {
+            "code": "quadros.sort()\n\nif len(quadros) == 1:\n    print(1)\nelif len(quadros) == 2:\n    if quadros[0] < quadros[1]:\n        print(2)\n    else:\n        print(1)\nelse:\n    max_seq = 1\n    contador = 1\n    for i in range(len(quadros) - 1):\n        if quadros[i] < quadros[i+1]:\n            contador += 1\n        else:\n            max_seq = max(max_seq, contador)\n            contador = 1\n    max_seq = max(max_seq, contador)\n    print(max_seq)",
+            "end": 23,
+            "start": 4
+          }
+        ]
+      },
       "test": "0001"
     },
     "61336201": {
       "kind": "wrong-answer",
       "reason": "counts strict increases in the sorted array = (#distinct)-1, a single layer only; 200 100 100 200 -> 1, correct 2",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/651B-61336201.json",
+        "counterexample": {
+          "actualAnswer": "1\n",
+          "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "constraints": "n=4.",
+          "correctAnswer": "2",
+          "derivation": "Answer = n - (maximum multiplicity): sort values into layers (each layer = one copy of each remaining distinct value, increasing); concatenating layers gives sum(|layer|-1) = n - #layers = n - maxfreq happy transitions, and no arrangement does better because each copy of the most frequent value beyond the first must be preceded by a non-increase. 200 100 100 200 -> 2; source gives 1.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "dba6db0ea64acf15a5d30d2fd75fd5396600d2ebcbae091f2c5af410175a92b5",
+          "packageExpectedOutput": "2",
+          "test": "0002",
+          "validLFInput": "4\n200 100 100 200\n",
+          "validLFInputSha256": "8e0651ed32e3a15d1bacf61f9cc32c1a3b53a684e885f26aaa74f137c75c823b"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input.",
+        "faultyLogic": "Line 3 credits a single increasing layer; duplicates' further layers are ignored.",
+        "implementedAlgorithm": "Sorts and counts strict increases between adjacent sorted elements (= #distinct-1).",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/651B/sub-61336201.json",
+          "fullRunLogSha256": "52ec6306f375b55d419877d5ca4b2f0121257a912f79ef87337ec203b0cde0ff",
+          "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "path": "archive/651B/sub-61336201-lf.json",
+          "sha256": "a4db375b47fd28792218150ee9b72c26f7b323b5080a77de554816597a589a10",
+          "sourceFile": "archive/651B/source-61336201.txt",
+          "sourceFileSha256": "b564c5b00a23e0efebd45295b540d27c4cccc7ea7c5060f62fc01783a19cb935",
+          "verdict": "WA"
+        },
+        "sourceHash": "b564c5b00a23e0efebd45295b540d27c4cccc7ea7c5060f62fc01783a19cb935",
+        "sourceLines": [
+          {
+            "code": "a = list(sorted(map(int, input().split())))\nprint(sum([1 if a[i] < a[i+1] else 0 for i in range(n-1)]))",
+            "end": 3,
+            "start": 2
+          }
+        ]
+      },
       "test": "0002"
     },
     "64149959": {
       "kind": "wrong-answer",
       "reason": "same single-layer defect: counts strict increases in sorted order; 200 100 100 200 -> 1, correct 2",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/651B-64149959.json",
+        "counterexample": {
+          "actualAnswer": "1\n",
+          "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "constraints": "n=4.",
+          "correctAnswer": "2",
+          "derivation": "Answer = n - (maximum multiplicity): sort values into layers (each layer = one copy of each remaining distinct value, increasing); concatenating layers gives sum(|layer|-1) = n - #layers = n - maxfreq happy transitions, and no arrangement does better because each copy of the most frequent value beyond the first must be preceded by a non-increase. 200 100 100 200 -> 2; source gives 1.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "dba6db0ea64acf15a5d30d2fd75fd5396600d2ebcbae091f2c5af410175a92b5",
+          "packageExpectedOutput": "2",
+          "test": "0002",
+          "validLFInput": "4\n200 100 100 200\n",
+          "validLFInputSha256": "8e0651ed32e3a15d1bacf61f9cc32c1a3b53a684e885f26aaa74f137c75c823b"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input.",
+        "faultyLogic": "Line 3: single-layer count, ignores repeated layers.",
+        "implementedAlgorithm": "Sorts and counts indices with l[i]>l[i-1] (= #distinct-1).",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/651B/sub-64149959.json",
+          "fullRunLogSha256": "a33a34bd3831ec72c1c4a0e53a5e6c5fbf2ceb171428dce5c563c83fba53f27d",
+          "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "path": "archive/651B/sub-64149959-lf.json",
+          "sha256": "ced1a7372c47114397d8bda8829daca1bb00e17ff959632525b444d0af5a17cf",
+          "sourceFile": "archive/651B/source-64149959.txt",
+          "sourceFileSha256": "3a879a3617aff523225ce1239e3ff8369b70ed56d2cd8868e1b34c06d18a7e1b",
+          "verdict": "WA"
+        },
+        "sourceHash": "3a879a3617aff523225ce1239e3ff8369b70ed56d2cd8868e1b34c06d18a7e1b",
+        "sourceLines": [
+          {
+            "code": "l = sorted(map(int, input().split()))\nprint(sum(1 for i in range(1, n) if l[i] > l[i - 1]))",
+            "end": 3,
+            "start": 2
+          }
+        ]
+      },
       "test": "0002"
     },
     "65529574": {
       "kind": "wrong-answer",
       "reason": "peels only one layer of distinct values, then counts increases in the sorted remainder once instead of repeatedly layering; failedTest 0006 (n=100) -> 84, correct 95",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/651B-65529574.json",
+        "counterexample": {
+          "actualAnswer": "84\n",
+          "actualOutputSha256": "4b9258d432ecb4511cfe5471a58f3feea9e8aa513e1d32294894693827d3b0d4",
+          "constraints": "n=100, values 1..1000.",
+          "correctAnswer": "95",
+          "derivation": "Answer = n - (maximum multiplicity): sort values into layers (each layer = one copy of each remaining distinct value, increasing); concatenating layers gives sum(|layer|-1) = n - #layers = n - maxfreq happy transitions, and no arrangement does better because each copy of the most frequent value beyond the first must be preceded by a non-increase. Test 0006 (n=100): maxfreq 5 -> 95. Source: 60 distinct -> 59, remainder has 26 distinct -> 25, total 84.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "2f136e4b5cc1faf73a2ce68d777eac195231542d3e634eabaea21c120df31b12",
+          "packageExpectedOutput": "95",
+          "test": "0006",
+          "validLFInput": "100\n9 9 72 55 14 8 55 58 35 67 3 18 73 92 41 49 15 60 18 66 9 26 97 47 43 88 71 97 19 34 48 96 79 53 8 24 69 49 12 23 77 12 21 88 66 9 29 13 61 69 54 77 41 13 4 68 37 74 7 6 29 76 55 72 89 4 78 27 29 82 18 83 12 4 32 69 89 85 66 13 92 54 38 5 26 56 17 55 29 4 17 39 29 94 3 67 85 98 21 14\n",
+          "validLFInputSha256": "dab52feae28ebadfaf51f77112ef94d84a9b88162ec87350ecbcedada1490371"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input.",
+        "faultyLogic": "Lines 14-16 count the remainder as one sorted run (= #distinct(remainder)-1), so third and later layers contribute nothing.",
+        "implementedAlgorithm": "Removes the first copy of each distinct value (distinct list = first layer), sorts the remainder and counts strict increases in it, prints that + len(distinct)-1: exactly two layers.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/651B/sub-65529574.json",
+          "fullRunLogSha256": "07b523aea7e92954b95ae593f2db741604e78c17a8bf04e2755c624267fe6439",
+          "outputHash": "4b9258d432ecb4511cfe5471a58f3feea9e8aa513e1d32294894693827d3b0d4",
+          "path": "archive/651B/sub-65529574-lf.json",
+          "sha256": "39778e7f0bbb0fa4efe0be4b3698fef954b21cd2fec928cee0f975bc20313ca1",
+          "sourceFile": "archive/651B/source-65529574.txt",
+          "sourceFileSha256": "616ebe33d171e433fa89a256b485dd3408e79b140d4c23b92f6040607aea34c5",
+          "verdict": "WA"
+        },
+        "sourceHash": "616ebe33d171e433fa89a256b485dd3408e79b140d4c23b92f6040607aea34c5",
+        "sourceLines": [
+          {
+            "code": "n, a, out, distinct = int(input()), arr_inp(), 0, []\na_copy = a.copy()\n\nfor i in a:\n    if i not in distinct:\n        distinct.append(i)\n        a_copy.remove(i)\na_copy.sort()\n\nfor i, j in enumerate(a_copy[1:]):\n    if j > a_copy[i]:\n        out += 1\n\n\nprint(out + len(distinct) - 1)",
+            "end": 19,
+            "start": 5
+          }
+        ]
+      },
       "test": "0006"
     }
   },
   "packageHash": "a5e927afcc3a7ed6dc115f1f0784f0faf68fd2eaae845ecd5adccffc96c424c3",
+  "previousAuditDigest": "eae8007c41bda1fc6e1c67e7238f3e74fd8d76ec192134dbfc44cde7d9947663",
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [],
@@ -51,6 +287,8 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4",
   "reviewer": "devin-21803116a99741d7a7672cde5aff36d4 (independent rating1200 auditor, https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4)",
   "schemaVersion": 1,
+  "semanticReviewArchive": "rating1200-semantic-645B-9C.tar.gz (see README)",
+  "semanticReviewPerformed": "Source-specific semantic re-review: the auditor read the full code of each of the 5 designated-wrong sources, wrote the implemented algorithm/fault from that code, cited exact source lines, and derived each correct answer from the problem semantics. Counterexamples bind to unchanged executionVersion2 LF execution logs in the original archive.",
   "verification": {
     "archiveFilesAllMatchProvenance": true,
     "archiveSha256": "1e2dc0fc16a7703d0a2e5b8fe0959967d628a5bcc43d886bf8f70bcf3d77636a",

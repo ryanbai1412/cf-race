@@ -20,30 +20,264 @@
     "15306201": {
       "kind": "wrong-answer",
       "reason": "inner while loops let Bob take a bar after the pointers cross; 1 / 1 -> 1 1, correct 1 0",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/6C-15306201.json",
+        "counterexample": {
+          "actualAnswer": "1 1\n",
+          "actualOutputSha256": "3f11ad6bbc7ecca0b2416b713dee77f1a635c00aaeaa946e14cde1c2bfae56d5",
+          "constraints": "n=1, t1=1.",
+          "correctAnswer": "1 0",
+          "derivation": "Simulation: Alice eats from the left, Bob from the right; the next bar goes to whoever becomes free first; if both would start the same bar at the same moment Bob yields it to Alice. Equivalent two-pointer: while i<=j, Alice takes bar i if her elapsed time <= Bob's, else Bob takes bar j. n=1 -> 1 0. Source: Alice eats args[0], then Bob's loop (sumb 0<1) eats args[0] again -> 1 1.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+          "packageExpectedOutput": "1 0",
+          "test": "0002",
+          "validLFInput": "1\n1\n",
+          "validLFInputSha256": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba"
+        },
+        "excludedNonAlgorithmicCauses": "None: input parser strips CR itself (lines 26-29); same on LF input.",
+        "faultyLogic": "Inner loops (lines 9-16) never re-check a<=b, so after the pointers cross a player eats a bar already eaten.",
+        "implementedAlgorithm": "Outer while a<=b; inner loops let Alice eat while suma<=sumb and Bob while sumb<suma.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/6C/sub-15306201.json",
+          "fullRunLogSha256": "7b9442ee00ddabb138a3551c92c2b7d24c6ef0b4e27728a12309522751991896",
+          "outputHash": "3f11ad6bbc7ecca0b2416b713dee77f1a635c00aaeaa946e14cde1c2bfae56d5",
+          "path": "archive/6C/sub-15306201-lf.json",
+          "sha256": "84a940c7a493d0e302c97b5da00c745c298533909b2e6f285ab40eb86d3dbbed",
+          "sourceFile": "archive/6C/source-15306201.txt",
+          "sourceFileSha256": "8710ffafb622f7a189f67d7224a000b3ead27c81ad9979fa62b015a63db4221f",
+          "verdict": "WA"
+        },
+        "sourceHash": "8710ffafb622f7a189f67d7224a000b3ead27c81ad9979fa62b015a63db4221f",
+        "sourceLines": [
+          {
+            "code": "def abc(args):\n\t\n\ta,b = 0, len(args) - 1\n\tsuma, sumb = 0, 0\n\tnum_a, num_b = 0, 0\n\twhile a <= b:\n\t\twhile suma <= sumb:\n\t\t\tsuma = suma + args[a]\n\t\t\ta += 1\n\t\t\tnum_a += 1\n\t\twhile sumb < suma:\n\t\t\tsumb = sumb + args[b]\n\t\t\tb -= 1\n\t\t\tnum_b += 1\n\treturn str(num_a) + \" \" + str(num_b)",
+            "end": 17,
+            "start": 3
+          }
+        ]
+      },
       "test": "0002"
     },
     "16721615": {
       "kind": "wrong-answer",
       "reason": "unit-time simulation advances both pointers into the same bar and resolves the meeting wrongly; 3 / 1 1 1 -> 1 2, correct 2 1",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/6C-16721615.json",
+        "counterexample": {
+          "actualAnswer": "1 2\n",
+          "actualOutputSha256": "f251ddc12234e0da8d3b778bd0f7463fb477f16f47757f5617dc8b4ff4d4f14a",
+          "constraints": "n=3.",
+          "correctAnswer": "2 1",
+          "derivation": "Simulation: Alice eats from the left, Bob from the right; the next bar goes to whoever becomes free first; if both would start the same bar at the same moment Bob yields it to Alice. Equivalent two-pointer: while i<=j, Alice takes bar i if her elapsed time <= Bob's, else Bob takes bar j. [1,1,1]: at t=1 both start bar 2 simultaneously -> Alice: 2 1. Source: i=1,j=1 -> prints 1 2.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "bfacca0e07f0a2186293ef743acc0ab60b56a7de33736e6780d3684168b245e2",
+          "packageExpectedOutput": "2 1",
+          "test": "0004",
+          "validLFInput": "3\n1 1 1\n",
+          "validLFInputSha256": "dcb2828204cec0d4a76afd3c51c7f9bfa1ccb2aa5b9a1abc08a28ee818aae859"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input.",
+        "faultyLogic": "When both finish simultaneously and i reaches j (lines 14-20) the loop ends and the shared next bar is counted for Bob (n-i), although a simultaneous start goes to Alice.",
+        "implementedAlgorithm": "Unit-time simulation: each second decrements both end bars, advancing i/j when a bar finishes; prints i, n-i.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/6C/sub-16721615.json",
+          "fullRunLogSha256": "c407f7eca355d8f5328f055afaf44e9358b645b750ea90f5f64f7d9b4344739e",
+          "outputHash": "f251ddc12234e0da8d3b778bd0f7463fb477f16f47757f5617dc8b4ff4d4f14a",
+          "path": "archive/6C/sub-16721615-lf.json",
+          "sha256": "75ffb8e4b4747a308d70079dcd6862009a902c9fa2edabdfb8c0db0a782353f4",
+          "sourceFile": "archive/6C/source-16721615.txt",
+          "sourceFileSha256": "e6c17816ae2e0b65f82044cfdf0a9af253683e6e5f84d20829c1f4b363a39086",
+          "verdict": "WA"
+        },
+        "sourceHash": "e6c17816ae2e0b65f82044cfdf0a9af253683e6e5f84d20829c1f4b363a39086",
+        "sourceLines": [
+          {
+            "code": "i, j = 0, n - 1\n\nif i == j:\n    print(1,0)\n    exit()\n\nwhile i < j:\n    arr[i] -= 1\n    arr[j] -= 1\n    if not arr[i]:\n        i += 1\n    if not arr[j]:\n        if i != j:\n            j -= 1\n        else:\n            break\n\nprint(i,n - i)",
+            "end": 22,
+            "start": 5
+          }
+        ]
+      },
       "test": "0004"
     },
     "4031381": {
       "kind": "wrong-answer",
       "reason": "tie rule inverted (Alice eats only if a<b, else Bob), and Bob count uses wrong pointer; 1 / 1 -> 0 1, correct 1 0",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/6C-4031381.json",
+        "counterexample": {
+          "actualAnswer": "0 1\n",
+          "actualOutputSha256": "a79122992d53d358e6bbbbb98883d64fa0c15df3bcb08ff7b65a0580870af424",
+          "constraints": "n=1, t1=1.",
+          "correctAnswer": "1 0",
+          "derivation": "Simulation: Alice eats from the left, Bob from the right; the next bar goes to whoever becomes free first; if both would start the same bar at the same moment Bob yields it to Alice. Equivalent two-pointer: while i<=j, Alice takes bar i if her elapsed time <= Bob's, else Bob takes bar j. n=1: both reach the single bar at t=0 simultaneously -> Alice: 1 0.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+          "packageExpectedOutput": "1 0",
+          "test": "0002",
+          "validLFInput": "1\n1\n",
+          "validLFInputSha256": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input.",
+        "faultyLogic": "Line 16 uses strict a<b, so every tie (including the simultaneous start on the last bar) goes to Bob, contrary to the statement.",
+        "implementedAlgorithm": "Two pointers with elapsed times a,b; Alice takes the next bar only if a<b, otherwise Bob (including the initial a=b=0).",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/6C/sub-4031381.json",
+          "fullRunLogSha256": "12687312c268a501419a7ee4059c996ba1cac30be4d857c9fc11a0e3802382aa",
+          "outputHash": "a79122992d53d358e6bbbbb98883d64fa0c15df3bcb08ff7b65a0580870af424",
+          "path": "archive/6C/sub-4031381-lf.json",
+          "sha256": "3e454b05047dbe3b1d3102620401e0b97835eebfea359714285da138e35613f7",
+          "sourceFile": "archive/6C/source-4031381.txt",
+          "sourceFileSha256": "f7651e4c6cafd341bda801b454e46a7dda2764833fa86704114d2e895e3a8725",
+          "verdict": "WA"
+        },
+        "sourceHash": "f7651e4c6cafd341bda801b454e46a7dda2764833fa86704114d2e895e3a8725",
+        "sourceLines": [
+          {
+            "code": "a = 0\nb = 0\nai = 0\nbi = len(l) - 1\n\nwhile ai <= bi:\n    if a < b:\n        a += l[ai]\n        ai += 1\n    else:\n        b += l[bi]\n        bi -= 1\n\n\nprint(ai, len(l) - bi - 1)",
+            "end": 24,
+            "start": 10
+          }
+        ]
+      },
       "test": "0002"
     },
     "6719687": {
       "kind": "wrong-answer",
       "reason": "when times tie both take a bar even if they meet on the same last bar, double counting; 2 / 1 1 -> 2 1, correct 1 1",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/6C-6719687.json",
+        "counterexample": {
+          "actualAnswer": "2 1\n",
+          "actualOutputSha256": "dfac347cb71ae693ba8a54687f7112aff24ec67f88a3c66f69a7bf968fa2ac16",
+          "constraints": "n=2, t in 1..1000.",
+          "correctAnswer": "1 1",
+          "derivation": "Simulation: Alice eats from the left, Bob from the right; the next bar goes to whoever becomes free first; if both would start the same bar at the same moment Bob yields it to Alice. Equivalent two-pointer: while i<=j, Alice takes bar i if her elapsed time <= Bob's, else Bob takes bar j. [1,1]: Alice bar 1, Bob bar 2 -> 1 1. Source: tie step a=b=1, left=1,right=0, then extra a+=1 -> 2 1.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "f620f52a17737de11a738a9b95e448926bb0fd6b5c546232241b2ecbb874841f",
+          "packageExpectedOutput": "1 1",
+          "test": "0003",
+          "validLFInput": "2\n1 1\n",
+          "validLFInputSha256": "3c5b54a75e483fd7863419c9c44f76601871d171c02a7a1e7490efaf809bd1da"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input.",
+        "faultyLogic": "Lines 23-28 run even when the loop ended with left>right (no bar remains), counting an extra bar.",
+        "implementedAlgorithm": "Loop while right>left assigning bars (both take one on ties), then unconditionally assigns bar[left] to whoever is behind.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/6C/sub-6719687.json",
+          "fullRunLogSha256": "9e46765f853b5ada92e368d6a99e3aafc4f2d41c6c400bbb2ad150a4a7572d7b",
+          "outputHash": "dfac347cb71ae693ba8a54687f7112aff24ec67f88a3c66f69a7bf968fa2ac16",
+          "path": "archive/6C/sub-6719687-lf.json",
+          "sha256": "28d02e552aa9e4f595a04cc1c625ec35851a70c35679a2fbebe93344eface8e7",
+          "sourceFile": "archive/6C/source-6719687.txt",
+          "sourceFileSha256": "7278332b89a95844d57bbe89f5a81aa5b084b27926ad9e8c8925ce1544716a19",
+          "verdict": "WA"
+        },
+        "sourceHash": "7278332b89a95844d57bbe89f5a81aa5b084b27926ad9e8c8925ce1544716a19",
+        "sourceLines": [
+          {
+            "code": "    left=0\n    right=len(bar)-1\n    Alice,Bob,a,b=0,0,0,0\n    while(right>left):\n        if Alice==Bob:\n            a+=1\n            b+=1\n            Alice+=bar[left]\n            Bob+=bar[right]\n            left+=1\n            right-=1\n        elif Alice>Bob:\n            b+=1\n            Bob+=bar[right]\n            right-=1\n        else:\n            a+=1\n            Alice+=bar[left]\n            left+=1\n    if Alice<=Bob:\n        a+=1\n        Alice+=bar[left]\n    else:\n        b+=1\n        Bob+=bar[left]\n    print(a,b)",
+            "end": 29,
+            "start": 4
+          }
+        ]
+      },
       "test": "0003"
     },
     "8847130": {
       "kind": "debug-output-only-not-counted",
       "reason": "debug print('-->') lines precede the correct answer 2 3 on 0001; AC once the print is removed",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "binding": "bindings/6C-8847130.json",
+        "diagnosticCopy": {
+          "log": "archive/quirk-removal/6C-8847130.json",
+          "logSha256": "75143fbc7eceef37e9ee346b935148de7a3916ed0d2baf1bd84b42a573c05a96",
+          "markedDiagnosticCopy": true,
+          "originalSourceUnchanged": true,
+          "patchedSha256": "196026fd512980d33e9232c8d9d9bb9a07d00bef80dd8a055aebbfab11f77a15",
+          "patchedSource": "archive/quirk-removal/6C-8847130.patched.py",
+          "verdicts": [
+            "AC",
+            "AC"
+          ]
+        },
+        "excludedNonAlgorithmicCauses": "Debug-output-only: audit copy with only line 21 removed (quirk-removal/6C-8847130.patched.py) is AC on failedTest 0001 raw and LF (quirk-removal/6C-8847130.json). Not counted.",
+        "faultyLogic": "Logically correct; line 21 is a leftover debug print emitting '--> ...' lines before the answer.",
+        "implementedAlgorithm": "Prefix sums b_sc; scans bars from the right: the right-eater keeps the k-th bar from the right iff (sum of the k rightmost bars) < (prefix sum through that bar), i.e. iff Bob's start time is strictly smaller than Alice's; prints q-a_eaten+1 and a_eaten-1. This implements the tie rule correctly.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/6C/sub-8847130.json",
+          "fullRunLogSha256": "53fd698bb6d778681fd1a39fb38d94276ba51267b08f17303e45e882deb425c6",
+          "outputHash": "210dd9be80dff50fdf732de7c3a2c6286a27f53f5eb0663498f91b7d2ec022e8",
+          "path": "archive/6C/sub-8847130-lf.json",
+          "sha256": "4a62fa02513e6b057fddcfb53fa716a56b2a72d1df89fc592dd73011595978f5",
+          "sourceFile": "archive/6C/source-8847130.txt",
+          "sourceFileSha256": "35ac3b56c46f956184506e060dd3cfa6167d645efe27ae7798b7a5667addca22",
+          "verdict": "WA"
+        },
+        "sourceHash": "35ac3b56c46f956184506e060dd3cfa6167d645efe27ae7798b7a5667addca22",
+        "sourceLines": [
+          {
+            "code": "a_eaten = 1\nb_eaten = 0\n\nb_sc = [0]\na_sc = 0\n\n#первой есть Боб. он есть все шоколадки\nfor b_eaten in range(len(z)):\n\tb_sc.append(z[b_eaten]+b_sc[-1])\n\ndel(b_sc[0])\n\nwhile 1:\n\tprint('-->',a_sc,b_sc[-a_eaten])\n\ta_sc += z[-a_eaten]\n\tif a_sc < b_sc[-a_eaten]:\n\t\ta_eaten += 1\n\telif a_sc == b_sc[-a_eaten]:\n\t\tbreak\n\telse:\n\t\tbreak\n\nprint(q-a_eaten+1, a_eaten-1)",
+            "end": 30,
+            "start": 8
+          }
+        ]
+      },
       "test": "0001"
     }
   },
   "packageHash": "4c17ebd5939472bf23fe00eb5a85796c4e2b84291a1ea25324a124bb3a0e4080",
+  "previousAuditDigest": "08e1273576e3b86f74f88fcc3d345aca11da26a1d211796ff342d32bc1ef4bfa",
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
@@ -53,6 +287,8 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4",
   "reviewer": "devin-21803116a99741d7a7672cde5aff36d4 (independent rating1200 auditor, https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4)",
   "schemaVersion": 1,
+  "semanticReviewArchive": "rating1200-semantic-645B-9C.tar.gz (see README)",
+  "semanticReviewPerformed": "Source-specific semantic re-review: the auditor read the full code of each of the 5 designated-wrong sources, wrote the implemented algorithm/fault from that code, cited exact source lines, and derived each correct answer from the problem semantics. Counterexamples bind to unchanged executionVersion2 LF execution logs in the original archive.",
   "verification": {
     "archiveFilesAllMatchProvenance": true,
     "archiveSha256": "b82ed09fe6993d834afd43f3fadf87e9c99a57d6197dd089020b365d9b9b9442",

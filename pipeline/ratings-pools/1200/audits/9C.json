@@ -20,30 +20,246 @@
     "11913660": {
       "kind": "complexity-only-not-counted",
       "reason": "TLE on 0014",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "binding": "bindings/9C-11913660.json",
+        "excludedNonAlgorithmicCauses": "TLE-only. Not counted.",
+        "faultyLogic": "Logically correct but O(n log n) with n up to 1e9, TLE on 0014.",
+        "implementedAlgorithm": "Brute force over 1..n checking each digit is 0/1.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/9C/sub-11913660.json",
+          "fullRunLogSha256": "f5a04aacb17fbb145bddc64fd0ef77c1b1bc3dc464b91497cc730b3ad1162a62",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "archive/9C/sub-11913660-lf.json",
+          "sha256": "6c0f90e2b346fede93a783db6c7dbb82c5d177e75ee49e8b1a29b75c2aed9af8",
+          "sourceFile": "archive/9C/source-11913660.txt",
+          "sourceFileSha256": "9740a4a605f465257d5ead13dd59205d69b10529b412f0b0ba42d55b001b3ff1",
+          "verdict": "TLE"
+        },
+        "sourceHash": "9740a4a605f465257d5ead13dd59205d69b10529b412f0b0ba42d55b001b3ff1",
+        "sourceLines": [
+          {
+            "code": "n = int(input())\nanswer = 0\nfor num in range(1, n + 1):\n    for num2 in range(0, len(str(num))):\n        x = int(str(num)[num2]) \n        if num2 == len(str(num)) - 1 and (x == 0 or x == 1):\n            answer += 1\n        elif x != 0 and x != 1:\n            break    \nprint (answer)",
+            "end": 10,
+            "start": 1
+          }
+        ]
+      },
       "test": "0014"
     },
     "12981408": {
       "kind": "debug-output-only-not-counted",
       "reason": "debug print(s) before the correct answer",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "binding": "bindings/9C-12981408.json",
+        "diagnosticCopy": {
+          "log": "archive/quirk-removal/9C-12981408.json",
+          "logSha256": "7895a7e5ff26513dd0908adb4e9d82f98e354a53d6eb1d03f48f1609a054d38c",
+          "markedDiagnosticCopy": true,
+          "originalSourceUnchanged": true,
+          "patchedSha256": "fb488d0a59f8998c33a103a02aada046bffbff6376a02fd85a2a42ac838dbd74",
+          "patchedSource": "archive/quirk-removal/9C-12981408.patched.py",
+          "verdicts": [
+            "AC",
+            "AC"
+          ]
+        },
+        "excludedNonAlgorithmicCauses": "Debug-output-only on recorded failedTest 0001: audit copy without line 6 is AC raw and LF (quirk-removal/9C-12981408.json). Not counted.",
+        "faultyLogic": "On failedTest '10' the final answer is correct (2); line 6 is debug output. (Also wrong in general when n is not binary-looking, not shown on the recorded failedTest.)",
+        "implementedAlgorithm": "Generates bin(i) strings until int(s)>=n and prints i-1; line 6 prints every generated string.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/9C/sub-12981408.json",
+          "fullRunLogSha256": "753c1e230a680de76c7bb174474aed4dbc042a334f161b6e33b3dd185b7da38e",
+          "outputHash": "93ba3d525c83aa81545ad5162844fa2491ce11faabe83df5a5d719d99ec7bd92",
+          "path": "archive/9C/sub-12981408-lf.json",
+          "sha256": "7750872cd8a11970ccc41298659194a340a3250e8923bb0b4face8717a81084f",
+          "sourceFile": "archive/9C/source-12981408.txt",
+          "sourceFileSha256": "e5805c8112f3837f127b3fe65257c6462b888786b5255e9290ce4bb401bb9cde",
+          "verdict": "WA"
+        },
+        "sourceHash": "e5805c8112f3837f127b3fe65257c6462b888786b5255e9290ce4bb401bb9cde",
+        "sourceLines": [
+          {
+            "code": "n = int(input())\ns = '0'\ni = 1\nwhile (int(s) < n):\n    s = bin(i)[2:]\n    print(s)\n    i += 1\nprint(i - 1)",
+            "end": 8,
+            "start": 1
+          }
+        ]
+      },
       "test": "0001"
     },
     "16338221": {
       "kind": "wrong-answer",
       "reason": "loop range(1,n) never breaks for n=1 so nothing is printed (missing boundary handling); 1 -> empty, correct 1",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/9C-16338221.json",
+        "counterexample": {
+          "actualAnswer": "",
+          "actualOutputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "constraints": "n=1 (minimum).",
+          "correctAnswer": "1",
+          "derivation": "Count of integers in [1,n] whose decimal digits are all 0/1: enumerate the 2^10-1 numbers formed from binary strings starting with 1 and count those <= n. n=1: only 1 qualifies -> 1. Source: range(1,1) is empty -> prints nothing.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+          "packageExpectedOutput": "1",
+          "test": "0012",
+          "validLFInput": "1\n",
+          "validLFInputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        "excludedNonAlgorithmicCauses": "Counted as a genuine search-range defect on a valid boundary input, but note the actual output is EMPTY (no number). Disposition of 9C is rejected regardless.",
+        "faultyLogic": "Line 3 search range range(1,n) is too short for n<=2: the terminating i (bin(i) read as decimal > n) is never reached, so no answer is printed for valid n=1.",
+        "implementedAlgorithm": "For i in 1..n-1 prints i-1 at the first i whose binary representation read as decimal exceeds n.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/9C/sub-16338221.json",
+          "fullRunLogSha256": "d2dd2b503e298c07365bc969798f114ea3a40b5b1fb94d61745f3b8a2828d96e",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "archive/9C/sub-16338221-lf.json",
+          "sha256": "8c8e3364c5e2f9fcefcc1996f9910f8ce024e4bc9889981039fe8a7d5bb8d7f7",
+          "sourceFile": "archive/9C/source-16338221.txt",
+          "sourceFileSha256": "a2f28851bd3b065439bdb0228e4e5c7b3ee8603d91a49179384d91878569acf3",
+          "verdict": "WA"
+        },
+        "sourceHash": "a2f28851bd3b065439bdb0228e4e5c7b3ee8603d91a49179384d91878569acf3",
+        "sourceLines": [
+          {
+            "code": "def main():\n    n = int(input())\n    for i in range(1, n):\n        if int(bin(i)[2:]) > n:\n            print(i - 1)\n            break\n\n\nif __name__ == '__main__':\n    main()",
+            "end": 10,
+            "start": 1
+          }
+        ]
+      },
       "test": "0012"
     },
     "4922767": {
       "kind": "crlf-artifact-not-counted",
       "reason": "on failedTest 0001 (10) raw CRLF output 8; LF-normalized output 2 (AC), so the recorded failure is the '\\r' character",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "binding": "bindings/9C-4922767.json",
+        "excludedNonAlgorithmicCauses": "CRLF artifact on recorded failedTest 0001: LF-normalized '10' gives 2 (AC, archive/9C/sub-4922767-lf.json); raw WA because the trailing '\\r' (>'1') hits line 3. Not counted; see extraCapturedCase.",
+        "extraCapturedCase": {
+          "actual": "2",
+          "expected": "1",
+          "input": "9\n",
+          "log": "archive/9C/sub-4922767.json",
+          "notCounted": true,
+          "note": "LF-only authored input where the source is wrong; recorded failedTest/counted evidence unchanged.",
+          "outputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "test": "0038"
+        },
+        "faultyLogic": "Line 5 precedence bug: 1 << ((len(n)-1) + f(n[1:])) instead of (1<<(len-1)) + f(rest); wrong in general but correct for '10'.",
+        "implementedAlgorithm": "Recursive digit DP over the input string: digit>1 -> 1<<len; digit 0 -> recurse; digit 1 -> 1<<(len-1) + f(rest) intended.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/9C/sub-4922767.json",
+          "fullRunLogSha256": "206a0d37b3793a932c684cbc3016537a6d9c9d335eb53a696282bc208dad1af2",
+          "outputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "path": "archive/9C/sub-4922767-lf.json",
+          "sha256": "e05588e7ca0a1a5b8f5f641171ed6676dc92b511cb8b299ef88bafab33999280",
+          "sourceFile": "archive/9C/source-4922767.txt",
+          "sourceFileSha256": "58a4c56ef9b089e2c9e232273a4c13b7812ea63fcde6d9b003d371aa446b0d15",
+          "verdict": "AC"
+        },
+        "sourceHash": "58a4c56ef9b089e2c9e232273a4c13b7812ea63fcde6d9b003d371aa446b0d15",
+        "sourceLines": [
+          {
+            "code": "def f(n):\n    if len(n) == 0: return 0\n    if n[0] > '1': return 1 << len(n)\n    if n[0] == '0': return f(n[1:])\n    return 1 << (len(n) - 1) + f(n[1:])\nprint(f(input()))",
+            "end": 6,
+            "start": 1
+          }
+        ]
+      },
       "test": "0001"
     },
     "6642142": {
       "kind": "wrong-answer",
       "reason": "prints the first i whose binary-looking value is >= n, which is count+1 whenever n itself is not binary-looking; 20 -> 4, correct 3",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/9C-6642142.json",
+        "counterexample": {
+          "actualAnswer": "4\n",
+          "actualOutputSha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+          "constraints": "n=20 in 1..1e9.",
+          "correctAnswer": "3",
+          "derivation": "Count of integers in [1,n] whose decimal digits are all 0/1: enumerate the 2^10-1 numbers formed from binary strings starting with 1 and count those <= n. n=20: 1,10,11 -> 3. Source stops at toBin(4)=100 and prints 4.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "8ce88a8842c1584e3d6871e84e166e3b513c3ce2a9da6166760c7af1645dea29",
+          "packageExpectedOutput": "3",
+          "test": "0002",
+          "validLFInput": "20\n",
+          "validLFInputSha256": "5378796307535df3ec8d8b15a2e2dc5641419c3d3060cfe32238c0fa973f7aa3"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input.",
+        "faultyLogic": "Lines 13-16 print the index of the first binary-looking number >= n, which is count+1 whenever n itself is not binary-looking.",
+        "implementedAlgorithm": "Increments i while toBin(i) (binary representation of i read as decimal) < n, then prints i.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/9C/sub-6642142.json",
+          "fullRunLogSha256": "9bfd59a4dfb71482f72fba588404812146f138a85a93de0875f6499a597f113f",
+          "outputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+          "path": "archive/9C/sub-6642142-lf.json",
+          "sha256": "a47052e4e44de884b4da044d8b8aaaf1eab22fce517c8dc5efb8a87ab9fb2821",
+          "sourceFile": "archive/9C/source-6642142.txt",
+          "sourceFileSha256": "f4e6400b28cae05910ad50ffcad64238c81aced552418765c11c81885d83d032",
+          "verdict": "WA"
+        },
+        "sourceHash": "f4e6400b28cae05910ad50ffcad64238c81aced552418765c11c81885d83d032",
+        "sourceLines": [
+          {
+            "code": "def toBin( i ):\n    n = \"\"\n    while i > 0:\n        n += str( i % 2 )\n        i = i // 2\n\n    return int( n[ :: -1 ] )\n\ndef main( ):\n    n = int( input( ) )\n    i = 1\n    while toBin( i ) < n:\n        i += 1\n    print( i )",
+            "end": 16,
+            "start": 3
+          }
+        ]
+      },
       "test": "0002"
     }
   },
   "packageHash": "2543c8c148692aed630b752332844f5685f074aa22bebf8bbb7266afbed83ca5",
+  "previousAuditDigest": "c163cf201e3047133782a82dae3b70ef9ac69f3d2681180cc044648a97f21bf5",
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
@@ -55,6 +271,8 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4",
   "reviewer": "devin-21803116a99741d7a7672cde5aff36d4 (independent rating1200 auditor, https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4)",
   "schemaVersion": 1,
+  "semanticReviewArchive": "rating1200-semantic-645B-9C.tar.gz (see README)",
+  "semanticReviewPerformed": "Source-specific semantic re-review: the auditor read the full code of each of the 5 designated-wrong sources, wrote the implemented algorithm/fault from that code, cited exact source lines, and derived each correct answer from the problem semantics. Counterexamples bind to unchanged executionVersion2 LF execution logs in the original archive.",
   "verification": {
     "archiveFilesAllMatchProvenance": true,
     "archiveSha256": "1c20eec2e94f10a69f5dff424dc59cb445a131d428fad8bba32c75157ce9620f",
