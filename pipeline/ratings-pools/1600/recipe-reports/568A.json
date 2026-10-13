@@ -1,0 +1,459 @@
+{
+  "baseCommit": "5b28d333",
+  "bruteCheckDomains": "all valid p,q<=60 (exhaustive), 1500 fixed-seed random valid pairs over the full domain (seed 568002), every one of the 10991 exact-equality fractions pi(n)/rub(n) of suffix records with p,q<=10^4, every extra, and literal scans for p,q<=8 with answer<3000.",
+  "bruteChecks": 16299,
+  "bruteReference": "Three references different from the record oracle: (1) brute(): separate list-of-bool sieve and arithmetic digit-reversal palindrome filter, then per palindrome segment [P_k,P_{k+1}-1] where rub=k the largest n is min(P_{k+1}-1, prime_{floor(pk/q)+1}-1); (2) literal_scan(): trial-division primality and string reversal scanning n=1..30000 for small answers; (3) unit test numpy cumulative pi/rub arrays and the last index of q*pi<=p*rub over 1..2*10^6 for every extra and official case. Table constants pi(10^k), pi(2*10^6)=148933, rub(10^6)=1998, rub(2*10^6)=2998 asserted.",
+  "exclusionCheck": {
+    "customChecker": false,
+    "fileIO": false,
+    "floating": false,
+    "imageMissing": false,
+    "interactive": false,
+    "multipleValidOutputs": false,
+    "note": "Single integer output, unique by definition (maximum n). Token comparison exact. Under the constraints the answer always exists, so the alternative sentence is unreachable; no official test prints it."
+  },
+  "extras": {
+    "categories": {
+      "adversarial": 150,
+      "boundary": 10,
+      "maxSize": 14
+    },
+    "count": 174,
+    "includes": "minima A=1/42 (1 42 and 238 9996), A=1 with p=q=1 and 10^4, A=42 in four forms (answer 1179858, the legal maximum answer), 10000/239 and 9995/238, every integer A=1..41 and 1/q for q=2..41, exact-equality and just-below fractions at ~30 suffix records, 16 equality fractions where float(p/q)*rub(n) rounds below pi(n), non-monotone first-failure traps, 20 fixed-seed random fractions.",
+    "motivation": "Selected WA/TLE Python sources: first-failure stop loops (224608592, 225325331, 226370295), too-small tables (12594544 to 2*10^5; 111287288 to 999999; 204278783 typo n1=170), rub missing n=1 (31034272), pi zeroed at composites (203660047), wrong quantity (204313087 palindromic primes), float A=p/q comparisons (111287288, 196149994, 203657679, 224608592). Mutant re-implementations (not the sources) are asserted killed in test_recipe_568A.",
+    "mutantKills": {
+      "firstFailureStop (224608592, 225325331, 226370295)": 79,
+      "float p/q comparison (111287288, 196149994, 203657679, ...)": 18,
+      "integer A=p//q": 80,
+      "pi zero at composites (203660047 is_prime[i] prefix only at primes)": 174,
+      "rub missing 1 (31034272 t[1]=0)": 122,
+      "table limit 170 (204278783 n1=2*10*6+10*5)": 102,
+      "table limit 199999 (12594544)": 60,
+      "table limit 999998 (111287288)": 14
+    },
+    "officialGap": "Official suite already includes A=42 and 10000/239 max cases; extras add exact-equality and float-rounding traps that the official suite lacks.",
+    "seed": 568001,
+    "sha256OfJson": "e15e22b4640330bd82a163995441aa5445ac966d641d7b73001084f5f0ce9c97"
+  },
+  "failedUpstreamPairs": [],
+  "id": "568A",
+  "inputs": {
+    "archiveBytes": 4542856,
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "file": "inputs/568A.json",
+    "fileBytes": 58519,
+    "fileSha256": "07020806fbd2444a66327d5ec9a72381ad27b597c88d3756f4647580d4bf6373",
+    "manifestEntry": {
+      "bytes": 58519,
+      "sha256": "07020806fbd2444a66327d5ec9a72381ad27b597c88d3756f4647580d4bf6373"
+    },
+    "manifestMatches": true,
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "sourceRowHash": "a4756e8ff4bc20d9ec80d160ff9f37e2b17d8574e3ad1d93b98f95e83a080a8d",
+    "sourceRowHashMatches": true,
+    "sourceRowHashRecomputed": "a4756e8ff4bc20d9ec80d160ff9f37e2b17d8574e3ad1d93b98f95e83a080a8d",
+    "sourceShard": {
+      "bytes": 486411551,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00005-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "fd11e585063299408af6ebc747ee1b6e0529e69ba32eaabe7c18931b6a3d8763",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00005-of-00011.parquet"
+    }
+  },
+  "notAuditNotSignoffNotValidated": true,
+  "officialReview": {
+    "failures": [],
+    "generatedTests": 0,
+    "lineEndings": "All 27 official tests are CRLF (\"p q\\r\\n\" / \"n\\r\\n\"); samples have no trailing newline. parse uses strip().splitlines(), so both are accepted; integer-token output is unaffected by CR.",
+    "maxOfficialAnswer": 1179858,
+    "officialComplete": true,
+    "officialCount": 27,
+    "samples": 3,
+    "testsetSize": 27
+  },
+  "oracle": "If n qualifies and n+1 is not prime, n+1 also qualifies, so the maximum is 1 or prime-1. Bytearray sieve to 2*10^6+1 and constructed (mirrored) palindromes give (pi,rub) at each candidate prime-1; suffix records with strictly decreasing pi/rub (descending n) are binary-searched with exact q*pi<=p*rub. LIMIT=2*10^6 is justified by test_no_qualifying_n_between_limit_and_ten_million (numpy sieve to 10^7: every candidate prime-1 in [2*10^6,10^7] has pi>42*rub) and test_rosser_tail_beyond_ten_million (pi(n)>=n/ln n for n>=17; rub(n) linear upper bound per digit-length d; n/ln n minus that bound is concave so endpoint checks at 10^(d-1),10^d with ln(10^k)<=k*2.302585094, exact integer arithmetic for d=8..1000; beyond that 10^(d-1)/(2.31d) dwarfs 42*11*10^(d/2)).",
+  "recipeFiles": [
+    "pipeline/ratings-pools/1600/recipe_568A.py",
+    "pipeline/ratings-pools/1600/test_recipe_568A.py"
+  ],
+  "role": "recipe-author",
+  "selectedSubmissions": {
+    "count": 32,
+    "entries": [
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 27.0,
+        "sourceBytes": 703,
+        "sourceSha256": "74580f0869c5490b2d24863529a1c92b529f4183845776e41f2b7256f6d36a4c",
+        "submissionId": "12441386",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 27.0,
+        "sourceBytes": 1114,
+        "sourceSha256": "86acd106ab0644a9b32cf4d0c0a591fc56d0f4b722c4462dbd5548b2b41fd4d1",
+        "submissionId": "12441398",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 27.0,
+        "sourceBytes": 1354,
+        "sourceSha256": "ae5de3bd9a675d5ada4cd613a89ab181d26ec8d8951b9f2ed0bf22e8558feb65",
+        "submissionId": "12441406",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 27.0,
+        "sourceBytes": 1115,
+        "sourceSha256": "e8e6ad23499f9e89953bdd7c7866172056945955d0044377a8c206873bf248ae",
+        "submissionId": "12441441",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 27.0,
+        "sourceBytes": 956,
+        "sourceSha256": "d460b20027e1389360add73fb7ec329aa753851b424bcf6c923a415865c8bf73",
+        "submissionId": "12441444",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 27.0,
+        "sourceBytes": 879,
+        "sourceSha256": "c469947a357820a5f21af539de3fa95b49d288dc479fb9101405cfa9f9c817cb",
+        "submissionId": "12441446",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 27.0,
+        "sourceBytes": 795,
+        "sourceSha256": "21adca56845faa8e6d3fba2c5ac53da4c0c1f8fe56758f32631c5661a7e96af0",
+        "submissionId": "12441451",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 27.0,
+        "sourceBytes": 1107,
+        "sourceSha256": "cb3bd3ad96c7fde2db109701d8e3206b5d298d6e2363f665517143a5734fd991",
+        "submissionId": "12441455",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 27.0,
+        "sourceBytes": 928,
+        "sourceSha256": "c1a694f28cb2295937b177e3927ae0e7793dbcffd56829b2c20e31fc617eeba1",
+        "submissionId": "12441459",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 27.0,
+        "sourceBytes": 1228,
+        "sourceSha256": "cf9b81628859a05e6ab2c224463a9be42659673210c082856708449b246fcf5c",
+        "submissionId": "12441471",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 27.0,
+        "sourceBytes": 972,
+        "sourceSha256": "8e7afe84ec45fd033ff2b4864a4953048d955ddb2e98e8137ea853dc58ae36bb",
+        "submissionId": "12441477",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 27.0,
+        "sourceBytes": 752,
+        "sourceSha256": "f33ff37e75d47f0e8c6acec7b0518fddac0f70f09401e8fb254b6a9438692484",
+        "submissionId": "12441486",
+        "verdict": "OK"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 4.0,
+        "sourceBytes": 503,
+        "sourceSha256": "6d5df6aee8a3f743a1b8cd7d7411741e921df9545059663134768980cb8f439c",
+        "submissionId": "12594544",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 0.0,
+        "sourceBytes": 433,
+        "sourceSha256": "eaf218c0aefb54cd7dad10225969daa519ec422eb91a8fd26441d1079447b31b",
+        "submissionId": "31034272",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 0.0,
+        "sourceBytes": 1432,
+        "sourceSha256": "ec288c0624d42855ea270d96c57c76f6a175863fde3e4eb36d6ba71b7488dd7a",
+        "submissionId": "43665432",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 0.0,
+        "sourceBytes": 1116,
+        "sourceSha256": "95ea5eb85adb73bc9e9e8ff8d1bf8f1916e17d2b309837b8c6031936bf8b7554",
+        "submissionId": "43665663",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 0.0,
+        "sourceBytes": 1014,
+        "sourceSha256": "07002e1f936c29c6401cf3ecedbca223d23136b4948af84fb0fc54569780769c",
+        "submissionId": "43668019",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 4.0,
+        "sourceBytes": 443,
+        "sourceSha256": "8fb584b9a42237ee140611fd59e57c67530e1c4c9b7ea9e6bee18b4cdaa2edf0",
+        "submissionId": "111287288",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 0.0,
+        "sourceBytes": 897,
+        "sourceSha256": "982a7c71da31becf14e03876db9ffdf16ea2c1c2c62b4b4f43a92f5961b2fc15",
+        "submissionId": "111853687",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 0.0,
+        "sourceBytes": 861,
+        "sourceSha256": "63f99129fde48fbd6326b99d2601da253f1c660dcf01475a5b5e2d01df29114f",
+        "submissionId": "196149994",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 0.0,
+        "sourceBytes": 638,
+        "sourceSha256": "287c7192d0440d0d35fba9bcba1665c0d5ccaad8846d9ebd725cf8bf0d53f553",
+        "submissionId": "203657679",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 0.0,
+        "sourceBytes": 419,
+        "sourceSha256": "a171e70526b8bef4e08e83478f0633532845c9fe7d4d09896f671e11e8a16552",
+        "submissionId": "203660047",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 2.0,
+        "sourceBytes": 412,
+        "sourceSha256": "4c015c946e3b030e8209d9dc646e8769db6a473c69c0c72b640c98116565f750",
+        "submissionId": "204278783",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 0.0,
+        "sourceBytes": 954,
+        "sourceSha256": "837ea284a4c6b225efc34d3de1b2d9d25732c52125e5632a9c40e43c3d8ab445",
+        "submissionId": "204293735",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 0.0,
+        "sourceBytes": 600,
+        "sourceSha256": "fc0345a6774b55f7c2258ee7a72073c119343db3380c59fee60fdd97eb218364",
+        "submissionId": "204313087",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 0.0,
+        "sourceBytes": 515,
+        "sourceSha256": "2bc62ac1c094c2cdaafa00c0cca8ff99f37578d7099a2bb858a9164524e3d6d6",
+        "submissionId": "224003405",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 0.0,
+        "sourceBytes": 835,
+        "sourceSha256": "008459ccabd24ff6daa404b3471a83145598158d419f4480f23ee39ac384846a",
+        "submissionId": "224595713",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 0.0,
+        "sourceBytes": 1170,
+        "sourceSha256": "720482a0ea9b0f975819451e68d367ce31c3e507817b445333de93034ce49f15",
+        "submissionId": "224595845",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 2.0,
+        "sourceBytes": 992,
+        "sourceSha256": "81d7c4f6dbbde0e704be47e07ac635997dcf03e0b7ecdf9d00b7614ec7e3f456",
+        "submissionId": "224608592",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 2.0,
+        "sourceBytes": 842,
+        "sourceSha256": "677e566fff8d8947087b2b15c362e79cc55b2a645b986f1ca644105dac687fb7",
+        "submissionId": "225325331",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 0.0,
+        "sourceBytes": 771,
+        "sourceSha256": "de5154a1f0259f027effb9d4066b0305cff513b65948046a6b4dcb55bc9898e1",
+        "submissionId": "226369938",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00024-of-00036.parquet",
+        "parquetSha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+        "passedTestCount": 0.0,
+        "sourceBytes": 609,
+        "sourceSha256": "1f9e01cc9395b5dee1f82e372518c65586d5930441e56d74c168b326eed0c0be",
+        "submissionId": "226370295",
+        "verdict": "WRONG_ANSWER"
+      }
+    ],
+    "executed": false,
+    "note": "Sources inspected only, never executed. All 9 WRONG_ANSWER and 11 TIME_LIMIT_EXCEEDED selections are Python 3; 224003405 (TLE) also prints p, q and every qualifying n (debug/presentation, not algorithmic proof); TLE-only selections are not wrong-algorithm evidence. 12 OK are C++.",
+    "verdicts": {
+      "OK": 12,
+      "TIME_LIMIT_EXCEEDED": 11,
+      "WRONG_ANSWER": 9
+    }
+  },
+  "semantics": "One line \"p q\", positive integers p,q<=10^4 with 1/42<=p/q<=42 (bounds in the Codeforces TeX image, also in the row TeX). pi(n) counts primes <=n, rub(n) counts positive decimal palindromes <=n. Unique output: the maximum n with q*pi(n)<=p*rub(n), one integer. n=1 always qualifies (pi=0) and for A<=42 no n>=2*10^6 qualifies (sieve to 10^7 plus a concave Rosser-bound tail), so the maximum exists and the \"Palindromic tree\" sentence is unreachable. The maximum is always some prime minus one; the oracle binary-searches suffix records of pi/rub over those candidates with exact integer cross-multiplication. Checked against a per-palindrome-segment nth-prime brute and a literal trial-division scan.",
+  "statement": {
+    "comparison": "Description, output format and all three samples match the public statement text. The public page renders the two input constraints only as TeX PNG images (viewed: A=p/q; p,q<=10^4, 1/42<=p/q<=42); the row keeps them as TeX ($$A = \\frac{p}{q}$$, $$p,q \\leq 10^4, \\frac{1}{42} \\leq \\frac{p}{q} \\leq 42$$), so no superscript was lost.",
+    "imageMissing": false,
+    "inputMode": "stdio",
+    "memoryLimitMB": 256.0,
+    "normalizationNeeded": false,
+    "normalizationProposal": null,
+    "note": "row note is None; no figure in the original statement.",
+    "publicSource": {
+      "bodyBytes": 59106,
+      "bodySha256": "dbe6c236dbb2b2b47a7cfbcc6862e749e542bcb8b09868a357f5ed35fb9205be",
+      "constraintImages": [
+        {
+          "readsAs": "A = p/q",
+          "sha256": "497b93fafaf6de879e9265db8bb05f710700c04a99df82812a92354fb4c6cfcb",
+          "url": "https://espresso.codeforces.com/041bd986f782f4473b6391bc9e8fd014d9ba53f8.png"
+        },
+        {
+          "readsAs": "p, q <= 10^4, 1/42 <= p/q <= 42",
+          "sha256": "f4c3139df46b6e77f2ccfecee95810145bdb0982722cbc16d6d247cb149e453a",
+          "url": "https://espresso.codeforces.com/33b89d29647f62d25a0dad09f24bb0db3ba22b17.png"
+        }
+      ],
+      "fetchedAt": "2026-10-13T02:19Z",
+      "problemStatementDivByteRange": [
+        36683,
+        40167
+      ],
+      "problemStatementDivSha256": "e781b388fe0b5813f17607e258e55bc6579fe9c4bce4388e7eec7449036cd7a4",
+      "url": "https://codeforces.me/problemset/problem/568/A?locale=en"
+    },
+    "rowInputFormat": "The input consists of two positive integers p, q, the numerator and denominator of the fraction that is the value of A ($$A = \\frac{p}{q}$$, $$p,q \\leq 10^4, \\frac{1}{42} \\leq \\frac{p}{q} \\leq 42$$).",
+    "timeLimitSeconds": 3.0,
+    "title": "Primes or Palindromes?"
+  },
+  "statementCopy": "pipeline/ratings-pools/1600/statement-sources/568A.recipe-author.original.html",
+  "tests": {
+    "command": "python3 -m unittest test_recipe_568A (from pipeline/ratings-pools/1600)",
+    "numpyRequiredFor": "Vectorized class (skipped if numpy missing)",
+    "unitTests": 16
+  }
+}
