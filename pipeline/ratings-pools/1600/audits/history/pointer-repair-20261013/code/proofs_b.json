@@ -1,0 +1,650 @@
+{
+ "11B/10166888": {
+  "algorithm": "linear search T(i) vs a, then i + 2(a-p)",
+  "fault": "no abs() for negative x (prints 2x for x=-1e9) and the positive branch uses the non-minimal i+2(a-p) walk",
+  "faultyLines": [
+   1,
+   10,
+   15,
+   16,
+   17,
+   22
+  ]
+ },
+ "11B/11086185": {
+  "algorithm": "k = ceil float sqrt, then k, k+1 or k+2",
+  "fault": "when T(k)-x is even and nonzero the answer is k, but it prints k+1 or k+2; float sqrt also",
+  "faultyLines": [
+   7,
+   11,
+   12,
+   13,
+   14
+  ]
+ },
+ "11B/5293912": {
+  "algorithm": "n from float sqrt, then n, n+1 or n+2 by parity",
+  "fault": "only considers n+1 or n+2 after the first k(k+1)/2 >= x; the answer can be n+3 (x=1e9: prints 44722, expected 44723)",
+  "faultyLines": [
+   3,
+   6
+  ]
+ },
+ "11B/7047288": {
+  "algorithm": "binary search smallest b with b(b+1)/2 >= x, then b or b+1 by parity",
+  "fault": "returns b or b+1; when parity needs two more steps the answer is b+2",
+  "faultyLines": [
+   12,
+   13,
+   14
+  ]
+ },
+ "11B/7620572": {
+  "algorithm": "largest i with T(i) <= n, then i + 2(n - T(i))",
+  "fault": "back-and-forth correction costs 2 jumps per unit; not minimal (1e9 -> 121600, expected 44723)",
+  "faultyLines": [
+   18,
+   19,
+   20,
+   22,
+   23
+  ]
+ },
+ "235A/12554369": {
+  "algorithm": "n(n-1)(n-2)",
+  "fault": "wrong for even n >= 4 (6 -> 120, expected 60)",
+  "faultyLines": [
+   3
+  ]
+ },
+ "235A/14107624": {
+  "algorithm": "lcm(n, n-1, n-2)",
+  "fault": "only the triple (n, n-1, n-2); for even n other triples give a larger lcm",
+  "faultyLines": [
+   15
+  ]
+ },
+ "235A/5164298": {
+  "algorithm": "pruned triple search descending from n with gcd checks",
+  "fault": "s is only set inside the innermost loop with c=b-1>=1; for n=1 (and small n) no triple is evaluated and it prints 0",
+  "faultyLines": [
+   6,
+   8,
+   11,
+   12,
+   13
+  ]
+ },
+ "235A/6367509": {
+  "algorithm": "n(n-1) times the largest i coprime to both (odd n) or max(n(n-1)i, n(n-1)(n-2)/2) (even n), float division",
+  "fault": "for even n the candidate (n-1)(n-2)(n-3) is never considered (needed when 3|n), and res/2*(n-2) is float (prints 60.0)",
+  "faultyLines": [
+   5,
+   7
+  ]
+ },
+ "235A/7363291": {
+  "algorithm": "n(n-1)(n-2)/gcd(n-1, gcd(n, n-2))",
+  "fault": "for even n the best is n(n-1)(n-3) or (n-1)(n-2)(n-3); dividing by a gcd is not an lcm of three",
+  "faultyLines": [
+   11,
+   12,
+   13
+  ]
+ },
+ "322B/3975671": {
+  "algorithm": "try i = 0..2 mixed bouquets, then per-colour //3",
+  "fault": "no i <= min(r,g,b) check: negative (r-i)//3 counts infeasible mixed bouquets (0 2 2 -> 1, expected 0)",
+  "faultyLines": [
+   9,
+   10
+  ]
+ },
+ "322B/3976774": {
+  "algorithm": "max over i=0..2 of i + sum((c-i)//3) + min residue",
+  "fault": "same missing i <= min check plus an extra min-residue term; overcounts (0 2 2 -> 1)",
+  "faultyLines": [
+   3
+  ]
+ },
+ "322B/3984791": {
+  "algorithm": "max over i=0..3 of sum((c-i)//3)",
+  "fault": "subtracts i flowers per colour but never adds the i mixed bouquets made from them (4 4 4 -> 3, expected 4)",
+  "faultyLines": [
+   8,
+   9,
+   10,
+   11
+  ]
+ },
+ "322B/3984918": {
+  "algorithm": "as 3984791 plus min residue",
+  "fault": "adds min residue instead of the i mixed bouquets; allows negative counts (8 8 9 -> 7, expected 8)",
+  "faultyLines": [
+   8,
+   9,
+   10,
+   11
+  ]
+ },
+ "322B/3992696": {
+  "algorithm": "greedy: m=min(r,g,b) mixed bouquets first, then (c-m)/3 per colour with true division, int() of the float sum",
+  "fault": "line 3 uses true division '/': fractional remainders add up to whole phantom bouquets (7 8 9: 7 + 1/3 + 2/3 = 8.0 -> 8, expected 7); taking all min mixed bouquets first is also not optimal in general",
+  "faultyLines": [
+   2,
+   3,
+   5
+  ]
+ },
+ "373B/18229661": {
+  "algorithm": "converts m to a digit offset pre, adds it to the digit budget, counts numbers covered from 1",
+  "fault": "prints ans - pre, subtracting the digit offset pre instead of the count m-1 of numbers before m",
+  "faultyLines": [
+   12,
+   14,
+   26
+  ]
+ },
+ "373B/5434704": {
+  "algorithm": "fill the rest of m's digit block, then whole blocks while affordable, then binary search inside the last block",
+  "fault": "num += (aim - m)*ln adds digits instead of numbers for the first partial block (line 14 correctly adds the count 9*10**(ln-1)); for m=9999999999999999 it counts 16 numbers instead of 1, so the answer is 15 too large",
+  "faultyLines": [
+   7
+  ]
+ },
+ "373B/5456904": {
+  "algorithm": "digit length from int(log(m,10)), then per-block cost loop",
+  "fault": "int(log(m,10)) is float: log(1000000000000001,10) = 14.999999999999998 -> z=14, so the first block boundary 10**15 is below m and the block arithmetic (zlom - m negative) undercounts by one",
+  "faultyLines": [
+   5,
+   6
+  ]
+ },
+ "373B/5529580": {
+  "algorithm": "w//k digits budget, partial first block, then whole blocks of 9*10^(l-1) numbers",
+  "fault": "d = 9*s is computed from the old s before s advances (lines 13-14), so block sizes and s stop being 9*10^(l-1) and 10^l; final s - m + k//l is off",
+  "faultyLines": [
+   9,
+   13,
+   14,
+   15
+  ]
+ },
+ "373B/5602633": {
+  "algorithm": "block walk with n as the next block boundary",
+  "fault": "n = 10*s uses the digit count s instead of 10**s, so the first block boundary is wrong (for m=183 n=30 < m, cost negative)",
+  "faultyLines": [
+   4,
+   5
+  ]
+ },
+ "40B/110395900": {
+  "algorithm": "per-ring side counts top/bottom/left/right",
+  "fault": "side counts ignore the chessboard parity offset of each ring and double-count/miss corners (9 10 1 -> 18, expected 17)",
+  "faultyLines": [
+   8,
+   9,
+   12,
+   13,
+   14,
+   15
+  ]
+ },
+ "40B/154018525": {
+  "algorithm": "(n*m - (n-2x)(m-2x))//2",
+  "fault": "counts half of the outer x rings, not ring x alone (3 3 2 -> 4, expected 1)",
+  "faultyLines": [
+   3
+  ]
+ },
+ "40B/16218702": {
+  "algorithm": "walks rows of the ring rectangle [x-1, n-x] x [x-1, m-x] counting black cells",
+  "fault": "no guard for an empty ring (y2 < y1 when 2x > m): counts cells of a nonexistent ring (5000 1 3 -> 4991, expected 0)",
+  "faultyLines": [
+   3,
+   4,
+   6
+  ]
+ },
+ "40B/222705995": {
+  "algorithm": "ad-hoc: x==1 -> (nm+1)//2, else min(x, 2x-2/2x-1)",
+  "fault": "x==1 counts all black squares (inner ones are repainted more than once); other branch unrelated to the board",
+  "faultyLines": [
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ },
+ "40B/37641670": {
+  "algorithm": "black cells of the inner (n-2(x-1)) x (m-2(x-1)) rectangle",
+  "fault": "counts all black cells of the inner rectangle instead of only its border ring",
+  "faultyLines": [
+   3
+  ]
+ },
+ "559A/33232014": {
+  "algorithm": "uses max/min of the first three sides and a recursive odd sum",
+  "fault": "answer is (a1+a2+a3)^2 - a1^2 - a3^2 - a5^2; it ignores a4..a6 and which sides are adjacent",
+  "faultyLines": [
+   5,
+   6,
+   9,
+   13,
+   14
+  ]
+ },
+ "559A/34489355": {
+  "algorithm": "count(max)*max^2 - count + 1 + sum of other squares",
+  "fault": "unrelated formula; for all sides 1 it prints 1, expected 6",
+  "faultyLines": [
+   4,
+   5,
+   6,
+   8,
+   9,
+   10
+  ]
+ },
+ "559A/45336915": {
+  "algorithm": "sorts the six sides then builds a sum from max/min",
+  "fault": "sorting destroys adjacency; the count depends on (a1+a2+a3) and a1,a3,a5 specifically",
+  "faultyLines": [
+   7,
+   13,
+   14,
+   16,
+   17,
+   18,
+   19,
+   23,
+   24,
+   25,
+   26,
+   27,
+   30
+  ]
+ },
+ "559A/51223385": {
+  "algorithm": "hard-coded answers from the number of sides equal to 1",
+  "fault": "6 + 2*count(1) + 1 is not the triangle count; ignores side lengths",
+  "faultyLines": [
+   4,
+   5,
+   6,
+   7
+  ]
+ },
+ "559A/67983749": {
+  "algorithm": "sums odd numbers for two trapezoids built on l[0],l[1] and l[5],l[4]",
+  "fault": "a1*(2*a2+a1) + a6*(2*a5+a6) splits the hexagon along the wrong sides; correct count is (a1+a2+a3)^2 - a1^2 - a3^2 - a5^2",
+  "faultyLines": [
+   3,
+   4,
+   5,
+   6
+  ]
+ },
+ "55B/12981545": {
+  "algorithm": "greedy: '*' multiplies the two smallest, '+' adds the two largest",
+  "fault": "greedy pair choice is not optimal (0012 prints 636756, expected 445884)",
+  "faultyLines": [
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ },
+ "55B/4652420": {
+  "algorithm": "all permutations, both tree shapes ((ab)c)d and (ab)(cd), take min",
+  "fault": "res starts at 1000*4 = 4000; results can be up to 1e12, so when every result exceeds 4000 it prints 4000 (0007 expected 76908)",
+  "faultyLines": [
+   9
+  ]
+ },
+ "55B/5592269": {
+  "algorithm": "sorts numbers and special-cases operation strings with a fixed merge shape",
+  "fault": "line 13 prints intermediate values (a b c ops) instead of an answer for '*'-first sequences other than '*+*'/'**+'; line 14 always merges the two largest with '+' first and evaluates a*b + (c+d), never e.g. (c+d)*0 + 1 (1 1000 0 2 / + * + -> 1002, expected 1)",
+  "faultyLines": [
+   12,
+   13,
+   14
+  ]
+ },
+ "55B/6993846": {
+  "algorithm": "brute force over ordered pairs per step with eval",
+  "fault": "m starts at 2**12 = 4096; results above 4096 are never reported (0007 prints 4096, expected 76908)",
+  "faultyLines": [
+   33
+  ]
+ },
+ "55B/9391707": {
+  "algorithm": "counts '*' vs '+' and applies a fixed formula on sorted numbers",
+  "fault": "ignores the order of operations; fixed formulas per multiplication count are wrong (0008 prints 23, expected 0)",
+  "faultyLines": [
+   10,
+   11,
+   12,
+   13,
+   14,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23
+  ]
+ },
+ "665A/17401739": {
+  "algorithm": "enumerate B->A departures from 05:00 every b, count if departure in [start,finish) or arrival in (start,finish)",
+  "fault": "misses buses that depart before Simion leaves and arrive after he arrives (they meet en route); correct test is busStart < finish and busFinish > start",
+  "faultyLines": [
+   15,
+   16
+  ]
+ },
+ "665A/17402192": {
+  "algorithm": "window [time - tb, time + ta] over departures from 300",
+  "fault": "current >= start with start = time - tb counts a bus arriving at A exactly when Simion departs (meeting at the city, excluded); end clamped to 1439 with <= also mis-bounds",
+  "faultyLines": [
+   12,
+   15,
+   23
+  ]
+ },
+ "665A/17402485": {
+  "algorithm": "closed form (t+ta-max(t-tb,0))//b",
+  "fault": "divides the window length by b, ignoring departure phase (multiples of b from 05:00), open-interval endpoints and the 23:59 last departure",
+  "faultyLines": [
+   5
+  ]
+ },
+ "665A/17402672": {
+  "algorithm": "binary search for buses already arrived, end//b minus that",
+  "fault": "lower count off by one (r used as count of arrived buses incl. boundary), tb>=basic special case resets to 0, and end//b is not clamped to the last 23:59 departure",
+  "faultyLines": [
+   7,
+   10,
+   15,
+   17
+  ]
+ },
+ "665A/17403213": {
+  "algorithm": "clamp [t-tb, t+ta] to the day and divide by b",
+  "fault": "(end-start)/b counts window length, not the departures (multiples of b) strictly inside the window",
+  "faultyLines": [
+   8,
+   9,
+   11
+  ]
+ },
+ "678B/33404048": {
+  "algorithm": "accumulate day shifts year by year until shift%7==0 with matching leap status",
+  "fault": "x is incremented before the first judge(x), so it accumulates the length of years n+1..y instead of n..y-1 (off-by-one year), and the leap check at line 19 is applied to the accumulated year",
+  "faultyLines": [
+   11,
+   13,
+   19
+  ]
+ },
+ "678B/33851993": {
+  "algorithm": "weekday walk of years, stop at shift 0 with matching leap status",
+  "fault": "leap-status match uses n%4 / ans%4 instead of the Gregorian rule: for non-leap century n=1000 it requires ans to be a non-leap century, returning 1400 instead of 1006",
+  "faultyLines": [
+   14,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23
+  ]
+ },
+ "678B/36948127": {
+  "algorithm": "hard-coded offsets +28 / +6 / +11 by n mod 4",
+  "fault": "fixed offsets ignore century years (non-leap 1900, 2100...) inside the interval; for n=1000 (non-leap, n%4==0) prints 1011, expected 1006",
+  "faultyLines": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7
+  ]
+ },
+ "678B/36948401": {
+  "algorithm": "leap n -> n+28; else walk years until shift%7==0",
+  "fault": "n+28 is wrong when a non-leap century lies in between (1872 -> 1900 is not a leap year); non-leap branch never checks the answer year is non-leap",
+  "faultyLines": [
+   2,
+   3,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13
+  ]
+ },
+ "678B/36948709": {
+  "algorithm": "walk years until shift%7==0, extra leap check for leap n",
+  "fault": "for non-leap n (x=0) it stops at the first shift%7==0 without requiring a non-leap answer (2002 -> 2008, a leap year); for leap n the mismatch fix adds a fixed +1 shift",
+  "faultyLines": [
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   22,
+   23
+  ]
+ },
+ "845B/29653934": {
+  "algorithm": "answer from |sum difference| thresholds only",
+  "fault": "ignores which digits can change and by how much (123456 -> 1, expected 2)",
+  "faultyLines": [
+   19,
+   20,
+   21,
+   22,
+   23,
+   24
+  ]
+ },
+ "845B/29655105": {
+  "algorithm": "repeatedly edits the smaller half's minimum digit",
+  "fault": "only raises the smaller half and sets the digit to 9-min instead of 9; never lowers the larger half (899888 -> 2, expected 1)",
+  "faultyLines": [
+   10,
+   11,
+   14,
+   21,
+   22,
+   25
+  ]
+ },
+ "845B/29655296": {
+  "algorithm": "floor(|diff|/9) + 1",
+  "fault": "ignores the digits (999000 -> 4, expected 3)",
+  "faultyLines": [
+   7
+  ]
+ },
+ "845B/29655583": {
+  "algorithm": "ceil(|diff|/9)",
+  "fault": "ignores the digits (123456 -> 1, expected 2)",
+  "faultyLines": [
+   4,
+   5,
+   6,
+   7
+  ]
+ },
+ "845B/29655967": {
+  "algorithm": "replaces the smaller half's minimum digit by the remaining difference (capped 9)",
+  "fault": "only raises digits of the smaller half; lowering a digit of the larger half can be cheaper (899888 -> 2, expected 1)",
+  "faultyLines": [
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23
+  ]
+ },
+ "888D/104080426": {
+  "algorithm": "ans = 1 + sum C(n,i)*D(i) with float binomials",
+  "fault": "binomial loop runs min(a-b,b) factors instead of i, so C(n,i) is wrong (5 4 -> 61, expected 76)",
+  "faultyLines": [
+   6,
+   7
+  ]
+ },
+ "888D/32651455": {
+  "algorithm": "sum of derangement-weighted binomials with ad-hoc coefficients",
+  "fault": "k=3 term n(n-1)(n-2)//3 = 2*C(n,3) ok, but k=4 adds n(n-1)(n-2)(n-3) and halves the whole sum; correct is 9*C(n,4) (200 4 -> 777542751, expected 584811251)",
+  "faultyLines": [
+   6,
+   8,
+   9
+  ]
+ },
+ "888D/32719187": {
+  "algorithm": "sum([1,0,a,2b,9c][:k]) with a=C(n,2), b=C(n,3), c=C(n,4)",
+  "fault": "slice [:k] drops the j=k term (off-by-one; needs [:k+1]) (4 2 -> 1, expected 7)",
+  "faultyLines": [
+   5
+  ]
+ },
+ "888D/38350191": {
+  "algorithm": "per-k closed forms",
+  "fault": "non-cumulative: k=3 omits the C(n,2) term and uses n(n-1)(n-2)/2 instead of 2*C(n,3); k=4 likewise (200 3 -> 3940201, expected 2646701)",
+  "faultyLines": [
+   8,
+   10
+  ]
+ },
+ "888D/58168625": {
+  "algorithm": "per-k inclusion-exclusion style formulas with float division",
+  "fault": "k>=3 formulas are wrong (5 4 -> 56.0, expected 76); k=2 is numerically right but float-formatted (7.0)",
+  "faultyLines": [
+   8,
+   10,
+   12
+  ]
+ },
+ "910B/33502457": {
+  "algorithm": "tries all permutations of the six pieces, packs consecutively",
+  "fault": "inner merge loop bound i+1<n uses the bar length n instead of 6 pieces, so for n<6 pieces are never merged into one bar (n=3,a=1,b=2 prints 4, expected 3)",
+  "faultyLines": [
+   15
+  ]
+ },
+ "910B/33503403": {
+  "algorithm": "one-bar shortcut, then repeated largest-first first-fit pass per bar",
+  "fault": "greedy largest-first filling per bar is not optimal bin packing for {a,a,a,a,b,b}",
+  "faultyLines": [
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   49,
+   50,
+   51
+  ]
+ },
+ "910B/33503406": {
+  "algorithm": "first-fit of a,a,a,a then b,b into bars",
+  "fault": "first-fit in fixed order is not optimal (1000 1 998 -> 3, expected 2); line 23 also reads c[6] past the end (UB) but outputs were deterministic at -O0/-O2",
+  "faultyLines": [
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   23,
+   24
+  ]
+ },
+ "910B/33503426": {
+  "algorithm": "fill the current bar with the first remaining piece that fits, in fixed order a,a,a,a,b,b",
+  "fault": "fixed-order first-fit is not optimal (1000 1 998 -> 3, expected 2)",
+  "faultyLines": [
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28
+  ]
+ },
+ "910B/33503492": {
+  "algorithm": "simulates the fixed order a,a,b,a,a,b, discarding leftover when the next piece does not fit",
+  "fault": "single fixed order and discarding leftover space is not optimal (800 401 400 -> 6, expected 5)",
+  "faultyLines": [
+   16,
+   17,
+   24,
+   25,
+   32,
+   33,
+   40,
+   41,
+   48,
+   49
+  ]
+ }
+}
