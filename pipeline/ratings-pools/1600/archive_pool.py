@@ -22,6 +22,7 @@ def build(output, ids):
     paths = set(BASE.glob('*.py'))
     paths.update(BASE / name for name in ('inventory.json', 'api-problems.json',
                                         'submission-report.json', 'brute-report.json'))
+    paths.update(p for p in (BASE / 'audits').rglob('*') if p.is_file())
     for pid in ids:
         paths.update((BASE / 'statement-sources').glob(f'{pid}*'))
         for category in ('packages', 'state'):
@@ -51,7 +52,7 @@ def build(output, ids):
                 'files': manifest, 'validatedCount': len(validated), 'validatedIds': sorted(validated),
                 'notes': 'Archive contains current evidence and superseded diagnostics; archival completeness is not qualification.'}
     contents['1600/ARCHIVE-MANIFEST.json'] = (json.dumps(metadata, sort_keys=True, indent=2) + '\n').encode()
-    with output.open('wb') as raw, gzip.GzipFile(fileobj=raw, filename='', mode='wb', mtime=0) as zipped, tarfile.open(fileobj=zipped, mode='w') as tar:
+    with output.open('wb') as raw, gzip.GzipFile(fileobj=raw, filename='', mode='wb', mtime=0, compresslevel=1) as zipped, tarfile.open(fileobj=zipped, mode='w') as tar:
         for name, data in sorted(contents.items()):
             info = tarfile.TarInfo(name)
             info.size = len(data)
