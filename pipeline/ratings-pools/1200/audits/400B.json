@@ -20,37 +20,333 @@
   "incorrectAnalysis": {
     "16270565": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "test 0003: expected 9, prints 1.",
+      "counterexample": "0003: correct 9, actual '1'. 9 distinct distances (1..9); the minimum is 1.",
       "kind": "wrong-answer",
-      "reason": "Prints the minimum positive gap instead of the number of distinct gaps.",
+      "reason": "Prints the minimum distance instead of the number of distinct distances. It also silently drops backwards rows instead of answering -1.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1",
+          "constraints": "1<=n<=1000, 2<=m<=1000, each row has exactly one G and one S, other cells *.",
+          "correctAnswer": "9",
+          "derivation": "9 distinct distances (1..9); the minimum is 1.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "9400800c5c9811222cc53bc9b52f39e7c7263177ee8b1f30e4d53d97295287b0",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "1\n",
+            "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+            "path": "archive/400B/sub-16270565-lf-0003.json",
+            "sha256": "eb588bda78a406c87c92ca7923b4c2722404204b924dfb0ae0cb56f4aa858e4c",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/400B/summary.json",
+              "sha256": "daf94059c2aba3b9ca613f06f96be91fc0f3e58964fa321dc72d39ec1e335351",
+              "sourceHash": "fe938dbc38370f6d640ec3cd0410daeec09c8c9d4ce8b5660235382ad0468a90"
+            },
+            "verdict": "WA"
+          },
+          "test": "0003",
+          "validLFInput": "10 10\nG********S\n*G*******S\n**G******S\n***G*****S\n****G****S\n*****G***S\n******G**S\n*******G*S\n********GS\nG********S\n",
+          "validLFInputSha256": "1a9d9e61168bec544c9834623b470b2b7d0ba781a9680360e569a2c90b4b17b4",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "The LF rerun prints 1; no diagnostics; not TLE/RE.",
+        "faultyLogic": "Prints the minimum distance instead of the number of distinct distances. It also silently drops backwards rows instead of answering -1.",
+        "implementedAlgorithm": "Distances pos(S)-pos(G); keeps the positive ones; prints the minimum or -1.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "1\n",
+          "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "path": "archive/400B/sub-16270565-lf-0003.json",
+          "sha256": "eb588bda78a406c87c92ca7923b4c2722404204b924dfb0ae0cb56f4aa858e4c",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/400B/summary.json",
+            "sha256": "daf94059c2aba3b9ca613f06f96be91fc0f3e58964fa321dc72d39ec1e335351",
+            "sourceHash": "fe938dbc38370f6d640ec3cd0410daeec09c8c9d4ce8b5660235382ad0468a90"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "If some row has S left of G, the answer is -1. Otherwise each move moves every unfinished dwarf simultaneously until one reaches its candy, so rows with equal distance d = pos(S) - pos(G) finish together. Answer = number of distinct d.",
+        "recordedFailedTest": "0003",
+        "sourceHash": "fe938dbc38370f6d640ec3cd0410daeec09c8c9d4ce8b5660235382ad0468a90",
+        "sourceLines": [
+          {
+            "code": "    l = [s.find(\"S\") - s.find(\"G\") for s in l]\n    l = [x for x in l if x > 0]\n    print(min(l) if l else -1)",
+            "end": 6,
+            "start": 4
+          }
+        ]
+      },
       "test": "0003"
     },
     "17529334": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "4x8 rows with gaps 2,2,6,4 (positions (0,2),(4,6),(0,6),(2,6)): distinct gaps {2,6,4}, so expected 3; prints 4 (blank lines removed: still 4, WA).",
+      "counterexample": "0005: correct 3, actual '4'. Rows (G,S) are (0,2), (4,6), (0,6), (2,6), with distances 2,2,6,4. Distinct distances {2,4,6}: 3. Distinct position pairs: 4.",
       "kind": "wrong-answer",
-      "reason": "Counts distinct (G,S) position pairs rather than distinct S-G distances. The print() blank lines are whitespace that the token checker ignores, and with them removed the output is still 4.",
+      "reason": "Counts distinct POSITION pairs instead of distinct distances y-x, so rows at different offsets with the same distance are counted twice.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "4",
+          "constraints": "1<=n<=1000, 2<=m<=1000, each row has exactly one G and one S, other cells *.",
+          "correctAnswer": "3",
+          "derivation": "Rows (G,S) are (0,2), (4,6), (0,6), (2,6), with distances 2,2,6,4. Distinct distances {2,4,6}: 3. Distinct position pairs: 4.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "originalOutputWithDiagnostics": "\n\n\n\n4\n",
+          "packageInputSha256": "21a6a86b8d4ec2f4f9824ce70a8ca0782f1f072b0823daae835bd6a7e26f0511",
+          "proof": {
+            "label": "AUDIT-ONLY diagnostic-removed copy; upstream bytes preserved and bound by originalSourceHash",
+            "modifiedSourceHash": "7aa6dffeef20320262e09d46f9e079d8db8e76a3e3bfaa9f9e30f2635c39a991",
+            "originalSourceHash": "5d2e476d724fda4b617aec3472314dd8aa2554b754541fd928aab79fddfdbb71",
+            "output": "4\n",
+            "outputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+            "path": "semantic/diag-lf/400B-17529334-diag-removed-lf-0005.json",
+            "sha256": "222312e81c8dba031c27f44c7aba0d35ef344b5314341bebabe1391483b47013",
+            "verdict": "WA"
+          },
+          "test": "0005",
+          "validLFInput": "4 8\nG*S*****\n****G*S*\nG*****S*\n**G***S*\n",
+          "validLFInputSha256": "6a57d96d163d8bda9bb259f1aa37e6cfaffe38f891e3dad705007f544ea9d4b2",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Blank lines are whitespace, and the audit-only copy with line 32 removed still prints 4 on LF 0005 (diag-lf proof). Counted on the algorithm alone.",
+        "faultyLogic": "Counts distinct POSITION pairs instead of distinct distances y-x, so rows at different offsets with the same distance are counted twice.",
+        "implementedAlgorithm": "Per row: x = pos(G), y = pos(S). Prints \"-1\" if y < x. Collects Pair(x,y) into a set and prints the number of distinct (x,y) position pairs. Line 32 print() emits a blank line per row (diagnostic/presentation).",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "\n\n\n\n4\n",
+          "outputHash": "73bd261b4bd8dde17e9b8b9a73c821208ac70297064375d85d8b9ec7bce1aeab",
+          "path": "archive/400B/sub-17529334-lf-0005.json",
+          "sha256": "8c1501413b5200a5c72607e1737f74e4fc2f4dbf4d885dcae210ab13787f261a",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/400B/summary.json",
+            "sha256": "daf94059c2aba3b9ca613f06f96be91fc0f3e58964fa321dc72d39ec1e335351",
+            "sourceHash": "5d2e476d724fda4b617aec3472314dd8aa2554b754541fd928aab79fddfdbb71"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "If some row has S left of G, the answer is -1. Otherwise each move moves every unfinished dwarf simultaneously until one reaches its candy, so rows with equal distance d = pos(S) - pos(G) finish together. Answer = number of distinct d.",
+        "recordedFailedTest": "0005",
+        "sourceHash": "5d2e476d724fda4b617aec3472314dd8aa2554b754541fd928aab79fddfdbb71",
+        "sourceLines": [
+          {
+            "code": "    for l in list:\n        x = l.find(\"G\")\n        y = l.find(\"S\")\n        print()\n        if y < x:\n            print(\"-1\")\n            return\n        pairs.append(Pair(x, y))\n    pairs = set(pairs)\n    print(str(len(pairs)))",
+            "end": 38,
+            "start": 29
+          }
+        ]
+      },
       "test": "0005"
     },
     "32749145": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "4x10 test 0006, gaps 5,1,5,8: expected 3, prints 5. (Tests 0020/0023/0024 flip between TLE and WA across runs at about 1s CPU; the first failing test 0006 WA is identical to the recorded run.)",
+      "counterexample": "0006: correct 3, actual '5'. Rows: G3/S8 (d=5), G5/S6 (d=1), G0/S5 (d=5), G0/S8 (d=8). Distinct {1,5,8}: 3. Tracing the code gives dist = [5,3,1,6,8] (3 and 6 from stale S positions), so it prints 5.",
       "kind": "wrong-answer",
-      "reason": "Carries g/s from earlier columns and rows and appends s-g at every column scan, so dist collects spurious distances.",
+      "reason": "g and s are never reset per row and the distance is sampled at every column, so mixed stale/new positions produce spurious distances.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "5",
+          "constraints": "1<=n<=1000, 2<=m<=1000, each row has exactly one G and one S, other cells *.",
+          "correctAnswer": "3",
+          "derivation": "Rows: G3/S8 (d=5), G5/S6 (d=1), G0/S5 (d=5), G0/S8 (d=8). Distinct {1,5,8}: 3. Tracing the code gives dist = [5,3,1,6,8] (3 and 6 from stale S positions), so it prints 5.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "f5df85bce8f9c77f056cf25021023692045f68f1f3d54545ec2122718e6c7ae6",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "5\n",
+            "outputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+            "path": "archive/400B/sub-32749145-lf-0006.json",
+            "sha256": "556e9ed5a09f0b1dc58259b4cececb89cb2b97903cf2f69c11fdcc64f2a1287a",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/400B/summary.json",
+              "sha256": "daf94059c2aba3b9ca613f06f96be91fc0f3e58964fa321dc72d39ec1e335351",
+              "sourceHash": "d989136856697b0f6ca9933683f878c4b570fcd99a1cff9120705afd7c7f5960"
+            },
+            "verdict": "WA"
+          },
+          "test": "0006",
+          "validLFInput": "4 10\n***G****S*\n*****GS***\nG****S****\nG*******S*\n",
+          "validLFInputSha256": "3694a6c8c053ea39405079650bba3c1d5cb3ef2cdc195b7d0fef4e02dd7249c8",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "The LF rerun prints 5; no diagnostics. Two other tests flip TLE/WA by timing, but 0006 is a stable WA.",
+        "faultyLogic": "g and s are never reset per row and the distance is sampled at every column, so mixed stale/new positions produce spurious distances.",
+        "implementedAlgorithm": "Keeps 1-based g,s across ALL rows and columns. At every column after updating g or s it records s-g (deduplicated) if s > g, else appends s-g to dist_2. Prints len(dist) unless the largest dist is <= -min(dist_2).",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "5\n",
+          "outputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+          "path": "archive/400B/sub-32749145-lf-0006.json",
+          "sha256": "556e9ed5a09f0b1dc58259b4cececb89cb2b97903cf2f69c11fdcc64f2a1287a",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/400B/summary.json",
+            "sha256": "daf94059c2aba3b9ca613f06f96be91fc0f3e58964fa321dc72d39ec1e335351",
+            "sourceHash": "d989136856697b0f6ca9933683f878c4b570fcd99a1cff9120705afd7c7f5960"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "If some row has S left of G, the answer is -1. Otherwise each move moves every unfinished dwarf simultaneously until one reaches its candy, so rows with equal distance d = pos(S) - pos(G) finish together. Answer = number of distinct d.",
+        "recordedFailedTest": "0006",
+        "sourceHash": "d989136856697b0f6ca9933683f878c4b570fcd99a1cff9120705afd7c7f5960",
+        "sourceLines": [
+          {
+            "code": "g = 0\ns = 0\nfor i in range ( n ):\n    a = input()\n    listt.append(a)\n    for j in range ( m ):\n        if ( a[ j] == 'G' ):\n            g = j + 1\n        elif ( a [ j ] == 'S' ):\n            s = j + 1\n        if ( s > g ):\n            if ( s - g not in dist):\n                dist.append ( s - g )\n        else:\n            dist_2.append( s- g )\ndist.sort()\ndist_2.sort()\nif ( dist [ -1] > - dist_2[0] ):\n    print (  len ( dist) )\nelse:\n    print ( '-1')",
+            "end": 25,
+            "start": 5
+          }
+        ]
+      },
       "test": "0006"
     },
     "5964453": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "test 0003 (10x10, gaps 9,8,...,1,9 with 9 distinct values): expected 9, prints 8.",
+      "counterexample": "0003: correct 9, actual '8'. Row distances are 9,8,7,6,5,4,3,2,1,9, so the distinct set {1..9} has 9 values. The code prints max(d) = 9-1 = 8.",
       "kind": "wrong-answer",
-      "reason": "Outputs the maximum G-to-S gap minus one instead of the number of distinct gaps.",
+      "reason": "Uses the maximum distance (minus one) instead of the number of distinct distances.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "8",
+          "constraints": "1<=n<=1000, 2<=m<=1000, each row has exactly one G and one S, other cells *.",
+          "correctAnswer": "9",
+          "derivation": "Row distances are 9,8,7,6,5,4,3,2,1,9, so the distinct set {1..9} has 9 values. The code prints max(d) = 9-1 = 8.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "9400800c5c9811222cc53bc9b52f39e7c7263177ee8b1f30e4d53d97295287b0",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "8\n",
+            "outputHash": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+            "path": "archive/400B/sub-5964453-lf-0003.json",
+            "sha256": "628f3550fe588a11f1cc0ed182a8334da9d56b05681cc3a00169a3278ff784d0",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/400B/summary.json",
+              "sha256": "daf94059c2aba3b9ca613f06f96be91fc0f3e58964fa321dc72d39ec1e335351",
+              "sourceHash": "5eb104e675a8c2a3e71a88b3381f8e42aa280d89bb69e7005991c53b85efac9f"
+            },
+            "verdict": "WA"
+          },
+          "test": "0003",
+          "validLFInput": "10 10\nG********S\n*G*******S\n**G******S\n***G*****S\n****G****S\n*****G***S\n******G**S\n*******G*S\n********GS\nG********S\n",
+          "validLFInputSha256": "1a9d9e61168bec544c9834623b470b2b7d0ba781a9680360e569a2c90b4b17b4",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Grid input is read with input(), but the LF rerun gives the same 8. The fault is in counting; no diagnostics; not TLE/RE.",
+        "faultyLogic": "Uses the maximum distance (minus one) instead of the number of distinct distances.",
+        "implementedAlgorithm": "For each row: d = index of S in the substring after G = pos(S)-pos(G)-1 (or -1 if S is left of G). Prints max(d).",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "8\n",
+          "outputHash": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+          "path": "archive/400B/sub-5964453-lf-0003.json",
+          "sha256": "628f3550fe588a11f1cc0ed182a8334da9d56b05681cc3a00169a3278ff784d0",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/400B/summary.json",
+            "sha256": "daf94059c2aba3b9ca613f06f96be91fc0f3e58964fa321dc72d39ec1e335351",
+            "sourceHash": "5eb104e675a8c2a3e71a88b3381f8e42aa280d89bb69e7005991c53b85efac9f"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "If some row has S left of G, the answer is -1. Otherwise each move moves every unfinished dwarf simultaneously until one reaches its candy, so rows with equal distance d = pos(S) - pos(G) finish together. Answer = number of distinct d.",
+        "recordedFailedTest": "0003",
+        "sourceHash": "5eb104e675a8c2a3e71a88b3381f8e42aa280d89bb69e7005991c53b85efac9f",
+        "sourceLines": [
+          {
+            "code": "    s = 0\n    for i in range(n):\n        t = input()\n        d = t[t.find('G') + 1: ].find('S')\n        if d == -1: return '-1'\n        s = max(s, d)\n    return s",
+            "end": 9,
+            "start": 3
+          }
+        ]
+      },
       "test": "0003"
     },
     "6030104": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "test 0003: expected 9, prints 8.",
+      "counterexample": "0003: correct 9, actual '8'. Distances 9,8,...,1,9 give 9 distinct values, while max(l) = 8.",
       "kind": "wrong-answer",
-      "reason": "Simulates decrementing all gaps by one per move, which counts the maximum gap minus one, not distinct gaps.",
+      "reason": "The iteration count equals max(l) = max distance - 1, not the number of distinct distances.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "8",
+          "constraints": "1<=n<=1000, 2<=m<=1000, each row has exactly one G and one S, other cells *.",
+          "correctAnswer": "9",
+          "derivation": "Distances 9,8,...,1,9 give 9 distinct values, while max(l) = 8.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "9400800c5c9811222cc53bc9b52f39e7c7263177ee8b1f30e4d53d97295287b0",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "8\n",
+            "outputHash": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+            "path": "archive/400B/sub-6030104-lf-0003.json",
+            "sha256": "04aae8b2f2fd08db1edf8b0ae4464a5348b549043012b2e01d74c83172697c34",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/400B/summary.json",
+              "sha256": "daf94059c2aba3b9ca613f06f96be91fc0f3e58964fa321dc72d39ec1e335351",
+              "sourceHash": "794eb629b9853ecc7934223cdc3c85bff13ffeef85a59c675fe33340640a447a"
+            },
+            "verdict": "WA"
+          },
+          "test": "0003",
+          "validLFInput": "10 10\nG********S\n*G*******S\n**G******S\n***G*****S\n****G****S\n*****G***S\n******G**S\n*******G*S\n********GS\nG********S\n",
+          "validLFInputSha256": "1a9d9e61168bec544c9834623b470b2b7d0ba781a9680360e569a2c90b4b17b4",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "The LF rerun gives the same 8; no diagnostics; not TLE/RE.",
+        "faultyLogic": "The iteration count equals max(l) = max distance - 1, not the number of distinct distances.",
+        "implementedAlgorithm": "l = pos(S)-pos(G)-1 per row; -1 if any is negative. Otherwise repeatedly drops zeros and decrements the positive entries, counting iterations, and prints the count.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "8\n",
+          "outputHash": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+          "path": "archive/400B/sub-6030104-lf-0003.json",
+          "sha256": "04aae8b2f2fd08db1edf8b0ae4464a5348b549043012b2e01d74c83172697c34",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/400B/summary.json",
+            "sha256": "daf94059c2aba3b9ca613f06f96be91fc0f3e58964fa321dc72d39ec1e335351",
+            "sourceHash": "794eb629b9853ecc7934223cdc3c85bff13ffeef85a59c675fe33340640a447a"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "If some row has S left of G, the answer is -1. Otherwise each move moves every unfinished dwarf simultaneously until one reaches its candy, so rows with equal distance d = pos(S) - pos(G) finish together. Answer = number of distinct d.",
+        "recordedFailedTest": "0003",
+        "sourceHash": "794eb629b9853ecc7934223cdc3c85bff13ffeef85a59c675fe33340640a447a",
+        "sourceLines": [
+          {
+            "code": "l=[i.index(\"S\")-i.index(\"G\")-1 for i in board]\nflag=True\nfor i in l:\n    if i<0:\n        flag=False\nif flag:\n    c=0\n    while l.count(0)!=len(l):\n        l=[i-1 for i in l if i>0]\n        c+=1\n    print(c)\nelse:\n    print(-1)",
+            "end": 17,
+            "start": 5
+          }
+        ]
+      },
       "test": "0003"
     }
   },
@@ -72,6 +368,20 @@
     "nonRoot": true,
     "readOnly": true,
     "runner": "pipeline/pool_sandbox.run"
+  },
+  "semanticReview": {
+    "executionArchive": {
+      "immutable": true,
+      "sha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+      "url": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz"
+    },
+    "genuineAlgorithmicWrong": 5,
+    "method": "Source-specific manual review: full code of every designated-wrong source read line by line; implemented algorithm, faulty logic and exact source lines recorded; each counted counterexample derived by hand from problem semantics and checked against the package answer, an independent brute force, and the existing LF execution log.",
+    "performed": true,
+    "previousAuditDigest": "fa87686fc6a26f14d921adc1ec9e99da99438b1ca810d6b56c6658d33a45fa0b",
+    "previousAuditFileSha256": "3e3ab8d539bb3b72584679051de282e417976a2023fff0bd51becf8987941750",
+    "reviewer": "devin-5e1f99ced59a4a219ae81a8e70c05226",
+    "sourcesReviewed": 5
   },
   "verified": {
     "downloadedSourceVerification": "pinned open-r1/codeforces-submissions shards sha256-verified and every source byte-matched",

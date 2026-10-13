@@ -22,35 +22,233 @@
       "algorithmicallyWrongOnFailedTest": false,
       "counterexample": "LF 0001: prints 6 (AC).",
       "kind": "crlf-artifact",
-      "reason": "input() keeps \\r, so n is off by one; on LF input it is AC on 0001 and only TLE elsewhere.",
+      "reason": "CRLF artifact (LF copy of 0001 is AC, 6) plus upstream TIME_LIMIT_EXCEEDED. Neither qualifies.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "CRLF artifact (LF copy of 0001 is AC, 6) plus upstream TIME_LIMIT_EXCEEDED. Neither qualifies.",
+        "faultyLogic": "Logically correct on real strings. On CRLF input, input() keeps \"\\r\", so n is one too large.",
+        "implementedAlgorithm": "For each i, finds the smallest j >= i+3 with \"bear\" in a[i:j+1] and adds n-j. Correct counting, O(n^2) substring scans.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "6\n",
+          "outputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+          "path": "archive/385B/sub-5788200-lf-0001.json",
+          "sha256": "11e61d6f9c9cf5fc4a84d32f4610fcd16946156128af58961a774ddef62e29a7",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/385B/summary.json",
+            "sha256": "9481a57a8279fad96f47698f8c85c8e4d41da34562af60f148565db345e705bb",
+            "sourceHash": "0e425e6632381edb42e9807be5ab67062449b0bcf6f4bbc5c4a083a0a7c3ebb2"
+          },
+          "verdict": "AC"
+        },
+        "problemSemantics": "Count pairs (i,j), i<=j, such that s[i..j] contains \"bear\". Equivalently, sum over occurrences p_1<p_2<... of (p_t - p_{t-1}) * (n - p_t - 3) with p_0 = -1.",
+        "recordedFailedTest": "0001",
+        "sourceHash": "0e425e6632381edb42e9807be5ab67062449b0bcf6f4bbc5c4a083a0a7c3ebb2",
+        "sourceLines": [
+          {
+            "code": "a=input()\nn=len(a)\nans=0\nfor i in range(n-3):\n        for j in range(i+3,n,1):\n                if(\"bear\" in a[i:j+1]):\n                        ans+=n-j\n                        break\nprint(ans)",
+            "end": 9,
+            "start": 1
+          }
+        ]
+      },
       "test": "0001"
     },
     "5797426": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "\"a\": expected 0, prints -2.",
+      "counterexample": "0006: correct 0, actual '-2'. s = \"a\" contains no \"bear\", so no pair qualifies: 0. The code computes 1 - 3 = -2.",
       "kind": "wrong-answer",
-      "reason": "Inclusion-exclusion correction cor=(len(diffs)-1)*3 becomes -3 when there is no occurrence, so it subtracts too much (it reads with strip(), so CRLF-safe).",
+      "reason": "With no occurrence, diffs stays empty (line 50 guard), so res = 0 - (-1)*3 = 3 instead of n(n+1)/2. A bear-free string therefore gets n(n+1)/2 - 3 instead of 0.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "-2",
+          "constraints": "1<=|s|<=5000, lowercase English letters only.",
+          "correctAnswer": "0",
+          "derivation": "s = \"a\" contains no \"bear\", so no pair qualifies: 0. The code computes 1 - 3 = -2.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "8e4621379786ef42a4fec155cd525c291dd7db3c1fde3478522f4f61c03fd1bd",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "-2\n",
+            "outputHash": "4b883e04ed1a2af32c21811a12f2ccc766a1d73040b533ae4bcdfad8aca74293",
+            "path": "archive/385B/sub-5797426-lf-0006.json",
+            "sha256": "fb0384d462364e8027b5805bf9119af2484312279423cfbc87a729f17e078b06",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/385B/summary.json",
+              "sha256": "9481a57a8279fad96f47698f8c85c8e4d41da34562af60f148565db345e705bb",
+              "sourceHash": "4a33606d1bb6c857e3d37ef4b704e3ebc5cb6557b2fab768db8506445e7c2c37"
+            },
+            "verdict": "WA"
+          },
+          "test": "0006",
+          "validLFInput": "a\n",
+          "validLFInputSha256": "87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Input is strip()-ed, so CRLF has no effect. The debug_print helper is disabled (debug=False) and prints nothing. The LF rerun prints -2; not TLE/RE.",
+        "faultyLogic": "With no occurrence, diffs stays empty (line 50 guard), so res = 0 - (-1)*3 = 3 instead of n(n+1)/2. A bear-free string therefore gets n(n+1)/2 - 3 instead of 0.",
+        "implementedAlgorithm": "Reads a stripped line (CRLF-safe). diffs = gaps between consecutive \"bear\" matches (plus the trailing gap only if cnt>0). res = substrings avoiding \"bear\", computed from the gaps with a 3-character overlap correction cor = (len(diffs)-1)*3. Prints n(n+1)/2 - res.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "-2\n",
+          "outputHash": "4b883e04ed1a2af32c21811a12f2ccc766a1d73040b533ae4bcdfad8aca74293",
+          "path": "archive/385B/sub-5797426-lf-0006.json",
+          "sha256": "fb0384d462364e8027b5805bf9119af2484312279423cfbc87a729f17e078b06",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/385B/summary.json",
+            "sha256": "9481a57a8279fad96f47698f8c85c8e4d41da34562af60f148565db345e705bb",
+            "sourceHash": "4a33606d1bb6c857e3d37ef4b704e3ebc5cb6557b2fab768db8506445e7c2c37"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Count pairs (i,j), i<=j, such that s[i..j] contains \"bear\". Equivalently, sum over occurrences p_1<p_2<... of (p_t - p_{t-1}) * (n - p_t - 3) with p_0 = -1.",
+        "recordedFailedTest": "0006",
+        "sourceHash": "4a33606d1bb6c857e3d37ef4b704e3ebc5cb6557b2fab768db8506445e7c2c37",
+        "sourceLines": [
+          {
+            "code": "def input_string():\n  return stdin.readline().strip()",
+            "end": 33,
+            "start": 32
+          },
+          {
+            "code": "def problem():\n  import re\n  bear = \"bear\"\n  s  = input_string()\n\n  diffs = []\n  prev = 0\n  cnt = 0\n  for m in re.finditer( bear, s ):\n      cnt +=1\n      diffs.append(m.start() - prev )\n      prev = m.end()\n\n  if cnt >0:\n    diffs.append(len(s) - prev)\n\n\n  res = 0\n  for i,v in enumerate(diffs):\n    if i > 0 :\n      v += 3\n    if i < len(diffs) -1 :\n      v += 3\n\n    res += (v*v -v) // 2 +v\n  \n  cor = (len(diffs)-1)*3\n  res = res - cor\n  n = len(s)\n  return (n*n-n) // 2 + n -  res ",
+            "end": 66,
+            "start": 37
+          }
+        ]
+      },
       "test": "0006"
     },
     "5800018": {
       "algorithmicallyWrongOnFailedTest": false,
       "counterexample": "LF 0001: prints 6 (AC).",
       "kind": "crlf-artifact",
-      "reason": "On LF input 0001 is AC (6); its real defect (loop bound d<n-4 misses a bear at the very end) shows only on other tests.",
+      "reason": "CRLF artifact on the recorded failedTest: on the LF copy of 0001 it prints 6 = correct (AC). The 7 comes only from the trailing \"\\r\" increasing n.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "CRLF artifact on the recorded failedTest: on the LF copy of 0001 it prints 6 = correct (AC). The 7 comes only from the trailing \"\\r\" increasing n.",
+        "faultyLogic": "The loop bound d < n-4 skips an occurrence starting at n-4 (a string ending in \"bear\"). That bug is real on other tests (LF full-suite WA on 0005), but on the recorded test it is masked.",
+        "implementedAlgorithm": "Scans d while d < n-4; at each \"bear\" adds (d-dprec)*(n-3-d), then dprec=d and d+=4.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "6\n",
+          "outputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+          "path": "archive/385B/sub-5800018-lf-0001.json",
+          "sha256": "d64329d7a16affeb094f46ed84a22f6c2361e9101aba839c39f184aefd74fc30",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/385B/summary.json",
+            "sha256": "9481a57a8279fad96f47698f8c85c8e4d41da34562af60f148565db345e705bb",
+            "sourceHash": "50d4d9cfb7d1a44cac2fe8ce61a22bddb222a4b1bae9d6d33ab8982f90ae81f7"
+          },
+          "verdict": "AC"
+        },
+        "problemSemantics": "Count pairs (i,j), i<=j, such that s[i..j] contains \"bear\". Equivalently, sum over occurrences p_1<p_2<... of (p_t - p_{t-1}) * (n - p_t - 3) with p_0 = -1.",
+        "recordedFailedTest": "0001",
+        "sourceHash": "50d4d9cfb7d1a44cac2fe8ce61a22bddb222a4b1bae9d6d33ab8982f90ae81f7",
+        "sourceLines": [
+          {
+            "code": "s = str(input())\nn = len(s)\nd = 0\ndprec = -1\ntot = 0\nwhile d < n-4:\n    if s[d:d+4] == 'bear':\n        tot += (d-dprec)*(n-3-d)\n        dprec = d\n        d += 4\n    else:\n        d+= 1\nprint(tot)",
+            "end": 13,
+            "start": 1
+          }
+        ]
+      },
       "test": "0001"
     },
     "5800462": {
       "algorithmicallyWrongOnFailedTest": false,
       "counterexample": "LF 0001: prints 6 (AC).",
       "kind": "crlf-artifact",
-      "reason": "On LF input 0001 is AC (6). Also prints s when n==5000 (debug echo).",
+      "reason": "CRLF artifact (LF copy of 0001 prints 6 = correct) plus debug echo of the input at n=5000.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "CRLF artifact (LF copy of 0001 prints 6 = correct) plus debug echo of the input at n=5000.",
+        "faultyLogic": "The counting is correct. The n==5000 echo is a debug/presentation defect. The recorded failure is CRLF-only.",
+        "implementedAlgorithm": "For each i>=3 where s[i-3..i] == \"bear\": ans += ((i-3)-A+1)*(n-i), then A = i-2. Lines 8-9 echo s when n == 5000.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "6\n",
+          "outputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+          "path": "archive/385B/sub-5800462-lf-0001.json",
+          "sha256": "a1cb01d5a4b181022e2b7df70dee42481b3eb82b2a08008e537932cfc4f35a06",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/385B/summary.json",
+            "sha256": "9481a57a8279fad96f47698f8c85c8e4d41da34562af60f148565db345e705bb",
+            "sourceHash": "f8a86fef53b0c0f9bf7fdd591469bae53d24c672abf33e2ba0dead37dadb2fbf"
+          },
+          "verdict": "AC"
+        },
+        "problemSemantics": "Count pairs (i,j), i<=j, such that s[i..j] contains \"bear\". Equivalently, sum over occurrences p_1<p_2<... of (p_t - p_{t-1}) * (n - p_t - 3) with p_0 = -1.",
+        "recordedFailedTest": "0001",
+        "sourceHash": "f8a86fef53b0c0f9bf7fdd591469bae53d24c672abf33e2ba0dead37dadb2fbf",
+        "sourceLines": [
+          {
+            "code": "s=input()\n\nif(len(s)<=3):\n    print(0)\n\nelse:\n    n=len(s)\n    if(n==5000):\n        print(s)\n    ans=0\n    A=0\n    for i in range(3,n):\n        if(s[i-3]+s[i-2]+s[i-1]+s[i]=='bear'):\n            ans+=((i-3)-A+1)*(n-i)\n            A=i-2\n    print(ans)",
+            "end": 16,
+            "start": 1
+          }
+        ]
+      },
       "test": "0001"
     },
     "5821783": {
       "algorithmicallyWrongOnFailedTest": false,
       "counterexample": "LF 0001: prints 6 (AC).",
       "kind": "crlf-artifact",
-      "reason": "Cubic brute force; correct on LF input 0001 (6) and TLE on larger tests.",
+      "reason": "CRLF artifact (LF copy of 0001 is AC, 6) plus upstream TIME_LIMIT_EXCEEDED. Does not qualify.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "CRLF artifact (LF copy of 0001 is AC, 6) plus upstream TIME_LIMIT_EXCEEDED. Does not qualify.",
+        "faultyLogic": "Logically correct; too slow; CRLF \"\\r\" adds one to len(s) on CRLF input.",
+        "implementedAlgorithm": "Brute force: counts (i,j) with j>=i+3 and \"bear\" in s[i:j+1]. O(n^3), correct.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "6\n",
+          "outputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+          "path": "archive/385B/sub-5821783-lf-0001.json",
+          "sha256": "7e06b63c0f2ec2de2f7e60091da2408a78603bfe82b7e5303b1dc164b19cfb88",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/385B/summary.json",
+            "sha256": "9481a57a8279fad96f47698f8c85c8e4d41da34562af60f148565db345e705bb",
+            "sourceHash": "bbef1a31a4eaf544c1968b731d0267a5118d08171c2c0e3c2c9dfd6e7de69371"
+          },
+          "verdict": "AC"
+        },
+        "problemSemantics": "Count pairs (i,j), i<=j, such that s[i..j] contains \"bear\". Equivalently, sum over occurrences p_1<p_2<... of (p_t - p_{t-1}) * (n - p_t - 3) with p_0 = -1.",
+        "recordedFailedTest": "0001",
+        "sourceHash": "bbef1a31a4eaf544c1968b731d0267a5118d08171c2c0e3c2c9dfd6e7de69371",
+        "sourceLines": [
+          {
+            "code": "for i in range(len(s)):\n    for j in range(i + 3, len(s)):\n        if \"bear\" in s[i : j + 1]:\n            answer += 1",
+            "end": 8,
+            "start": 5
+          },
+          {
+            "code": "print(answer)",
+            "end": 16,
+            "start": 16
+          }
+        ]
+      },
       "test": "0001"
     }
   },
@@ -76,6 +274,20 @@
     "nonRoot": true,
     "readOnly": true,
     "runner": "pipeline/pool_sandbox.run"
+  },
+  "semanticReview": {
+    "executionArchive": {
+      "immutable": true,
+      "sha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+      "url": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz"
+    },
+    "genuineAlgorithmicWrong": 1,
+    "method": "Source-specific manual review: full code of every designated-wrong source read line by line; implemented algorithm, faulty logic and exact source lines recorded; each counted counterexample derived by hand from problem semantics and checked against the package answer, an independent brute force, and the existing LF execution log.",
+    "performed": true,
+    "previousAuditDigest": "09b81145ec82acca34584968c4ea1f7060a896eec81373208199fc0f1d22fc92",
+    "previousAuditFileSha256": "d3bd317b15e77c6622ce12844208bef593e721c0f9cfb74d00fca6695fd3bfef",
+    "reviewer": "devin-5e1f99ced59a4a219ae81a8e70c05226",
+    "sourcesReviewed": 5
   },
   "verified": {
     "downloadedSourceVerification": "bundled provenance only (pinned-shard download cross-check left to parent)",

@@ -20,37 +20,309 @@
   "incorrectAnalysis": {
     "190270442": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "10 2 / 1 1 2 / 1 8 9: free 3..7, so expected \"3 5\"; prints \"1 5\".",
+      "counterexample": "0004: correct 3 5, actual '1 5'. Free = {3,...,7}, one run of length 5: min 3, max 5. The code subtracts 4 adjacent pairs and gets 1.",
       "kind": "wrong-answer",
-      "reason": "Decrements the minimum for every adjacent free pair instead of disjoint pairs.",
+      "reason": "Subtracting every overlapping consecutive pair yields 1 per run instead of ceil(L/2).",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1 5",
+          "constraints": "1<=x<=4000, 0<=k<4000, all listed identifiers < x, Div1/Div2 pairs satisfy num1-num2=1.",
+          "correctAnswer": "3 5",
+          "derivation": "Free = {3,...,7}, one run of length 5: min 3, max 5. The code subtracts 4 adjacent pairs and gets 1.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "dc6c080f7d4bc2ee6ec871a7411cc24c3b379f76ae7af0323c76e8d1c7d85468",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "1 5\n",
+            "outputHash": "cc869bfb3ff0774d373eae1ae5dbce751f017960ad69f469047d2d571ce5c60f",
+            "path": "archive/401B/sub-190270442-lf-0004.json",
+            "sha256": "37dbad91d4ebf76519c2799a4679e1e6b2b77512e4c9d388c26e8ccea95f4aae",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/401B/summary.json",
+              "sha256": "78dd74fd9849f1b14f19ceeaf08c85f36d96c2e3ad331c1117e47a9b290340df",
+              "sourceHash": "6858e5e1364f8c7102059f36a2a86f638ff52e4583a94ea9b4953fc68c997dda"
+            },
+            "verdict": "WA"
+          },
+          "test": "0004",
+          "validLFInput": "10 2\n1 1 2\n1 8 9\n",
+          "validLFInputSha256": "18aa7aad0da8ca05658017f89298366abc47fb27e6d7c493a55c65d3643bb630",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens. The LF rerun prints \"1 5\"; no diagnostics; not TLE/RE.",
+        "faultyLogic": "Subtracting every overlapping consecutive pair yields 1 per run instead of ceil(L/2).",
+        "implementedAlgorithm": "Collects the listed ids; m = free ids. max = len(m); min = len(m) minus the number of ADJACENT consecutive pairs (overlapping) in m. For k=0 uses a parity formula.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "1 5\n",
+          "outputHash": "cc869bfb3ff0774d373eae1ae5dbce751f017960ad69f469047d2d571ce5c60f",
+          "path": "archive/401B/sub-190270442-lf-0004.json",
+          "sha256": "37dbad91d4ebf76519c2799a4679e1e6b2b77512e4c9d388c26e8ccea95f4aae",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/401B/summary.json",
+            "sha256": "78dd74fd9849f1b14f19ceeaf08c85f36d96c2e3ad331c1117e47a9b290340df",
+            "sourceHash": "6858e5e1364f8c7102059f36a2a86f638ff52e4583a94ea9b4953fc68c997dda"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Unknown identifiers are the free ids in 1..x-1 not listed. Max missed = number of free ids. Min missed = sum over maximal runs of consecutive free ids of ceil(L/2), pairing adjacent free ids as Div2/Div1.",
+        "recordedFailedTest": "0004",
+        "sourceHash": "6858e5e1364f8c7102059f36a2a86f638ff52e4583a94ea9b4953fc68c997dda",
+        "sourceLines": [
+          {
+            "code": "    for i in range(b):\n        e=[int(j) for j in input().split()]\n        if len(e)==3:\n            c=c+[e[1]]+[e[2]]\n        if len(e)==2:\n            c=c+[e[1]]\n    for i in range(1,a):\n        if c.count(i)!=1:\n            m=m+[i]\n    max1=len(m)\n    min1=max1\n    for i in range(len(m)-1):\n        if abs(m[i]-m[i+1])==1:\n            min1=min1-1\n    print(min1,max1)",
+            "end": 24,
+            "start": 10
+          }
+        ]
+      },
       "test": "0004"
     },
     "70178277": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "10 2 / 1 1 2 / 1 8 9: free {3..7}, so expected \"3 5\"; prints \"2 5\".",
+      "counterexample": "0004: correct 3 5, actual '2 5'. Listed 1,2,8,9, so free = {3,4,5,6,7}, one run of length 5. Min = ceil(5/2) = 3 and max = 5.",
       "kind": "wrong-answer",
-      "reason": "Greedy pair count scans i over all ids and only checks that i+1 is free, so it pairs a used id with a free one.",
+      "reason": "Pairs (i,i+1) only check that i+1 is free, never i, so pairs straddling a used id are counted (here (2,3), (4,5), (6,7)).",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "2 5",
+          "constraints": "1<=x<=4000, 0<=k<4000, all listed identifiers < x, Div1/Div2 pairs satisfy num1-num2=1.",
+          "correctAnswer": "3 5",
+          "derivation": "Listed 1,2,8,9, so free = {3,4,5,6,7}, one run of length 5. Min = ceil(5/2) = 3 and max = 5.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "dc6c080f7d4bc2ee6ec871a7411cc24c3b379f76ae7af0323c76e8d1c7d85468",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "2 5\n",
+            "outputHash": "8714f12597585219c60a69651cb2b7981dc7fdd5d1f287a6597826e87ad8c07e",
+            "path": "archive/401B/sub-70178277-lf-0004.json",
+            "sha256": "3c8fb7dbb1bab4b8c66c465d2fdfb019dd31b9ec7207ceb6787c7ae20d1b7be5",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/401B/summary.json",
+              "sha256": "78dd74fd9849f1b14f19ceeaf08c85f36d96c2e3ad331c1117e47a9b290340df",
+              "sourceHash": "d3bb20ab2d3757cc32db3f2cb3e54a77c28c7a3c523066af54d1c1e089dd0f0c"
+            },
+            "verdict": "WA"
+          },
+          "test": "0004",
+          "validLFInput": "10 2\n1 1 2\n1 8 9\n",
+          "validLFInputSha256": "18aa7aad0da8ca05658017f89298366abc47fb27e6d7c493a55c65d3643bb630",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens. The LF rerun prints \"2 5\"; no diagnostics; not TLE/RE.",
+        "faultyLogic": "Pairs (i,i+1) only check that i+1 is free, never i, so pairs straddling a used id are counted (here (2,3), (4,5), (6,7)).",
+        "implementedAlgorithm": "l = free ids (1..x-1 minus the listed ones). count: i from 1, if i+1 in l then count+=1 and i+=2, else i+=1. Prints len(free)-count, len(free).",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "2 5\n",
+          "outputHash": "8714f12597585219c60a69651cb2b7981dc7fdd5d1f287a6597826e87ad8c07e",
+          "path": "archive/401B/sub-70178277-lf-0004.json",
+          "sha256": "3c8fb7dbb1bab4b8c66c465d2fdfb019dd31b9ec7207ceb6787c7ae20d1b7be5",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/401B/summary.json",
+            "sha256": "78dd74fd9849f1b14f19ceeaf08c85f36d96c2e3ad331c1117e47a9b290340df",
+            "sourceHash": "d3bb20ab2d3757cc32db3f2cb3e54a77c28c7a3c523066af54d1c1e089dd0f0c"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Unknown identifiers are the free ids in 1..x-1 not listed. Max missed = number of free ids. Min missed = sum over maximal runs of consecutive free ids of ceil(L/2), pairing adjacent free ids as Div2/Div1.",
+        "recordedFailedTest": "0004",
+        "sourceHash": "d3bb20ab2d3757cc32db3f2cb3e54a77c28c7a3c523066af54d1c1e089dd0f0c",
+        "sourceLines": [
+          {
+            "code": "l = set(range(1,x))\n\nfor i in range(k):\n\tk = list(map(int,input().split()))\n\tif k[0] == 2:\n\t\tl.discard(k[1])\n\telse:\n\t\tl.discard(k[1])\n\t\tl.discard(k[2])\nt = list(l)\nt.sort()\ncount = 0\ni = 1\nwhile i < x:\n\tif i+1 in l:\n\t\tcount = count + 1\n\t\ti = i + 2\n\telse:\n\t\ti = i + 1\nprint(len(t)-count,len(t))",
+            "end": 21,
+            "start": 2
+          }
+        ]
+      },
       "test": "0004"
     },
     "78419620": {
       "algorithmicallyWrongOnFailedTest": false,
       "counterexample": "test 0001: prints \"-200000.0 <built-in function max>\"; repaired prints \"0 0\" (AC).",
       "kind": "output-garbage",
-      "reason": "Prints a float sentinel difference and the builtin max; with the print and initialisation repaired, 0001 is AC.",
+      "reason": "Output garbage / unexecuted routine. On LF 0001 it prints \"-200000.0 <built-in function max>\". The audit-only repaired copy prints \"0 0\" = correct (diag-lf proof). No mathematical computation produced the WA.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Output garbage / unexecuted routine. On LF 0001 it prints \"-200000.0 <built-in function max>\". The audit-only repaired copy prints \"0 0\" = correct (diag-lf proof). No mathematical computation produced the WA.",
+        "faultyLogic": "Broken output and initialisation: the sentinels are never reset to 0, line 17 references the builtin min, and line 22 prints the max function. On 0001 there are no free ids, so the counting loop never runs.",
+        "implementedAlgorithm": "Marks used ids in v. Sentinels mini=10e4, maxi=-10e4. For each free i: maxi+=1, and line 17 executes min += 1 (a builtin, which raises TypeError). Prints maxi-mini and the builtin max.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "-200000.0 <built-in function max>\n",
+          "outputHash": "038bd8c49bd520f6284ae12df352d5a4b1c3cdc72edcc96f030b601b9485b90d",
+          "path": "archive/401B/sub-78419620-lf-0001.json",
+          "sha256": "94866043cbaec269d85e749af0a99ef07a173970f4ee5d83f7f29110fd61aade",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/401B/summary.json",
+            "sha256": "78dd74fd9849f1b14f19ceeaf08c85f36d96c2e3ad331c1117e47a9b290340df",
+            "sourceHash": "9f96747f9c7521a1702be259350d6cd84b207c881dbcbc59a72d21d4a3ed636d"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Unknown identifiers are the free ids in 1..x-1 not listed. Max missed = number of free ids. Min missed = sum over maximal runs of consecutive free ids of ceil(L/2), pairing adjacent free ids as Div2/Div1.",
+        "recordedFailedTest": "0001",
+        "sourceHash": "9f96747f9c7521a1702be259350d6cd84b207c881dbcbc59a72d21d4a3ed636d",
+        "sourceLines": [
+          {
+            "code": "mini, maxi = 10e4,-10e4\nflag = False\nfor i in range(x):\n    if v[i] == 0:\n        maxi+=1\n        if v[i+1] == 0 and not flag:\n            min += 1\n            flag = True\n        else:\n            flag = False\n            \nprint(maxi-mini, max)",
+            "end": 22,
+            "start": 11
+          }
+        ]
+      },
       "test": "0001"
     },
     "84904697": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "9 3 / 1 4 5 / 1 1 2 / 1 6 7: free {3,8}, so expected \"2 2\"; prints \"0 2\".",
+      "counterexample": "0005: correct 2 2, actual '0 2'. Listed {4,5,1,2,6,7}, so free = {3,8}: two runs of length 1. Min = 1+1 = 2 and max = 2. The code builds nu = [0,1,2,1,1,1,2,1], none > 2, so it prints 0.",
       "kind": "wrong-answer",
-      "reason": "Only counts minimum rounds inside gaps of length >2, ignoring gaps of length 1-2.",
+      "reason": "The reset cnt=1 inflates every run by one, and runs of length <= 2 contribute nothing, so isolated free ids add 0 to the minimum.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "0 2",
+          "constraints": "1<=x<=4000, 0<=k<4000, all listed identifiers < x, Div1/Div2 pairs satisfy num1-num2=1.",
+          "correctAnswer": "2 2",
+          "derivation": "Listed {4,5,1,2,6,7}, so free = {3,8}: two runs of length 1. Min = 1+1 = 2 and max = 2. The code builds nu = [0,1,2,1,1,1,2,1], none > 2, so it prints 0.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "df90242740eacf2f725ea7e22f6cb0ad292ef3c0b0c46d2417b0d83c657d3854",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "0 2\n",
+            "outputHash": "665ae877edd92e755fe8504188724e0438a217c62edad817b262fb85e6289a88",
+            "path": "archive/401B/sub-84904697-lf-0005.json",
+            "sha256": "8862d2c380eab17711e355a1f0ca52a31d7892229aa4f92a1b754b25b6d16882",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/401B/summary.json",
+              "sha256": "78dd74fd9849f1b14f19ceeaf08c85f36d96c2e3ad331c1117e47a9b290340df",
+              "sourceHash": "187b8f812277344c303b6944e839012687adef9850bb6949944016b481741b6d"
+            },
+            "verdict": "WA"
+          },
+          "test": "0005",
+          "validLFInput": "9 3\n1 4 5\n1 1 2\n1 6 7\n",
+          "validLFInputSha256": "6e7091b2767d33a23c26111743dd4fccfd1524b5396aa69b8a8624d0abccf95c",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens. The LF rerun prints \"0 2\"; no diagnostics; not TLE/RE.",
+        "faultyLogic": "The reset cnt=1 inflates every run by one, and runs of length <= 2 contribute nothing, so isolated free ids add 0 to the minimum.",
+        "implementedAlgorithm": "f marks used ids (and round x). Run lengths cnt of free ids, but cnt resets to 1 after each used id. c adds ceil(L/2) only for runs with L > 2. Prints c, count of free.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "0 2\n",
+          "outputHash": "665ae877edd92e755fe8504188724e0438a217c62edad817b262fb85e6289a88",
+          "path": "archive/401B/sub-84904697-lf-0005.json",
+          "sha256": "8862d2c380eab17711e355a1f0ca52a31d7892229aa4f92a1b754b25b6d16882",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/401B/summary.json",
+            "sha256": "78dd74fd9849f1b14f19ceeaf08c85f36d96c2e3ad331c1117e47a9b290340df",
+            "sourceHash": "187b8f812277344c303b6944e839012687adef9850bb6949944016b481741b6d"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Unknown identifiers are the free ids in 1..x-1 not listed. Max missed = number of free ids. Min missed = sum over maximal runs of consecutive free ids of ceil(L/2), pairing adjacent free ids as Div2/Div1.",
+        "recordedFailedTest": "0005",
+        "sourceHash": "187b8f812277344c303b6944e839012687adef9850bb6949944016b481741b6d",
+        "sourceLines": [
+          {
+            "code": "cnt=0\nnu=[]\nfor i in range(n):\n    if(f[i]==0):\n        cnt+=1\n    else:\n        nu.append(cnt)\n        cnt=1\nnu.append(cnt)\n\nc=0\nfor i in range(len(nu)):\n    if(nu[i]>2):\n        c+=(nu[i]-nu[i]%2)//2\n        c+=nu[i]%2\n    \nprint(c,f.count(0))",
+            "end": 27,
+            "start": 11
+          }
+        ]
+      },
       "test": "0005"
     },
     "89823657": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "3 2 / 2 1 / 2 2: expected \"0 0\", prints \"1 2\".",
+      "counterexample": "0001: correct 0 0, actual '1 2'. Ids 1 and 2 are both listed, so there are no free ids: 0 0. The code gives f = [1,2], pairs them, and prints 1 2.",
       "kind": "wrong-answer",
-      "reason": "A sentinel 0 in the sorted used list desynchronises the merge, so used rounds are reported as free.",
+      "reason": "The pointer starts at the sentinel r[0] = 0, which never equals any i >= 1, so j never advances and every id is treated as free.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1 2",
+          "constraints": "1<=x<=4000, 0<=k<4000, all listed identifiers < x, Div1/Div2 pairs satisfy num1-num2=1.",
+          "correctAnswer": "0 0",
+          "derivation": "Ids 1 and 2 are both listed, so there are no free ids: 0 0. The code gives f = [1,2], pairs them, and prints 1 2.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "b1046a1383c64b7993ea78e174d620973806af5d95116132d563533dca0c1844",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "1 2\n",
+            "outputHash": "f251ddc12234e0da8d3b778bd0f7463fb477f16f47757f5617dc8b4ff4d4f14a",
+            "path": "archive/401B/sub-89823657-lf-0001.json",
+            "sha256": "9d6f7863254e15ac85a429312af44b79bf8f30b65020e251a9a3c05b7360fea6",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/401B/summary.json",
+              "sha256": "78dd74fd9849f1b14f19ceeaf08c85f36d96c2e3ad331c1117e47a9b290340df",
+              "sourceHash": "b16d9d52800ad5a9125130064845e66e79e2f3c92ae7a7adefaf932d0906377c"
+            },
+            "verdict": "WA"
+          },
+          "test": "0001",
+          "validLFInput": "3 2\n2 1\n2 2\n",
+          "validLFInputSha256": "22a1c3e4294b10220cf787efbd2d6b28ebef4be09a7694a6199ff8df1ee74045",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens. The LF rerun prints \"1 2\"; no diagnostics; not TLE/RE.",
+        "faultyLogic": "The pointer starts at the sentinel r[0] = 0, which never equals any i >= 1, so j never advances and every id is treated as free.",
+        "implementedAlgorithm": "r = [0] + listed ids, sorted. Merge-walks i = 1..x-1 against r[j] to collect free ids f, then greedy-pairs consecutive ids for m1. Prints m1, len(f).",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "1 2\n",
+          "outputHash": "f251ddc12234e0da8d3b778bd0f7463fb477f16f47757f5617dc8b4ff4d4f14a",
+          "path": "archive/401B/sub-89823657-lf-0001.json",
+          "sha256": "9d6f7863254e15ac85a429312af44b79bf8f30b65020e251a9a3c05b7360fea6",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/401B/summary.json",
+            "sha256": "78dd74fd9849f1b14f19ceeaf08c85f36d96c2e3ad331c1117e47a9b290340df",
+            "sourceHash": "b16d9d52800ad5a9125130064845e66e79e2f3c92ae7a7adefaf932d0906377c"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Unknown identifiers are the free ids in 1..x-1 not listed. Max missed = number of free ids. Min missed = sum over maximal runs of consecutive free ids of ceil(L/2), pairing adjacent free ids as Div2/Div1.",
+        "recordedFailedTest": "0001",
+        "sourceHash": "b16d9d52800ad5a9125130064845e66e79e2f3c92ae7a7adefaf932d0906377c",
+        "sourceLines": [
+          {
+            "code": "r=[0]\nfor i in range(k):\n    l=list(map(int,input().split()))\n    for i in l[1:]:\n        r.append(i)\nr.sort()\nf=[]\nj=0\nfor i in range(1,x):\n    if i==r[j]:\n        j=j+1 if j+1<=len(r)-1 else j\n    else:\n        f.append(i)\nm1,m2=0,len(f)\ni=0\nwhile i<len(f):\n    if i+1<=len(f)-1 and f[i+1]-f[i]==1:\n        i=i+2\n        m1=m1+1\n    else:\n        m1=m1+1\n        i=i+1\nprint(m1,m2)",
+            "end": 24,
+            "start": 2
+          }
+        ]
+      },
       "test": "0001"
     }
   },
@@ -75,6 +347,20 @@
     "nonRoot": true,
     "readOnly": true,
     "runner": "pipeline/pool_sandbox.run"
+  },
+  "semanticReview": {
+    "executionArchive": {
+      "immutable": true,
+      "sha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+      "url": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz"
+    },
+    "genuineAlgorithmicWrong": 4,
+    "method": "Source-specific manual review: full code of every designated-wrong source read line by line; implemented algorithm, faulty logic and exact source lines recorded; each counted counterexample derived by hand from problem semantics and checked against the package answer, an independent brute force, and the existing LF execution log.",
+    "performed": true,
+    "previousAuditDigest": "557480c5cadc059f012d7f934a4145443bf5314bdc2e522f5681b00cbc4ebb4d",
+    "previousAuditFileSha256": "611a9e450b0a83f48494baded4ead05ed438597e2dd74990eef9c1f2d8e9cc07",
+    "reviewer": "devin-5e1f99ced59a4a219ae81a8e70c05226",
+    "sourcesReviewed": 5
   },
   "verified": {
     "downloadedSourceVerification": "bundled provenance only (pinned-shard download cross-check left to parent)",

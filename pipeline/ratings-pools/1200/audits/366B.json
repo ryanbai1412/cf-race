@@ -22,35 +22,251 @@
       "algorithmicallyWrongOnFailedTest": false,
       "counterexample": "test 0014: TLE.",
       "kind": "complexity",
-      "reason": "TLE only.",
+      "reason": "TLE-only: upstream TIME_LIMIT_EXCEEDED, fresh rerun TLE on 0014 with no output.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "TLE-only: upstream TIME_LIMIT_EXCEEDED, fresh rerun TLE on 0014 with no output.",
+        "faultyLogic": "Logically correct (vv = 10^8 >= the maximum class sum 10^8 only matters for k=1, where vi=0 is right anyway). The O(n*k) scans are too slow.",
+        "implementedAlgorithm": "For each residue i<k: c = sum of a over indices congruent to i, scanning the whole array (O(n*k)). Keeps the strict minimum and prints vi+1.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "archive/366B/sub-10351608-lf-0014.json",
+          "sha256": "ad9b03ad43727335711797e8ec1d0ca99c04ab130c2ec24353941f115dbd1656",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/366B/summary.json",
+            "sha256": "6d7dc9192ce3140b5e6f8a129a2f70e1cd90451fd0ee95b32eb58facd3c46a85",
+            "sourceHash": "f835c7d42250a4b9f9123f77df302f0b8dc8960b64703220536f27287a08b9d6"
+          },
+          "verdict": "TLE"
+        },
+        "problemSemantics": "Starting at task s, Inna tells Dima off on tasks s, s+k, ... (cyclically), i.e. exactly the residue class of s mod k. Answer = 1 + the smallest residue r in [0,k) minimising sum{a_i : i = r mod k} (0-based i).",
+        "recordedFailedTest": "0014",
+        "sourceHash": "f835c7d42250a4b9f9123f77df302f0b8dc8960b64703220536f27287a08b9d6",
+        "sourceLines": [
+          {
+            "code": "vi, vv = 0, 10 ** 8\nfor i in range(k):\n    c = sum(av for ai, av in enumerate(a) if ai % k == i)\n    if c < vv:\n        vi, vv = i, c\nprint(vi + 1)",
+            "end": 8,
+            "start": 3
+          }
+        ]
+      },
       "test": "0014"
     },
     "25788655": {
       "algorithmicallyWrongOnFailedTest": false,
       "counterexample": "test 0011: TLE.",
       "kind": "complexity",
-      "reason": "TLE only.",
+      "reason": "TLE-only: upstream TIME_LIMIT_EXCEEDED, fresh rerun TLE on 0011.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "TLE-only: upstream TIME_LIMIT_EXCEEDED, fresh rerun TLE on 0011.",
+        "faultyLogic": "Correct but O(n^2/k): k=1 with n=8825 is about 7.8*10^7 Python steps.",
+        "implementedAlgorithm": "For every start in 0..n-1, walks the cycle start, start+k, ... (n/k steps), summing pains; keeps the strict minimum with start as tie-break; prints start+1.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "archive/366B/sub-25788655-lf-0011.json",
+          "sha256": "01f7b3f9229da5a09721821a1bb67aa545376c290992a3adde2192186321997c",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/366B/summary.json",
+            "sha256": "6d7dc9192ce3140b5e6f8a129a2f70e1cd90451fd0ee95b32eb58facd3c46a85",
+            "sourceHash": "baa6dbc210359ecced5692b65dcbc7245c02e11cf30bc10753bfbc7c99f677f0"
+          },
+          "verdict": "TLE"
+        },
+        "problemSemantics": "Starting at task s, Inna tells Dima off on tasks s, s+k, ... (cyclically), i.e. exactly the residue class of s mod k. Answer = 1 + the smallest residue r in [0,k) minimising sum{a_i : i = r mod k} (0-based i).",
+        "recordedFailedTest": "0011",
+        "sourceHash": "baa6dbc210359ecced5692b65dcbc7245c02e11cf30bc10753bfbc7c99f677f0",
+        "sourceLines": [
+          {
+            "code": "MIN_WORK = -1\nMIN_PAIN = 1e9\nfor start in range(n):\n    cur_pain = 0\n    i = start + k\n    if i >= n:\n        i -= n\n    while i != start:\n        cur_pain += A[i]\n        i += k\n        if i >= n:\n            i -= n\n    cur_pain += A[i]\n    if cur_pain < MIN_PAIN or (cur_pain == MIN_PAIN and start < MIN_WORK):\n        MIN_PAIN = cur_pain\n        MIN_WORK = start\nprint(MIN_WORK + 1)",
+            "end": 32,
+            "start": 16
+          }
+        ]
+      },
       "test": "0011"
     },
     "46055371": {
       "algorithmicallyWrongOnFailedTest": false,
       "counterexample": "test 0011: TLE.",
       "kind": "complexity",
-      "reason": "TLE only.",
+      "reason": "TLE-only on the recorded test: upstream TIME_LIMIT_EXCEEDED, fresh rerun TLE on 0011.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "TLE-only on the recorded test: upstream TIME_LIMIT_EXCEEDED, fresh rerun TLE on 0011.",
+        "faultyLogic": "O(n^2/k) TLE. Latent edge: if every class sum equals 1000*n (k=1, all a_i=1000), idx stays -1. That is not the recorded failure.",
+        "implementedAlgorithm": "For every i in 0..n-1, sums a[j%n] for j in range(i, i+n, k); keeps the strict minimum below mx = 1000*n; prints idx.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "archive/366B/sub-46055371-lf-0011.json",
+          "sha256": "01c58d47706331f010cea42fcb6785e70fb7e9e4beacacecf96b99b24704fb19",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/366B/summary.json",
+            "sha256": "6d7dc9192ce3140b5e6f8a129a2f70e1cd90451fd0ee95b32eb58facd3c46a85",
+            "sourceHash": "17311e2898ad44b9a7f620ee81439e956563bb4738d628c7f93c6995f1a443e9"
+          },
+          "verdict": "TLE"
+        },
+        "problemSemantics": "Starting at task s, Inna tells Dima off on tasks s, s+k, ... (cyclically), i.e. exactly the residue class of s mod k. Answer = 1 + the smallest residue r in [0,k) minimising sum{a_i : i = r mod k} (0-based i).",
+        "recordedFailedTest": "0011",
+        "sourceHash": "17311e2898ad44b9a7f620ee81439e956563bb4738d628c7f93c6995f1a443e9",
+        "sourceLines": [
+          {
+            "code": "    mx = 1000 * n\n    idx = -1\n    \n    for i in range(n):\n        res = 0\n        j = i\n        \n        for j in range(i, i + n, k):\n            res += a[j % n]\n\n        if res < mx:\n            mx = res\n            idx = i + 1\n\n    print(idx)",
+            "end": 19,
+            "start": 5
+          }
+        ]
+      },
       "test": "0011"
     },
     "49212445": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "20 4 / twenty 1s: expected 1, prints 0.",
+      "counterexample": "0003: correct 1, actual '0'. n=20, k=4, all a_i = 1. Every residue class sums to 5, so the tie-break picks task 1. The code sets mai=0 at r=0 and prints 0.",
       "kind": "wrong-answer",
-      "reason": "Picks the maximum residue-class sum and prints the 0-based index (mai starts at -1, so it prints 0 when all sums are equal).",
+      "reason": "Maximises instead of minimising and prints a 0-based task number.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "0",
+          "constraints": "1<=k<=n<=10^5, n divisible by k, 1<=a_i<=10^3.",
+          "correctAnswer": "1",
+          "derivation": "n=20, k=4, all a_i = 1. Every residue class sums to 5, so the tie-break picks task 1. The code sets mai=0 at r=0 and prints 0.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "7779d271df2a4115ac18c046eaf2fe7bd4f496208743dbc287b24bf601ab1c42",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "0\n",
+            "outputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+            "path": "archive/366B/sub-49212445-lf-0003.json",
+            "sha256": "b2c7f5491696e6b443275f72be964345ccb9b6b4708bff6128e5550a176fdf62",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/366B/summary.json",
+              "sha256": "6d7dc9192ce3140b5e6f8a129a2f70e1cd90451fd0ee95b32eb58facd3c46a85",
+              "sourceHash": "2c1b21e81f23f4dcb5b49e88bdd38cdb6837b42b459a34568dff6f925e00b39c"
+            },
+            "verdict": "WA"
+          },
+          "test": "0003",
+          "validLFInput": "20 4\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n",
+          "validLFInputSha256": "444ce8f09fa1b85cec441265af0c2fd985e9f6725a1877b7b956743c56224cc8",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens. The LF rerun prints 0; no diagnostics; not TLE/RE.",
+        "faultyLogic": "Maximises instead of minimising and prints a 0-based task number.",
+        "implementedAlgorithm": "t[r] = sum of a over i%k==r. Picks the r with the strictly LARGEST sum (ma=0, mai=-1) and prints the 0-based r.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "0\n",
+          "outputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "path": "archive/366B/sub-49212445-lf-0003.json",
+          "sha256": "b2c7f5491696e6b443275f72be964345ccb9b6b4708bff6128e5550a176fdf62",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/366B/summary.json",
+            "sha256": "6d7dc9192ce3140b5e6f8a129a2f70e1cd90451fd0ee95b32eb58facd3c46a85",
+            "sourceHash": "2c1b21e81f23f4dcb5b49e88bdd38cdb6837b42b459a34568dff6f925e00b39c"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Starting at task s, Inna tells Dima off on tasks s, s+k, ... (cyclically), i.e. exactly the residue class of s mod k. Answer = 1 + the smallest residue r in [0,k) minimising sum{a_i : i = r mod k} (0-based i).",
+        "recordedFailedTest": "0003",
+        "sourceHash": "2c1b21e81f23f4dcb5b49e88bdd38cdb6837b42b459a34568dff6f925e00b39c",
+        "sourceLines": [
+          {
+            "code": "t = {}\nfor i,e in enumerate(m):\n    if i%k not in t:\n        t[i%k] = e\n    else:\n        t[i%k] += e\nma = 0\nmai = -1\nfor i in t:\n    if ma<t[i]:\n        ma = t[i]\n        mai = i\nprint(mai)",
+            "end": 15,
+            "start": 3
+          }
+        ]
+      },
       "test": "0003"
     },
     "49213263": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "10 10 / 8 4 5 7 6 9 2 2 3 5: expected 7, prints 10.",
+      "counterexample": "0004: correct 7, actual '10'. k = n = 10, so each class is a single task. The minimum a_i = 2 first appears at task 7 (a_7 = 2), so the answer is 7. Every r with a_r < 8 updates mai; the last is task 10 (a=5), so the code prints 10.",
       "kind": "wrong-answer",
-      "reason": "Never updates mi (assigns ma instead), so it returns the last class smaller than t[0], not the minimum.",
+      "reason": "mi is never updated (line 13 assigns ma), so mai ends as the LAST class whose sum is below t[0], not the minimum.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "10",
+          "constraints": "1<=k<=n<=10^5, n divisible by k, 1<=a_i<=10^3.",
+          "correctAnswer": "7",
+          "derivation": "k = n = 10, so each class is a single task. The minimum a_i = 2 first appears at task 7 (a_7 = 2), so the answer is 7. Every r with a_r < 8 updates mai; the last is task 10 (a=5), so the code prints 10.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "3cce1bac2ce22d76e95d439cbfb3569476ed66c958814ee2fbde3994f371c1bc",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "10\n",
+            "outputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+            "path": "archive/366B/sub-49213263-lf-0004.json",
+            "sha256": "dbcaf4b75194b5f16d1ece851d023dfc718f624cccf1a6044622dcb6fbbf705d",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/366B/summary.json",
+              "sha256": "6d7dc9192ce3140b5e6f8a129a2f70e1cd90451fd0ee95b32eb58facd3c46a85",
+              "sourceHash": "ba58b56c5b2e9fd90f24f02e9b847796bdf9329aa6056dbc855500fd2c5acb66"
+            },
+            "verdict": "WA"
+          },
+          "test": "0004",
+          "validLFInput": "10 10\n8 4 5 7 6 9 2 2 3 5\n",
+          "validLFInputSha256": "66c234ea24ead68d78115ba3bb27885154562201773b47403d6d0bf3a5757dab",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens. The LF rerun prints 10; no diagnostics; not TLE/RE.",
+        "faultyLogic": "mi is never updated (line 13 assigns ma), so mai ends as the LAST class whose sum is below t[0], not the minimum.",
+        "implementedAlgorithm": "t[r] class sums. mi = t[0], mai = 1. For each r: if mi > t[r] then ma = t[r] (typo for mi) and mai = r+1.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "10\n",
+          "outputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+          "path": "archive/366B/sub-49213263-lf-0004.json",
+          "sha256": "dbcaf4b75194b5f16d1ece851d023dfc718f624cccf1a6044622dcb6fbbf705d",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/366B/summary.json",
+            "sha256": "6d7dc9192ce3140b5e6f8a129a2f70e1cd90451fd0ee95b32eb58facd3c46a85",
+            "sourceHash": "ba58b56c5b2e9fd90f24f02e9b847796bdf9329aa6056dbc855500fd2c5acb66"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Starting at task s, Inna tells Dima off on tasks s, s+k, ... (cyclically), i.e. exactly the residue class of s mod k. Answer = 1 + the smallest residue r in [0,k) minimising sum{a_i : i = r mod k} (0-based i).",
+        "recordedFailedTest": "0004",
+        "sourceHash": "ba58b56c5b2e9fd90f24f02e9b847796bdf9329aa6056dbc855500fd2c5acb66",
+        "sourceLines": [
+          {
+            "code": "mi = t[0]\nmai = 1\nfor i in t:\n    if mi>t[i]:\n        ma = t[i]\n        mai = i+1\nprint(mai)",
+            "end": 15,
+            "start": 9
+          }
+        ]
+      },
       "test": "0004"
     }
   },
@@ -75,6 +291,20 @@
     "nonRoot": true,
     "readOnly": true,
     "runner": "pipeline/pool_sandbox.run"
+  },
+  "semanticReview": {
+    "executionArchive": {
+      "immutable": true,
+      "sha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+      "url": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz"
+    },
+    "genuineAlgorithmicWrong": 2,
+    "method": "Source-specific manual review: full code of every designated-wrong source read line by line; implemented algorithm, faulty logic and exact source lines recorded; each counted counterexample derived by hand from problem semantics and checked against the package answer, an independent brute force, and the existing LF execution log.",
+    "performed": true,
+    "previousAuditDigest": "2a19175a4511618f8aea6f75855801486ce60ea131c942837c39a21b2a2f184d",
+    "previousAuditFileSha256": "b7bad6334a0d9ceaa4669b15beeeea45080cc7f539e3c6bd58c0816c1130bcc2",
+    "reviewer": "devin-5e1f99ced59a4a219ae81a8e70c05226",
+    "sourcesReviewed": 5
   },
   "verified": {
     "downloadedSourceVerification": "bundled provenance only (pinned-shard download cross-check left to parent)",

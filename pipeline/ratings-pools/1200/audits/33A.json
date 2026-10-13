@@ -22,35 +22,304 @@
       "algorithmicallyWrongOnFailedTest": false,
       "counterexample": "test 0001: prints \"[10000, 10000, 10000]\\n11\"; with the debug line removed it gives 11 (AC).",
       "kind": "debug-output",
-      "reason": "Debug print(aa) precedes the correct answer.",
+      "reason": "Debug output. Without line 7 (audit-only copy) it prints 11 = correct on LF 0001 (diag-lf proof), so the recorded counterexample is presentation-only.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Debug output. Without line 7 (audit-only copy) it prints 11 = correct on LF 0001 (diag-lf proof), so the recorded counterexample is presentation-only.",
+        "faultyLogic": "On the recorded test the only failure is the debug line 7. The latent cap 10000 < 10^6 bug fires only on other tests (e.g. 0008), not on 0001.",
+        "implementedAlgorithm": "aa=[10000]*rows; for each tooth aa[r-1]=min(aa[r-1],c); prints min(sum(aa),k). Line 7 print(aa) is a debug dump of the initial list.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "[10000, 10000, 10000]\n11\n",
+          "outputHash": "9bdcce26b1df7c2f80adb7e3c0af4d72d9b32379cea6fc7f8cf29174b0d7e644",
+          "path": "archive/33A/sub-10033945-lf-0001.json",
+          "sha256": "cccdb47d22128c42c04a1748200606ad0dc17163055584bc4cd77e058ae509be",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/33A/summary.json",
+            "sha256": "24ce0a1e579d35df16004957c1183b33f314662d22197a3c257dc19c402973c5",
+            "sourceHash": "8db5d59bec7268f3d370d8adbd99c462cd3c15a858f081bd7e4a4b5b5a16ac7f"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Each row can be used until its weakest tooth reaches 0, so row r supports min{c : tooth in row r} crucians. Answer = min(k, sum over rows of that row minimum).",
+        "recordedFailedTest": "0001",
+        "sourceHash": "8db5d59bec7268f3d370d8adbd99c462cd3c15a858f081bd7e4a4b5b5a16ac7f",
+        "sourceLines": [
+          {
+            "code": "aa = [10000]*n",
+            "end": 5,
+            "start": 5
+          },
+          {
+            "code": "print(aa)",
+            "end": 7,
+            "start": 7
+          },
+          {
+            "code": "for i in range(m):\n    a,b = map(int , input().split())\n    aa[a-1] = min(aa[a-1], b)\n\nprint(min(sum(aa), k))",
+            "end": 13,
+            "start": 9
+          }
+        ]
+      },
       "test": "0001"
     },
     "12088804": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "1 1 1000000 / 1 1000000: expected 1000000, prints 1000.",
+      "counterexample": "0008: correct 1000000, actual '1000'. One row with one tooth of viability 10^6, so the row supports 10^6. k = 10^6, so min(10^6, 10^6) = 1000000.",
       "kind": "wrong-answer",
-      "reason": "Initialises each row cap to 1000 though c<=10^6, so it truncates large viabilities.",
+      "reason": "The row sentinel 1000 is below the allowed c<=10^6, so a row whose minimum exceeds 1000 is truncated to 1000.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1000",
+          "constraints": "1<=m<=n<=1000, 0<=k<=10^6, 1<=r<=m, 0<=c<=10^6, every row has at least one tooth.",
+          "correctAnswer": "1000000",
+          "derivation": "One row with one tooth of viability 10^6, so the row supports 10^6. k = 10^6, so min(10^6, 10^6) = 1000000.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "38879f92b4c402f7cb04aa8dfd185e32ee51cd55db01d1d781cf3bdea530d7df",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "1000\n",
+            "outputHash": "83c02ac2d48c863dab2ccf6870455aadfc2cec073b8db269b517c879d76aa6d9",
+            "path": "archive/33A/sub-12088804-lf-0008.json",
+            "sha256": "feee39446e1aeaa9fe3437eb0b96991a82f663953458473735840a4879756fb5",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/33A/summary.json",
+              "sha256": "24ce0a1e579d35df16004957c1183b33f314662d22197a3c257dc19c402973c5",
+              "sourceHash": "174c52ba1d43ed9220fccccd180c19e798915d9a8e90327b82feee2c168470e1"
+            },
+            "verdict": "WA"
+          },
+          "test": "0008",
+          "validLFInput": "1 1 1000000\n1 1000000\n",
+          "validLFInputSha256": "5c50de30c12a158fcdeb9a5abaa440dc90da0e90421b5edc0d0189557a7792d2",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens, so no CRLF effect. The LF rerun prints 1000; no diagnostics; not TLE/RE.",
+        "faultyLogic": "The row sentinel 1000 is below the allowed c<=10^6, so a row whose minimum exceeds 1000 is truncated to 1000.",
+        "implementedAlgorithm": "max_teeth=[1000]*m; per tooth max_teeth[r]=min(max_teeth[r],c); prints min(k, sum(max_teeth)).",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "1000\n",
+          "outputHash": "83c02ac2d48c863dab2ccf6870455aadfc2cec073b8db269b517c879d76aa6d9",
+          "path": "archive/33A/sub-12088804-lf-0008.json",
+          "sha256": "feee39446e1aeaa9fe3437eb0b96991a82f663953458473735840a4879756fb5",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/33A/summary.json",
+            "sha256": "24ce0a1e579d35df16004957c1183b33f314662d22197a3c257dc19c402973c5",
+            "sourceHash": "174c52ba1d43ed9220fccccd180c19e798915d9a8e90327b82feee2c168470e1"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Each row can be used until its weakest tooth reaches 0, so row r supports min{c : tooth in row r} crucians. Answer = min(k, sum over rows of that row minimum).",
+        "recordedFailedTest": "0008",
+        "sourceHash": "174c52ba1d43ed9220fccccd180c19e798915d9a8e90327b82feee2c168470e1",
+        "sourceLines": [
+          {
+            "code": "max_teeth = [1000 for i in range(m)]",
+            "end": 2,
+            "start": 2
+          },
+          {
+            "code": "for i in range(n):\n  r, c = map(int, input().split())\n  r -= 1\n  max_teeth[r] = min(max_teeth[r], c)\nprint(min(k, sum(max_teeth)))",
+            "end": 7,
+            "start": 3
+          }
+        ]
+      },
       "test": "0008"
     },
     "13135757": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "6 2 5 with row 1 values 2,0,0,5: expected 2, prints 5.",
+      "counterexample": "0047: correct 2, actual '5'. Row1 teeth: 2,0,0,5, min 0. Row2 teeth: 9,2, min 2. Sum = 2 and k = 5, so the answer is 2. The code ends with row1 = 5 (the last 5 overwrites 0) and row2 = 2, giving s=7 and printing min(5,7) = 5.",
       "kind": "wrong-answer",
-      "reason": "Uses 0 as the \"unset\" sentinel, so a row whose minimum viability is 0 gets overwritten by a later larger value.",
+      "reason": "0 is both the unset sentinel and a legal viability. After a row minimum becomes 0, the next tooth of that row overwrites it (line 15).",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "5",
+          "constraints": "1<=m<=n<=1000, 0<=k<=10^6, 1<=r<=m, 0<=c<=10^6, every row has at least one tooth.",
+          "correctAnswer": "2",
+          "derivation": "Row1 teeth: 2,0,0,5, min 0. Row2 teeth: 9,2, min 2. Sum = 2 and k = 5, so the answer is 2. The code ends with row1 = 5 (the last 5 overwrites 0) and row2 = 2, giving s=7 and printing min(5,7) = 5.",
+          "includedInPackage": true,
+          "lfNormalization": "already LF",
+          "packageInputSha256": "8e56fe5acf817695ec0dbd7a099d1444de1c3e4db5c0922ba3f9ad578665a1dd",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "5\n",
+            "outputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+            "path": "archive/33A/sub-13135757-lf-0047.json",
+            "sha256": "ba6b082c5e22a833ea826f790ec6093348b18d162ce6327ae5df0d6eaba81256",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/33A/summary.json",
+              "sha256": "24ce0a1e579d35df16004957c1183b33f314662d22197a3c257dc19c402973c5",
+              "sourceHash": "6989965b6b37100f9aff90f2ce4db79bbd2562f220ce9db1992534cf3291a05d"
+            },
+            "verdict": "WA"
+          },
+          "test": "0047",
+          "validLFInput": "6 2 5\n2 9\n1 2\n2 2\n1 0\n1 0\n1 5\n",
+          "validLFInputSha256": "8e56fe5acf817695ec0dbd7a099d1444de1c3e4db5c0922ba3f9ad578665a1dd",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens. The LF rerun prints 5; no diagnostics; not TLE/RE.",
+        "faultyLogic": "0 is both the unset sentinel and a legal viability. After a row minimum becomes 0, the next tooth of that row overwrites it (line 15).",
+        "implementedAlgorithm": "a[r]=0 means unset. For each tooth: if a[r]!=0 keep the min, else assign y. Sums a and prints min(c,s).",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "5\n",
+          "outputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+          "path": "archive/33A/sub-13135757-lf-0047.json",
+          "sha256": "ba6b082c5e22a833ea826f790ec6093348b18d162ce6327ae5df0d6eaba81256",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/33A/summary.json",
+            "sha256": "24ce0a1e579d35df16004957c1183b33f314662d22197a3c257dc19c402973c5",
+            "sourceHash": "6989965b6b37100f9aff90f2ce4db79bbd2562f220ce9db1992534cf3291a05d"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Each row can be used until its weakest tooth reaches 0, so row r supports min{c : tooth in row r} crucians. Answer = min(k, sum over rows of that row minimum).",
+        "recordedFailedTest": "0047",
+        "sourceHash": "6989965b6b37100f9aff90f2ce4db79bbd2562f220ce9db1992534cf3291a05d",
+        "sourceLines": [
+          {
+            "code": "a = [0 for i in range(b) ]",
+            "end": 5,
+            "start": 5
+          },
+          {
+            "code": "    if a[x-1] != 0:\n        if y < a[x-1]:\n            a[x-1] = y\n    else:\n        a[x-1] = y",
+            "end": 15,
+            "start": 11
+          },
+          {
+            "code": "s = 0\nfor i in a:\n    s = s + i\n\nif c <= s:\n    print (c)\nelse:\n    print (s)",
+            "end": 24,
+            "start": 17
+          }
+        ]
+      },
       "test": "0047"
     },
     "5017978": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "test 0001: expected 11, prints 8.",
+      "counterexample": "0001: correct 11, actual '8'. Rows: row1 {2} gives 2, row2 {3,3} gives 3, row3 {6} gives 6. Sum = 11 and k = 18, so min(18,11) = 11.",
       "kind": "wrong-answer",
-      "reason": "Subtracts m from the sum of per-row minimum viabilities (s-m), an off-by-row error.",
+      "reason": "Subtracts m (one per row) from the sum of row minima, which has no basis in the problem.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "8",
+          "constraints": "1<=m<=n<=1000, 0<=k<=10^6, 1<=r<=m, 0<=c<=10^6, every row has at least one tooth.",
+          "correctAnswer": "11",
+          "derivation": "Rows: row1 {2} gives 2, row2 {3,3} gives 3, row3 {6} gives 6. Sum = 11 and k = 18, so min(18,11) = 11.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "7a6f69b70199639b3ceb83567a7c7ff260a40c97bd625e280b67257947b291b2",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "8\n",
+            "outputHash": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+            "path": "archive/33A/sub-5017978-lf-0001.json",
+            "sha256": "367d08784283183f93f65117bf4d366fe2b70d706252d5ec252c6781da298450",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/33A/summary.json",
+              "sha256": "24ce0a1e579d35df16004957c1183b33f314662d22197a3c257dc19c402973c5",
+              "sourceHash": "79dd0c1bb7b7c509760aa09dbb2b72491cab492c0bde0a271eb8dd61ff85d2b6"
+            },
+            "verdict": "WA"
+          },
+          "test": "0001",
+          "validLFInput": "4 3 18\n2 3\n1 2\n3 6\n2 3\n",
+          "validLFInputSha256": "f9de20af26f84fe895a9e27d427ad62069771df17bd089655b05559e06aa6ca1",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer-token input. The LF rerun prints the same 8; no diagnostics; not TLE/RE.",
+        "faultyLogic": "Subtracts m (one per row) from the sum of row minima, which has no basis in the problem.",
+        "implementedAlgorithm": "Collects each row's viabilities p[r]; s = sum of row minima; prints min(k, s-m).",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "8\n",
+          "outputHash": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+          "path": "archive/33A/sub-5017978-lf-0001.json",
+          "sha256": "367d08784283183f93f65117bf4d366fe2b70d706252d5ec252c6781da298450",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/33A/summary.json",
+            "sha256": "24ce0a1e579d35df16004957c1183b33f314662d22197a3c257dc19c402973c5",
+            "sourceHash": "79dd0c1bb7b7c509760aa09dbb2b72491cab492c0bde0a271eb8dd61ff85d2b6"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Each row can be used until its weakest tooth reaches 0, so row r supports min{c : tooth in row r} crucians. Answer = min(k, sum over rows of that row minimum).",
+        "recordedFailedTest": "0001",
+        "sourceHash": "79dd0c1bb7b7c509760aa09dbb2b72491cab492c0bde0a271eb8dd61ff85d2b6",
+        "sourceLines": [
+          {
+            "code": "s, p = 0, [[] for i in range(m + 1)]\nfor i in range(n):\n    a, b = map(int, input().split())\n    p[a].append(b)\nfor a in range(1, m + 1):\n    s += min(p[a])\nprint(min(k, s - m))",
+            "end": 8,
+            "start": 2
+          }
+        ]
+      },
       "test": "0001"
     },
     "5140515": {
       "algorithmicallyWrongOnFailedTest": false,
       "counterexample": "test 0001: prints 1.",
       "kind": "non-solution",
-      "reason": "Body is just print(1); it ignores the input and attempts no algorithm.",
+      "reason": "Constant-output placeholder. The WA (1 vs 11) is not an algorithmic defect of any implementation, so it does not qualify.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Constant-output placeholder. The WA (1 vs 11) is not an algorithmic defect of any implementation, so it does not qualify.",
+        "faultyLogic": "None. It is not an implementation for this problem.",
+        "implementedAlgorithm": "Placeholder: a comment line and print(1). It reads no input and implements no algorithm.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "1\n",
+          "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "path": "archive/33A/sub-5140515-lf-0001.json",
+          "sha256": "89b12ee588265b98bebc420efe2ec66329f49ceb3a491fb0d6eb4cd5467eb275",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/33A/summary.json",
+            "sha256": "24ce0a1e579d35df16004957c1183b33f314662d22197a3c257dc19c402973c5",
+            "sourceHash": "917b41158ec32ccbac68c7f3440f5a4a1573c68c685602d69bb37b9023af0a5a"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Each row can be used until its weakest tooth reaches 0, so row r supports min{c : tooth in row r} crucians. Answer = min(k, sum over rows of that row minimum).",
+        "recordedFailedTest": "0001",
+        "sourceHash": "917b41158ec32ccbac68c7f3440f5a4a1573c68c685602d69bb37b9023af0a5a",
+        "sourceLines": [
+          {
+            "code": "# \udbc0\udc01\udbc0\udc01\n\nprint(1)",
+            "end": 3,
+            "start": 1
+          }
+        ]
+      },
       "test": "0001"
     }
   },
@@ -77,6 +346,20 @@
     "nonRoot": true,
     "readOnly": true,
     "runner": "pipeline/pool_sandbox.run"
+  },
+  "semanticReview": {
+    "executionArchive": {
+      "immutable": true,
+      "sha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+      "url": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz"
+    },
+    "genuineAlgorithmicWrong": 3,
+    "method": "Source-specific manual review: full code of every designated-wrong source read line by line; implemented algorithm, faulty logic and exact source lines recorded; each counted counterexample derived by hand from problem semantics and checked against the package answer, an independent brute force, and the existing LF execution log.",
+    "performed": true,
+    "previousAuditDigest": "a3ab4a859c2be06a1f8fb2b020d82d7cf0929d7008a6d8e25c93d5d85157264d",
+    "previousAuditFileSha256": "ce8678ae6e889c9bf135c190f98242724a4d7db89e02975dced4634d6d71f97e",
+    "reviewer": "devin-5e1f99ced59a4a219ae81a8e70c05226",
+    "sourcesReviewed": 5
   },
   "verified": {
     "downloadedSourceVerification": "bundled provenance only (pinned-shard download cross-check left to parent)",

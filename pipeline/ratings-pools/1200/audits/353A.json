@@ -20,37 +20,352 @@
   "incorrectAnalysis": {
     "4726812": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "2 dominoes (1,1),(2,2): both sums odd and no mixed-parity domino, so expected -1; prints 1.",
+      "counterexample": "0011: correct -1, actual '1'. Top sum 1+2 = 3 (odd), bottom 1+2 = 3 (odd). Neither domino has x+y odd, so no rotation changes the parities: -1. The code sees x=2, d=3 at i=1 and sets hel.",
       "kind": "wrong-answer",
-      "reason": "Tests x%2 != d%2 where d is the running bottom sum rather than the current piece bottom y, so it finds a mixed-parity domino that does not exist.",
+      "reason": "The mixed-domino test compares x with the cumulative d instead of the current y, so hel can be set with no mixed-parity domino.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1",
+          "constraints": "1<=n<=100, 1<=x_i,y_i<=6.",
+          "correctAnswer": "-1",
+          "derivation": "Top sum 1+2 = 3 (odd), bottom 1+2 = 3 (odd). Neither domino has x+y odd, so no rotation changes the parities: -1. The code sees x=2, d=3 at i=1 and sets hel.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "dfe7c92cdb3eb4c152ed8261b5446ab551c817364664603fbe1c2ad876e7698b",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "1\n",
+            "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+            "path": "archive/353A/sub-4726812-lf-0011.json",
+            "sha256": "10b6bd2bed0aff8835c84ab18fd83451d5e5f88a54f6059a5594e4dfd7cc44da",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/353A/summary.json",
+              "sha256": "531fda8750d1ad26f7d52eb558058b617ce6af54a9d458e39a46dfdb9909c28b",
+              "sourceHash": "80d5311b889886256b7575be3026150b5ec4e3887da61f12eca669bd3e494567"
+            },
+            "verdict": "WA"
+          },
+          "test": "0011",
+          "validLFInput": "2\n1 1\n2 2\n",
+          "validLFInputSha256": "46fbe56cc88ebc94fbef07b0cc0294d19017a383e7c8b51955623bc7e1b1470a",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens. The LF rerun prints 1; no diagnostics; not TLE/RE.",
+        "faultyLogic": "The mixed-domino test compares x with the cumulative d instead of the current y, so hel can be set with no mixed-parity domino.",
+        "implementedAlgorithm": "Accumulates u=sum x and d=sum y. Sets hel when x%2 != d%2, where d is the RUNNING bottom sum. Then 0 / -1 / 1 if hel / -1 by sum parities.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "1\n",
+          "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "path": "archive/353A/sub-4726812-lf-0011.json",
+          "sha256": "10b6bd2bed0aff8835c84ab18fd83451d5e5f88a54f6059a5594e4dfd7cc44da",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/353A/summary.json",
+            "sha256": "531fda8750d1ad26f7d52eb558058b617ce6af54a9d458e39a46dfdb9909c28b",
+            "sourceHash": "80d5311b889886256b7575be3026150b5ec4e3887da61f12eca669bd3e494567"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "A rotation swaps x_i and y_i, so the total S=sum(x)+sum(y) is invariant. 0 if both sums are even. If both are odd, one rotation of a domino with x_i+y_i odd flips both parities, giving 1 if such a domino exists, else -1. If the parities differ (S odd), the answer is -1.",
+        "recordedFailedTest": "0011",
+        "sourceHash": "80d5311b889886256b7575be3026150b5ec4e3887da61f12eca669bd3e494567",
+        "sourceLines": [
+          {
+            "code": "for i in range(N):\n    x,y=map(int,input().split())\n    u+=x\n    d+=y\n    U.append(x)\n    D.append(y)\n    if(x%2!=d%2):\n        hel=True",
+            "end": 14,
+            "start": 7
+          },
+          {
+            "code": "if(u%2==0 and d%2==0):\n    print(0)\n\nelif(u%2==0 and d%2==1):\n    print(-1)\n\nelif(u%2==1 and d%2==0):\n    print(-1)\n\nelif(u%2==1 and d%2==1 and hel):\n    print(1)\n\nelse:\n    print(-1)",
+            "end": 29,
+            "start": 16
+          }
+        ]
+      },
       "test": "0011"
     },
     "4728267": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "n=1, (1,1): expected -1, prints 1.",
+      "counterexample": "0008: correct -1, actual '1'. A single domino (1,1): top 1 and bottom 1 are odd, and rotating gives (1,1) again, so -1.",
       "kind": "wrong-answer",
-      "reason": "Only checks total parity and top-sum parity; never checks that a mixed-parity domino exists to rotate.",
+      "reason": "Never checks that a domino with x_i+y_i odd exists. Both-odd sums with only same-parity dominoes are impossible.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1",
+          "constraints": "1<=n<=100, 1<=x_i,y_i<=6.",
+          "correctAnswer": "-1",
+          "derivation": "A single domino (1,1): top 1 and bottom 1 are odd, and rotating gives (1,1) again, so -1.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "a142cc33ba9d1d9048669e555e3bbaf4495ea000e68a120c4920426bb285669d",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "1\n",
+            "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+            "path": "archive/353A/sub-4728267-lf-0008.json",
+            "sha256": "19c2d6ed83f8cf76490b97c96c18b9ba8e19fd83eb72b895fddebc79b9478dd8",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/353A/summary.json",
+              "sha256": "531fda8750d1ad26f7d52eb558058b617ce6af54a9d458e39a46dfdb9909c28b",
+              "sourceHash": "84888c138c395b54cd87f00f1f302e62e827df9f130807b9ca8e5f4f7478c7dd"
+            },
+            "verdict": "WA"
+          },
+          "test": "0008",
+          "validLFInput": "1\n1 1\n",
+          "validLFInputSha256": "7cd4d2baa0bc812e6baa82e533a1ce9dc7c90726b0109e9b5c8e7ae9991967e5",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens. The LF rerun prints 1; no diagnostics; not TLE/RE.",
+        "faultyLogic": "Never checks that a domino with x_i+y_i odd exists. Both-odd sums with only same-parity dominoes are impossible.",
+        "implementedAlgorithm": "-1 if the total sum is odd; else 1 if the top sum is odd; else 0.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "1\n",
+          "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "path": "archive/353A/sub-4728267-lf-0008.json",
+          "sha256": "19c2d6ed83f8cf76490b97c96c18b9ba8e19fd83eb72b895fddebc79b9478dd8",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/353A/summary.json",
+            "sha256": "531fda8750d1ad26f7d52eb558058b617ce6af54a9d458e39a46dfdb9909c28b",
+            "sourceHash": "84888c138c395b54cd87f00f1f302e62e827df9f130807b9ca8e5f4f7478c7dd"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "A rotation swaps x_i and y_i, so the total S=sum(x)+sum(y) is invariant. 0 if both sums are even. If both are odd, one rotation of a domino with x_i+y_i odd flips both parities, giving 1 if such a domino exists, else -1. If the parities differ (S odd), the answer is -1.",
+        "recordedFailedTest": "0008",
+        "sourceHash": "84888c138c395b54cd87f00f1f302e62e827df9f130807b9ca8e5f4f7478c7dd",
+        "sourceLines": [
+          {
+            "code": "    sum_total += sum(keys)",
+            "end": 10,
+            "start": 10
+          },
+          {
+            "code": "for i in range(n):\n    sum_left += pieces[i][0]\n\nif sum_total % 2 == 1:\n    print(-1)\nelif sum_left % 2 == 1:\n    print(1)\nelse:\n    print(0)",
+            "end": 21,
+            "start": 13
+          }
+        ]
+      },
       "test": "0008"
     },
     "4729232": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "n=1, (1,1): expected -1, prints 1.",
+      "counterexample": "0008: correct -1, actual '1'. Domino (1,1): rotation never changes the sums (1 and 1, both odd), so -1.",
       "kind": "wrong-answer",
-      "reason": "Odd-count logic without a mixed-parity domino requirement; both-odd counts with no rotatable domino return 1.",
+      "reason": "Same missing existence check for a mixed-parity domino.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1",
+          "constraints": "1<=n<=100, 1<=x_i,y_i<=6.",
+          "correctAnswer": "-1",
+          "derivation": "Domino (1,1): rotation never changes the sums (1 and 1, both odd), so -1.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "a142cc33ba9d1d9048669e555e3bbaf4495ea000e68a120c4920426bb285669d",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "1\n",
+            "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+            "path": "archive/353A/sub-4729232-lf-0008.json",
+            "sha256": "e535ead7c206009e84cfd2480d87c145a940cc8af53e0e7bde77f5e1595ab5dd",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/353A/summary.json",
+              "sha256": "531fda8750d1ad26f7d52eb558058b617ce6af54a9d458e39a46dfdb9909c28b",
+              "sourceHash": "c5ae95ffc2fd93e9a4cde28a3f33b297343a089d15639a87f441d67e53ea74e0"
+            },
+            "verdict": "WA"
+          },
+          "test": "0008",
+          "validLFInput": "1\n1 1\n",
+          "validLFInputSha256": "7cd4d2baa0bc812e6baa82e533a1ce9dc7c90726b0109e9b5c8e7ae9991967e5",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens. The LF rerun prints 1; no diagnostics; not TLE/RE.",
+        "faultyLogic": "Same missing existence check for a mixed-parity domino.",
+        "implementedAlgorithm": "Counts odd tops and odd bottoms: -1 if topodds+bottomodds is odd; 1 if either is odd; else 0.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "1\n",
+          "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "path": "archive/353A/sub-4729232-lf-0008.json",
+          "sha256": "e535ead7c206009e84cfd2480d87c145a940cc8af53e0e7bde77f5e1595ab5dd",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/353A/summary.json",
+            "sha256": "531fda8750d1ad26f7d52eb558058b617ce6af54a9d458e39a46dfdb9909c28b",
+            "sourceHash": "c5ae95ffc2fd93e9a4cde28a3f33b297343a089d15639a87f441d67e53ea74e0"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "A rotation swaps x_i and y_i, so the total S=sum(x)+sum(y) is invariant. 0 if both sums are even. If both are odd, one rotation of a domino with x_i+y_i odd flips both parities, giving 1 if such a domino exists, else -1. If the parities differ (S odd), the answer is -1.",
+        "recordedFailedTest": "0008",
+        "sourceHash": "c5ae95ffc2fd93e9a4cde28a3f33b297343a089d15639a87f441d67e53ea74e0",
+        "sourceLines": [
+          {
+            "code": "def minflips(topodds,bottomodds):\n\tif (topodds+bottomodds)%2 != 0:\n\t\treturn -1\n\telif (topodds%2 != 0) or (bottomodds%2 != 0):\n\t\treturn 1\n\telse:\n\t\treturn 0",
+            "end": 12,
+            "start": 6
+          },
+          {
+            "code": "\tfor _ in range(n):\n\t\ttop,bottom = map(int,input().split())\t\n\t\ttopodds += 0 if (top % 2==0) else 1\n\t\tbottomodds += 0 if (bottom%2==0) else 1\n\tprint(minflips(topodds,bottomodds))",
+            "end": 22,
+            "start": 18
+          }
+        ]
+      },
       "test": "0008"
     },
     "4737225": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "5 dominoes (5,4),(5,4),(1,5),(5,5),(3,3): sums 19/21 both odd and (5,4) is mixed, so expected 1; prints -1.",
+      "counterexample": "0004: correct 1, actual '-1'. Top 5+5+1+5+3 = 19 (odd), bottom 4+4+5+5+3 = 21 (odd). (5,4) has an odd x+y, and rotating it makes the sums 18 and 22, both even: 1. The prefix top sum 10 is even, so the code prints -1.",
       "kind": "wrong-answer",
-      "reason": "isAllOdd prefix heuristic flags -1 whenever some prefix top sum is even and the final top sum is odd, rejecting solvable cases.",
+      "reason": "The prefix-parity heuristic (lines 13-20) has no relation to rotatability and rejects solvable both-odd cases.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "-1",
+          "constraints": "1<=n<=100, 1<=x_i,y_i<=6.",
+          "correctAnswer": "1",
+          "derivation": "Top 5+5+1+5+3 = 19 (odd), bottom 4+4+5+5+3 = 21 (odd). (5,4) has an odd x+y, and rotating it makes the sums 18 and 22, both even: 1. The prefix top sum 10 is even, so the code prints -1.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "5bcf953eea3c9ccce6d5fceb4c25495b3a401b71a77398309d0fbf2d3080071c",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "-1\n",
+            "outputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+            "path": "archive/353A/sub-4737225-lf-0004.json",
+            "sha256": "d9cd57c4fb9291b806895776a92288639242e26f655ea2ea2f85db6dccbebd47",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/353A/summary.json",
+              "sha256": "531fda8750d1ad26f7d52eb558058b617ce6af54a9d458e39a46dfdb9909c28b",
+              "sourceHash": "a9de749d257c30a81daddf3d4f50544b1298b879728fc4d14825b7072b36effd"
+            },
+            "verdict": "WA"
+          },
+          "test": "0004",
+          "validLFInput": "5\n5 4\n5 4\n1 5\n5 5\n3 3\n",
+          "validLFInputSha256": "1304232a0e6004e54001ee786f65e93d08697d0b6aad798a479ab8d948a0f77e",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens. The LF rerun prints -1; no diagnostics; not TLE/RE.",
+        "faultyLogic": "The prefix-parity heuristic (lines 13-20) has no relation to rotatability and rejects solvable both-odd cases.",
+        "implementedAlgorithm": "Flags isAllOdd=False if any PREFIX of the top sum is even. Prints -1 if (not isAllOdd and the top sum is odd), else -1 if the total is odd, else 1 if the top sum is odd, else 0.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "-1\n",
+          "outputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+          "path": "archive/353A/sub-4737225-lf-0004.json",
+          "sha256": "d9cd57c4fb9291b806895776a92288639242e26f655ea2ea2f85db6dccbebd47",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/353A/summary.json",
+            "sha256": "531fda8750d1ad26f7d52eb558058b617ce6af54a9d458e39a46dfdb9909c28b",
+            "sourceHash": "a9de749d257c30a81daddf3d4f50544b1298b879728fc4d14825b7072b36effd"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "A rotation swaps x_i and y_i, so the total S=sum(x)+sum(y) is invariant. 0 if both sums are even. If both are odd, one rotation of a domino with x_i+y_i odd flips both parities, giving 1 if such a domino exists, else -1. If the parities differ (S odd), the answer is -1.",
+        "recordedFailedTest": "0004",
+        "sourceHash": "a9de749d257c30a81daddf3d4f50544b1298b879728fc4d14825b7072b36effd",
+        "sourceLines": [
+          {
+            "code": "isAllOdd = True\nfor i in range(n):\n    sum_left += pieces[i][0]\n    if sum_left % 2 == 0:\n        isAllOdd = False\n\nif not isAllOdd and sum_left % 2 == 1:\n    print(-1)\nelif sum_total % 2 == 1:\n    print(-1)\nelif sum_left % 2 == 1:\n    print(1)\nelse:\n    print(0)",
+            "end": 26,
+            "start": 13
+          }
+        ]
+      },
       "test": "0004"
     },
     "4739111": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "20-domino test 0005: top sum and bottom sum have different parity, so expected -1; prints 1.",
+      "counterexample": "0005: correct -1, actual '1'. Top sum 62 (even), bottom sum 67 (odd). The total 129 is odd and invariant under rotation, so both sums can never be even: -1. The code takes the cnt>0 and n>1 branch and prints 1.",
       "kind": "wrong-answer",
-      "reason": "Prints 1 whenever any mixed domino exists and n>1, even when top and bottom sums have different parity (impossible case).",
+      "reason": "Prints 1 when the sums have DIFFERENT parity (total odd), which is impossible. It is also wrong for n=1 with a mixed domino.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1",
+          "constraints": "1<=n<=100, 1<=x_i,y_i<=6.",
+          "correctAnswer": "-1",
+          "derivation": "Top sum 62 (even), bottom sum 67 (odd). The total 129 is odd and invariant under rotation, so both sums can never be even: -1. The code takes the cnt>0 and n>1 branch and prints 1.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "6d0db770f9bb52e5009dbc345f40223a101457341d9656aa27ec32a248e45839",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "1\n",
+            "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+            "path": "archive/353A/sub-4739111-lf-0005.json",
+            "sha256": "2231333c448497d7bb2a078d3e5b17644402a39a3c1ed5345761e56bdad91380",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/353A/summary.json",
+              "sha256": "531fda8750d1ad26f7d52eb558058b617ce6af54a9d458e39a46dfdb9909c28b",
+              "sourceHash": "32a837825d72318dab9ca3fad2ab7f3c3a5aa4218763361dc496659bfac9aa63"
+            },
+            "verdict": "WA"
+          },
+          "test": "0005",
+          "validLFInput": "20\n1 3\n5 2\n5 2\n2 6\n2 4\n1 1\n1 3\n1 4\n2 6\n4 2\n5 6\n2 2\n6 2\n4 3\n2 1\n6 2\n6 5\n4 5\n2 4\n1 4\n",
+          "validLFInputSha256": "b00c56a9042ce032b9f0c598f420d20942b4d2b197e235a6b6e7c34b3777f59f",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens. The LF rerun prints 1; no diagnostics; not TLE/RE.",
+        "faultyLogic": "Prints 1 when the sums have DIFFERENT parity (total odd), which is impossible. It is also wrong for n=1 with a mixed domino.",
+        "implementedAlgorithm": "cnt = number of mixed-parity dominoes. Prints 0 if both sums are even; elif cnt>0 and n>1 prints 1; else -1.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "1\n",
+          "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "path": "archive/353A/sub-4739111-lf-0005.json",
+          "sha256": "2231333c448497d7bb2a078d3e5b17644402a39a3c1ed5345761e56bdad91380",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/353A/summary.json",
+            "sha256": "531fda8750d1ad26f7d52eb558058b617ce6af54a9d458e39a46dfdb9909c28b",
+            "sourceHash": "32a837825d72318dab9ca3fad2ab7f3c3a5aa4218763361dc496659bfac9aa63"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "A rotation swaps x_i and y_i, so the total S=sum(x)+sum(y) is invariant. 0 if both sums are even. If both are odd, one rotation of a domino with x_i+y_i odd flips both parities, giving 1 if such a domino exists, else -1. If the parities differ (S odd), the answer is -1.",
+        "recordedFailedTest": "0005",
+        "sourceHash": "32a837825d72318dab9ca3fad2ab7f3c3a5aa4218763361dc496659bfac9aa63",
+        "sourceLines": [
+          {
+            "code": "for i in range(0,n):\n    a,b=map(int,input().split())\n    if(a%2!=b%2):cnt+=1\n    suma,sumb=suma+a,sumb+b\nif(suma%2==0 and sumb%2==0):print(0)\nelif(cnt>0 and n>1):print(1)\nelse: print(-1)",
+            "end": 15,
+            "start": 9
+          }
+        ]
+      },
       "test": "0005"
     }
   },
@@ -72,6 +387,20 @@
     "nonRoot": true,
     "readOnly": true,
     "runner": "pipeline/pool_sandbox.run"
+  },
+  "semanticReview": {
+    "executionArchive": {
+      "immutable": true,
+      "sha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+      "url": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz"
+    },
+    "genuineAlgorithmicWrong": 5,
+    "method": "Source-specific manual review: full code of every designated-wrong source read line by line; implemented algorithm, faulty logic and exact source lines recorded; each counted counterexample derived by hand from problem semantics and checked against the package answer, an independent brute force, and the existing LF execution log.",
+    "performed": true,
+    "previousAuditDigest": "c34f924f2fc32cf6ad39d8022d9292c03f50b32d57b56b07fceb5984d7cdc23c",
+    "previousAuditFileSha256": "2c40c2c90b86d9beb6ad03ff4573fa7aba349bcf2c1e5fcf0748512a9011d4ad",
+    "reviewer": "devin-5e1f99ced59a4a219ae81a8e70c05226",
+    "sourcesReviewed": 5
   },
   "verified": {
     "downloadedSourceVerification": "pinned open-r1/codeforces-submissions shards sha256-verified and every source byte-matched",

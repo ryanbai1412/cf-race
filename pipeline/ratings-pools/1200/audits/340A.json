@@ -20,37 +20,286 @@
   "incorrectAnalysis": {
     "4386659": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "test 0002: wrong count when gcd(x,y)>1.",
+      "counterexample": "0002: correct 15, actual '8'. L = lcm(4,6) = 12. floor(201/12) - floor(19/12) = 16 - 1 = 15.",
       "kind": "wrong-answer",
-      "reason": "Uses x*y instead of lcm(x,y).",
+      "reason": "Uses x*y instead of lcm(x,y), so it is wrong whenever gcd(x,y) > 1.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "8",
+          "constraints": "1<=x,y<=1000, 1<=a<=b<=2*10^9.",
+          "correctAnswer": "15",
+          "derivation": "L = lcm(4,6) = 12. floor(201/12) - floor(19/12) = 16 - 1 = 15.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "a9d7fb8ee9db40535d681af4c0fa8154e9265e66ab79b8f192adc88ebdb0263c",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "8\n",
+            "outputHash": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+            "path": "archive/340A/sub-4386659-lf-0002.json",
+            "sha256": "a962f72aa619afab39ce1e07bad3c251637fb0396c2bf15cc76cf7609c6d1e0f",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/340A/summary.json",
+              "sha256": "85652da377e6706d1dc0c706677f69e1f1ab30c21a687b7891019d4d547296b3",
+              "sourceHash": "2715d89d54f9ba5eb576d0efb8acd4947afae1a21d0c684f6272ef4fab1d3ff1"
+            },
+            "verdict": "WA"
+          },
+          "test": "0002",
+          "validLFInput": "4 6 20 201\n",
+          "validLFInputSha256": "b93e98a93f46001d63b716e1f56ada84afbec3d8480c5842659517f3bdd70645",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens. The LF rerun prints 8; not TLE/RE; no diagnostics.",
+        "faultyLogic": "Uses x*y instead of lcm(x,y), so it is wrong whenever gcd(x,y) > 1.",
+        "implementedAlgorithm": "Prints b//(x*y) - (a-1)//(x*y).",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "8\n",
+          "outputHash": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+          "path": "archive/340A/sub-4386659-lf-0002.json",
+          "sha256": "a962f72aa619afab39ce1e07bad3c251637fb0396c2bf15cc76cf7609c6d1e0f",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/340A/summary.json",
+            "sha256": "85652da377e6706d1dc0c706677f69e1f1ab30c21a687b7891019d4d547296b3",
+            "sourceHash": "2715d89d54f9ba5eb576d0efb8acd4947afae1a21d0c684f6272ef4fab1d3ff1"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Bricks painted both colours are exactly the multiples of L=lcm(x,y). Answer = floor(b/L) - floor((a-1)/L).",
+        "recordedFailedTest": "0002",
+        "sourceHash": "2715d89d54f9ba5eb576d0efb8acd4947afae1a21d0c684f6272ef4fab1d3ff1",
+        "sourceLines": [
+          {
+            "code": "print(b // (x * y) - (a - 1) // (x * y))",
+            "end": 2,
+            "start": 2
+          }
+        ]
+      },
       "test": "0002"
     },
     "4386708": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "test 0002: wrong count.",
+      "counterexample": "0002: correct 15, actual '91'. L = lcm(4,6) = 12, giving 16 - 1 = 15. The code reduces to x=2, y=1 and computes 201//2 - 19//2 = 100 - 9 = 91.",
       "kind": "wrong-answer",
-      "reason": "Broken gcd reduction (y = y // y sets y to 1).",
+      "reason": "Line 6 sets y to 1 instead of dividing it by i, so x*y is not lcm(x,y).",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "91",
+          "constraints": "1<=x,y<=1000, 1<=a<=b<=2*10^9.",
+          "correctAnswer": "15",
+          "derivation": "L = lcm(4,6) = 12, giving 16 - 1 = 15. The code reduces to x=2, y=1 and computes 201//2 - 19//2 = 100 - 9 = 91.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "a9d7fb8ee9db40535d681af4c0fa8154e9265e66ab79b8f192adc88ebdb0263c",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "91\n",
+            "outputHash": "0433e993a3dbc505d6e5cad972a1df0ab189cfe7ceece5e94fd47ca9a074370f",
+            "path": "archive/340A/sub-4386708-lf-0002.json",
+            "sha256": "0e7ef2de61862690caa2a47f5ae62cbb39cb99b09dae32117539ff9c8abd447b",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/340A/summary.json",
+              "sha256": "85652da377e6706d1dc0c706677f69e1f1ab30c21a687b7891019d4d547296b3",
+              "sourceHash": "359714cbbc0ac98b2d83a1d02d1e6b4da3aa912d16569e624f4612b914bf37e7"
+            },
+            "verdict": "WA"
+          },
+          "test": "0002",
+          "validLFInput": "4 6 20 201\n",
+          "validLFInputSha256": "b93e98a93f46001d63b716e1f56ada84afbec3d8480c5842659517f3bdd70645",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens. The LF rerun prints 91; not TLE/RE; no diagnostics.",
+        "faultyLogic": "Line 6 sets y to 1 instead of dividing it by i, so x*y is not lcm(x,y).",
+        "implementedAlgorithm": "Loop i=2..1000: if i divides x and y then x//=i and y = y//y; prints b//(x*y) - (a-1)//(x*y).",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "91\n",
+          "outputHash": "0433e993a3dbc505d6e5cad972a1df0ab189cfe7ceece5e94fd47ca9a074370f",
+          "path": "archive/340A/sub-4386708-lf-0002.json",
+          "sha256": "0e7ef2de61862690caa2a47f5ae62cbb39cb99b09dae32117539ff9c8abd447b",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/340A/summary.json",
+            "sha256": "85652da377e6706d1dc0c706677f69e1f1ab30c21a687b7891019d4d547296b3",
+            "sourceHash": "359714cbbc0ac98b2d83a1d02d1e6b4da3aa912d16569e624f4612b914bf37e7"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Bricks painted both colours are exactly the multiples of L=lcm(x,y). Answer = floor(b/L) - floor((a-1)/L).",
+        "recordedFailedTest": "0002",
+        "sourceHash": "359714cbbc0ac98b2d83a1d02d1e6b4da3aa912d16569e624f4612b914bf37e7",
+        "sourceLines": [
+          {
+            "code": "for i in range(2, 1001):\n\tif x % i == 0 and y % i == 0:\n\t\tx = x // i\n\t\ty = y // y\n\nprint(b // (x * y) - (a - 1) // (x * y))",
+            "end": 8,
+            "start": 3
+          }
+        ]
+      },
       "test": "0002"
     },
     "4387355": {
       "algorithmicallyWrongOnFailedTest": false,
       "counterexample": "test 0001: expected 3, prints 3.0.",
       "kind": "format-only",
-      "reason": "Float division prints \"3.0\". On its recorded failedTest 0001 (2 3 6 18) the value 3 is numerically correct, so it fails only on float formatting; its real defects (no floor, x*y instead of lcm) appear only on other tests.",
+      "reason": "Format-only on the recorded test: 18/6 - 6/6 + 1 = 3.0, and the expected answer is 3. The token mismatch \"3.0\" vs \"3\" is presentation, not a wrong mathematical answer.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Format-only on the recorded test: 18/6 - 6/6 + 1 = 3.0, and the expected answer is 3. The token mismatch \"3.0\" vs \"3\" is presentation, not a wrong mathematical answer.",
+        "faultyLogic": "The general defects are true division without floor and x*y instead of lcm. On the recorded test, however, the value is numerically correct.",
+        "implementedAlgorithm": "Float formula k = b/(x*y) - a/(x*y) + 1; print(k).",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "3.0\n",
+          "outputHash": "66e4c000f2000eb1cca164f97c441e14d438ca2599c8e79f4de6ecade0de8b32",
+          "path": "archive/340A/sub-4387355-lf-0001.json",
+          "sha256": "ff625f041c6c61c44d91773cec1c24447d788154c814b0c35b2b17b3582c9487",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/340A/summary.json",
+            "sha256": "85652da377e6706d1dc0c706677f69e1f1ab30c21a687b7891019d4d547296b3",
+            "sourceHash": "0bff5b17474b486301bde84b2294529663e352351f447d03d5398f7918dd8b0c"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Bricks painted both colours are exactly the multiples of L=lcm(x,y). Answer = floor(b/L) - floor((a-1)/L).",
+        "recordedFailedTest": "0001",
+        "sourceHash": "0bff5b17474b486301bde84b2294529663e352351f447d03d5398f7918dd8b0c",
+        "sourceLines": [
+          {
+            "code": "k = (b / (x * y)) - (a / (x * y)) + 1\n\nprint(k)",
+            "end": 5,
+            "start": 3
+          }
+        ]
+      },
       "test": "0001"
     },
     "4387444": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "test 0002: off by one.",
+      "counterexample": "0002: correct 15, actual '16'. f = 12. Multiples of 12 in [20,201] are 24..192, i.e. 16 - 1 = 15. The code gives 16 - 1 + 1 = 16.",
       "kind": "wrong-answer",
-      "reason": "b//f - a//f + 1 overcounts when a is not a multiple of lcm.",
+      "reason": "The +1 correction is right only when a is a multiple of f. Otherwise it overcounts by one; it should be (a-1)//f.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "16",
+          "constraints": "1<=x,y<=1000, 1<=a<=b<=2*10^9.",
+          "correctAnswer": "15",
+          "derivation": "f = 12. Multiples of 12 in [20,201] are 24..192, i.e. 16 - 1 = 15. The code gives 16 - 1 + 1 = 16.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "a9d7fb8ee9db40535d681af4c0fa8154e9265e66ab79b8f192adc88ebdb0263c",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "16\n",
+            "outputHash": "e6c21e8d260fe71882debdb339d2402a2ca7648529bc2303f48649bce0380017",
+            "path": "archive/340A/sub-4387444-lf-0002.json",
+            "sha256": "13a3c670c8bf0d29674c1a70d3b53ad55673428c9f1e3cb71b4269ae5445da2e",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/340A/summary.json",
+              "sha256": "85652da377e6706d1dc0c706677f69e1f1ab30c21a687b7891019d4d547296b3",
+              "sourceHash": "7d32bb86b181a774c4973c9051765d9b13a617dbc3abe4b7bce8b4973bb7ccfe"
+            },
+            "verdict": "WA"
+          },
+          "test": "0002",
+          "validLFInput": "4 6 20 201\n",
+          "validLFInputSha256": "b93e98a93f46001d63b716e1f56ada84afbec3d8480c5842659517f3bdd70645",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens. The LF rerun prints 16; not TLE/RE; no diagnostics.",
+        "faultyLogic": "The +1 correction is right only when a is a multiple of f. Otherwise it overcounts by one; it should be (a-1)//f.",
+        "implementedAlgorithm": "Euclid gcd and lcm f; prints b//f - a//f + 1.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "16\n",
+          "outputHash": "e6c21e8d260fe71882debdb339d2402a2ca7648529bc2303f48649bce0380017",
+          "path": "archive/340A/sub-4387444-lf-0002.json",
+          "sha256": "13a3c670c8bf0d29674c1a70d3b53ad55673428c9f1e3cb71b4269ae5445da2e",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/340A/summary.json",
+            "sha256": "85652da377e6706d1dc0c706677f69e1f1ab30c21a687b7891019d4d547296b3",
+            "sourceHash": "7d32bb86b181a774c4973c9051765d9b13a617dbc3abe4b7bce8b4973bb7ccfe"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Bricks painted both colours are exactly the multiples of L=lcm(x,y). Answer = floor(b/L) - floor((a-1)/L).",
+        "recordedFailedTest": "0002",
+        "sourceHash": "7d32bb86b181a774c4973c9051765d9b13a617dbc3abe4b7bce8b4973bb7ccfe",
+        "sourceLines": [
+          {
+            "code": "def gcd (x, y):\n    if x < y: x, y = y, x\n    while x % y != 0:\n        x, y = y, x % y\n    return y\n\ndef lcm (x, y):\n    return ((x * y) // gcd(x, y))",
+            "end": 8,
+            "start": 1
+          },
+          {
+            "code": "f = lcm(x, y)\nk = (b // f) - (a // f) + 1\n\nprint(k)",
+            "end": 15,
+            "start": 12
+          }
+        ]
+      },
       "test": "0002"
     },
     "4387556": {
       "algorithmicallyWrongOnFailedTest": false,
       "counterexample": "test 0010: TLE.",
       "kind": "complexity",
-      "reason": "Correct set-intersection brute force over [a,b]; TLE only.",
+      "reason": "TLE-only. Upstream verdict TIME_LIMIT_EXCEEDED; the fresh rerun is TLE on 0010. Logically correct, so it does not qualify.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "TLE-only. Upstream verdict TIME_LIMIT_EXCEEDED; the fresh rerun is TLE on 0010. Logically correct, so it does not qualify.",
+        "faultyLogic": "None for correctness: it is an exact brute force. With b-a up to 2*10^9 it is too slow.",
+        "implementedAlgorithm": "Builds the sets of multiples of x and of y in range(a,b+1) and prints the size of their intersection.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "archive/340A/sub-4387556-lf-0010.json",
+          "sha256": "d9efc87e806155410be7df12785884c488ab4a7583479596f7c85f9b2c73a874",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/340A/summary.json",
+            "sha256": "85652da377e6706d1dc0c706677f69e1f1ab30c21a687b7891019d4d547296b3",
+            "sourceHash": "18e6914e5d32321af4adfb533109058241fee25f04b49e17c8824b22f885d40f"
+          },
+          "verdict": "TLE"
+        },
+        "problemSemantics": "Bricks painted both colours are exactly the multiples of L=lcm(x,y). Answer = floor(b/L) - floor((a-1)/L).",
+        "recordedFailedTest": "0010",
+        "sourceHash": "18e6914e5d32321af4adfb533109058241fee25f04b49e17c8824b22f885d40f",
+        "sourceLines": [
+          {
+            "code": "r = range(a, b + 1)\n\nd = set(i for i in r if i % x == 0).intersection(set(i for i in r if i % y == 0))\n\nprint(len(d))",
+            "end": 7,
+            "start": 3
+          }
+        ]
+      },
       "test": "0010"
     }
   },
@@ -77,6 +326,20 @@
     "nonRoot": true,
     "readOnly": true,
     "runner": "pipeline/pool_sandbox.run"
+  },
+  "semanticReview": {
+    "executionArchive": {
+      "immutable": true,
+      "sha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+      "url": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz"
+    },
+    "genuineAlgorithmicWrong": 3,
+    "method": "Source-specific manual review: full code of every designated-wrong source read line by line; implemented algorithm, faulty logic and exact source lines recorded; each counted counterexample derived by hand from problem semantics and checked against the package answer, an independent brute force, and the existing LF execution log.",
+    "performed": true,
+    "previousAuditDigest": "b1d67f468ae4788e502c5cb90366c3c18e96d2eab52b3066daecaf8448deb564",
+    "previousAuditFileSha256": "159eda8e7c4456e51311002aed5c422c21fb7cd75b50fbac192bdf80c541d80e",
+    "reviewer": "devin-5e1f99ced59a4a219ae81a8e70c05226",
+    "sourcesReviewed": 5
   },
   "verified": {
     "downloadedSourceVerification": "bundled provenance only (pinned-shard download cross-check left to parent)",

@@ -20,37 +20,310 @@
   "incorrectAnalysis": {
     "4622666": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "1 1 / 49 / 100: expected 98, prints 99.",
+      "counterexample": "0012: correct 98, actual '99'. v = max(49, 2*49) = 98 < min(b) = 100, so the answer is 98. The code searches 97..100 and ends at a=99.",
       "kind": "wrong-answer",
-      "reason": "Binary search returns the largest valid v below min(b) instead of the smallest.",
+      "reason": "The problem asks for the minimum valid TL. Searching for the largest valid value returns min(B)-1 instead of max(max(a),2*min(a)).",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "99",
+          "constraints": "1<=n,m<=100, 1<=a_i,b_i<=100.",
+          "correctAnswer": "98",
+          "derivation": "v = max(49, 2*49) = 98 < min(b) = 100, so the answer is 98. The code searches 97..100 and ends at a=99.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "42de14910cdc9eef9bc54db934ecd3e08dfd789f6f2a7d2e57cdc8625e14ef2a",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "99\n",
+            "outputHash": "7e332bcee418f7d700927c946d36341f0651d6d90997b58d3d5441dec96b2e74",
+            "path": "archive/350A/sub-4622666-lf-0012.json",
+            "sha256": "3bdbba4cb4d12092459cb6574c0b204abca057ebbd2c06dfcd1dc2c92109255e",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/350A/summary.json",
+              "sha256": "1e19143de906952490c6db4ed770e23bdcf4230fdd925fea96d647ee82342d6f",
+              "sourceHash": "e394bf779adfe148b4576b66581c1fe8d122d5d4a0ba1cc6fa84c662f69b0bb0"
+            },
+            "verdict": "WA"
+          },
+          "test": "0012",
+          "validLFInput": "1 1\n49\n100\n",
+          "validLFInputSha256": "fc5a3ed0c57390af46a01c541f9613d24b59345d5d406c1ffee6fdea34469741",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens. The LF rerun prints 99; no diagnostics; not TLE/RE.",
+        "faultyLogic": "The problem asks for the minimum valid TL. Searching for the largest valid value returns min(B)-1 instead of max(max(a),2*min(a)).",
+        "implementedAlgorithm": "Binary search on (a,b) with a = max(2*min,max)-1 and b = min(B). Moves a up while e is valid, so it converges to the LARGEST valid TL below min(B).",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "99\n",
+          "outputHash": "7e332bcee418f7d700927c946d36341f0651d6d90997b58d3d5441dec96b2e74",
+          "path": "archive/350A/sub-4622666-lf-0012.json",
+          "sha256": "3bdbba4cb4d12092459cb6574c0b204abca057ebbd2c06dfcd1dc2c92109255e",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/350A/summary.json",
+            "sha256": "1e19143de906952490c6db4ed770e23bdcf4230fdd925fea96d647ee82342d6f",
+            "sourceHash": "e394bf779adfe148b4576b66581c1fe8d122d5d4a0ba1cc6fa84c662f69b0bb0"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "The smallest valid TL is v = max(max(a), 2*min(a)). It is valid iff v < min(b); otherwise print -1.",
+        "recordedFailedTest": "0012",
+        "sourceHash": "e394bf779adfe148b4576b66581c1fe8d122d5d4a0ba1cc6fa84c662f69b0bb0",
+        "sourceLines": [
+          {
+            "code": "a=max(N[0]*2,N[-1])-1\nx=-1\nb=M[0]\n\nwhile(b-a>1):\n    e=(b+a)//2\n    if(e>=N[-1] and e<M[0] and e>=2*N[0]):\n        a=e\n    else:\n        b=e\nif(a==max(N[0]*2,N[-1])-1):\n    print(-1)\nelse:\n    print(a)",
+            "end": 21,
+            "start": 8
+          }
+        ]
+      },
       "test": "0012"
     },
     "4624708": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "1 50 / 7 / ...: expected 14, prints -1.",
+      "counterexample": "0007: correct 14, actual '-1'. a = [7], so v = max(7,14) = 14. min(b) = 15 (the smallest of the 50 values) and 14 < 15, so the answer is 14. The code checks 14 <= 7, which is false, and prints -1.",
       "kind": "wrong-answer",
-      "reason": "Uses v=max(a) and rejects whenever 2*min(a)>max(a) instead of taking v=max(max(a),2*min(a)).",
+      "reason": "Fixes v = max(A) and rejects when 2*min(A) > max(A), instead of raising v to 2*min(A).",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "-1",
+          "constraints": "1<=n,m<=100, 1<=a_i,b_i<=100.",
+          "correctAnswer": "14",
+          "derivation": "a = [7], so v = max(7,14) = 14. min(b) = 15 (the smallest of the 50 values) and 14 < 15, so the answer is 14. The code checks 14 <= 7, which is false, and prints -1.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "ca2b650fd3001c0f9167bdc54cbae1787de6551eb47bb18760f429f0e206a6cd",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "-1\n",
+            "outputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+            "path": "archive/350A/sub-4624708-lf-0007.json",
+            "sha256": "20d321875ffdfbc8c8f6121e9e731f1ff788d61b8741e78b6a177c76d3392752",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/350A/summary.json",
+              "sha256": "1e19143de906952490c6db4ed770e23bdcf4230fdd925fea96d647ee82342d6f",
+              "sourceHash": "68b812dbe88f4800be4a1685f5a5aeb367993e7a528ced26c4b65e1650e66c95"
+            },
+            "verdict": "WA"
+          },
+          "test": "0007",
+          "validLFInput": "1 50\n7\n65 52 99 78 71 19 96 72 80 15 50 94 20 35 79 95 44 41 45 53 77 50 74 66 59 96 26 84 27 48 56 84 36 78 89 81 67 34 79 74 99 47 93 92 90 96 72 28 78 66\n",
+          "validLFInputSha256": "3d07ad8057d1703ebfeba68ceb6867176129ec1de3eb2c7767943be60efde974",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens. The LF rerun prints -1; no diagnostics; not TLE/RE.",
+        "faultyLogic": "Fixes v = max(A) and rejects when 2*min(A) > max(A), instead of raising v to 2*min(A).",
+        "implementedAlgorithm": "res=max(A); prints res if min(B)>res and 2*min(A)<=res, else -1.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "-1\n",
+          "outputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+          "path": "archive/350A/sub-4624708-lf-0007.json",
+          "sha256": "20d321875ffdfbc8c8f6121e9e731f1ff788d61b8741e78b6a177c76d3392752",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/350A/summary.json",
+            "sha256": "1e19143de906952490c6db4ed770e23bdcf4230fdd925fea96d647ee82342d6f",
+            "sourceHash": "68b812dbe88f4800be4a1685f5a5aeb367993e7a528ced26c4b65e1650e66c95"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "The smallest valid TL is v = max(max(a), 2*min(a)). It is valid iff v < min(b); otherwise print -1.",
+        "recordedFailedTest": "0007",
+        "sourceHash": "68b812dbe88f4800be4a1685f5a5aeb367993e7a528ced26c4b65e1650e66c95",
+        "sourceLines": [
+          {
+            "code": "res = max(A)\n\nif min(B) > res and min(A) * 2 <= res:\n    print(res)\nelse:\n    print(-1)",
+            "end": 9,
+            "start": 4
+          }
+        ]
+      },
       "test": "0007"
     },
     "4636542": {
       "algorithmicallyWrongOnFailedTest": false,
       "counterexample": "test 0001: prints \"2 5\\n5\"; with the debug line removed it gives 5 (AC).",
       "kind": "debug-output",
-      "reason": "Debug print(correct_time[0], correct_time[-1]) precedes the correct answer.",
+      "reason": "Debug output. Without line 21 (audit-only copy) it prints 5 = correct on LF 0001 (diag-lf proof).",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Debug output. Without line 21 (audit-only copy) it prints 5 = correct on LF 0001 (diag-lf proof).",
+        "faultyLogic": "The only output defect on the recorded test is the debug line 21. A latent off-by-one at 2*min(a) == min(b) does not occur on 0001.",
+        "implementedAlgorithm": "Sorts both lists. Line 21 prints min and max of the correct times (debug). Then -1 if max(a) >= min(b); -1 if 2*min(a) > min(b); else prints max(max(a),2*min(a)).",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "2 5\n5\n",
+          "outputHash": "cf1c22570f9381d8cc2704c41a658b5270453e33b8f2258d316ee6cba9e0eb25",
+          "path": "archive/350A/sub-4636542-lf-0001.json",
+          "sha256": "5e4f40dcae95d03f94151ce910d4db22e36bde8e1ca017f756cc3e4cb400f3d0",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/350A/summary.json",
+            "sha256": "1e19143de906952490c6db4ed770e23bdcf4230fdd925fea96d647ee82342d6f",
+            "sourceHash": "5061d24ee749f94a04496228c5220f18a565dca620f089c6bafa592724d6a743"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "The smallest valid TL is v = max(max(a), 2*min(a)). It is valid iff v < min(b); otherwise print -1.",
+        "recordedFailedTest": "0001",
+        "sourceHash": "5061d24ee749f94a04496228c5220f18a565dca620f089c6bafa592724d6a743",
+        "sourceLines": [
+          {
+            "code": "correct_time = toIntList(correct_solution)\ncorrect_time.sort()\nwrong_time = toIntList(wrong_solution)\nwrong_time.sort()\n\nprint(correct_time[0], correct_time[-1])\nif correct_time[-1] >= wrong_time[0]:\n    print(-1)\nelif correct_time[0] * 2 > wrong_time[0]:\n    print(-1)\nelse:\n    print(max(correct_time[-1], correct_time[0] * 2))",
+            "end": 27,
+            "start": 16
+          }
+        ]
+      },
       "test": "0001"
     },
     "4643135": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "3 6 / 4 5 2 / 8 9 6 10 7 11: expected 5, prints -1.",
+      "counterexample": "0001: correct 5, actual '-1'. a = [4,5,2], v = max(4,5) = 5. min(b) = 6 > 5, so the answer is 5. solve returns -1 because 5 > 6 is false.",
       "kind": "wrong-answer",
-      "reason": "Inverted feasibility test (returns v when v>min(b), -1 otherwise); the debug echo of the input is incidental, and with it removed the output is still -1.",
+      "reason": "Inverted feasibility test: it should return v when v < min(b). Removing the debug line still gives -1.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "-1",
+          "constraints": "1<=n,m<=100, 1<=a_i,b_i<=100.",
+          "correctAnswer": "5",
+          "derivation": "a = [4,5,2], v = max(4,5) = 5. min(b) = 6 > 5, so the answer is 5. solve returns -1 because 5 > 6 is false.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "originalOutputWithDiagnostics": "3 6 [4, 5, 2] [8, 9, 6, 10, 7, 11]\n-1\n",
+          "packageInputSha256": "8667c24863ff058c671409d57b9180529f8cdef899182b90f7f1000e89ebc5fd",
+          "proof": {
+            "label": "AUDIT-ONLY diagnostic-removed copy; upstream bytes preserved and bound by originalSourceHash",
+            "modifiedSourceHash": "4d2107774eb6c37d56ef791ecab9008965b32098bf28a333011d08f3b270188e",
+            "originalSourceHash": "06523633ed56317db82fe7b872a74558dc25d0fbad0c2554f3d7fc7abab801d7",
+            "output": "-1\n",
+            "outputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+            "path": "semantic/diag-lf/350A-4643135-diag-removed-lf-0001.json",
+            "sha256": "f9cb9ca65c711716bec9624e7b447e5c853f5c66a3cbf79dc23cb082fb1cc3dc",
+            "verdict": "WA"
+          },
+          "test": "0001",
+          "validLFInput": "3 6\n4 5 2\n8 9 6 10 7 11\n",
+          "validLFInputSha256": "d7b1accb7aa6cb037bffbf9de16c51f1f0af7f7210c0cfb9a3c26918e6894c78",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Debug line 10 is present. The counted wrongness comes from the audit-only copy with line 10 removed, which still prints -1 on LF 0001 (diag-lf proof).",
+        "faultyLogic": "Inverted feasibility test: it should return v when v < min(b). Removing the debug line still gives -1.",
+        "implementedAlgorithm": "solve: v = max(2*min(a), max(a)); returns v if v > min(b), else -1. Line 10 prints n, m, a, b (debug).",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "3 6 [4, 5, 2] [8, 9, 6, 10, 7, 11]\n-1\n",
+          "outputHash": "1b46b99541df5aa7154f869ce2f67ca37067ce00ba3414aea0a5bfd953eb0917",
+          "path": "archive/350A/sub-4643135-lf-0001.json",
+          "sha256": "e8f56712245b692ce0141ba98b0e2cee8d1c07d489bab071de99b9da0f5eb912",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/350A/summary.json",
+            "sha256": "1e19143de906952490c6db4ed770e23bdcf4230fdd925fea96d647ee82342d6f",
+            "sourceHash": "06523633ed56317db82fe7b872a74558dc25d0fbad0c2554f3d7fc7abab801d7"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "The smallest valid TL is v = max(max(a), 2*min(a)). It is valid iff v < min(b); otherwise print -1.",
+        "recordedFailedTest": "0001",
+        "sourceHash": "06523633ed56317db82fe7b872a74558dc25d0fbad0c2554f3d7fc7abab801d7",
+        "sourceLines": [
+          {
+            "code": "def solve(a, b):\n    if max(min(a) * 2, max(a)) > min(b):\n        return max(min(a) * 2, max(a))\n    else:\n        return -1",
+            "end": 5,
+            "start": 1
+          },
+          {
+            "code": "print(n, m, a, b)\nprint(solve(a, b))",
+            "end": 11,
+            "start": 10
+          }
+        ]
+      },
       "test": "0001"
     },
     "4650383": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "test 0001: expected 5, prints -1.",
+      "counterexample": "0001: correct 5, actual '-1'. v = max(5, 2*2) = 5 < min(b) = 6, so the answer is 5. The code checks 2 >= 11, which is false, and prints -1.",
       "kind": "wrong-answer",
-      "reason": "Compares against max(b) and min(a)>=max(b), unrelated to the problem condition.",
+      "reason": "Conditions use max(b) and require the correct solutions to be slower than all wrong ones, which is the opposite of the problem.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "-1",
+          "constraints": "1<=n,m<=100, 1<=a_i,b_i<=100.",
+          "correctAnswer": "5",
+          "derivation": "v = max(5, 2*2) = 5 < min(b) = 6, so the answer is 5. The code checks 2 >= 11, which is false, and prints -1.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "8667c24863ff058c671409d57b9180529f8cdef899182b90f7f1000e89ebc5fd",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "-1\n",
+            "outputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+            "path": "archive/350A/sub-4650383-lf-0001.json",
+            "sha256": "89caf0ce949eafdf4346a534974b967bbab9b6aa4dfd0b64af561c933cec5020",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/350A/summary.json",
+              "sha256": "1e19143de906952490c6db4ed770e23bdcf4230fdd925fea96d647ee82342d6f",
+              "sourceHash": "90b4eb1d3aaafa7d4e0a329a6b27e47a5f18157db4910753961c9266a1696b7b"
+            },
+            "verdict": "WA"
+          },
+          "test": "0001",
+          "validLFInput": "3 6\n4 5 2\n8 9 6 10 7 11\n",
+          "validLFInputSha256": "d7b1accb7aa6cb037bffbf9de16c51f1f0af7f7210c0cfb9a3c26918e6894c78",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens. The LF rerun prints -1; no diagnostics; not TLE/RE.",
+        "faultyLogic": "Conditions use max(b) and require the correct solutions to be slower than all wrong ones, which is the opposite of the problem.",
+        "implementedAlgorithm": "Prints Mb+1 if min(a) >= max(b) and 2*(Mb+1) <= max(a), else -1.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "-1\n",
+          "outputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+          "path": "archive/350A/sub-4650383-lf-0001.json",
+          "sha256": "89caf0ce949eafdf4346a534974b967bbab9b6aa4dfd0b64af561c933cec5020",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/350A/summary.json",
+            "sha256": "1e19143de906952490c6db4ed770e23bdcf4230fdd925fea96d647ee82342d6f",
+            "sourceHash": "90b4eb1d3aaafa7d4e0a329a6b27e47a5f18157db4910753961c9266a1696b7b"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "The smallest valid TL is v = max(max(a), 2*min(a)). It is valid iff v < min(b); otherwise print -1.",
+        "recordedFailedTest": "0001",
+        "sourceHash": "90b4eb1d3aaafa7d4e0a329a6b27e47a5f18157db4910753961c9266a1696b7b",
+        "sourceLines": [
+          {
+            "code": "Ma = max(a)\nMb = max(b)\nma = min(a)\n\nif ma>=Mb and 2*(Mb+1)<=Ma:\n\tprint( Mb+1 )\nelse:\n\tprint(-1)",
+            "end": 11,
+            "start": 4
+          }
+        ]
+      },
       "test": "0001"
     }
   },
@@ -75,6 +348,20 @@
     "nonRoot": true,
     "readOnly": true,
     "runner": "pipeline/pool_sandbox.run"
+  },
+  "semanticReview": {
+    "executionArchive": {
+      "immutable": true,
+      "sha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+      "url": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz"
+    },
+    "genuineAlgorithmicWrong": 4,
+    "method": "Source-specific manual review: full code of every designated-wrong source read line by line; implemented algorithm, faulty logic and exact source lines recorded; each counted counterexample derived by hand from problem semantics and checked against the package answer, an independent brute force, and the existing LF execution log.",
+    "performed": true,
+    "previousAuditDigest": "13506c2368f82635e25d48df61c4c3bc042587af100845be08dcbae078271dad",
+    "previousAuditFileSha256": "fc4d8389c505cb2adbc2ca8258a660a511557e44bf5809249418de853e4862d5",
+    "reviewer": "devin-5e1f99ced59a4a219ae81a8e70c05226",
+    "sourcesReviewed": 5
   },
   "verified": {
     "downloadedSourceVerification": "bundled provenance only (pinned-shard download cross-check left to parent)",
