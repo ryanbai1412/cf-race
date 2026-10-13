@@ -100,11 +100,21 @@ Builder child audits were read for cross-checking only; none of their approvals 
 
 - packageHash `590e236e38caee6ab2bd6a116d04ab2b36bb8264505c0e7f9ec6cc1467fcc99f`
 - evidenceHash `d2f827d4f7ee1623c8f1975dfb417dffca4bd7af1dd5069201aeda5579424daa`
-- auditHash `d815166389593c589a72a6319b006ea6267fdfdfb7ea8fb619f4c37178a127d5`
+- auditHash `77c0d3f1516e9161a477d3134f5102138e7bb028acac8be02dd0a733019b281b`
 - archive SHA256 `0cdd9980ca3b6c1c3f3cffec91d83afd2595abeed3a3bc2c7ed87a42b668fb66`
-- contract gate: {'auditHash': 'd815166389593c589a72a6319b006ea6267fdfdfb7ea8fb619f4c37178a127d5', 'passed': True}
+- contract gate: {'auditHash': '77c0d3f1516e9161a477d3134f5102138e7bb028acac8be02dd0a733019b281b', 'passed': True}
 - CRLF-input tests: 22; independent reference: tests=174, invalid=0, mismatches=0
 - issues: none
+
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 22026877 | L1: `n=(int(input())+2)//3` | 0004 | `1\n` | `0 0` | `0 1\n` | `a79122992d53d358` |
+| 42101202 | L7: `print(n//36, (n%36)//3+add)` | 0021 | `35\n` | `1 0` | `0 12\n` | `c84f1f0f270a4c12` |
+| 42101236 | L5: `if n%36 >= 18:` | 0003 | `24\n` | `0 8` | `1 0\n` | `f4a8ae8e74ddfb89` |
+| 49637309 | L2: `print(n//36+(n%36)/3)` | 0002 | `5\n` | `0 2` | `1.6666666666666667\n` | `effa2bb251dd23fe` |
+| 49637385 | L3: `print(str(n//36)+' '+str(ceil((n%36)/3)))` | 0004 | `1\n` | `0 0` | `0 1\n` | `a79122992d53d358` |
 
 | Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -116,7 +126,7 @@ Builder child audits were read for cross-checking only; none of their approvals 
 | [22026877](https://codeforces.com/contest/125/submission/22026877) | Python 3 | WRONG_ANSWER | WA | WA | 0004 | True | WA@0004 | - | True | wrong-answer: Rounds up with ceil(n/3); n=1 gives 1 inch but the statement rounds 1 cm to 0 inches. |
 | [42101202](https://codeforces.com/contest/125/submission/42101202) | Python 3 | WRONG_ANSWER | WA | WA | 0021 | True | WA@0021 | - | True | wrong-answer: Converts to feet before rounding inches; n=35 prints 0 12 instead of carrying to 1 0. |
 | [42101236](https://codeforces.com/contest/125/submission/42101236) | Python 3 | WRONG_ANSWER | WA | WA | 0003 | True | WA@0003 | - | True | wrong-answer: Rounds a remainder of 18 cm or more up to a whole foot; n=24 prints 1 0 instead of 0 8. |
-| [49637309](https://codeforces.com/contest/125/submission/49637309) | Python 3 | WRONG_ANSWER | WA | WA | 0001 | True | WA@0001 | - | True | wrong-answer: Prints one float (n//36 + (n%36)/3) instead of the integer pair a b. |
+| [49637309](https://codeforces.com/contest/125/submission/49637309) | Python 3 | WRONG_ANSWER | WA | WA | 0001 | True | WA@0001 | - | True | wrong-answer: print(n//36+(n%36)/3) never rounds to the nearest inch and mixes units, adding leftover inches onto feet. Test 0002, n=5: expected 0 2 (1.67 in rounds to 2); prints 1.6666666666666667, which is not 2 inches and not 0 ft 2 in. n=37: expected 1 0; prints 1.3333333333333333. |
 | [49637385](https://codeforces.com/contest/125/submission/49637385) | Python 3 | WRONG_ANSWER | WA | WA | 0004 | True | WA@0004 | - | True | wrong-answer: Rounds inches with ceil; n=1 prints 0 1 instead of 0 0. |
 
 ### 152C: REJECTED
@@ -355,6 +365,16 @@ Builder child audits were read for cross-checking only; none of their approvals 
 - issues: none
 - max-size coverage: {'bound': 100000, 'maxSizeMetric': 100000, 'nAtMax': 3, 'ratio': 1.0, 'test': '0037'}
 
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 153510996 | L4: `answer = threads.index(1)` | 0011 | `3\n1 3 2\n` | `2` | `0\n` | `9a271f2a916b0b6e` |
+| 211206820 | L10: `if ans==0: ans+=1` | 0005 | `1\n1\n` | `0` | `1\n` | `4355a46b19d348dc` |
+| 225897139 | L3: `print(a.index(1))` | 0011 | `3\n1 3 2\n` | `2` | `0\n` | `9a271f2a916b0b6e` |
+| 225897527 | L6: `k+=1` | 0011 | `3\n1 3 2\n` | `2` | `1\n` | `4355a46b19d348dc` |
+| 225898375 | L5: `while (a[i]-a[i-1])==1:` | 0008 | `3\n2 1 3\n` | `1` | `2\n` | `53c234e5e8472b6a` |
+
 | Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
 |---|---|---|---|---|---|---|---|---|---|---|
 | [3045836](https://codeforces.com/contest/270/submission/3045836) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
@@ -405,6 +425,16 @@ Builder child audits were read for cross-checking only; none of their approvals 
 - max-size coverage: {'bound': 10000, 'maxSizeMetric': 10000, 'nAtMax': 3, 'ratio': 1.0, 'test': '0035'}
 - CF-OK sources failing: 10617845 Python 3 WA@0034
 
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 9220573 | L41: `print(num-1)` | 0004 | `2 2\n0\n0\n` | `2` | `1\n` | `4355a46b19d348dc` |
+| 9357260 | L22: `print(sum(i == root(i) for i in range(n)) - any(lang))` | 0004 | `2 2\n0\n0\n` | `2` | `1\n` | `4355a46b19d348dc` |
+| 10617748 | L28: `print(n-1)` | 0004 | `2 2\n0\n0\n` | `2` | `1\n` | `4355a46b19d348dc` |
+| 11352639 | L10: `break` | 0004 | `2 2\n0\n0\n` | `2` | `1\n` | `4355a46b19d348dc` |
+| 11352706 | L16: `print(len(v) - 1)` | 0004 | `2 2\n0\n0\n` | `2` | `1\n` | `4355a46b19d348dc` |
+
 | Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
 |---|---|---|---|---|---|---|---|---|---|---|
 | [3208310](https://codeforces.com/contest/277/submission/3208310) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
@@ -428,6 +458,16 @@ Builder child audits were read for cross-checking only; none of their approvals 
 - CRLF-input tests: 32; independent reference: tests=186, invalid=0, mismatches=0
 - issues: none
 - max-size coverage: {'bound': 100, 'maxSizeMetric': 100, 'nAtMax': 10, 'ratio': 1.0, 'test': '0040'}
+
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 191418646 | L40: `if y in range(-1*x,abs(x)):` | 0067 | `-2 0\n` | `7` | `` | `e3b0c44298fc1c14` |
+| 193191838 | L39: `if self.quad == 3:` | 0014 | `3 -5\n` | `20` | `11\n` | `25d4f2a86deb5e25` |
+| 200117074 | L9: `elif x<0 and y>=4 and y<=-1-x:` | 0013 | `-1 0\n` | `3` | `0\n` | `9a271f2a916b0b6e` |
+| 206358102 | L21: `print(4*(abs(y))+1)` | 0143 | `3 0\n` | `9` | `8\n` | `aa67a169b0bba217` |
+| 211700308 | L10: `if x<=-y+1:` | 0004 | `-1 -1\n` | `3` | `4\n` | `7de1555df0c27003` |
 
 | Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -504,6 +544,16 @@ Builder child audits were read for cross-checking only; none of their approvals 
 - issues: none
 - max-size coverage: {'bound': 100, 'maxSizeMetric': 100, 'nAtMax': 14, 'ratio': 1.0, 'test': '0065'}
 
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 3832878 | L12: `if lst[i] != p[i] or kol[lst[i]] > 1:` | 0019 | `3\n1 2\n1 2\n1 1\n` | `1` | `0\n` | `9a271f2a916b0b6e` |
+| 3852053 | L9: `if a[b-1] == 0:` | 0016 | `2\n1 1\n1 1\n` | `0` | `1\n` | `4355a46b19d348dc` |
+| 3878628 | L9: `k+=1` | 0156 | `3\n2 1\n2 2\n1 2\n` | `0` | `-1\n` | `ee3aa64bb94a5084` |
+| 4204402 | L6: `if i != j and a[i][1] == a[j][0]: t.add(i)` | 0019 | `3\n1 2\n1 2\n1 1\n` | `1` | `2\n` | `53c234e5e8472b6a` |
+| 4403875 | L7: `if int(q[1]) not in a :` | 0056 | `1\n4 8\n` | `1` | `0\n` | `9a271f2a916b0b6e` |
+
 | Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
 |---|---|---|---|---|---|---|---|---|---|---|
 | [3831707](https://codeforces.com/contest/315/submission/3831707) | GNU C++0x | OK | AC | AC | None | True | AC@None | - | True |  |
@@ -528,6 +578,16 @@ Builder child audits were read for cross-checking only; none of their approvals 
 - issues: none
 - max-size coverage: {'bound': 1000000, 'maxSizeMetric': 1000000, 'nAtMax': 7, 'ratio': 1.0, 'test': '0050'}
 - CF-OK sources failing: 4176193 GNU C++ WA@0048
+
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 4177010 | L22: `if len(X) == 3 and len(Y) == 3 and X[0][1] == 3 and X[1][1] == 2 and X` | 0007 | `0 0\n2 1\n1 0\n0 2\n2 2\n1 0\n2 1\n0 2\n` | `ugly` | `respectable\n` | `17ea5b65144ac177` |
+| 4177576 | L14: `if (sorted(cols)[1], sorted(rows)[1]) in points:` | 0007 | `0 0\n2 1\n1 0\n0 2\n2 2\n1 0\n2 1\n0 2\n` | `ugly` | `respectable\n` | `17ea5b65144ac177` |
+| 4180814 | L20: `if [vertex[0] + i, vertex[1]] not in points:` | 0040 | `0 0\n0 1\n0 2\n1 0\n1 2\n3 0\n3 1\n3 2\n` | `respectable` | `ugly\n` | `c814470f06d13e98` |
+| 4187940 | L12: `if temp[0][1]==3 and temp[1][1] == 2 and temp[2][1] ==3:` | 0007 | `0 0\n2 1\n1 0\n0 2\n2 2\n1 0\n2 1\n0 2\n` | `ugly` | `respectable\n` | `17ea5b65144ac177` |
+| 4189069 | L23: `if q[2]-q[1]==q[1]-q[0] and w[2]-w[1]==w[1]-w[0]:` | 0007 | `0 0\n2 1\n1 0\n0 2\n2 2\n1 0\n2 1\n0 2\n` | `ugly` | `respectable\n` | `17ea5b65144ac177` |
 
 | Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -579,6 +639,16 @@ Builder child audits were read for cross-checking only; none of their approvals 
 - issues: none
 - max-size coverage: {'bound': 1000, 'maxSizeMetric': 1000, 'nAtMax': 3, 'ratio': 1.0, 'test': '0041'}
 
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 4881213 | L15: `Max, Last = Last, Nums[i]` | 0021 | `3\n1 0 3\n` | `no` | `yes\n` | `5040625b1fb6fa4a` |
+| 4882668 | L6: `if intersection > 1 and intersection not in [points[i][1] - points[i][` | 0013 | `4\n3 1 4 2\n` | `yes` | `no\n` | `564739ea8fa5926d` |
+| 4884281 | L9: `if min(a[i], a[i+1]) < min(a[j], a[j+1]) < max(a[i], a[i+1]) < max(a[j` | 0015 | `5\n1 9 8 7 0\n` | `yes` | `no\n` | `564739ea8fa5926d` |
+| 4885597 | L10: `mx[1]=last` | 0021 | `3\n1 0 3\n` | `no` | `yes\n` | `5040625b1fb6fa4a` |
+| 4900050 | L10: `if M <= Max and m >= Min:` | 0054 | `2\n-5 5\n` | `no` | `yes\n` | `5040625b1fb6fa4a` |
+
 | Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
 |---|---|---|---|---|---|---|---|---|---|---|
 | [4880789](https://codeforces.com/contest/358/submission/4880789) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
@@ -602,6 +672,16 @@ Builder child audits were read for cross-checking only; none of their approvals 
 - CRLF-input tests: 36; independent reference: tests=190, invalid=0, mismatches=0
 - issues: none
 - max-size coverage: {'bound': 100, 'maxSizeMetric': 100, 'nAtMax': 18, 'ratio': 1.0, 'test': '0093'}
+
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 5888189 | L12: `if not u[j] and a[j]<prev:` | 0055 | `3\n2 3 2\n` | `1` | `2\n` | `53c234e5e8472b6a` |
+| 5898411 | L22: `ml=a[j]+1` | 0183 | `5\n0 0 2 2 2\n` | `2` | `3\n` | `1121cfccd5913f0a` |
+| 9089117 | L12: `print(max(m,b))` | 0055 | `3\n2 3 2\n` | `1` | `2\n` | `53c234e5e8472b6a` |
+| 9126570 | L16: `if(i > k[t]):` | 0055 | `3\n2 3 2\n` | `1` | `2\n` | `53c234e5e8472b6a` |
+| 9245036 | L8: `ans=max(ans,b[i]-i);` | 0055 | `3\n2 3 2\n` | `1` | `2\n` | `53c234e5e8472b6a` |
 
 | Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -627,6 +707,16 @@ Builder child audits were read for cross-checking only; none of their approvals 
 - issues: none
 - max-size coverage: {'bound': 100, 'maxSizeMetric': 100, 'nAtMax': 6, 'ratio': 1.0, 'test': '0167'}
 - CF-OK sources failing: 170899 MS C++ CE@None, 51313344 Python 3 WA@0037
+
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 19534179 | L8: `s+=l[j]-l[j]%k` | 0004 | `2 2\n3 3\n` | `6` | `4\n` | `7de1555df0c27003` |
+| 27553787 | L8: `count+=x//l` | 0004 | `2 2\n3 3\n` | `6` | `4\n` | `7de1555df0c27003` |
+| 27553944 | L22: `print(len(b)*min(b))` | 0073 | `1 40\n96\n` | `96` | `4\n` | `7de1555df0c27003` |
+| 27554069 | L19: `max=min(b)` | 0075 | `2 11\n68 60\n` | `121` | `120\n` | `97b912eb4a61df5f` |
+| 36872890 | L6: `for i in range(l, max(a)):` | 0037 | `1 1\n1\n` | `1` | `0` | `5feceb66ffc86f38` |
 
 | Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -678,6 +768,16 @@ Builder child audits were read for cross-checking only; none of their approvals 
 - max-size coverage: {'bound': 2000, 'maxSizeMetric': 2000, 'nAtMax': 3, 'ratio': 1.0, 'test': '0034'}
 - CF-OK sources failing: 186320 MS C++ CE@None
 
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 5056958 | L14: `if a - b > best_score:` | 0071 | `5 5\n3 12 2 8 1\n` | `17` | `14\n` | `9a92adbc0cee38ef` |
+| 9382036 | L11: `if(vmin > an[i] - an[j]):` | 0071 | `5 5\n3 12 2 8 1\n` | `17` | `14\n` | `9a92adbc0cee38ef` |
+| 25366403 | L6: `for j in range(0,n-1,1):` | 0001 | `2 4\n3 7\n` | `8` | `4\n` | `7de1555df0c27003` |
+| 27681704 | L11: `print((b//list1[l.index(max(l))])*(max(l))+b)` | 0071 | `5 5\n3 12 2 8 1\n` | `17` | `14\n` | `9a92adbc0cee38ef` |
+| 61597190 | L8: `if a[j]/a[i] > m:` | 0071 | `5 5\n3 12 2 8 1\n` | `17` | `14\n` | `9a92adbc0cee38ef` |
+
 | Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
 |---|---|---|---|---|---|---|---|---|---|---|
 | [186180](https://codeforces.com/contest/41/submission/186180) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
@@ -701,6 +801,16 @@ Builder child audits were read for cross-checking only; none of their approvals 
 - CRLF-input tests: 46; independent reference: tests=200, invalid=0, mismatches=0
 - issues: none
 - max-size coverage: {'bound': 19100, 'maxSizeMetric': 19100, 'nAtMax': 1, 'ratio': 1.0, 'test': '0049'}
+
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 6752853 | L14: `if diff > max_diff:` | 0005 | `1234 3\n` | `4123` | `3214\n` | `03c68912fb8a8ad8` |
+| 6755856 | L9: `if j - i: continue` | 0096 | `39 1\n` | `93` | `39\n` | `eedb85ab90d324a5` |
+| 6756206 | L8: `while (j > 0) and (s[j] > s[j - 1]) and (k > 0):` | 0005 | `1234 3\n` | `4123` | `3214\n` | `03c68912fb8a8ad8` |
+| 6794843 | L17: `if b[l]==max(b):` | 0009 | `9022 2\n` | `9220` | `9202\n` | `4aa4c187186bf2a2` |
+| 6816804 | L7: `if a[i-1] < a[i]:` | 0150 | `446 1\n` | `464` | `644\n` | `0a2a5ea75282bf45` |
 
 | Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -752,6 +862,16 @@ Builder child audits were read for cross-checking only; none of their approvals 
 - issues: none
 - max-size coverage: {'bound': 255000, 'maxSizeMetric': 255000, 'nAtMax': 4, 'ratio': 1.0, 'test': '0015'}
 - CF-OK sources failing: 11283355 GNU C++ TLE@0014
+
+Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
+
+| Submission | Fault line(s) | Witness test | Input (LF) | Reference | Source output | outputHash |
+|---|---|---|---|---|---|---|
+| 11307618 | L21: `li.append(sum(g[f][:]))` | 0043 | `2 1 1\n1\n1\n1 1\n` | `1` | `0\n` | `9a271f2a916b0b6e` |
+| 11309046 | L11: `m = max(m, mr)` | 0143 | `1 4 2\n0 1 1 1\n1 1\n1 3\n` | `4\n2` | `4\n1\n` | `63e50714f29bc440` |
+| 11313092 | L13: `if sum(x) > max_bears:` | 0072 | `1 4 2\n1 0 1 0\n1 4\n1 3\n` | `2\n1` | `3\n2\n` | `751f43ef30ddf4d6` |
+| 11314099 | L8: `mas[x] = reduce(lambda c, d: c + d, a[x])` | 0072 | `1 4 2\n1 0 1 0\n1 4\n1 3\n` | `2\n1` | `3\n2\n` | `751f43ef30ddf4d6` |
+| 11320706 | L23: `if(high<sum(l[i])):` | 0072 | `1 4 2\n1 0 1 0\n1 4\n1 3\n` | `2\n1` | `3\n2\n` | `751f43ef30ddf4d6` |
 
 | Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
 |---|---|---|---|---|---|---|---|---|---|---|
