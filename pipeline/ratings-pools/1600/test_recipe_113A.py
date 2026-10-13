@@ -105,9 +105,11 @@ class GrammarRecipeTests(unittest.TestCase):
         base = Path(__file__).resolve().parent
         report = json.loads((base / 'recipe-reports/113A.json').read_text())
         source = report['statementAttestation']
-        body = (base / source['bodyPath']).read_bytes()
-        self.assertEqual(hashlib.sha256(body).hexdigest(), source['bodySha256'])
-        self.assertEqual(len(body), source['bodyBytes'])
+        body = (base / source['statementCopyPath']).read_bytes()
+        self.assertEqual(hashlib.sha256(body).hexdigest(), source['statementCopySha256'])
+        self.assertEqual(len(body), source['statementCopyBytes'])
+        self.assertTrue(body.startswith(b'<div class="problem-statement">'))
+        self.assertTrue(body.endswith(b'</div>'))
         self.assertIn(b'10<sup class="upper-index">5</sup>', body)
         self.assertEqual(report['normalizationProposal']['field'], 'input_format')
         self.assertEqual(report['normalizationProposal']['old'], 'does not exceed 105.')

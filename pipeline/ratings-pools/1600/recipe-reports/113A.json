@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "113A",
   "role": "recipe-author",
-  "status": "authored-pending-targeted-checks",
+  "status": "authored-final-capture-check-pending",
   "qualificationPerformed": false,
   "independentAuditPerformed": false,
   "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
@@ -47,10 +47,13 @@
     "originalProblemUrl": "https://codeforces.com/problemset/problem/113/A?locale=en",
     "sourceUrl": "https://codeforces.me/problemset/problem/113/A?locale=en",
     "attribution": "Grammar Lessons, Codeforces Beta Round 86 (Div. 1), Codeforces / Mike Mirzayanov; public English statement mirrored on codeforces.me.",
-    "transport": "Public unauthenticated HTTP GET; exact raw response-body bytes retained; no proxy authentication or access bypass.",
-    "bodyPath": "statement-sources/113A.recipe-author.original.html",
+    "transport": "Public unauthenticated HTTP GET; no proxy authentication or access bypass. Exact problem-statement HTML element retained; surrounding page chrome omitted, not whitespace-normalized.",
     "bodySha256": "74af906da671481b10fd0405107e8be14b970cbf216dc2dc97f473d13043eae5",
     "bodyBytes": 60464,
+    "statementCopyPath": "statement-sources/113A.recipe-author.original.html",
+    "statementCopySha256": "9b5712b0e4968d8441746e08c04fc30467874b58ee1ab95fd7cdcf2aa8dee5ce",
+    "statementCopyBytes": 4558,
+    "copyScope": "Exact contiguous 4558-byte problem-statement element of the SHA-bound 60464-byte response body, including full question, input/output specifications and all samples. No edits, additions, whitespace normalization or replacement within the element. Full raw HTTP body retained locally outside git; its chrome had trailing whitespace, which was not repaired in-place.",
     "locale": "en",
     "inputConstraintExcerpt": "The overall number of characters (including letters and spaces) does not exceed <span class=\"tex-span\">10<sup class=\"upper-index\">5</sup></span>.",
     "semanticsConfirmed": [
@@ -88,13 +91,13 @@
       "500 small fixed-seed random prefix/type/invalid-ending sequences (seed 1131600).",
       "All 160 generated cases, including legal maximum-size cases, checked by the independent whole-sentence grammars."
     ],
-    "executedCrossCheckedAssertions": null
+    "executedCrossCheckedAssertions": 27647
   },
   "generatedSuite": {
-    "plannedCount": 160,
+    "count": 160,
     "seeds": [1600113, 1131600],
     "coverage": "Six single-ending words and minimum invalid word; exhaustive 49 two-word combinations; both genders with 0..3 adjectives/verbs; late/multiple/missing noun, mixed gender, invalid early/middle/final words, internal endings, proper ending prefixes; fixed-seed small random sequences; twelve exactly-100000-character cases including 50000-word maximum.",
-    "countsByCategory": null,
+    "countsByCategory": {"boundary": 88, "adversarial": 60, "maxSize": 12},
     "qualificationStatus": "Authored cases only. No 5AC/5-genuine-WA or sixth external oracle execution and no independent signoff."
   },
   "sourceMotivatedCoverage": [
@@ -128,7 +131,7 @@
     }
   ],
   "upstreamReview": {
-    "status": "pending-targeted-checks",
+    "status": "reviewed",
     "advertisedOfficialTestsetSize": 360,
     "suppliedOfficialPairCount": 309,
     "suppliedSamplePairCount": 3,
@@ -136,10 +139,18 @@
     "externalGeneratedPairCountAdvertised": 9,
     "externalGeneratedPairsReviewed": 0,
     "externalGeneratedGap": "Attachment has metadata only for the separately stored generated-tests parquet; no pairs were fetched or invented.",
-    "failures": null
+    "officialPairsReviewed": 309,
+    "samplePairsReviewed": 3,
+    "failures": [],
+    "sourceRowHashAfterReview": "fd39961a601f7bd4cccde39c5e535722297c76e4af148994327c8f61944f45cf",
+    "reviewScope": "Every supplied official/sample input passed exact layout/range parsing and every supplied expected output matched the efficient oracle. No malformed pairs or contradictions were observed; no source bytes or outputs were altered."
   },
   "localChecks": {
-    "status": "pending-push-first",
+    "status": "functional-checks-passed-final-capture-check-pending",
+    "unitTestsPassed": 9,
+    "bruteCrossChecksPassed": 27647,
+    "syntax": "Both Python files AST-parsed successfully.",
+    "diffCheck": "Initial check found only trailing whitespace in full public-page chrome. Exact original statement element retained instead; final diff check pending.",
     "commands": [
       "python3 -m unittest discover -s pipeline/ratings-pools/1600 -p test_recipe_113A.py -v",
       "python3 AST parse of recipe_113A.py and test_recipe_113A.py",
