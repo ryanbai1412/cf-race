@@ -1,0 +1,50 @@
+{
+ "adversarial": [
+  {
+   "reason": "n=q=4e4 random k=1000",
+   "test": "0032"
+  },
+  {
+   "reason": "touching endpoints counted inclusive",
+   "test": "0034"
+  },
+  {
+   "reason": "k=n with one disjoint recipe -> 0",
+   "test": "0035"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "n=k=q=1 full range",
+   "test": "0030"
+  },
+  {
+   "reason": "point recipe at max",
+   "test": "0031"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 3,
+   "boundary": 2,
+   "maxSize": 1,
+   "random": 144
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "1<=k<=n<=2e5, q in [1,2e5]; 1<=li<=ri<=2e5; 1<=a<=b<=2e5",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_h.P816B.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "n=q=2e5 all full range k=n",
+   "test": "0033"
+  }
+ ],
+ "packageHash": "4e1ec08a3dd10a1873a001d3e2625191512048ccefeebdc032b87bfe79686ec9",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

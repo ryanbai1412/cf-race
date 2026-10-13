@@ -1,0 +1,46 @@
+{
+ "adversarial": [
+  {
+   "reason": "names differing only by case; uppercase sorts first",
+   "test": "0034"
+  },
+  {
+   "reason": "tie on points and difference decided by scored",
+   "test": "0035"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "n=2",
+   "test": "0031"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 2,
+   "boundary": 1,
+   "maxSize": 2,
+   "random": 145
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "n even in [2,50]; distinct (case-sensitive) letter names <=30; all n(n-1)/2 matches once 'a-b x:y' 0..100; unambiguous",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_e.P19A.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "n=50 strict ordering by index",
+   "test": "0032"
+  },
+  {
+   "reason": "n=50 all draws, ranking by goals scored (case-variant names)",
+   "test": "0033"
+  }
+ ],
+ "packageHash": "bd9c150a929a51b747b06c7f3252ad84ed7bc9be97fab92075565e8a9721db4b",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

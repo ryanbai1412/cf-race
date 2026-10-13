@@ -408,3 +408,21 @@ def _(r):
 def _(r):
     m = r.choice([r.randint(1, 4), r.randint(1, 100)])
     return f"{m} {r.choice([r.randint(0, 9 * m + 2), r.randint(0, 900)])}\n"
+
+
+@rand("19A")
+def _(r):
+    n = r.choice([2, 4, r.randrange(2, 51, 2)])
+    names = set()
+    while len(names) < n:
+        names.add("".join(r.choice(string.ascii_letters[:r.choice([2, 52])]) for _ in range(r.randint(1, r.choice([3, 30])))))
+    names = sorted(names)
+    r.shuffle(names)
+    hi = r.choice([3, 10, 100])
+    ms = []
+    for i in range(n):
+        for j in range(i + 1, n):
+            a, b = (names[i], names[j]) if r.random() < .5 else (names[j], names[i])
+            ms.append(f"{a}-{b} {r.randint(0, hi)}:{r.randint(0, hi)}")
+    r.shuffle(ms)
+    return f"{n}\n" + "\n".join(names) + "\n" + "\n".join(ms) + "\n"
