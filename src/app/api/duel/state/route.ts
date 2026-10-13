@@ -8,6 +8,8 @@ import {
   type DuelRoomPlayerRow,
 } from "@/lib/duel";
 import type { Problem } from "@/lib/types";
+import { visibleProblems } from "@/lib/problem-bank";
+import { DEFAULT_PROBLEM_RATING, ratingCounts } from "@/lib/problem-rating";
 
 export const dynamic = "force-dynamic";
 
@@ -44,6 +46,24 @@ export async function GET(req: NextRequest) {
   }
 
   const cur = await latestMatch(roomId);
+  if (freshRoom?.status === "racing" && (!cur || cur.match.finished_at) &&
+      (!freshRoom.start_claimed_at || Date.now() - new Date(freshRoom.start_claimed_at).getTime() > 30_000) &&
+      players?.some((player) => player.user_id === user.id)) {
+    try {
+      const { data } = await db().rpc("duel_lobby_action", {
+        p_room_id: roomId, p_user_id: user.id, p_action: "recover", p_patch: {},
+      });
+      if (data?.ok && !data.activeMatch) {
+        freshRoom = (
+          await db().from("duel_rooms").select("*").eq("id", roomId).maybeSingle<DuelRoomRow>()
+        ).data;
+      }
+    } catch {
+      // The next poll retries after the database becomes available.
+    }
+  }
+  const ratingCountsForLobby = (freshRoom ?? room).status === "lobby"
+    ? ratingCounts(await visibleProblems()) : ratingCounts([]);
 
   let match: Record<string, unknown> | null = null;
   if (cur) {
@@ -88,11 +108,14 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({
     serverNow: Date.now(),
     userId: user.id,
+    ratingCounts: ratingCountsForLobby,
     room: {
       id: room.id,
       status: (freshRoom ?? room).status,
       totalTimeSec: (freshRoom ?? room).total_time_sec,
       graceAfterAcSec: (freshRoom ?? room).grace_after_ac_sec,
+      rating: (freshRoom ?? room).problem_rating ?? DEFAULT_PROBLEM_RATING,
+      settingsVersion: (freshRoom ?? room).settings_version ?? 0,
       createdBy: room.created_by,
     },
     players: ((players ?? []) as DuelRoomPlayerRow[]).map((p) => ({

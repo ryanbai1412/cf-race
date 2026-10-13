@@ -12,18 +12,13 @@ export default async function SolvePage({
 }: {
   params: { id: string };
 }) {
-  const [user, { data: problem }, { data: all }] = await Promise.all([
+  const [user, { data: problem }] = await Promise.all([
     authUser(),
     db()
       .from("problems")
       .select("*")
       .eq("id", params.id)
       .maybeSingle<Problem & { tags: string[] | null }>(),
-    db()
-      .from("problems")
-      .select("id, tags")
-      .neq("id", "warmup-sum")
-      .order("id", { ascending: true }),
   ]);
   if (!problem || (problem.tags ?? []).includes("hidden")) notFound();
 
@@ -36,13 +31,9 @@ export default async function SolvePage({
         .maybeSingle()
     : { data: null };
 
-  const ids = (all ?? [])
-    .filter((p) => !((p.tags as string[] | null) ?? []).includes("hidden"))
-    .map((p) => p.id);
   return (
     <SoloClient
       problem={problem}
-      problemIds={ids}
       signedIn={user !== null}
       myStars={myRating?.stars ?? null}
     />

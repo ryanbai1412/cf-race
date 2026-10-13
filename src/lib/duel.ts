@@ -1,9 +1,9 @@
 import { db, logDbError } from "./db";
 import type { Lang } from "./types";
+import { DEFAULT_PROBLEM_RATING, type ProblemRating } from "./problem-rating";
 
 /** Latency grace (ms) added to server-side time-window checks. */
 export const SUBMIT_GRACE_MS = 3000;
-export const COUNTDOWN_MS = 3000;
 export const DEFAULT_GRACE_AFTER_AC_SEC = 60;
 
 export type DuelRoomRow = {
@@ -12,6 +12,9 @@ export type DuelRoomRow = {
   status: "lobby" | "racing" | "done";
   total_time_sec: number | null;
   grace_after_ac_sec: number | null;
+  problem_rating: ProblemRating;
+  settings_version: number;
+  start_claimed_at?: string | null;
   created_at: string;
 };
 
@@ -145,7 +148,7 @@ export async function resolveMatch(roomId: string): Promise<DuelMatchRow | null>
   logDbError(`resolveMatch: finish match ${match.id}`, finishErr);
   const { error: roomErr } = await db()
     .from("duel_rooms")
-    .update({ status: "lobby" })
+    .update({ status: "lobby", start_claimed_at: null })
     .eq("id", roomId)
     .eq("status", "racing");
   logDbError(`resolveMatch: reset room ${roomId}`, roomErr);
@@ -157,68 +160,51 @@ export async function resolveMatch(roomId: string): Promise<DuelMatchRow | null>
   return updated ?? { ...match, finished_at: new Date().toISOString(), winner_user_id: winner };
 }
 
-/**
- * Start a match for a room whose start was already claimed (status flipped
- * lobby → racing): pick the problem, create the match and one session per
- * player with a server-stamped start (now + countdown).
- */
+/** Create both players' runs atomically after the lobby's race claim. */
 export async function startDuelMatch(
   room: DuelRoomRow,
   playerIds: [string, string]
 ): Promise<{ ok: true } | { ok: false; error: string; status: number }> {
   const [userA, userB] = playerIds;
-  const problemId = await pickDuelProblem(userA, userB);
+  let problemId: string | null;
+  let pickFailed = false;
+  try {
+    problemId = await pickDuelProblem(userA, userB, room.problem_rating ?? DEFAULT_PROBLEM_RATING);
+  } catch {
+    problemId = null;
+    pickFailed = true;
+  }
   if (!problemId) {
-    const { error: roomErr } = await db()
-      .from("duel_rooms")
-      .update({ status: "lobby" })
-      .eq("id", room.id);
-    logDbError(`startDuelMatch: reset room ${room.id}`, roomErr);
-    const { error: readyErr } = await db()
-      .from("duel_room_players")
-      .update({ ready_at: null })
-      .eq("room_id", room.id);
-    logDbError(`startDuelMatch: clear ready ${room.id}`, readyErr);
-    return { ok: false, error: "no eligible problems left for this pair", status: 409 };
-  }
-
-  const startAt = new Date(Date.now() + COUNTDOWN_MS).toISOString();
-  const { data: match, error } = await db()
-    .from("duel_matches")
-    .insert({
-      room_id: room.id,
-      problem_id: problemId,
-      started_at: startAt,
-      total_time_sec: room.total_time_sec,
-      grace_after_ac_sec: room.grace_after_ac_sec,
-    })
-    .select("id")
-    .single();
-  if (error) return { ok: false, error: error.message, status: 500 };
-
-  for (const uid of playerIds) {
-    const { data: session, error: sErr } = await db()
-      .from("sessions")
-      .insert({
-        kind: "duel",
-        user_id: uid,
-        problem_id: problemId,
-        started_at: startAt,
-        timer_sec: room.total_time_sec,
-      })
-      .select("id")
-      .single();
-    if (sErr || !session) {
-      return { ok: false, error: sErr?.message ?? "failed to create session", status: 500 };
-    }
-    const { error: pErr } = await db().from("duel_players").insert({
-      match_id: match.id,
-      user_id: uid,
-      session_id: session.id,
+    const { error: resetErr } = await db().rpc("duel_lobby_action", {
+      p_room_id: room.id, p_user_id: userA, p_action: "reset",
+      p_patch: { startClaimedAt: room.start_claimed_at ?? null },
     });
-    if (pErr) return { ok: false, error: pErr.message, status: 500 };
+    logDbError(`startDuelMatch: reset room ${room.id}`, resetErr);
+    if (pickFailed) return { ok: false, error: "Could not load eligible problems. Try again.", status: 503 };
+    return { ok: false, error: `No unseen ${room.problem_rating ?? DEFAULT_PROBLEM_RATING}-rated problems left for this pair. Try another rating.`, status: 409 };
   }
-  return { ok: true };
+
+  try {
+    const { data, error } = await db().rpc("duel_start_match", {
+      p_room_id: room.id, p_user_a: userA, p_user_b: userB, p_problem_id: problemId,
+      p_claim_time: room.start_claimed_at ?? null,
+    });
+    if (!error && data?.ok) return { ok: true };
+    if (!error && data) return { ok: false, error: data.error, status: data.status ?? 500 };
+  } catch {
+    // A lost RPC response may follow a committed match; check before resetting.
+  }
+  try {
+    const { data: recovered, error: recoveryError } = await db().rpc("duel_lobby_action", {
+      p_room_id: room.id, p_user_id: userA, p_action: "reset",
+      p_patch: { startClaimedAt: room.start_claimed_at ?? null },
+    });
+    logDbError(`startDuelMatch: recover room ${room.id}`, recoveryError);
+    if (!recoveryError && recovered?.activeMatch) return { ok: true };
+  } catch {
+    // The state poll recovers a stale claim after the database comes back.
+  }
+  return { ok: false, error: "Could not create duel. Please retry.", status: 503 };
 }
 
 /**
@@ -231,11 +217,12 @@ export async function invalidatedProblemIds(
 ): Promise<Set<string>> {
   const ids = userIds.filter((id): id is string => Boolean(id));
   if (ids.length === 0) return new Set();
-  const { data } = await db()
+  const { data, error } = await db()
     .from("problem_invalidations")
     .select("problem_id")
     .in("by_user", ids)
     .is("revoked_at", null);
+  if (error) throw new Error("Could not load problem invalidations");
   return new Set((data ?? []).map((r) => r.problem_id as string));
 }
 
@@ -262,12 +249,14 @@ export async function invalidationFor(
  */
 export async function pickDuelProblem(
   userA: string,
-  userB: string
+  userB: string,
+  rating: ProblemRating = DEFAULT_PROBLEM_RATING
 ): Promise<string | null> {
-  const [{ data: problems }, invalidated, { data: seen }] = await Promise.all([
+  const [{ data: problems, error: problemsError }, invalidated, { data: seen, error: seenError }] = await Promise.all([
     db()
       .from("problems")
       .select("id, tags")
+      .eq("rating", rating)
       .neq("id", "warmup-sum"),
     invalidatedProblemIds([userA, userB]),
     db()
@@ -275,7 +264,7 @@ export async function pickDuelProblem(
       .select("problem_id")
       .in("user_id", [userA, userB]),
   ]);
-
+  if (problemsError || seenError) throw new Error("Could not load eligible duel problems");
   const seenIds = new Set((seen ?? []).map((s) => s.problem_id as string));
   const pool = (problems ?? [])
     .filter((p) => !((p.tags as string[] | null) ?? []).includes("hidden"))

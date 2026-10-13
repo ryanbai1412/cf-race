@@ -10,6 +10,9 @@ import { EmptyState } from "@/components/shell/page";
 import { formatMsPrecise } from "@/lib/templates";
 import { Play, Shuffle, Video } from "lucide-react";
 import { StarRating } from "@/components/problems/star-rating";
+import { RatingPicker } from "./rating-picker";
+import { usePracticeSettings } from "@/hooks/use-practice-settings";
+import { ratingCounts } from "@/lib/problem-rating";
 
 export type ProblemStatus = "unsolved" | "solved" | "attempted" | "invalidated";
 
@@ -36,6 +39,9 @@ export function ProblemsTable({ problems }: { problems: ProblemBankRow[] }) {
   const [filter, setFilter] = useState<Filter>("all");
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<Sort>("id");
+  const { rating, chooseRating } = usePracticeSettings();
+  const counts = useMemo(() => ratingCounts(problems.filter((p) => p.status !== "invalidated")), [problems]);
+  const unsolved = problems.filter((p) => p.rating === rating && p.status === "unsolved");
   const searchRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -63,6 +69,7 @@ export function ProblemsTable({ problems }: { problems: ProblemBankRow[] }) {
     const q = search.trim().toLowerCase();
     let out = problems.filter(
       (p) =>
+        p.rating === rating &&
         (filter === "all" || p.status === filter) &&
         (!q ||
           p.id.toLowerCase().includes(q) ||
@@ -76,10 +83,13 @@ export function ProblemsTable({ problems }: { problems: ProblemBankRow[] }) {
       return a.id.localeCompare(b.id);
     });
     return out;
-  }, [problems, filter, search, sort]);
+  }, [problems, rating, filter, search, sort]);
 
   return (
     <div className="space-y-4">
+      <div className="rounded-lg border border-border/60 bg-card/60 p-4 sm:max-w-lg">
+        <RatingPicker value={rating} onChange={chooseRating} counts={counts} />
+      </div>
       <div className="flex flex-wrap items-center gap-2">
         <Segmented options={FILTERS} value={filter} onChange={setAndSaveFilter} />
         <Input
@@ -93,8 +103,9 @@ export function ProblemsTable({ problems }: { problems: ProblemBankRow[] }) {
           size="sm"
           variant="secondary"
           className="h-8 shrink-0"
+          disabled={unsolved.length === 0}
           onClick={() => {
-            const pool = problems.filter((p) => p.status === "unsolved");
+            const pool = unsolved;
             if (pool.length === 0) return;
             const pick = pool[Math.floor(Math.random() * pool.length)];
             window.location.href = `/problems/${pick.id}/solve`;
@@ -173,7 +184,9 @@ export function ProblemsTable({ problems }: { problems: ProblemBankRow[] }) {
           </div>
         ))}
         {rows.length === 0 && (
-          <EmptyState>No problems match these filters.</EmptyState>
+          <EmptyState>{counts[rating] === 0
+            ? `No eligible ${rating}-rated problems are available yet. Choose another rating.`
+            : `No ${rating}-rated problems match these filters.`}</EmptyState>
         )}
       </div>
     </div>
