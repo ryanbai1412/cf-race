@@ -50,8 +50,19 @@ for d in sorted((WS / "packages").iterdir()):
     for f in d.rglob("*"):
         if f.is_file() and "tests" not in f.relative_to(d).parts:
             cp(f, OUT / "packages" / d.name / f.relative_to(d))
+for f in (OUT / "audits").glob("*.json"):
+    if not (WS / "audits" / f.name).exists():
+        f.unlink()
 for f in (WS / "audits").glob("*.json"):
     cp(f, OUT / "audits" / f.name)
+for f in (WS / "audits-revoked").glob("*.json"):
+    cp(f, OUT / "audits-revoked" / f.name)
+for f in WS.glob("reconciliation-*.json"):
+    cp(f, OUT / f.name)
+for f in Path.home().glob("attachments/*/rating1400-independent-audit-report.md"):
+    cp(f, OUT / "audits" / "main-gate-4faf13bf" / f.name)
+for f in Path.home().glob("attachments/*/independent-audit.json"):
+    cp(f, OUT / "audits" / "main-gate-4faf13bf" / f.name)
 for d in sorted((W / "audits_in").iterdir()):
     if (d / "AUDIT_REPORT.md").exists():
         cp(d / "AUDIT_REPORT.md", OUT / "audits" / "reports" / f"{d.name}.md")
