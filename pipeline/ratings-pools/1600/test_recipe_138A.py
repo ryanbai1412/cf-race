@@ -101,7 +101,7 @@ class Recipe138ATests(unittest.TestCase):
     def test_public_original_statement_binding(self):
         report = json.loads((BASE/'recipe-reports'/'138A.json').read_text())
         source = report['statementAttestation']
-        body = (BASE/source['bodyPath']).read_bytes()
+        body = source['bodyUtf8'].encode('utf-8')
         self.assertEqual(hashlib.sha256(body).hexdigest(), source['bodySha256'])
         context = json.loads(re.search(r'<script id="lentille-context" type="application/json">(.*?)</script>',
                                        body.decode(), re.S).group(1))
