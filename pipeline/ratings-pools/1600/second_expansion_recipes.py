@@ -178,8 +178,9 @@ def extras(pid):
     if pid == '1003D':
         for coins in ([1],[2**30],[1,1,2,4],[2,2,8]):
             add((coins,[1,2,3,7,8,10**9]),'singleton, missing odd value, reuse and query upper bound','boundary')
-        for coins in ([1]*200000,[2**30]*200000,[1<<(i%31) for i in range(200000)]):
-            add((coins,[1,10**9]*100000),'maximum coins and queries, power coverage or unavailable totals','maxSize')
+        for coins in ([1]*200000,[2**30]*200000):
+            add((coins,[1,10**9]),'maximum coin count with repeated smallest or largest denomination','maxSize')
+        add(([1<<(i%31) for i in range(200000)],[1,10**9]*100000),'simultaneous maximum coins and queries with every power represented','maxSize')
         for _ in range(140):
             add(([1<<rng.randrange(31) for _ in range(rng.randint(1,100))],[rng.randint(1,10**9) for _ in range(40)]),'fixed-seed denomination capacities and independent totals')
     elif pid == '214B':
