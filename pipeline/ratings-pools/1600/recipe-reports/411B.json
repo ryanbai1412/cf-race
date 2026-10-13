@@ -1,0 +1,131 @@
+{
+  "id": "411B",
+  "role": "recipe-author",
+  "status": "authored-local-checks-pending-not-qualified",
+  "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
+  "branch": "devin/1791857500-author-411b",
+  "inputVerification": {
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "archiveBytes": 4542856,
+    "manifestSha256": "c5aa6b8341d4ab6814424de54e241e91390fdc4c079e7f1daa4379bf07075381",
+    "file": "inputs/411B.json",
+    "fileBytes": 44761,
+    "fileSha256": "e334af46831f1f44aa1e3dec4a9d631d3dde248a18059662eea0c8751b2d0cc1",
+    "manifestEntryMatched": true,
+    "sourceRowHash": "62dcfe7599eb5a057e4776677cf2776a04e76f48397f014864d94a5c21017e31",
+    "sourceRowDigestMethod": "pool_contract.digest(sourceRow)",
+    "sourceRowHashMatched": true,
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "upstreamRowProvenance": {
+      "path": "data/train-00010-of-00011.parquet",
+      "bytes": 179423559,
+      "sha256": "d6bb6c0510d9bc14630fe19892faf29dd8954e081f7143b032a9963bfcfb2acb",
+      "scope": "Authenticated attachment records full LFS-shard extraction. Author verified the attached file and canonical row digest, not a fresh upstream shard download."
+    },
+    "preservation": "Read only inputs/411B.json and inputs/MANIFEST.json. No imported source row, statement, samples, tests, public program bytes, or expected outputs were changed."
+  },
+  "documentationRead": [
+    "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
+    "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md",
+    "pipeline/ratings-pools/1600/normalize_statement.py"
+  ],
+  "publicStatement": {
+    "sourceUrl": "https://codeforces.me/problemset/problem/411/B?locale=en",
+    "originalUrl": "https://codeforces.com/problemset/problem/411/B?locale=en",
+    "attribution": "Codeforces, Coder-Strike 2014 - Qualification Round, B. Multi-core Processor; public original English statement mirrored at codeforces.me.",
+    "captureMethod": "Unauthenticated public HTTPS GET with browser User-Agent; no authentication bypass or proxy token.",
+    "fullBodySha256": "f3130935a675dfedd8c88f57a53a05809d6c9e4099a30f77a2bd335bd6308774",
+    "fullBodyBytes": 60153,
+    "preservedPath": "statement-sources/411B.recipe-author.original.html",
+    "preservedSha256": "40167d263a44e056e89190e564f50c65fb39c4e4f230b4b93db8111694142249",
+    "preservedBytes": 5016,
+    "byteRange": {"startInclusive": 35831, "endExclusive": 40847},
+    "preservation": "The problem-statement div is an exact byte slice of the fetched body, without reformatting. Page chrome was not committed."
+  },
+  "statementNormalization": {
+    "status": "not-needed",
+    "replacements": [],
+    "exactSourceCorrectionProposal": [],
+    "reason": "Original English HTML and pinned row both state literal 1<=n,m,k<=100 and 0<=xij<=k. No lost numeric superscripts or ambiguous bounds occur. Subscripts label matrix coordinates and do not change semantics."
+  },
+  "semantics": {
+    "inputMode": "stdio",
+    "interactive": false,
+    "customChecker": false,
+    "constraints": "One instance; n,m,k each in 1..100. Header has exactly three integers. Exactly n subsequent rows have m integer commands in 0..k. Zero means do nothing, not cell zero.",
+    "transition": "Freeze live cores at cycle start. A cell with at least two live nonzero writers locks permanently and all those writers lock. Any live writer targeting an already locked cell also locks. Dead cores ignore all later instructions. The first lock time is never replaced.",
+    "output": "Exactly n lines, one uniquely determined integer per core: first lock cycle in 1..m or 0 if still live after m cycles.",
+    "oracle": "Per-cycle live-writer counts and a persistent cell-lock array, followed by simultaneous core updates; O(m*(n+k)) time and O(n+k) auxiliary space beyond the n*m input.",
+    "independentReference": "For each cycle freeze a dictionary of live nonzero writers. Enumerate unordered core pairs with matching commands and separately detect writes to the previously blocked-cell set. Remove all dying cores together and add newly blocked destinations. No frequency counting is used.",
+    "uniqueness": "Initial states and deterministic simultaneous transitions determine every first-lock time without tie-breaking, floating point, or alternative valid outputs."
+  },
+  "suppliedUpstream": {
+    "officialPairsAvailable": 16,
+    "samplePairsAvailable": 3,
+    "testsetSize": 46,
+    "inventoryOfficialCount": 46,
+    "officialTestsComplete": false,
+    "generatedTestsField": 14,
+    "generatedTestsFieldType": "integer count, not supplied input/output pairs",
+    "qualificationBlocker": "Incomplete official suite: the row contains 16 of the stated 46 official pairs. Authoring does not resolve qualification.",
+    "pairReview": {"status": "pending", "failedUpstreamPairs": null}
+  },
+  "sourceInspection": {
+    "scope": "Inspection only. No downloaded public source was compiled or executed. Observations motivate authored tests, not algorithmic-failure proofs or qualification.",
+    "observations": [
+      {
+        "submissionId": "6367305",
+        "sourceSha256": "fcd40f27c6193633de7acb16219619e1d71f77789f1db36748e88904e8b9086a",
+        "verdict": "WRONG_ANSWER",
+        "observation": "cnt[c] includes c=0 and enumerate(cnt) adds zero to locked_cells when multiple live cores idle.",
+        "motivatedWitness": {"input": "2 1 1\n0\n0\n", "output": "0\n0\n"}
+      },
+      {
+        "submissionId": "6368270",
+        "sourceSha256": "78b863ef80309d095b3eb0af827d3c71812537f5ed35d22355e83c814e9c2704",
+        "verdict": "WRONG_ANSWER",
+        "observation": "Cell processing loops over range(k), omitting the valid cell numbered k.",
+        "motivatedWitness": {"input": "2 1 3\n3\n3\n", "output": "1\n1\n"}
+      },
+      {
+        "submissionId": "180054938",
+        "sourceSha256": "73e2d15d6a2b80e59b71a3898dd9f36fd1adab5ca1648ba26803a18e3b899f11",
+        "verdict": "WRONG_ANSWER",
+        "observation": "The later mem[matrix[i][j]]==1 branch assigns a new time even when that core already locked.",
+        "motivatedWitness": {"input": "2 2 1\n1 1\n1 0\n", "output": "1\n1\n"}
+      }
+    ],
+    "otherAdversarialPatterns": [
+      "Dead cores cannot cause future collisions or lock new cells.",
+      "One live core hitting an old lock must die without a second active writer.",
+      "Different cores may write to a nonlocked cell in different cycles without a conflict.",
+      "All members of a conflict, including nonadjacent and third writers, must lock simultaneously.",
+      "Cell count k must not be confused with cycle count m."
+    ],
+    "mutationTests": "Self-authored conceptual mutants for idle-as-cell, forgotten cell locks, dead-writer participation, omitted cell k, and overwritten lock times. They are not executions of public submissions."
+  },
+  "authoredSuite": {
+    "plannedCount": 160,
+    "categories": ["boundary", "adversarial", "maxSize"],
+    "maximumDimensionCases": 5,
+    "construction": "Unique deterministic individual pairs: manual minima and semantic traps with row reversals, 12 delayed-lock schedules, highest-cell cascades for k=1..10, five 100x100 matrices with k=100, and fixed-seed dense/sparse/delayed small random matrices to reach 160.",
+    "seeds": {"extras": 4111600, "bruteRandom": 4112026},
+    "exhaustiveDimensions": [[1,1,1], [1,3,2], [2,1,3], [2,2,2], [2,3,2], [3,2,2], [3,3,1], [3,2,3], [4,2,1]],
+    "plannedCrossChecks": {"exhaustive": 6448, "random": 500, "generated": 160},
+    "countingUnit": "One whole answer-vector comparison against the independently implemented pairwise reference; no per-token inflation."
+  },
+  "localValidation": {"status": "pending-push-first"},
+  "qualification": {
+    "performed": false,
+    "auditPerformed": false,
+    "independentSignoff": false,
+    "publicProgramsExecuted": false,
+    "qualified": false,
+    "followup": "Parent must integrate and execute in the unchanged pinned sandbox. For generated-basis qualification, require five actual accepted validators, five genuinely algorithmic wrong sources, a distinct sixth accepted external oracle, and later different-agent audit. This recipe is not a validated problem or qualification."
+  },
+  "scope": "Only recipe_411B.py, test_recipe_411B.py, recipe-reports/411B.json and the optional attributed statement-sources/411B.recipe-author.original.html were authored. No shared registrations, packages, runtime state, qualification/evidence/audit files, main push, PR, deployment, or remote database/storage mutation."
+}
