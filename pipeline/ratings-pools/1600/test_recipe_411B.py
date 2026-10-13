@@ -1,6 +1,5 @@
 """Functional author checks; never executes downloaded public submissions."""
 import hashlib
-import importlib.util
 import json
 import os
 from pathlib import Path
@@ -86,6 +85,7 @@ class Recipe411BTests(unittest.TestCase):
                 self.assertEqual(recipe._pairwise(data), expected)
 
     def test_reasoned_mutation_witnesses(self):
+        generated_inputs = {case['input'] for case in recipe.extras('411B')}
         witnesses = [
             ('2 1 1\n0\n0\n', [0, 0], {'idle': True}),
             ('3 2 1\n1 0\n1 0\n0 1\n', [1, 1, 2], {'reset': True}),
@@ -96,6 +96,7 @@ class Recipe411BTests(unittest.TestCase):
         for text, expected, mutation in witnesses:
             with self.subTest(mutation=mutation):
                 data = recipe.parse('411B', text)
+                self.assertIn(text, generated_inputs)
                 self.assertEqual(recipe.answer('411B', data), expected)
                 self.assertNotEqual(_mutant(data, **mutation), expected)
 
@@ -163,10 +164,11 @@ class Recipe411BTests(unittest.TestCase):
     def test_pinned_upstream_bytes_constraints_and_oracle(self):
         path = Path(os.environ['RECIPE_411B_INPUT_ARCHIVE'])
         self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), ARCHIVE_SHA256)
-        spec = importlib.util.spec_from_file_location('pool_contract_411b',
-                                                     BASE.parents[1] / 'pool_contract.py')
-        contract = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(contract)
+        sys.path.insert(0, str(BASE.parents[1]))
+        try:
+            from pool_contract import digest
+        finally:
+            sys.path.pop(0)
         with tarfile.open(path) as archive:
             manifest = json.load(archive.extractfile('inputs/MANIFEST.json'))
             raw = archive.extractfile('inputs/411B.json').read()
@@ -175,7 +177,7 @@ class Recipe411BTests(unittest.TestCase):
                          {'bytes': len(raw), 'sha256': INPUT_SHA256})
         data = json.loads(raw)
         row = data['sourceRow']
-        self.assertEqual(contract.digest(row), ROW_HASH)
+        self.assertEqual(digest(row), ROW_HASH)
         self.assertEqual(data['sourceRowHash'], ROW_HASH)
         self.assertEqual(data['pins'], {
             'open-r1/codeforces': 'fbe3f6e903ee854eec2e69e9d96d0306cde59baf',
