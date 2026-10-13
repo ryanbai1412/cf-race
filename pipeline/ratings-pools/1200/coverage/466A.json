@@ -2,11 +2,15 @@
   "adversarial": [
     {
       "reason": "remainder cheaper as an extra m-ticket than singles",
-      "test": "0022"
+      "test": "0023"
     },
     {
       "reason": "m-ticket never worth it (b >= m*a)",
-      "test": "0023"
+      "test": "0024"
+    },
+    {
+      "reason": "tie b == m*a",
+      "test": "0025"
     }
   ],
   "boundary": [
@@ -17,21 +21,24 @@
     {
       "reason": "m > n: one m-ticket cheaper than n singles",
       "test": "0021"
+    },
+    {
+      "reason": "n == m",
+      "test": "0022"
     }
   ],
-  "checkerSemantics": "Single minimum integer cost; unique value, token comparison exact.",
-  "inputConstraints": "19 official pairs and 0 open-r1 generated pairs were each accepted by the authored input validator (pipeline/problems/466A/recipe.py check_input) and reproduced by the authored reference solve(); 6 authored tests were built by tests() and validated by the same check_input before output computation. solve() agreed with an independent brute() on 300/300 small inputs.",
+  "checkerSemantics": "Single minimum integer cost; unique value, exact token comparison.",
+  "inputConstraints": "Every supplied pair (19 upstream supplementary + 128 authored) was executed by the independently authored oracle (independent-oracle-session https://staging.itsdev.in/sessions/6df3b1aecd144341b47364542915b70a), which strictly validates all statement constraints and exits nonzero on violation, and reproduced the expected output under the problem limits in the bounded sandbox (qualification/oracle.json). Authored inputs come from pipeline/problems/466A/recipe.py cases().",
   "maxSize": [
     {
-      "reason": "all parameters maximal; answer 1000",
-      "test": "0024"
+      "reason": "all parameters maximal",
+      "test": "0026"
     },
     {
       "reason": "n maximal, singles maximal, cheap m=1 ticket",
-      "test": "0025"
+      "test": "0027"
     }
   ],
-  "oracleHash": "31d258d48e85fd6bb0ef92281e289057168234bdd07f9593bf349f00508fd5f3",
-  "packageHash": "8b898de114cbef226eb575580a76be18d0c4ae633c916e8af39b8461cb5aa70f",
-  "statementComplete": "Full legend, input (n,m,a,b in [1,1000]), output and note present in source row; no hidden constraints."
+  "packageHash": "e0af813f2050a163bedf703c265706978d1bf8197194d54fb59013bb388a792a",
+  "statementComplete": "Full legend, input (n,m,a,b in [1,1000]), output and note present in the pinned source row."
 }
