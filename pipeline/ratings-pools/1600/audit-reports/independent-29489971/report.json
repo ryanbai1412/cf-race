@@ -1,0 +1,101 @@
+{
+  "archive": "rating1600-sevengenerated-current-audit.tar.gz",
+  "archiveBytes": 26805520,
+  "archiveHash": "634f210fa0f9341d63af01af9363553623b7f6080705ab8ee11192620495e180",
+  "archiveManifestVerified": "all 3112 provenance-listed members match sha256 and size; only extra member is 1600/ARCHIVE-MANIFEST.json",
+  "archiveMembers": 3113,
+  "assignedIds": [
+    "246D",
+    "525C",
+    "534C"
+  ],
+  "rejectedIds": {
+    "525C": {
+      "coverageHash": "4695d0250a5e5e2986bfd7ca13a29500a21737d02791c0b63f6086084a2664e5",
+      "evidenceHash": "0d342ad3d0ad827568e6bc3e1f19be546ff16465b1ceda022bd6054553911d7b",
+      "generatorProofHash": "a139c0efe32a9875debb02d9ca51b0180abc5cb8084d8925d1d083942cfef1a8",
+      "oracleProofHash": "02b24abc1fe4173800eccf3478b97f636fc7d74cfc65872ca0c1f01fe5bc9ce4",
+      "packageHash": "728815c87e08ab595eae0c0e527a7f908dfce430ed3255de68f8aa2b007792b3",
+      "quirkFixRerun": {
+        "fails": 171,
+        "firstFailures": [
+          "0004",
+          "0005",
+          "0006"
+        ],
+        "replacement": "print(\"NO\") -> print(0)",
+        "test0002": "AC"
+      },
+      "reason": "Counted incorrect 10514226's recorded first failure 0002 (input '4 / 2 2 3 5', expected 0) is an output-format artifact: it prints the literal 'NO' for 'no rectangle'. Replacing only print(\"NO\") with print(0) and rerunning in the sandbox makes 0002 AC (first failure moves to 0004), so 0002 is not an algorithmic counterexample, and incorrectAnalysis.test must equal failedTest. The other 4 counted incorrect sources (10469348, 10481957, 10488321, 10551917) do show real algorithmic WA on their failedTests. Everything else checked out: tests/statement/sources byte-exact to pins, own oracle+validator 211/211, brute 2392 equal, generator reproducible, sixth oracle 10463038 AC with matching hashes.",
+      "semanticHash": "d620f580c9b80afd482d5b99a45d8c5b9dcc3adb02b8c24754301ade3cebe73e",
+      "statementAttestationSha256": "d24deebc68ab10a716b4c87a1922a8602e0b1917e44943ec875bea35732bd75a",
+      "statementOriginalSha256": "7280540bbaf13e22673b2c793e52096184ddb83b2692024e4f62144c6e18e3fd",
+      "statementSha256": "07733c5438e8693ae15ffdd69a491b3773a17f5183b3350ff13818739a986ffe",
+      "testPairsHash": "80770409851da57af548ae7d5d3cdb7c1f4ae6d20a1ee1fa710f6910505746e9",
+      "witness": {
+        "exitCode": 0,
+        "expected": "0\n",
+        "inputSha256": "132ccc590d9f24eccba0d36bafe379f52e4bfe0d3a71717e3c78cb5d57944365",
+        "lfNormalizedOutput": "NO\n",
+        "rawOutput": "NO\n",
+        "rawOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "recordedOutputHashMatches": true,
+        "sourceHash": "2e79992f375fbfec9d8f74f27cfe5cb6a42c0f348d97c5a909d86b0011bdeadc",
+        "test": "0002",
+        "timeout": false
+      }
+    },
+    "534C": {
+      "coverageHash": "2e3f6f53abc1d789ad672467ee294130a068ea3aea39e9dd28492e0457c5a1b7",
+      "evidenceHash": "36019b1ff17f1b655537b9150f7cdaa7e76bcbe2d2ceaa6de4128bef9b6f823c",
+      "generatorProofHash": "67143d563ac58cf7b384f84676115f3e0ee61e4b96189082af79de2468482c04",
+      "oracleProofHash": "390f7424ca2f01d6412049a7c0898264809513aa740c4af16dafc1d632e88112",
+      "packageHash": "d93edacd6548bf9e1917ed8c0353d60761e34e7f59192671e2482516cfb550d4",
+      "quirkFixRerun": {
+        "fails": 0,
+        "replacement": "print(ans) -> print(*ans)",
+        "testsRun": 186
+      },
+      "reason": "Counted incorrect 10866209 has a correct algorithm (d - min(d, A-n+1) + max(1, A-(s-d)) - 1 counts) and prints the Python list repr '[3, 3]'. Replacing only print(ans) with print(*ans) and rerunning in the sandbox gives AC on all 186 tests. So its failure (failedTest 0001) is format-only, and only 4 of the 5 counted incorrect sources are algorithmically wrong. Everything else checked out: bytes, validator, own oracle 186/186, brute 2218 equal, generator, sixth oracle 10674403.",
+      "semanticHash": "a00871bfc7a9a461d174c3300d2d973f746de7ef31c836fb6987e410a2afa51b",
+      "statementAttestationSha256": "46bc8af4d79a44f9086b6427f8d4dd2a5bac599389febc34125b440955aae616",
+      "statementOriginalSha256": "3dc349108ef6af149da9f7ddda3c36c3c5e5e7ccc1266228b3f26d97fa191172",
+      "statementSha256": "33a309b0895ebd3b6d52ba75cc613d5b245be7864d391931aed766d7d2df30e2",
+      "testPairsHash": "e6b4c8f9ef20ac6d9f0f65dc07e4cdefe74d11f122726b4b6f7db9ada91aaaa6",
+      "witness": {
+        "exitCode": 0,
+        "expected": "3 3 ",
+        "inputSha256": "c695c4654464352d2e911aa186287c913805b28df1dc5c51e2b6f233ccb51b3c",
+        "lfNormalizedOutput": "[3, 3]\n",
+        "rawOutput": "[3, 3]\n",
+        "rawOutputHash": "86416c9703468e2d347c0a2406a06920bc69c71743278f75bb6dbfc644700e7f",
+        "recordedOutputHashMatches": true,
+        "sourceHash": "a6f523b7a385db300ecff63a0333ccda1edd6a593466b71d6c0d4578313b56d0",
+        "test": "0001",
+        "timeout": false
+      }
+    }
+  },
+  "reviewUrl": "https://staging.itsdev.in/sessions/29489971c0254cf887826aab3b31ea07",
+  "reviewer": "devin-29489971c0254cf887826aab3b31ea07",
+  "schemaVersion": 1,
+  "signed": {
+    "246D": {
+      "auditHash": "9567c577130f22bd74f1ece7b941a7fe4721059f6b15a0c2877959e64b718530",
+      "coverageHash": "4e8b09f58b3a23c7776c11170d31258a1974972eed472527e2837e5603b39532",
+      "evidenceHash": "0aedb1a8aaf1be84b489e16a4eb709a17a5d71e821c3b7ddc16742fae0c1fcfe",
+      "generatorProofHash": "d932bc94221ddc577df30eb97a700e51a563ca5e9d889a5c3672458c1de309fb",
+      "oracleProofHash": "5b26d8119f0ce37be7449777d00f15db2dbcb399d467e1d46152c925d24a9955",
+      "packageHash": "29d892a1593c8dae2d8384fd8e7b213a004c3f81f3d972c136c4a44fd3347b5d",
+      "semanticHash": "b5cff798d9cd516d29eec39f01255bf1fe3cced6fa62a2f007db238f73c6ac87",
+      "statementAttestationSha256": "b57c85ffa618f8237d76ed935912ef8662277019ef054198ed8fa292e0541b84",
+      "statementOriginalSha256": "286ca04244db9c184447261a4e75cdc43554f58c939d576eb3f2004751a4ae86",
+      "statementSha256": "edaccb7b08d3fda87af8e31415c92159c8f90aae723af675fe6bff6fcdf757a1",
+      "testPairsHash": "8c9f29326b2abdf75f39205df0d5ad5f7fa90f62452bf8269a59e42e51ed4eed"
+    }
+  },
+  "signedCount": 1,
+  "signedIds": [
+    "246D"
+  ]
+}
