@@ -1,0 +1,43 @@
+{
+ "704A/19747251": {
+  "algorithm": "per-app list of event indices, reads[x] = number read per app, z = unread total; type 3 sweeps all apps with bisect",
+  "fault": "line 20 rebinds i to the app id, then bisect(l, i) bounds by the app id instead of the event index of the t-th generated notification, and reads.get(x,0) uses x not the app i, so prefix reads are miscounted",
+  "faultyLines": [
+   20,
+   21
+  ]
+ },
+ "704A/19861223": {
+  "algorithm": "keeps list of unread notifications' app ids; type 2 removes app's entries; type 3 slices",
+  "fault": "list = list[data:] drops the first t currently-unread notifications, not the first t generated notifications (some of which may already be read)",
+  "faultyLines": [
+   17
+  ]
+ },
+ "704A/19864529": {
+  "algorithm": "per-event snapshot of per-app unread counts; type 3 subtracts a snapshot",
+  "fault": "subtracts data[t], the state after event t, not the state after the t-th type-1 notification; event index != notification index",
+  "faultyLines": [
+   31
+  ]
+ },
+ "704A/20067801": {
+  "algorithm": "app list of generated notifications with -1 for read; type 3 marks prefix",
+  "fault": "type 2 adds l[b] to check and marks only app.index(b) (first occurrence) as read; type 3 subtracts (b-check) treating check as a prefix pointer, conflating type-2 reads with the first-t prefix",
+  "faultyLines": [
+   15,
+   17,
+   19,
+   22,
+   23
+  ]
+ },
+ "704A/20796252": {
+  "algorithm": "single global unread counter: +1 on type 1, -1 on type 2, total = t - total on type 3",
+  "fault": "type 2 subtracts exactly 1 instead of all unread notifications of app x; type 3 sets total = t - total, which is not the number of unread notifications after reading the first t generated ones",
+  "faultyLines": [
+   10,
+   12
+  ]
+ }
+}
