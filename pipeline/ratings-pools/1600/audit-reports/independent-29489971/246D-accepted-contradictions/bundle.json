@@ -1,0 +1,367 @@
+{
+  "classification": {
+    "18068039": "algorithmically wrong: only scans color ids 1..n, but the statement allows ci up to 10^5 independent of n. Fails upstream open-r1 generated 0015 (n=70399, 20939 vertices with color > n) as well as worker tests.",
+    "18139941": "algorithm correct; environment-only failure (stack overflow on 10^5-deep recursive DFS) on max-size 0032.",
+    "18154994": "algorithmically wrong: seeds the answer with the minimum present color and ties at diversity 1 against it even when that color has diversity 0.",
+    "18155794": "algorithmically wrong: c[i].insert(i) for vertex index i pollutes color sets with vertex ids, and own color is not excluded."
+  },
+  "generatorConstraintReview": {
+    "expectedOutputsIndependentlyVerified": "Every expected output equals my own oracle; the oracle equals a literal-definition brute force on 19,592 small cases; the 5 counted accepted sources and the disjoint sixth oracle 2614960 also match on all 173 tests. Each witness's expected value is from the literal brute.",
+    "failingTestsAllValid": true,
+    "generatorDomains": {
+      "0029-0031": "hand-authored boundary graphs (n=2 or 5, simple)",
+      "0032": "n=m=10^5 cycle, colors 1..10^5 all distinct, edges (i,i+1) and (10^5,1)",
+      "0033": "n=m=10^5 star plus edge 2-3, colors in 1..10 and 10^5",
+      "0034-0173": "fixed-seed: n in 2..30, colors 1..10, edges a nonempty prefix of a shuffled list of distinct pairs from itertools.combinations, so simple and loop-free with 1<=m<=n(n-1)/2"
+    },
+    "method": "Own strict validator mine/v246D.py (in this directory) run in the pinned sandbox over all 173 tests and both samples, zero violations: first line exactly 'n m' with 1<=n,m<=10^5; second line exactly n colors 1..10^5; exactly m edge lines 'a b' with 1<=a,b<=n, a!=b; no duplicate undirected edge; canonical integers; single spaces; LF (CRLF only on byte-exact upstream official pairs).",
+    "verdict": "No statement constraint is violated by any test, including every test these four sources fail."
+  },
+  "id": "246D",
+  "packageHash": "29d892a1593c8dae2d8384fd8e7b213a004c3f81f3d972c136c4a44fd3347b5d",
+  "reviewer": "devin-29489971c0254cf887826aab3b31ea07",
+  "sandbox": {
+    "flags": "-O2 -std=c++17 -DONLINE_JUDGE",
+    "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+    "limits": "1 CPU, 1280m no swap, pids 64, read-only root, nonroot, cap-drop ALL, no-new-privileges, per-test 2s CPU / 256MB AS, default 8MB stack",
+    "network": "none"
+  },
+  "schemaVersion": 1,
+  "sources": {
+    "18068039": {
+      "sourceBytes": 764,
+      "sourcePath": "sources/18068039.cpp",
+      "sourceSha256": "fbeff530ce851eb27860f23ce52ea67008a02b265adf9006403a5e483038ed43",
+      "suiteFailures": [
+        {
+          "actual": "1\n",
+          "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "cpuSeconds": 0.037,
+          "exitCode": 0,
+          "expected": "75517\n",
+          "expectedOutputSha256": "73ba8cfb9147e29307a611bde9ee62848d4952140b5ec470335d79378967d8a1",
+          "inputSha256": "fddeb6f5c5e20a6378a05c065e37b41c1f83b8f38ad4c890f0b5f24303449cbf",
+          "origin": "open-r1-generated",
+          "test": "0015",
+          "timeout": false
+        },
+        {
+          "actual": "1\n",
+          "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "cpuSeconds": 0.004,
+          "exitCode": 0,
+          "expected": "7\n",
+          "expectedOutputSha256": "10159baf262b43a92d95db59dae1f72c645127301661e0a3ce4e38b295a97c58",
+          "inputSha256": "20a9e9ffae0fc8597ab260a5ebeec08002c8522f63bc21f8a74eaeb2ed66e3e5",
+          "origin": "worker-generated",
+          "test": "0039",
+          "timeout": false
+        },
+        {
+          "actual": "3\n",
+          "actualOutputSha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+          "cpuSeconds": 0.003,
+          "exitCode": 0,
+          "expected": "10\n",
+          "expectedOutputSha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+          "inputSha256": "231db4c8a16855c4af584579626b92752af50485f41e86c9ce17b6303ae9262e",
+          "origin": "worker-generated",
+          "test": "0122",
+          "timeout": false
+        },
+        {
+          "actual": "4\n",
+          "actualOutputSha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+          "cpuSeconds": 0.004,
+          "exitCode": 0,
+          "expected": "6\n",
+          "expectedOutputSha256": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+          "inputSha256": "8262966cfd89563d2aad88ad26703cd107b51442913bba5e479de4e271148bf5",
+          "origin": "worker-generated",
+          "test": "0130",
+          "timeout": false
+        },
+        {
+          "actual": "1\n",
+          "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "cpuSeconds": 0.003,
+          "exitCode": 0,
+          "expected": "8\n",
+          "expectedOutputSha256": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+          "inputSha256": "90360c9921c858c224edd9d76c97c3f40382dc0f3e7aa863515ca81d2d5b1353",
+          "origin": "worker-generated",
+          "test": "0165",
+          "timeout": false
+        }
+      ],
+      "suiteTestsRun": 173,
+      "upstream": {
+        "creationTimeSeconds": 1464165296.0,
+        "dataset": "open-r1/codeforces-submissions",
+        "passedTestCount": 37.0,
+        "path": "data/train-00023-of-00036.parquet",
+        "problem_id": "246/D",
+        "programmingLanguage": "GNU C++",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "shardSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+        "submission_id": "18068039",
+        "testset": "TESTS",
+        "url": "https://codeforces.com/contest/246/submission/18068039",
+        "verdict": "OK"
+      },
+      "witness": {
+        "input": "3 2\n1 5 6\n1 2\n2 3\n",
+        "inputSha256": "b7c0deeb87ff1987e47c427bbcd5919934e6469784e4441adf93b0a50ba87360",
+        "literalBruteExpected": "5",
+        "ownOracle": {
+          "exitCode": 0,
+          "output": "5\n"
+        },
+        "source": {
+          "exitCode": 0,
+          "output": "1\n"
+        }
+      }
+    },
+    "18139941": {
+      "sourceBytes": 1541,
+      "sourcePath": "sources/18139941.cpp",
+      "sourceSha256": "6f8930aa9587ec96de7f775033d93768f80783195c0c3ba1590786b00055306f",
+      "stackReplay": {
+        "conclusion": "Same bytes, same sandbox: SIGSEGV under the default 8MB stack, correct output '1' with a 256MB stack (Codeforces runs with a large stack). The algorithm is correct; the failure is recursion depth 10^5 vs the stack limit.",
+        "defaultStack8MB": {
+          "cpuSeconds": 0.04,
+          "exitCode": -11,
+          "output": ""
+        },
+        "stack256MB": {
+          "cpuSeconds": 0.068,
+          "exitCode": 0,
+          "output": "1\n"
+        },
+        "test": "0032"
+      },
+      "suiteFailures": [
+        {
+          "actual": "",
+          "actualOutputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "cpuSeconds": 0.043,
+          "exitCode": -11,
+          "expected": "1\n",
+          "expectedOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "inputSha256": "300f29772db83d1da317781b9170b8e2c9a4825347b147951ffcd3dc565582f3",
+          "origin": "worker-generated",
+          "test": "0032",
+          "timeout": false
+        }
+      ],
+      "suiteTestsRun": 173,
+      "upstream": {
+        "creationTimeSeconds": 1464488579.0,
+        "dataset": "open-r1/codeforces-submissions",
+        "passedTestCount": 37.0,
+        "path": "data/train-00023-of-00036.parquet",
+        "problem_id": "246/D",
+        "programmingLanguage": "GNU C++11",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "shardSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+        "submission_id": "18139941",
+        "testset": "TESTS",
+        "url": "https://codeforces.com/contest/246/submission/18139941",
+        "verdict": "OK"
+      },
+      "witness": {
+        "input": "3 2\n1 2 3\n1 2\n2 3\n",
+        "inputSha256": "7fdbb172bf1733891360bf8d885fdbaa2ec0aeaacee1061853b2dc9454498817",
+        "literalBruteExpected": "2",
+        "note": "No small algorithmic witness exists: output equals the literal brute on small inputs. The only failure is stack depth on max-size 0032.",
+        "ownOracle": {
+          "exitCode": 0,
+          "output": "2\n"
+        },
+        "source": {
+          "exitCode": 0,
+          "output": "2\n"
+        }
+      }
+    },
+    "18154994": {
+      "sourceBytes": 2152,
+      "sourcePath": "sources/18154994.cpp",
+      "sourceSha256": "093b06ad5f9b4cc096cb8994a2942dea5ddf30ce05e1a8ea32c69e31989db842",
+      "suiteFailures": [
+        {
+          "actual": "1\n",
+          "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "cpuSeconds": 0.004,
+          "exitCode": 0,
+          "expected": "4\n",
+          "expectedOutputSha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+          "inputSha256": "7b609dafb3d3a08d1b1f3be64912efecc8e30359f973fd80d448f1e8606bc23c",
+          "origin": "worker-generated",
+          "test": "0031",
+          "timeout": false
+        },
+        {
+          "actual": "1\n",
+          "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "cpuSeconds": 0.003,
+          "exitCode": 0,
+          "expected": "3\n",
+          "expectedOutputSha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+          "inputSha256": "4882abfb6eaa5416bedb7eacf46ff7f87413e2ae16116cb610e76484b7c7635b",
+          "origin": "worker-generated",
+          "test": "0042",
+          "timeout": false
+        },
+        {
+          "actual": "1\n",
+          "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "cpuSeconds": 0.003,
+          "exitCode": 0,
+          "expected": "3\n",
+          "expectedOutputSha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+          "inputSha256": "257db2f1e91e01bd96840ef8cb93ddf2bd14f6e7d2417aec047f04cd48d0fe8c",
+          "origin": "worker-generated",
+          "test": "0055",
+          "timeout": false
+        },
+        {
+          "actual": "1\n",
+          "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "cpuSeconds": 0.003,
+          "exitCode": 0,
+          "expected": "8\n",
+          "expectedOutputSha256": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+          "inputSha256": "78b017de7bac8e96da814576038c76b408d948549e51880f256f91a4fb70df3c",
+          "origin": "worker-generated",
+          "test": "0111",
+          "timeout": false
+        },
+        {
+          "actual": "4\n",
+          "actualOutputSha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+          "cpuSeconds": 0.004,
+          "exitCode": 0,
+          "expected": "6\n",
+          "expectedOutputSha256": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+          "inputSha256": "8262966cfd89563d2aad88ad26703cd107b51442913bba5e479de4e271148bf5",
+          "origin": "worker-generated",
+          "test": "0130",
+          "timeout": false
+        },
+        {
+          "actual": "2\n",
+          "actualOutputSha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "cpuSeconds": 0.004,
+          "exitCode": 0,
+          "expected": "4\n",
+          "expectedOutputSha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+          "inputSha256": "cb29173db26695668e38f57031bc6e054dfdf80f4d6a3195277138d9c81d370d",
+          "origin": "worker-generated",
+          "test": "0149",
+          "timeout": false
+        },
+        {
+          "actual": "1\n",
+          "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "cpuSeconds": 0.003,
+          "exitCode": 0,
+          "expected": "5\n",
+          "expectedOutputSha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+          "inputSha256": "6182fce4a16a61c79731df29fc78eba01ae9a4b4b7a74b0fbbbd327207780fd4",
+          "origin": "worker-generated",
+          "test": "0169",
+          "timeout": false
+        }
+      ],
+      "suiteTestsRun": 173,
+      "upstream": {
+        "creationTimeSeconds": 1464601661.0,
+        "dataset": "open-r1/codeforces-submissions",
+        "passedTestCount": 37.0,
+        "path": "data/train-00023-of-00036.parquet",
+        "problem_id": "246/D",
+        "programmingLanguage": "GNU C++",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "shardSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+        "submission_id": "18154994",
+        "testset": "TESTS",
+        "url": "https://codeforces.com/contest/246/submission/18154994",
+        "verdict": "OK"
+      },
+      "witness": {
+        "input": "3 1\n1 4 8\n2 3\n",
+        "inputSha256": "6718d3f750fdbdfe32cf1a2efe5a9efe5bdc2a03fefb2277e5a794fa0464f673",
+        "literalBruteExpected": "4",
+        "ownOracle": {
+          "exitCode": 0,
+          "output": "4\n"
+        },
+        "source": {
+          "exitCode": 0,
+          "output": "1\n"
+        }
+      }
+    },
+    "18155794": {
+      "sourceBytes": 1032,
+      "sourcePath": "sources/18155794.cpp",
+      "sourceSha256": "fed7aa5fc471d538259c73137e0c3d6e08c47e0b926bc63b9695155208794af1",
+      "suiteFailures": [
+        {
+          "actual": "10",
+          "actualOutputSha256": "4a44dc15364204a80fe80e9039455cc1608281820fe2b24f1e5233ade6af1dd5",
+          "cpuSeconds": 0.005,
+          "exitCode": 0,
+          "expected": "7\n",
+          "expectedOutputSha256": "10159baf262b43a92d95db59dae1f72c645127301661e0a3ce4e38b295a97c58",
+          "inputSha256": "20a9e9ffae0fc8597ab260a5ebeec08002c8522f63bc21f8a74eaeb2ed66e3e5",
+          "origin": "worker-generated",
+          "test": "0039",
+          "timeout": false
+        },
+        {
+          "actual": "4",
+          "actualOutputSha256": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+          "cpuSeconds": 0.004,
+          "exitCode": 0,
+          "expected": "6\n",
+          "expectedOutputSha256": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+          "inputSha256": "8262966cfd89563d2aad88ad26703cd107b51442913bba5e479de4e271148bf5",
+          "origin": "worker-generated",
+          "test": "0130",
+          "timeout": false
+        }
+      ],
+      "suiteTestsRun": 173,
+      "upstream": {
+        "creationTimeSeconds": 1464606005.0,
+        "dataset": "open-r1/codeforces-submissions",
+        "passedTestCount": 37.0,
+        "path": "data/train-00023-of-00036.parquet",
+        "problem_id": "246/D",
+        "programmingLanguage": "GNU C++",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "shardSha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+        "submission_id": "18155794",
+        "testset": "TESTS",
+        "url": "https://codeforces.com/contest/246/submission/18155794",
+        "verdict": "OK"
+      },
+      "witness": {
+        "input": "3 1\n5 6 2\n1 2\n",
+        "inputSha256": "c2afcfe32cf538598e3c59a36c77ea91ed75133af1b9084f835bd3aa46d56926",
+        "literalBruteExpected": "5",
+        "ownOracle": {
+          "exitCode": 0,
+          "output": "5\n"
+        },
+        "source": {
+          "exitCode": 0,
+          "output": "2"
+        }
+      }
+    }
+  }
+}
