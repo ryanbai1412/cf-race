@@ -1,0 +1,295 @@
+{
+  "approved": true,
+  "baseCommit": "875772d6c19b78fd3c3d08a369ad4835ed9ada94",
+  "bundleSha256": "dba03d1e5317a14e8530c2660c6a998ab6eb4d1bf55ba7c88282ec7fb5152a19",
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "b5f3276bd2adbb1b864bae40d5c380cfcb0c50728b5b97ad989438c27c934b82",
+  "id": "327A",
+  "incorrectAnalysis": {
+    "151496305": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "n=1, a=[1]: expected 0, prints 1 (LF-normalized rerun also 1).",
+      "kind": "wrong-answer",
+      "reason": "Kadane over gains c with floor at 0 never forces a flip; for an all-ones array the mandatory move loses one, but max(c)=0 so it prints sum(a).",
+      "test": "0003"
+    },
+    "152529149": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "n=1, a=[1]: expected 0, prints 1.",
+      "kind": "wrong-answer",
+      "reason": "Adds the longest run of zeros to the count of ones and never accounts for the mandatory flip when there are no zeros (M=0).",
+      "test": "0003"
+    },
+    "152531602": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "n=1, a=[1]: expected 0, prints 1.",
+      "kind": "wrong-answer",
+      "reason": "Run-length Kadane starts from local=best=0 and so allows an empty flip; all-ones arrays get answer n instead of n-1.",
+      "test": "0003"
+    },
+    "152617775": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "n=1, a=[1]: expected 0, prints 1.",
+      "kind": "wrong-answer",
+      "reason": "Hard-codes print(1) when there is no zero; the correct answer for an all-ones array of length n is n-1.",
+      "test": "0003"
+    },
+    "152676687": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "n=1, a=[1]: expected 0, prints 1.",
+      "kind": "wrong-answer",
+      "reason": "Count of ones plus longest zero run; with no zeros it skips the forced flip (n instead of n-1).",
+      "test": "0003"
+    }
+  },
+  "packageHash": "7d9c7e5f4bf0786f14d1c2c03d49ef806ca1d253d9b9d8d3a5579b33cebe32f0",
+  "qualificationBasis": "generated",
+  "rating": 1200,
+  "reviewUrl": "https://staging.itsdev.in/sessions/5e1f99ced59a4a219ae81a8e70c05226",
+  "reviewer": "devin-5e1f99ced59a4a219ae81a8e70c05226",
+  "sandbox": {
+    "capDrop": "ALL",
+    "compilerFlags": [
+      "-O2",
+      "-std=c++17",
+      "-DONLINE_JUDGE"
+    ],
+    "executionVersion": 2,
+    "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+    "network": "none",
+    "nonRoot": true,
+    "readOnly": true,
+    "runner": "pipeline/pool_sandbox.run"
+  },
+  "verified": {
+    "downloadedSourceVerification": "pinned open-r1/codeforces-submissions shards sha256-verified and every source byte-matched",
+    "extraTests": {
+      "cornerMax": 0,
+      "count": 319,
+      "description": "All 2^n binary arrays for n<=7 (254) plus 60 random n in [8,100] and 5 hand-picked n=100 corner cases, with expected values from my O(n^3) brute force over every flip segment [i,j].",
+      "programs": [
+        {
+          "nonAC": 0,
+          "program": "oracle",
+          "sourceHash": "d06dd81d93c9692a86479d6496593a7e44b665091e17acb125e6549f6691b5b2",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "4011264",
+          "sourceHash": "6b5dd645aa397cb4277d21503172c58d122e6447b978df23978e77576b2b5bd0",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "4011266",
+          "sourceHash": "bb6906f0707330bbe6562526a9fd38c839bbefffd99fb1592dc30cbd73ad87f4",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "4011285",
+          "sourceHash": "09802fb8f06a63105a483843061e1d115396babbb1709f585a545a79ae2adbf5",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "4011289",
+          "sourceHash": "fa209738db8073b3ef345fdfe49a7a5b9d5804612f3bb940207001cc2b7fa498",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "4011291",
+          "sourceHash": "99f795b558df296ce6c37112fc32967d48c71865f036027a4815a394af5b735f",
+          "verdict": "AC"
+        }
+      ],
+      "smallBrute": 319,
+      "testsHash": "9a3e1e38b99f63a780bb0aafea560a64f5ebf33a8922327fdf7b7edbda8ebfb5"
+    },
+    "generator": {
+      "distinctInputs": 119,
+      "identical": true,
+      "matchesRecorded": true,
+      "outputHashes": [
+        "40dd89ea01ade3654799cbd93aa6d386387c5f2fbf574f6b5efa14ea2f6a057d",
+        "40dd89ea01ade3654799cbd93aa6d386387c5f2fbf574f6b5efa14ea2f6a057d"
+      ],
+      "pairs": 119,
+      "pairsEqualPackageAuthored": true,
+      "pairsHash": "70755e8718be4d334b1c0e05c5354011b851d83cc841dd3c2074b5ab482df1f5",
+      "runs": 2
+    },
+    "oracle": {
+      "packageTests": 140,
+      "sourceHash": "d06dd81d93c9692a86479d6496593a7e44b665091e17acb125e6549f6691b5b2",
+      "testsRun": 142,
+      "verdict": "AC"
+    },
+    "submissions": [
+      {
+        "actualOutputOnFailedTest": null,
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "hfPinnedShardSourceMatch": true,
+        "language": "GNU C++",
+        "lfNormalizedFailedTestVerdict": null,
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "6b5dd645aa397cb4277d21503172c58d122e6447b978df23978e77576b2b5bd0",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4011264"
+      },
+      {
+        "actualOutputOnFailedTest": null,
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "hfPinnedShardSourceMatch": true,
+        "language": "GNU C++",
+        "lfNormalizedFailedTestVerdict": null,
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "bb6906f0707330bbe6562526a9fd38c839bbefffd99fb1592dc30cbd73ad87f4",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4011266"
+      },
+      {
+        "actualOutputOnFailedTest": null,
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "hfPinnedShardSourceMatch": true,
+        "language": "GNU C++",
+        "lfNormalizedFailedTestVerdict": null,
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "09802fb8f06a63105a483843061e1d115396babbb1709f585a545a79ae2adbf5",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4011285"
+      },
+      {
+        "actualOutputOnFailedTest": null,
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "hfPinnedShardSourceMatch": true,
+        "language": "GNU C++",
+        "lfNormalizedFailedTestVerdict": null,
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "fa209738db8073b3ef345fdfe49a7a5b9d5804612f3bb940207001cc2b7fa498",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4011289"
+      },
+      {
+        "actualOutputOnFailedTest": null,
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "hfPinnedShardSourceMatch": true,
+        "language": "GNU C++",
+        "lfNormalizedFailedTestVerdict": null,
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "99f795b558df296ce6c37112fc32967d48c71865f036027a4815a394af5b735f",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4011291"
+      },
+      {
+        "actualOutputOnFailedTest": "1\n",
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0003",
+        "freshVerdict": "WA",
+        "hfPinnedShardSourceMatch": true,
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0003",
+        "recordedVerdict": "WA",
+        "sourceHash": "6afaff79ca76bfffcda58c49b9fe45edf1e21dd0e6202a2290c8e5e55f629789",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "151496305"
+      },
+      {
+        "actualOutputOnFailedTest": "1\n",
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0003",
+        "freshVerdict": "WA",
+        "hfPinnedShardSourceMatch": true,
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0003",
+        "recordedVerdict": "WA",
+        "sourceHash": "41fc7ea63da9787c7e6d0b9b62c25563fe6df333ac777bd585e6bd59fe220887",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "152529149"
+      },
+      {
+        "actualOutputOnFailedTest": "1\n",
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0003",
+        "freshVerdict": "WA",
+        "hfPinnedShardSourceMatch": true,
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0003",
+        "recordedVerdict": "WA",
+        "sourceHash": "a914f440a37e33fea59c0d08d9a3f419fcd89b848743f883682e796b4aaa8130",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "152531602"
+      },
+      {
+        "actualOutputOnFailedTest": "1\n",
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0003",
+        "freshVerdict": "WA",
+        "hfPinnedShardSourceMatch": true,
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0003",
+        "recordedVerdict": "WA",
+        "sourceHash": "1d0479ee53cd6b9b1443e104ad0c9880c73bff24de561b4e4ca041c8c1e4beed",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "152617775"
+      },
+      {
+        "actualOutputOnFailedTest": "1\n",
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0003",
+        "freshVerdict": "WA",
+        "hfPinnedShardSourceMatch": true,
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0003",
+        "recordedVerdict": "WA",
+        "sourceHash": "e644736e2451a4cf340a12db11678639ceb4f4bf32ca9a5824d828eec31b0772",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "152676687"
+      }
+    ]
+  }
+}
