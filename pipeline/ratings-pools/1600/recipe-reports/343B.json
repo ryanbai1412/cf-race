@@ -386,14 +386,20 @@
     "executed": false
   },
   "localChecks": {
-    "status": "pending-after-first-push",
-    "plannedBruteAssertions": 4518,
+    "status": "passed-after-first-push",
+    "bruteAssertions": 4518,
     "bruteBreakdown": {
       "exhaustiveDeletionSearchLength1To11": 4094,
       "fixedSeedRandomDeletionSearchLength12To18": 256,
       "allAuthoredPairsVsOrientedCrossings": 168
     },
-    "plannedUnitTests": 9
+    "unitTests": 9,
+    "skippedUnitTests": 0,
+    "unitTestCommand": "CF_RECIPE_INPUT_ARCHIVE=<provided-archive> python3 -m unittest discover -s pipeline/ratings-pools/1600 -p test_recipe_343B.py -v",
+    "astSyntax": "passed for recipe_343B.py and test_recipe_343B.py",
+    "diffCheck": "git diff --check 5b28d333386f24f8ed15eb55b8c18627c6326070..HEAD passed",
+    "determinism": "168-case suite identical under PYTHONHASHSEED=1 and 937",
+    "assertionCountMeaning": "4518 counts only brute_checks cross-reference assertions, not unittest assertion methods, duplicates in other tests, or independent qualification. 4350 assertions compare the stack oracle against deletion reachability; 168 compare authored outputs against an independently derived winding criterion."
   },
   "handoff": "Recipe is not qualification and adds zero independently validated problems. Original official suite is incomplete. Parent must integrate without byte edits and perform generated-basis 5 actual AC / 5 genuine algorithmic WA, a disjoint sixth external accepted oracle, and later different-agent audit. No self-signoff."
 }
