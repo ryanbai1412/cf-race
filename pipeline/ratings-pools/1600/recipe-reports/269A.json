@@ -1,0 +1,379 @@
+{
+  "baseCommit": "5b28d333",
+  "bruteChecks": 110298,
+  "bruteReference": "Two independent brutes: (1) bottom-up carry: walk every level from min k to max k with need = max(a_L, ceil(need/4)), then ceil-divide by 4 until one box remains above max k; (2) top-down slot feasibility: increase p from 1, require all k<p and a_L <= 4^(p-L) slots at every level. Both asserted equal to the oracle on all 1..3-subsets of k in 0..4 with a in 1..17 (exhaustive), 3000 fixed-seed random cases (k<40, a up to 10^9), and 4^m-1/4^m/4^m+1 boundaries.",
+  "exclusionCheck": {
+    "customChecker": false,
+    "fileIO": false,
+    "floating": false,
+    "imageMissing": false,
+    "interactive": false,
+    "multipleValidOutputs": false,
+    "note": "Single integer output, unique; exact token comparison. Missing figure is illustrative only."
+  },
+  "extras": {
+    "categories": {
+      "adversarial": 97,
+      "boundary": 49,
+      "maxSize": 4
+    },
+    "count": 150,
+    "includes": "minima (0 1), k=10^9 with a=1 and a=10^9 (10^9+15), every 4^m-1/4^m/4^m+1 for m<=14, nesting traps where area-sum fails, carry-vs-own absorption, unsorted/descending order, 10^9 gaps, ties between huge pile and single big box, four legal n=10^5 max cases (consecutive k, random distinct k to 10^9, descending from 10^9 with a=10^9, all a=1), fixed-seed random fill.",
+    "motivation": "Selected WA logic: missing +1 when the count is 1 (5145342, 20953922, 19061033, 78797458), float log (19061033, 78797458, 111787761), floor log4 (48768719), area sum ignoring nesting (173548642, 82665441), count-as-side multiplier (110133638). test_recipe_269A re-implements five of these logics (not the sources) and asserts the extras distinguish each.",
+    "officialGap": "Official suite tops out at n=17; extras add n=10^5.",
+    "seed": 269001,
+    "sha256OfJson": "aa1bea1d7ee2b250edc26686a9c7f89b201e12f5ef21dd07008fff8b0bff7a30"
+  },
+  "failedUpstreamPairs": [],
+  "id": "269A",
+  "inputs": {
+    "archiveBytes": 4542856,
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "file": "inputs/269A.json",
+    "fileBytes": 37384,
+    "fileSha256": "721410b2b4f480b960386cde50c9d005241ba129704528cd5939f04c697d2b36",
+    "manifestEntry": {
+      "bytes": 37384,
+      "sha256": "721410b2b4f480b960386cde50c9d005241ba129704528cd5939f04c697d2b36"
+    },
+    "manifestMatches": true,
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "sourceRowHash": "6bf43ab5c0b82bec9a06c6f76ae63692b11ae40813b1556c7c60c55a16f36163",
+    "sourceRowHashMatches": true,
+    "sourceRowHashRecomputed": "6bf43ab5c0b82bec9a06c6f76ae63692b11ae40813b1556c7c60c55a16f36163",
+    "sourceShard": {
+      "bytes": 67488507,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00003-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "cadad10f9d2c5226460578249998baf677c076a6e3b80e91850fa097dd040ef6",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00003-of-00011.parquet"
+    }
+  },
+  "notAuditNotSignoffNotValidated": true,
+  "officialReview": {
+    "failures": [],
+    "generatedTests": "row declares generated_tests=10 but the input file carries only the count; not reviewed here (parent should run review() over rated_pool.generated_tests).",
+    "lineEndings": "All 35 official tests are CRLF; parse uses splitlines so CRLF and LF are accepted. Samples have no trailing newline.",
+    "maxOfficialN": 17,
+    "officialComplete": false,
+    "officialCount": 35,
+    "officialCountDeclared": 46,
+    "samples": 3
+  },
+  "oracle": "p = max over rows of k_i + max(1, m_i), m_i = smallest m with 4^m >= a_i computed exactly as ((a_i-1).bit_length()+1)//2; O(n), no floats.",
+  "recipeFiles": [
+    "pipeline/ratings-pools/1600/recipe_269A.py",
+    "pipeline/ratings-pools/1600/test_recipe_269A.py"
+  ],
+  "role": "recipe-author",
+  "selectedSubmissions": {
+    "count": 23,
+    "entries": [
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 45.0,
+        "sourceBytes": 1238,
+        "sourceSha256": "86ffe86c9edba91d744e223ae573e3379f73513200af98107d3221537b551f37",
+        "submissionId": "3045628",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 45.0,
+        "sourceBytes": 992,
+        "sourceSha256": "ce6555e67e1ad5ef89d85a4cb62e981bde3c7f006b6995eafa2c3c3d1bf39d0d",
+        "submissionId": "3045698",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 45.0,
+        "sourceBytes": 2040,
+        "sourceSha256": "896522e2bf98bb33fd26aa161c2ca756fc9456c6969052d182a1aa72a4b01c8e",
+        "submissionId": "3045714",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 45.0,
+        "sourceBytes": 345,
+        "sourceSha256": "e98350bec3ce48c36df9aa49d5d2f988a64ff4e39212b6ff84883774fd425784",
+        "submissionId": "3045751",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 45.0,
+        "sourceBytes": 233,
+        "sourceSha256": "fed525f66488fd5ad2580fad6fe090a25ba041ad10d28180d124e84a3dbfc95f",
+        "submissionId": "3045824",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 45.0,
+        "sourceBytes": 535,
+        "sourceSha256": "0112c49bbbfb5389f117534e837e2ca5a7e1349f00254027efdfa9ce98d8e1b1",
+        "submissionId": "3045966",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 45.0,
+        "sourceBytes": 630,
+        "sourceSha256": "a90e879a4a1fc4adc0a2c324597958dc7feb7d35b1b090f536e8e1de244dcaa1",
+        "submissionId": "3046017",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 45.0,
+        "sourceBytes": 567,
+        "sourceSha256": "5e8ec0eefab3651404aa9d13c69ef4646d6d44f339299184ce422f707bbadd2d",
+        "submissionId": "3046255",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 45.0,
+        "sourceBytes": 760,
+        "sourceSha256": "5ac0299228d87099a76a1bf1777bfda81604c210f93d38cb25161f8e293186ad",
+        "submissionId": "3046277",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 45.0,
+        "sourceBytes": 465,
+        "sourceSha256": "03a48ae7e0c865d02aad0a3e529b861e30c0e500495b67bd39d2bded60d213aa",
+        "submissionId": "3046278",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++0x",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 45.0,
+        "sourceBytes": 503,
+        "sourceSha256": "c3eaae7e070050da17c5c7b5d028a075ac02c351e49ec03d42291e039c22ccfa",
+        "submissionId": "3046297",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 45.0,
+        "sourceBytes": 1212,
+        "sourceSha256": "17f5631514de7ff4d4c4b48fee999fb10f5d23da5f2b940a870f4b856218a19a",
+        "submissionId": "3046438",
+        "verdict": "OK"
+      },
+      {
+        "authorReadingNotExecuted": "Sorted carry with max(own, ceil(carry/4**gap)); final `while k > 1` never runs when the carried count is 1, so a single box (e.g. \"1\\n0 1\", expected 1) prints k instead of k+1. Missing final +1 level; also 4**gap for 10^9 gaps is infeasible.",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 3.0,
+        "sourceBytes": 238,
+        "sourceSha256": "95372570450d085af7e74f9712d0ac993312a2621fc2eb9c955a09868b245195",
+        "submissionId": "5145342",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReadingNotExecuted": "Level-by-level dict walk from 0 to max k (up to 10^9); CF verdict TLE only, not an algorithmic counterexample.",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 4.0,
+        "sourceBytes": 501,
+        "sourceSha256": "2e62e691aa7dc1f558268e1dee2804fae61c16b11028dd8461301d6ab9839d73",
+        "submissionId": "15545038",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "authorReadingNotExecuted": "k + ceil(log(a,4)) with floats: a=1 gives 0 levels (prints k, expected k+1, e.g. \"1\\n0 1\"); exact powers of 4 risk float overshoot.",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 3.0,
+        "sourceBytes": 319,
+        "sourceSha256": "9fbc5d0f78ca93130a0c75062fe542ff56c2fb5cdd314364bb5fe81291a9d2d0",
+        "submissionId": "19061033",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReadingNotExecuted": "Correct sorted carry, but final `while r < b` adds no level when b==1, so a=1 at the top size prints max k instead of max k+1 (e.g. \"1\\n0 1\").",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 3.0,
+        "sourceBytes": 336,
+        "sourceSha256": "9c318416d338d504504bd8772a235c8b6379ba9399de45cd969da9582e505494",
+        "submissionId": "20953922",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReadingNotExecuted": "l4 starts at 1 and floor-divides while x>4, so non-powers just above 4^m undercount: a=17 gives 2 (expected 3, \"1\\n0 17\").",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 6.0,
+        "sourceBytes": 595,
+        "sourceSha256": "1a958ea16a831b556495fac38529e840bf1255a3f5dd7bca9005ca3ab0bd565b",
+        "submissionId": "48768719",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReadingNotExecuted": "Same as 19061033: k + ceil(math.log(a,4)); a=1 contributes 0 levels so \"1\\n0 1\" prints 0 (expected 1).",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 3.0,
+        "sourceBytes": 148,
+        "sourceSha256": "82783a092b359f0238a88c2179e0d6bf9fddc96074741ce3b9b295ee113f0392",
+        "submissionId": "78797458",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReadingNotExecuted": "Side-length/area heuristic with float sqrt/log2; prints floats such as \"1.0\" for \"1\\n0 4\" (presentation, not algorithmic proof on that test); logic also only bumps by one level per overflow.",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 1.0,
+        "sourceBytes": 485,
+        "sourceSha256": "be4f03ab9e236994c8b22959ca3c30d106157ac09f5624250f7f278dc7c6b4cb",
+        "submissionId": "82665441",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReadingNotExecuted": "h = a//4 + 1 (+1 if a%4) treats a box count as a side multiplier; a=16 gives h=5, 2^3>=5 so prints 3 (expected 2, \"1\\n0 16\"). CF verdict TLE on k=10^9 (2**i loop); recorded verdict is TLE-only even though the logic is also wrong.",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 4.0,
+        "sourceBytes": 262,
+        "sourceSha256": "790f6b6c7073a7a9eac0afd9d20251a1d6a839627af38bb475ac4dee997d69e8",
+        "submissionId": "110133638",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "authorReadingNotExecuted": "Chooses a single dominant row by float comparison r-w < log2(e/t) (base 2 instead of base 4 on the exponent gap), then derives levels from that row only with float division; wrong dominance choice when rows trade off.",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 10.0,
+        "sourceBytes": 173,
+        "sourceSha256": "2bd47801ee04575bf2122d6f272cc51775fd15abc871f0239bdbe909e1444e21",
+        "submissionId": "111787761",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReadingNotExecuted": "Wrong-problem code (prints Bear/Elephant/Alien from Counter of one line); not an algorithmic proof.",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 0.0,
+        "sourceBytes": 192,
+        "sourceSha256": "028691de7b4700acc8c533d69f595370d8885ed97a2143658dc0d6fec77821f2",
+        "submissionId": "139135227",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReadingNotExecuted": "Total area sum of all boxes vs 4^s ignores nesting: sample 3 \"2\\n1 10\\n2 2\" has area 72 so prints 4 (expected 3). Also 2**x for x up to 10^9.",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 2.0,
+        "sourceBytes": 155,
+        "sourceSha256": "1818d031533d9b4423910b2b88f1456df264c598716f74cb4e9a088954a0faa1",
+        "submissionId": "173548642",
+        "verdict": "WRONG_ANSWER"
+      }
+    ],
+    "nonAlgorithmic": [
+      "15545038 TLE only",
+      "139135227 wrong problem",
+      "82665441 float presentation on its first failing test",
+      "110133638 recorded verdict TLE"
+    ]
+  },
+  "semantics": "First line n, 1<=n<=10^5; then n lines \"k_i a_i\", 0<=k_i<=10^9 distinct, 1<=a_i<=10^9: a_i boxes of side 2^(k_i). A box fits inside any strictly larger box, so boxes nest. Equal-size boxes cannot nest, hence a box of side 2^p holds at most 4^(p-k) boxes of side 2^k (area) and needs p>k; quadtree-aligned placement achieves this for every size simultaneously because each placed box re-exposes its own cell. Unique answer p = max_i (k_i + max(1, ceil(log4 a_i))), one integer. Checked against bottom-up level carrying and top-down slot-feasibility brutes.",
+  "sourceCorrectionProposal": {
+    "description": [
+      [
+        "equal to 2k (k is an integer",
+        "equal to 2<sup>k</sup> (k is an integer",
+        1
+      ],
+      [
+        "side length 2k - 1 into one box of side length 2k,",
+        "side length 2<sup>k - 1</sup> into one box of side length 2<sup>k</sup>,",
+        1
+      ]
+    ],
+    "input_format": [
+      [
+        "(1 ≤ n ≤ 105)",
+        "(1 ≤ n ≤ 10<sup>5</sup>)",
+        1
+      ],
+      [
+        "(0 ≤ ki ≤ 109, 1 ≤ ai ≤ 109)",
+        "(0 ≤ ki ≤ 10<sup>9</sup>, 1 ≤ ai ≤ 10<sup>9</sup>)",
+        1
+      ],
+      [
+        "side length 2ki.",
+        "side length 2<sup>ki</sup>.",
+        1
+      ]
+    ],
+    "note": "Proposal only; row bytes left unchanged. Same restoration style as normalize_statement.py MULTI_REPAIRS.",
+    "output_format": [
+      [
+        "has side length 2p.",
+        "has side length 2<sup>p</sup>.",
+        1
+      ]
+    ]
+  },
+  "statementAttestation": {
+    "agreement": "Original HTML matches the pinned row word for word except lost superscripts: original has 2<sup>k</sup>, 2<sup>k - 1</sup>, 10<sup>5</sup>, 10<sup>9</sup> (twice), 2<sup>k_i</sup>, 2<sup>p</sup>. The figure image (espresso.codeforces.com/3c55f85e...png) is absent from the row but is illustrative only; the text and note fully define nesting semantics.",
+    "bodyBytes": 60587,
+    "bodySha256": "18bd505f6ff355f5614f4b60a7e0941ae48e93f12e18e2cd3f486bc985a9aaf1",
+    "committedCopy": "pipeline/ratings-pools/1600/statement-sources/269A.recipe-author.original.html",
+    "problemStatementDivByteRange": [
+      37206,
+      41648
+    ],
+    "problemStatementDivSha256": "77b9fedc61a55005b3af861b81f5d13ba78ebd8362dccf2dab23ed58ccaf4125",
+    "transport": "public HTTP GET, status 200, fetched 2026-10-13",
+    "url": "https://codeforces.me/problemset/problem/269/A?locale=en"
+  },
+  "statementNormalizationNeeded": "superscript markup lost in row text (description, input_format, output_format)"
+}
