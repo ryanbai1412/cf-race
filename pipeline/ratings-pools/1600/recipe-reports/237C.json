@@ -1,0 +1,249 @@
+{
+  "id": "237C",
+  "role": "recipe-author",
+  "validated": false,
+  "qualification": false,
+  "audit": false,
+  "note": "Recipe author report only; not an independent audit, signoff, qualification, or parent-identity attestation.",
+  "inputs": {
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "file": "inputs/237C.json",
+    "fileSha256": "f014c2b55b72d7a7130a78682e65c2c0300f757afa4d6c747c6fe4a1653cc4af",
+    "manifestSha256": "f014c2b55b72d7a7130a78682e65c2c0300f757afa4d6c747c6fe4a1653cc4af",
+    "manifestBytes": 38468,
+    "bytes": 38468,
+    "sourceRowHash": "72040b81dded15960727beb0e086be8f408977d090ec12c2c5f60c9f46122092",
+    "sourceRowHashRecomputed": "72040b81dded15960727beb0e086be8f408977d090ec12c2c5f60c9f46122092",
+    "sourceRowHashMatches": true,
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "sourceShard": {
+      "bytes": 289522359,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00000-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "898933339ad702a38a922b793275df0f3c32fc8746e95b71a57d14dd56c85bc0",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00000-of-00011.parquet"
+    }
+  },
+  "datasetCards": {
+    "open-r1/codeforces": {
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
+      "sha256": "b9971cff0a797603b79d78f49129830b0a1a4b99d9860e392fba126a4ef4dc69"
+    },
+    "open-r1/codeforces-submissions": {
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md",
+      "sha256": "8352430bd0fbc94cfe8762a9278c18a8494fca567a8aaf29a9e353c3f4627687"
+    }
+  },
+  "statement": {
+    "completeness": "Full description, input/output format and three examples present; no image, interaction, file I/O, floating output, or multiple valid outputs. generated_checker is null; unique integer output, token comparison appropriate.",
+    "publicSource": {
+      "url": "https://codeforces.me/problemset/problem/237/C?locale=en",
+      "httpStatus": 200,
+      "bodyBytes": 58222,
+      "bodySha256": "ee9c1d68f47fc91a45f7a41caa8835c7e077766fe586bbf2fa75dba8bf2eefe0",
+      "problemStatementByteRange": [
+        36392,
+        39283
+      ],
+      "problemStatementSha256": "bd467cde65d5f26043e2b6dcbb7735040661a0976f2a168ee4a33760e86b42cd",
+      "committedCopy": "statement-sources/237C.recipe-author.original.html"
+    },
+    "flattenedMarkup": "Upstream input_format reads \"1 ≤ a, b, k ≤ 106;\"; public TeX shows 10<sup class=\"upper-index\">6</sup>.",
+    "proposedNormalization": {
+      "field": "input_format",
+      "repair": [
+        "≤ 106;",
+        "≤ 10<sup>6</sup>;",
+        1
+      ]
+    },
+    "otherFields": "description and output_format contain no flattened exponents."
+  },
+  "constraints": "a,b,k integers 1..10^6, a<=b, exactly one line of three tokens (CRLF line ending accepted, no leading zeros/signs).",
+  "semantics": "One line a b k, 1<=a,b,k<=10^6 and a<=b (10^6 confirmed from codeforces.me statement TeX). Unique integer: minimum l in 1..b-a+1 such that every window x..x+l-1 with a<=x<=b-l+1 holds at least k primes, else -1. Oracle takes the maximum over window starts a and p+1 (p prime) of min(k-th prime from x minus x plus 1, b-x+2); literal statement brute with trial division and a linear-sieve prefix-count binary search independently check it.",
+  "officialReview": {
+    "officialCount": 55,
+    "sampleCount": 3,
+    "failures": [],
+    "crlfOfficialInputs": 55,
+    "malformedPairs": [],
+    "note": "All 55 official pairs and 3 samples parse within constraints and match the oracle token-wise; original bytes unchanged."
+  },
+  "authoredTests": {
+    "count": 165,
+    "categories": {
+      "boundary": 25,
+      "adversarial": 110,
+      "maxSize": 30
+    },
+    "hash": "cd2c8c05462c220fdcb314ae5e63f85a5b294484112111981d2d12baf028ee1b",
+    "maxDimension": "1 1000000 k for 14 k values plus near-maximum ranges",
+    "minimum": "1 1 1",
+    "overlapWithOfficial": [
+      "1 1 1",
+      "1 1000000 1"
+    ],
+    "verification": "Inputs with b-a<=300 equal the literal trial-division brute; larger inputs are certified by linear-sieve prefix counts (l works and l-1 fails, or full length fails for -1)."
+  },
+  "bruteChecks": {
+    "237C": 11835
+  },
+  "bruteDescription": "Exhaustive 1<=a<=b<=40, k=1..14 vs literal brute; 300 random width<=120 anywhere up to 10^6 vs literal brute; 44 widths up to 10^6 vs linear-sieve binary search; sieve agreement facts (pi(10^6)=78498, spot primality).",
+  "selectedSubmissions": [
+    {
+      "submissionId": "2427511",
+      "verdict": "OK",
+      "language": "GNU C++",
+      "passedTestCount": 55.0,
+      "sourceSha256": "3498010f31b25b34e0fe0143a43d9bf59f9bbff330ef0592fbb9925567a71dcb",
+      "parquet": "data/train-00035-of-00036.parquet"
+    },
+    {
+      "submissionId": "2427820",
+      "verdict": "OK",
+      "language": "GNU C++",
+      "passedTestCount": 55.0,
+      "sourceSha256": "3fe3c0e52dab85d75ba95a23fe1a0003ff6a07069b1a846e7f49af71ac1fce95",
+      "parquet": "data/train-00022-of-00036.parquet"
+    },
+    {
+      "submissionId": "2427937",
+      "verdict": "OK",
+      "language": "GNU C++",
+      "passedTestCount": 55.0,
+      "sourceSha256": "23b56f52daac867f95c2a3b77684b04ef31bcdbd8a3a3ad8e6e3e23760249c4a",
+      "parquet": "data/train-00022-of-00036.parquet"
+    },
+    {
+      "submissionId": "2428219",
+      "verdict": "OK",
+      "language": "GNU C++",
+      "passedTestCount": 55.0,
+      "sourceSha256": "fb6459804d7062f6fcf8069740b0415044e9406f7671ada6bf604f89adfe6b1f",
+      "parquet": "data/train-00022-of-00036.parquet"
+    },
+    {
+      "submissionId": "2428238",
+      "verdict": "OK",
+      "language": "GNU C++",
+      "passedTestCount": 55.0,
+      "sourceSha256": "1903db8b3ef2f1f63e2238206abb87007351ebf1f12a10eefe54088d9e731eb6",
+      "parquet": "data/train-00022-of-00036.parquet"
+    },
+    {
+      "submissionId": "2428389",
+      "verdict": "OK",
+      "language": "GNU C++",
+      "passedTestCount": 55.0,
+      "sourceSha256": "026d19d158a2c307873b6522c0836d7b3a4cfedbd9170295d3217a0f7b86a622",
+      "parquet": "data/train-00022-of-00036.parquet"
+    },
+    {
+      "submissionId": "2428420",
+      "verdict": "OK",
+      "language": "GNU C++",
+      "passedTestCount": 55.0,
+      "sourceSha256": "2bb3c0e9c2222e010292d7b672dbeaa3d9e5e4080f505e3030e320d7caaa922e",
+      "parquet": "data/train-00022-of-00036.parquet"
+    },
+    {
+      "submissionId": "2428462",
+      "verdict": "OK",
+      "language": "GNU C++",
+      "passedTestCount": 55.0,
+      "sourceSha256": "ab6d3e52960a14f138de3a659e56f723bfc73e1d2bc2ce105f944641746a6e9b",
+      "parquet": "data/train-00022-of-00036.parquet"
+    },
+    {
+      "submissionId": "2428472",
+      "verdict": "OK",
+      "language": "GNU C++",
+      "passedTestCount": 55.0,
+      "sourceSha256": "e26f88336c010a8bbc4bb5c8151b46ae2272f8b41434ffae6a2f8b17bae353b6",
+      "parquet": "data/train-00022-of-00036.parquet"
+    },
+    {
+      "submissionId": "2428509",
+      "verdict": "OK",
+      "language": "GNU C++",
+      "passedTestCount": 55.0,
+      "sourceSha256": "e9ea1b6a964dc8f479588dcf288174e1c7ef3c140dc357ed054ee953ebd40a00",
+      "parquet": "data/train-00022-of-00036.parquet"
+    },
+    {
+      "submissionId": "2428553",
+      "verdict": "OK",
+      "language": "GNU C++",
+      "passedTestCount": 55.0,
+      "sourceSha256": "6b8819aafa213376883bf248e8df915fe058f9abd340c1180f37f5a341968e1e",
+      "parquet": "data/train-00022-of-00036.parquet"
+    },
+    {
+      "submissionId": "2428577",
+      "verdict": "OK",
+      "language": "GNU C++",
+      "passedTestCount": 55.0,
+      "sourceSha256": "e2aec4c3df174054d730f1eadcbd7af0e4fcac663739af1f5e81ca791a0c2d44",
+      "parquet": "data/train-00035-of-00036.parquet"
+    },
+    {
+      "submissionId": "121670156",
+      "verdict": "TIME_LIMIT_EXCEEDED",
+      "language": "Python 3",
+      "passedTestCount": 9.0,
+      "sourceSha256": "723734ca115878a072ed670fd91cd4f3bd1abefd427626ae67c34da6f65f496a",
+      "parquet": "data/train-00022-of-00036.parquet",
+      "authorNote": "CF TIME_LIMIT_EXCEEDED; O(n*l)-style incremental while loop over prefix counts; slowness, not proven algorithmic wrongness."
+    },
+    {
+      "submissionId": "122451676",
+      "verdict": "TIME_LIMIT_EXCEEDED",
+      "language": "Python 3",
+      "passedTestCount": 9.0,
+      "sourceSha256": "07c21bc2db1dd54cffd31fca53d8d6225efafbeb42e7e25150103e4081df98e4",
+      "parquet": "data/train-00022-of-00036.parquet",
+      "authorNote": "CF TIME_LIMIT_EXCEEDED; same incremental approach as 121670156; TLE-only."
+    },
+    {
+      "submissionId": "129615380",
+      "verdict": "WRONG_ANSWER",
+      "language": "Python 3",
+      "passedTestCount": 1.0,
+      "sourceSha256": "965196b055fa8a71311c287d2e016beb7e87811d9bad96693918154adfcf39bb",
+      "parquet": "data/train-00022-of-00036.parquet",
+      "authorNote": "CF WRONG_ANSWER; prints b-a+1 whenever the range has >=k primes instead of the minimum l (e.g. 6 13 1 expects 4)."
+    },
+    {
+      "submissionId": "133409073",
+      "verdict": "TIME_LIMIT_EXCEEDED",
+      "language": "Python 3",
+      "passedTestCount": 9.0,
+      "sourceSha256": "61e996f15e1b8c2f184ad20aea4e916381d668255aef560e22de70f18094bf89",
+      "parquet": "data/train-00022-of-00036.parquet",
+      "authorNote": "CF TIME_LIMIT_EXCEEDED; binary search with O(n) sliding check; TLE-only."
+    },
+    {
+      "submissionId": "142706505",
+      "verdict": "WRONG_ANSWER",
+      "language": "Python 3",
+      "passedTestCount": 3.0,
+      "sourceSha256": "9f5c022168cca4b8c2e12d1c72d7a6f38c460c9c68545788c9229fa406e299bb",
+      "parquet": "data/train-00022-of-00036.parquet",
+      "authorNote": "CF WRONG_ANSWER; ad-hoc sliding window that maximises a length after the first k-th prime, not the required per-start requirement."
+    },
+    {
+      "submissionId": "211627063",
+      "verdict": "WRONG_ANSWER",
+      "language": "Python 3",
+      "passedTestCount": 0.0,
+      "sourceSha256": "7d327950fe86bb233954e75cbc1e05efd12f21aeb8e50f1acecd0ba7cf6aa157",
+      "parquet": "data/train-00022-of-00036.parquet",
+      "authorNote": "CF WRONG_ANSWER; prints 10*res; output scaled by 10 (presentation-like defect; parent must judge whether it counts)."
+    }
+  ],
+  "exclusion": null
+}
