@@ -1,0 +1,1298 @@
+{
+  "evidenceHash": "c81f4e4ccc82522b464d5e91b431071434ada0d3db4dbe2bdc33f6ecb30b6fd0",
+  "packageHash": "5e45d35e60e7469c38219064cdc173fc5b26030e96f0ce92f2d6612b7ace306e",
+  "problem": "500B",
+  "proofs": [
+    {
+      "bindingRepairRequired": false,
+      "classification": "STRICT_LF_MATH_PROOF",
+      "completeSourceRead": true,
+      "contentProofHash": "f92e946e3fdd33876e8af3f0209ba5f7550f0a5cdd9d83d111fded63da5e882a",
+      "failedTestMathBindingPasses": true,
+      "implementedAlgorithm": "Queues and marks index zero before looping over unmarked component starts; sorts the collected values and prints by recorded component index.",
+      "lineAnchors": [
+        {
+          "line": 7,
+          "source": "q = queue.Queue()"
+        },
+        {
+          "line": 8,
+          "source": "marked = [False]*n"
+        },
+        {
+          "line": 9,
+          "source": "q.put(0)"
+        },
+        {
+          "line": 10,
+          "source": "marked[0] = True"
+        },
+        {
+          "line": 14,
+          "source": "for i in range(n):"
+        },
+        {
+          "line": 15,
+          "source": "    if marked[i]:"
+        },
+        {
+          "line": 16,
+          "source": "        continue"
+        },
+        {
+          "line": 18,
+          "source": "        subsets = subsets + [[]]"
+        },
+        {
+          "line": 20,
+          "source": "        q.put(i)"
+        },
+        {
+          "line": 22,
+          "source": "        while not q.empty():"
+        },
+        {
+          "line": 24,
+          "source": "            where_indices[current_pos] = pointer"
+        },
+        {
+          "line": 25,
+          "source": "            subsets[pointer] = subsets[pointer] + [current_pos]"
+        },
+        {
+          "line": 31,
+          "source": "for i in range(pointer + 1):"
+        },
+        {
+          "line": 33,
+          "source": "        subsets[i][j] = perm[subsets[i][j]]"
+        },
+        {
+          "line": 37,
+          "source": "for i in range(n):"
+        },
+        {
+          "line": 38,
+          "source": "    print(subsets[where_indices[i]][0], end = \" \")"
+        }
+      ],
+      "originalSource": "import queue\nn = int(input())\nperm = list(map(int, input().split()))\nadj_table = []\nfor i in range(n):\n    adj_table = adj_table + [list(map(lambda x:ord(x)-ord('0'),list(input())))]\nq = queue.Queue()\nmarked = [False]*n\nq.put(0)\nmarked[0] = True\nsubsets = []\nwhere_indices = [-1]*n\npointer = -1\nfor i in range(n):\n    if marked[i]:\n        continue\n    else:\n        subsets = subsets + [[]]\n        pointer = pointer + 1\n        q.put(i)\n        marked[i] = True\n        while not q.empty():\n            current_pos = q.get()\n            where_indices[current_pos] = pointer\n            subsets[pointer] = subsets[pointer] + [current_pos]\n            for j in range(n):\n                if adj_table[current_pos][j]==1 and not marked[j]:\n                    q.put(j)\n                    marked[j] = 1\n\nfor i in range(pointer + 1):\n    for j in range(len(subsets[i])):\n        subsets[i][j] = perm[subsets[i][j]]\n    subsets[i] = sorted(subsets[i])\n\n\nfor i in range(n):\n    print(subsets[where_indices[i]][0], end = \" \")\n    subsets[where_indices[i]] = subsets[where_indices[i]][1:]",
+      "preciseFault": "The initial queued index zero is incorrectly absorbed into the next unmarked component, even with no edge connecting them. The three-node edgeless witness illegally moves values between isolated vertices.",
+      "priorContentProofHash": "22da4bd510cdec722ae4d2188cb3e705a06476fbf6e79d26787bdfaa43e9f8ed",
+      "priorFailedTest": {
+        "actualFirst12": [
+          1,
+          2,
+          5,
+          4,
+          3,
+          7,
+          6
+        ],
+        "actualOutputHash": "797cb96a1e2f5dcd5a45b0ba0faf7cbb4f9cf5f05aaeaac667a7e13c96476312",
+        "currentStatementLegal": true,
+        "exitCode": 0,
+        "expectedFirst12": [
+          1,
+          3,
+          5,
+          4,
+          2,
+          7,
+          6
+        ],
+        "expectedTokenCount": 7,
+        "independentExpectedHash": "e1a5ddad7a7350968b9aeb2f805368066f66d0da0c0f569cecdc2bc2492b7b54",
+        "inputHash": "a0e85810ed8f71825c493e535257d7429c6d9841198e0b51ebdb251e16f4d79b",
+        "isLF": false,
+        "mathematicalProofHash": "5f645719f0c600532d06a5f2beb19dc7b47e986a62031e2ac59092e2bd08e356",
+        "normalExit": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 7,
+        "publicIntendedBoundsLegal": true,
+        "sameLengthNumericWrongAnswer": true,
+        "storedExpectedHash": "95c930b1c8ccaaaf1238aff53e820e3a7803546c7d19516a750d41542ba11f6f",
+        "strictSourceWitnessQualifies": false,
+        "test": "0003",
+        "timeout": false,
+        "verdict": "WA"
+      },
+      "problem": "500B",
+      "recordHash": "02a26e680174c61a9dffd9e7d8e2607ff8ad45b1f49c40051a3b97730d155fb9",
+      "recordedFailedTest": {
+        "actualNumericValues": [
+          1,
+          2,
+          5,
+          4,
+          3,
+          7,
+          6
+        ],
+        "actualOutputBase64": "MSAyIDUgNCAzIDcgNiA=",
+        "actualOutputHash": "797cb96a1e2f5dcd5a45b0ba0faf7cbb4f9cf5f05aaeaac667a7e13c96476312",
+        "algorithmicFailureNotCRLFOnly": true,
+        "currentStatementLegal": true,
+        "exitCode": 0,
+        "independentExpectedBase64": "MSAzIDUgNCAyIDcgNgo=",
+        "independentExpectedHash": "e1a5ddad7a7350968b9aeb2f805368066f66d0da0c0f569cecdc2bc2492b7b54",
+        "independentExpectedNumericValues": [
+          1,
+          3,
+          5,
+          4,
+          2,
+          7,
+          6
+        ],
+        "inputBase64": "Nw0KMSA3IDYgNCAyIDMgNQ0KMDAwMDEwMA0KMDAwMDAxMA0KMDAwMDAwMQ0KMDAwMDAwMA0KMTAwMDAwMA0KMDEwMDAwMA0KMDAxMDAwMA0K",
+        "inputHash": "a0e85810ed8f71825c493e535257d7429c6d9841198e0b51ebdb251e16f4d79b",
+        "isLF": false,
+        "mathematicalProof": {
+          "components": [
+            {
+              "indices1Based": [
+                1,
+                5
+              ],
+              "sortedValues": [
+                1,
+                2
+              ]
+            },
+            {
+              "indices1Based": [
+                2,
+                6
+              ],
+              "sortedValues": [
+                3,
+                7
+              ]
+            },
+            {
+              "indices1Based": [
+                3,
+                7
+              ],
+              "sortedValues": [
+                5,
+                6
+              ]
+            },
+            {
+              "indices1Based": [
+                4
+              ],
+              "sortedValues": [
+                4
+              ]
+            }
+          ],
+          "method": "Edge transpositions generate every permutation within a connected component (a path moves any chosen value between its endpoints); no value can cross components. Assign component values ascending to its ascending positions to get the unique lexicographic minimum. Components independently computed by union-find."
+        },
+        "mathematicalProofHash": "5f645719f0c600532d06a5f2beb19dc7b47e986a62031e2ac59092e2bd08e356",
+        "normalExit": true,
+        "sameLengthNumericWrongAnswer": true,
+        "storedExpectedHash": "95c930b1c8ccaaaf1238aff53e820e3a7803546c7d19516a750d41542ba11f6f",
+        "test": "0003",
+        "timeout": false,
+        "verdict": "WA"
+      },
+      "sourceHash": "8a590954d8262fa67dced4078ee55ad40607f9eb4fc830d3100254c91803922e",
+      "sourceIdentity": {
+        "bytes": 143535599,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00025-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "0fe4a49998adbbfce09027033e613e939c46974aa3e25afc6a7b8e2a1f605dbb",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00025-of-00036.parquet"
+      },
+      "strictSourceProofPasses": true,
+      "submissionId": "160875547",
+      "witness": {
+        "actualNumericValues": [
+          1,
+          2,
+          3
+        ],
+        "actualOutputBase64": "MSAyIDMg",
+        "actualOutputHash": "8a2ddba46c83c9200c27fa4b1837029985f87d6cb73817eac213af747d11a595",
+        "currentStatementLegal": true,
+        "exitCode": 0,
+        "expectedTokenCount": 3,
+        "independentExpectedBase64": "MiAxIDMK",
+        "independentExpectedHash": "71a18fbe44f5c038b799d19abaf2d158bf40309ccfce9617cb3d3bf3c699cfee",
+        "independentExpectedNumericValues": [
+          2,
+          1,
+          3
+        ],
+        "inputBase64": "MwoyIDEgMwowMDAKMDAwCjAwMAo=",
+        "inputHash": "7ca906a5aa059629da8b88a6992a0296031555427100e0f4ac046197b19e0203",
+        "isLF": true,
+        "mathematicalProof": {
+          "components": [
+            {
+              "indices1Based": [
+                1
+              ],
+              "sortedValues": [
+                2
+              ]
+            },
+            {
+              "indices1Based": [
+                2
+              ],
+              "sortedValues": [
+                1
+              ]
+            },
+            {
+              "indices1Based": [
+                3
+              ],
+              "sortedValues": [
+                3
+              ]
+            }
+          ],
+          "method": "Edge transpositions generate every permutation within a connected component (a path moves any chosen value between its endpoints); no value can cross components. Assign component values ascending to its ascending positions to get the unique lexicographic minimum. Components independently computed by union-find."
+        },
+        "mathematicalProofHash": "9f3f75e5dcdafb024384058d7d00a094cd3ec08132b8b6bc3d0aaa3060d5b1ae",
+        "normalExit": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 3,
+        "publicIntendedBoundsLegal": true,
+        "sameLengthNumericWrongAnswer": true,
+        "stderr": "",
+        "storedExpectedBase64": "MiAxIDMK",
+        "storedExpectedHash": "71a18fbe44f5c038b799d19abaf2d158bf40309ccfce9617cb3d3bf3c699cfee",
+        "strictSourceWitnessQualifies": true,
+        "test": "0107",
+        "timeout": false,
+        "verdict": "WA"
+      }
+    },
+    {
+      "bindingRepairRequired": false,
+      "classification": "STRICT_LF_MATH_PROOF",
+      "completeSourceRead": true,
+      "contentProofHash": "574612d8ce942584d51e781e6e4b02c53d06bc1482fcc57e537c60988b028d69",
+      "failedTestMathBindingPasses": true,
+      "implementedAlgorithm": "Constructs lists by linking later column neighbors to the first neighbor, then tries to DFS-swap larger endpoint values.",
+      "lineAnchors": [
+        {
+          "line": 1,
+          "source": "def dfs(pos,visited,graph,p):"
+        },
+        {
+          "line": 3,
+          "source": "  for i in graph[pos]:"
+        },
+        {
+          "line": 4,
+          "source": "    if p[pos]>p[i]:"
+        },
+        {
+          "line": 5,
+          "source": "      c=p[i]"
+        },
+        {
+          "line": 6,
+          "source": "      p[i]=p[pos]"
+        },
+        {
+          "line": 7,
+          "source": "      p[i]=c"
+        },
+        {
+          "line": 19,
+          "source": "    if A[j][i]=='1' and m<0:"
+        },
+        {
+          "line": 20,
+          "source": "      m=j"
+        },
+        {
+          "line": 21,
+          "source": "    elif A[j][i]=='1':"
+        },
+        {
+          "line": 22,
+          "source": "      graph[m].append(j)"
+        },
+        {
+          "line": 25,
+          "source": "  if graph[i]!=[] and visited[i]==False:"
+        },
+        {
+          "line": 26,
+          "source": "    dfs(i,visited,graph,p)"
+        },
+        {
+          "line": 27,
+          "source": "print(\" \".join(map(str,p)))"
+        }
+      ],
+      "originalSource": "def dfs(pos,visited,graph,p):\n  visited[pos]=True\n  for i in graph[pos]:\n    if p[pos]>p[i]:\n      c=p[i]\n      p[i]=p[pos]\n      p[i]=c\n      if visited[i]==False:\n        dfs(i,visited,graph,p)\nn=int(input())\np=list(map(int,input().split()))\nA=[0 for _ in range(n)]\ngraph=[[] for _ in range(n)]\nfor i in range(n):\n  A[i]=input()\nfor i in range(n):\n  m=-1\n  for j in range(n):\n    if A[j][i]=='1' and m<0:\n      m=j\n    elif A[j][i]=='1':\n      graph[m].append(j)\nvisited=[False]*n\nfor i in range(n):\n  if graph[i]!=[] and visited[i]==False:\n    dfs(i,visited,graph,p)\nprint(\" \".join(map(str,p)))",
+      "preciseFault": "Both swap assignments write p[i]; p[pos] never changes, so all attempted swaps are no-ops. The graph construction also loses the ordinary swap edges. A reverse three-node path stays reversed instead of becoming sorted.",
+      "priorContentProofHash": "abb63df9bd8ee40ade6ab3b1f9d6f1cd8c8e999f1bed03ba8b6b8c984de84fc3",
+      "priorFailedTest": {
+        "actualFirst12": [
+          5,
+          2,
+          4,
+          3,
+          6,
+          7,
+          1
+        ],
+        "actualOutputHash": "ec4902617fbb739c5c2998ea857ba628c57f79b25a871f6ee4c8f4c73ca8d0f9",
+        "currentStatementLegal": true,
+        "exitCode": 0,
+        "expectedFirst12": [
+          1,
+          2,
+          4,
+          3,
+          6,
+          7,
+          5
+        ],
+        "expectedTokenCount": 7,
+        "independentExpectedHash": "b4f18f5ee2289226dff88a7509b85fea49cb50749f9b9f860c61f491ce772fd5",
+        "inputHash": "4104363e63970f41bc7dc4b8a3bb8dfc1fbc40e72fe80d7a790de14538878ba0",
+        "isLF": false,
+        "mathematicalProofHash": "c1dc2c16ed3b1fb24a5d3eb0f1d25a06c44865052cc32fc0148c8c7260c4af51",
+        "normalExit": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 7,
+        "publicIntendedBoundsLegal": true,
+        "sameLengthNumericWrongAnswer": true,
+        "storedExpectedHash": "779004375fe5fbdaf4e875a3b19ba89d90f19005218bae9fd394dc20826f7732",
+        "strictSourceWitnessQualifies": false,
+        "test": "0001",
+        "timeout": false,
+        "verdict": "WA"
+      },
+      "problem": "500B",
+      "recordHash": "bd9990cdb0db1488b190256f957ae4d9048bd6d1d55bf1cbf6adb0b3151e0962",
+      "recordedFailedTest": {
+        "actualNumericValues": [
+          5,
+          2,
+          4,
+          3,
+          6,
+          7,
+          1
+        ],
+        "actualOutputBase64": "NSAyIDQgMyA2IDcgMQo=",
+        "actualOutputHash": "ec4902617fbb739c5c2998ea857ba628c57f79b25a871f6ee4c8f4c73ca8d0f9",
+        "algorithmicFailureNotCRLFOnly": true,
+        "currentStatementLegal": true,
+        "exitCode": 0,
+        "independentExpectedBase64": "MSAyIDQgMyA2IDcgNQo=",
+        "independentExpectedHash": "b4f18f5ee2289226dff88a7509b85fea49cb50749f9b9f860c61f491ce772fd5",
+        "independentExpectedNumericValues": [
+          1,
+          2,
+          4,
+          3,
+          6,
+          7,
+          5
+        ],
+        "inputBase64": "Nw0KNSAyIDQgMyA2IDcgMQ0KMDAwMTAwMQ0KMDAwMDAwMA0KMDAwMDAxMA0KMTAwMDAwMQ0KMDAwMDAwMA0KMDAxMDAwMA0KMTAwMTAwMA0K",
+        "inputHash": "4104363e63970f41bc7dc4b8a3bb8dfc1fbc40e72fe80d7a790de14538878ba0",
+        "isLF": false,
+        "mathematicalProof": {
+          "components": [
+            {
+              "indices1Based": [
+                1,
+                4,
+                7
+              ],
+              "sortedValues": [
+                1,
+                3,
+                5
+              ]
+            },
+            {
+              "indices1Based": [
+                2
+              ],
+              "sortedValues": [
+                2
+              ]
+            },
+            {
+              "indices1Based": [
+                3,
+                6
+              ],
+              "sortedValues": [
+                4,
+                7
+              ]
+            },
+            {
+              "indices1Based": [
+                5
+              ],
+              "sortedValues": [
+                6
+              ]
+            }
+          ],
+          "method": "Edge transpositions generate every permutation within a connected component (a path moves any chosen value between its endpoints); no value can cross components. Assign component values ascending to its ascending positions to get the unique lexicographic minimum. Components independently computed by union-find."
+        },
+        "mathematicalProofHash": "c1dc2c16ed3b1fb24a5d3eb0f1d25a06c44865052cc32fc0148c8c7260c4af51",
+        "normalExit": true,
+        "sameLengthNumericWrongAnswer": true,
+        "storedExpectedHash": "779004375fe5fbdaf4e875a3b19ba89d90f19005218bae9fd394dc20826f7732",
+        "test": "0001",
+        "timeout": false,
+        "verdict": "WA"
+      },
+      "sourceHash": "75fba99826aa6ec615ce9b6c0767855378c1559a979769857f9fcf00af76d562",
+      "sourceIdentity": {
+        "bytes": 143535599,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00025-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "0fe4a49998adbbfce09027033e613e939c46974aa3e25afc6a7b8e2a1f605dbb",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00025-of-00036.parquet"
+      },
+      "strictSourceProofPasses": true,
+      "submissionId": "204980270",
+      "witness": {
+        "actualNumericValues": [
+          3,
+          2,
+          1
+        ],
+        "actualOutputBase64": "MyAyIDEK",
+        "actualOutputHash": "7d4e170b3b7a3429b5c48cd27387d1b00e98e175c005e64413cff0df76c3eda5",
+        "currentStatementLegal": true,
+        "exitCode": 0,
+        "expectedTokenCount": 3,
+        "independentExpectedBase64": "MSAyIDMK",
+        "independentExpectedHash": "1def07dbe06eeb097aafec8a40329937cd20c93a83634b8221ea2b41a894310c",
+        "independentExpectedNumericValues": [
+          1,
+          2,
+          3
+        ],
+        "inputBase64": "MwozIDIgMQowMTAKMTAxCjAxMAo=",
+        "inputHash": "3cce15ab56a0b153a06d4531a330fc17e0fe176ba0ac0fe26b3d8ee56fbf8982",
+        "isLF": true,
+        "mathematicalProof": {
+          "components": [
+            {
+              "indices1Based": [
+                1,
+                2,
+                3
+              ],
+              "sortedValues": [
+                1,
+                2,
+                3
+              ]
+            }
+          ],
+          "method": "Edge transpositions generate every permutation within a connected component (a path moves any chosen value between its endpoints); no value can cross components. Assign component values ascending to its ascending positions to get the unique lexicographic minimum. Components independently computed by union-find."
+        },
+        "mathematicalProofHash": "f5ef04bb1d9e386487b061dcdbf5a9981eafed57b13af08241df456980870a86",
+        "normalExit": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 3,
+        "publicIntendedBoundsLegal": true,
+        "sameLengthNumericWrongAnswer": true,
+        "stderr": "",
+        "storedExpectedBase64": "MSAyIDMK",
+        "storedExpectedHash": "1def07dbe06eeb097aafec8a40329937cd20c93a83634b8221ea2b41a894310c",
+        "strictSourceWitnessQualifies": true,
+        "test": "0038",
+        "timeout": false,
+        "verdict": "WA"
+      }
+    },
+    {
+      "bindingRepairRequired": false,
+      "classification": "STRICT_LF_MATH_PROOF",
+      "completeSourceRead": true,
+      "contentProofHash": "46963605e8feda2339ff7f7690d3473a7272a6ad1de3fa3a602a602819191661",
+      "failedTestMathBindingPasses": true,
+      "implementedAlgorithm": "Finds whole connected components by DFS into a set, sorts their values, assigns them by list(visited), and prints Python list syntax.",
+      "lineAnchors": [
+        {
+          "line": 17,
+          "source": "def dfs(visited, graph, node):"
+        },
+        {
+          "line": 18,
+          "source": "    if node not in visited:"
+        },
+        {
+          "line": 19,
+          "source": "        visited.add(node)"
+        },
+        {
+          "line": 20,
+          "source": "        for neighbour in graph[node]:"
+        },
+        {
+          "line": 21,
+          "source": "            dfs(visited, graph, neighbour)"
+        },
+        {
+          "line": 24,
+          "source": "while (len(nonVisited) != 0 ):"
+        },
+        {
+          "line": 26,
+          "source": "    dfs(visited, graph, nonVisited.pop())"
+        },
+        {
+          "line": 27,
+          "source": "    nonVisited = nonVisited.difference(visited)"
+        },
+        {
+          "line": 29,
+          "source": "    for i in list(visited):"
+        },
+        {
+          "line": 30,
+          "source": "        auxList.append(pList[i-1])"
+        },
+        {
+          "line": 31,
+          "source": "    auxList.sort()"
+        },
+        {
+          "line": 32,
+          "source": "    for i in list(visited):"
+        },
+        {
+          "line": 33,
+          "source": "        pList[i-1] = auxList.pop(0)"
+        },
+        {
+          "line": 35,
+          "source": "print(pList)"
+        }
+      ],
+      "originalSource": "from collections import defaultdict\n\nn = int(input())\npList = list(map(int, input().split()))\n\ngraph = defaultdict(list)\n\nfor i in range(n):\n    row = input()\n    for j in range(i+1):\n        if row[j] == \"1\":\n            graph[i+1].append(j+1)\n            graph[j+1].append(i+1)\n            \nvisited = set()\nnonVisited = set(list.copy(pList))\ndef dfs(visited, graph, node):\n    if node not in visited:\n        visited.add(node)\n        for neighbour in graph[node]:\n            dfs(visited, graph, neighbour)\n            \n            \nwhile (len(nonVisited) != 0 ):\n    visited = set()\n    dfs(visited, graph, nonVisited.pop())\n    nonVisited = nonVisited.difference(visited)\n    auxList = list()\n    for i in list(visited):\n        auxList.append(pList[i-1])\n    auxList.sort()\n    for i in list(visited):\n        pList[i-1] = auxList.pop(0)\n        \nprint(pList)",
+      "preciseFault": "It never sorts component position indices. Assigning sorted values to unsorted list(visited) misplaces values; included LF 0132 produces [5,1,8,3,4,6,7,2] rather than [2,1,5,3,4,6,7,8], independently of its brackets/commas presentation defect.",
+      "priorContentProofHash": "b13e18195443933e895ea150133033e1435979b942bce21faacbfd04bb327a45",
+      "priorFailedTest": {
+        "actualFirst12": [
+          1,
+          2,
+          4,
+          3,
+          6,
+          7,
+          5
+        ],
+        "actualOutputHash": "e98f6d3f24e39b1aaa1c17917b04838606b169b85cfb7dd902186e7fad256fa3",
+        "currentStatementLegal": true,
+        "exitCode": 0,
+        "expectedFirst12": [
+          1,
+          2,
+          4,
+          3,
+          6,
+          7,
+          5
+        ],
+        "expectedTokenCount": 7,
+        "independentExpectedHash": "b4f18f5ee2289226dff88a7509b85fea49cb50749f9b9f860c61f491ce772fd5",
+        "inputHash": "4104363e63970f41bc7dc4b8a3bb8dfc1fbc40e72fe80d7a790de14538878ba0",
+        "isLF": false,
+        "mathematicalProofHash": "c1dc2c16ed3b1fb24a5d3eb0f1d25a06c44865052cc32fc0148c8c7260c4af51",
+        "normalExit": true,
+        "numericAnswerMatches": true,
+        "outputTokenCount": 7,
+        "publicIntendedBoundsLegal": true,
+        "sameLengthNumericWrongAnswer": false,
+        "storedExpectedHash": "779004375fe5fbdaf4e875a3b19ba89d90f19005218bae9fd394dc20826f7732",
+        "strictSourceWitnessQualifies": false,
+        "test": "0001",
+        "timeout": false,
+        "verdict": "WA"
+      },
+      "problem": "500B",
+      "recordHash": "8c00477efe938ca54dc6383eff409ad3c275fb384a359a2afb33b6f2e2ed6b1c",
+      "recordedFailedTest": {
+        "actualNumericValues": [
+          5,
+          1,
+          8,
+          3,
+          4,
+          6,
+          7,
+          2
+        ],
+        "actualOutputBase64": "WzUsIDEsIDgsIDMsIDQsIDYsIDcsIDJdCg==",
+        "actualOutputHash": "9636bf91d529b5ce93a1383b2c99942e072e878c6e2014ec96498602a7c70b02",
+        "algorithmicFailureNotCRLFOnly": true,
+        "currentStatementLegal": true,
+        "exitCode": 0,
+        "independentExpectedBase64": "MiAxIDUgMyA0IDYgNyA4Cg==",
+        "independentExpectedHash": "4f8d2ebc247b12b5861652f07f48413422bdacc3b655433ab60d9410468a90bf",
+        "independentExpectedNumericValues": [
+          2,
+          1,
+          5,
+          3,
+          4,
+          6,
+          7,
+          8
+        ],
+        "inputBase64": "OAo1IDQgMiAzIDEgNiA3IDgKMDAwMDAwMDEKMDAwMDEwMTAKMDAwMDAwMDEKMDAwMDEwMTAKMDEwMTAwMTAKMDAwMDAwMDAKMDEwMTEwMDAKMTAxMDAwMDAK",
+        "inputHash": "42cf66c99f5eda3b711ee7e5001f9b07a14856f89f413ab132cebd6a9a66b815",
+        "isLF": true,
+        "mathematicalProof": {
+          "components": [
+            {
+              "indices1Based": [
+                1,
+                3,
+                8
+              ],
+              "sortedValues": [
+                2,
+                5,
+                8
+              ]
+            },
+            {
+              "indices1Based": [
+                2,
+                4,
+                5,
+                7
+              ],
+              "sortedValues": [
+                1,
+                3,
+                4,
+                7
+              ]
+            },
+            {
+              "indices1Based": [
+                6
+              ],
+              "sortedValues": [
+                6
+              ]
+            }
+          ],
+          "method": "Edge transpositions generate every permutation within a connected component (a path moves any chosen value between its endpoints); no value can cross components. Assign component values ascending to its ascending positions to get the unique lexicographic minimum. Components independently computed by union-find."
+        },
+        "mathematicalProofHash": "f983565f3f66f5a52334df879d8063173b57c0f9d4cb08522c2db74a0a1cbfc2",
+        "normalExit": true,
+        "sameLengthNumericWrongAnswer": true,
+        "storedExpectedHash": "4f8d2ebc247b12b5861652f07f48413422bdacc3b655433ab60d9410468a90bf",
+        "test": "0132",
+        "timeout": false,
+        "verdict": "WA"
+      },
+      "sourceHash": "295e32f21a1ca7182fd910d6c47866a36566e64e66c6d260a257f3525a018b38",
+      "sourceIdentity": {
+        "bytes": 143535599,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00025-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "0fe4a49998adbbfce09027033e613e939c46974aa3e25afc6a7b8e2a1f605dbb",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00025-of-00036.parquet"
+      },
+      "strictSourceProofPasses": true,
+      "submissionId": "205455566",
+      "witness": {
+        "actualNumericValues": [
+          5,
+          1,
+          8,
+          3,
+          4,
+          6,
+          7,
+          2
+        ],
+        "actualOutputBase64": "WzUsIDEsIDgsIDMsIDQsIDYsIDcsIDJdCg==",
+        "actualOutputHash": "9636bf91d529b5ce93a1383b2c99942e072e878c6e2014ec96498602a7c70b02",
+        "currentStatementLegal": true,
+        "exitCode": 0,
+        "expectedTokenCount": 8,
+        "independentExpectedBase64": "MiAxIDUgMyA0IDYgNyA4Cg==",
+        "independentExpectedHash": "4f8d2ebc247b12b5861652f07f48413422bdacc3b655433ab60d9410468a90bf",
+        "independentExpectedNumericValues": [
+          2,
+          1,
+          5,
+          3,
+          4,
+          6,
+          7,
+          8
+        ],
+        "inputBase64": "OAo1IDQgMiAzIDEgNiA3IDgKMDAwMDAwMDEKMDAwMDEwMTAKMDAwMDAwMDEKMDAwMDEwMTAKMDEwMTAwMTAKMDAwMDAwMDAKMDEwMTEwMDAKMTAxMDAwMDAK",
+        "inputHash": "42cf66c99f5eda3b711ee7e5001f9b07a14856f89f413ab132cebd6a9a66b815",
+        "isLF": true,
+        "mathematicalProof": {
+          "components": [
+            {
+              "indices1Based": [
+                1,
+                3,
+                8
+              ],
+              "sortedValues": [
+                2,
+                5,
+                8
+              ]
+            },
+            {
+              "indices1Based": [
+                2,
+                4,
+                5,
+                7
+              ],
+              "sortedValues": [
+                1,
+                3,
+                4,
+                7
+              ]
+            },
+            {
+              "indices1Based": [
+                6
+              ],
+              "sortedValues": [
+                6
+              ]
+            }
+          ],
+          "method": "Edge transpositions generate every permutation within a connected component (a path moves any chosen value between its endpoints); no value can cross components. Assign component values ascending to its ascending positions to get the unique lexicographic minimum. Components independently computed by union-find."
+        },
+        "mathematicalProofHash": "f983565f3f66f5a52334df879d8063173b57c0f9d4cb08522c2db74a0a1cbfc2",
+        "normalExit": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 8,
+        "publicIntendedBoundsLegal": true,
+        "sameLengthNumericWrongAnswer": true,
+        "stderr": "",
+        "storedExpectedBase64": "MiAxIDUgMyA0IDYgNyA4Cg==",
+        "storedExpectedHash": "4f8d2ebc247b12b5861652f07f48413422bdacc3b655433ab60d9410468a90bf",
+        "strictSourceWitnessQualifies": true,
+        "test": "0132",
+        "timeout": false,
+        "verdict": "WA"
+      }
+    },
+    {
+      "bindingRepairRequired": false,
+      "classification": "STRICT_LF_MATH_PROOF",
+      "completeSourceRead": true,
+      "contentProofHash": "354c98a522343983cc8fba8b033cbf2edc99fd01e034781c9aebbf779b538bd9",
+      "failedTestMathBindingPasses": true,
+      "implementedAlgorithm": "For each increasing index, blocks all smaller indices and BFSes the remaining graph to swap in its smallest reachable value.",
+      "lineAnchors": [
+        {
+          "line": 13,
+          "source": "def bfs(s, vis):"
+        },
+        {
+          "line": 17,
+          "source": "    ans, idx = p[s], s"
+        },
+        {
+          "line": 18,
+          "source": "    while len(q) > 0:"
+        },
+        {
+          "line": 20,
+          "source": "        if p[u] < ans:"
+        },
+        {
+          "line": 21,
+          "source": "            ans = p[u]"
+        },
+        {
+          "line": 24,
+          "source": "        for v in adj_list[u]:"
+        },
+        {
+          "line": 25,
+          "source": "            if vis[v]: continue"
+        },
+        {
+          "line": 27,
+          "source": "            vis[v] = True"
+        },
+        {
+          "line": 32,
+          "source": "for i in range(n):"
+        },
+        {
+          "line": 33,
+          "source": "    vis = [False]*n"
+        },
+        {
+          "line": 34,
+          "source": "    for j in range(i):"
+        },
+        {
+          "line": 35,
+          "source": "        vis[j] = True"
+        },
+        {
+          "line": 37,
+          "source": "    idx = bfs(i, vis)"
+        },
+        {
+          "line": 38,
+          "source": "    p[i], p[idx] = p[idx], p[i]"
+        }
+      ],
+      "originalSource": "from collections import deque\n\nn = int(input())\np = [int(x) for x in input().split()]\nmat = [input() for _ in range(n)]\nadj_list = [[] for _ in range(n)]\n\nfor i in range(n):\n    for j in range(n):\n        if mat[i][j] == '1':\n            adj_list[i].append(j)\n\ndef bfs(s, vis):\n    q = deque([s])\n    vis[s] = True\n\n    ans, idx = p[s], s\n    while len(q) > 0:\n        u = q.popleft()\n        if p[u] < ans:\n            ans = p[u]\n            idx = u\n\n        for v in adj_list[u]:\n            if vis[v]: continue\n\n            vis[v] = True\n            q.append(v)\n    \n    return idx\n\nfor i in range(n):\n    vis = [False]*n\n    for j in range(i):\n        vis[j] = True\n\n    idx = bfs(i, vis)\n    p[i], p[idx] = p[idx], p[i]\n\nprint(*p)",
+      "preciseFault": "Fixing earlier positions does not remove them as paths for future swaps: edge transpositions can route through and restore earlier vertices. Blocking them splits the remaining reachable set; the LF four-node witness strands value 2 behind index zero.",
+      "priorContentProofHash": "b67e03dddebc7518dec955f7699e8b27f0d0393027a14326a829c1273837b68d",
+      "priorFailedTest": {
+        "actualFirst12": [
+          5,
+          1,
+          2,
+          3,
+          4,
+          6,
+          8,
+          10,
+          9,
+          7
+        ],
+        "actualOutputHash": "57b355d14daa27ad9c85ef552877f602e371302a87f7f3f6c590057e8a729126",
+        "currentStatementLegal": true,
+        "exitCode": 0,
+        "expectedFirst12": [
+          5,
+          1,
+          2,
+          3,
+          4,
+          6,
+          7,
+          10,
+          8,
+          9
+        ],
+        "expectedTokenCount": 10,
+        "independentExpectedHash": "4d64b5f4e06cc16d43b0702486bc668e16f509dd1178b675ad88848d20e21e71",
+        "inputHash": "9067985906abd2c596ffc83c82acd1b0c4633cb5f133a384fce3afc36fb978b5",
+        "isLF": false,
+        "mathematicalProofHash": "653c6e7ba7737a6c5bf14d08babf7bf5bbf6a842c09f66fac7de34405a34dae8",
+        "normalExit": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 10,
+        "publicIntendedBoundsLegal": true,
+        "sameLengthNumericWrongAnswer": true,
+        "storedExpectedHash": "affb245c66dd04cce3f0c13c3b03ec105167cd91f6604160724c7e705bb9200a",
+        "strictSourceWitnessQualifies": false,
+        "test": "0012",
+        "timeout": false,
+        "verdict": "WA"
+      },
+      "problem": "500B",
+      "recordHash": "d648e0e0f9784e7710e4a55bd8643df39a8516b506ae84dbba949d2469fdfebf",
+      "recordedFailedTest": {
+        "actualNumericValues": [
+          5,
+          1,
+          2,
+          3,
+          4,
+          6,
+          8,
+          10,
+          9,
+          7
+        ],
+        "actualOutputBase64": "NSAxIDIgMyA0IDYgOCAxMCA5IDcK",
+        "actualOutputHash": "57b355d14daa27ad9c85ef552877f602e371302a87f7f3f6c590057e8a729126",
+        "algorithmicFailureNotCRLFOnly": true,
+        "currentStatementLegal": true,
+        "exitCode": 0,
+        "independentExpectedBase64": "NSAxIDIgMyA0IDYgNyAxMCA4IDkK",
+        "independentExpectedHash": "4d64b5f4e06cc16d43b0702486bc668e16f509dd1178b675ad88848d20e21e71",
+        "independentExpectedNumericValues": [
+          5,
+          1,
+          2,
+          3,
+          4,
+          6,
+          7,
+          10,
+          8,
+          9
+        ],
+        "inputBase64": "MTANCjUgMSA2IDIgOCAzIDQgMTAgOSA3DQowMDAwMDAwMDAwDQowMDAwMDEwMDAwDQowMDAwMDEwMDAwDQowMDAwMDEwMDAwDQowMDAwMDEwMDAwDQowMTExMTAxMDExDQowMDAwMDEwMDAwDQowMDAwMDAwMDAwDQowMDAwMDEwMDAwDQowMDAwMDEwMDAwDQo=",
+        "inputHash": "9067985906abd2c596ffc83c82acd1b0c4633cb5f133a384fce3afc36fb978b5",
+        "isLF": false,
+        "mathematicalProof": {
+          "components": [
+            {
+              "indices1Based": [
+                1
+              ],
+              "sortedValues": [
+                5
+              ]
+            },
+            {
+              "indices1Based": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                9,
+                10
+              ],
+              "sortedValues": [
+                1,
+                2,
+                3,
+                4,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "indices1Based": [
+                8
+              ],
+              "sortedValues": [
+                10
+              ]
+            }
+          ],
+          "method": "Edge transpositions generate every permutation within a connected component (a path moves any chosen value between its endpoints); no value can cross components. Assign component values ascending to its ascending positions to get the unique lexicographic minimum. Components independently computed by union-find."
+        },
+        "mathematicalProofHash": "653c6e7ba7737a6c5bf14d08babf7bf5bbf6a842c09f66fac7de34405a34dae8",
+        "normalExit": true,
+        "sameLengthNumericWrongAnswer": true,
+        "storedExpectedHash": "affb245c66dd04cce3f0c13c3b03ec105167cd91f6604160724c7e705bb9200a",
+        "test": "0012",
+        "timeout": false,
+        "verdict": "WA"
+      },
+      "sourceHash": "c2b124172ca615de8b0a4198b0da34404c4f2abb56945d0bb5de5629ee34a88f",
+      "sourceIdentity": {
+        "bytes": 143535599,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00025-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "0fe4a49998adbbfce09027033e613e939c46974aa3e25afc6a7b8e2a1f605dbb",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00025-of-00036.parquet"
+      },
+      "strictSourceProofPasses": true,
+      "submissionId": "208057827",
+      "witness": {
+        "actualNumericValues": [
+          1,
+          3,
+          4,
+          2
+        ],
+        "actualOutputBase64": "MSAzIDQgMgo=",
+        "actualOutputHash": "1b2ddaa30c8c4e3ed4fb89f733427e7ba72f3a8388ebf19dcfc4f715562a91c0",
+        "currentStatementLegal": true,
+        "exitCode": 0,
+        "expectedTokenCount": 4,
+        "independentExpectedBase64": "MSAyIDMgNAo=",
+        "independentExpectedHash": "243c6d67d2657ddfb7607f3d2e161f9aa8d7b8f58d0856c665d9883860c457f6",
+        "independentExpectedNumericValues": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "inputBase64": "NAoyIDMgNCAxCjAxMDEKMTAxMAowMTAwCjEwMDAK",
+        "inputHash": "b3213040bd15af05ebc92a10ba4a77dccf78345c4d502b409f081cc07a3946c8",
+        "isLF": true,
+        "mathematicalProof": {
+          "components": [
+            {
+              "indices1Based": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "sortedValues": [
+                1,
+                2,
+                3,
+                4
+              ]
+            }
+          ],
+          "method": "Edge transpositions generate every permutation within a connected component (a path moves any chosen value between its endpoints); no value can cross components. Assign component values ascending to its ascending positions to get the unique lexicographic minimum. Components independently computed by union-find."
+        },
+        "mathematicalProofHash": "4750643d9cfca136ca4612644c43c97be13e7215b9696a5cac0a13e09276987c",
+        "normalExit": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 4,
+        "publicIntendedBoundsLegal": true,
+        "sameLengthNumericWrongAnswer": true,
+        "stderr": "",
+        "storedExpectedBase64": "MSAyIDMgNAo=",
+        "storedExpectedHash": "243c6d67d2657ddfb7607f3d2e161f9aa8d7b8f58d0856c665d9883860c457f6",
+        "strictSourceWitnessQualifies": true,
+        "test": "0185",
+        "timeout": false,
+        "verdict": "WA"
+      }
+    },
+    {
+      "bindingRepairRequired": false,
+      "classification": "STRICT_LF_MATH_PROOF",
+      "completeSourceRead": true,
+      "contentProofHash": "d35b41577c468d9506834a9acdce1e42710f172f518b0e716a73a0ac2d5ddb8e",
+      "failedTestMathBindingPasses": true,
+      "implementedAlgorithm": "For each position, sorts the values on its local closed neighborhood once; the full-component DFS is commented out.",
+      "lineAnchors": [
+        {
+          "line": 16,
+          "source": "# def dfs(i):"
+        },
+        {
+          "line": 25,
+          "source": "for i in range(n):"
+        },
+        {
+          "line": 26,
+          "source": "        index.append(i)"
+        },
+        {
+          "line": 27,
+          "source": "        value.append(a[i])"
+        },
+        {
+          "line": 28,
+          "source": "        for g in graph[i]:"
+        },
+        {
+          "line": 29,
+          "source": "            index.append(g)"
+        },
+        {
+          "line": 30,
+          "source": "            value.append(a[g])"
+        },
+        {
+          "line": 32,
+          "source": "        value.sort()"
+        },
+        {
+          "line": 33,
+          "source": "        index.sort()"
+        },
+        {
+          "line": 35,
+          "source": "        for j in range(len(value)):"
+        },
+        {
+          "line": 36,
+          "source": "            a[index[j]] = value[j]"
+        },
+        {
+          "line": 37,
+          "source": "        value = []"
+        },
+        {
+          "line": 38,
+          "source": "        index = []"
+        },
+        {
+          "line": 39,
+          "source": "print(*a)"
+        }
+      ],
+      "originalSource": "n = int(input())\na = list(map(int, input().split()))\ngraph = [[] for _ in range(n)]\nfor i in range(n):\n    s = input()\n    for j in range(n):\n        if s[j] == '1':\n            graph[i].append(j)\n            graph[j].append(i)\n\nvis = [False] * n\nindex = []\nvalue = []\n\n\n# def dfs(i):\n#     vis[i] = True\n#     index.append(i)\n#     value.append(a[i])\n#     for g in graph[i]:\n#         if not vis[g]:\n#             dfs(g)\n\n\nfor i in range(n):\n        index.append(i)\n        value.append(a[i])\n        for g in graph[i]:\n            index.append(g)\n            value.append(a[g])\n            \n        value.sort()\n        index.sort()\n\n        for j in range(len(value)):\n            a[index[j]] = value[j]\n        value = []\n        index = []\nprint(*a)",
+      "preciseFault": "A single pass of local neighborhoods cannot guarantee the component-wide lexicographic minimum. The LF four-node witness leaves 4,3 at the last two positions rather than 3,4.",
+      "priorContentProofHash": "0b3d91fe10ce11ca86580f2d05d42b0375d346a6f90e6b77503221862c3d6ceb",
+      "priorFailedTest": {
+        "actualFirst12": [
+          2,
+          1,
+          3,
+          4
+        ],
+        "actualOutputHash": "269391dda543e1888caba795038dc9ff21a8856a31bb9c270965be97a15785dc",
+        "currentStatementLegal": true,
+        "exitCode": 0,
+        "expectedFirst12": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "expectedTokenCount": 4,
+        "independentExpectedHash": "243c6d67d2657ddfb7607f3d2e161f9aa8d7b8f58d0856c665d9883860c457f6",
+        "inputHash": "5267cdc6e128a42f1e4af33145c91eef86de73b1aad29a33e7fc0105c0be4226",
+        "isLF": false,
+        "mathematicalProofHash": "4750643d9cfca136ca4612644c43c97be13e7215b9696a5cac0a13e09276987c",
+        "normalExit": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 4,
+        "publicIntendedBoundsLegal": true,
+        "sameLengthNumericWrongAnswer": true,
+        "storedExpectedHash": "3b5acaf77b160b478d051b73e202db95ecd50df891412d1c1e51b42e81fb7c42",
+        "strictSourceWitnessQualifies": false,
+        "test": "0018",
+        "timeout": false,
+        "verdict": "WA"
+      },
+      "problem": "500B",
+      "recordHash": "d2533361cb13b5eb39c942272cc7396c4106c53018a0a0975e261e968d9bc6e8",
+      "recordedFailedTest": {
+        "actualNumericValues": [
+          2,
+          1,
+          3,
+          4
+        ],
+        "actualOutputBase64": "MiAxIDMgNAo=",
+        "actualOutputHash": "269391dda543e1888caba795038dc9ff21a8856a31bb9c270965be97a15785dc",
+        "algorithmicFailureNotCRLFOnly": true,
+        "currentStatementLegal": true,
+        "exitCode": 0,
+        "independentExpectedBase64": "MSAyIDMgNAo=",
+        "independentExpectedHash": "243c6d67d2657ddfb7607f3d2e161f9aa8d7b8f58d0856c665d9883860c457f6",
+        "independentExpectedNumericValues": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "inputBase64": "NA0KMyAyIDEgNA0KMDAwMQ0KMDAxMA0KMDEwMQ0KMTAxMA0K",
+        "inputHash": "5267cdc6e128a42f1e4af33145c91eef86de73b1aad29a33e7fc0105c0be4226",
+        "isLF": false,
+        "mathematicalProof": {
+          "components": [
+            {
+              "indices1Based": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "sortedValues": [
+                1,
+                2,
+                3,
+                4
+              ]
+            }
+          ],
+          "method": "Edge transpositions generate every permutation within a connected component (a path moves any chosen value between its endpoints); no value can cross components. Assign component values ascending to its ascending positions to get the unique lexicographic minimum. Components independently computed by union-find."
+        },
+        "mathematicalProofHash": "4750643d9cfca136ca4612644c43c97be13e7215b9696a5cac0a13e09276987c",
+        "normalExit": true,
+        "sameLengthNumericWrongAnswer": true,
+        "storedExpectedHash": "3b5acaf77b160b478d051b73e202db95ecd50df891412d1c1e51b42e81fb7c42",
+        "test": "0018",
+        "timeout": false,
+        "verdict": "WA"
+      },
+      "sourceHash": "bd22592d0108ec68ac5b05ec4d3de3756ccb758ce0c24022eef5d39aab2962ea",
+      "sourceIdentity": {
+        "bytes": 143535599,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00025-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "0fe4a49998adbbfce09027033e613e939c46974aa3e25afc6a7b8e2a1f605dbb",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00025-of-00036.parquet"
+      },
+      "strictSourceProofPasses": true,
+      "submissionId": "232241119",
+      "witness": {
+        "actualNumericValues": [
+          1,
+          2,
+          4,
+          3
+        ],
+        "actualOutputBase64": "MSAyIDQgMwo=",
+        "actualOutputHash": "efad82f96893b92269af7350ed063af707bb77cb6569e1d2daf125dd5e48298b",
+        "currentStatementLegal": true,
+        "exitCode": 0,
+        "expectedTokenCount": 4,
+        "independentExpectedBase64": "MSAyIDMgNAo=",
+        "independentExpectedHash": "243c6d67d2657ddfb7607f3d2e161f9aa8d7b8f58d0856c665d9883860c457f6",
+        "independentExpectedNumericValues": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "inputBase64": "NAoyIDMgNCAxCjAxMDEKMTAxMAowMTAwCjEwMDAK",
+        "inputHash": "b3213040bd15af05ebc92a10ba4a77dccf78345c4d502b409f081cc07a3946c8",
+        "isLF": true,
+        "mathematicalProof": {
+          "components": [
+            {
+              "indices1Based": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "sortedValues": [
+                1,
+                2,
+                3,
+                4
+              ]
+            }
+          ],
+          "method": "Edge transpositions generate every permutation within a connected component (a path moves any chosen value between its endpoints); no value can cross components. Assign component values ascending to its ascending positions to get the unique lexicographic minimum. Components independently computed by union-find."
+        },
+        "mathematicalProofHash": "4750643d9cfca136ca4612644c43c97be13e7215b9696a5cac0a13e09276987c",
+        "normalExit": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 4,
+        "publicIntendedBoundsLegal": true,
+        "sameLengthNumericWrongAnswer": true,
+        "stderr": "",
+        "storedExpectedBase64": "MSAyIDMgNAo=",
+        "storedExpectedHash": "243c6d67d2657ddfb7607f3d2e161f9aa8d7b8f58d0856c665d9883860c457f6",
+        "strictSourceWitnessQualifies": true,
+        "test": "0185",
+        "timeout": false,
+        "verdict": "WA"
+      }
+    }
+  ],
+  "schemaVersion": 1
+}
