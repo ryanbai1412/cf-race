@@ -161,6 +161,7 @@ def extras(pid):
         add(([[10**9-i] for i in range(100000)],[(1,100000),(100000,100000)]),'maximum strictly decreasing column','maxSize')
         add(([[1]*100000],[(1,1)]*100000),'maximum width/elements and repeated singleton queries','maxSize')
         add(([[1+(i+j)%2 for j in range(100)] for i in range(1000)],[(1,1000),(998,1000),(999,1000),(1,1)]),'maximum matrix product with incompatible column decreases','maxSize')
+        add(([[2]*50000,[1]*50000],[(1,2)]*100000),'maximum query count times width with no sorted column; detects per-query column scans','maxSize')
         for _ in range(160):
             n,m = rng.randint(1,20),rng.randint(1,12)
             rows = [[rng.randint(1,10) for _ in range(m)] for _ in range(n)]
