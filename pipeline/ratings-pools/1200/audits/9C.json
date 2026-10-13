@@ -13,8 +13,9 @@
     "noSpecialChecker": true,
     "sourceAttribution": true
   },
+  "correctionNote": "9C-only correction after parent review: 16338221 no-output exclusion. No new executions.",
   "evidenceHash": "f7de6b015df6700abbee4e28158e84a8448a388003c542df563aae47f2d4427f",
-  "genuineAlgorithmicIncorrect": 2,
+  "genuineAlgorithmicIncorrect": 1,
   "id": "9C",
   "incorrectAnalysis": {
     "11913660": {
@@ -106,26 +107,12 @@
       "test": "0001"
     },
     "16338221": {
-      "kind": "wrong-answer",
-      "reason": "loop range(1,n) never breaks for n=1 so nothing is printed (missing boundary handling); 1 -> empty, correct 1",
+      "kind": "no-output-not-counted",
+      "reason": "search-range bug acknowledged (range(1,n) never reaches the terminating i for n<=2), but every failing included test (0012 '1', 0027 '2', 0037 '1') terminates normally with EMPTY output, never a wrong number; not qualifying evidence",
       "semanticReview": {
-        "algorithmicWrong": true,
+        "algorithmicWrong": false,
         "binding": "bindings/9C-16338221.json",
-        "counterexample": {
-          "actualAnswer": "",
-          "actualOutputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-          "constraints": "n=1 (minimum).",
-          "correctAnswer": "1",
-          "derivation": "Count of integers in [1,n] whose decimal digits are all 0/1: enumerate the 2^10-1 numbers formed from binary strings starting with 1 and count those <= n. n=1: only 1 qualifies -> 1. Source: range(1,1) is empty -> prints nothing.",
-          "includedInPackage": true,
-          "lfNormalizedAuditCopy": true,
-          "originalTestSha256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
-          "packageExpectedOutput": "1",
-          "test": "0012",
-          "validLFInput": "1\n",
-          "validLFInputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
-        },
-        "excludedNonAlgorithmicCauses": "Counted as a genuine search-range defect on a valid boundary input, but note the actual output is EMPTY (no number). Disposition of 9C is rejected regardless.",
+        "excludedNonAlgorithmicCauses": "No-output: the only non-AC results in the full-suite log (archive/9C/sub-16338221.json) are 0012 (n=1), 0027 (n=2) and 0037 (n=1), all exitCode 0 with empty output; no included LF test yields a mathematically wrong number with normal termination, so per parent/user rule it is excluded. The range defect itself remains acknowledged.",
         "faultyLogic": "Line 3 search range range(1,n) is too short for n<=2: the terminating i (bin(i) read as decimal > n) is never reached, so no answer is printed for valid n=1.",
         "implementedAlgorithm": "For i in 1..n-1 prints i-1 at the first i whose binary representation read as decimal exceeds n.",
         "lfExecutionLog": {
@@ -145,6 +132,21 @@
           "sourceFile": "archive/9C/source-16338221.txt",
           "sourceFileSha256": "a2f28851bd3b065439bdb0228e4e5c7b3ee8603d91a49179384d91878569acf3",
           "verdict": "WA"
+        },
+        "nonQualifyingPrimaryEvidence": {
+          "actualAnswer": "",
+          "actualOutputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "constraints": "n=1 (minimum).",
+          "correctAnswer": "1",
+          "derivation": "Count of integers in [1,n] whose decimal digits are all 0/1: enumerate the 2^10-1 numbers formed from binary strings starting with 1 and count those <= n. n=1: only 1 qualifies -> 1. Source: range(1,1) is empty -> prints nothing.",
+          "excludedBecause": "empty output, not a numeric wrong answer",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+          "packageExpectedOutput": "1",
+          "test": "0012",
+          "validLFInput": "1\n",
+          "validLFInputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
         },
         "sourceHash": "a2f28851bd3b065439bdb0228e4e5c7b3ee8603d91a49179384d91878569acf3",
         "sourceLines": [
@@ -259,13 +261,14 @@
     }
   },
   "packageHash": "2543c8c148692aed630b752332844f5685f074aa22bebf8bbb7266afbed83ca5",
-  "previousAuditDigest": "c163cf201e3047133782a82dae3b70ef9ac69f3d2681180cc044648a97f21bf5",
+  "previousAuditDigest": "27b491941874a46921c78e0bc487173abe4c6e3267b69d75761eb17f4be5e215",
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
     "11913660 fails only by TIME_LIMIT (TLE on 0014, n up to 1e9 brute loop); not algorithmically wrong on supplied tests.",
     "12981408 is counted WA on 0001 only because of a debug print(s) in its loop; removing that line in an audit copy gives the expected 2 (AC).",
-    "4922767 recorded counterexample 0001 ('10\\r\\n') is a CRLF artifact: it recurses over the raw input() string including '\\r'; on the LF-normalized test it outputs 2 (AC)."
+    "4922767 recorded counterexample 0001 ('10\\r\\n') is a CRLF artifact: it recurses over the raw input() string including '\\r'; on the LF-normalized test it outputs 2 (AC).",
+    "16338221 reclassified as no-output (not counted): its failing tests 0012/0027/0037 all produce empty output with normal termination; no wrong numeric answer on any included test."
   ],
   "referenceAlgorithm": "count numbers <= n whose decimal digits are only 0/1 (at most 2^10-1 candidates)",
   "reviewUrl": "https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4",
