@@ -1,28 +1,53 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 5,
-  "approved": true,
+  "algorithmicIncorrectKilled": 4,
+  "approved": false,
   "checks": {
-    "algorithmicallyWrong": true,
+    "algorithmicallyWrong": false,
     "coverage": true,
     "deterministicGeneration": true,
-    "fiveAcceptedFiveIncorrect": true,
+    "fiveAcceptedFiveIncorrect": false,
     "fullTests": true,
     "generatedBasis": true,
     "hashes": true,
     "independentOracle": true,
     "inputConstraints": true,
     "noSpecialChecker": true,
+    "sourceAlgorithmSemantics": false,
     "sourceAttribution": true
   },
   "evidenceHash": "8e644a591e53cf35acf63dc46d768eed0e28bff77528bef908d4bed0b4ad7323",
   "generatedQualificationHash": "b5178e47a8c7f9337b7e4317e94571ce752a73cfb6971be9c043d82841b0a7b6",
-  "incorrectAnalysis": {
+  "historicalAlgorithmicIncorrectKilled": 5,
+  "historicalGateApproved": true,
+  "historicalIncorrectAnalysis": {
     "101943439": {
       "kind": "wrong-answer",
       "reason": "computed numeric answer differs from independent mathematical oracle",
       "test": "0004"
     },
+    "101944491": {
+      "kind": "wrong-answer",
+      "reason": "triangular-prefix search omits n=1",
+      "test": "0003"
+    },
+    "106065081": {
+      "kind": "wrong-answer",
+      "reason": "solution deliberately omits valid k>10^9",
+      "test": "0023"
+    },
+    "106146812": {
+      "kind": "wrong-answer",
+      "reason": "incorrect k index skips the n=1 branch",
+      "test": "0006"
+    },
+    "106147986": {
+      "kind": "wrong-answer",
+      "reason": "incorrect prefix loop skips the n=1 branch",
+      "test": "0003"
+    }
+  },
+  "incorrectAnalysis": {
     "101944491": {
       "kind": "wrong-answer",
       "reason": "triangular-prefix search omits n=1",
@@ -50,7 +75,9 @@
   "independentStressHash": "aadd871b25f27d953359b099a09f208af4f8f62549b3369663e648e93ddb0d47",
   "packageHash": "578f0685ba9246c36972b08ef42245b994c98bedc91467c7c26afe0e1a0bfbee",
   "qualificationBasis": "generated",
-  "reasons": [],
+  "reasons": [
+    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
+  ],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -137,18 +164,22 @@
         "AC": 9,
         "WA": 12
       },
-      "algorithmicWitnessCount": 12,
-      "algorithmicWrongAnswer": true,
+      "algorithmicWitnessCount": 0,
+      "algorithmicWrongAnswer": false,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": true,
+      "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
         "computed numeric answer differs from independent mathematical oracle": 12
       },
+      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
+      "historicalAlgorithmicWitnessCount": 12,
+      "historicalAlgorithmicWrongAnswerClaim": true,
+      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 12,
-      "outcome": "algorithmic-WA",
+      "outcome": "source-semantics-unconfirmed",
       "packageWitnessCount": 11,
       "samplePassed": true,
       "sandboxCompiled": true,
@@ -340,6 +371,10 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
+  "sourceSemanticsReviewStatus": "unconfirmed",
   "stressCases": 40,
-  "testPairs": 213
+  "testPairs": 213,
+  "unconfirmedSourceIds": [
+    "101943439"
+  ]
 }
