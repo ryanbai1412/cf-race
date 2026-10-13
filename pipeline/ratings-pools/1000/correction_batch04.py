@@ -245,7 +245,7 @@ def execute(pid):
 
 
 def archive(output):
-    if not output.is_dir():
+    if output is None or not output.is_dir():
         raise ValueError("output directory must already exist")
     lock_history()
     bindings = {}
@@ -263,19 +263,30 @@ def archive(output):
                          "testHashes": read(BASE / "packages" / pid / "provenance.json")["tests"]["pairs"]}
     write_json(BASE / "delivery.json", {"ids": list(IDS), "rating": 1000, "pins": PINS, "bindings": bindings,
                "validatedCount": 0, "publicationApproved": 0, "frozenHistoryHash": lock_history()})
+    tooling = BASE / "tooling" / "pipeline"
+    tooling.mkdir(parents=True, exist_ok=True)
+    core = list((REPO / "pipeline").glob("pool_*.py")) + [REPO / "pipeline" / name for name in
+                                                        ("checker.py", "rated_pool.py", "legacy_800.json")]
+    for source in core:
+        target_source = tooling / source.name
+        if target_source.exists() and sha_file(target_source) != sha_file(source):
+            raise ValueError("tooling snapshot changed")
+        shutil.copyfile(source, target_source)
+    shutil.copyfile(HERE / "correction_cases_batch04.py", tooling / "correction_cases_batch04.py")
+    shutil.copyfile(HERE / "verify_batch04.py", BASE / "tooling" / "verify_batch04.py")
     paths = list(files(BASE)) + [p for p in HERE.glob("*.py")] + list(files(HERE / "tests"))
-    target = output / "rating-1000-repair-batch04-v2.tar.gz"
+    target = output / "rating-1000-repair-batch04-tooling-v2.tar.gz"
     if target.exists():
         raise ValueError("immutable archive exists; never overwrite")
     record = write_archive(target, paths)
     record["verification"] = verify_archive(target, record)
-    replay = output / "rating-1000-repair-batch04-v2.reproduced.tar.gz"
+    replay = output / "rating-1000-repair-batch04-tooling-v2.reproduced.tar.gz"
     second = write_archive(replay, paths)
     if record["sha256"] != second["sha256"] or record["bytes"] != second["bytes"]:
         raise ValueError("archive not reproducible")
     verify_archive(replay, second)
     replay.unlink()
-    write_json(output / "rating-1000-repair-batch04-v2.provenance.json", {
+    write_json(output / "rating-1000-repair-batch04-tooling-v2.provenance.json", {
         "archive": record, "reproducedIdentically": True, "ids": list(IDS), "bindings": bindings,
         "validatedCount": 0, "publicationApproved": 0, "pins": PINS,
         "frozenHistoryHash": lock_history(), "auditStatus": "Existing primary68758b must freshly audit; builder never signs"})
