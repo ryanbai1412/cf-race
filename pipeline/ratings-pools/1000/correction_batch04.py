@@ -12,8 +12,8 @@ from correction_cases_batch04 import IDS, answer, cases, generator_source
 from correction_replay import BASE as PRIOR, HERE
 from correction_triage import indexed_sources, read
 from correction_witnesses import inspect
-from pool_contract import digest, manifest, write_json
-from pool_generation import sandbox
+from pool_contract import digest, manifest, verify_evidence, write_json
+from pool_generation import sandbox, verify_generated
 from pool_sandbox import COMPILER_FLAGS, EXECUTION_VERSION, IMAGE, kind, run
 from pool_sources import PINS, sha_file
 
@@ -256,6 +256,8 @@ def archive(output):
                 or digest(evidence) != review["evidenceHash"] or digest(evidence["coverage"]) != review["coverageHash"]
                 or sha_file(BASE / "review" / f"{pid}-witnesses.json") != review["witnessesHash"]):
             raise ValueError("stale correction bindings")
+        if sha_file(BASE / "review" / f"{pid}-consistency.json") != review["consistencyHash"]:
+            raise ValueError("stale consistency/sample proof")
         bindings[pid] = {**review, "testCount": evidence["testCount"], "sandbox": evidence["sandbox"],
                          "sixthOracle": read(BASE / "qualification-sources" / pid / "source.json"),
                          "testHashes": read(BASE / "packages" / pid / "provenance.json")["tests"]["pairs"]}
@@ -280,9 +282,56 @@ def archive(output):
     print({"archive": str(target), "sha256": record["sha256"], "bytes": record["bytes"], "members": len(record["files"])}, flush=True)
 
 
+def verify(pid):
+    lock_history()
+    package = BASE / "packages" / pid
+    evidence = read(BASE / "evidence" / f"{pid}.json")
+    provenance = read(package / "provenance.json")
+    barriers = ((verify_evidence, (package, evidence, {}), "audit is stale"),
+                (verify_generated, (package, evidence["files"], provenance["tests"]["pairs"], evidence, {}),
+                 "generated basis not explicitly declared in evidence/audit"))
+    for function, arguments, barrier in barriers:
+        try:
+            function(*arguments)
+        except ValueError as exc:
+            if str(exc) != barrier:
+                raise
+        else:
+            raise ValueError("missing independent audit did not fail closed")
+    selected = read(BASE / "selection" / f"{pid}.json")
+    refs = {r["submissionId"]: r for r in evidence["submissions"]}
+    meta = read(package / "meta.json")
+    tests = [{"name": p.stem, "input": p.read_bytes(), "output": p.with_suffix(".out").read_bytes()}
+             for p in sorted((package / "samples").glob("*.in"))]
+    sample_records = []
+    for source in selected:
+        if hashlib.sha256(source["code"].encode()).hexdigest() != refs[source["submissionId"]]["sourceHash"]:
+            raise ValueError("changed public source")
+        key = digest({"packageHash": evidence["packageHash"], "sourceHash": source["sourceHash"], "sandbox": sandbox()})
+        path = BASE / "state" / pid / "sample-runs" / f"{source['submissionId']}-{key}.json"
+        if not path.exists():
+            result = run(source["code"], source["language"], tests, meta["timeLimitMs"] / 1000, int(meta["memoryLimitMb"]))
+            write_json(path, {"runKey": key, "sourceHash": source["sourceHash"], "packageHash": evidence["packageHash"],
+                             "sandbox": sandbox(), "result": result})
+        record = read(path)
+        if record["runKey"] != key or (source["expected"] == "OK" and record["result"]["verdict"] != "AC"):
+            raise ValueError("stale sample cache or accepted sample contradiction")
+        sample_records.append({"submissionId": source["submissionId"], "sourceHash": source["sourceHash"],
+                               "file": path.relative_to(BASE).as_posix(), "fileHash": sha_file(path),
+                               "verdict": record["result"]["verdict"], "testsRun": record["result"]["testsRun"]})
+    proof = BASE / "review" / f"{pid}-consistency.json"
+    write_json(proof, {"packageHash": evidence["packageHash"], "evidenceHash": digest(evidence),
+                      "unsignedStructuralProofsPassed": True, "missingAuditFailsClosed": True,
+                      "samples": sample_records, "sampleHashes": manifest(package), "independentlyValidated": False})
+    review_path = BASE / "review" / f"{pid}.json"
+    write_json(review_path, {**read(review_path), "consistencyHash": sha_file(proof)})
+    lock_history()
+    print(pid, "unsigned proofs consistent, accepted samples pass, no audit signoff", flush=True)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("stage", choices=("build", "execute", "archive"))
+    parser.add_argument("stage", choices=("build", "execute", "verify", "archive"))
     parser.add_argument("--ids", nargs="+", choices=IDS, default=list(IDS))
     parser.add_argument("--cache", type=Path, default=Path.home() / ".cache/cf-race-pool")
     parser.add_argument("--output-dir", type=Path)
@@ -291,7 +340,12 @@ def main():
         archive(args.output_dir)
     else:
         for pid in args.ids:
-            build(pid, args.cache) if args.stage == "build" else execute(pid)
+            if args.stage == "build":
+                build(pid, args.cache)
+            elif args.stage == "verify":
+                verify(pid)
+            else:
+                execute(pid)
 
 
 if __name__ == "__main__":
