@@ -6,16 +6,54 @@
       "adversarial",
       "maxSize"
     ],
+    "count": 160,
     "fixedSeed": 4461600,
-    "plannedCount": 160,
-    "plannedMaxSizeCount": 5,
-    "validation": "pending after initial push"
+    "maxSizeCases": [
+      {
+        "expected": 100000,
+        "n": 100000,
+        "pattern": "strictly increasing 1..100000"
+      },
+      {
+        "expected": 2,
+        "n": 100000,
+        "pattern": "all 10^9"
+      },
+      {
+        "expected": 2,
+        "n": 100000,
+        "pattern": "strictly descending 100000..1"
+      },
+      {
+        "expected": 100000,
+        "n": 100000,
+        "pattern": "odd increasing sequence with a single interior 10^9 outlier"
+      },
+      {
+        "expected": 50001,
+        "n": 100000,
+        "pattern": "consecutive sequence with index 50000 equal to preceding value (zero based)"
+      }
+    ],
+    "maxSizeCount": 5,
+    "validation": "All 160 generated pairs preserve the two-line layout and match the separate binary-search/window-feasibility reference; all 155 small non-max pairs also match exhaustive replacement enumeration."
   },
   "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
   "checks": {
-    "bruteAssertions": null,
-    "status": "pending after initial push",
-    "unittestMethods": null
+    "bruteAssertions": 5860,
+    "bruteExhaustiveAssertions": 5460,
+    "bruteRandomAssertions": 400,
+    "countMeaning": "bruteAssertions counts 5860 actual comparisons by brute_checks (including exhaustive 4-symbol arrays of lengths 1..6 plus 400 fixed-seed random arrays). It is not a count of qualified problems, source replays, unique tests or independent audits.",
+    "generatedIndependentWindowChecks": 160,
+    "generatedReplacementEnumerationChecks": 155,
+    "publicProgramsExecuted": 0,
+    "status": "passed",
+    "syntax": "ast.parse on recipe_446A.py and test_recipe_446A.py passed",
+    "unittestCommand": "python3 -m unittest discover -s pipeline/ratings-pools/1600 -p test_recipe_446A.py -v",
+    "unittestMethods": 7,
+    "upstreamReplacementEnumerationChecks": 73,
+    "whitespace": "git diff --check 5b28d33 HEAD passed",
+    "windowReferenceVsBruteChecks": 363
   },
   "datasetCardsRead": [
     "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
@@ -102,14 +140,18 @@
     ]
   },
   "sourceReviewMotivation": {
+    "conceptualMutantOutput": "4\n",
+    "expectedOutput": "3\n",
     "finding": "Treats at most one non-increasing adjacency as sufficient; no integer bridge feasibility check. The locally reimplemented algorithmic mutant on 4\\n1 2 2 3\\n predicts 4, whereas exhaustive replacement must give 3. Not a sandbox replay or a qualification kill claim.",
     "lineRange": [
       5,
       23
     ],
+    "mutationValidation": "Local unit test reproduces the missing integer-gap check in an author-written conceptual mutant; public source itself was never executed.",
     "sourceSha256": "28cc0aa6dfa4cd9a5bdfd0963c4cc718606d168fb166a949d59487b5aa480cbd",
     "submissionId": "10175997",
-    "verdict": "WRONG_ANSWER"
+    "verdict": "WRONG_ANSWER",
+    "witnessInput": "4\n1 2 2 3\n"
   },
   "statementAttestation": {
     "attribution": "Codeforces Round #FF (Div. 1), problem A, DZY Loves Sequences; original English Codeforces statement publicly mirrored by codeforces.me. Original dataset rows from open-r1/codeforces; public submissions from open-r1/codeforces-submissions.",
@@ -130,16 +172,749 @@
     "unboundedReplacementQuote": "change one number to any integer you want",
     "url": "https://codeforces.me/problemset/problem/446/A?locale=en"
   },
-  "status": "authored-awaiting-local-checks",
+  "status": "authored-local-checks-passed",
   "upstreamReview": {
     "advertisedGeneratedCount": 9,
     "advertisedOfficialPairs": 92,
     "bytePreservation": "All statement, sample, official-test and public-source bytes in the input remain unchanged. No packages or outputs rewritten.",
-    "failedPairs": null,
+    "contradictions": [],
+    "failedPairs": [],
     "generatedPairsSupplied": false,
+    "malformedPairs": [],
     "officialTestsComplete": false,
-    "pairResults": [],
-    "reviewStatus": "pending after initial push",
+    "pairResults": [
+      {
+        "errors": [],
+        "inputSha256": "05ef900073fcb972fe8026dd2a5760d15a8904f1769656591ea7dde448d7febe",
+        "n": 6,
+        "name": "official/0001",
+        "oracleAnswer": 5,
+        "outputSha256": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "replacementEnumerationAnswer": 5,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "55011eca1c5327e405c08d7060b9aed1bf66695a845f01f3b71af038e75c39c7",
+        "n": 10,
+        "name": "official/0002",
+        "oracleAnswer": 9,
+        "outputSha256": "69fa4dd4fdc0b43ba7ca7c997539c4500f03ab9b220228e2b1e97bd305397806",
+        "replacementEnumerationAnswer": 9,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "99e75489f049dcfc899a3039c7cd77404de7df0149ca09d92438c0b69a70dbec",
+        "n": 50,
+        "name": "official/0003",
+        "oracleAnswer": 19,
+        "outputSha256": "2f1a7442c3821feac278501216ca44255cc53b3cb9fe9edb1b79610afdaa6d25",
+        "replacementEnumerationAnswer": 19,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+        "n": 1,
+        "name": "official/0004",
+        "oracleAnswer": 1,
+        "outputSha256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+        "replacementEnumerationAnswer": 1,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "3fa8d94f05eda6c649175c5d06281de7c7fc5f7d9cce5fd36fbe32edd9bdba6f",
+        "n": 2,
+        "name": "official/0005",
+        "oracleAnswer": 2,
+        "outputSha256": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+        "replacementEnumerationAnswer": 2,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "e858da53f637dcf224fd679f12e1428b5db976803e371b62e19286d1a0576b2f",
+        "n": 5,
+        "name": "official/0006",
+        "oracleAnswer": 5,
+        "outputSha256": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "replacementEnumerationAnswer": 5,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "c472859a761ccf3256c3d3fa36b21d2f2cc92f44a092947f48c16dbdc9e62463",
+        "n": 10,
+        "name": "official/0007",
+        "oracleAnswer": 6,
+        "outputSha256": "92961e9752250efa971147344b22295db32d7b75e940e0971e5fb34f21d0bc67",
+        "replacementEnumerationAnswer": 6,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "b5bcdb6426533661cc354b3690c900d9328da8ca65c78d08edf433c1b4542a79",
+        "n": 5,
+        "name": "official/0008",
+        "oracleAnswer": 2,
+        "outputSha256": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+        "replacementEnumerationAnswer": 2,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "d9b356eda1a78d51e22a3aa03f87d82c9abbed1677ab0fa95fb4379b8e9e3824",
+        "n": 5,
+        "name": "official/0009",
+        "oracleAnswer": 5,
+        "outputSha256": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "replacementEnumerationAnswer": 5,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "a6cb2255822e013e62fd26565779709bc4e63bc9a764ded761f599541a01d955",
+        "n": 5,
+        "name": "official/0010",
+        "oracleAnswer": 5,
+        "outputSha256": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "replacementEnumerationAnswer": 5,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "e5bb7e4a0ec9112708f011a1c4a845d5b95fa6196388df340e8c2a85cc76f8f3",
+        "n": 1,
+        "name": "official/0011",
+        "oracleAnswer": 1,
+        "outputSha256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+        "replacementEnumerationAnswer": 1,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "4991bb1a3378a7fda9f73f51e7ef96af96e3bf0270e938c73fdbd6c9acd717c9",
+        "n": 5,
+        "name": "official/0012",
+        "oracleAnswer": 4,
+        "outputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "replacementEnumerationAnswer": 4,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "1ebf7f4c2cca94f0f455535c298d8508da1298372c741214b6a484549f512eba",
+        "n": 5,
+        "name": "official/0013",
+        "oracleAnswer": 4,
+        "outputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "replacementEnumerationAnswer": 4,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "8297d5d0bbcdfee248b8032b53975da095b422f9cc9dced83816dd168c66be72",
+        "n": 5,
+        "name": "official/0014",
+        "oracleAnswer": 5,
+        "outputSha256": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "replacementEnumerationAnswer": 5,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "6868f4ea7f809d4f77e284470435bc3e6263ac0fe7d33c0e011f010bc06b75be",
+        "n": 3,
+        "name": "official/0015",
+        "oracleAnswer": 3,
+        "outputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "replacementEnumerationAnswer": 3,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "7fd7616bc6f69a30f4b08f49eb1cea61e8909d7a70f005e2218b683d2095196e",
+        "n": 5,
+        "name": "official/0016",
+        "oracleAnswer": 4,
+        "outputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "replacementEnumerationAnswer": 4,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "73337d3dddd59463eda161fbbcf73753c3bcbd95dee0cfc33daa65b4ec256b77",
+        "n": 8,
+        "name": "official/0017",
+        "oracleAnswer": 5,
+        "outputSha256": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "replacementEnumerationAnswer": 5,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "bc60ec699e6c595c55401b22c793ffbe6314dc3e8573fd309c569567cd5730a0",
+        "n": 1,
+        "name": "official/0018",
+        "oracleAnswer": 1,
+        "outputSha256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+        "replacementEnumerationAnswer": 1,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "121dcffcfc76442641d7e2c65638761ebf63f590d20b906db8d6ea3f65ec138c",
+        "n": 3,
+        "name": "official/0019",
+        "oracleAnswer": 3,
+        "outputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "replacementEnumerationAnswer": 3,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "0e3bb4587f72803fe9ec3ae20b6af1e5adcd81e22558d622e8ff35fd862db2f4",
+        "n": 4,
+        "name": "official/0020",
+        "oracleAnswer": 4,
+        "outputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "replacementEnumerationAnswer": 4,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "a38e21a65bcbcd2a16114deb75ae12312343c1052187a567d1b4ac885d080cb7",
+        "n": 6,
+        "name": "official/0021",
+        "oracleAnswer": 5,
+        "outputSha256": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "replacementEnumerationAnswer": 5,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "67f6e26c0162de006fc40f5ed4ce049dacccdd217b5926bf5f62fe00a26e5ab2",
+        "n": 6,
+        "name": "official/0022",
+        "oracleAnswer": 4,
+        "outputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "replacementEnumerationAnswer": 4,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "25784de9beae824bebebc1d503cb37cbb521118d2b669488daf5412a6b4fb59a",
+        "n": 6,
+        "name": "official/0023",
+        "oracleAnswer": 6,
+        "outputSha256": "92961e9752250efa971147344b22295db32d7b75e940e0971e5fb34f21d0bc67",
+        "replacementEnumerationAnswer": 6,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "b0ed834b1d73800696fe68105d929490e3d4d2d93d6055009130e231bfb8a232",
+        "n": 5,
+        "name": "official/0024",
+        "oracleAnswer": 5,
+        "outputSha256": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "replacementEnumerationAnswer": 5,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "30b91c75b8352644141115fb2d8fbe8bf995a9119f9e2991e00761fa3c524e89",
+        "n": 3,
+        "name": "official/0025",
+        "oracleAnswer": 3,
+        "outputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "replacementEnumerationAnswer": 3,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "8cdccc7f637adc9c8a2e4efe267af1d9305ecc6e46fe58828e6e3716548c639d",
+        "n": 3,
+        "name": "official/0026",
+        "oracleAnswer": 3,
+        "outputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "replacementEnumerationAnswer": 3,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "5d7715da1ec03ec8195c8a9346bc3213a16c7c43cbbdc4c4404c35825190ff41",
+        "n": 2,
+        "name": "official/0027",
+        "oracleAnswer": 2,
+        "outputSha256": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+        "replacementEnumerationAnswer": 2,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "b98dcc2ca0497e8a108d2d3756eab5881f78c58e264f9b9609339566cfeeb5ac",
+        "n": 5,
+        "name": "official/0028",
+        "oracleAnswer": 5,
+        "outputSha256": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "replacementEnumerationAnswer": 5,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "7c2b461effd00a6362c21d87c0b2c21c42ba39d3fb0a37ed7c521c18ede571b5",
+        "n": 20,
+        "name": "official/0029",
+        "oracleAnswer": 7,
+        "outputSha256": "9b6dd0f55d1cea37555db317f53a0631f694bd46df8018cc2aeed3d9e2f32f5f",
+        "replacementEnumerationAnswer": 7,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "b991a80321db828c5c7b067645970f330dd5aab1f623e9687ad06c1fb748a751",
+        "n": 4,
+        "name": "official/0030",
+        "oracleAnswer": 3,
+        "outputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "replacementEnumerationAnswer": 3,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "c8dd2ed48ecd6d5c44e9e04af9da85deecfde47ddfe4c7771cbf1752c5adfa6a",
+        "n": 4,
+        "name": "official/0031",
+        "oracleAnswer": 3,
+        "outputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "replacementEnumerationAnswer": 3,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "9b091db7a024692a6185d1175f61ae38d312203a7c1647276b8981504bffee5e",
+        "n": 6,
+        "name": "official/0032",
+        "oracleAnswer": 5,
+        "outputSha256": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "replacementEnumerationAnswer": 5,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "eeb3adbf2ae3d82b130c7846f5fdea082e448909ef4d2330207b5c2492d55216",
+        "n": 4,
+        "name": "official/0033",
+        "oracleAnswer": 3,
+        "outputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "replacementEnumerationAnswer": 3,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "11faa8699c307f4a3f50f639792dad5c1086b66558192714328c6dd53845dd6c",
+        "n": 4,
+        "name": "official/0034",
+        "oracleAnswer": 4,
+        "outputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "replacementEnumerationAnswer": 4,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "825d7f66acf757a38d819b63ab356c464654d66d00334b51ea315e7c51400c7f",
+        "n": 5,
+        "name": "official/0035",
+        "oracleAnswer": 5,
+        "outputSha256": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "replacementEnumerationAnswer": 5,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "f620f52a17737de11a738a9b95e448926bb0fd6b5c546232241b2ecbb874841f",
+        "n": 2,
+        "name": "official/0036",
+        "oracleAnswer": 2,
+        "outputSha256": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+        "replacementEnumerationAnswer": 2,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "88f6930eaf549990ea76aaaee2033685b0db9b0e0974dc3c631a0fa156e78b25",
+        "n": 5,
+        "name": "official/0037",
+        "oracleAnswer": 4,
+        "outputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "replacementEnumerationAnswer": 4,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "065ddeca2d95c131d65b0c2ce46723d9cd90e5d934ad73692ebf83fd72083d1d",
+        "n": 6,
+        "name": "official/0038",
+        "oracleAnswer": 5,
+        "outputSha256": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "replacementEnumerationAnswer": 5,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "0a7eb55d495f306d61eb981e72260f5873c137133b2522a5be5071dae8cdbd54",
+        "n": 10,
+        "name": "official/0039",
+        "oracleAnswer": 3,
+        "outputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "replacementEnumerationAnswer": 3,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "0866e5080e16385f9a29558d9801393cf30d132e90ef1b75ff3bef29d6294b37",
+        "n": 6,
+        "name": "official/0040",
+        "oracleAnswer": 6,
+        "outputSha256": "92961e9752250efa971147344b22295db32d7b75e940e0971e5fb34f21d0bc67",
+        "replacementEnumerationAnswer": 6,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "b63f838e5e057eb7b6c1b75e949467e4f5f8577d1de8f6345078a2e6bfe280fe",
+        "n": 4,
+        "name": "official/0041",
+        "oracleAnswer": 3,
+        "outputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "replacementEnumerationAnswer": 3,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "21a0403f4fa2849e481fac42d0bf9658705dee763e99262d42ad84c1eaa66279",
+        "n": 3,
+        "name": "official/0042",
+        "oracleAnswer": 3,
+        "outputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "replacementEnumerationAnswer": 3,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "7e5f3cada70ed9c648e70266cd6f62d5dcb8ed36cec337df9ec3c630859b0f95",
+        "n": 5,
+        "name": "official/0043",
+        "oracleAnswer": 4,
+        "outputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "replacementEnumerationAnswer": 4,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "54ac8b317d51693c46a072bcb506c3e54317ba5c432b62c4fcf237e82696a72f",
+        "n": 10,
+        "name": "official/0044",
+        "oracleAnswer": 10,
+        "outputSha256": "4593c89b4d60161d78fef3f48312d7833649b876a0c1d762cb5b9d73acaa0a20",
+        "replacementEnumerationAnswer": 10,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "3ec70d0b713caa6dba7f12e9441ed2e64c80e3eeecf1931d1e8d7556395b8b5b",
+        "n": 7,
+        "name": "official/0045",
+        "oracleAnswer": 5,
+        "outputSha256": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "replacementEnumerationAnswer": 5,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "61100ac45c6222e3ae392ba2f1740032e8b3c2f4c542827a0887b6655e6d9058",
+        "n": 3,
+        "name": "official/0046",
+        "oracleAnswer": 3,
+        "outputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "replacementEnumerationAnswer": 3,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "31defb08cfa0d2da4360b835cc23524211cb5648dadbb6c42a4af1b8c90400dd",
+        "n": 4,
+        "name": "official/0047",
+        "oracleAnswer": 4,
+        "outputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "replacementEnumerationAnswer": 4,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "3af59cdaaf238e4f8e32690ddb672cc7c02dfc21875e1a642f353954a72e59e4",
+        "n": 10,
+        "name": "official/0048",
+        "oracleAnswer": 10,
+        "outputSha256": "4593c89b4d60161d78fef3f48312d7833649b876a0c1d762cb5b9d73acaa0a20",
+        "replacementEnumerationAnswer": 10,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "96fe5d5af291825937d603dec977f4b021f6190af84e2ed085349b31f9bcdfe3",
+        "n": 3,
+        "name": "official/0049",
+        "oracleAnswer": 3,
+        "outputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "replacementEnumerationAnswer": 3,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "7c1014ebdc94a86380cba7819247642f979a4ae9ca834692a7f321fd5e810ed1",
+        "n": 5,
+        "name": "official/0050",
+        "oracleAnswer": 4,
+        "outputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "replacementEnumerationAnswer": 4,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "87f326e5db784daa74395f4e2e87c151cf706f7eff851c61a08b6d7a53bfe376",
+        "n": 5,
+        "name": "official/0051",
+        "oracleAnswer": 5,
+        "outputSha256": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "replacementEnumerationAnswer": 5,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "b1cd087d168ae15e7ce46c96cc63cc863e58002e4372464baa914db6d8738841",
+        "n": 5,
+        "name": "official/0052",
+        "oracleAnswer": 5,
+        "outputSha256": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "replacementEnumerationAnswer": 5,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "827d953bea9d7992e97b02a4014e930faee5d9bf787ffa64fb323e17b9ca1f44",
+        "n": 6,
+        "name": "official/0053",
+        "oracleAnswer": 6,
+        "outputSha256": "92961e9752250efa971147344b22295db32d7b75e940e0971e5fb34f21d0bc67",
+        "replacementEnumerationAnswer": 6,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "92b44e9e7f77a8b40cc000b558b50de9162f778da6598b64eafa692903b22f6c",
+        "n": 9,
+        "name": "official/0054",
+        "oracleAnswer": 7,
+        "outputSha256": "9b6dd0f55d1cea37555db317f53a0631f694bd46df8018cc2aeed3d9e2f32f5f",
+        "replacementEnumerationAnswer": 7,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "99523c43a03bb64f7e1f870cd81155a7f70be73a8ed2928c3f30dd5bc33aaa78",
+        "n": 3,
+        "name": "official/0055",
+        "oracleAnswer": 3,
+        "outputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "replacementEnumerationAnswer": 3,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "929ccb3c864ee9063ded7542270fb1764bafcd901634dbf8aa88923ec16b3d22",
+        "n": 3,
+        "name": "official/0056",
+        "oracleAnswer": 3,
+        "outputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "replacementEnumerationAnswer": 3,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "d76542456ec804223cb97f7a3b9ca3de70df4fb90f806444c28ad37e3a556336",
+        "n": 6,
+        "name": "official/0057",
+        "oracleAnswer": 4,
+        "outputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "replacementEnumerationAnswer": 4,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "d7387f278e2d5795b399a85512d48113e04d9939eac6b7970eba645d86e4d03d",
+        "n": 3,
+        "name": "official/0058",
+        "oracleAnswer": 3,
+        "outputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "replacementEnumerationAnswer": 3,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "9997fc5aeb240aaf81d6fb1e9a6646e57075147899a128d0984b4002cdea35cb",
+        "n": 4,
+        "name": "official/0059",
+        "oracleAnswer": 3,
+        "outputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "replacementEnumerationAnswer": 3,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "a80b3b1a9e0c8e251a515c30b3d2eb43486e8dfbe77e818262b05e8ff0a4c7b1",
+        "n": 6,
+        "name": "official/0060",
+        "oracleAnswer": 4,
+        "outputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "replacementEnumerationAnswer": 4,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "f6a15170d722186ea66550f4dde814ca60a47c8873d8cd94cf88f2dbc2296827",
+        "n": 3,
+        "name": "official/0061",
+        "oracleAnswer": 3,
+        "outputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "replacementEnumerationAnswer": 3,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "a512ccd0691b9b1d537f53f7511dd0ea296413e617ee5582e9beeb056b49a6e2",
+        "n": 10,
+        "name": "official/0062",
+        "oracleAnswer": 5,
+        "outputSha256": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "replacementEnumerationAnswer": 5,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "a7e991fae6f9ff41871551b91b6adb66dc68166d0fd17f9a8e394c6cd49a455b",
+        "n": 7,
+        "name": "official/0063",
+        "oracleAnswer": 4,
+        "outputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "replacementEnumerationAnswer": 4,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "64ac83b88c16da1f8be42726b3c0cc5157b15eb90ab45c913d00503e22d727e7",
+        "n": 5,
+        "name": "official/0064",
+        "oracleAnswer": 4,
+        "outputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "replacementEnumerationAnswer": 4,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "88f3f4ea4f29953d3dd2100bffa6a86a80cdd130e2432ca9cad47f5439f1464e",
+        "n": 6,
+        "name": "official/0065",
+        "oracleAnswer": 5,
+        "outputSha256": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "replacementEnumerationAnswer": 5,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "3400a94124412812090431d2d491418d491bab2687c72ccad3cac5d196538ca7",
+        "n": 5,
+        "name": "official/0066",
+        "oracleAnswer": 4,
+        "outputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "replacementEnumerationAnswer": 4,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "59631ada6eb6ccdcf92fe3cf4568955724a88efe77245eef9a7533daa3b0e4a0",
+        "n": 3,
+        "name": "official/0067",
+        "oracleAnswer": 3,
+        "outputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "replacementEnumerationAnswer": 3,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "32fe5fbd8d362627e0043f015551edd97a1547d71b368707fe3967346216fece",
+        "n": 7,
+        "name": "official/0068",
+        "oracleAnswer": 4,
+        "outputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "replacementEnumerationAnswer": 4,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "a98965b3d6e99ea55c4d2de4b814614f83e1d20b38d72793b69b48206166c8dc",
+        "n": 9,
+        "name": "official/0069",
+        "oracleAnswer": 9,
+        "outputSha256": "69fa4dd4fdc0b43ba7ca7c997539c4500f03ab9b220228e2b1e97bd305397806",
+        "replacementEnumerationAnswer": 9,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "d3582659cbcef4321804e085d4c0f4c710adcaa8abe7d488e0360c9b715c9269",
+        "n": 5,
+        "name": "official/0070",
+        "oracleAnswer": 5,
+        "outputSha256": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "replacementEnumerationAnswer": 5,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "8f8f270b79e43555590e016d81192b733e02d56094c087ceb20a013022e405cc",
+        "n": 5,
+        "name": "official/0071",
+        "oracleAnswer": 5,
+        "outputSha256": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "replacementEnumerationAnswer": 5,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "447db486b20217c99c487791774df7501a6885430f8014c4c51275eb1f602791",
+        "n": 6,
+        "name": "official/0072",
+        "oracleAnswer": 4,
+        "outputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "replacementEnumerationAnswer": 4,
+        "status": "passed"
+      },
+      {
+        "errors": [],
+        "inputSha256": "368110c41a0de120a95caa6583d47736d04e2d33a8d8466f363d897192fbc489",
+        "n": 6,
+        "name": "sample/0001",
+        "oracleAnswer": 5,
+        "outputSha256": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+        "replacementEnumerationAnswer": 5,
+        "status": "passed"
+      }
+    ],
+    "reviewStatus": "passed: all 72 official pairs and 1 sample match constraints, layout and efficient oracle; all 73 also independently checked by exhaustive replacement enumeration.",
     "suppliedOfficialPairs": 72,
     "suppliedSamples": 1
   }
