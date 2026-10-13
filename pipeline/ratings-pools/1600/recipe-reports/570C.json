@@ -1,0 +1,187 @@
+{
+  "authoredTests": {
+    "byCategory": {
+      "adversarial": 91,
+      "boundary": 28,
+      "maxSize": 6
+    },
+    "count": 125,
+    "maxSizeCases": "6: four n=m=300000 (all periods with alternating removals, random half periods, letters turned into one 300000 run reaching 299999, toggling only both ends), n=1/m=300000, n=300000/m=1",
+    "minimumCases": "n=m=1 with period/letter transitions; n=1 multi-query; every n=2 single assignment; every n=3 period/letter string with all edge queries",
+    "motivation": "Selected public WA sources inspected only, never executed: 39752211 prints 1 for n=1; 57922619 prints a single 0 and exits for n=1, and raises IndexError reading l[a] when assigning \".\" at x=n over a letter; 60179927 builds a new list for a left-edge prepend ([x]+group) without storing it, undercounting and later crashing on index(); plus generic Python s[x-2] negative-index wrap at x=1 and missing old-class no-op check. 20325199 is excluded as a motivation (prints debug \"xxxxxx\" on no-op queries; arithmetic otherwise correct). The 16 Python 3 TIME_LIMIT_EXCEEDED sources were not used as algorithmic motivation (TLE-only).",
+    "mutantKills": {
+      "IndexError assigning period at x=n (57922619)": 25,
+      "left-edge prepend not stored in run list (60179927), max-size cases skipped for speed": 25,
+      "n=1 prints 1 per query (39752211)": 11,
+      "n=1 prints a single 0 and exits (57922619)": 7,
+      "no check that the old character already had the new class": 52,
+      "x=1 reads s[-1] through negative index": 34
+    },
+    "mutantNote": "Mutants are re-implementations in test_recipe_570C.py, not executed public code; each also fails at least one official/sample pair.",
+    "seed": 570300,
+    "totalBytes": 21027672
+  },
+  "checks": {
+    "bruteChecks": {
+      "570C": 22864
+    },
+    "bruteDescription": "exhaustive single assignments over all strings in {.,a,b}^n for n<=6 plus 600 fixed-seed random multi-query sequences n,m<=15; each output value compared with literal replacement simulation and the run-count oracle",
+    "commands": [
+      "python3 -m unittest test_recipe_570C (from pipeline/ratings-pools/1600): 10 tests OK",
+      "python3 -c ast.parse on both modules",
+      "git diff --check 5b28d33 HEAD",
+      "extras byte-identical under PYTHONHASHSEED=1 and 2 (unit test)"
+    ],
+    "unittestAssertionCalls": 3695,
+    "unittestMethods": 10
+  },
+  "constraints": {
+    "answerRange": "each output 0..n-1 (<=299999), m lines",
+    "c": "single character a-z or \".\"",
+    "lineLayout": "line1 \"n m\"; line2 s; then exactly m lines \"x c\"; LF or CRLF; no blank or extra lines",
+    "m": [
+      1,
+      300000
+    ],
+    "n": [
+      1,
+      300000
+    ],
+    "s": "exactly n characters from a-z and \".\"",
+    "x": "1..n canonical decimal"
+  },
+  "exclusion": null,
+  "files": {
+    "recipe_570C.py": "3e1ed7486ef7f4a42ad40f861ff44751eefea9a27c3c35934bd2c245cfc810e8",
+    "statement-sources/570C.recipe-author.original.html": "35f6dfea3ddac80299e7b4d1c79e6a7d2f876efe79b829ecd00dadd2cfe55dec",
+    "test_recipe_570C.py": "aad31abf8958339e92413ab6bf3a8d8a0fef371ae589c8f4b893a36bb72fbdf1"
+  },
+  "id": "570C",
+  "inputs": {
+    "archiveBytes": 4542856,
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "file": "inputs/570C.json",
+    "fileBytes": 64740,
+    "fileSha256": "80edd30f0c3cbfb890253b7cf09ad07b7f3b51b2309ff59fd03d39dab7259d9b",
+    "manifestEntryMatches": true,
+    "manifestSha256": "c5aa6b8341d4ab6814424de54e241e91390fdc4c079e7f1daa4379bf07075381",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "sourceRowHash": "6062bd3d14d2a57aba5e5714022b0dff74a9a840772f673ba98c5977572432dd",
+    "sourceRowHashRecomputed": "6062bd3d14d2a57aba5e5714022b0dff74a9a840772f673ba98c5977572432dd",
+    "sourceShard": {
+      "bytes": 403816275,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00006-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "56472c2a050a04899399691e1247b91ca6f9f8ac62fc633aeb1e39065832ffb7",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00006-of-00011.parquet"
+    }
+  },
+  "notAnAudit": true,
+  "officialReview": {
+    "failures": [],
+    "lineEndings": "All 6 official inputs/outputs are CRLF with a trailing CRLF; samples are LF without trailing newline. parse() uses strip().splitlines(), so both are accepted unchanged.",
+    "malformedOrContradictoryPairs": [],
+    "officialComplete": false,
+    "officialTestsInRow": 6,
+    "openR1GeneratedTests": "Row reports generated_tests=22 but generated test bytes are not in this input; not reviewed here. Parent must validate them with parse() before use.",
+    "result": "All 6 official pairs and 2 samples parse within constraints and match answer(), literal_answers() and run_answers().",
+    "samples": 2,
+    "testsetSize": 50
+  },
+  "oracle": {
+    "efficient": "answer(): f(s)=number of adjacent \"..\" pairs (each replacement shortens a period run by one, lowering the pair count by exactly one; operation is forced, so the minimum equals that count); updated in O(1) per query by removing/adding the pairs (x-1,x),(x,x+1).",
+    "independent": [
+      "literal_answers(): rebuilds the string after each query and literally replaces the first \"..\" with \".\" until none remain, counting operations",
+      "run_answers(): periods minus maximal period runs, updated with a different run-merge/split formula",
+      "pairs_from_scratch() in tests: regex over the whole string at checkpoints (every query for small m, >=50 checkpoints per case incl. max size)",
+      "minimum_any_occurrence() in tests: BFS over replacing ANY \"..\" occurrence for all 2^n strings n<=8, confirming the minimum equals the forced first-occurrence count"
+    ]
+  },
+  "problem": {
+    "aliases": [
+      "570/C"
+    ],
+    "customChecker": false,
+    "fileIO": false,
+    "floatingOutput": false,
+    "inputMode": "stdio",
+    "interactive": false,
+    "memoryLimitMB": 256.0,
+    "multipleValidOutputs": false,
+    "sourceId": "570/C",
+    "statementComplete": "Full pinned description/input_format/output_format/examples/note read; no image or omitted question. Text matches the public English statement; the note contains a Cyrillic U+0441 \"с\" in \"hbс\" which is also present byte-for-byte in the public statement (sample input itself uses Latin \"c\").",
+    "timeLimitSeconds": 2.0,
+    "title": "Replacement"
+  },
+  "role": "recipe-author",
+  "selectedSubmissions": {
+    "count": 32,
+    "executed": false,
+    "timeLimitExceeded": [
+      "20325258",
+      "28005945",
+      "28064999",
+      "31451868",
+      "39751123",
+      "39751227",
+      "46766026",
+      "47258966",
+      "48939632",
+      "48940943",
+      "50565086",
+      "51614679",
+      "54069745",
+      "56039731",
+      "59635816",
+      "59966884"
+    ],
+    "verdicts": {
+      "OK": 12,
+      "TIME_LIMIT_EXCEEDED": 16,
+      "WRONG_ANSWER": 4
+    },
+    "wrongAnswer": {
+      "20325199": "debug print contamination (\"xxxxxx\"), not algorithmic",
+      "39752211": "genuine: n=1 branch prints 1",
+      "57922619": "genuine: n=1 prints one line only; IndexError at x=n",
+      "60179927": "genuine: unstored left-edge prepend"
+    }
+  },
+  "semantics": "n,m 1..300000 (literal \"300 000\" in the public statement, no flattened exponent); line 2 is s of exactly n characters from a-z and \".\"; then exactly m lines \"x c\" with 1<=x<=n and c one of a-z or \".\". Each replacement turns the first \"..\" into \".\", shortening one period run by one and lowering the number of adjacent \"..\" pairs by exactly one, so f(s) is that pair count. The unique output is m integers, one per line, each in 0..n-1. answer() updates the pair count locally around x; independently checked by literal first-occurrence replacement simulation, exhaustive single assignments, and a periods-minus-runs count.",
+  "sourceCorrectionProposal": {
+    "needed": false,
+    "note": "No flattened exponent: the bound is the literal 300 000 (U+2009 thin-space digit grouping) in both the public statement and the pinned row; description/output_format/examples/note contain no exponent markup. No imported statement, row, sample, test, or source bytes were changed."
+  },
+  "statementAttestation": {
+    "attestedMarkup": "(<span class=\"tex-span\">1 ≤ <i>x</i><sub class=\"lower-index\"><i>i</i></sub> ≤ <i>n</i></span>) of string <span class=\"tex-span\"><i>s</i></span> is assigned value <span class=\"tex-span\"><i>c</i><sub class=\"lower-index\"><i>i</i></sub></span>. After each operation you have to calculate and output the value of <span class=\"tex-span\"><i>f</i>(<i>s</i>)</span>.</p><p>Help Daniel to process all queries.",
+    "bodyBytes": 63021,
+    "bodySha256": "2ee640e0c416225f0227b7fb0bddbd553948f15a46f738d6ceb1d21a64af4327",
+    "capturedAt": "2026-10-13T02:20:16Z",
+    "copy": {
+      "bodyByteRange": [
+        36365,
+        44082
+      ],
+      "bytes": 7717,
+      "kind": "byte-exact excerpt of the full HTTP body: the complete <div class=\"problem-statement\"> element (statement, input, output, examples, note)",
+      "reason": "Page chrome outside the statement element is not needed and has trailing whitespace; full-body SHA256 retained so the excerpt is verifiable against a fresh fetch.",
+      "sha256": "35f6dfea3ddac80299e7b4d1c79e6a7d2f876efe79b829ecd00dadd2cfe55dec"
+    },
+    "copyPath": "statement-sources/570C.recipe-author.original.html",
+    "crossCheck": "Samples, 2 s / 256 MB limits and the non-ASCII character set of the note match the pinned row. cf-p.vercel.app proxy not used.",
+    "datasetCards": {
+      "open-r1/codeforces": "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md sha256 b9971cff0a797603b79d78f49129830b0a1a4b99d9860e392fba126a4ef4dc69",
+      "open-r1/codeforces-submissions": "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md sha256 8352430bd0fbc94cfe8762a9278c18a8494fca567a8aaf29a9e353c3f4627687"
+    },
+    "locale": "en",
+    "sourceUrl": "https://codeforces.me/problemset/problem/570/C?locale=en",
+    "transport": "Public unauthenticated HTTP GET (curl, browser User-Agent), HTTP 200; raw response body unchanged."
+  },
+  "statusNote": "Recipe authored only. Not a qualification, audit, or signoff; parent qualification and a different-agent audit are still required.",
+  "validated": false
+}
