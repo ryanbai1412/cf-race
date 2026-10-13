@@ -110,7 +110,7 @@ def extras(pid):
         (1000000000, [999999999], [1000000000], 'unit gap in the opposite direction'),
         (1000000000, [1], [1], 'unused species do not change the result'),
         (1000000000, [1000000000, 1], [1000000000, 2], 'equal upper suffix then dominated tail'),
-        (4, [4, 3, 3, 1], [4, 4, 2, 2, 1], 'surplus at species3 only after two upper deficits'),
+        (4, [4, 3, 3, 1], [4, 4, 2, 2, 1], 'surplus at species3 after one upper deficit'),
         (4, [3, 3, 3, 1], [4, 4, 2, 2, 1], 'surplus eventually crosses zero at species3'),
     ):
         add(k, alice, bob, reason, 'boundary')
