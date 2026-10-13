@@ -1,0 +1,114 @@
+{
+  "authoredSuite": {
+    "categories": {
+      "adversarial": 113,
+      "boundary": 26,
+      "maxSize": 15
+    },
+    "count": 154,
+    "layout": "two lines: n, then the bit string, LF terminated",
+    "maxN": 100000,
+    "minN": 1,
+    "seed": 16006030
+  },
+  "bruteChecks": 8644,
+  "exclusion": null,
+  "id": "603A",
+  "inputs": {
+    "archiveBytes": 4542856,
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "file": "inputs/603A.json",
+    "fileBytes": 48959,
+    "fileSha256": "1828acf7f288b37caebd096642de2c2aae94e78bb50b6fa0fe38f829633f0800",
+    "manifestEntryMatches": true,
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "sourceRowHash": "b02c378a006703f2263489a61a441d82df39c68bd09b07615e614237bdf40640",
+    "sourceRowHashMethod": "pool_contract.digest(sourceRow)",
+    "sourceRowHashRecomputed": true,
+    "sourceShard": {
+      "bytes": 151609539,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00002-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "ffb14a8f832b5430c6d92b122d4ce44e240fa1f2808f5cffb9c11e3cb6d38a02",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00002-of-00011.parquet"
+    }
+  },
+  "notice": "Recipe author report only; not an independent audit, signoff, qualification, or validated count.",
+  "officialReview": {
+    "allCrLf": true,
+    "allLayoutValid": true,
+    "malformedPairs": [],
+    "nRange": [
+      1,
+      93
+    ],
+    "note": "Official suite is incomplete (89 of 116) and its largest n is 93, so maximum-n coverage comes only from authored cases.",
+    "officialComplete": false,
+    "officialCount": 89,
+    "oracleDisagreements": [],
+    "samples": {
+      "count": 2,
+      "disagreements": []
+    },
+    "testsetSize": 116
+  },
+  "role": "recipe-author",
+  "selectedSubmissions": {
+    "byVerdict": {
+      "OK": 12,
+      "TIME_LIMIT_EXCEEDED": 1,
+      "WRONG_ANSWER": 19
+    },
+    "count": 32,
+    "executed": false,
+    "note": "Sources were read, not executed. Unit tests re-implement each listed faulty step as an own mutant and assert at least one authored case kills it. 14616287 is TLE-only (O(n^2) scan) and is not claimed as an algorithmic kill.",
+    "wrongAlgorithmsModeled": {
+      "14604778": "max(LAS+2,n) instead of min",
+      "14918983": "single run of three gets only +1",
+      "26640589": "single double gets no +1",
+      "26640717": "single double counted only at string ends",
+      "50697912": "counts transitions without +1",
+      "55384201": "n minus interior doubles",
+      "86885894": "run>=3 or edge length-2 run only",
+      "88804396": "+2 only for adjacent long runs"
+    }
+  },
+  "semantics": {
+    "checker": "token comparison of one integer; no floating, multiple-answer, interactive, or file I/O",
+    "independentChecks": [
+      "brute: every nonempty flip, LAS by enumerating all subsequences (n<=8) or 2-state DP (n<=12, random n<=40)",
+      "flip_dp: linear 3-phase (before/inside/after flip) subsequence DP, applied to every authored case including n=100000"
+    ],
+    "oracle": "answer = min(n, blocks + 2), blocks = 1 + number of adjacent unequal pairs",
+    "summary": "n 1..100000 on line 1; binary string of exactly n characters on line 2. Flip exactly one nonempty contiguous substring, output the maximum longest alternating subsequence (single integer).",
+    "uniqueOutput": true
+  },
+  "statement": {
+    "bodyBytes": 59979,
+    "bodySha256": "51b86d12c370668f6b38cd9c03c6992fa7ec2302a384846ae7c6968beb9c180a",
+    "committedCopy": "statement-sources/603A.recipe-author.original.html",
+    "committedCopyByteRange": [
+      36957,
+      41040
+    ],
+    "committedCopySha256": "b4e63f7baa818bad074cb1edd10ea4cbbad3e5c817b92f798429c318d2cdd389",
+    "comparison": "Row description paragraphs, input_format and output_format occur verbatim in the public English statement text (tags stripped, U+2009 mapped to space). Constraint 1 ≤ n ≤ 100 000 is written out in both; no flattened superscripts.",
+    "cosmeticMarkupLoss": "Row note loses tex-font-style-bf/tt spans that mark which characters of '10000011' and '10011011' are bolded; examples are unaffected and the loss is not semantic.",
+    "httpStatus": 200,
+    "normalizationNeeded": false,
+    "sourceCorrectionProposal": null,
+    "url": "https://codeforces.me/problemset/problem/603/A?locale=en"
+  },
+  "unitTests": {
+    "assertionCalls": 4722,
+    "file": "test_recipe_603A.py",
+    "internalBruteAssertions": 8644,
+    "tests": 7
+  },
+  "validated": false
+}
