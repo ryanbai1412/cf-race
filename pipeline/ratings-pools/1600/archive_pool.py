@@ -24,6 +24,7 @@ def build(output, ids):
                                         'submission-report.json', 'brute-report.json',
                                         'SIGNOFF-LEDGER.json', 'QUARANTINED-AUDITS.json'))
     paths.update(p for p in (BASE / 'audits').rglob('*') if p.is_file())
+    paths.update(p for p in (BASE / 'evidence' / 'history').rglob('*') if p.is_file())
     paths.update(p for p in (BASE / 'audit-reports').rglob('*') if p.is_file())
     for pid in ids:
         paths.update((BASE / 'statement-sources').glob(f'{pid}*'))
