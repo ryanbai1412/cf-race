@@ -1,0 +1,289 @@
+{
+  "authoredTests": {
+    "byCategory": {
+      "adversarial": 95,
+      "boundary": 44,
+      "maxSize": 2
+    },
+    "count": 141,
+    "largestInputBytes": 2000008,
+    "maxSizeCases": "2 cases with n=10^6 (digit values; all zeros), each about 2 MB; plus near-max n=999997..999999 zero cases and n up to 131072 with values near 2*10^9",
+    "motivation": "Targets wrong algorithms found in the selected WA sources (inspected only, never executed): k loop stops at n-1 (6473617), prefix table f[0] overwritten by f[-1]=n (6544288), q_i summed with + instead of xor (10255184), X[r-1]/X[i-1] wrapping to X[-1] (29555463); also the upstream text typo Q up to q_{n-1}. Re-implemented mutants in test_recipe_424C.py are each killed by at least 5 authored tests (132/56/99/37/134).",
+    "seed": 16004240,
+    "totalInputBytes": 16853156
+  },
+  "checks": {
+    "bruteAssertStatements": 5860,
+    "commands": [
+      "python3 -m unittest test_recipe_424C (from pipeline/ratings-pools/1600)",
+      "python3 -c ast.parse on recipe and test",
+      "git diff --check"
+    ],
+    "unittestAssertionCalls": 6104,
+    "unittestMethods": 10
+  },
+  "constraints": {
+    "lineLayout": "line 1: n alone; line 2: exactly n space-separated integers; LF or CRLF; no extra/blank lines; tokens must match 0|[1-9][0-9]* (rejects +, _, leading zeros, signs)",
+    "n": [
+      1,
+      1000000
+    ],
+    "p_i": [
+      0,
+      2000000000
+    ]
+  },
+  "exclusion": null,
+  "files": {
+    "recipe_424C.py": "4e6db8f4f6dcfde7c846fe50af9c1c525e8c9d596171b156c8adfb090473651c",
+    "statement-sources/424C.recipe-author.original.html": "dce6596e78a5beed3c623afc0578fa67f276d22346676b5831d8e62166a4067c",
+    "test_recipe_424C.py": "68fcffc237bb9d489db353912f2b792cd8460d6b2e7821e0320eb2ea69ef244a"
+  },
+  "id": "424C",
+  "inputs": {
+    "archiveBytes": 4542856,
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "datasetCardsRead": {
+      "open-r1/codeforces": {
+        "sha256": "b9971cff0a797603b79d78f49129830b0a1a4b99d9860e392fba126a4ef4dc69",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md"
+      },
+      "open-r1/codeforces-submissions": {
+        "sha256": "8352430bd0fbc94cfe8762a9278c18a8494fca567a8aaf29a9e353c3f4627687",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md"
+      }
+    },
+    "file": "inputs/424C.json",
+    "fileBytes": 43933,
+    "fileSha256": "01fc1c5c24ed9e58a2d60e8beb31ef9e3730b9a1f98f37a41c6e15fbf19560eb",
+    "importedBytesModified": false,
+    "manifestEntryMatches": true,
+    "manifestSha256": "c5aa6b8341d4ab6814424de54e241e91390fdc4c079e7f1daa4379bf07075381",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "sourceRowHash": "2fac2b3ee5668a0dda4093bceabbb090a890e3a17b7fd0316e738fc962b0c8f7",
+    "sourceRowHashRecomputed": "2fac2b3ee5668a0dda4093bceabbb090a890e3a17b7fd0316e738fc962b0c8f7",
+    "sourceShard": {
+      "bytes": 179423559,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00010-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "d6bb6c0510d9bc14630fe19892faf29dd8954e081f7143b032a9963bfcfb2acb",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00010-of-00011.parquet"
+    }
+  },
+  "notAnAudit": true,
+  "officialReview": {
+    "failedUpstreamPairs": [],
+    "failures": [],
+    "notes": "All 6 official pairs (CRLF, preserved) and the sample parse within constraints and match both the efficient oracle and the literal brute. The 23 open-r1 generated tests are not in the supplied input and were not reviewed; parent should validate them with parse() before use.",
+    "officialCompleteUpstream": false,
+    "officialCount": 6,
+    "samples": 1,
+    "testsetSize": 50
+  },
+  "oracle": {
+    "bruteChecks": {
+      "424C": 5860
+    },
+    "bruteDomains": "all p in {0..3}^n for n=1..6 (5460); zero and random full-range arrays for n=1..150 (300); 100 random arrays n=151..400",
+    "efficient": "answer(): xor of p, plus for each k in 1..n: prefix_xor(k-1) if n//k odd, and prefix_xor(n mod k); prefix_xor closed form by x mod 4. O(n).",
+    "independentBrute": "literal(): definition double loop over i and k, O(n^2)."
+  },
+  "problem": {
+    "checker": "token comparison of one integer; no interactive/file-IO/multiple-valid/floating/custom checker",
+    "contest": "Codeforces Round 242 (Div. 2)",
+    "inputMode": "stdio",
+    "memoryLimitMB": 256.0,
+    "name": "Magic Formulas",
+    "rating": 1600,
+    "sourceId": "424/C",
+    "timeLimitSeconds": 2.0
+  },
+  "role": "recipe-author",
+  "selectedSourceInspection": {
+    "algorithmicWrongCandidates": [
+      {
+        "sourceSha256": "6ffb804d3cf475a06fb0c3dfadf1332089a59769429ee4ffbc485483d366b72c",
+        "submissionId": "6473617",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "sourceSha256": "fba8f4e619f0fb97c7cd4afc4dac335437b1effc5e542dd8aaffb1668bdba201",
+        "submissionId": "6544288",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "sourceSha256": "ab67e6ea028b4ae0c90c2fd2c991d4336ee0529033fc33195123168d398db118",
+        "submissionId": "10255184",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "sourceSha256": "3a88fcbec54d1f0e6d131bad51f1befa0a0abb8cb329326f360c2abb0aa346ac",
+        "submissionId": "29555463",
+        "verdict": "WRONG_ANSWER"
+      }
+    ],
+    "count": 32,
+    "nonAlgorithmic": [
+      {
+        "reason": "prints the function object print(f), not its result",
+        "sourceSha256": "5a691cddf0d60dec8ed4de99652b22884b038ecc93bf812f0eaac9cf654258ad",
+        "submissionId": "22102024",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "reason": "debug print(res, pre) before the answer",
+        "sourceSha256": "73513cc17438e238cf27d20930ba89675dfde91cb1872c8dfff5c4eb920f23f1",
+        "submissionId": "55717182",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "reason": "wrong problem: prints sum of p_i mod n",
+        "sourceSha256": "8a63043b3b981c9d328ff3677273c76e7949df434690988daf22b7197cdd5c7a",
+        "submissionId": "69650717",
+        "verdict": "WRONG_ANSWER"
+      }
+    ],
+    "okInspected": "6464542 read in full (same per-k parity formula as the oracle); other OK sources not individually reviewed.",
+    "okSources": 12,
+    "tleOnly": [
+      {
+        "sourceSha256": "d3ba7d62f584c7481ff4334212b62a20e8c83a5b7f16d4754e7a6f6aeacd7155",
+        "submissionId": "6470670",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "sourceSha256": "63736096628edc2e68c6b787d4c77a7b8d798a83ac58d7ec0de4ce3207dbd367",
+        "submissionId": "6474024",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "sourceSha256": "a24f472778b9749f5d6f64c6c8f92fc254c30f9583fcb04ece185149e2155d38",
+        "submissionId": "6479277",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "sourceSha256": "3f7ce6de219884a7f848b3bdf59100aed5f636f58916dc558081b186d9adbf9d",
+        "submissionId": "6479353",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "sourceSha256": "0ae544deb4aa3c09f7c3a15bae56f43a4313109bc4e0448eabcfea54abd48631",
+        "submissionId": "6480017",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "sourceSha256": "b1c6a98e9da4052c6731382aa792288ddaf4e81c9e9e1e936d0b152930ccf6b1",
+        "submissionId": "25879757",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "sourceSha256": "f05acd27d30778684e37a30791b27d651b863f2d5472d201484ee3bd7206db17",
+        "submissionId": "25879893",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "sourceSha256": "6953ad87a18916a2386eee979d16cec814c843ebe3755e6292bbff7824161346",
+        "submissionId": "25880025",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "sourceSha256": "12bc4b17826f632884ae861e9d14ccc0cda3258408561f2d8f86c52cd04c72ee",
+        "submissionId": "25880109",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "sourceSha256": "60e482d38e94bd30491439b6b54cc19677c096f5f7744c68a34f8fa05a1bd5f0",
+        "submissionId": "28542839",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "sourceSha256": "c659737b2936ab31660679299b9e8dda2855770ebd4b88a13cf8b30e71f25255",
+        "submissionId": "52525059",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "sourceSha256": "ba030b495e80c56b893205b161dabe74abfde395ba2611f55f56ad4875cf5718",
+        "submissionId": "77092488",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "sourceSha256": "b0a5089d28456385f63edc8b7652ba7af85d99271fcbbf385682f2442ed5418d",
+        "submissionId": "14798443",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      }
+    ],
+    "tleOnlyNote": "Recorded TLE; most are the literal O(n^2) definition (6479353 uses i mod k = i for k>i, still correct). 52525059/77092488 count residue multiplicities; 14798443 was not analyzed for correctness. None is claimed as an algorithmic kill."
+  },
+  "semantics": "Line 1: n, 1<=n<=10^6. Line 2: exactly n integers 0<=p_i<=2*10^9 (exponents attested from the public English statement). Unique integer Q = q_1 xor ... xor q_n with q_i = p_i xor (i mod 1) xor ... xor (i mod n); the formula image and the sample fix the last term as q_n, not the upstream text q_{n-1}. Oracle: Q = xor(p) xor, for each modulus k, (prefix xor 0..k-1 when n//k is odd) xor (prefix xor 0..n mod k). Independently checked by the literal n^2 double loop over all (i, k) on exhaustive small domains and fixed-seed random arrays.",
+  "sourceCorrectionProposal": {
+    "description": [
+      {
+        "evidence": "formula image e4038bbd3f52ecb87dbbdd560d05e7810522f6af reads q_n; sample output 3 requires q_n",
+        "from": "\\oplus q_{n-1}$$",
+        "occurrences": 1,
+        "to": "\\oplus q_{n}$$"
+      }
+    ],
+    "input_format": [
+      {
+        "from": "≤ 106)",
+        "occurrences": 1,
+        "to": "≤ 10<sup>6</sup>)"
+      },
+      {
+        "from": "≤ 2·109)",
+        "occurrences": 1,
+        "to": "≤ 2·10<sup>9</sup>)"
+      }
+    ],
+    "normalizeStatementMultiRepairsEntry": "'424C': [('≤ 106)', '≤ 10<sup>6</sup>)', 1), ('≤ 2·109)', '≤ 2·10<sup>9</sup>)', 1)]",
+    "notes": [
+      "The q_{n-1} -> q_{n} fix is in description, outside normalize_statement.py exponent REPAIRS scope; parent must decide how to apply it (not applied here, imported bytes unchanged).",
+      "Original and upstream both say \"positive integer numbers\" while the constraint allows p_i = 0 (official test 2 has p=0); recipe follows the constraint 0 ≤ p_i. No correction proposed."
+    ]
+  },
+  "statementAttestation": {
+    "attestedConstraints": [
+      "1 ≤ n ≤ 10<sup class=\"upper-index\">6</sup>",
+      "0 ≤ p_i ≤ 2·10<sup class=\"upper-index\">9</sup>"
+    ],
+    "bodyBytes": 58167,
+    "bodySha256": "d1928fa3936d4ff94a7691f3c39ba0c3969e6ac07274cf00334e9d8189530bf2",
+    "committedCopy": "statement-sources/424C.recipe-author.original.html",
+    "committedCopySha256": "dce6596e78a5beed3c623afc0578fa67f276d22346676b5831d8e62166a4067c",
+    "formulaImages": [
+      {
+        "bytes": 3518,
+        "readAs": "q_i = p_i xor (i mod 1) xor (i mod 2) xor ... xor (i mod n);",
+        "sha256": "dea972a8f3d8354525154b3962d1d0259261c6bada36341c8780da512e8e9f5f",
+        "url": "https://espresso.codeforces.com/81ab130934a6699fcdd0da19288992c1c610bc69.png"
+      },
+      {
+        "bytes": 1471,
+        "readAs": "Q = q_1 xor q_2 xor ... xor q_n.",
+        "sha256": "1df647b95927e001721d03cfe874ee36ed4b256da1a222a259450348d586a5c8",
+        "url": "https://espresso.codeforces.com/e4038bbd3f52ecb87dbbdd560d05e7810522f6af.png"
+      },
+      {
+        "bytes": 504,
+        "readAs": "x xor y operator symbol (not used for constraints)",
+        "sha256": "b8f5bdf8e6f64869571c26e9db5839b0c7b85d0504d9546dcea07001be2682d7",
+        "url": "https://espresso.codeforces.com/b364f2e04c665b78b924ec10666327a4ef4635bc.png"
+      }
+    ],
+    "problemStatementByteRange": [
+      35799,
+      39228
+    ],
+    "sampleCrossCheck": "Sample n=3, p=1 2 3: q_1=1, q_2=0, q_3=2; Q over q_1..q_3 = 3 (expected output), Q over q_1..q_2 = 1. The sample therefore also confirms q_n.",
+    "sourceUrl": "https://codeforces.me/problemset/problem/424/C?locale=en",
+    "transport": "Public HTTP GET with a browser User-Agent; locale=en original English statement HTML"
+  },
+  "statusNote": "Recipe authored only. Not an independent audit, signoff, qualification, or attestation of parent identity; parent integrates, executes and qualifies.",
+  "validated": false
+}
