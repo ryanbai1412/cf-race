@@ -1,0 +1,251 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "848f3a0993bc55eba55cc8f3c5f71b9b6a8c8fd66a0143c1f44491b2f0563a27",
+  "genuineAlgorithmicIncorrect": 5,
+  "id": "651B",
+  "incorrectAnalysis": {
+    "56712611": {
+      "kind": "wrong-answer",
+      "reason": "with any duplicate prints (#distinct)-1, ignoring that later copies form additional increasing layers; 200 100 100 200 -> 1, correct 2",
+      "test": "0002"
+    },
+    "60416340": {
+      "kind": "wrong-answer",
+      "reason": "prints the length (element count, not transitions) of the longest strictly increasing run of the sorted array (and 1 for n=1); 20 30 10 50 40 -> 5, correct 4",
+      "test": "0001"
+    },
+    "61336201": {
+      "kind": "wrong-answer",
+      "reason": "counts strict increases in the sorted array = (#distinct)-1, a single layer only; 200 100 100 200 -> 1, correct 2",
+      "test": "0002"
+    },
+    "64149959": {
+      "kind": "wrong-answer",
+      "reason": "same single-layer defect: counts strict increases in sorted order; 200 100 100 200 -> 1, correct 2",
+      "test": "0002"
+    },
+    "65529574": {
+      "kind": "wrong-answer",
+      "reason": "peels only one layer of distinct values, then counts increases in the sorted remainder once instead of repeatedly layering; failedTest 0006 (n=100) -> 84, correct 95",
+      "test": "0006"
+    }
+  },
+  "packageHash": "a5e927afcc3a7ed6dc115f1f0784f0faf68fd2eaae845ecd5adccffc96c424c3",
+  "qualificationBasis": "generated",
+  "rating": 1200,
+  "reasons": [],
+  "referenceAlgorithm": "answer = n - max multiplicity (arrange values in repeated increasing layers)",
+  "reviewUrl": "https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4",
+  "reviewer": "devin-21803116a99741d7a7672cde5aff36d4 (independent rating1200 auditor, https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4)",
+  "schemaVersion": 1,
+  "verification": {
+    "archiveFilesAllMatchProvenance": true,
+    "archiveSha256": "1e2dc0fc16a7703d0a2e5b8fe0959967d628a5bcc43d886bf8f70bcf3d77636a",
+    "auditorExtraTests": {
+      "accepted": {
+        "16562805": "AC",
+        "16563547": "AC",
+        "16563628": "AC",
+        "16563647": "AC",
+        "16563696": "AC"
+      },
+      "count": 408,
+      "expectedFrom": "auditor-authored brute force / independent derivation (tools/extra.py), not generator formula",
+      "oracle": "AC",
+      "testsJsonSha256": "c06bdfa2f3a0ad38bc97ea60e98936bb4d546b0da83a5d4ce1cf9a00dd87f933"
+    },
+    "bruteVsPackage": {
+      "checked": 145,
+      "mismatches": []
+    },
+    "builderBranchCommit": "875772d6c19b78fd3c3d08a369ad4835ed9ada94",
+    "bundleSha256": "dba03d1e5317a14e8530c2660c6a998ab6eb4d1bf55ba7c88282ec7fb5152a19",
+    "generator": {
+      "authoredInPackage": 113,
+      "count": 113,
+      "distinct": 113,
+      "equalsPackageAuthored": true,
+      "hashes": [
+        "2fcb5052296ba6af645eceb61133a82c870ebfc4bc5e0482d7336b9f68aaa96b",
+        "2fcb5052296ba6af645eceb61133a82c870ebfc4bc5e0482d7336b9f68aaa96b"
+      ],
+      "identical": true,
+      "matchesRecorded": true,
+      "pairsDigest": "4b21d0796cdeba7b9758a30afa0c1af14118b5efdecae76dd4d058dfe57475cf",
+      "pairsDigestMatches": true
+    },
+    "manifestEqualsEvidenceAndProvenanceFiles": true,
+    "oracle": {
+      "byteExact": 113,
+      "compiled": true,
+      "failedTest": null,
+      "hashesMatchRecorded": true,
+      "maxCpu": 0.07232200000000003,
+      "seconds": 6.9,
+      "testsRun": 145,
+      "verdict": "AC"
+    },
+    "sandbox": {
+      "compilerFlags": [
+        "-O2",
+        "-std=c++17",
+        "-DONLINE_JUDGE"
+      ],
+      "executionVersion": 2,
+      "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+      "network": "none",
+      "runner": "pipeline/pool_sandbox.run (read-only, nonroot 65534, cap-drop ALL, no-new-privileges)"
+    },
+    "sourceVerification": "bundled state/ID/sources code sha256 == evidence sourceHash (bundled provenance only; pinned HF parquet bytes NOT re-downloaded by this auditor, parent crosschecks)",
+    "submissions": {
+      "16562805": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "2cbfe861e5f8f17e93e70afa53d70ec9c131107b0c28d3243bd46b21121863dd",
+        "freshVerdict": "AC",
+        "language": "GNU C++11",
+        "perTestOutputHashMismatchesVsEvidence": 0,
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "c90fd92654de7ad35ad82e775032b744a58dab70a0714274fbe240bbf2bfaf09",
+        "sourceHashMatchesEvidenceAndState": true
+      },
+      "16563547": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "2cbfe861e5f8f17e93e70afa53d70ec9c131107b0c28d3243bd46b21121863dd",
+        "freshVerdict": "AC",
+        "language": "GNU C++",
+        "perTestOutputHashMismatchesVsEvidence": 0,
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "bcf3483ef314dbf6587c5b30b7e10101050ad4d75335b121befb2fd9cb244bcf",
+        "sourceHashMatchesEvidenceAndState": true
+      },
+      "16563628": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "2cbfe861e5f8f17e93e70afa53d70ec9c131107b0c28d3243bd46b21121863dd",
+        "freshVerdict": "AC",
+        "language": "GNU C++",
+        "perTestOutputHashMismatchesVsEvidence": 0,
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "f870911c6ba666e23f02c88f77d8ddb9a3ea0ce45a144af2cabd9bb06fa9078b",
+        "sourceHashMatchesEvidenceAndState": true
+      },
+      "16563647": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "6bbc07ad1b37904eaf11bf480fa4c78eb95a9618adb2347c992c068b417ea840",
+        "freshVerdict": "AC",
+        "language": "GNU C++",
+        "perTestOutputHashMismatchesVsEvidence": 0,
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "10c9a6e95bf11d3ad340252a59cb8eef0d7c8ca9c07d84995db60dc2256e86e8",
+        "sourceHashMatchesEvidenceAndState": true
+      },
+      "16563696": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "6bbc07ad1b37904eaf11bf480fa4c78eb95a9618adb2347c992c068b417ea840",
+        "freshVerdict": "AC",
+        "language": "GNU C++",
+        "perTestOutputHashMismatchesVsEvidence": 0,
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "94b828f72c00e6f4bfbce665b96a5160ed80428a0fa1bd815134a60daa6c9ccd",
+        "sourceHashMatchesEvidenceAndState": true
+      },
+      "56712611": {
+        "expected": "WRONG_ANSWER",
+        "failedTestExpected": "2\r\n",
+        "failedTestOutput": "1\n",
+        "freshFailedTest": "0002",
+        "freshOutcomeDigest": "5316aaf9805156a1b002686a10280ee0eb2bbf828d6dc214f18a4e734a0e21ed",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestOutputHashMismatchesVsEvidence": 0,
+        "recordedFailedTest": "0002",
+        "recordedVerdict": "WA",
+        "sourceHash": "a182f9a98b2bd1c4ac59a811a52331bdd8782305552b2528a1311b73a11ca7bb",
+        "sourceHashMatchesEvidenceAndState": true
+      },
+      "60416340": {
+        "expected": "WRONG_ANSWER",
+        "failedTestExpected": "4\r\n",
+        "failedTestOutput": "5\n",
+        "freshFailedTest": "0001",
+        "freshOutcomeDigest": "2c5aeeee7bee893764c470fbe94066d0f02b04982fb4393ee6f05e1abd0fcce2",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestOutputHashMismatchesVsEvidence": 0,
+        "recordedFailedTest": "0001",
+        "recordedVerdict": "WA",
+        "sourceHash": "6bb350046affc3b048d4db2015b6f8d2494f4547bff246b983d42900216af1b6",
+        "sourceHashMatchesEvidenceAndState": true
+      },
+      "61336201": {
+        "expected": "WRONG_ANSWER",
+        "failedTestExpected": "2\r\n",
+        "failedTestOutput": "1\n",
+        "freshFailedTest": "0002",
+        "freshOutcomeDigest": "5316aaf9805156a1b002686a10280ee0eb2bbf828d6dc214f18a4e734a0e21ed",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestOutputHashMismatchesVsEvidence": 0,
+        "recordedFailedTest": "0002",
+        "recordedVerdict": "WA",
+        "sourceHash": "b564c5b00a23e0efebd45295b540d27c4cccc7ea7c5060f62fc01783a19cb935",
+        "sourceHashMatchesEvidenceAndState": true
+      },
+      "64149959": {
+        "expected": "WRONG_ANSWER",
+        "failedTestExpected": "2\r\n",
+        "failedTestOutput": "1\n",
+        "freshFailedTest": "0002",
+        "freshOutcomeDigest": "5316aaf9805156a1b002686a10280ee0eb2bbf828d6dc214f18a4e734a0e21ed",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestOutputHashMismatchesVsEvidence": 0,
+        "recordedFailedTest": "0002",
+        "recordedVerdict": "WA",
+        "sourceHash": "3a879a3617aff523225ce1239e3ff8369b70ed56d2cd8868e1b34c06d18a7e1b",
+        "sourceHashMatchesEvidenceAndState": true
+      },
+      "65529574": {
+        "expected": "WRONG_ANSWER",
+        "failedTestExpected": "95\r\n",
+        "failedTestOutput": "84\n",
+        "freshFailedTest": "0006",
+        "freshOutcomeDigest": "278f98dbaa8646e841ca3f4825aa7f3350203a035f8454df11ec7a5089593404",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestOutputHashMismatchesVsEvidence": 0,
+        "recordedFailedTest": "0006",
+        "recordedVerdict": "WA",
+        "sourceHash": "616ebe33d171e433fa89a256b485dd3408e79b140d4c23b92f6040607aea34c5",
+        "sourceHashMatchesEvidenceAndState": true
+      }
+    }
+  }
+}
