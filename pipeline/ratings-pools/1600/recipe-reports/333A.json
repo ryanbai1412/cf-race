@@ -1,0 +1,129 @@
+{
+  "aliases": [
+    "333/A",
+    "334/C"
+  ],
+  "baseCommit": "5b28d33",
+  "datasetCardsRead": {
+    "open-r1/codeforces": {
+      "sha256": "b9971cff0a797603b79d78f49129830b0a1a4b99d9860e392fba126a4ef4dc69",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md"
+    },
+    "open-r1/codeforces-submissions": {
+      "sha256": "8352430bd0fbc94cfe8762a9278c18a8494fca567a8aaf29a9e353c3f4627687",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md"
+    }
+  },
+  "extraCategories": {
+    "adversarial": 102,
+    "boundary": 36,
+    "maxSize": 12
+  },
+  "extraPairs": 150,
+  "extrasMotivation": "Minima/small ternary transitions; powers of three and neighbours; maximum 10^17 and near-maximum values where float division (int(n/p)+1, math.ceil(n/p)) is off by one; large values with many trailing ternary zeros; values separating ceil(n/3), ternary digit sum, greedy decomposition, n%3+1, n//(p+1)+1 and power-only heuristics seen among selected WRONG_ANSWER sources; fixed-seed random small and full-range values.",
+  "extrasSha256": "1162a3adbb34bdaf506ff9f5c5043fbfca2f47be8df1a033e852404a20eb489a",
+  "generatedBasis": "Not claimed. Official suite is complete per row (28/28); authored extras are supplementary.",
+  "id": "333A",
+  "independentChecks": {
+    "bruteChecks": {
+      "333A": 12478
+    },
+    "exhaustiveCoinBrute": "n=1..60: enumerate every multiset of powers-of-three coins (per-denomination counts capped at ceil(n/d), WLOG since no exact payment or minimal cover uses more), discard multisets that can pay n exactly (bitset subset sum) or total < n, minimize coins reaching >= n (0/1 DP capped at n), maximize.",
+    "randomized": "1..3000 exhaustive, 3000 fixed-seed values in 1..10^17, and m*3^j for m in {1,2,4,5,7,8}.",
+    "rational": "Exact Fraction ceil(n/3^k), 3^k least power of three not dividing n.",
+    "ternary": "Answer = (ternary digits of n with trailing zeros and the lowest nonzero digit removed) + 1."
+  },
+  "inputs": {
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "file": "inputs/333A.json",
+    "fileBytes": 37057,
+    "fileSha256": "8097845e5639865413c3fd0fc851f4b5a499add5bd43ca08eff90246d5e922eb",
+    "manifestEntry": {
+      "bytes": 37057,
+      "sha256": "8097845e5639865413c3fd0fc851f4b5a499add5bd43ca08eff90246d5e922eb"
+    },
+    "manifestMatches": true,
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "pinsMatchManifest": true,
+    "sourceRowHash": "13e9f2e750c6c2ef1e93e91f0d9c60182bff96b276c2f3c76e08d73452c9a24a",
+    "sourceRowHashMatches": true,
+    "sourceRowHashRecomputed": "13e9f2e750c6c2ef1e93e91f0d9c60182bff96b276c2f3c76e08d73452c9a24a",
+    "sourceShard": {
+      "bytes": 337144355,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00008-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "f138b6d3ff6b7ba5de9ace08eb34146ca3ca19d68d2adbb92b239a2721ce2c4d",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00008-of-00011.parquet"
+    }
+  },
+  "officialReview": {
+    "failures": [],
+    "note": "All 28 official CRLF pairs and 2 samples parse within constraints and match the oracle. No malformed upstream pair or contradiction.",
+    "officialPairs": 28,
+    "officialTestsComplete": true,
+    "samples": 2,
+    "testsetSize": 28
+  },
+  "oracle": "Strip factors of three from n, return n//3+1 (O(log n)).",
+  "parse": "Exactly one line matching [1-9][0-9]* with optional single LF or CRLF terminator; 1<=n<=10^17. Rejects sign, underscores, leading zeros, padding, extra lines/tokens.",
+  "rating": 1600,
+  "role": "recipe-author (not an independent audit, not a qualification, no signoff)",
+  "selectedSubmissions": {
+    "authorObservationsNonBinding": [
+      "26808981 prints intermediate n values (debug output); 12460749 compares raw input() to \"1\" (CRLF-sensitive on official tests). Parent auditor must judge these; author makes no claim on counted wrong sources.",
+      "25829094 and 49632406 use float division (int(n/mul), ceil(n/p)); extras include near-1e17 cases that separate this from the exact answer."
+    ],
+    "byVerdict": {
+      "OK": 12,
+      "WRONG_ANSWER": 20
+    },
+    "count": 32,
+    "executed": false
+  },
+  "semantics": "Single line with one integer n, 1<=n<=10^17 (public English statement shows 10<sup>17</sup>; pinned row flattened it to 1017 and official test 100000000000000000 confirms 10^17). Over all coin multisets of powers of three that cannot pay exactly n, maximize the minimum number of coins reaching at least n. Unique integer: with 3^k the least power of three not dividing n, the answer is floor(n/3^k)+1. Exhaustive coin-multiset enumeration (exact-sum infeasibility plus minimum cover) cross-checks small n; ternary-digit and exact-rational ceil(n/3^k) derivations cross-check large n.",
+  "statement": {
+    "attestation": "Original English input specification reads \"1 ≤ <i>n</i> ≤ 10<sup class=\"upper-index\">17</sup>\".",
+    "committedCopy": "statement-sources/333A.recipe-author.original.html",
+    "committedCopyByteRange": [
+      37434,
+      40991
+    ],
+    "committedCopyNote": "Byte-exact <div class=\"problem-statement\"> element of the public body; page chrome omitted.",
+    "committedCopySha256": "9cffd6d3d94346e1f024523c23c15205c6ef5ab2f5744ba72e8a99c0873e3ac5",
+    "corroboration": "Official test 0006 is n=100000000000000000=10^17 (answer 33333333333333334); under a literal 1017 bound it would be out of range. Pinned description/output/note/examples otherwise match the public statement text.",
+    "exclusionChecks": {
+      "customChecker": false,
+      "fileIO": false,
+      "floatingOutput": false,
+      "inputMode": "stdio",
+      "interactive": false,
+      "missingImageOrQuestion": false,
+      "multipleValidOutputs": false
+    },
+    "normalizationProposal": {
+      "MULTI_REPAIRS": {
+        "333A": [
+          [
+            "≤ 1017)",
+            "≤ 10<sup>17</sup>)",
+            1
+          ]
+        ]
+      },
+      "attestationValue": "10<sup class=\"upper-index\">17</sup>",
+      "note": "Parent applies via normalize_statement.py with a statement-sources/333A.json attestation; author did not edit normalize_statement.py or any package. Pinned row bytes unchanged."
+    },
+    "otherFlattening": "None found: no other numeric literal in description/input/output/note is a flattened power.",
+    "pinnedInputFormat": "The single line contains a single integer n (1 ≤ n ≤ 1017).\n\nPlease, do not use the %lld specifier to read or write 64 bit integers in С++. It is preferred to use the cin, cout streams or the %I64d specifier.",
+    "publicBodyBytes": 59931,
+    "publicBodySha256": "64ed4498475ee95b521716109eddd4e60f5fa54bf17e4934ed3315cf251c39e7",
+    "publicSourceUrl": "https://codeforces.me/contest/333/problem/A",
+    "transport": "Public HTTP GET (curl, browser user agent); no authentication."
+  },
+  "title": "Secrets",
+  "validated": false
+}
