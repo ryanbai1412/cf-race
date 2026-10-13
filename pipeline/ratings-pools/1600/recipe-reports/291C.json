@@ -1,0 +1,485 @@
+{
+  "authoredSuite": {
+    "design": "All 32 single differing-bit positions; legal /1,/31 endpoints; forbid /0,/32; impossible skipped counts; minimal-prefix plateaus; octet boundaries; unsorted inputs; all-k sample topology; 64 fixed-seed small full-range/shared-prefix cases; three actual maximum-n cases.",
+    "maxCases": 3,
+    "maxN": 100000,
+    "plannedRange": "120-180 distinct cases",
+    "status": "pending checks"
+  },
+  "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
+  "bruteCrossChecks": {
+    "domain": "Every nonempty subset of 8 values, at shifts 0,7,8,15,16,23,24,29; every legal k from 1 through subset size.",
+    "exhaustiveAssertions": 8192,
+    "expectedAssertions": 8656,
+    "randomAssertions": 400,
+    "randomSeed": 29101600,
+    "singleBitAssertions": 64,
+    "status": "pending checks"
+  },
+  "datasetDocsRead": [
+    "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
+    "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md"
+  ],
+  "execution": "No public program compiled or executed. Only author-owned Python recipe and tests will run. No genuine-WA kill claim, 5AC/5WA validation, sixth external oracle, independent audit or parent validated-count change claimed.",
+  "id": "291C",
+  "inputProvenance": {
+    "archiveBytes": 4542856,
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "bytes": 52003,
+    "member": "inputs/291C.json",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "sha256": "b5a927f3c37a05b7b147f06e6c1bdd9c954d1cde26c51cf13b506fdda31da5dc",
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "sourceRowHash": "5b101a97d46d41fcb527c47f0073384ab47df91d2efa618533b37b52aedb26f1",
+    "sourceRowHashMethod": "pool_contract.digest(sourceRow)",
+    "upstreamLfsShard": {
+      "bytes": 289522359,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00000-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "898933339ad702a38a922b793275df0f3c32fc8746e95b71a57d14dd56c85bc0",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00000-of-00011.parquet"
+    },
+    "verification": "Archive and file hashes verified; canonical full sourceRow digest matches. Upstream shard attestation is inherited from authenticated attachment; shard not downloaded again. No input bytes edited."
+  },
+  "normalizationProposal": {
+    "applied": false,
+    "attestationExact": "10<sup class=\"upper-index\">5</sup>",
+    "attestedInputHtml": "<div class=\"section-title\">Input</div><p>The first line contains two integers, <span class=\"tex-span\"><i>n</i></span> and <span class=\"tex-span\"><i>k</i></span> <span class=\"tex-span\">(1\u2009\u2264\u2009<i>k</i>\u2009\u2264\u2009<i>n</i>\u2009\u2264\u200910<sup class=\"upper-index\">5</sup>)</span> \u2014 the number of IP addresses and networks. The next <span class=\"tex-span\"><i>n</i></span> lines contain the IP addresses. It is guaranteed that all IP addresses are distinct.</p></div>",
+    "field": "sourceRow.input_format (only a future generated statement copy, not immutable imported row)",
+    "instruction": "Parent may integrate attested normalization under normalize_statement.py standard; author did not edit normalization registrations or imported bytes.",
+    "new": "\u2264 10<sup>5</sup>)",
+    "occurrences": 1,
+    "old": "\u2264 105)",
+    "originalInputFormat": "The first line contains two integers, n and k (1 \u2264 k \u2264 n \u2264 105) \u2014 the number of IP addresses and networks. The next n lines contain the IP addresses. It is guaranteed that all IP addresses are distinct."
+  },
+  "notQualification": true,
+  "preservedPairHashes": {
+    "examples": [
+      {
+        "index": 0,
+        "inputSha256": "949ef2851da832bfaf44081ac59f9fdf0f0d69ca8b0a6a8d08eddd8e49d551cf",
+        "outputSha256": "a2ed9d2d79d08c23a2208aa38e2ab02c5936d783d0cf7a863b6ea26148b96fb2"
+      },
+      {
+        "index": 1,
+        "inputSha256": "e6c930c19106ca29f17b87524da858398f9c0a3044827a4d8d289f7ec1888fd7",
+        "outputSha256": "a5e8fc29cd6c851da8302dffa7d746c8324ca7ed5025326e95ec5c5c2dac2294"
+      },
+      {
+        "index": 2,
+        "inputSha256": "8985dab38124d86c9ec0bff945e738de56396245cf2984b4bf7cfff1f4a1cdc9",
+        "outputSha256": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464"
+      }
+    ],
+    "official_tests": [
+      {
+        "index": 0,
+        "inputSha256": "211b4b2de55efd54c91ee469946cd93f9af24e02da0d3556b65e01aba8df0ae7",
+        "outputSha256": "a2ed9d2d79d08c23a2208aa38e2ab02c5936d783d0cf7a863b6ea26148b96fb2"
+      },
+      {
+        "index": 1,
+        "inputSha256": "c4f8d34882cea3641cedc9a4a82062e319012a741c9b3d08d8ccb3a0de84077f",
+        "outputSha256": "a5e8fc29cd6c851da8302dffa7d746c8324ca7ed5025326e95ec5c5c2dac2294"
+      },
+      {
+        "index": 2,
+        "inputSha256": "0420cfe5d2876b6a93c96207e71b96fecd6c4b6fc9becd9bd2d4ef29e7c0e360",
+        "outputSha256": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577"
+      },
+      {
+        "index": 3,
+        "inputSha256": "1e74e246ae4f552bf87d6cd73d7979879bb729417566fa8dd18f54b82a2e2d47",
+        "outputSha256": "c602fd577e6125fd0d94279a202809d4582449481c56a2b3e4abedc0cc385bf1"
+      },
+      {
+        "index": 4,
+        "inputSha256": "ce5d4b7c64978ed076a08968a3e49553e64818fe91a38d7c0e5d311635bdc9d1",
+        "outputSha256": "3d0649ff9fac24ea421c9ce8ee6af720a84ceaa1c0a6bbcd6138938f67ff661e"
+      },
+      {
+        "index": 5,
+        "inputSha256": "12a77375bb0be83aa177f31ccafd88b69dbd1d58b1f0f8b622cc9ece324ac050",
+        "outputSha256": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577"
+      },
+      {
+        "index": 6,
+        "inputSha256": "30f0efa065505e32ef13448bbf778a9741f0aeb01d9740619b06ea2bfa5dcd79",
+        "outputSha256": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577"
+      },
+      {
+        "index": 7,
+        "inputSha256": "a47dcb0dbc8efe311b4c3d4b79d1c83f4cae89a164a465efb16f994821abedd0",
+        "outputSha256": "712b9956747edd3e9962e40b363c424f7e4e5125c1559e5bc32abf881bbf2907"
+      },
+      {
+        "index": 8,
+        "inputSha256": "a3a25eebfbce259e71002e1b19259c3637293a8994d9cb47f01e6a4bf3dd693f",
+        "outputSha256": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577"
+      },
+      {
+        "index": 9,
+        "inputSha256": "99c887daf42df449f240c579bff5998393ca8e7f68e681418b346b2d94639262",
+        "outputSha256": "ef1930c7065c8ac80b2cfae931b057d079e032dc9847731abb8155bcf2d8210c"
+      },
+      {
+        "index": 10,
+        "inputSha256": "f854bcc6912ee6f967e60333338a91f6835c545fe4b24ab0048e98f579b2b754",
+        "outputSha256": "c602fd577e6125fd0d94279a202809d4582449481c56a2b3e4abedc0cc385bf1"
+      },
+      {
+        "index": 11,
+        "inputSha256": "4b9e866c938d68ca3b5e1a5a7d8eb2eba4c6e4262f978fe9b7cee75f570b80f5",
+        "outputSha256": "f9175512672d5f44945b8a5d419b8bfce0a424178ec3086d99364fcba9c0d613"
+      },
+      {
+        "index": 12,
+        "inputSha256": "d5f46edfdac1707ae4d9a3aa3a8f3513b8e712f8a4ed778e5149b12efa787567",
+        "outputSha256": "c602fd577e6125fd0d94279a202809d4582449481c56a2b3e4abedc0cc385bf1"
+      },
+      {
+        "index": 13,
+        "inputSha256": "2a758b71a8ce615dcfb7235ef9e14e92b186e0fa41ce5f61a67ea4d6563c93ed",
+        "outputSha256": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577"
+      },
+      {
+        "index": 14,
+        "inputSha256": "8f2fe3ac12f11b85b571c270bc5823edb7a1e3965a51701ddfa74787e7bbd123",
+        "outputSha256": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577"
+      }
+    ]
+  },
+  "remainingForParent": "Integrate recipe and attested statement normalization; resolve incomplete official suite via separate qualification including 5 actual AC/5 genuine algorithmic WA and a disjoint sixth accepted oracle, then later different-agent audit. Author output is not qualification.",
+  "role": "recipe-author",
+  "scope": "Only 291C recipe, unit tests, this factual report, and attributed original English HTML excerpt. No registrations, packages, audits, signoffs or shared gate changes.",
+  "selectedSourcesUnchanged": [
+    {
+      "provenance": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "sourceSha256": "f2a9a0a783783c19a7f88bd91e8dd8e4e30a8453c01f61993b69b9d35984a776",
+      "submissionId": "3519902",
+      "verdict": "OK"
+    },
+    {
+      "provenance": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "sourceSha256": "3695e2f1e76c99dc27013882527436382caf38055e5ccb22d6850dd9087e271d",
+      "submissionId": "3519961",
+      "verdict": "OK"
+    },
+    {
+      "provenance": {
+        "bytes": 167802918,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00035-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "4fdaf008cd04a6626fffd9bdddd43c4d86f2d8b6309b813880c7198a0323686b",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00035-of-00036.parquet"
+      },
+      "sourceSha256": "c6ed9a5cc3a7d8e0077265e2f35163e7f629b940779949341c313ec2c463cf07",
+      "submissionId": "3519964",
+      "verdict": "OK"
+    },
+    {
+      "provenance": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "sourceSha256": "e0f67431368475fe1299a968a7d10b7bfedd78c806b26be8db2c4382f2163b65",
+      "submissionId": "3520002",
+      "verdict": "OK"
+    },
+    {
+      "provenance": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "sourceSha256": "d96dd7e7396c454477c951c653ea7104fed6ebee21a7598da029e35ab6214ded",
+      "submissionId": "3520007",
+      "verdict": "OK"
+    },
+    {
+      "provenance": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "sourceSha256": "c394456605995dc51e094dcfcee7bf7b18d8757df6c94ecefa57d0a4f4be7967",
+      "submissionId": "3520051",
+      "verdict": "OK"
+    },
+    {
+      "provenance": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "sourceSha256": "ad39598ae8a19758af5d5d77bda83739d135e432524d11b7e8a03b0bb94c63f4",
+      "submissionId": "3520144",
+      "verdict": "OK"
+    },
+    {
+      "provenance": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "sourceSha256": "415bf0fb5b85c68f6552f0c2f835dc7ce2c2848169523cb79b0411b15959eb5b",
+      "submissionId": "3520152",
+      "verdict": "OK"
+    },
+    {
+      "provenance": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "sourceSha256": "450f35cce1c70267c3594fbbe6eebf52b1caf7c513e86b7bfa2a25ced4c2ab9c",
+      "submissionId": "3520251",
+      "verdict": "OK"
+    },
+    {
+      "provenance": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "sourceSha256": "b03fb830f4bffa7e9f8ea5e1b03f3985f94eaa82206ff1d437d8362695b88a40",
+      "submissionId": "3520327",
+      "verdict": "OK"
+    },
+    {
+      "provenance": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "sourceSha256": "8c650baee1fda3dabf1d78967d493a36acb4fcd90a33f4d9962367b1d6d2cb8b",
+      "submissionId": "3520369",
+      "verdict": "OK"
+    },
+    {
+      "provenance": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "sourceSha256": "25578efbed3a65021cba1b11e57e2dbde573ddd6342ff5694d48406dec06120f",
+      "submissionId": "3520457",
+      "verdict": "OK"
+    },
+    {
+      "provenance": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "sourceSha256": "ef2a5fd69d0db7c09def4df996b369147d9d7dc3821631f48992dff1c50864b5",
+      "submissionId": "3818470",
+      "verdict": "TIME_LIMIT_EXCEEDED"
+    },
+    {
+      "provenance": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "sourceSha256": "f941d46232b6e036ae7c32f8729bc297598413d88691b06ed385ca4f7f4a6fa0",
+      "submissionId": "4043435",
+      "verdict": "TIME_LIMIT_EXCEEDED"
+    },
+    {
+      "provenance": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "sourceSha256": "026a722f99fa7ed7092f4b31a393fb0f40088163990ab4642b2768f43de1514c",
+      "submissionId": "4043557",
+      "verdict": "WRONG_ANSWER"
+    },
+    {
+      "provenance": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "sourceSha256": "af37a2c26549e839fd7d6fa99e24a3afe6ed4ce6528a231a9ad92b56ed26c18f",
+      "submissionId": "6621873",
+      "verdict": "TIME_LIMIT_EXCEEDED"
+    },
+    {
+      "provenance": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "sourceSha256": "ce1e277ae1ed2ee221ef71fe2fba555c06f5d8278596c4531cb6f5a317119a2c",
+      "submissionId": "10229818",
+      "verdict": "TIME_LIMIT_EXCEEDED"
+    },
+    {
+      "provenance": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "sourceSha256": "7d4e1f5a49264cd5a57f2eb45391e4c8da301cc41cf6700da5aa7096571ab679",
+      "submissionId": "35899504",
+      "verdict": "WRONG_ANSWER"
+    },
+    {
+      "provenance": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "sourceSha256": "d83fdea1f4bfe0c3455f48122051907b8eab9c703f76bb06e04925ed4ec31fc6",
+      "submissionId": "103571599",
+      "verdict": "WRONG_ANSWER"
+    },
+    {
+      "provenance": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "sourceSha256": "86fc9dd20c022ad1ff3368b7c7d27e174007b03ea1a67c1b35115e2a55d95f98",
+      "submissionId": "179150680",
+      "verdict": "TIME_LIMIT_EXCEEDED"
+    },
+    {
+      "provenance": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "sourceSha256": "0766279485d82e3ed56a783ef4d1819c6d47c2be4a9a7bf55a67281b6f4f02f4",
+      "submissionId": "207810487",
+      "verdict": "WRONG_ANSWER"
+    }
+  ],
+  "semantics": {
+    "constraints": "1<=k<=n<=100000; n distinct IPv4 addresses; 4 decimal octets in 0..255 without leading zeroes; header n k, then exactly one IP per line. All IPv4 bit patterns are legal, including 0.0.0.0 and 255.255.255.255.",
+    "excludedFeatures": "No interaction, file-I/O, floating answer, custom checker, absent image or multiple-valid-output issue: explicit least-ones tie-break.",
+    "independentReference": "Convert every address to a literal 32-character binary string; enumerate all 31 legal prefix lengths, form prefix sets, compare counts and build mask by literal 1/0 strings. Does not use sort, XOR, histogram or production conversion.",
+    "maskDomain": "Exactly /1 through /31: at least one leading 1 and at least one trailing 0. /0 and /32 forbidden.",
+    "oracle": "Sort unsigned 32-bit addresses. Equal-prefix addresses form contiguous blocks. An adjacent pair splits into separate blocks starting at prefix depth 33-bit_length(a XOR b). Histogram split depths, scan /1..31 accumulating 1+splits and stop at first exact k. O(n log n+32) time, O(n) memory.",
+    "uniqueOutput": "Earliest prefix yielding exactly k distinct masked addresses; unique mask for each prefix. If count skips k or never reaches it in /1..31, output -1."
+  },
+  "sourceMotivatedCoverage": [
+    {
+      "observation": "Result=set() occurs outside prefix loops and Result.add(A) inside; successive masks may retain old network values. Sample topology across all k and fixed-seed shared-prefix cases are aimed at this pitfall.",
+      "submissionId": "4043557"
+    },
+    {
+      "observation": "Loops include all 32 mask lengths including /32, although the statement requires at least one zero bit. Last-bit-differing pairs cover the forbidden endpoint.",
+      "submissionIds": [
+        "35899504",
+        "103571599"
+      ]
+    },
+    {
+      "observation": "range(32) with i leading ones includes /0. Single-address and k=1 boundary cases cover the forbidden endpoint.",
+      "submissionId": "207810487"
+    }
+  ],
+  "statementAttestation": {
+    "attribution": "Codeforces 291C Network Mask; original English statement publicly served by codeforces.me. Dataset attribution: open-r1/codeforces authors (pinned card), Codeforces.",
+    "bodyBytes": 57294,
+    "bodySha256": "4d309b4dd5f6e40ba4ae1d5497e8242145d42d8391a814c2bfc9b907eb9f942c",
+    "extraction": {
+      "endByteExclusive": 38355,
+      "method": "Byte-exact balanced problem-statement div; page chrome omitted, not statement bytes.",
+      "startByte": 33730
+    },
+    "locale": "en",
+    "savedBytes": 4625,
+    "savedPath": "statement-sources/291C.recipe-author.original.html",
+    "savedSha256": "d36af8a2de1cc0620a081b06f3f1d19782ec326868e97da12930cce76f8df30c",
+    "url": "https://codeforces.me/problemset/problem/291/C?locale=en"
+  },
+  "status": "authored-local-validation-pending",
+  "upstreamReview": {
+    "declaredTestsetSize": 37,
+    "inventoryOfficialCount": 37,
+    "note": "Only 15 official pairs and 3 samples actually supplied. Metadata reports 37 official tests and 12 generated tests; generated_tests is a count, not supplied pairs. No missing tests invented; suite remains incomplete.",
+    "officialTestsComplete": false,
+    "rowGeneratedTestsField": 12,
+    "status": "pending checks",
+    "suppliedOfficialPairs": 15,
+    "suppliedSamples": 3
+  }
+}
