@@ -1,0 +1,159 @@
+{
+  "approved": true,
+  "archiveBytes": 26805520,
+  "archiveHash": "634f210fa0f9341d63af01af9363553623b7f6080705ab8ee11192620495e180",
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "independentOutputs": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sandboxReplay": true,
+    "sourceAttribution": true,
+    "statementComplete": true
+  },
+  "coverageHash": "4e8b09f58b3a23c7776c11170d31258a1974972eed472527e2837e5603b39532",
+  "evidenceHash": "0aedb1a8aaf1be84b489e16a4eb709a17a5d71e821c3b7ddc16742fae0c1fcfe",
+  "generatorProofHash": "d932bc94221ddc577df30eb97a700e51a563ca5e9d889a5c3672458c1de309fb",
+  "id": "246D",
+  "incorrectAnalysis": {
+    "16731968": {
+      "independentWitness": {
+        "exitCode": 0,
+        "expected": "4\n",
+        "inputSha256": "917e11f6a9ceb27d62b81c6a2e11c06d0b8a6cd5bcc14bf72e2fe33bbd05d4ab",
+        "lfNormalizedOutput": "13\n",
+        "rawOutput": "13\n",
+        "rawOutputHash": "1a252402972f6057fa53cc172b52b9ffca698e18311facd0f3b06ecaaef79e17",
+        "recordedOutputHashMatches": true,
+        "sourceHash": "70bd4ef01f1fe4ea4ef65a13d5898533a23b9ed3164900b7a3eaeacaba3e7c06",
+        "test": "0003",
+        "timeout": false
+      },
+      "kind": "wrong-answer",
+      "reason": "Only colors that appear on some edge endpoint become candidates; colors of isolated vertices (diversity 0) are never considered. 0003: vertex 3 (color 4) is isolated, only color 13 is a candidate, prints 13; expected 4.",
+      "test": "0003"
+    },
+    "27007570": {
+      "independentWitness": {
+        "exitCode": 0,
+        "expected": "4\n",
+        "inputSha256": "917e11f6a9ceb27d62b81c6a2e11c06d0b8a6cd5bcc14bf72e2fe33bbd05d4ab",
+        "lfNormalizedOutput": "0\n",
+        "rawOutput": "0\n",
+        "rawOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "recordedOutputHashMatches": true,
+        "sourceHash": "3d74ad147da3fc5397c996ed47e2ca7a3d9ee32a38f41c11f9e29fceda694cc2",
+        "test": "0003",
+        "timeout": false
+      },
+      "kind": "wrong-answer",
+      "reason": "Answer index initialised to 0 and only updated while scanning edges between different colors; if no edge joins different colors it prints the nonexistent color 0. 0003 prints 0; expected 4.",
+      "test": "0003"
+    },
+    "36547845": {
+      "independentWitness": {
+        "exitCode": 0,
+        "expected": "2\n",
+        "inputSha256": "b2e3dece7b1defd478f25cc4e732af7a924a1725ec2809cd33eeca856a868827",
+        "lfNormalizedOutput": "4\n",
+        "rawOutput": "4\n",
+        "rawOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+        "recordedOutputHashMatches": true,
+        "sourceHash": "27352dbaef816771266dbed9f57f4fda79f8768a2071d4bdb405e6944594337e",
+        "test": "0002",
+        "timeout": false
+      },
+      "kind": "wrong-answer",
+      "reason": "Sorts the color list c before indexing c[a-1], destroying the vertex->color mapping, so edges are attributed to the wrong colors. Sample 0002 (4 2 5 2 4) prints 4; expected 2.",
+      "test": "0002"
+    },
+    "40556074": {
+      "independentWitness": {
+        "exitCode": 0,
+        "expected": "4\n",
+        "inputSha256": "917e11f6a9ceb27d62b81c6a2e11c06d0b8a6cd5bcc14bf72e2fe33bbd05d4ab",
+        "lfNormalizedOutput": "13\n",
+        "rawOutput": "13\n",
+        "rawOutputHash": "1a252402972f6057fa53cc172b52b9ffca698e18311facd0f3b06ecaaef79e17",
+        "recordedOutputHashMatches": true,
+        "sourceHash": "d11f16f0bc0aebe004a77273748881dc61794fbd8f5e29000269de2dc6984cc8",
+        "test": "0003",
+        "timeout": false
+      },
+      "kind": "wrong-answer",
+      "reason": "Adds the neighbor's color without excluding u==v, so a vertex's own color is counted in Q(k), and also includes dummy color 0 from cc[0]. 0003: edge between two color-13 vertices gives |Q(13)|=1, prints 13; expected 4.",
+      "test": "0003"
+    },
+    "5007896": {
+      "independentWitness": {
+        "exitCode": 0,
+        "expected": "4\n",
+        "inputSha256": "917e11f6a9ceb27d62b81c6a2e11c06d0b8a6cd5bcc14bf72e2fe33bbd05d4ab",
+        "lfNormalizedOutput": "1\n",
+        "rawOutput": "1\n",
+        "rawOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "recordedOutputHashMatches": true,
+        "sourceHash": "efc55eb9085a2871a4690831fdfedcdf5a9cc8014f739f88370e92a7374ff343",
+        "test": "0003",
+        "timeout": false
+      },
+      "kind": "wrong-answer",
+      "reason": "Initialises the answer to color 1 with diversity 0 and only replaces it on a strictly larger set, so when every present color has empty Q(k) it prints color 1 even if no vertex has color 1. 0003 (colors 13 13 4, edge 1-2 joining equal colors) prints 1; expected minimum present color 4.",
+      "test": "0003"
+    }
+  },
+  "independentAssessment": {
+    "bruteCrossCheck": {
+      "comparisons": 19592,
+      "method": "Literal-definition brute (for each present color k build V(k), then Q(k) via adjacency matrix) vs oracle on every simple graph with n=2..4 and every coloring over 1..4, plus 3000 random graphs n<=9 with colors {1,2,3,7,100000}; all equal."
+    },
+    "constraintsValidation": "Independent strict validator (mine/v246D.py) parsed all 173 tests + 2 samples: exact line layout (n m / n colors / m edge lines; CRLF accepted on official pairs only as line terminator), canonical integers, all ranges, a!=b, no duplicate undirected edge. Zero violations.",
+    "coverage": "Read every coverage-named input: 0029 (2 1 / 1 1 / 1-2: zero diversity, answer 1), 0030 (100000 1: max color, tie to min 1), 0031 (1 4 4 8 8: repeated neighbor colors and isolated color 1 -> 4), 0032 (n=m=10^5 cycle all distinct colors -> 1), 0033 (n=m=10^5 star, center color 10^5, 9 leaf colors, plus edge 2-3 -> 100000), 0034-0173 fixed-seed simple graphs n<=30 colors<=10. Labels match actual inputs. n=1 is unsatisfiable with m>=1 and no self-loops, so n=2 is the true minimum.",
+    "extraFidelityProbe": {
+      "acceptedCompileFail": [
+        "18112322",
+        "18155464"
+      ],
+      "acceptedFailed": [
+        "18068039",
+        "18139941",
+        "18154994",
+        "18155794"
+      ],
+      "acceptedRun": 25,
+      "explanation": "Uncounted pinned CF-OK sources failing are wrong under the statement, as shown by hand-checked minimal witnesses (CF's official tests were weak): 18068039 only scans colors 1..n ('3 2/1 5 6/1-2,2-3' gives 1, expected 5); 18154994 seeds the answer with min color even if its diversity is 0 ('3 1/1 4 8/2-3' gives 1, expected 4); 18155794 inserts vertex index i into c[i] ('3 1/5 6 2/1-2' gives 2, expected 5). 18139941 segfaults (SIGSEGV, exit -11) from 10^5-deep DFS recursion on the max cycle 0032 under the default 8MB stack: a stack-environment failure, not an expected-output disagreement. No uncounted CF-WA source passes the full suite.",
+      "wrongPassedSuite": [],
+      "wrongRun": 22
+    },
+    "generator": "generator.py run twice by this reviewer in the pinned sandbox (seed 0): byte-identical output, sha256 equals both repeatOutputHashes, 145 pairs equal tests 0029-0173 exactly, digest equals pairsHash, 145 distinct inputs.",
+    "independentOracle": "Own Python oracle (set of distinct different neighbor colors per color, min present color by (-|Q|,k)) reproduces expected output on all 173 tests and both samples in the pinned sandbox.",
+    "replay": "All 10 counted sources rerun in pinned python@sha256:5887f265... with --network=none, read-only root, nonroot, cap-drop ALL, no-new-privileges, pids 64, 1 CPU, 1280m no swap, g++ -O2 -std=c++17 -DONLINE_JUDGE. 5 accepted: AC 173/173, max CPU 0.25s (limit 2s); every per-test output hash equals the recorded evidence. 5 incorrect: identical first failures and output hashes on raw inputs; identical outputs on LF-normalized inputs (not CRLF artifacts); all exit 0, no timeouts.",
+    "scope": "Only audits/246D.json and the independent report written; no package/evidence/shared-gate/product changes, no publication, PR, merge, deploy, DB/storage or board changes.",
+    "sixthOracle": "2614960 (codeforces-submission, disjoint from the 10 counted IDs and hashes) rerun: AC on all 173 tests and 2 samples; per-test output hashes equal oracle.json result/sampleResult.",
+    "sourcesVerified": "Pinned open-r1/codeforces train-00006 (sha256 56472c2a...) row 246/D and generated_tests/test_cases_0246.parquet (667ca1b9...) downloaded by this reviewer: all 14 official pairs (supplementary, 14/37) and all 14 open-r1 generated pairs byte-identical to package tests 0001-0028; both samples byte-identical to row examples. Submission shard train-00023-of-00036 (fcc40dda...) rows for all 10 counted IDs and sixth oracle 2614960: problem 246/D, testset TESTS, verdict OK/WRONG_ANSWER as recorded, sha256(source)==sourceHash and == state/246D/sources code.",
+    "statement": {
+      "bounds": "1<=n,m<=10^5; 1<=ci<=10^5; 1<=ai,bi<=n, ai!=bi; no self-loops or multiple edges",
+      "normalization": "statement.html differs from statement-sources/246D.original.html only by two '≤ 105)' -> '≤ 10<sup>5</sup>)' replacements; original.html text contains the pinned row's description/input_format/output_format verbatim; codeforces.me/problemset/problem/246/D?locale=en fetched independently by this reviewer shows 10^5 for both bounds.",
+      "outputUnique": "single integer: minimum color among present colors maximizing |Q(k)|; unique, token checker exact",
+      "statementSha256": "edaccb7b08d3fda87af8e31415c92159c8f90aae723af675fe6bff6fcdf757a1"
+    }
+  },
+  "oracleProofHash": "5b26d8119f0ce37be7449777d00f15db2dbcb399d467e1d46152c925d24a9955",
+  "packageHash": "29d892a1593c8dae2d8384fd8e7b213a004c3f81f3d972c136c4a44fd3347b5d",
+  "qualificationBasis": "generated",
+  "rating": 1600,
+  "reviewUrl": "https://staging.itsdev.in/sessions/29489971c0254cf887826aab3b31ea07",
+  "reviewer": "devin-29489971c0254cf887826aab3b31ea07",
+  "schemaVersion": 1,
+  "semanticHash": "b5cff798d9cd516d29eec39f01255bf1fe3cced6fa62a2f007db238f73c6ac87",
+  "testPairsHash": "8c9f29326b2abdf75f39205df0d5ad5f7fa90f62452bf8269a59e42e51ed4eed",
+  "workerBranch": "devin/1791845640-1600-pool",
+  "workerBranchTipAtAudit": "3e2cdd3f"
+}
