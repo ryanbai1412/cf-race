@@ -394,7 +394,7 @@ class P954B:
 
     def G():
         return [("boundary", "n=1", "1\na\n"), ("maxSize", "n=100 all same", "100\n" + "a" * 100 + "\n"),
-                ("maxSize", "n=100 half repeated", "100\n" + "abcdefghij" * 5 + "zyxwvutsrq" * 5 + "\n"), ("adversarial", "repeat only of short prefix", "7\nababxab\n"),
+                ("maxSize", "n=100 two different periodic halves", "100\n" + "abcdefghij" * 5 + "zyxwvutsrq" * 5 + "\n"), ("maxSize", "n=100 first half repeated exactly", "100\n" + ("abcdefghijklmnopqrstuvwxy" * 2) * 2 + "\n"), ("adversarial", "repeat only of short prefix", "7\nababxab\n"),
                 ("adversarial", "period-26 string: copy the 26-letter prefix", "100\n" + "".join(chr(97 + (i * 7) % 26) for i in range(100)) + "\n"),
                 ("adversarial", "no repeatable prefix: a then 99 b", "100\na" + "b" * 99 + "\n")]
 

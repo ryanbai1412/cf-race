@@ -70,3 +70,10 @@ Owned paths only: pipeline/ratings-pools/1400/, pipeline/problems/<ids>/, proble
   994B (4 generated inputs with values > 1e9), 689A (pinned statement text puts 0 under 7 in its LaTeX array; official tests (e.g. 0023 '1468'->NO) require 0 under 8;
   independent oracle followed the text and disagrees on 14 official tests -> statement/test inconsistency quarantined, not repaired).
 - 954B regenerated after label fix: fresh execution-passed, CRLF scan ok; awaiting re-audit. 799B, 838A validating.
+
+## Reconciliation vs primary gate 4faf13bf (2026-10-13 01:35Z)
+- Primary v1 (13/28) then v2 head 8d2d5b45 (12/28; 197B revoked: 8471901 prints 0 not 0/1, 6327041 unreduced fraction).
+- Worker revoked 18 child approvals (moved to audits-revoked/, bytes kept): primary REJECTED/HELD on same bytes, or <5 WA kills under the primary WA-only policy (TLE/complexity no longer counted). Ledger: reconciliation-4faf13bf.json.
+- Current worker approvals passing gate: 23 = 12 primary-validated + 11 child-approved not yet primary-reviewed (441B 489C 507B 550B 604B 710B 757B 803A 911C 920C 940B).
+- Audit 11: 799B approved by child but NOT imported (3/5 WA); 954B rejected (false "half repeated" label) -> label fixed, regeneration pending.
+- Audits 12/13 (b409acf1, 885bb7d7) running under WA-only policy on 14 execution-passed packages (bundle db697582...).

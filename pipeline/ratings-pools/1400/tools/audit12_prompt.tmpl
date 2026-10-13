@@ -1,0 +1,29 @@
+You are an INDEPENDENT AUDITOR for rating-1400 Codeforces problem packages in project ryanbai1412/cf-race (rated-pool pipeline). You did not author the generators, oracles, or validation runs and must not delegate this audit to the package authors. Your session URL is your review link; your reviewer identity is "devin-audit-session-<your session id>".
+
+Problems to audit: {IDS}
+
+Inputs:
+- Attached bundle {BUNDLE} (SHA256 {SHA}). It contains one tarball per problem (rating1400-<ID>.tar.gz, produced by `pipeline/rated_pool.py archive`), each with <archive>.provenance.json (per-file SHA256), plus SHA256SUMS. Each archive has 1400/packages/<ID>/ (tests, samples, statement, meta, provenance, qualification/{generator.py,oracle.*,generation.json,oracle.json}), 1400/state/<ID>/ and 1400/evidence/<ID>.json. Verify all hashes first.
+- Repo branch devin/1791845646-rated-1400 at {COMMIT} (git fetch; read-only, do not push). Read pipeline/RATED_POOLS.md ("Generated qualification", "Independent audit"), pipeline/pool_contract.py (verify_evidence, publication_gate) and pipeline/pool_generation.py (verify_generated). Worker recipes: pipeline/ratings-pools/1400/recipes/*.py; coverage claims: pipeline/ratings-pools/1400/coverage/<ID>.json; oracle provenance: pipeline/ratings-pools/1400/oracles/index.json. Prior audits' reports (different packages) are in pipeline/ratings-pools/1400/audits/reports/ — useful to see the rigor expected and known pitfalls.
+
+Known pitfalls that previous auditors caught (check each explicitly):
+(a) Official inputs use CRLF line endings. A counted incorrect submission whose failure on its recorded failedTest disappears after CRLF->LF normalization is a line-ending artifact, NOT a genuine counterexample -> reject. Also check a canonical correct Python solution using input() is not broken by CRLF.
+(b) Counted incorrect submissions must be genuine algorithmic attempts at THIS problem: reject print("x")-style stubs, code for a different problem, functions never called, correct algorithm + debug prints/echo, prompt text in input(), or output-format-only failures.
+(c) Coverage reason labels must be literally true of the named test.
+(d) COUNT POLICY of the main independent gate (attached rating1400-independent-audit-report.md, reviewer 4faf13bf): only GENUINE ALGORITHMIC WRONG-ANSWER kills on a concrete valid test count toward the 5 incorrect. TLE/complexity-only, RE, CE, CRLF-only, debug/format, placeholder and wrong-problem failures do NOT count. A problem with fewer than 5 counted WA kills must NOT be approved (record it as held). Do not use kind "complexity" in incorrectAnalysis.
+(e) Any accepted (CF verdict OK) Python solution failing a package test only because of CRLF, or because of Python's 4300-digit int/str conversion limit, is an accepted contradiction -> reject. Also run a few additional accepted sources (beyond the 5) from the pinned dataset where available and report any that fail.
+(f) Any counted incorrect source that passes every package test -> reject.
+
+For EACH problem independently:
+1. Read the statement and decide yourself: unique answer under token comparison, not interactive, no file I/O, no float tolerance.
+2. Validate every test input (official, open-r1-generated, authored) with your OWN strict validator against the full statement constraints; confirm coverage claims (boundary/maxSize/adversarial) name real tests that genuinely exercise those cases.
+3. Independently verify expected outputs with your own solver (and brute force on small inputs).
+4. Check oracle independence/hash binding and generator determinism (re-run generator twice in sandbox, compare hashes).
+5. Confirm attribution of the 5 accepted + 5 incorrect sources against pinned open-r1/codeforces-submissions@07e7bf31f284b0e90e02dfc7ab675d5821e1c068; re-run them ONLY in an offline sandbox (docker --network none, non-root, read-only, caps dropped, memory/CPU/pids/time bounded; pinned image python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3; g++ -O2 -std=c++17 -DONLINE_JUDGE). Never execute downloaded code on the host. For each incorrect source state the concrete algorithmic defect and verify its failedTest is a valid input where it is genuinely wrong (or too slow).
+6. With your audit file placed, confirm pool_contract.verify_evidence and publication_gate(require_approval=False) pass.
+
+Output: for each APPROVED problem write audits/<ID>.json exactly per RATED_POOLS.md:
+{"approved": true, "reviewer": "devin-audit-session-<your session id>", "reviewUrl": "<your session URL>", "evidenceHash": "<pool_contract.digest(evidence)>", "packageHash": "<evidence packageHash>", "qualificationBasis": "generated", "checks": {"sourceAttribution": true, "fullTests": true, "coverage": true, "fiveAcceptedFiveIncorrect": true, "noSpecialChecker": true, "hashes": true, "deterministicGeneration": true, "independentOracle": true, "generatedBasis": true, "algorithmicallyWrong": true, "inputConstraints": true}, "incorrectAnalysis": {"<submissionId>": {"reason": "specific algorithmic defect", "kind": "wrong-answer"|"complexity", "test": "<failedTest>"} for EVERY counted incorrect submission}}
+Set a check true only if you actually verified it. If anything fails, do NOT write an approval; record the rejection with precise reasons. Never approve to hit a count.
+
+Deliver audits.tar.gz (tar --sort=name --mtime=@0 --owner=0 --group=0 -czf) with audits/<ID>.json for approved problems and AUDIT_REPORT.md (per-problem verdict, checks, counterexamples). Print its sha256 and attach both via message_user, then report structured output. Do not open PRs, push, deploy, mutate any database/storage, touch any Devin Board, or message Slack.

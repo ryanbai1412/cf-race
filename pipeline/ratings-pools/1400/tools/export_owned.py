@@ -20,7 +20,7 @@ for f in ("inventory.json", "api-problems.json"):
 for f in ("build.py", "gen_run.py", "bundle.py", "add_oracles.py", "index_subs.py", "count_subs.py", "extract.py",
           "mkpacket.py", "samplecheck.py", "stmt.py", "export_owned.py", "pipeline_run.sh", "oracle_batches.json",
           "subcounts.json", "todo1.txt", "todo2.txt", "todo3.txt", "todo4.txt", "one2.sh", "gen_results.jsonl",
-          "contra.py", "crlf_scan.py", "crlf_scan.log"):
+          "contra.py", "crlf_scan.py", "crlf_scan.log", "whole_pool.py", "arch8.sh", "audit12_prompt.tmpl"):
     if (W / f).exists():
         cp(W / f, OUT / "tools" / f)
 cp(W / "NOTES.md", OUT / "STATUS.md")
@@ -59,10 +59,9 @@ for f in (WS / "audits-revoked").glob("*.json"):
     cp(f, OUT / "audits-revoked" / f.name)
 for f in WS.glob("reconciliation-*.json"):
     cp(f, OUT / f.name)
-for f in Path.home().glob("attachments/*/rating1400-independent-audit-report.md"):
-    cp(f, OUT / "audits" / "main-gate-4faf13bf" / f.name)
-for f in Path.home().glob("attachments/*/independent-audit.json"):
-    cp(f, OUT / "audits" / "main-gate-4faf13bf" / f.name)
+for pat in ("rating1400-independent-audit-report.md", "independent-audit.json"):
+    for f in Path.home().glob("attachments/*/" + pat):
+        cp(f, OUT / "audits" / "main-gate-4faf13bf" / f.parent.name / f.name)
 for d in sorted((W / "audits_in").iterdir()):
     if (d / "AUDIT_REPORT.md").exists():
         cp(d / "AUDIT_REPORT.md", OUT / "audits" / "reports" / f"{d.name}.md")
