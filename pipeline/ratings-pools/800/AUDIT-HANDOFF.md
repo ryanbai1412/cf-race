@@ -46,3 +46,5 @@ source compiles under v2 and then fails a pair. The history is kept in `state/ID
 `generate`-stage oracle defect: 1657B. The fixed public oracle writes `a[n]` past the end of its VLA on official test 0002 (n=100000, within constraints). See `diagnostics/1657B-oracle.json`.
 
 Incomplete, gate not met: 271A (4 incorrect). 1657A: 5 accepted pass, but every public TLE-labelled source passes the whole suite quickly, so only 1 incorrect is confirmed. Its gate is not lowered.
+
+`generate`-stage oracle defect: 294A. The fixed public oracle has `int a[100]` indexed 1..n, so it overflows at n=100 on worker-generated test 0063. See `diagnostics/294A-oracle.json`.
