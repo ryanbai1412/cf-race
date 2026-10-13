@@ -66,9 +66,18 @@ def selected_sources(pid):
             continue
         source = read(PRIOR / "state" / pid / "sources" / f"{ref['submissionId']}.json")
         pinned = source_record(source_row(pid, str(ref["submissionId"]), ref["expected"]))
-        if source != pinned or pinned["sourceHash"] != ref["sourceHash"]:
+        if ({k: v for k, v in source.items() if k != "source"} !=
+                {k: v for k, v in pinned.items() if k != "source"} or pinned["sourceHash"] != ref["sourceHash"]):
             raise ValueError("retained public bytes/provenance changed")
-        result.append(pinned)
+        attributed = []
+        for marker in (HERE / "submissions").glob("*/complete.json"):
+            metadata = read(marker)
+            if metadata["source"] == source["source"] and f"{pid}.json" in metadata["files"]:
+                attributed.extend(read(marker.parent / f"{pid}.json"))
+        if not any(str(row["submission_id"]) == source["submissionId"] and row["source"] == source["code"]
+                   and row["provenance"] == source["source"] for row in attributed):
+            raise ValueError("retained source attribution absent from pinned index")
+        result.append(source)
     if pid == "465B":
         result.append(source_record(source_row(pid, REPLACEMENT, "WRONG_ANSWER")))
     if (len(result) != 10 or sum(r["expected"] == "OK" for r in result) != 5
@@ -93,20 +102,20 @@ def oracle_record(pid, selected):
 def build(pid, cache):
     lock_history()
     package = BASE / "packages" / pid
-    if package.exists():
-        raise ValueError("do not overwrite a correction package; resume execute/archive instead")
     prior = read(PRIOR / "evidence" / f"{pid}.json")
     if manifest(PRIOR / "packages" / pid) != prior["files"]:
         raise ValueError("prior recovery evidence mismatch")
+    if package.exists() and manifest(package) != prior["files"]:
+        raise ValueError("do not overwrite generated correction bytes; resume execute/archive instead")
     history = BASE / "history" / pid
-    shutil.copytree(PRIOR / "packages" / pid, history / "package")
+    shutil.copytree(PRIOR / "packages" / pid, history / "package", dirs_exist_ok=True)
     for category in ("evidence", "review"):
         for path in (PRIOR / category).glob(f"{pid}*.json"):
             shutil.copy2(path, history / path.name)
-    shutil.copytree(PRIOR / "state" / pid / "sources", history / "sources")
-    shutil.copytree(HERE / "qualification-sources" / pid, history / "qualification-sources")
+    shutil.copytree(PRIOR / "state" / pid / "sources", history / "sources", dirs_exist_ok=True)
+    shutil.copytree(HERE / "qualification-sources" / pid, history / "qualification-sources", dirs_exist_ok=True)
     package.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copytree(PRIOR / "packages" / pid, package)
+    shutil.copytree(PRIOR / "packages" / pid, package, dirs_exist_ok=True)
     for name in ("prepare.json", "source-row.json"):
         destination = BASE / "state" / pid / name
         destination.parent.mkdir(parents=True, exist_ok=True)
