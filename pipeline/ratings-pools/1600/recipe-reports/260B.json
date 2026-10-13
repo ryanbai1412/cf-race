@@ -1,0 +1,114 @@
+{
+  "id": "260B",
+  "rating": 1600,
+  "role": "recipe-author-only",
+  "status": "authored-pending-local-checks",
+  "qualification": "Not qualified. No external programs executed, no independent audit/signoff, and no contribution to the parent's validated-problem count.",
+  "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
+  "inputProvenance": {
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "archiveBytes": 4542856,
+    "manifestPath": "inputs/MANIFEST.json",
+    "manifestSha256": "c5aa6b8341d4ab6814424de54e241e91390fdc4c079e7f1daa4379bf07075381",
+    "inputPath": "inputs/260B.json",
+    "inputSha256": "9d08ab877a366023b4c5212a7830dbed9bc7633372ddbdcd087e1cf9d97c86e6",
+    "inputBytes": 76620,
+    "sourceRowHash": "0e83841a50377e4abf4cd9cb42656c0a0d8569d0cce0c3d8cb048e819c5f57dd",
+    "sourceRowHashMethod": "pool_contract.digest(sourceRow)",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "providedSourceShard": {
+      "path": "data/train-00001-of-00011.parquet",
+      "sha256": "51082ac8f61eb9282f18586c373c3c360eeba9368323eb2aa209121162f39885",
+      "bytes": 236490756,
+      "verificationScope": "Attachment inventory records the full upstream shard identity. This author verified the archive, manifest entry and canonical source row, but did not independently fetch/hash the shard."
+    },
+    "bytesPreserved": "All supplied statement, sample, official tests and original selected public submission strings remain unchanged in the archive; none copied into or modified in shared packages/state."
+  },
+  "documentationRead": [
+    "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
+    "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md",
+    "pipeline/ratings-pools/1600/normalize_statement.py"
+  ],
+  "statementAttestation": {
+    "url": "https://codeforces.me/problemset/problem/260/B?locale=en",
+    "originalAttributionUrl": "https://codeforces.com/problemset/problem/260/B?locale=en",
+    "bodySha256": "670e72c48a67624e862399675833ef45afeb3df86a9a27add05ee25a1f728f4c",
+    "locale": "en",
+    "savedPath": "statement-sources/260B.recipe-author.original.html",
+    "savedSha256": "9ec4002e3ddb490fa5957a6179c590621e1372bbf6b59242138e507e8502e8a1",
+    "savedBytes": 3311,
+    "extraction": "Byte-exact complete problem-statement div from raw HTTP body, zero-based half-open bytes [36359,39670). Page chrome excluded, no source markup or whitespace rewritten.",
+    "constraintEvidence": "The length of the Prophesy doesn't exceed <span class=\"tex-span\">10<sup class=\"upper-index\">5</sup></span> characters.",
+    "uniqueOutputEvidence": "It is guaranteed that such date exists and is unique.",
+    "overlapEvidence": "Original English example explicitly highlights two overlapping occurrences of 12-10-2012 in 0012-10-2012-10-2012.",
+    "calendarEvidence": "Correct years 2013 to 2015, months1 to12, days positive and at most the month length; those years are explicitly non-leap."
+  },
+  "statementCorrectionProposal": {
+    "applied": false,
+    "field": "sourceRow.input_format",
+    "originalFieldSha256": "7cf214bb3be24a9f16e0279a718047353c754fd75bd6e57c0041684dab65e451",
+    "old": "105 characters.",
+    "new": "10<sup>5</sup> characters.",
+    "occurrences": 1,
+    "reason": "Pinned text flattened a superscript; original public English HTML attests exactly10^5. Proposed parent normalization only; imported bytes not edited."
+  },
+  "constraints": {
+    "layout": "Exactly one input line, one nonempty ASCII [0-9-] string; optional LF/CRLF final terminator accepted without altering imported bytes.",
+    "length": [1, 100000],
+    "minimumFeasibleLength": 10,
+    "dates": "Exactly dd-mm-yyyy; years2013..2015; ordinary Gregorian non-leap month lengths; overlapping occurrences count; no token-boundary requirement.",
+    "guarantee": "At least one valid date occurs and exactly one valid date has the largest positive count. Ties and no-date strings rejected, not resolved arbitrarily.",
+    "uniqueOutput": "One fixed-width date token, exact string; standard stdin/stdout, no interactive/file IO/floating/custom checker."
+  },
+  "oracle": {
+    "efficient": "Regex lookahead visits every10-character candidate start including overlaps. Valid year/width syntax plus explicit month/day table filter. Counter finds sole positive maximum.",
+    "complexity": "O(n) time, at most1095 count entries.",
+    "independentReference": "datetime calendar enumerates all1095 valid dates. For each literal, repeated str.find advancing by one counts all overlapping matches. Independent ranked-count winner selection; no shared regex, day table, or fast counter.",
+    "bruteDomains": "All1095 single valid dates; day0..32 x month0..13 x year2012..2016 with a valid fallback; every pair of length0..3 prefixes/suffixes over01-; all concatenations of1..4 blocks from seven valid/invalid/noise blocks;300 fixed-seed mixtures.8105 input scenarios, with both count-map and legal unique-answer assertions."
+  },
+  "authoredSuite": {
+    "targetCount": 160,
+    "scope": "Each pair is an individual one-line input, not a concatenated multi-test file. Three real100000-character cases; legal minimum10; all month/year endpoints; overlaps and first/last windows; invalid-date distractors; lead-by-one order traps; fixed-seed small random mixtures.",
+    "categories": ["boundary", "adversarial", "maxSize"],
+    "actualCount": null,
+    "independentOutputChecks": null
+  },
+  "sourceMotivatedCoverage": [
+    {
+      "submissionId": "39065418",
+      "sourceSha256": "7fc470e31369ff15d4ba47534099f455cf2892bf8c364bad82d0567fe02462b8",
+      "inspection": "cor_date accepts day<=28 without day>=1; repeated00-day distractors motivate coverage. Source inspected, not executed; no claimed WA kill or audit."
+    },
+    {
+      "submissionId": "105280914",
+      "sourceSha256": "f75af6640818e7fe0026165d57ee93950aa34bf1aa4d46ad919b92850a09c19f",
+      "inspection": "valid permits years>2010 and<2016, including2011/2012; repeated out-of-range year distractors motivate coverage. Source inspected, not executed; no claimed WA kill or audit."
+    },
+    {
+      "submissionId": "35914331",
+      "sourceSha256": "c249c21f3d607ff71d00a853e949301806b0c4b00b9e9c9b1ef6113ff7b86b38",
+      "inspection": "post_process passes dd as datetime.date's year and yyyy as day, then zeroes failing entries; asymmetric calendar/frequency cases motivate coverage. Source inspected, not executed; no claimed WA kill or audit."
+    }
+  ],
+  "suppliedSuite": {
+    "actualOfficialPairs": 27,
+    "samples": 1,
+    "sourceTestsetSize": 39,
+    "inventoryOfficialCount": 39,
+    "officialTestsComplete": false,
+    "generatedTestsReportedButNotIncluded": 9,
+    "reviewStatus": "pending targeted local checks",
+    "failedUpstreamPairs": null,
+    "note": "Do not interpret testset_size/inventory39 as39 supplied tests. Only27 official pairs and one sample are present; no absent tests reconstructed. Separate upstream generated-test files were not included/read."
+  },
+  "checks": {
+    "unitTestMethods": null,
+    "bruteAssertions": null,
+    "astSyntax": "pre-push two modules parsed",
+    "diffCheck": null
+  },
+  "parentFollowUp": "Parent may integrate this additive recipe and proposed normalization. Generated-basis qualification requires extensive generated suite,5 actual AC/5 genuine algorithmic WA, a distinct accepted sixth oracle, disjoint validators, and later different-agent audit. This author performs none of those steps."
+}
