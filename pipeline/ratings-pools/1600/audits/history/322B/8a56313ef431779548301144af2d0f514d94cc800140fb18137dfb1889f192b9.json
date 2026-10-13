@@ -1,0 +1,364 @@
+{
+  "approved": true,
+  "archiveSha256": "e72ebbe3afad98c6617127d2df0c2d88773b394c62aa0a6ec33fe12b7d6b8844",
+  "baseCommit": "97b2a03743ba864916cf304f1d3f356f1981de53",
+  "checks": {
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "hashes": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "70428c7ed0abfbb1ab40ca33fc82f69569622b792c0211125115e816b38d0abd",
+  "id": "322B",
+  "packageHash": "f1755f499d2ba0edceb3279cfd51ce5d8e7d38233622e5163026f34098eaf82b",
+  "qualificationBasis": "official",
+  "rating": 1600,
+  "review": {
+    "coverage": "115 tests, 105 distinct inputs, all 27 (r,g,b) mod-3 residue triples, (1e9,1e9,1e9), 24 zero-stock cases; 40 official rows equal pinned row.",
+    "incorrectAreAlgorithmic": "Each of the 5 incorrect sources was read in full; review.incorrectProofs gives, per source, the implemented algorithm, faulty source line numbers with their text, and a legal LF witness on the evidence failedTest with normal exit, expected vs actual and source/input/expected/actual/proof sha256. Proof witnesses: each incorrect source re-run on its evidence failedTest with CRLF->LF normalized input by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/witness.py (sha256 861f8f394e90ad2a775e4b349c81af07620fb224de258c42e9263f10e1c310c4) mounting pipeline/ratings-pools/1600/audits/history/correction-20261013/code/harness_witness.py (sha256 3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933; identical to myharness_tok.py except it also returns the full output base64), classified by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/mktuples.py (sha256 3fb42a6cbde5e4c63ef52b7a54c33ec03a9d5eedfb7d4bb244ef0c6be4b73750): qualifies only if exit code 0, no timeout, same token count as expected and at least one token numerically different (format/debug-only/CRLF/TLE/wrong-problem excluded).",
+    "incorrectProofs": {
+      "3975671": {
+        "fault": "no i <= min(r,g,b) check: negative (r-i)//3 counts infeasible mixed bouquets (0 2 2 -> 1, expected 0)",
+        "faultyLineText": {
+          "10": "    cur = i + (r-i)//3 + (g-i)//3 + (b-i)//3",
+          "9": "for i in range(3):"
+        },
+        "faultyLines": [
+          9,
+          10
+        ],
+        "implementedAlgorithm": "try i = 0..2 mixed bouquets, then per-colour //3",
+        "language": "Python 3",
+        "proofSha256": "bf32c2f595949918adb03589f9bc1371513c84718bcde909fb3386860e7218c3",
+        "qualifies": true,
+        "sourceLines": 13,
+        "sourceSha256": "5f6589de6b9c9083e953d5352ec61b720d2178fe6a88ddf9c24f72ae337ec21e",
+        "submission": "322B/3975671",
+        "witness": {
+          "actual": "1",
+          "actualOutputBytes": 2,
+          "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "classification": "MATH-WRONG",
+          "cpuSeconds": 0.012,
+          "exitCode": 0,
+          "expected": "0",
+          "expectedOutputSha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
+          "input": "0 2 2\n",
+          "isEvidenceFailedTest": true,
+          "lfInputSha256": "369f3d38e61ff55be801b0daf820e21a92cbb6bb462698061cbcdfdabcda786e",
+          "packageInputHadCRLF": true,
+          "packageInputSha256": "42b76b63337bb256a166e5452e3d3b487270f229db3ae83dc35b1fd4bfa3579d",
+          "record": "witness/322B-3975671.json",
+          "test": "0034",
+          "timedOut": false
+        }
+      },
+      "3976774": {
+        "fault": "same missing i <= min check plus an extra min-residue term; overcounts (0 2 2 -> 1)",
+        "faultyLineText": {
+          "3": "ans  = max(r//3+g//3+b//3+min(r%3,b%3,g%3),1+(r-1)//3+(g-1)//3+(b-1)//3+min((r-1)%3,(g-1)%3,(b-1)%3),2+(r-2)//3+(g-2)//3+(b-2)//3+min((r-2)%3,(g-2)%3,(b-2)%3))"
+        },
+        "faultyLines": [
+          3
+        ],
+        "implementedAlgorithm": "max over i=0..2 of i + sum((c-i)//3) + min residue",
+        "language": "Python 3",
+        "proofSha256": "3770297c2b06ee0019a566f955aa283d54ad13b1c9b5d1373abbfa20e2417073",
+        "qualifies": true,
+        "sourceLines": 4,
+        "sourceSha256": "7d0a2278a0e4e10a1a84523d0dfd9093f9eaae08264aa25b0b4fc520b2f22a1b",
+        "submission": "322B/3976774",
+        "witness": {
+          "actual": "1",
+          "actualOutputBytes": 2,
+          "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "classification": "MATH-WRONG",
+          "cpuSeconds": 0.012,
+          "exitCode": 0,
+          "expected": "0",
+          "expectedOutputSha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
+          "input": "0 2 2\n",
+          "isEvidenceFailedTest": true,
+          "lfInputSha256": "369f3d38e61ff55be801b0daf820e21a92cbb6bb462698061cbcdfdabcda786e",
+          "packageInputHadCRLF": true,
+          "packageInputSha256": "42b76b63337bb256a166e5452e3d3b487270f229db3ae83dc35b1fd4bfa3579d",
+          "record": "witness/322B-3976774.json",
+          "test": "0034",
+          "timedOut": false
+        }
+      },
+      "3984791": {
+        "fault": "subtracts i flowers per colour but never adds the i mixed bouquets made from them (4 4 4 -> 3, expected 4)",
+        "faultyLineText": {
+          "10": "z = (r - 1) // 3 + (g - 1) // 3 + (b - 1) // 3",
+          "11": "k = r // 3 + g // 3 + b // 3",
+          "8": "x = (r - 3) // 3 + (g - 3) // 3 + (b - 3) // 3",
+          "9": "y = (r - 2) // 3 + (g - 2) // 3 + (b - 2) // 3"
+        },
+        "faultyLines": [
+          8,
+          9,
+          10,
+          11
+        ],
+        "implementedAlgorithm": "max over i=0..3 of sum((c-i)//3)",
+        "language": "Python 3",
+        "proofSha256": "65dc65df9e1ef6c5e2a2515b21bae5f2d63b2b127b32637b9c6d5a1a7dc78310",
+        "qualifies": true,
+        "sourceLines": 13,
+        "sourceSha256": "c00f67d4f9b9ed5b89a9393a474d21bb130360b2836185ad04779bcaea24b93e",
+        "submission": "322B/3984791",
+        "witness": {
+          "actual": "3",
+          "actualOutputBytes": 2,
+          "actualOutputSha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+          "classification": "MATH-WRONG",
+          "cpuSeconds": 0.014,
+          "exitCode": 0,
+          "expected": "4",
+          "expectedOutputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
+          "input": "4 4 4\n",
+          "isEvidenceFailedTest": true,
+          "lfInputSha256": "8b26405192a0b5a2c271a65b4c717d7c24a48ee28719048c8b3047de4202d951",
+          "packageInputHadCRLF": true,
+          "packageInputSha256": "923cda7045a41ad3c7fc2f413d1249e6faaa352ff52e8b96ab11ede52848fddf",
+          "record": "witness/322B-3984791.json",
+          "test": "0002",
+          "timedOut": false
+        }
+      },
+      "3984918": {
+        "fault": "adds min residue instead of the i mixed bouquets; allows negative counts (8 8 9 -> 7, expected 8)",
+        "faultyLineText": {
+          "10": "z = (r - 1) // 3 + (g - 1) // 3 + (b - 1) // 3 + min((r - 1) % 3, (g - 1) % 3, (b - 1) % 3)",
+          "11": "k = r // 3 + g // 3 + b // 3 + min(r % 3, g % 3, b % 3)",
+          "8": "x = (r - 3) // 3 + (g - 3) // 3 + (b - 3) // 3 + min((r - 3) % 3, (g - 3) % 3, (b - 3) % 3)",
+          "9": "y = (r - 2) // 3 + (g - 2) // 3 + (b - 2) // 3 + min((r - 2) % 3, (g - 2) % 3, (b - 2) % 3)"
+        },
+        "faultyLines": [
+          8,
+          9,
+          10,
+          11
+        ],
+        "implementedAlgorithm": "as 3984791 plus min residue",
+        "language": "Python 3",
+        "proofSha256": "d356e252670bfa6d0f4d41a779108815facf884cee8c3d53bf39ba8061b80ab9",
+        "qualifies": true,
+        "sourceLines": 13,
+        "sourceSha256": "a069a0b21c9ef15f1fd7477977702476c7e2a11f952ab90cc9c66b5605620fc6",
+        "submission": "322B/3984918",
+        "witness": {
+          "actual": "7",
+          "actualOutputBytes": 2,
+          "actualOutputSha256": "10159baf262b43a92d95db59dae1f72c645127301661e0a3ce4e38b295a97c58",
+          "classification": "MATH-WRONG",
+          "cpuSeconds": 0.012,
+          "exitCode": 0,
+          "expected": "8",
+          "expectedOutputSha256": "e0c18a6a8d48da87994c100bbb324c758d413e95f0fa5135bd0738a692b4d56f",
+          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
+          "input": "8 8 9\n",
+          "isEvidenceFailedTest": true,
+          "lfInputSha256": "2a82d5a6bcfff01b4308e15920a087cc589c9df1b507db8749c687bb7ad51e9f",
+          "packageInputHadCRLF": true,
+          "packageInputSha256": "4fadad2eb6fac9fdbdfcebc47aacd2a402aea89124f22be8fef9e474fa26436c",
+          "record": "witness/322B-3984918.json",
+          "test": "0006",
+          "timedOut": false
+        }
+      },
+      "3992696": {
+        "fault": "line 3 uses true division '/': fractional remainders add up to whole phantom bouquets (7 8 9: 7 + 1/3 + 2/3 = 8.0 -> 8, expected 7); taking all min mixed bouquets first is also not optimal in general",
+        "faultyLineText": {
+          "2": "m = min(a, b, c)",
+          "3": "ans = m + (a - m) / 3 + (b - m) / 3 + (c - m) / 3",
+          "5": "print (int(ans))"
+        },
+        "faultyLines": [
+          2,
+          3,
+          5
+        ],
+        "implementedAlgorithm": "greedy: m=min(r,g,b) mixed bouquets first, then (c-m)/3 per colour with true division, int() of the float sum",
+        "language": "Python 3",
+        "proofSha256": "a19be2baf3b821d1f49978f2ca301ecb044f772453fd9276d2264982f8465c8e",
+        "qualifies": true,
+        "sourceLines": 5,
+        "sourceSha256": "2ca4b2a4fb6accb2fb9f060b33424887cfd38383ac1742daf60772f1d49feefb",
+        "submission": "322B/3992696",
+        "witness": {
+          "actual": "8",
+          "actualOutputBytes": 2,
+          "actualOutputSha256": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+          "classification": "MATH-WRONG",
+          "cpuSeconds": 0.012,
+          "exitCode": 0,
+          "expected": "7",
+          "expectedOutputSha256": "9b6dd0f55d1cea37555db317f53a0631f694bd46df8018cc2aeed3d9e2f32f5f",
+          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
+          "input": "7 8 9\n",
+          "isEvidenceFailedTest": true,
+          "lfInputSha256": "b3f1eb525a817dd2dc29c538aaab2fc61c4b83c82d44b96adcf2f1e59c22109d",
+          "packageInputHadCRLF": true,
+          "packageInputSha256": "e263736d3f2d0323e386d47d1757f30f1480caf5613600dadd3545f22ca9cc6d",
+          "record": "witness/322B-3992696.json",
+          "test": "0005",
+          "timedOut": false
+        }
+      }
+    },
+    "independentOracle": "max over m in 0..min(r,g,b,2) of m + sum((c-m)//3); cross-checked against memoized bouquet enumeration for all r,g,b in 0..12.",
+    "officialTests": "official_tests_complete; every official pinned-row pair present in package (inputs equal after CRLF normalization, outputs token-equal); source row byte-equal to independently downloaded, hash-verified pinned open-r1/codeforces parquet row.",
+    "oracleResult": "All 115 package tests and all samples pass strict format/range parse; every expected output equals my oracle; all official upstream rows also equal my oracle.",
+    "proofCorrection": {
+      "reason": "Re-signed 2026-10-13 to add per-reference source-level proof tuples; replay sandbox statement unchanged (original runs used the stated harness).",
+      "supersededAudit": {
+        "auditHash": "5200314b8f8379f3feb74cedf80602e81b5330fce90895de256b03887dcc98e8",
+        "fileSha256": "cbedbaa8562f665b5b20c263985895e064f214c3e02caef3b5cbe7b664c4951c",
+        "path": "pipeline/ratings-pools/1600/audits/history/322B/5200314b8f8379f3feb74cedf80602e81b5330fce90895de256b03887dcc98e8.json"
+      },
+      "witnessHarness": "Proof witnesses: each incorrect source re-run on its evidence failedTest with CRLF->LF normalized input by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/witness.py (sha256 861f8f394e90ad2a775e4b349c81af07620fb224de258c42e9263f10e1c310c4) mounting pipeline/ratings-pools/1600/audits/history/correction-20261013/code/harness_witness.py (sha256 3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933; identical to myharness_tok.py except it also returns the full output base64), classified by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/mktuples.py (sha256 3fb42a6cbde5e4c63ef52b7a54c33ec03a9d5eedfb7d4bb244ef0c6be4b73750): qualifies only if exit code 0, no timeout, same token count as expected and at least one token numerically different (format/debug-only/CRLF/TLE/wrong-problem excluded)."
+    },
+    "sandbox": "Own harness (sha256 c582ff42...983d0d, not worker pool_harness): pinned python@sha256:5887f265...05d3, --network=none, --read-only, --user=65534, --cap-drop=ALL, no-new-privileges, pids<=32, 1 CPU, 2560m memory, RLIMIT_CPU/AS at problem limits, bounded output, launched from env -i shell without credentials; re-run against the normalized-six archive bytes.",
+    "singleAnswer": "Output is one integer uniquely determined by the input; token comparison is correct, no special checker, no float tolerance.",
+    "statement": "Packaged bound \"0 ≤ r,g,b ≤ 10<sup>9</sup>\"; original \"109\" preserved in statement-sources/322B.original.html (one-line diff); attested Luogu CF322B original English; re-fetched independently.",
+    "submissionProvenance": "All 10 sources byte-identical (sha256) to rows in pinned open-r1/codeforces-submissions shards (shard sha256 verified independently); evidence sourceHash equals sha256 of those bytes.",
+    "submissions": [
+      {
+        "evidenceFailedTest": null,
+        "evidenceVerdict": "AC",
+        "expected": "OK",
+        "id": "3973439",
+        "maxCpu": 0.001,
+        "myFirstFailed": null,
+        "myVerdict": "AC",
+        "perTestEvidenceMatch": "115/115",
+        "samplesAC": true
+      },
+      {
+        "evidenceFailedTest": null,
+        "evidenceVerdict": "AC",
+        "expected": "OK",
+        "id": "3973519",
+        "maxCpu": 0.001,
+        "myFirstFailed": null,
+        "myVerdict": "AC",
+        "perTestEvidenceMatch": "115/115",
+        "samplesAC": true
+      },
+      {
+        "evidenceFailedTest": null,
+        "evidenceVerdict": "AC",
+        "expected": "OK",
+        "id": "3973523",
+        "maxCpu": 0.002,
+        "myFirstFailed": null,
+        "myVerdict": "AC",
+        "perTestEvidenceMatch": "115/115",
+        "samplesAC": true
+      },
+      {
+        "evidenceFailedTest": null,
+        "evidenceVerdict": "AC",
+        "expected": "OK",
+        "id": "3973669",
+        "maxCpu": 0.005,
+        "myFirstFailed": null,
+        "myVerdict": "AC",
+        "perTestEvidenceMatch": "115/115",
+        "samplesAC": true
+      },
+      {
+        "evidenceFailedTest": null,
+        "evidenceVerdict": "AC",
+        "expected": "OK",
+        "id": "3973736",
+        "maxCpu": 0.023,
+        "myFirstFailed": null,
+        "myVerdict": "AC",
+        "perTestEvidenceMatch": "115/115",
+        "samplesAC": true
+      },
+      {
+        "counterexample": "0034: 0 2 2 -> 1, expected 0",
+        "defect": "tries i=0..2 mixed bouquets without requiring i<=min(r,g,b); negative floor division counts infeasible bouquets",
+        "evidenceFailedTest": "0034",
+        "evidenceVerdict": "WA",
+        "expected": "WRONG_ANSWER",
+        "id": "3975671",
+        "maxCpu": 0.257,
+        "myFirstFailed": "0034",
+        "myVerdict": "WA",
+        "numericallyWrongTests": 7,
+        "perTestEvidenceMatch": "115/115",
+        "samplesAC": true
+      },
+      {
+        "counterexample": "0034: 0 2 2 -> 1, expected 0",
+        "defect": "same infeasible i (no i<=min check) plus extra min-residue term; overcounts",
+        "evidenceFailedTest": "0034",
+        "evidenceVerdict": "WA",
+        "expected": "WRONG_ANSWER",
+        "id": "3976774",
+        "maxCpu": 0.043,
+        "myFirstFailed": "0034",
+        "myVerdict": "WA",
+        "numericallyWrongTests": 7,
+        "perTestEvidenceMatch": "115/115",
+        "samplesAC": true
+      },
+      {
+        "counterexample": "0002: 4 4 4 -> 3, expected 4",
+        "defect": "subtracts i flowers per colour but never counts the i mixed bouquets",
+        "evidenceFailedTest": "0002",
+        "evidenceVerdict": "WA",
+        "expected": "WRONG_ANSWER",
+        "id": "3984791",
+        "maxCpu": 0.018,
+        "myFirstFailed": "0002",
+        "myVerdict": "WA",
+        "numericallyWrongTests": 41,
+        "perTestEvidenceMatch": "115/115",
+        "samplesAC": true
+      },
+      {
+        "counterexample": "0006: 8 8 9 -> 7, expected 8",
+        "defect": "adds min residue but drops the i mixed bouquets that were subtracted; allows negative counts",
+        "evidenceFailedTest": "0006",
+        "evidenceVerdict": "WA",
+        "expected": "WRONG_ANSWER",
+        "id": "3984918",
+        "maxCpu": 0.023,
+        "myFirstFailed": "0006",
+        "myVerdict": "WA",
+        "numericallyWrongTests": 13,
+        "perTestEvidenceMatch": "115/115",
+        "samplesAC": true
+      },
+      {
+        "counterexample": "0005: 7 8 9 -> 8, expected 7",
+        "defect": "greedy: makes min(r,g,b) mixed bouquets first",
+        "evidenceFailedTest": "0005",
+        "evidenceVerdict": "WA",
+        "expected": "WRONG_ANSWER",
+        "id": "3992696",
+        "maxCpu": 0.025,
+        "myFirstFailed": "0005",
+        "myVerdict": "WA",
+        "numericallyWrongTests": 28,
+        "perTestEvidenceMatch": "115/115",
+        "samplesAC": true
+      }
+    ]
+  },
+  "reviewUrl": "https://staging.itsdev.in/sessions/204c72b1a58f47088f37a65c8104a8b8",
+  "reviewer": "devin-204c72b1a58f47088f37a65c8104a8b8",
+  "schemaVersion": 1,
+  "validator": "devin-1ffab6b544d64d17bf1498a01b5257c0"
+}

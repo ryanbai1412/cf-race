@@ -1,730 +1,100 @@
 {
-  "approved": true,
-  "archiveSha256": "037b97756f0a45d2a20eb61326e7f3277f751adfe546db9793335563dd893178",
-  "baseCommit": "7c9dbe885dd8b9ede48cf2c509cd3af55d25adde",
-  "checks": {
-    "coverage": true,
-    "fiveAcceptedFiveIncorrect": true,
-    "fullTests": true,
-    "hashes": true,
-    "noSpecialChecker": true,
-    "sourceAttribution": true
+ "acceptedConfirmed": 5,
+ "approved": true,
+ "checks": {
+  "algorithmicallyWrong": true,
+  "coverage": true,
+  "fiveAcceptedFiveIncorrect": true,
+  "fullTests": true,
+  "hashes": true,
+  "independentReference": true,
+  "inputConstraints": true,
+  "noSpecialChecker": true,
+  "sandboxReplay": true,
+  "sourceAttribution": true,
+  "upstreamPinned": true
+ },
+ "evidenceHash": "d91039aa7ea48fdbbdd1f5c577c52fce1e555514717f8b945cb6c320aa6482fb",
+ "generatorReplay": null,
+ "genuineWrong": 5,
+ "id": "209A",
+ "incorrectAnalysis": {
+  "119337156": {
+   "actualOutputSha256": "4880bda7f04b8c3758b1986373cfe9ee5a52de47a79e85d5068fd75d43699875",
+   "excerptSha256": "d26c133f5e0ea99b0c6d708bb9ea1efcaeccdd688839e548df4af02366cc0381",
+   "explanation": "Fibonacci-sum recurrence accumulates c without ever reducing modulo 1e9+7, so for large n the printed value differs from the required residue.",
+   "kind": "wrong-answer",
+   "lines": "12-18",
+   "outcome": "GENUINE",
+   "reason": "Fibonacci-sum recurrence accumulates c without ever reducing modulo 1e9+7, so for large n the printed value differs from the required residue.",
+   "sourceHash": "eca8b76ac82eaf853d03d0eb6dd221eeec650db3cf8c9a67c27676c4d94174ef",
+   "test": "0026",
+   "witnessTest": "0026"
   },
-  "evidenceHash": "d91039aa7ea48fdbbdd1f5c577c52fce1e555514717f8b945cb6c320aa6482fb",
-  "id": "209A",
-  "packageHash": "cd4e2200fade38b04807192c05501c839d94c3fd62d7af435a33b03eabc34299",
-  "qualificationBasis": "official",
-  "rating": 1600,
-  "review": {
-    "coverage": "204 tests, 200 distinct n spanning 1..1e6 (n=1e6 twice), every n<=10, 175 tests with n>106.",
-    "crlfIndependence": "Every incorrect source was re-run on LF-normalized copies of all test inputs; first failing test unchanged and numerically wrong answers persist, so no counterexample depends on CRLF line endings.",
-    "freshReplay": {
-      "119337156": {
-        "compiled": true,
-        "counterexample": "0026: 747 -> 24617570215823242721662481553130368936971399966974, expected 864986803",
-        "evidenceFailedTest": "0026",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0026",
-        "lfNumericallyWrongTests": 14,
-        "maxCpu": 7.779,
-        "myFirstFailed": "0026",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 14,
-        "perTestEvidenceMatch": "195/204",
-        "resourceBoundaryOnly": [
-          {
-            "cpu": 1.142,
-            "evidence": "TLE",
-            "mine": "RE",
-            "rc": 1,
-            "test": "0069"
-          },
-          {
-            "cpu": 3.331,
-            "evidence": "RE",
-            "mine": "TLE",
-            "rc": 1,
-            "test": "0094"
-          },
-          {
-            "cpu": 2.318,
-            "evidence": "RE",
-            "mine": "TLE",
-            "rc": 1,
-            "test": "0099"
-          },
-          {
-            "cpu": 2.568,
-            "evidence": "RE",
-            "mine": "TLE",
-            "rc": 1,
-            "test": "0134"
-          },
-          {
-            "cpu": 3.599,
-            "evidence": "RE",
-            "mine": "TLE",
-            "rc": 1,
-            "test": "0139"
-          },
-          {
-            "cpu": 2.062,
-            "evidence": "RE",
-            "mine": "TLE",
-            "rc": 1,
-            "test": "0154"
-          },
-          {
-            "cpu": 3.538,
-            "evidence": "RE",
-            "mine": "TLE",
-            "rc": 1,
-            "test": "0155"
-          },
-          {
-            "cpu": 2.077,
-            "evidence": "RE",
-            "mine": "TLE",
-            "rc": 1,
-            "test": "0179"
-          },
-          {
-            "cpu": 2.655,
-            "evidence": "RE",
-            "mine": "TLE",
-            "rc": 1,
-            "test": "0186"
-          }
-        ],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 28,
-          "RE": 54,
-          "TLE": 108,
-          "WA": 14
-        }
-      },
-      "130943124": {
-        "compiled": true,
-        "counterexample": "0004: 2 -> 4, expected 3",
-        "evidenceFailedTest": "0004",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0004",
-        "lfNumericallyWrongTests": 199,
-        "maxCpu": 0.057,
-        "myFirstFailed": "0004",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 199,
-        "perTestEvidenceMatch": "204/204",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 5,
-          "WA": 199
-        }
-      },
-      "14574007": {
-        "compiled": true,
-        "counterexample": "0005: 5 -> 18, expected 19",
-        "evidenceFailedTest": "0005",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0005",
-        "lfNumericallyWrongTests": 26,
-        "maxCpu": 0.038,
-        "myFirstFailed": "0005",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 26,
-        "perTestEvidenceMatch": "204/204",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 7,
-          "RE": 171,
-          "WA": 26
-        }
-      },
-      "1898855": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.034,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "204/204",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 204
-        }
-      },
-      "1898856": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.03,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "204/204",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 204
-        }
-      },
-      "1898857": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.012,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "204/204",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 204
-        }
-      },
-      "1898858": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.015,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "204/204",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 204
-        }
-      },
-      "1898861": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.04,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "204/204",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 204
-        }
-      },
-      "30579897": {
-        "compiled": true,
-        "counterexample": "0004: 2 -> 4.0, expected 3",
-        "evidenceFailedTest": "0004",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 5,
-        "lfFirstFailed": "0001",
-        "lfNumericallyWrongTests": 199,
-        "maxCpu": 0.036,
-        "myFirstFailed": "0001",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 199,
-        "perTestEvidenceMatch": "204/204",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "WA": 204
-        }
-      },
-      "68858672": {
-        "compiled": true,
-        "counterexample": "0026: 747 -> 24617570215823242721662481553130368936971399966974, expected 864986803",
-        "evidenceFailedTest": "0026",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0026",
-        "lfNumericallyWrongTests": 14,
-        "maxCpu": 7.987,
-        "myFirstFailed": "0026",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 14,
-        "perTestEvidenceMatch": "190/204",
-        "resourceBoundaryOnly": [
-          {
-            "cpu": 2.265,
-            "evidence": "RE",
-            "mine": "TLE",
-            "rc": 1,
-            "test": "0069"
-          },
-          {
-            "cpu": 1.6,
-            "evidence": "TLE",
-            "mine": "RE",
-            "rc": 1,
-            "test": "0089"
-          },
-          {
-            "cpu": 1.85,
-            "evidence": "TLE",
-            "mine": "RE",
-            "rc": 1,
-            "test": "0094"
-          },
-          {
-            "cpu": 1.878,
-            "evidence": "TLE",
-            "mine": "RE",
-            "rc": 1,
-            "test": "0101"
-          },
-          {
-            "cpu": 2.32,
-            "evidence": "RE",
-            "mine": "TLE",
-            "rc": 1,
-            "test": "0116"
-          },
-          {
-            "cpu": 2.538,
-            "evidence": "RE",
-            "mine": "TLE",
-            "rc": 1,
-            "test": "0117"
-          },
-          {
-            "cpu": 3.084,
-            "evidence": "RE",
-            "mine": "TLE",
-            "rc": 1,
-            "test": "0121"
-          },
-          {
-            "cpu": 3.418,
-            "evidence": "RE",
-            "mine": "TLE",
-            "rc": 1,
-            "test": "0127"
-          },
-          {
-            "cpu": 2.777,
-            "evidence": "RE",
-            "mine": "TLE",
-            "rc": 1,
-            "test": "0134"
-          },
-          {
-            "cpu": 3.167,
-            "evidence": "RE",
-            "mine": "TLE",
-            "rc": 1,
-            "test": "0139"
-          },
-          {
-            "cpu": 1.962,
-            "evidence": "TLE",
-            "mine": "RE",
-            "rc": 1,
-            "test": "0155"
-          },
-          {
-            "cpu": 2.937,
-            "evidence": "RE",
-            "mine": "TLE",
-            "rc": 1,
-            "test": "0192"
-          },
-          {
-            "cpu": 3.056,
-            "evidence": "RE",
-            "mine": "TLE",
-            "rc": 1,
-            "test": "0201"
-          },
-          {
-            "cpu": 2.435,
-            "evidence": "RE",
-            "mine": "TLE",
-            "rc": 1,
-            "test": "0203"
-          }
-        ],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 28,
-          "RE": 54,
-          "TLE": 108,
-          "WA": 14
-        }
-      }
-    },
-    "incorrectAreAlgorithmic": "Each of the 5 incorrect sources was read in full; review.incorrectProofs gives the implemented algorithm, faulty source lines with text, and a legal LF witness on the current evidence failedTest with exit 0, no timeout, equal token count and a numerically wrong answer, plus source/input/expected/actual/proof sha256. Format/debug-only, CRLF, TLE-only and wrong-problem failures are not counted.",
-    "incorrectProofs": {
-      "119337156": {
-        "caveat": "same missing-modulo defect as 68858672 (flagged)",
-        "fault": "never reduces modulo 1e9+7, so for large n the printed integer is the unreduced count, not the required residue",
-        "faultyLineText": {
-          "14": "    fibb=prev+sec",
-          "15": "    c+=fibb",
-          "18": "print(c+1)"
-        },
-        "faultyLines": [
-          14,
-          15,
-          18
-        ],
-        "implementedAlgorithm": "Fibonacci-sum formula c = sum fib +1 without modulo",
-        "language": "Python 3",
-        "proofSha256": "77ddddf46dd21a4a78e2aefd18388523c5ad5a8bfd17dcb57dadd0444a6eb81d",
-        "qualifies": true,
-        "sourceLines": 18,
-        "sourceSha256": "eca8b76ac82eaf853d03d0eb6dd221eeec650db3cf8c9a67c27676c4d94174ef",
-        "submission": "209A/119337156",
-        "witness": {
-          "actual": "2461757021582324272166248155313036893697139996697461509576233211000055607912198979704988704446425834042795269603588522245550271050495783935904220352228800998",
-          "actualOutputBytes": 158,
-          "actualOutputSha256": "4880bda7f04b8c3758b1986373cfe9ee5a52de47a79e85d5068fd75d43699875",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.039,
-          "exitCode": 0,
-          "expected": "864986803",
-          "expectedOutputSha256": "30023a17f8456bb925540cedd7fa51785789e94069aad6797cea236e83b2347c",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "747\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "5a0e95da83fa399e0fccb4e16bedf4549b0dff2c4e760752c1985a84c4610541",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "99326546ca58d9e4f8599ec3f71cdc915f24107ec6727eea9a0508fdabd1adb8",
-          "record": "witness/209A-119337156.json",
-          "test": "0026",
-          "timedOut": false
-        }
-      },
-      "130943124": {
-        "caveat": "implements the same closed form as 30579897 (n(n+1)/2 + [n even]) with int() and modulo; distinct source bytes and submission, same wrong idea",
-        "fault": "n(n+1)/2 (+1 for even n) is not the zebroid-subsequence count; the correct value follows the recurrence a(i)=a(i-1)+b(i-1)+1 alternating parity (n=2: answer 3, prints 4)",
-        "faultyLineText": {
-          "2": "if(n%2==0):",
-          "3": "    q=((int((n*(n+1))/2))+1)%(10**9+7)",
-          "5": "    q=((int((n*(n+1))/2)))%(10**9+7)"
-        },
-        "faultyLines": [
-          2,
-          3,
-          5
-        ],
-        "implementedAlgorithm": "closed form n(n+1)/2, plus 1 when n is even, reduced mod 1e9+7 (float division then int())",
-        "language": "Python 3",
-        "proofSha256": "19b1702f8d0b7492031301a4a23124561d59c36261d8a94bee288dc3eb300bf7",
-        "qualifies": true,
-        "sourceLines": 6,
-        "sourceSha256": "ac0a8f8d9f0dcc6958d639584f9432db3fb7505c3d33fd26c5c3f3c45dd4777f",
-        "submission": "209A/130943124",
-        "witness": {
-          "actual": "4",
-          "actualOutputBytes": 2,
-          "actualOutputSha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.012,
-          "exitCode": 0,
-          "expected": "3",
-          "expectedOutputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "2\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
-          "record": "witness/209A-130943124.json",
-          "test": "0004",
-          "timedOut": false
-        }
-      },
-      "14574007": {
-        "fault": "unrelated formula for the count of zebroid subsequences; no recurrence, no modulo",
-        "faultyLineText": {
-          "6": "for i in range(1, n + 1):",
-          "7": "    mid_sum = (n ** i) / (i ** i)",
-          "8": "    cur_sum += int(mid_sum)"
-        },
-        "faultyLines": [
-          6,
-          7,
-          8
-        ],
-        "implementedAlgorithm": "sum over i of floor(n^i / i^i)",
-        "language": "Python 3",
-        "proofSha256": "09e251e056ad026d2c1899f1d6855434d89158cf5dadea61481ca50203d626ed",
-        "qualifies": true,
-        "sourceLines": 10,
-        "sourceSha256": "a644ff4f20d0873aab4f951d41695160d84fc3d7ed9ebba5bef4d4844560dfa3",
-        "submission": "209A/14574007",
-        "witness": {
-          "actual": "18",
-          "actualOutputBytes": 3,
-          "actualOutputSha256": "7ee29791fc17e986b97128845622b077fb45e349fdb80523fac9dba879b4ad60",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.013,
-          "exitCode": 0,
-          "expected": "19",
-          "expectedOutputSha256": "2f1a7442c3821feac278501216ca44255cc53b3cb9fe9edb1b79610afdaa6d25",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "5\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
-          "record": "witness/209A-14574007.json",
-          "test": "0005",
-          "timedOut": false
-        }
-      },
-      "30579897": {
-        "fault": "closed form n(n+1)/2 is not the zebroid count (e.g. n=2 answer 3, prints 4.0); float division also formats as x.0",
-        "faultyLineText": {
-          "2": "ans = n*(n+1)",
-          "3": "ans = ans/2",
-          "9": "    ans=ans+1;"
-        },
-        "faultyLines": [
-          2,
-          3,
-          9
-        ],
-        "implementedAlgorithm": "n(n+1)/2 (+1 if n even) in float",
-        "language": "Python 3",
-        "pointerRepair": {
-          "bindingMatchesWitness": true,
-          "note": "evidence failedTest rebound by worker to this witness; earlier failure 0001 was format/debug-only",
-          "previousFailedTest": "0001"
-        },
-        "proofSha256": "3dfa78e058ea66e46565765612ccff28dfb9670be10d4382cc7ad08355d0a2ec",
-        "qualifies": true,
-        "sourceLines": 10,
-        "sourceSha256": "0191c00e4415763c1af9942f8dbd786ecf6d90ace408295e7824d56d7217266c",
-        "submission": "209A/30579897",
-        "witness": {
-          "actual": "4.0",
-          "actualOutputBytes": 4,
-          "actualOutputSha256": "5ca797740e932dd836206d2b4bea825c83bc47e25e45006d0a2b62fe71be40b6",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.017,
-          "exitCode": 0,
-          "expected": "3",
-          "expectedOutputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "2\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
-          "record": "witness/209A-30579897.json",
-          "test": "0004",
-          "timedOut": false
-        }
-      },
-      "68858672": {
-        "caveat": "correct recurrence without the required modulo 1e9+7: printed integer is the unreduced count, not the requested residue (counted as a genuine output defect; flagged)",
-        "fault": "never reduces modulo 1e9+7, so for large n the printed integer is the unreduced count, not the required residue",
-        "faultyLineText": {
-          "5": "        a+=b+1",
-          "7": "        b+=a+1",
-          "8": "print(a+b)"
-        },
-        "faultyLines": [
-          5,
-          7,
-          8
-        ],
-        "implementedAlgorithm": "correct DP a/b (subsequences ending in parity) without modulo",
-        "language": "Python 3",
-        "proofSha256": "b95c1018534a390305f27fe56466327f702f1e5f950893b6755e40492345598e",
-        "qualifies": true,
-        "sourceLines": 8,
-        "sourceSha256": "387e573e93fde4b6f1d150152b8d2ef4193bb62622190e12035766671ec1d2dc",
-        "submission": "209A/68858672",
-        "witness": {
-          "actual": "2461757021582324272166248155313036893697139996697461509576233211000055607912198979704988704446425834042795269603588522245550271050495783935904220352228800998",
-          "actualOutputBytes": 158,
-          "actualOutputSha256": "4880bda7f04b8c3758b1986373cfe9ee5a52de47a79e85d5068fd75d43699875",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.012,
-          "exitCode": 0,
-          "expected": "864986803",
-          "expectedOutputSha256": "30023a17f8456bb925540cedd7fa51785789e94069aad6797cea236e83b2347c",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "747\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "5a0e95da83fa399e0fccb4e16bedf4549b0dff2c4e760752c1985a84c4610541",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "99326546ca58d9e4f8599ec3f71cdc915f24107ec6727eea9a0508fdabd1adb8",
-          "record": "witness/209A-68858672.json",
-          "test": "0026",
-          "timedOut": false
-        }
-      }
-    },
-    "independentOracle": "Alternating DP: for marble i add (count ending in the other colour + 1) to the count ending in its colour, mod 1e9+7; cross-checked against enumeration of all subsequences for n<=16.",
-    "officialTests": "official_tests_complete=true, testset_size 50; package tests 0001-0050 equal the pinned row's official tests positionally (CRLF-normalized inputs, token-equal outputs); source row equals the sha-verified pinned parquet row; test bytes unchanged from the previously audited package.",
-    "oracleResult": "All 204 package tests and all samples pass a strict format/range parse; every expected output equals my oracle; all upstream official rows equal my oracle.",
-    "pointerRepair": {
-      "bytes": "209A pointer-repair archive sha256 037b97756f0a45d2a20eb61326e7f3277f751adfe546db9793335563dd893178 (11012712 bytes) verified; all 1121 manifest/provenance members match; replayed directly from it. Package (incl. all 204 tests), statement and statement-source bytes identical to the previously signed 209A bytes; evidence, semantic, coverage, source-policy and package files identical to worker commit 7c9dbe8 (evidence digest d91039aa7ea48fdbbdd1f5c577c52fce1e555514717f8b945cb6c320aa6482fb). semantic recipeHash changed only because more_recipes.py changed in 910B/845B lines; its 209A recipe text is identical. New source 130943124 verified byte-identical to pinned open-r1 shard train-00022 (sha256 f02c2771...) row (WRONG_ANSWER, passedTestCount 3).",
-      "change": "Source 37271596 (wrong-problem) excluded by hash-bound source policy and replaced by authentic 130943124; 30579897 failedTest rebound 0001->0004 with algorithmicCounterexampleBinding equal to my independent witness; other 8 submissions unchanged.",
-      "supersededAudit": {
-        "auditHash": "a8061232a8466236477b8595a94e9d895e75886d1ecaafe80c7d4c91bc153cf6",
-        "fileSha256": "d8584b563caa15f98dcefd34dfe1c3211071d0f2428ea334bf55b3eef533f3e3",
-        "path": "pipeline/ratings-pools/1600/audits/history/209A/a8061232a8466236477b8595a94e9d895e75886d1ecaafe80c7d4c91bc153cf6.json",
-        "status": "revoked in correction-20261013 (format-only pointer 30579897, wrong-problem 37271596)"
-      }
-    },
-    "sandbox": "Re-signed 2026-10-13 after evidence pointer repair (supersedes revoked auditHash a8061232a8466236477b8595a94e9d895e75886d1ecaafe80c7d4c91bc153cf6). Fresh full replay of all 10 sources on every package test and sample, plus LF-only replay of the 5 incorrect, with own harness myharness_tok.py sha256 1dd7efd4776d4d8f0eb30512e4182274d33b1bd28c0a2abbffa41c137685d4a9 (pipeline/ratings-pools/1600/audits/history/pointer-repair-209A-20261013/code/harness.py), launched by pipeline/ratings-pools/1600/audits/history/pointer-repair-209A-20261013/code/launcher14.py sha256 3c2ef4035a9dd117d6e9fbd8726cb8b0ef4074130fc0e2b213c91227c6b53242, judged by pipeline/ratings-pools/1600/audits/history/pointer-repair-209A-20261013/code/judge14.py sha256 f9145f63d7d89bb4fddd59b1d9562d6288f96623f2f3ea285b9d32b364517890; witnesses by pipeline/ratings-pools/1600/audits/history/pointer-repair-209A-20261013/code/witness14.py sha256 5d5a5b44b0d229da130a193c5e650c7ef3e3df2c59dc6130479c452415d7c280 mounting harness_witness.py sha256 3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933; not worker pool_harness. Pinned python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3, --pull=never, --network=none, --read-only, --user=65534:65534, --cap-drop=ALL, no-new-privileges, pids<=32, 1 CPU, 2560m memory/swap, tmpfs /w 128m and /tmp 16m, inputs and harness mounted read-only, RLIMIT_CPU/AS at problem limits, RLIMIT_FSIZE 16MiB, launched from env -i (PATH only) without credentials; g++ -O2 -std=c++17 -DONLINE_JUDGE; python3 for Python sources.",
-    "singleAnswer": "Output is uniquely determined by the input; token comparison is correct; no special checker or float tolerance.",
-    "statement": "Packaged bound '1 ≤ n ≤ 10<sup>6</sup>'; original package HTML ('≤ 106') preserved byte-identical (equals previously packaged statement) in statement-sources/209A.original.html, one-line diff; attested raw codeforces.me 209/A snapshot hash matches and contains sup.upper-index markup; I re-fetched codeforces.me myself (10<sup>6</sup>). Modulus is written out as 1000000007, so '(109 + 7)' is not ambiguous.",
-    "submissionProvenance": "All 10 current sources byte-identical (sha256) to rows in pinned open-r1/codeforces-submissions shards (shard sha256 verified independently; 130943124 from train-00022 f02c2771..., WRONG_ANSWER, passedTestCount 3); 37271596 excluded by hash-bound source policy as wrong-problem.",
-    "submissions": [
-      {
-        "compiled": true,
-        "evidenceFailedTest": "0026",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "formatOrDebugOnlyWA": 0,
-        "id": "119337156",
-        "lfFirstFailed": "0026",
-        "lfNumericallyWrongTests": 14,
-        "maxCpu": 7.779,
-        "myFirstFailed": "0026",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 14,
-        "perTestEvidenceMatch": "195/204",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "evidenceFailedTest": "0004",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "formatOrDebugOnlyWA": 0,
-        "id": "130943124",
-        "lfFirstFailed": "0004",
-        "lfNumericallyWrongTests": 199,
-        "maxCpu": 0.057,
-        "myFirstFailed": "0004",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 199,
-        "perTestEvidenceMatch": "204/204",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "evidenceFailedTest": "0005",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "formatOrDebugOnlyWA": 0,
-        "id": "14574007",
-        "lfFirstFailed": "0005",
-        "lfNumericallyWrongTests": 26,
-        "maxCpu": 0.038,
-        "myFirstFailed": "0005",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 26,
-        "perTestEvidenceMatch": "204/204",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "1898855",
-        "maxCpu": 0.034,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "204/204",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "1898856",
-        "maxCpu": 0.03,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "204/204",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "1898857",
-        "maxCpu": 0.012,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "204/204",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "1898858",
-        "maxCpu": 0.015,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "204/204",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "1898861",
-        "maxCpu": 0.04,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "204/204",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "evidenceFailedTest": "0004",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "formatOrDebugOnlyWA": 5,
-        "id": "30579897",
-        "lfFirstFailed": "0001",
-        "lfNumericallyWrongTests": 199,
-        "maxCpu": 0.036,
-        "myFirstFailed": "0001",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 199,
-        "perTestEvidenceMatch": "204/204",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "evidenceFailedTest": "0026",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "formatOrDebugOnlyWA": 0,
-        "id": "68858672",
-        "lfFirstFailed": "0026",
-        "lfNumericallyWrongTests": 14,
-        "maxCpu": 7.987,
-        "myFirstFailed": "0026",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 14,
-        "perTestEvidenceMatch": "190/204",
-        "samplesOK": true
-      }
-    ]
+  "130943124": {
+   "actualOutputSha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+   "excerptSha256": "d77cf96a3d8f04f3f21257de87cdacd65e2f8e3cfbbb67e47e7031da75f4359a",
+   "explanation": "Closed form n(n+1)/2 (+1 for even n) mod 1e9+7 is not the zebroid count; e.g. n=5 gives 15 instead of 19 and n=2 gives 4 instead of 3.",
+   "kind": "wrong-answer",
+   "lines": "2-6",
+   "outcome": "GENUINE",
+   "reason": "Closed form n(n+1)/2 (+1 for even n) mod 1e9+7 is not the zebroid count; e.g. n=5 gives 15 instead of 19 and n=2 gives 4 instead of 3.",
+   "sourceHash": "ac0a8f8d9f0dcc6958d639584f9432db3fb7505c3d33fd26c5c3f3c45dd4777f",
+   "test": "0004",
+   "witnessTest": "0004"
   },
-  "reviewUrl": "https://staging.itsdev.in/sessions/204c72b1a58f47088f37a65c8104a8b8",
-  "reviewer": "devin-204c72b1a58f47088f37a65c8104a8b8",
-  "schemaVersion": 1,
-  "validator": "devin-1ffab6b544d64d17bf1498a01b5257c0"
+  "14574007": {
+   "actualOutputSha256": "7ee29791fc17e986b97128845622b077fb45e349fdb80523fac9dba879b4ad60",
+   "excerptSha256": "b95cca1bbbef0ce2fcd24befa44842a760ee48f3a5b88f13e50d941939a2f270",
+   "explanation": "Sums floor(n^i/i^i) for i=1..n, a formula unrelated to the count of zebroid subsequences (answer satisfies a Fibonacci-type recurrence modulo 1e9+7).",
+   "kind": "wrong-answer",
+   "lines": "6-8",
+   "outcome": "GENUINE",
+   "reason": "Sums floor(n^i/i^i) for i=1..n, a formula unrelated to the count of zebroid subsequences (answer satisfies a Fibonacci-type recurrence modulo 1e9+7).",
+   "sourceHash": "a644ff4f20d0873aab4f951d41695160d84fc3d7ed9ebba5bef4d4844560dfa3",
+   "test": "0005",
+   "witnessTest": "0005"
+  },
+  "30579897": {
+   "actualOutputSha256": "5ca797740e932dd836206d2b4bea825c83bc47e25e45006d0a2b62fe71be40b6",
+   "excerptSha256": "cbbea799d393303ffc211a036446e6c31ee13a2771f51df8096da89ea62ee9fe",
+   "explanation": "Uses the closed form n(n+1)/2 (+1 for even n), which agrees with the true count only for tiny n; true count is the zebroid DP (e.g. n=2 -> 3, n=5 -> 19).",
+   "kind": "wrong-answer",
+   "lines": "2-10",
+   "outcome": "GENUINE",
+   "reason": "Uses the closed form n(n+1)/2 (+1 for even n), which agrees with the true count only for tiny n; true count is the zebroid DP (e.g. n=2 -> 3, n=5 -> 19).",
+   "sourceHash": "0191c00e4415763c1af9942f8dbd786ecf6d90ace408295e7824d56d7217266c",
+   "test": "0004",
+   "witnessTest": "0004"
+  },
+  "68858672": {
+   "actualOutputSha256": "4880bda7f04b8c3758b1986373cfe9ee5a52de47a79e85d5068fd75d43699875",
+   "excerptSha256": "988210be34cbfd034533fc0913f48f67697c5c686925bb576d1e62bcc60fe4c8",
+   "explanation": "The DP recurrence is right but the result a+b is never reduced modulo 1e9+7 as the statement requires, so for large n the printed integer is a different value from the required residue.",
+   "kind": "wrong-answer",
+   "lines": "8",
+   "outcome": "GENUINE",
+   "reason": "The DP recurrence is right but the result a+b is never reduced modulo 1e9+7 as the statement requires, so for large n the printed integer is a different value from the required residue.",
+   "sourceHash": "387e573e93fde4b6f1d150152b8d2ef4193bb62622190e12035766671ec1d2dc",
+   "test": "0026",
+   "witnessTest": "0026"
+  }
+ },
+ "independentAuditPath": "pipeline/ratings-pools/1600/independent-audit.json",
+ "independentRecordHash": "8d2f059e8c3006bb598a74262d1d63f4ddc940745da7ea0d1e742b718ba68284",
+ "outcome": "TECHNICAL",
+ "packageHash": "cd4e2200fade38b04807192c05501c839d94c3fd62d7af435a33b03eabc34299",
+ "publicationApproved": false,
+ "qualificationBasis": "official",
+ "rating": 1600,
+ "reasons": [],
+ "reviewUrl": "https://staging.itsdev.in/sessions/ab69a3bc4df34f7999b57b482222032a",
+ "reviewer": "devin-ab69a3bc4df34f7999b57b482222032a",
+ "schemaVersion": 1,
+ "supersedes": {
+  "auditHash": "554674e91c369d6e94fe12979f3eb9dffc83abc30f4ac5ae67992e0bd33ad69e",
+  "historyPath": "audits/history/209A/554674e91c369d6e94fe12979f3eb9dffc83abc30f4ac5ae67992e0bd33ad69e.json",
+  "reviewer": "devin-204c72b1a58f47088f37a65c8104a8b8"
+ },
+ "validator": "devin-1ffab6b544d64d17bf1498a01b5257c0"
 }

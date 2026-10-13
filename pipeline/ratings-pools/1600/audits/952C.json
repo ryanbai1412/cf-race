@@ -1,139 +1,100 @@
 {
-  "schemaVersion": 1,
-  "id": "952C",
-  "rating": 1600,
-  "approved": true,
-  "reviewer": "devin-f2823eddff2b4a639d38c7c49d347210",
-  "reviewUrl": "https://staging.itsdev.in/sessions/f2823eddff2b4a639d38c7c49d347210",
-  "workerCommit": "3613630decf218847835da2ce5f004485538f304",
-  "archiveHash": "fe44292f64e058ec89c22c683c2f52eb85e613227490908b0c7f62c0aaeda6f2",
-  "qualificationBasis": "official",
-  "packageHash": "bd0a12ee76cf862950d0ccc595dd86ed79e283329ff9c5afa542ba309da99418",
-  "evidenceHash": "6c5d1e2b46bdfe2aaacd3ab55f664bf1fae7a45cb7d15feef14ba64f6375f374",
-  "coverageHash": "9788dd2a55b48dd17ebb43c9529f5af31166aae05cea9022cdf5ab388962611e",
-  "semanticHash": "59153f4d95e199977fd11001ee2a696b69363ddce05a38373044168d93651a3c",
-  "testPairsHash": "04327cb99f6f24b87e6ee485e1cbfef952013d85e2103e44e52b54e58a19aee8",
-  "checks": {
-    "sourceAttribution": true,
-    "fullTests": true,
-    "coverage": true,
-    "fiveAcceptedFiveIncorrect": true,
-    "noSpecialChecker": true,
-    "hashes": true,
-    "statementComplete": true,
-    "inputConstraints": true,
-    "independentOracle": true,
-    "algorithmicallyWrong": true,
-    "independentOutputs": true,
-    "sandboxReplay": true
+ "acceptedConfirmed": 5,
+ "approved": true,
+ "checks": {
+  "algorithmicallyWrong": true,
+  "coverage": true,
+  "fiveAcceptedFiveIncorrect": true,
+  "fullTests": true,
+  "hashes": true,
+  "independentReference": true,
+  "inputConstraints": true,
+  "noSpecialChecker": true,
+  "sandboxReplay": true,
+  "sourceAttribution": true,
+  "upstreamPinned": true
+ },
+ "evidenceHash": "6c5d1e2b46bdfe2aaacd3ab55f664bf1fae7a45cb7d15feef14ba64f6375f374",
+ "generatorReplay": null,
+ "genuineWrong": 5,
+ "id": "952C",
+ "incorrectAnalysis": {
+  "145634977": {
+   "actualOutputSha256": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+   "excerptSha256": "c484a8730ba242ba2d2cef2b9b03ad22a038f095a945d972d347151fb52646b5",
+   "explanation": "Compares the input with its lexicographic STRING sort, unrelated to the sliding rule (5 7: YES vs NO).",
+   "kind": "wrong-answer",
+   "lines": "3-4",
+   "outcome": "GENUINE",
+   "reason": "Compares the input with its lexicographic STRING sort, unrelated to the sliding rule (5 7: YES vs NO).",
+   "sourceHash": "529a43d18685dad332749ea4a67cbf3293d705da97d5a8007de6c8ef9b0ccf23",
+   "test": "0005",
+   "witnessTest": "0082"
   },
-  "independentAssessment": {
-    "statement": "Every pinned public description/input/output/note paragraph and sample is preserved, allowing only LaTeX delimiter rendering. No flattened exponent or numerical-bound ambiguity. 952C illustration is nonessential: all operational rules, including leftmost-maximum ties, are explicit.",
-    "officialCompleteness": "All 40 advertised official input/output pairs independently rejoined from SHA256-authenticated public statement shard; official_tests_complete=true. Every authored pair additionally independently checked.",
-    "derivation": "Independently simulate all currently adjacent differences, remove the leftmost maximum, close its gap, and repeat. Separately physically transfer ravioli from taller to shorter until stable before each removal. Any slide decreases sum of squared heights by 2*(difference-1)>0; include already removed heights in that invariant, so an original multiset cannot be restored after any slide. If adjacent differences are <=1, deleting a maximum joins only neighbors of height maximum or maximum-1, so no violation can be created. Thus exactly initial adjacent differences <=1 succeed, regardless of slide ordering. Verified physical and removal simulations on 97,380 additional arrays and every supplied test/sample.",
-    "smallCrossChecks": 97380,
-    "testsChecked": 199,
-    "samplesChecked": 2,
-    "independentOracleSourceHash": "bbe79a94e9447ffa86d9e28d530129b1f6d6432e406bc463815ebb95cf653802",
-    "coverage": {
-      "allPinnedParagraphsPreserved": true,
-      "normalization": "Only LaTeX delimiter rendering; no content or bound changes",
-      "statementHash": "fd2b20b974ff2b9075d0063eca94d75ba2a7e00095c9f756d77c74cb8d23f668",
-      "boundaryWitnesses": {
-        "(1, 1)": [
-          "0041"
-        ],
-        "(1, 100)": [
-          "0042"
-        ],
-        "(10, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100)": [
-          "0048"
-        ],
-        "(10, 1, 100, 1, 100, 1, 100, 1, 100, 1, 100)": [
-          "0049"
-        ]
-      },
-      "authoredPairs": 159,
-      "illustration": "Referenced ravioli-stack picture is nonessential: all stack counts, slides, gap closure, and leftmost-maximum tie-breaking rules are explicit in text.",
-      "coverageLabelCaveat": "No 64-bit/extensive-n claim accepted: literal limits are n<=10 and ai<=100; both maxima and minima are supplied."
-    },
-    "sampleMeanings": "1 2 3 has no slide and leftmost maximum removals yield 3 2 1. Initial 3 1 2 slides to 2 2 2 and loses the original multiset, so NO.",
-    "authenticity": "Five counted accepted and five counted incorrect IDs/source hashes are distinct and exactly match TESTS rows in hash-verified pinned public shards. This authenticates imported public source bytes, not a claim of original live Codeforces submission bytes.",
-    "algorithmicFailures": "All five incorrect sources have independently verified substantive wrong numeric/boolean answers on valid LF inputs, with exit=0 and timeout=false; no formatting, parsing, unsupported-runtime, debug-only, compile or infrastructure issue is the qualification basis.",
-    "sandbox": "Fresh workdirs in pinned image python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3; execution v2, -O2 -std=c++17 -DONLINE_JUDGE; network none, nonroot, read-only root/payload/harness, dropped capabilities, no-new-privileges, bounded CPU/address-space/wall/files/pids/tmpfs. Untrusted source programs never ran on host.",
-    "replay": "All 1990 counted test verdict/exit/timeout/outputHash tuples exactly reproduced. All ten sources freshly compiled/executed; all five accepted sources additionally pass every sample.",
-    "publication": "Only publication_gate(require_approval=False) verified; no publication, PR, merge, deploy, remote DB/storage, shared gate or board mutation."
+  "52137196": {
+   "actualOutputSha256": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+   "excerptSha256": "eeb79cb14e27944941d7b6fad702e3e1dd69866b0cb096a28541c73e3fc44a95",
+   "explanation": "Only checks the two neighbours of the current tallest stack (and consecutive maxima); a slide occurs between ANY adjacent stacks differing by >=2 at any step (3 1 2: 3 and 1 adjacent -> NO, prints YES).",
+   "kind": "wrong-answer",
+   "lines": "14-21",
+   "outcome": "GENUINE",
+   "reason": "Only checks the two neighbours of the current tallest stack (and consecutive maxima); a slide occurs between ANY adjacent stacks differing by >=2 at any step (3 1 2: 3 and 1 adjacent -> NO, prints YES).",
+   "sourceHash": "8f33a1959b2e2a172f9891f0547ca9aaf2f4a53abcf7ea15741a5e16395fd1d3",
+   "test": "0002",
+   "witnessTest": "0002"
   },
-  "incorrectAnalysis": {
-    "52137196": {
-      "reason": "Checks neighbors around a removed maximum and consecutive removed maxima, but never checks all remaining adjacent stacks for immediate slides. On 3 1 2 outputs YES although the initial 3-to-1 slide irreversibly changes the multiset and requires NO.",
-      "independentAlgorithmicWitness": {
-        "test": "0002",
-        "input": "3\n3 1 2\n",
-        "expected": "NO",
-        "actual": "YES\n",
-        "actualHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
-        "exitCode": 0,
-        "timeout": false,
-        "verdict": "WA"
-      },
-      "recordedFirstFailureIsNotNecessarilyQualificationBasis": true
-    },
-    "75038628": {
-      "reason": "Accepts exactly already-ascending arrays rather than checking adjacency slide conditions and leftmost-maximum removals. Valid 16 17 16 15 14 15 16 17 16 15 sorts successfully but returns NO.",
-      "independentAlgorithmicWitness": {
-        "test": "0005",
-        "input": "10\n16 17 16 15 14 15 16 17 16 15\n",
-        "expected": "YES",
-        "actual": "NO\n",
-        "actualHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
-        "exitCode": 0,
-        "timeout": false,
-        "verdict": "WA"
-      },
-      "recordedFirstFailureIsNotNecessarilyQualificationBasis": true
-    },
-    "75090064": {
-      "reason": "Same incorrect already-ascending criterion; a distinct public submission/source. The nonmonotone adjacent-difference-at-most-one array in official 0005 requires YES but source returns NO.",
-      "independentAlgorithmicWitness": {
-        "test": "0005",
-        "input": "10\n16 17 16 15 14 15 16 17 16 15\n",
-        "expected": "YES",
-        "actual": "NO\n",
-        "actualHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
-        "exitCode": 0,
-        "timeout": false,
-        "verdict": "WA"
-      },
-      "recordedFirstFailureIsNotNecessarilyQualificationBasis": true
-    },
-    "95285504": {
-      "reason": "Uses stack-permutation recognition over distinct increasing integers rather than ravioli gravity and maximum removal. Ten equal 67s need YES but source pops 67 once, then rejects the second equal value and prints NO.",
-      "independentAlgorithmicWitness": {
-        "test": "0004",
-        "input": "10\n67 67 67 67 67 67 67 67 67 67\n",
-        "expected": "YES",
-        "actual": "NO\n",
-        "actualHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
-        "exitCode": 0,
-        "timeout": false,
-        "verdict": "WA"
-      },
-      "recordedFirstFailureIsNotNecessarilyQualificationBasis": true
-    },
-    "145634977": {
-      "reason": "Compares input string order to its lexicographic sorted order, which is unrelated to sorting by ravioli removal without slides. The valid nonmonotone official 0005 requires YES but returns NO.",
-      "independentAlgorithmicWitness": {
-        "test": "0005",
-        "input": "10\n16 17 16 15 14 15 16 17 16 15\n",
-        "expected": "YES",
-        "actual": "NO\n",
-        "actualHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
-        "exitCode": 0,
-        "timeout": false,
-        "verdict": "WA"
-      },
-      "recordedFirstFailureIsNotNecessarilyQualificationBasis": true
-    }
+  "75038628": {
+   "actualOutputSha256": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+   "excerptSha256": "ac5bf8be613cc82a5cb8c130ef239346dffd4e31c67b9f8ea42533bbe55c66a2",
+   "explanation": "Answers whether the input is already sorted, ignoring sliding between adjacent stacks differing by >=2 (17 19: YES vs NO).",
+   "kind": "wrong-answer",
+   "lines": "3",
+   "outcome": "GENUINE",
+   "reason": "Answers whether the input is already sorted, ignoring sliding between adjacent stacks differing by >=2 (17 19: YES vs NO).",
+   "sourceHash": "9358eebe89b8508a795685a844e629f6c0113b84ba65d83b13429477fb48e573",
+   "test": "0005",
+   "witnessTest": "0050"
+  },
+  "75090064": {
+   "actualOutputSha256": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+   "excerptSha256": "4038b8498655c1f9ed22b3abe7d84833b5643d675902b8893d5d02d188734dc8",
+   "explanation": "Same: sortedness test instead of the ravioli sliding simulation (17 19: YES vs NO).",
+   "kind": "wrong-answer",
+   "lines": "5",
+   "outcome": "GENUINE",
+   "reason": "Same: sortedness test instead of the ravioli sliding simulation (17 19: YES vs NO).",
+   "sourceHash": "e0f97b0e62e685283fe294516ac760401b2cbd259485837ecab14181f003cd6d",
+   "test": "0005",
+   "witnessTest": "0050"
+  },
+  "95285504": {
+   "actualOutputSha256": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+   "excerptSha256": "e8f5b205080b4a738aaf06d7de263a98a8a4e5aa7a43719fc13584627fa19847",
+   "explanation": "Tests whether the sequence is stack-sortable, unrelated to sliding between adjacent stacks of height difference >=2 (17 19: YES vs NO).",
+   "kind": "wrong-answer",
+   "lines": "18-29",
+   "outcome": "GENUINE",
+   "reason": "Tests whether the sequence is stack-sortable, unrelated to sliding between adjacent stacks of height difference >=2 (17 19: YES vs NO).",
+   "sourceHash": "e2fb09f70682aeb95b103622797fa4b4a738d0017b0e5490b53066abeee36bca",
+   "test": "0004",
+   "witnessTest": "0050"
   }
+ },
+ "independentAuditPath": "pipeline/ratings-pools/1600/independent-audit.json",
+ "independentRecordHash": "a69b2da0bef7dbbbed00a3002d5c1b7f8326b9b699eae34262eb13c98642d3e7",
+ "outcome": "TECHNICAL",
+ "packageHash": "bd0a12ee76cf862950d0ccc595dd86ed79e283329ff9c5afa542ba309da99418",
+ "publicationApproved": false,
+ "qualificationBasis": "official",
+ "rating": 1600,
+ "reasons": [],
+ "reviewUrl": "https://staging.itsdev.in/sessions/ab69a3bc4df34f7999b57b482222032a",
+ "reviewer": "devin-ab69a3bc4df34f7999b57b482222032a",
+ "schemaVersion": 1,
+ "supersedes": {
+  "auditHash": "dc973c44975e90b89563aaee4ab4fe2344d1fa4f67752c495e7976d8ae0c331c",
+  "historyPath": "audits/history/952C/dc973c44975e90b89563aaee4ab4fe2344d1fa4f67752c495e7976d8ae0c331c.json",
+  "reviewer": "devin-f2823eddff2b4a639d38c7c49d347210"
+ },
+ "validator": "devin-1ffab6b544d64d17bf1498a01b5257c0"
 }

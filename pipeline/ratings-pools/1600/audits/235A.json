@@ -1,538 +1,100 @@
 {
-  "approved": true,
-  "archiveSha256": "ed0a85e8768f390805830fb341d2470de8e186e01c72d87f719d17f28c138298",
-  "baseCommit": "75e70a8bc07249a2ba0a1771b749f21ae9270ad0",
-  "checks": {
-    "coverage": true,
-    "fiveAcceptedFiveIncorrect": true,
-    "fullTests": true,
-    "hashes": true,
-    "noSpecialChecker": true,
-    "sourceAttribution": true
+ "acceptedConfirmed": 5,
+ "approved": true,
+ "checks": {
+  "algorithmicallyWrong": true,
+  "coverage": true,
+  "fiveAcceptedFiveIncorrect": true,
+  "fullTests": true,
+  "hashes": true,
+  "independentReference": true,
+  "inputConstraints": true,
+  "noSpecialChecker": true,
+  "sandboxReplay": true,
+  "sourceAttribution": true,
+  "upstreamPinned": true
+ },
+ "evidenceHash": "8d5ac740184ed6c9fd84633c9e2cbe87a6cbaa75a32615ef2cab463b7c4f23cd",
+ "generatorReplay": null,
+ "genuineWrong": 5,
+ "id": "235A",
+ "incorrectAnalysis": {
+  "12554369": {
+   "actualOutputSha256": "97b912eb4a61df5f806ca6239dde3e1a4f51ad20aced1642cbb83dc510a5fa6b",
+   "excerptSha256": "0dc1deec2fba2fc617cc3de9dcbc3064e5e811f31819352ea1e0c7b1d7a9f9b3",
+   "explanation": "Prints n(n-1)(n-2) for every n>=3; for even n, n and n-2 share factor 2 so this exceeds their lcm (n=6 -> 120 vs correct 60).",
+   "kind": "wrong-answer",
+   "lines": "3",
+   "outcome": "GENUINE",
+   "reason": "Prints n(n-1)(n-2) for every n>=3; for even n, n and n-2 share factor 2 so this exceeds their lcm (n=6 -> 120 vs correct 60).",
+   "sourceHash": "c7641a6140492af8e19459d120073153d576f85482468cb57bdb014dd00067c6",
+   "test": "0005",
+   "witnessTest": "0005"
   },
-  "evidenceHash": "8d5ac740184ed6c9fd84633c9e2cbe87a6cbaa75a32615ef2cab463b7c4f23cd",
-  "id": "235A",
-  "packageHash": "1166d0112d7475bd447cd1c2a066c8c4d6033dac9dfa3e1f18065976379552f7",
-  "qualificationBasis": "official",
-  "rating": 1600,
-  "review": {
-    "coverage": "158 tests, 123 distinct n spanning 1..1e6, every n mod 6 residue, n=1,2,3 and n=1e6; 87 official rows equal pinned row.",
-    "freshReplay": {
-      "12554369": {
-        "compiled": true,
-        "counterexample": "0005: 6 -> 120, expected 60",
-        "evidenceFailedTest": "0005",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0005",
-        "lfNumericallyWrongTests": 76,
-        "maxCpu": 0.043,
-        "myFirstFailed": "0005",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 76,
-        "perTestEvidenceMatch": "158/158",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 82,
-          "WA": 76
-        }
-      },
-      "14107624": {
-        "compiled": true,
-        "counterexample": "0032: 924 -> 393164772, expected 783776526",
-        "evidenceFailedTest": "0032",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0032",
-        "lfNumericallyWrongTests": 72,
-        "maxCpu": 0.024,
-        "myFirstFailed": "0032",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 72,
-        "perTestEvidenceMatch": "158/158",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 86,
-          "WA": 72
-        }
-      },
-      "2395904": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.427,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "158/158",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 158
-        }
-      },
-      "2396094": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.004,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "158/158",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 158
-        }
-      },
-      "2396105": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.027,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "158/158",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 158
-        }
-      },
-      "2396212": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.034,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "158/158",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 158
-        }
-      },
-      "2396254": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.004,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "158/158",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 158
-        }
-      },
-      "5164298": {
-        "compiled": true,
-        "counterexample": "0003: 1 -> 0, expected 1",
-        "evidenceFailedTest": "0003",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0003",
-        "lfNumericallyWrongTests": 4,
-        "maxCpu": 0.021,
-        "myFirstFailed": "0003",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 4,
-        "perTestEvidenceMatch": "158/158",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 154,
-          "WA": 4
-        }
-      },
-      "6367509": {
-        "compiled": true,
-        "counterexample": "0032: 924 -> 783770988, expected 783776526",
-        "evidenceFailedTest": "0032",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 2,
-        "lfFirstFailed": "0005",
-        "lfNumericallyWrongTests": 27,
-        "maxCpu": 0.022,
-        "myFirstFailed": "0005",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 27,
-        "perTestEvidenceMatch": "158/158",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 129,
-          "WA": 29
-        }
-      },
-      "7363291": {
-        "compiled": true,
-        "counterexample": "0005: 6 -> 120, expected 60",
-        "evidenceFailedTest": "0005",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0005",
-        "lfNumericallyWrongTests": 76,
-        "maxCpu": 0.034,
-        "myFirstFailed": "0005",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 76,
-        "perTestEvidenceMatch": "158/158",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 82,
-          "WA": 76
-        }
-      }
-    },
-    "incorrectAreAlgorithmic": "Each of the 5 incorrect sources was read in full; review.incorrectProofs gives the implemented algorithm, faulty source lines with text, and a legal LF witness on the current evidence failedTest with exit 0, no timeout, equal token count and a numerically wrong answer, plus source/input/expected/actual/proof sha256. Format/debug-only, CRLF, TLE-only and wrong-problem failures are not counted.",
-    "incorrectProofs": {
-      "12554369": {
-        "fault": "wrong for even n >= 4 (6 -> 120, expected 60)",
-        "faultyLineText": {
-          "3": "    print (a*(a-1)*(a-2))"
-        },
-        "faultyLines": [
-          3
-        ],
-        "implementedAlgorithm": "n(n-1)(n-2)",
-        "language": "Python 3",
-        "proofSha256": "c4f6ca074afee298af5fa2586554f4fb2ce145c2dd12828c1cd7c5959943ff77",
-        "qualifies": true,
-        "sourceLines": 5,
-        "sourceSha256": "c7641a6140492af8e19459d120073153d576f85482468cb57bdb014dd00067c6",
-        "submission": "235A/12554369",
-        "witness": {
-          "actual": "120",
-          "actualOutputBytes": 4,
-          "actualOutputSha256": "97b912eb4a61df5f806ca6239dde3e1a4f51ad20aced1642cbb83dc510a5fa6b",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.012,
-          "exitCode": 0,
-          "expected": "60",
-          "expectedOutputSha256": "a7b785fcacb4beb3fa3061e79befd2eb06605e1a407e42dd565709459f4304eb",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "6\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "92961e9752250efa971147344b22295db32d7b75e940e0971e5fb34f21d0bc67",
-          "record": "witness/235A-12554369.json",
-          "test": "0005",
-          "timedOut": false
-        }
-      },
-      "14107624": {
-        "fault": "only the triple (n, n-1, n-2); for even n other triples give a larger lcm",
-        "faultyLineText": {
-          "15": "    print(lcm(n,lcm(n-2,n-1)))"
-        },
-        "faultyLines": [
-          15
-        ],
-        "implementedAlgorithm": "lcm(n, n-1, n-2)",
-        "language": "Python 3",
-        "proofSha256": "6242defd34797d20364e52d3aa353642bbf8d878823edd69ccdd16271b5138da",
-        "qualifies": true,
-        "sourceLines": 15,
-        "sourceSha256": "bf82b56c3a3d2a144b5c54cef6bb9f66a93fb3d80fbc93553a898650f06b4c5c",
-        "submission": "235A/14107624",
-        "witness": {
-          "actual": "393164772",
-          "actualOutputBytes": 10,
-          "actualOutputSha256": "91ef441de17b2877c401a31668d61b1d030cb62eaef8e696e12fce37c6ef4759",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.012,
-          "exitCode": 0,
-          "expected": "783776526",
-          "expectedOutputSha256": "88fa1eac821f5869a0b2c071c6614190d605c2941eaa41c2909a9c8d00ceac4e",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "924\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "16d89bcc46ed3bd2db9661fba091edeaa897e8bd53bebd37299fbc7db4686384",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "edbde904b6a2cc8ed984e328c8b829e96f9371fc916061f5f1963015b403dfce",
-          "record": "witness/235A-14107624.json",
-          "test": "0032",
-          "timedOut": false
-        }
-      },
-      "5164298": {
-        "fault": "s is only set inside the innermost loop with c=b-1>=1; for n=1 (and small n) no triple is evaluated and it prints 0",
-        "faultyLineText": {
-          "11": "            c = b - 1",
-          "12": "            while d * c > s:",
-          "13": "                if gcd(c, d) == 1: s = d * c",
-          "6": "while a ** 3 > s:",
-          "8": "    while a * b * b > s:"
-        },
-        "faultyLines": [
-          6,
-          8,
-          11,
-          12,
-          13
-        ],
-        "implementedAlgorithm": "pruned triple search descending from n with gcd checks",
-        "language": "Python 3",
-        "proofSha256": "d471f9bbe8b0e21fdd5ef0ca16f69b50e85fb90fa9f732f2a23afd1464190e67",
-        "qualifies": true,
-        "sourceLines": 17,
-        "sourceSha256": "5b9407635623eddfad0ad2c6e685feff6878554cc7096b973c6bf2f3a127e561",
-        "submission": "235A/5164298",
-        "witness": {
-          "actual": "0",
-          "actualOutputBytes": 2,
-          "actualOutputSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.02,
-          "exitCode": 0,
-          "expected": "1",
-          "expectedOutputSha256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "1\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
-          "record": "witness/235A-5164298.json",
-          "test": "0003",
-          "timedOut": false
-        }
-      },
-      "6367509": {
-        "fault": "for even n the candidate (n-1)(n-2)(n-3) is never considered (needed when 3|n), and res/2*(n-2) is float (prints 60.0)",
-        "faultyLineText": {
-          "5": "for i in range(n - 2 if n % 2 != 0 else n - 3, 0, -2):",
-          "7": "        res = res * i if n % 2 != 0 else max(res * i, res / 2 * (n - 2))"
-        },
-        "faultyLines": [
-          5,
-          7
-        ],
-        "implementedAlgorithm": "n(n-1) times the largest i coprime to both (odd n) or max(n(n-1)i, n(n-1)(n-2)/2) (even n), float division",
-        "language": "Python 3",
-        "pointerRepair": {
-          "bindingMatchesWitness": true,
-          "note": "evidence failedTest rebound by worker to this witness; earlier failure 0005 was format/debug-only",
-          "previousFailedTest": "0005"
-        },
-        "proofSha256": "7b34ba7a094a9a593ad248989d1254be1bc4b82d0bd8a9c5dad363c39cb8bdad",
-        "qualifies": true,
-        "sourceLines": 13,
-        "sourceSha256": "7b03c3d29ab7f1c4e993b2d82b78b5b7266cdd48324cf630694c28454384adbe",
-        "submission": "235A/6367509",
-        "witness": {
-          "actual": "783770988",
-          "actualOutputBytes": 10,
-          "actualOutputSha256": "b3f97ef315641a0fd8066917e9b090c6ad6daf78f94b1e8cbfdb2a69286abbde",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.013,
-          "exitCode": 0,
-          "expected": "783776526",
-          "expectedOutputSha256": "88fa1eac821f5869a0b2c071c6614190d605c2941eaa41c2909a9c8d00ceac4e",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "924\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "16d89bcc46ed3bd2db9661fba091edeaa897e8bd53bebd37299fbc7db4686384",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "edbde904b6a2cc8ed984e328c8b829e96f9371fc916061f5f1963015b403dfce",
-          "record": "witness/235A-6367509.json",
-          "test": "0032",
-          "timedOut": false
-        }
-      },
-      "7363291": {
-        "fault": "for even n the best is n(n-1)(n-3) or (n-1)(n-2)(n-3); dividing by a gcd is not an lcm of three",
-        "faultyLineText": {
-          "11": " b=gcd(n-1,gcd(n,n-2))",
-          "12": " c=(n)*(n-1)*(n-2)",
-          "13": " print(c//b)"
-        },
-        "faultyLines": [
-          11,
-          12,
-          13
-        ],
-        "implementedAlgorithm": "n(n-1)(n-2)/gcd(n-1, gcd(n, n-2))",
-        "language": "Python 3",
-        "proofSha256": "6d5aaf7a6acab3746c4a4d99e00cb6e53c1a86752f5475e13c17bd65255abac2",
-        "qualifies": true,
-        "sourceLines": 13,
-        "sourceSha256": "cce494c11c8254716c0a8fba64b78ffe3c7163165499cd1e2385df4e0fdce980",
-        "submission": "235A/7363291",
-        "witness": {
-          "actual": "120",
-          "actualOutputBytes": 4,
-          "actualOutputSha256": "97b912eb4a61df5f806ca6239dde3e1a4f51ad20aced1642cbb83dc510a5fa6b",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.012,
-          "exitCode": 0,
-          "expected": "60",
-          "expectedOutputSha256": "a7b785fcacb4beb3fa3061e79befd2eb06605e1a407e42dd565709459f4304eb",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "6\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "92961e9752250efa971147344b22295db32d7b75e940e0971e5fb34f21d0bc67",
-          "record": "witness/235A-7363291.json",
-          "test": "0005",
-          "timedOut": false
-        }
-      }
-    },
-    "independentOracle": "n<=2: n; odd: n(n-1)(n-2); even and n%3: n(n-1)(n-3); else (n-1)(n-2)(n-3); cross-checked against exhaustive triple LCM for n=1..60.",
-    "officialTests": "official_tests_complete; every official pinned-row pair present in package (inputs equal after CRLF normalization, outputs token-equal); source row byte-equal to independently downloaded, hash-verified pinned open-r1/codeforces parquet row.",
-    "oracleResult": "All 158 package tests and all samples pass strict format/range parse; every expected output equals my oracle; all official upstream rows also equal my oracle.",
-    "pointerRepair": {
-      "bytes": "pointer-repair-v2 archive sha256 ed0a85e8768f390805830fb341d2470de8e186e01c72d87f719d17f28c138298 (10367758 bytes) verified; all 1745 manifest/provenance members match. For this ID the archive's packages (incl. tests), state, evidence, semantic, coverage, source-policy and statement-source bytes are identical to the replayed bytes (tests from interim22 9c314bfc..., evidence from worker commit 75e70a8, digest 8d5ac740184ed6c9fd84633c9e2cbe87a6cbaa75a32615ef2cab463b7c4f23cd).",
-      "change": "Only failedTest and a new algorithmicCounterexampleBinding changed for one incorrect submission; the binding hashes equal my independent witness (bindingMatchesWitness true).",
-      "supersededAudit": {
-        "auditHash": "db715cb94f7cd767e2541feb75466946d03ad3414bd9678c4d34712045e2897b",
-        "fileSha256": "dd409b634b09266210e429f7743a95307c9a290d5c67cd5ec5893ad5d6c226dc",
-        "path": "pipeline/ratings-pools/1600/audits/history/235A/db715cb94f7cd767e2541feb75466946d03ad3414bd9678c4d34712045e2897b.json",
-        "status": "revoked in correction-20261013 (format/debug-only evidence pointer)"
-      }
-    },
-    "sandbox": "Re-signed 2026-10-13 after evidence pointer repair (supersedes revoked auditHash db715cb94f7cd767e2541feb75466946d03ad3414bd9678c4d34712045e2897b). Fresh full replay of all 10 sources on every package test and sample, plus LF-only replay of the 5 incorrect, with own harness myharness_tok.py sha256 1dd7efd4776d4d8f0eb30512e4182274d33b1bd28c0a2abbffa41c137685d4a9 (pipeline/ratings-pools/1600/audits/history/pointer-repair-20261013/code/harness.py), launched by pipeline/ratings-pools/1600/audits/history/pointer-repair-20261013/code/launcher13.py sha256 4a44e8cf6e7ab224a0fb1556ba503927b417a1f05013edc282e8eab80dd8950c, judged by pipeline/ratings-pools/1600/audits/history/pointer-repair-20261013/code/judge13.py sha256 cec4aaf39edb200c7c95801324068647cae5085767eb15d0e089ec70a30528d1; witnesses by pipeline/ratings-pools/1600/audits/history/pointer-repair-20261013/code/witness13.py sha256 7ae10f1520485c1e88ae88fb8d808700a1870677e5a80e70b3693bd6b1630980 mounting harness_witness.py sha256 3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933; not worker pool_harness. Pinned python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3, --pull=never, --network=none, --read-only, --user=65534:65534, --cap-drop=ALL, no-new-privileges, pids<=32, 1 CPU, 2560m memory/swap, tmpfs /w 128m and /tmp 16m, inputs and harness mounted read-only, RLIMIT_CPU/AS at problem limits, RLIMIT_FSIZE 16MiB, launched from env -i (PATH only) without credentials; g++ -O2 -std=c++17 -DONLINE_JUDGE; python3 for Python sources.",
-    "singleAnswer": "Output is one integer uniquely determined by the input; token comparison is correct, no special checker, no float tolerance.",
-    "statement": "Packaged bound \"1 ≤ n ≤ 10<sup>6</sup>\"; original \"106\" preserved in statement-sources/235A.original.html (one-line diff); attested Luogu CF235A original English; re-fetched independently.",
-    "submissionProvenance": "All 10 sources byte-identical (sha256) to rows in pinned open-r1/codeforces-submissions shards (shard sha256 verified independently); evidence sourceHash equals sha256 of those bytes.",
-    "submissions": [
-      {
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "2395904",
-        "maxCpu": 0.488,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "158/158",
-        "samplesAC": true
-      },
-      {
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "2396094",
-        "maxCpu": 0.002,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "158/158",
-        "samplesAC": true
-      },
-      {
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "2396105",
-        "maxCpu": 0.07,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "158/158",
-        "samplesAC": true
-      },
-      {
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "2396212",
-        "maxCpu": 0.05,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "158/158",
-        "samplesAC": true
-      },
-      {
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "2396254",
-        "maxCpu": 0.006,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "158/158",
-        "samplesAC": true
-      },
-      {
-        "counterexample": "0003: 1 -> 0, expected 1",
-        "defect": "pruned search never assigns s when b reaches 0; n=1 prints 0 (and other small n wrong)",
-        "evidenceFailedTest": "0003",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "id": "5164298",
-        "maxCpu": 0.03,
-        "myFirstFailed": "0003",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 4,
-        "perTestEvidenceMatch": "158/158",
-        "samplesAC": true
-      },
-      {
-        "counterexample": "0032: 924 -> 783770988, expected 783776526",
-        "defect": "even n: only n(n-1)i (largest odd i coprime) or n(n-1)(n-2)/2 in float; misses (n-1)(n-2)(n-3) when 6|n",
-        "evidenceFailedTest": "0005",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "id": "6367509",
-        "maxCpu": 0.088,
-        "myFirstFailed": "0005",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 27,
-        "perTestEvidenceMatch": "158/158",
-        "samplesAC": true
-      },
-      {
-        "counterexample": "0005: 6 -> 120, expected 60",
-        "defect": "n(n-1)(n-2)/gcd; for even n ignores n(n-1)(n-3) and (n-1)(n-2)(n-3)",
-        "evidenceFailedTest": "0005",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "id": "7363291",
-        "maxCpu": 0.15,
-        "myFirstFailed": "0005",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 76,
-        "perTestEvidenceMatch": "158/158",
-        "samplesAC": true
-      },
-      {
-        "counterexample": "0005: 6 -> 120, expected 60",
-        "defect": "always n(n-1)(n-2); wrong for every even n>=4",
-        "evidenceFailedTest": "0005",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "id": "12554369",
-        "maxCpu": 0.02,
-        "myFirstFailed": "0005",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 76,
-        "perTestEvidenceMatch": "158/158",
-        "samplesAC": true
-      },
-      {
-        "counterexample": "0032: 924 -> 393164772, expected 783776526",
-        "defect": "lcm(n,n-1,n-2) only; wrong for even n where n(n-1)(n-3) or (n-1)(n-2)(n-3) is larger",
-        "evidenceFailedTest": "0032",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "id": "14107624",
-        "maxCpu": 0.026,
-        "myFirstFailed": "0032",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 72,
-        "perTestEvidenceMatch": "158/158",
-        "samplesAC": true
-      }
-    ]
+  "14107624": {
+   "actualOutputSha256": "fc0d630a34d7041e0c17e7e0b0141976f643ae75b67658f28677c1b2eea6db81",
+   "excerptSha256": "bea90775e273858490d19097c45166b0b88a67929aff798fb443f99d5e90cb9e",
+   "explanation": "Prints lcm(n,n-1,n-2) only; for even n the optimum is n(n-1)(n-3) or (n-1)(n-2)(n-3), never examined.",
+   "kind": "wrong-answer",
+   "lines": "15",
+   "outcome": "GENUINE",
+   "reason": "Prints lcm(n,n-1,n-2) only; for even n the optimum is n(n-1)(n-3) or (n-1)(n-2)(n-3), never examined.",
+   "sourceHash": "bf82b56c3a3d2a144b5c54cef6bb9f66a93fb3d80fbc93553a898650f06b4c5c",
+   "test": "0032",
+   "witnessTest": "0036"
   },
-  "reviewUrl": "https://staging.itsdev.in/sessions/204c72b1a58f47088f37a65c8104a8b8",
-  "reviewer": "devin-204c72b1a58f47088f37a65c8104a8b8",
-  "schemaVersion": 1,
-  "validator": "devin-1ffab6b544d64d17bf1498a01b5257c0"
+  "5164298": {
+   "actualOutputSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+   "excerptSha256": "14688c9cd479b5079dbf108c93cb708665e9346c108babe1744ced720952989e",
+   "explanation": "Exhaustive search always takes b=a-1 down and c=b-1 down, i.e. requires three DISTINCT values with c>=1; for n=1 (only triple 1,1,1) and n=2 (2,2,1 / 2,1,1) the loops never assign s, so it prints 0 instead of 1 or 2.",
+   "kind": "wrong-answer",
+   "lines": "6-16",
+   "outcome": "GENUINE",
+   "reason": "Exhaustive search always takes b=a-1 down and c=b-1 down, i.e. requires three DISTINCT values with c>=1; for n=1 (only triple 1,1,1) and n=2 (2,2,1 / 2,1,1) the loops never assign s, so it prints 0 instead of 1 or 2.",
+   "sourceHash": "5b9407635623eddfad0ad2c6e685feff6878554cc7096b973c6bf2f3a127e561",
+   "test": "0003",
+   "witnessTest": "0003"
+  },
+  "6367509": {
+   "actualOutputSha256": "feee55e5825997661ef1543ccc25291101f66b1c80194f4600ca93b43b269a3a",
+   "excerptSha256": "d50730ebdeaaf4d9b01ff8afccf5179cb652651d8289d935f4828f66608179ac",
+   "explanation": "For even n it only compares n(n-1)*i (first odd i coprime to n and n-1) with n(n-1)(n-2)/2 and never considers (n-1)(n-2)(n-3), which is the optimum for even n divisible by 3 (n=30: 29*28*27=21924 vs printed 30*29*23=20010).",
+   "kind": "wrong-answer",
+   "lines": "5-7",
+   "outcome": "GENUINE",
+   "reason": "For even n it only compares n(n-1)*i (first odd i coprime to n and n-1) with n(n-1)(n-2)/2 and never considers (n-1)(n-2)(n-3), which is the optimum for even n divisible by 3 (n=30: 29*28*27=21924 vs printed 30*29*23=20010).",
+   "sourceHash": "7b03c3d29ab7f1c4e993b2d82b78b5b7266cdd48324cf630694c28454384adbe",
+   "test": "0032",
+   "witnessTest": "0085"
+  },
+  "7363291": {
+   "actualOutputSha256": "97b912eb4a61df5f806ca6239dde3e1a4f51ad20aced1642cbb83dc510a5fa6b",
+   "excerptSha256": "c651da89e172de7f1fc4153d4252d50b5755087ef42aa7332f3b7d9bd8e8f5ac",
+   "explanation": "Prints n(n-1)(n-2)/gcd(n-1,gcd(n,n-2)); that triple gcd is 1 for all n, and for even n lcm(n,n-1,n-2)=n(n-1)(n-2)/2 (and the optimum may be another triple), e.g. n=6 prints 120 instead of 60.",
+   "kind": "wrong-answer",
+   "lines": "11-13",
+   "outcome": "GENUINE",
+   "reason": "Prints n(n-1)(n-2)/gcd(n-1,gcd(n,n-2)); that triple gcd is 1 for all n, and for even n lcm(n,n-1,n-2)=n(n-1)(n-2)/2 (and the optimum may be another triple), e.g. n=6 prints 120 instead of 60.",
+   "sourceHash": "cce494c11c8254716c0a8fba64b78ffe3c7163165499cd1e2385df4e0fdce980",
+   "test": "0005",
+   "witnessTest": "0005"
+  }
+ },
+ "independentAuditPath": "pipeline/ratings-pools/1600/independent-audit.json",
+ "independentRecordHash": "ed2bb37285555769377120271be9f32753448ae9a877380563680e883f237e42",
+ "outcome": "TECHNICAL",
+ "packageHash": "1166d0112d7475bd447cd1c2a066c8c4d6033dac9dfa3e1f18065976379552f7",
+ "publicationApproved": false,
+ "qualificationBasis": "official",
+ "rating": 1600,
+ "reasons": [],
+ "reviewUrl": "https://staging.itsdev.in/sessions/ab69a3bc4df34f7999b57b482222032a",
+ "reviewer": "devin-ab69a3bc4df34f7999b57b482222032a",
+ "schemaVersion": 1,
+ "supersedes": {
+  "auditHash": "879484ef7a57fe4720f2a26c2fcc3f62b349988d5de117389fea82b9255ef8ac",
+  "historyPath": "audits/history/235A/879484ef7a57fe4720f2a26c2fcc3f62b349988d5de117389fea82b9255ef8ac.json",
+  "reviewer": "devin-204c72b1a58f47088f37a65c8104a8b8"
+ },
+ "validator": "devin-1ffab6b544d64d17bf1498a01b5257c0"
 }

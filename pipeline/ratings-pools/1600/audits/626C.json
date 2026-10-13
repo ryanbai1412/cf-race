@@ -1,163 +1,100 @@
 {
-  "schemaVersion": 1,
-  "id": "626C",
-  "rating": 1600,
-  "approved": true,
-  "reviewer": "devin-f2823eddff2b4a639d38c7c49d347210",
-  "reviewUrl": "https://staging.itsdev.in/sessions/f2823eddff2b4a639d38c7c49d347210",
-  "workerCommit": "d79c2e61d6b781723f3f02ed247089bc909b5bf3",
-  "archiveHash": "4adb13f3f2e15e08f62d1d494970d8c45ac5f176b0ac714f0cd1f60887e8a4f5",
-  "qualificationBasis": "official",
-  "packageHash": "f5e1d35135e763ea71574703bbf7fd7db86bd91853ce998345e1954b22abbdca",
-  "evidenceHash": "8049f7bbfd01fb52eaf8a3f53550a8fbcbddea07a52932716d8277f9361044f7",
-  "coverageHash": "2ed7919671305298e304604db2969c617b74f4e6491a0f588cde30ebcf4b9b73",
-  "semanticHash": "c0f885e77b112f28609680d10d1845a1b99a66c4afbec06d44f55e4cd450a5f6",
-  "testPairsHash": "3959f69a055ad82edd4e70a597e9fa142f847d974610e2655d08cd79c2798978",
-  "checks": {
-    "sourceAttribution": true,
-    "fullTests": true,
-    "coverage": true,
-    "fiveAcceptedFiveIncorrect": true,
-    "noSpecialChecker": true,
-    "hashes": true,
-    "statementComplete": true,
-    "inputConstraints": true,
-    "independentOracle": true,
-    "algorithmicallyWrong": true,
-    "independentOutputs": true,
-    "sandboxReplay": true
+ "acceptedConfirmed": 5,
+ "approved": true,
+ "checks": {
+  "algorithmicallyWrong": true,
+  "coverage": true,
+  "fiveAcceptedFiveIncorrect": true,
+  "fullTests": true,
+  "hashes": true,
+  "independentReference": true,
+  "inputConstraints": true,
+  "noSpecialChecker": true,
+  "sandboxReplay": true,
+  "sourceAttribution": true,
+  "upstreamPinned": true
+ },
+ "evidenceHash": "8049f7bbfd01fb52eaf8a3f53550a8fbcbddea07a52932716d8277f9361044f7",
+ "generatorReplay": null,
+ "genuineWrong": 5,
+ "id": "626C",
+ "incorrectAnalysis": {
+  "15995909": {
+   "actualOutputSha256": "a1fb50e6c86fae1679ef3351296fd6713411a08cf8dd1790a4fd05fae8688164",
+   "excerptSha256": "6f934f22e60ec6d3939ffa200e2ef4783077077e5d379e04718c2a119930b4b6",
+   "explanation": "Resolves contested multiples of 6 by stepping one group by +2/+3, but only the 2-group skips multiples of 3; the 3-group step (+3) can land on a height already used by the 2-group, so conflicts remain uncounted (6 3: 12 vs 14).",
+   "kind": "wrong-answer",
+   "lines": "7-16",
+   "outcome": "GENUINE",
+   "reason": "Resolves contested multiples of 6 by stepping one group by +2/+3, but only the 2-group skips multiples of 3; the 3-group step (+3) can land on a height already used by the 2-group, so conflicts remain uncounted (6 3: 12 vs 14).",
+   "sourceHash": "e1dbf5f7d4de0ad05b4a200170120a23b699cef31a92137266f2e8633f21c854",
+   "test": "0031",
+   "witnessTest": "0048"
   },
-  "independentAssessment": {
-    "statement": "Pinned public description/input/output/notes preserved in rendered HTML; all sample files exactly match upstream. Plain decimal 1..100 bounds for 197A and spaced decimal 0..1000000, n+m>0 for 626C are unambiguous. No required image, interaction, special checker, or floating tolerance.",
-    "officialCompleteness": "All 78 advertised official pairs exactly rejoined from independently rehashed pinned statement shard; official_tests_complete=true. Zero upstream-generated pairs are advertised. All 154 authored pairs additionally checked.",
-    "derivation": "For tallest height H, Hall conditions reduce to floor(H/2)>=n, floor(H/3)>=m, floor(H/2)+floor(H/3)-floor(H/6)>=n+m. The positive union slots repeat at offsets 2,3,4,6 in each block of six. Its S-th slot is 6*((S-1)//4)+(2,3,4,6)[(S-1)%4]. Answer is maximum of this slot, 2n and 3m; this closed form is independently derived, unlike worker binary search.",
-    "smallCrossChecks": {
-      "626CExactHeightAssignmentDP": 168,
-      "626CGrid": "Every n,m in 0..12 with positive sum; for each height assign it to at most one student type or leave unused. No Hall-count formula used in the DP.",
-      "197ADiscreteMinimaxCases": [
-        {
-          "a": 1,
-          "b": 1,
-          "r": 1,
-          "winner": "Second"
-        },
-        {
-          "a": 1,
-          "b": 2,
-          "r": 1,
-          "winner": "Second"
-        },
-        {
-          "a": 1,
-          "b": 4,
-          "r": 1,
-          "winner": "Second"
-        },
-        {
-          "a": 2,
-          "b": 1,
-          "r": 1,
-          "winner": "Second"
-        },
-        {
-          "a": 2,
-          "b": 2,
-          "r": 1,
-          "winner": "First"
-        },
-        {
-          "a": 2,
-          "b": 4,
-          "r": 1,
-          "winner": "First"
-        },
-        {
-          "a": 4,
-          "b": 1,
-          "r": 1,
-          "winner": "Second"
-        },
-        {
-          "a": 4,
-          "b": 2,
-          "r": 1,
-          "winner": "First"
-        },
-        {
-          "a": 4,
-          "b": 4,
-          "r": 1,
-          "winner": "First"
-        }
-      ],
-      "197ALimitation": "Finite integer-center toy games with r=1 supplement the proof only; continuous game correctness comes from central-symmetry proof, not discrete enumeration."
-    },
-    "testsChecked": 232,
-    "samplesChecked": 3,
-    "independentOracleSourceHash": "efe8733814fca79c9b461beedd736b4b280adffa2232eb09cb9113b2b0783387",
-    "coverage": "All n,m in 0..1000000 with positive sum. Authored 0079/0080/0081 cover one type empty and minimal overlap; 0082 has both counts 1000000 and answer 3000000. Official 0005,0006,0025..0027,0032,0074 cover one zero and one million, highly unbalanced types, both maxima and asymmetric near-maxima. All 150 authored arithmetic threshold/adversarial cases independently solved.",
-    "sampleMeanings": "1 3: even height 4 plus triple heights 3,6,9 yields maximum 9; 3 2: evens 2,4,8 plus triples 3,6 yields 8; 5 0: evens 2,4,6,8,10 yield 10.",
-    "authenticity": "All five counted accepted and five counted incorrect source IDs and SHA256s are distinct, TESTS rows and exactly authenticate against pinned public source shards. Dataset compatibility edits preserved; not a claim of original live submission bytes.",
-    "algorithmicFailures": "All five incorrect sources return substantive wrong answers on valid inputs with exit=0 and timeout=false. No debug-only, whitespace, encoding, compile, unsupported-runtime or infrastructure failures are used to qualify.",
-    "sandbox": "Fresh workdirs, pinned python image digest, v2 -O2 -std=c++17 -DONLINE_JUDGE context; network none, nonroot, read-only payload/harness/root, no capabilities, no-new-privileges and bounded CPU/address-space/wall/files/pids/tmpfs. Untrusted public code never run on host.",
-    "replay": "Every 2320 recorded counted test outcome reproduced with exact verdict, exit, timeout and outputHash. All five accepted sources also pass 3 samples. All ten sources recompiled/executed, no sample outcome contradiction.",
-    "publication": "Verified publication_gate(require_approval=False) only; no publication, PR, deploy, database/storage mutation or shared gate change."
+  "16000841": {
+   "actualOutputSha256": "ec59eeb28bb7d45d239b8c8c46d7fc8eedd82062e1dfba218b76c81816403d62",
+   "excerptSha256": "39695ac4a6dd5ddedc20060ce4512f1b8b75e05cc9ecbbf83f5359bd48167d66",
+   "explanation": "Conflict budget uses c=m//2 and d=n//3 instead of the number of multiples of 6 below the current tops, so too many or too few reassignments are made (1083 724: 2888 vs 2710).",
+   "kind": "wrong-answer",
+   "lines": "7-15",
+   "outcome": "GENUINE",
+   "reason": "Conflict budget uses c=m//2 and d=n//3 instead of the number of multiples of 6 below the current tops, so too many or too few reassignments are made (1083 724: 2888 vs 2710).",
+   "sourceHash": "8b35ad6d95bcacef053d0871ecae14271f97461dd7f1711eb053f969f15251c7",
+   "test": "0007",
+   "witnessTest": "0007"
   },
-  "incorrectAnalysis": {
-    "15995909": {
-      "reason": "Uses only the initial overlap min(2*n,3*m)//6 and a weighted heuristic for where to extend sequences, without enforcing final distinct-height capacity. For 500000 167000 returns 1000000, where only 666667 distinct even-or-triple heights exist for 667000 students; the true minimum is 1000500.",
-      "test": "0031",
-      "input": "500000 167000\r\n",
-      "expected": "1000500\r\n",
-      "actual": "1000000\n",
-      "actualHash": "085c348f64a3b543e973a33749e90ba20847b99016a87e5228847597d61ce582",
-      "exitCode": 0,
-      "timeout": false,
-      "verdict": "WA"
-    },
-    "16000841": {
-      "reason": "Advances the shorter endpoint until one original per-type budget n//3 or m//2 is exhausted, instead of stopping when enough distinct slots exist. For 1083 724 it overextends to 2888 rather than the feasible minimum 2710.",
-      "test": "0007",
-      "input": "1083 724\r\n",
-      "expected": "2710\r\n",
-      "actual": "2888\n",
-      "actualHash": "ec59eeb28bb7d45d239b8c8c46d7fc8eedd82062e1dfba218b76c81816403d62",
-      "exitCode": 0,
-      "timeout": false,
-      "verdict": "WA"
-    },
-    "16005146": {
-      "reason": "Splits only the initial overlap min(n//3,m//2) between linear endpoint increments, ignoring new overlaps introduced by extension. For 1083 724 returns 2602, with union capacity 1735 below 1807 students; true minimum 2710.",
-      "test": "0007",
-      "input": "1083 724\r\n",
-      "expected": "2710\r\n",
-      "actual": "2602\n",
-      "actualHash": "9300cb25d3e65b51159835f9e260370454458f3e3ab6c69c80b9c3be205f5664",
-      "exitCode": 0,
-      "timeout": false,
-      "verdict": "WA"
-    },
-    "16008292": {
-      "reason": "Fixed initial min endpoint overlap iterations and local skip rule do not account for overlaps in the extended ranges. For 1083 724 returns 2602, with only 1735 distinct valid heights for 1807 students; true minimum 2710.",
-      "test": "0007",
-      "input": "1083 724\r\n",
-      "expected": "2710\r\n",
-      "actual": "2602\n",
-      "actualHash": "9300cb25d3e65b51159835f9e260370454458f3e3ab6c69c80b9c3be205f5664",
-      "exitCode": 0,
-      "timeout": false,
-      "verdict": "WA"
-    },
-    "16011778": {
-      "reason": "Chooses the d-th smallest endpoint extension among an artificial sorted candidate list, losing the individual type lower bounds. With 1000000 1, d=1 and the selected candidate is 6 despite one million even towers requiring at least 2000000.",
-      "test": "0006",
-      "input": "1000000 1\r\n",
-      "expected": "2000000\r\n",
-      "actual": "6\n",
-      "actualHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
-      "exitCode": 0,
-      "timeout": false,
-      "verdict": "WA"
-    }
+  "16005146": {
+   "actualOutputSha256": "9300cb25d3e65b51159835f9e260370454458f3e3ab6c69c80b9c3be205f5664",
+   "excerptSha256": "5b99ecf0dcca38e169e240927c1b34a2f890a9a77fe2e2e7c3549cf72be5b525",
+   "explanation": "Takes the number of contested heights as min(n//3,m//2) instead of the multiples of 6 up to the final height, then splits that fixed number (1083 724: 2602 vs 2710).",
+   "kind": "wrong-answer",
+   "lines": "4",
+   "outcome": "GENUINE",
+   "reason": "Takes the number of contested heights as min(n//3,m//2) instead of the multiples of 6 up to the final height, then splits that fixed number (1083 724: 2602 vs 2710).",
+   "sourceHash": "b4846d0587ebdc7e1417a46384436d3b965ea6b8b78cc852728844316c564e17",
+   "test": "0007",
+   "witnessTest": "0007"
+  },
+  "16008292": {
+   "actualOutputSha256": "9300cb25d3e65b51159835f9e260370454458f3e3ab6c69c80b9c3be205f5664",
+   "excerptSha256": "9640f15af6950a0f1f6b93cf1280f5c0bb8e2baf9ef9fcf914c4a43aa45a4ea1",
+   "explanation": "Runs k=min(2n//6,3m//6) heuristic step adjustments that do not track contested multiples of 6 up to the final heights (1083 724: 2602 vs 2710).",
+   "kind": "wrong-answer",
+   "lines": "5-20",
+   "outcome": "GENUINE",
+   "reason": "Runs k=min(2n//6,3m//6) heuristic step adjustments that do not track contested multiples of 6 up to the final heights (1083 724: 2602 vs 2710).",
+   "sourceHash": "8da6a84d15e33b1c3d9a7323c168b6d131438610eea406fbf63ada6912e95f3e",
+   "test": "0007",
+   "witnessTest": "0007"
+  },
+  "16011778": {
+   "actualOutputSha256": "9300cb25d3e65b51159835f9e260370454458f3e3ab6c69c80b9c3be205f5664",
+   "excerptSha256": "9b5d64cf78be948000be52ec5f41de4d7a31e65a1eef80a4d048dc085608bf64",
+   "explanation": "Prints the d-th smallest of candidate heights with d=min(n//3,m), unrelated to the optimal allocation of shared multiples of 6 (1083 724: 2602 vs 2710).",
+   "kind": "wrong-answer",
+   "lines": "2-12",
+   "outcome": "GENUINE",
+   "reason": "Prints the d-th smallest of candidate heights with d=min(n//3,m), unrelated to the optimal allocation of shared multiples of 6 (1083 724: 2602 vs 2710).",
+   "sourceHash": "02c62b1b74c08329ab50eade5039df73bf3195cd6e4c4ebed98e27d7c16d99be",
+   "test": "0006",
+   "witnessTest": "0007"
   }
+ },
+ "independentAuditPath": "pipeline/ratings-pools/1600/independent-audit.json",
+ "independentRecordHash": "5ee4f7212857d71ff799a4ac418d4242f89a9c6fd1fdb0ea31f8208732b5d7b7",
+ "outcome": "TECHNICAL",
+ "packageHash": "f5e1d35135e763ea71574703bbf7fd7db86bd91853ce998345e1954b22abbdca",
+ "publicationApproved": false,
+ "qualificationBasis": "official",
+ "rating": 1600,
+ "reasons": [],
+ "reviewUrl": "https://staging.itsdev.in/sessions/ab69a3bc4df34f7999b57b482222032a",
+ "reviewer": "devin-ab69a3bc4df34f7999b57b482222032a",
+ "schemaVersion": 1,
+ "supersedes": {
+  "auditHash": "a24a8a918a789f1d3505d0f25204937a51c00a2109c870a9d22f94c5db1e4a91",
+  "historyPath": "audits/history/626C/a24a8a918a789f1d3505d0f25204937a51c00a2109c870a9d22f94c5db1e4a91.json",
+  "reviewer": "devin-f2823eddff2b4a639d38c7c49d347210"
+ },
+ "validator": "devin-1ffab6b544d64d17bf1498a01b5257c0"
 }

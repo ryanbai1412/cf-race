@@ -1,553 +1,100 @@
 {
-  "approved": true,
-  "archiveSha256": "82f7391004d616417da958849c721192e3c9086c91915c88c4e3dca52e343928",
-  "baseCommit": "c39e03406620c8edc429f9b7f85f9b3c0d4f1416",
-  "checks": {
-    "coverage": true,
-    "fiveAcceptedFiveIncorrect": true,
-    "fullTests": true,
-    "hashes": true,
-    "noSpecialChecker": true,
-    "sourceAttribution": true
+ "acceptedConfirmed": 5,
+ "approved": true,
+ "checks": {
+  "algorithmicallyWrong": true,
+  "coverage": true,
+  "fiveAcceptedFiveIncorrect": true,
+  "fullTests": true,
+  "hashes": true,
+  "independentReference": true,
+  "inputConstraints": true,
+  "noSpecialChecker": true,
+  "sandboxReplay": true,
+  "sourceAttribution": true,
+  "upstreamPinned": true
+ },
+ "evidenceHash": "369ae7c3896e48eebfd5fd68e2111e9c8ad1b1585742d5b2865084b920ca23e6",
+ "generatorReplay": null,
+ "genuineWrong": 5,
+ "id": "665A",
+ "incorrectAnalysis": {
+  "17401739": {
+   "actualOutputSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+   "excerptSha256": "f3c15d7274923b888d648ab244c0d8b15f8e4e769ece00573764b063c791d663",
+   "explanation": "Counts a bus only if it departs in [start,finish) or arrives strictly inside (start,finish); buses whose journey strictly contains Simion's trip (depart before, arrive after) are missed (bus 05:02-05:05 vs trip 05:03-05:04: 0 vs 1).",
+   "kind": "wrong-answer",
+   "lines": "15-16",
+   "outcome": "GENUINE",
+   "reason": "Counts a bus only if it departs in [start,finish) or arrives strictly inside (start,finish); buses whose journey strictly contains Simion's trip (depart before, arrive after) are missed (bus 05:02-05:05 vs trip 05:03-05:04: 0 vs 1).",
+   "sourceHash": "a774799311dd1d14027b21ee739e958b5fc90c3211bdca39d9a91ec75fa099e2",
+   "test": "0005",
+   "witnessTest": "0023"
   },
-  "evidenceHash": "369ae7c3896e48eebfd5fd68e2111e9c8ad1b1585742d5b2865084b920ca23e6",
-  "id": "665A",
-  "packageHash": "9a0204a58886e5f86501826b68882c489c7a23d83ba0ed8129d2953bf8f438cb",
-  "qualificationBasis": "official",
-  "rating": 1600,
-  "review": {
-    "coverage": "185 tests, 184 distinct: a=1 (9), a=120, tb=120 (4), departure 05:00 (11) and 23:59, and every parse passes the strict range check (including that departure is on A's schedule).",
-    "crlfIndependence": "Every incorrect source was re-run on LF-normalized copies of all test inputs; first failing test unchanged and numerically wrong answers persist, so no counterexample depends on CRLF line endings.",
-    "freshReplay": {
-      "17401445": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.002,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "185/185",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 185
-        }
-      },
-      "17401465": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.002,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "185/185",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 185
-        }
-      },
-      "17401479": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.002,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "185/185",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 185
-        }
-      },
-      "17401480": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.002,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "185/185",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 185
-        }
-      },
-      "17401490": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.002,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "185/185",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 185
-        }
-      },
-      "17401739": {
-        "compiled": true,
-        "counterexample": "0005: 5 45 4 60 21:00 -> 23, expected 26",
-        "evidenceFailedTest": "0005",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0005",
-        "lfNumericallyWrongTests": 55,
-        "maxCpu": 0.015,
-        "myFirstFailed": "0005",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 55,
-        "perTestEvidenceMatch": "185/185",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 130,
-          "WA": 55
-        }
-      },
-      "17402192": {
-        "compiled": true,
-        "counterexample": "0004: 30 60 10 60 23:30 -> 9, expected 8",
-        "evidenceFailedTest": "0004",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0004",
-        "lfNumericallyWrongTests": 19,
-        "maxCpu": 0.013,
-        "myFirstFailed": "0004",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 19,
-        "perTestEvidenceMatch": "185/185",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 166,
-          "WA": 19
-        }
-      },
-      "17402485": {
-        "compiled": true,
-        "counterexample": "0004: 30 60 10 60 23:30 -> 12, expected 8",
-        "evidenceFailedTest": "0004",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0004",
-        "lfNumericallyWrongTests": 104,
-        "maxCpu": 0.014,
-        "myFirstFailed": "0004",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 104,
-        "perTestEvidenceMatch": "185/185",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 81,
-          "WA": 104
-        }
-      },
-      "17402672": {
-        "compiled": true,
-        "counterexample": "0003: 30 60 60 60 22:30 -> 1, expected 2",
-        "evidenceFailedTest": "0003",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0003",
-        "lfNumericallyWrongTests": 165,
-        "maxCpu": 0.014,
-        "myFirstFailed": "0003",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 165,
-        "perTestEvidenceMatch": "185/185",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 20,
-          "WA": 165
-        }
-      },
-      "17403213": {
-        "compiled": true,
-        "counterexample": "0006: 1 1 1 1 10:28 -> 2, expected 1",
-        "evidenceFailedTest": "0006",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0006",
-        "lfNumericallyWrongTests": 97,
-        "maxCpu": 0.013,
-        "myFirstFailed": "0006",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 97,
-        "perTestEvidenceMatch": "185/185",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 88,
-          "WA": 97
-        }
-      }
-    },
-    "harnessCorrection": {
-      "freshReplayResult": "All 10 sources: verdict and first failed test equal evidence and every per-test raw output sha256 equals evidence; all 5 incorrect are numerically wrong on their recorded first failing test and fail there identically with LF-only inputs; samples run cleanly. Records pipeline/ratings-pools/1600/audits/history/correction-20261013/replay*/665A-*.json, summary pipeline/ratings-pools/1600/audits/history/correction-20261013/replay-summary.json.",
-      "harnessDifference": "myharness.py (c582ff42) vs myharness_tok.py (1dd7efd4) differ only on line 32, the per-test result append: tok adds 'tokSha' (sha256 of whitespace-joined output tokens) and 'outBytes', computed after the process exited from the same captured bytes. Compile command, rlimits, execution, timeout, rc, cpu and raw output 'sha' code are byte-identical. myharness_tail.py likewise only adds 'tail' and 'outBytes'; myharness_O0.py differs by -O0 (behavioral) and was supplementary only.",
-      "originalActualRuns": "Primary replay: audit8/me/myrun.py (sha256 3504804cef2d05e6c7a5c43f7a3739c0b4f63b7060b77b8d6bcffc5c17fc0b74) mounting myharness_tok.py (not c582ff42), judged by audit8/me/runcheck_tok.py (sha256 def116721cf3ac94766f592467cfcb3f41d43e4b678c3382559e6893d2aef68e). LF-only replays of the 5 incorrect: auditlf/myrun_lf.py (sha256 1a4349e05f6aa3296ce322c88ec4819a93783a26fef91335cf10087e079c24dd) mounting myharness_tok.py, judged by auditlf/lfcheck.py (sha256 bff7ed5af3ed0e41281300ad98910335b0538e55f68ee6e070efa54324efed83). All original runners/checkers/records: pipeline/ratings-pools/1600/audits/history/correction-20261013/original-runs.tar.gz (sha256 221fdd021ee5270079f95e26f4df0271a788d20d1d44a45b2c14f2547ac4fe6e).",
-      "originalError": "Superseded review.sandbox stated 'Own harness (sha256 c582ff42...983d0d)' for all replays.",
-      "supersededAudit": {
-        "auditHash": "93dff67d0dae7b228ce516ce7825288e1dd2ac736c05605b3f7ba90807ce9464",
-        "fileSha256": "5d857f1d84e349d9ba03abf802476261116c9bb98a7d010d800a962f1b81d4fa",
-        "path": "pipeline/ratings-pools/1600/audits/history/665A/93dff67d0dae7b228ce516ce7825288e1dd2ac736c05605b3f7ba90807ce9464.json"
-      },
-      "verifiedEquivalence": "All 11 originally-attested IDs (normal + LF-only) were replayed with both myharness_tok.py and unchanged myharness.py c582ff42 (pipeline/ratings-pools/1600/audits/history/correction-20261013/code/launcher_c582.py): over 165 replay pairs / 35100 test executions raw output sha256 equal 35100/35100, rc equal 35099/35100, timeout flag equal 35094/35100; the only differences are CPU-limit boundary flips on tests already past the first failure, outputs identical (none for this ID). Judgment is equivalent (pipeline/ratings-pools/1600/audits/history/correction-20261013/harness-equivalence.json)."
-    },
-    "incorrectAreAlgorithmic": "Each of the 5 incorrect sources was read in full; review.incorrectProofs gives, per source, the implemented algorithm, faulty source line numbers with their text, and a legal LF witness on the evidence failedTest with normal exit, expected vs actual and source/input/expected/actual/proof sha256. Proof witnesses: each incorrect source re-run on its evidence failedTest with CRLF->LF normalized input by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/witness.py (sha256 861f8f394e90ad2a775e4b349c81af07620fb224de258c42e9263f10e1c310c4) mounting pipeline/ratings-pools/1600/audits/history/correction-20261013/code/harness_witness.py (sha256 3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933; identical to myharness_tok.py except it also returns the full output base64), classified by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/mktuples.py (sha256 3fb42a6cbde5e4c63ef52b7a54c33ec03a9d5eedfb7d4bb244ef0c6be4b73750): qualifies only if exit code 0, no timeout, same token count as expected and at least one token numerically different (format/debug-only/CRLF/TLE/wrong-problem excluded).",
-    "incorrectProofs": {
-      "17401739": {
-        "fault": "misses buses that depart before Simion leaves and arrive after he arrives (they meet en route); correct test is busStart < finish and busFinish > start",
-        "faultyLineText": {
-          "15": "    if (start <= busStart and busStart < finish) or \\",
-          "16": "            (start < busFinish and busFinish < finish):"
-        },
-        "faultyLines": [
-          15,
-          16
-        ],
-        "implementedAlgorithm": "enumerate B->A departures from 05:00 every b, count if departure in [start,finish) or arrival in (start,finish)",
-        "language": "Python 3",
-        "proofSha256": "2c72cbdb8fc198f6a72504c49522462f2c1bb9b79c43e0ae32a9a3516e74b7e2",
-        "qualifies": true,
-        "sourceLines": 19,
-        "sourceSha256": "a774799311dd1d14027b21ee739e958b5fc90c3211bdca39d9a91ec75fa099e2",
-        "submission": "665A/17401739",
-        "witness": {
-          "actual": "23",
-          "actualOutputBytes": 3,
-          "actualOutputSha256": "076320a2a08267b4c026d06573bba408ea68841e73cdc20e62cce59de165ece3",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.014,
-          "exitCode": 0,
-          "expected": "26",
-          "expectedOutputSha256": "2218c54ac6a0d40e422f1e643c5df24bcbbe62f33ffe335ca2501dc36629c402",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "5 45\n4 60\n21:00\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "68f05e389883b2aed0d1351d66fad4756cc6fa7537fd168ad7f7234ac923724c",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "fd73fc99b13e8086a317bedf7443ef936c5e704028eb4466e10ccd69be3e5d31",
-          "record": "witness/665A-17401739.json",
-          "test": "0005",
-          "timedOut": false
-        }
-      },
-      "17402192": {
-        "fault": "current >= start with start = time - tb counts a bus arriving at A exactly when Simion departs (meeting at the city, excluded); end clamped to 1439 with <= also mis-bounds",
-        "faultyLineText": {
-          "12": "start = time - tb",
-          "15": "if end >= 1440 : end = 1439",
-          "23": "\tif current >= start and current <= end:"
-        },
-        "faultyLines": [
-          12,
-          15,
-          23
-        ],
-        "implementedAlgorithm": "window [time - tb, time + ta] over departures from 300",
-        "language": "Python 3",
-        "proofSha256": "06bd849cd4961ff2733971010440c90f4f349e7fe14c89e2834c058526cac48e",
-        "qualifies": true,
-        "sourceLines": 27,
-        "sourceSha256": "8fd2057f9bd9bf1e95ad89e67e232b9e4c184c9aff035df042c6383336edba22",
-        "submission": "665A/17402192",
-        "witness": {
-          "actual": "9",
-          "actualOutputBytes": 2,
-          "actualOutputSha256": "2e6d31a5983a91251bfae5aefa1c0a19d8ba3cf601d0e8a706b4cfa9661a6b8a",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.012,
-          "exitCode": 0,
-          "expected": "8",
-          "expectedOutputSha256": "e0c18a6a8d48da87994c100bbb324c758d413e95f0fa5135bd0738a692b4d56f",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "30 60\n10 60\n23:30\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "ed3cff68e70735a53fe12d7f3d62913443b9c1ba768c57df40d41e2bc0d8814d",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "81cb8e9af9f39da7238a3b99488ec8979590484556c338febecf19ccd97b0dfa",
-          "record": "witness/665A-17402192.json",
-          "test": "0004",
-          "timedOut": false
-        }
-      },
-      "17402485": {
-        "fault": "divides the window length by b, ignoring departure phase (multiples of b from 05:00), open-interval endpoints and the 23:59 last departure",
-        "faultyLineText": {
-          "5": "print((t + ta - max(t - tb, 0)) // b)"
-        },
-        "faultyLines": [
-          5
-        ],
-        "implementedAlgorithm": "closed form (t+ta-max(t-tb,0))//b",
-        "language": "Python 3",
-        "proofSha256": "553d6063c709feee21caa071509636d655857f70ca30407c22a53d3da6acc357",
-        "qualifies": true,
-        "sourceLines": 5,
-        "sourceSha256": "2de3ca45c723cd8914d586aa1e2325a4ca9dc26de158cd3f7e741fdb0c12956a",
-        "submission": "665A/17402485",
-        "witness": {
-          "actual": "12",
-          "actualOutputBytes": 3,
-          "actualOutputSha256": "a1fb50e6c86fae1679ef3351296fd6713411a08cf8dd1790a4fd05fae8688164",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.012,
-          "exitCode": 0,
-          "expected": "8",
-          "expectedOutputSha256": "e0c18a6a8d48da87994c100bbb324c758d413e95f0fa5135bd0738a692b4d56f",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "30 60\n10 60\n23:30\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "ed3cff68e70735a53fe12d7f3d62913443b9c1ba768c57df40d41e2bc0d8814d",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "81cb8e9af9f39da7238a3b99488ec8979590484556c338febecf19ccd97b0dfa",
-          "record": "witness/665A-17402485.json",
-          "test": "0004",
-          "timedOut": false
-        }
-      },
-      "17402672": {
-        "fault": "lower count off by one (r used as count of arrived buses incl. boundary), tb>=basic special case resets to 0, and end//b is not clamped to the last 23:59 departure",
-        "faultyLineText": {
-          "10": "    if temp*b+tb<=basic:",
-          "15": "if tb>=basic:",
-          "17": "answer=end//b-answer",
-          "7": "r=basic//b+1"
-        },
-        "faultyLines": [
-          7,
-          10,
-          15,
-          17
-        ],
-        "implementedAlgorithm": "binary search for buses already arrived, end//b minus that",
-        "language": "Python 3",
-        "proofSha256": "f7616bdb4f00047a688d66d86c4ba9176339b36056f973921d03eb85cb681b20",
-        "qualifies": true,
-        "sourceLines": 18,
-        "sourceSha256": "cb11fe078b06301626f7dea00536727fdcb6a99314fb64d6f51051bcdce15fb6",
-        "submission": "665A/17402672",
-        "witness": {
-          "actual": "1",
-          "actualOutputBytes": 2,
-          "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.012,
-          "exitCode": 0,
-          "expected": "2",
-          "expectedOutputSha256": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "30 60\n60 60\n22:30\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "7bc8f0d0332b4304b924eac5ccd68d2de4f79b91df87f08f66734f99d11b2d09",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "ae77e24f0acb2748de309dec5a72654f5520f2411e8ead49cfb9a1da2379e6a5",
-          "record": "witness/665A-17402672.json",
-          "test": "0003",
-          "timedOut": false
-        }
-      },
-      "17403213": {
-        "fault": "(end-start)/b counts window length, not the departures (multiples of b) strictly inside the window",
-        "faultyLineText": {
-          "11": "print(int((end-start) / b))",
-          "8": "start = min(ma, max(tot - tb, 0))",
-          "9": "end = max(mi, min(ma, tot + ta))"
-        },
-        "faultyLines": [
-          8,
-          9,
-          11
-        ],
-        "implementedAlgorithm": "clamp [t-tb, t+ta] to the day and divide by b",
-        "language": "Python 3",
-        "proofSha256": "bbc81db40d39ab570e93de51ee3dc3d178b330e2dd9935008478499d1fb25f27",
-        "qualifies": true,
-        "sourceLines": 11,
-        "sourceSha256": "2aae7b62a55f65e1c441ed7c94bd3e1c8f5e9e126e53fbbcf3e53dda1ad32ae7",
-        "submission": "665A/17403213",
-        "witness": {
-          "actual": "2",
-          "actualOutputBytes": 2,
-          "actualOutputSha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.013,
-          "exitCode": 0,
-          "expected": "1",
-          "expectedOutputSha256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "1 1\n1 1\n10:28\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "24d75609d1c60bdaa48b1a05da50c7b002b5ae287d414dcf6fee57fe5b33e8f8",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "769269f77c5fce5f78f89f1a6a107e573dfcd26f596228e8adb2856903032b7e",
-          "record": "witness/665A-17403213.json",
-          "test": "0006",
-          "timedOut": false
-        }
-      }
-    },
-    "independentOracle": "Count buses from B departing at 300, 300+b, ... ≤ 1439 whose open interval (s, s+tb) overlaps (t, t+ta); cross-checked against an independent interval-intersection brute force on 20000 random valid inputs.",
-    "officialTests": "official_tests_complete=true, testset_size 31; package tests 0001-0031 equal the pinned row's official tests positionally (CRLF-normalized inputs, token-equal outputs); source row equals the sha-verified pinned parquet row.",
-    "oracleResult": "All 185 package tests and all samples pass a strict format/range parse; every expected output equals my oracle; all upstream official rows equal my oracle.",
-    "sandbox": "Corrected 2026-10-13 (supersedes auditHash 93dff67d0dae7b228ce516ce7825288e1dd2ac736c05605b3f7ba90807ce9464). Fresh full replay of all 10 sources on every package test and sample, plus LF-only-input replay of the 5 incorrect, with own harness myharness_tok.py sha256 1dd7efd4776d4d8f0eb30512e4182274d33b1bd28c0a2abbffa41c137685d4a9 (pipeline/ratings-pools/1600/audits/history/correction-20261013/code/harness.py), launched by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/launcher.py sha256 0815a7c051885918656ae9fd38f763d4a0bef346a37f83431a5a3a5fa451856d, judged by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/judge.py sha256 df9f3e33be2e97e9d864dac1ae32ec96edf39845235872d36af6da473f6a1b5f (full-output token sha256 vs expected; WA counted only when numerically wrong); not worker pool_harness. Pinned python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3, --pull=never, --network=none, --read-only, --user=65534:65534, --cap-drop=ALL, no-new-privileges, pids<=32, 1 CPU, 2560m memory/swap, tmpfs /w 128m and /tmp 16m, inputs and harness mounted read-only, RLIMIT_CPU/AS at problem limits, RLIMIT_FSIZE 16MiB, launched from env -i (PATH only) without credentials; g++ -O2 -std=c++17 -DONLINE_JUDGE; python3 for Python sources. Proof witnesses: each incorrect source re-run on its evidence failedTest with CRLF->LF normalized input by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/witness.py (sha256 861f8f394e90ad2a775e4b349c81af07620fb224de258c42e9263f10e1c310c4) mounting pipeline/ratings-pools/1600/audits/history/correction-20261013/code/harness_witness.py (sha256 3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933; identical to myharness_tok.py except it also returns the full output base64), classified by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/mktuples.py (sha256 3fb42a6cbde5e4c63ef52b7a54c33ec03a9d5eedfb7d4bb244ef0c6be4b73750): qualifies only if exit code 0, no timeout, same token count as expected and at least one token numerically different (format/debug-only/CRLF/TLE/wrong-problem excluded).",
-    "singleAnswer": "Output is uniquely determined by the input; token comparison is correct; no special checker or float tolerance.",
-    "statement": "All bounds are written in full (1 ≤ a, ta, b, tb ≤ 120; departure hh:mm between 05:00 and 23:59, a bus from A guaranteed at that time); no exponent markup involved. Package statement equals the pinned open-r1 row.",
-    "submissionProvenance": "All sources byte-identical (sha256) to rows in pinned open-r1/codeforces-submissions shards (shard sha256 verified independently); upstream verdict/problem/language match; for every incorrect source the first failing package test equals upstream passedTestCount+1.",
-    "submissions": [
-      {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "17401445",
-        "maxCpu": 0.005,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "185/185",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "17401465",
-        "maxCpu": 0.007,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "185/185",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "17401479",
-        "maxCpu": 0.007,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "185/185",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "17401480",
-        "maxCpu": 0.004,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "185/185",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "17401490",
-        "maxCpu": 0.011,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "185/185",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "counterexample": "0005: 5 45 4 60 21:00 -> 23, expected 26",
-        "defect": "counts buses by endpoint containment, missing buses that start before departure and arrive after Simion arrives",
-        "evidenceFailedTest": "0005",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "formatOrDebugOnlyWA": 0,
-        "id": "17401739",
-        "maxCpu": 0.038,
-        "myFirstFailed": "0005",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 55,
-        "perTestEvidenceMatch": "185/185",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "counterexample": "0004: 30 60 10 60 23:30 -> 9, expected 8",
-        "defect": "start/end clamping includes buses meeting exactly at endpoints (<= comparisons)",
-        "evidenceFailedTest": "0004",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "formatOrDebugOnlyWA": 0,
-        "id": "17402192",
-        "maxCpu": 0.064,
-        "myFirstFailed": "0004",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 19,
-        "perTestEvidenceMatch": "185/185",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "counterexample": "0004: 30 60 10 60 23:30 -> 12, expected 8",
-        "defect": "closed-form floor((t+ta-max(t-tb,0))/b) ignores the bus-schedule phase and end-of-day cutoff",
-        "evidenceFailedTest": "0004",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "formatOrDebugOnlyWA": 0,
-        "id": "17402485",
-        "maxCpu": 0.039,
-        "myFirstFailed": "0004",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 104,
-        "perTestEvidenceMatch": "185/185",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "counterexample": "0003: 30 60 60 60 22:30 -> 1, expected 2",
-        "defect": "binary-search lower bound off by one at tb>=basic and end-of-day not clamped",
-        "evidenceFailedTest": "0003",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "formatOrDebugOnlyWA": 0,
-        "id": "17402672",
-        "maxCpu": 0.037,
-        "myFirstFailed": "0003",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 165,
-        "perTestEvidenceMatch": "185/185",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "counterexample": "0006: 1 1 1 1 10:28 -> 2, expected 1",
-        "defect": "(end-start)/b without phase alignment to bus departures",
-        "evidenceFailedTest": "0006",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "formatOrDebugOnlyWA": 0,
-        "id": "17403213",
-        "maxCpu": 0.025,
-        "myFirstFailed": "0006",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 97,
-        "perTestEvidenceMatch": "185/185",
-        "samplesOK": true
-      }
-    ]
+  "17402192": {
+   "actualOutputSha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+   "excerptSha256": "84add68719d3e53b9b637a9d647d152d0e80cd611acc753b02038dcd4faef508",
+   "explanation": "Uses start=time-tb with `current >= start`, counting the bus that arrives at A exactly when Simion departs; the statement excludes meetings at endpoints (1 1/1 1/10:28: 2 vs 1).",
+   "kind": "wrong-answer",
+   "lines": "12-24",
+   "outcome": "GENUINE",
+   "reason": "Uses start=time-tb with `current >= start`, counting the bus that arrives at A exactly when Simion departs; the statement excludes meetings at endpoints (1 1/1 1/10:28: 2 vs 1).",
+   "sourceHash": "8fd2057f9bd9bf1e95ad89e67e232b9e4c184c9aff035df042c6383336edba22",
+   "test": "0004",
+   "witnessTest": "0006"
   },
-  "reviewUrl": "https://staging.itsdev.in/sessions/204c72b1a58f47088f37a65c8104a8b8",
-  "reviewer": "devin-204c72b1a58f47088f37a65c8104a8b8",
-  "schemaVersion": 1,
-  "validator": "devin-1ffab6b544d64d17bf1498a01b5257c0"
+  "17402485": {
+   "actualOutputSha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+   "excerptSha256": "f7307eed581470f4ab4e3d3ff85570ce29d8038a9912319d0d362d72e3f76a01",
+   "explanation": "Closed form (t+ta-max(t-tb,0))//b ignores the alignment of departures and the strict (exclusive) endpoints (1 1/1 1/10:28: 2 vs 1).",
+   "kind": "wrong-answer",
+   "lines": "4-5",
+   "outcome": "GENUINE",
+   "reason": "Closed form (t+ta-max(t-tb,0))//b ignores the alignment of departures and the strict (exclusive) endpoints (1 1/1 1/10:28: 2 vs 1).",
+   "sourceHash": "2de3ca45c723cd8914d586aa1e2325a4ca9dc26de158cd3f7e741fdb0c12956a",
+   "test": "0004",
+   "witnessTest": "0006"
+  },
+  "17402672": {
+   "actualOutputSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+   "excerptSha256": "24b40d9a6fd335b156c5e6d02696a946ac4333647ba9ad70003593e6cdf087d3",
+   "explanation": "Binary search for buses that arrived by Simion's departure plus end//b uses inconsistent inclusive/exclusive boundaries, miscounting buses (4 1/5 4/18:40: 0 vs 1).",
+   "kind": "wrong-answer",
+   "lines": "6-17",
+   "outcome": "GENUINE",
+   "reason": "Binary search for buses that arrived by Simion's departure plus end//b uses inconsistent inclusive/exclusive boundaries, miscounting buses (4 1/5 4/18:40: 0 vs 1).",
+   "sourceHash": "cb11fe078b06301626f7dea00536727fdcb6a99314fb64d6f51051bcdce15fb6",
+   "test": "0003",
+   "witnessTest": "0007"
+  },
+  "17403213": {
+   "actualOutputSha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+   "excerptSha256": "c81d65367d88ee7787253eb5dd1e2b9183312bb6ca66e64632f4d21a7f6a4107",
+   "explanation": "Prints int((end-start)/b) over the open interval length, ignoring departure alignment and strict endpoints (1 1/1 1/10:28: 2 vs 1).",
+   "kind": "wrong-answer",
+   "lines": "5-11",
+   "outcome": "GENUINE",
+   "reason": "Prints int((end-start)/b) over the open interval length, ignoring departure alignment and strict endpoints (1 1/1 1/10:28: 2 vs 1).",
+   "sourceHash": "2aae7b62a55f65e1c441ed7c94bd3e1c8f5e9e126e53fbbcf3e53dda1ad32ae7",
+   "test": "0006",
+   "witnessTest": "0006"
+  }
+ },
+ "independentAuditPath": "pipeline/ratings-pools/1600/independent-audit.json",
+ "independentRecordHash": "8edc53ba3b6044898974d0d07cd9abb81b8f1ff49a6628efbf652a1d7499fcf4",
+ "outcome": "TECHNICAL",
+ "packageHash": "9a0204a58886e5f86501826b68882c489c7a23d83ba0ed8129d2953bf8f438cb",
+ "publicationApproved": false,
+ "qualificationBasis": "official",
+ "rating": 1600,
+ "reasons": [],
+ "reviewUrl": "https://staging.itsdev.in/sessions/ab69a3bc4df34f7999b57b482222032a",
+ "reviewer": "devin-ab69a3bc4df34f7999b57b482222032a",
+ "schemaVersion": 1,
+ "supersedes": {
+  "auditHash": "4b40185ddb53e0ede46238d65a587fdf08eecd26c7d00ae75fbc56d006535924",
+  "historyPath": "audits/history/665A/4b40185ddb53e0ede46238d65a587fdf08eecd26c7d00ae75fbc56d006535924.json",
+  "reviewer": "devin-204c72b1a58f47088f37a65c8104a8b8"
+ },
+ "validator": "devin-1ffab6b544d64d17bf1498a01b5257c0"
 }

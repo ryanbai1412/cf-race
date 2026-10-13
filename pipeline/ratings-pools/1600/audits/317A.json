@@ -1,111 +1,100 @@
 {
-  "approved": true,
-  "archiveHash": "3afeb60cb0f65e1c2d64c7ba7fd5a998bf43ad11a9690891fd4fa9df1dbe14ae",
-  "checks": {
-    "algorithmicallyWrong": true,
-    "coverage": true,
-    "fiveAcceptedFiveIncorrect": true,
-    "fullTests": true,
-    "hashes": true,
-    "independentOracle": true,
-    "independentOutputs": true,
-    "inputConstraints": true,
-    "noSpecialChecker": true,
-    "sandboxReplay": true,
-    "sourceAttribution": true,
-    "statementComplete": true
+ "acceptedConfirmed": 5,
+ "approved": true,
+ "checks": {
+  "algorithmicallyWrong": true,
+  "coverage": true,
+  "fiveAcceptedFiveIncorrect": true,
+  "fullTests": true,
+  "hashes": true,
+  "independentReference": true,
+  "inputConstraints": true,
+  "noSpecialChecker": true,
+  "sandboxReplay": true,
+  "sourceAttribution": true,
+  "upstreamPinned": true
+ },
+ "evidenceHash": "ab46b491b3bb286bad52ac67a981fe16d8f3705d207e6511c1fa1ac0e46be0c2",
+ "generatorReplay": null,
+ "genuineWrong": 5,
+ "id": "317A",
+ "incorrectAnalysis": {
+  "3885239": {
+   "actualOutputSha256": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+   "excerptSha256": "40ad8fa942853b9f37c1ea008b982898efe70049b9f86b616d2ff29d9481c06b",
+   "explanation": "Fast-forward uses floor(|x|/y) so x can stay negative, then iterates (x,y)=(y,x+y), which replaces the larger number y by x+y<y when x<0, losing progress (x=-1,y=5,m=14 prints 4 vs 3).",
+   "kind": "wrong-answer",
+   "lines": "11-17",
+   "outcome": "GENUINE",
+   "reason": "Fast-forward uses floor(|x|/y) so x can stay negative, then iterates (x,y)=(y,x+y), which replaces the larger number y by x+y<y when x<0, losing progress (x=-1,y=5,m=14 prints 4 vs 3).",
+   "sourceHash": "f9ee5e435aa8d55a9d381fbcea55a22568c665db05328d409c9f63b1a1f10733",
+   "test": "0012",
+   "witnessTest": "0012"
   },
-  "coverageHash": "445239176768733843dec48bab11e3c86d4223c842a30c28085692945966a137",
-  "evidenceHash": "ab46b491b3bb286bad52ac67a981fe16d8f3705d207e6511c1fa1ac0e46be0c2",
-  "id": "317A",
-  "incorrectAnalysis": {
-    "3885239": {
-      "independentAlgorithmicWitness": {
-        "actual": "6\n",
-        "actualHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
-        "exitCode": 0,
-        "expected": "0\n",
-        "input": "-25 4 -8\n",
-        "test": "0012",
-        "timeout": false,
-        "verdict": "WA"
-      },
-      "reason": "Skips the initial already-perfect check before spending additions to recover a negative first value; -25 4 -8 needs 0 additions but returns 6."
-    },
-    "3893128": {
-      "independentAlgorithmicWitness": {
-        "actual": "40\n",
-        "actualHash": "673650f936cb3b0a2f93ce09d81be10748b1b203c19e8176b4eefc1964a0cf3a",
-        "exitCode": 0,
-        "expected": "39\n",
-        "input": "-4 6 447215792\n",
-        "test": "0055",
-        "timeout": false,
-        "verdict": "WA"
-      },
-      "reason": "Rounds signed-state recovery down and unconditionally adds one transition; -4 6 447215792 needs 39 but returns 40."
-    },
-    "3921936": {
-      "independentAlgorithmicWitness": {
-        "actual": "-1\n",
-        "actualHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
-        "exitCode": 0,
-        "expected": "0\n",
-        "input": "-134 -345 -134\n",
-        "test": "0005",
-        "timeout": false,
-        "verdict": "WA"
-      },
-      "reason": "Classifies two nonpositive operands as impossible before checking whether the initial maximum already meets m; -134 -345 -134 needs 0 but returns -1."
-    },
-    "3929401": {
-      "independentAlgorithmicWitness": {
-        "actual": "4\n",
-        "actualHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
-        "exitCode": 0,
-        "expected": "2\n",
-        "input": "1 2 5\n",
-        "test": "0001",
-        "timeout": false,
-        "verdict": "WA"
-      },
-      "reason": "Recursive count adds both a mutated n and an outer +1 per step; 1 2 5 needs 2 but returns 4."
-    },
-    "3930716": {
-      "independentAlgorithmicWitness": {
-        "actual": "-1\n",
-        "actualHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
-        "exitCode": 0,
-        "expected": "0\n",
-        "input": "-134 -345 -134\n",
-        "test": "0005",
-        "timeout": false,
-        "verdict": "WA"
-      },
-      "reason": "Uses sum-of-operands as an impossibility rule before checking the initial target; -134 -345 -134 already meets m and needs 0 but returns -1."
-    }
+  "3893128": {
+   "actualOutputSha256": "673650f936cb3b0a2f93ce09d81be10748b1b203c19e8176b4eefc1964a0cf3a",
+   "excerptSha256": "34afb56459f9eb731f38b166d72ccc7393bcf33aeb83cee2e006d10b81b7e984",
+   "explanation": "Same flaw: floor fast-forward may leave A<0, then (A,B)=(B,A+B) overwrites the larger value with a smaller sum, overcounting operations.",
+   "kind": "wrong-answer",
+   "lines": "15-24",
+   "outcome": "GENUINE",
+   "reason": "Same flaw: floor fast-forward may leave A<0, then (A,B)=(B,A+B) overwrites the larger value with a smaller sum, overcounting operations.",
+   "sourceHash": "7695f64a733d5c7bb66523e2d2b6a3aab22257d314374bf1f8d43edec4175e45",
+   "test": "0055",
+   "witnessTest": "0055"
   },
-  "independentAssessment": {
-    "authenticity": "Five accepted and five algorithmically incorrect counted sources have distinct hashes and submission IDs in SHA-verified pinned public submission rows. This verifies pinned dataset bytes, not direct live Codeforces API submission retrieval.",
-    "coverage": "Includes both extrema of signed input and target, already-perfect initial states, both operands nonpositive, recovery from -10^18 by positive unit operand, and near-10^18 growth.",
-    "derivation": "If the initial maximum reaches m return 0. Otherwise two nonpositive operands cannot grow. With one positive operand, repeatedly add it to the smaller one until nonnegative, then always add the current larger to smaller for fastest growth. Independently compared against both-choice literal BFS on 6,300 signed small states.",
-    "generator": "Fixed-seed authored generator reproduced all 155 exact supplemental records twice inside the pinned offline Docker sandbox; answers separately matched the independent oracle.",
-    "independentOracleSourceHash": "9a6ccc8ac5f4e6368c0a687253a014609c3963f32f10299b9945eff013e4542d",
-    "officialCompleteness": "All 70 advertised official input/output pairs SHA-verified against the pinned upstream public statement row, plus all 155 authored inputs and their output bytes checked independently.",
-    "publication": "Only publication_gate(require_approval=False) requested; no publish, PR, merge, deployment, production, board, worker/test/evidence mutation.",
-    "samplesChecked": 3,
-    "sandbox": "All ten sources compiled and executed only in the existing pinned network-none, nonroot, read-only, capability-dropped Docker sandbox, with bounded CPU/memory/PIDs and current execution v2; all 2,250 official+authored verdict/exit/timeout/output-hash tuples match, and all 30 sample runs checked.",
-    "smallCrossChecks": 6300,
-    "statement": "Complete pinned statement paragraph order and sample meanings checked against retained English original and current public mirror; only the documented exponent markup correction changes rendering. Signed bounds are -10^18 <= x,y,m <= 10^18; single integer answer.",
-    "testsChecked": 225
+  "3921936": {
+   "actualOutputSha256": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+   "excerptSha256": "4a2f9d9cbb4e810f47586ff7b2f928f47a0d2028a510849812956614adbf9395",
+   "explanation": "Prints -1 whenever max(x,y)<=0 before testing max(x,y)>=m; for nonpositive pairs already m-perfect (m<=max) the answer is 0.",
+   "kind": "wrong-answer",
+   "lines": "3-5",
+   "outcome": "GENUINE",
+   "reason": "Prints -1 whenever max(x,y)<=0 before testing max(x,y)>=m; for nonpositive pairs already m-perfect (m<=max) the answer is 0.",
+   "sourceHash": "3ae3830f77d4c8d61cb0ed705d3d7408ee4e7d8f75f43da208494a75eae633b5",
+   "test": "0005",
+   "witnessTest": "0008"
   },
-  "packageHash": "b1dd5be22286428c30283ddaa70997c8c8e89b1dc811ddc5911738a44ab861ad",
-  "qualificationBasis": "official",
-  "rating": 1600,
-  "reviewUrl": "https://staging.itsdev.in/sessions/f2823eddff2b4a639d38c7c49d347210",
-  "reviewer": "devin-f2823eddff2b4a639d38c7c49d347210",
-  "schemaVersion": 1,
-  "semanticHash": "20b4f31023c66b09028f88d10e882af3f4bd56ba75a1a1c7de79efe142d96e64",
-  "testPairsHash": "5add24d1e61b55004db7dd24fe146a1f4805ffe3c5fbe50633b58e64a7b5bd7f",
-  "workerCommit": "5924eeb3b0c8645a7f85f6a74bffdc5358b9d0b7"
+  "3929401": {
+   "actualOutputSha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+   "excerptSha256": "ba75a7f2b325ea30c0e7b23163f5c0756da7a181349a2ca418bc2be41337162d",
+   "explanation": "ispr_recur returns the accumulated depth n at the base AND adds 1 per level (`n += 1` plus `return 1 + ...`), so each path is counted twice: normal-exit results are 2x the true minimum (1076 21457 48037 -> 6 vs 3).",
+   "kind": "wrong-answer",
+   "lines": "10-15",
+   "outcome": "GENUINE",
+   "reason": "ispr_recur returns the accumulated depth n at the base AND adds 1 per level (`n += 1` plus `return 1 + ...`), so each path is counted twice: normal-exit results are 2x the true minimum (1076 21457 48037 -> 6 vs 3).",
+   "sourceHash": "0a1f43d94abab4e91f4908db170557a5799f7876b18d9bf4ca375b2abdbfc8e8",
+   "test": "0001",
+   "witnessTest": "0001"
+  },
+  "3930716": {
+   "actualOutputSha256": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+   "excerptSha256": "96c073d75549ad57eb119d893d1a88d926d74b019029360283b88433ab51bc44",
+   "explanation": "Declares -1 whenever x+y<=x and x+y<=y, even if one value already >= m (answer 0).",
+   "kind": "wrong-answer",
+   "lines": "5",
+   "outcome": "GENUINE",
+   "reason": "Declares -1 whenever x+y<=x and x+y<=y, even if one value already >= m (answer 0).",
+   "sourceHash": "1b1d6d3041dbc2830e5930f4d55a7404c34fe13192092fb52c52940598ca5e75",
+   "test": "0005",
+   "witnessTest": "0008"
+  }
+ },
+ "independentAuditPath": "pipeline/ratings-pools/1600/independent-audit.json",
+ "independentRecordHash": "1887a40d1d1658cf3a9e017c8a0b5ea3bddb2abf32e5bd29854334e7c8cb5429",
+ "outcome": "TECHNICAL",
+ "packageHash": "b1dd5be22286428c30283ddaa70997c8c8e89b1dc811ddc5911738a44ab861ad",
+ "publicationApproved": false,
+ "qualificationBasis": "official",
+ "rating": 1600,
+ "reasons": [],
+ "reviewUrl": "https://staging.itsdev.in/sessions/ab69a3bc4df34f7999b57b482222032a",
+ "reviewer": "devin-ab69a3bc4df34f7999b57b482222032a",
+ "schemaVersion": 1,
+ "supersedes": {
+  "auditHash": "d77112921565fb56838ac5536213852cc3a8db179677ce4b101abde5894e3726",
+  "historyPath": "audits/history/317A/d77112921565fb56838ac5536213852cc3a8db179677ce4b101abde5894e3726.json",
+  "reviewer": "devin-f2823eddff2b4a639d38c7c49d347210"
+ },
+ "validator": "devin-1ffab6b544d64d17bf1498a01b5257c0"
 }

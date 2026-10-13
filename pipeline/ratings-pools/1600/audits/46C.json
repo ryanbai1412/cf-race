@@ -1,6 +1,6 @@
 {
+ "acceptedConfirmed": 5,
  "approved": true,
- "archiveHash": "634f210fa0f9341d63af01af9363553623b7f6080705ab8ee11192620495e180",
  "checks": {
   "algorithmicallyWrong": true,
   "coverage": true,
@@ -11,192 +11,123 @@
   "hashes": true,
   "independentOracle": true,
   "independentOutputs": true,
+  "independentReference": true,
   "inputConstraints": true,
   "noSpecialChecker": true,
   "sandboxReplay": true,
   "sourceAttribution": true,
-  "statementComplete": true
+  "upstreamPinned": true
  },
- "coverageHash": "657799920404f930b9ff184e77f7d7f8bda55cc33e4680e49a1534526ee6c321",
  "evidenceHash": "7939a7ae0911964d4d8e77003f27299595fd190876880cf80f2f7403a4cf424b",
- "generatorProofHash": "d21a7194f82869170b484865e589a75eb2a2a2fe1640d98a3e5a779b2d0f1d16",
- "id": "46C",
- "incorrectAnalysis": {
-  "37920226": {
-   "actual": "5\n",
+ "generatorReplay": {
+  "authoredPairs": 151,
+  "generatorOutputEqualsPackageAuthoredPairs": true,
+  "independentReferenceAgreesAllAuthored": true,
+  "matchesRecorded": true,
+  "pairsHashMatches": true,
+  "recorded": "4017780ad61b8effad91cd5ce0740c58005275b3f69ea99c97ada82932635ca4",
+  "run0": {
+   "compilerFlags": [
+    "-O2",
+    "-std=c++17",
+    "-DONLINE_JUDGE"
+   ],
+   "executionVersion": 2,
    "exitCode": 0,
-   "expected": "4\n",
-   "kind": "wrong-answer",
-   "lfReplayFirstFailure": "0009",
-   "reason": "Takes the minority species block starting at its first occurrence s.find(c) without trying other cyclic rotations, so it counts misplaced animals in a single arbitrary window instead of the minimum over all n cyclic windows.",
-   "test": "0009",
+   "outputHash": "4017780ad61b8effad91cd5ce0740c58005275b3f69ea99c97ada82932635ca4",
    "timeout": false
   },
-  "39267250": {
-   "actual": "1\n",
+  "run1": {
+   "compilerFlags": [
+    "-O2",
+    "-std=c++17",
+    "-DONLINE_JUDGE"
+   ],
+   "executionVersion": 2,
    "exitCode": 0,
-   "expected": "0\n",
-   "kind": "wrong-answer",
-   "lfReplayFirstFailure": "0001",
-   "reason": "Counts hamsters after doubling the string (h = (s+s).count(\"H\") = 2*count(H)), so every window is twice the correct width; on HTH it minimizes T over width-4 windows and returns 1 instead of 0.",
-   "test": "0001",
-   "timeout": false
-  },
-  "47810975": {
-   "actual": "1\n",
-   "exitCode": 0,
-   "expected": "0\n",
-   "kind": "wrong-answer",
-   "lfReplayFirstFailure": "0004",
-   "reason": "Greedy consumption of tiger gaps from both ends is not equivalent to the minimum over cyclic windows; on HTTH (already grouped cyclically) it returns 1 instead of 0.",
-   "test": "0004",
-   "timeout": false
-  },
-  "47811179": {
-   "actual": "0\n",
-   "exitCode": 0,
-   "expected": "2\n",
-   "kind": "wrong-answer",
-   "lfReplayFirstFailure": "0002",
-   "reason": "Prints 0 unless every tiger gap except one equals 1 (c.count(1)>y-1), otherwise runs a two-end greedy; on HTHTHTHHT it returns 0 although two swaps are needed.",
-   "test": "0002",
-   "timeout": false
-  },
-  "91793311": {
-   "actual": "15\n",
-   "exitCode": 0,
-   "expected": "14\n",
-   "kind": "wrong-answer",
-   "lfReplayFirstFailure": "0011",
-   "reason": "Only evaluates two anchored windows (blocks ending at the trailing run of each species) instead of all n cyclic rotations, overestimating the minimum (15 vs 14 on the n=120 test).",
-   "test": "0011",
+   "outputHash": "4017780ad61b8effad91cd5ce0740c58005275b3f69ea99c97ada82932635ca4",
    "timeout": false
   }
  },
- "independentAssessment": {
-  "auditTools": {
-   "brute.py": "1642befe65170131b649c56bca3f378d245b57bb083919e5b031301aaea86d8e",
-   "brute_body.py": "b89e8b154926c9935e1a263954571f918fe6820cd44bb2f01a0d0feaf17952a1",
-   "build_audit.py": "e6ed59f59ccb86776978b1004bf2409d08e9851aed915665665c469fd9887e13",
-   "gencheck.py": "ac05640b679e0f59c6e23734e5426d94c7d080a223fe800afcbd2cc37e6991cd",
-   "hfcheck.py": "5a24d1f2d63b5a70599786ba8cd6b5742482e3122344bbe5a88bca48e84d2809",
-   "oracle.py": "6b906e77988cd860f93c602c46d9bc989be28dc02048e73abebfbe953a417d12",
-   "oracle_23B.py": "ffe09780c5efcd64fe8768b0803d49ab89548410604379e948f644057fcb265a",
-   "oracle_28B.py": "32e0680538c0e74a11e2f5676b34a7a77ba739c5323031a1bd57d8e9c91aac4d",
-   "oracle_46C.py": "9a9a6349210171979005c065cb872545bfe3e8346759c2f750afbf143c5e34f0",
-   "oracle_71C.py": "3aca87a66aee19233df3e328a3be1e0860193afe8ece26343adf892d57c5099b",
-   "oraclecheck.py": "3681bdec74fb4acd377c8dc98d3c9451146b5686e496926a4fce65c92dbc773c",
-   "replay.py": "3c22c084ea6b34d35fad0830b1d6f03348905ce7325c01f5b3da1d0341b0c3ad",
-   "variants.py": "469dbc133cb0095a8878e594e5649cf137cd17d9aefea93982228624bb018cbf"
+ "genuineWrong": 5,
+ "id": "46C",
+ "incorrectAnalysis": {
+  "37920226": {
+   "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+   "excerptSha256": "50f3ad109610ae9366d0f084191a8415ff3b5b9da94c29385809d9babe816f1e",
+   "explanation": "Chooses the minority letter and inspects only the single window that starts at its first occurrence, instead of minimising the number of out-of-place letters over all n circular windows.",
+   "kind": "wrong-answer",
+   "lines": "4-8",
+   "outcome": "GENUINE",
+   "reason": "Chooses the minority letter and inspects only the single window that starts at its first occurrence, instead of minimising the number of out-of-place letters over all n circular windows.",
+   "sourceHash": "2cc7a3390d29df3b7d8593d3ce42a68194f04c4136dec3a53ba8226d8c3a81ac",
+   "test": "0009",
+   "witnessTest": "0036"
   },
-  "bruteCrossCheck": "Independent BFS over swap states for every H/T ring with 2<=n<=10 (both species present), 729 cases including all n<=8 exhaustively plus random n=9..10, in pinned offline Docker: 0 mismatches vs the window formula.",
-  "coverage": "Authored tests include n=2 (6), n=1000 (4 authored + 1 upstream), single hamster (8), single tiger (8), already-grouped/wraparound, interleaved, and random dense rings; max answer 250.",
-  "derivation": "With h = count(H), any final arrangement is a cyclic window of h consecutive positions holding all hamsters; one swap fixes one misplaced T inside and one misplaced H outside, so answer = min over the n cyclic windows of width h of the number of T inside.",
-  "generatedDiversity": "151 worker-generated pairs / 146 distinct inputs (>=100); generator re-executed twice from seed 0 in pinned sandbox, both runs reproduce repeatOutputHashes 4017780a...ca4.",
-  "replay": {
-   "206218": {
-    "failedTest": null,
-    "lfFailedTest": null,
-    "maxCpuSeconds": 0.005330999999999999,
-    "perTestEvidenceHashMismatch": [],
-    "samples": "AC",
-    "verdict": "AC"
-   },
-   "206533": {
-    "failedTest": null,
-    "lfFailedTest": null,
-    "maxCpuSeconds": 0.001690000000000011,
-    "perTestEvidenceHashMismatch": [],
-    "samples": "AC",
-    "verdict": "AC"
-   },
-   "206730": {
-    "failedTest": null,
-    "lfFailedTest": null,
-    "maxCpuSeconds": 0.003730999999999929,
-    "perTestEvidenceHashMismatch": [],
-    "samples": "AC",
-    "verdict": "AC"
-   },
-   "206850": {
-    "failedTest": null,
-    "lfFailedTest": null,
-    "maxCpuSeconds": 0.005678999999999962,
-    "perTestEvidenceHashMismatch": [],
-    "samples": "AC",
-    "verdict": "AC"
-   },
-   "206861": {
-    "failedTest": null,
-    "lfFailedTest": null,
-    "maxCpuSeconds": 0.004061000000000092,
-    "perTestEvidenceHashMismatch": [],
-    "samples": "AC",
-    "verdict": "AC"
-   },
-   "37920226": {
-    "failedTest": "0009",
-    "lfFailedTest": "0009",
-    "maxCpuSeconds": 0.020027000000000073,
-    "perTestEvidenceHashMismatch": [],
-    "samples": "AC",
-    "verdict": "WA"
-   },
-   "39267250": {
-    "failedTest": "0001",
-    "lfFailedTest": "0001",
-    "maxCpuSeconds": 0.031289999999999873,
-    "perTestEvidenceHashMismatch": [],
-    "samples": "WA",
-    "verdict": "WA"
-   },
-   "47810975": {
-    "failedTest": "0004",
-    "lfFailedTest": "0004",
-    "maxCpuSeconds": 0.01789800000000008,
-    "perTestEvidenceHashMismatch": [],
-    "samples": "AC",
-    "verdict": "WA"
-   },
-   "47811179": {
-    "failedTest": "0002",
-    "lfFailedTest": "0002",
-    "maxCpuSeconds": 0.02784800000000004,
-    "perTestEvidenceHashMismatch": [],
-    "samples": "WA",
-    "verdict": "WA"
-   },
-   "91793311": {
-    "failedTest": "0011",
-    "lfFailedTest": "0011",
-    "maxCpuSeconds": 0.024601000000000095,
-    "perTestEvidenceHashMismatch": [],
-    "samples": "AC",
-    "verdict": "WA"
-   },
-   "oracle-207116": {
-    "failedTest": null,
-    "lfFailedTest": null,
-    "maxCpuSeconds": 0.003836999999999993,
-    "perTestEvidenceHashMismatch": null,
-    "samples": "AC",
-    "verdict": "AC"
-   }
+  "39267250": {
+   "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+   "excerptSha256": "d9031cd762b6da37b9b069ecbbc892e3598f6159af5c589e7089436b4ffa95ec",
+   "explanation": "Counts H AFTER doubling the string (s=s+s), so h is twice the number of hamsters and every window has double the required length.",
+   "kind": "wrong-answer",
+   "lines": "3-5",
+   "outcome": "GENUINE",
+   "reason": "Counts H AFTER doubling the string (s=s+s), so h is twice the number of hamsters and every window has double the required length.",
+   "sourceHash": "ab2ffe51a3747a81bcd3f75cc46b8c84518494a403c0c0bc67fa195da0083ba6",
+   "test": "0001",
+   "witnessTest": "0003"
   },
-  "sandbox": "pool_sandbox.run (pinned python@sha256:5887f265...d3, --network=none, read-only root, uid 65534, cap-drop ALL, no-new-privileges, 1 CPU, bounded memory/pids/tmpfs); no public source executed on host.",
-  "sixthOracle": "Public accepted submission 207116 (oracle.cpp sha256 93173da8b225983e4a32b53f4880b2ed90be5c2911f0dd841b43056cafae626e) is disjoint from the five AC references ['206218', '206533', '206730', '206850', '206861']; replayed AC on all 181 tests and samples.",
-  "statement": "Full pinned description/input/output/note read; statement.html unchanged from pinned open-r1/codeforces row (no exponent normalization needed: bounds 2..1000 are plain). Input is exactly two lines: n, then a string of n H/T characters with at least one of each; circular arrangement. Output is a single integer (unique), token checker correct, no special checker.",
-  "submissionProvenance": "All 10 counted sources plus the oracle are byte-identical (sha256) to rows in pinned open-r1/codeforces-submissions@07e7bf31 shards, with matching problem 46/C and dataset verdicts (5 OK / 5 WRONG_ANSWER).",
-  "testsChecked": "All 183 package pairs (181 tests + 2 samples) parsed with strict line structure (exactly 2 lines, n in 2..1000, len==n, alphabet {H,T}, both present) by my own oracle and every expected output equals my answer; 0 malformed, 0 mismatches. CRLF present only in the 14 official inputs (byte-preserved, not mutated).",
-  "upstreamRows": "Pinned open-r1/codeforces@fbe3f6e9 row 46/C re-downloaded and SHA-checked: 14 official pairs, 16 open-r1 generated pairs and 2 examples byte-identical to package; official_tests_complete=false, so qualification is the extensive generated basis."
+  "47810975": {
+   "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+   "excerptSha256": "d72922f818697fffb5d2f7304886fcae95f915dcf8d507f4078393cb5c10b172",
+   "explanation": "Builds circular gaps between consecutive tigers and greedily removes the larger end gap from a linearised gap list; that greedy is not the circular sliding-window minimum, and the result y-j+i-1 is a different quantity.",
+   "kind": "wrong-answer",
+   "lines": "11-30",
+   "outcome": "GENUINE",
+   "reason": "Builds circular gaps between consecutive tigers and greedily removes the larger end gap from a linearised gap list; that greedy is not the circular sliding-window minimum, and the result y-j+i-1 is a different quantity.",
+   "sourceHash": "19c095e3da9a90aad8e09738f1ce6af37e0a7e7ff28bea3adf54c56f7148cc52",
+   "test": "0004",
+   "witnessTest": "0004"
+  },
+  "47811179": {
+   "actualOutputSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+   "excerptSha256": "b17613238b182e0fc84d6391bc1a1442e0ca0f97de610ad664d839649e86243b",
+   "explanation": "Prints 0 unless (almost) every gap between tigers equals 1, then runs an end-gap greedy; for general arrangements needing swaps it prints 0 or a wrong count.",
+   "kind": "wrong-answer",
+   "lines": "13-23",
+   "outcome": "GENUINE",
+   "reason": "Prints 0 unless (almost) every gap between tigers equals 1, then runs an end-gap greedy; for general arrangements needing swaps it prints 0 or a wrong count.",
+   "sourceHash": "dae7af2e360fcfb4c683a5cf300fc5692edeb1abc50810d946f26d91a83303f3",
+   "test": "0002",
+   "witnessTest": "0005"
+  },
+  "91793311": {
+   "actualOutputSha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+   "excerptSha256": "ee15fc32cfc32de3f3ccbedbbdf0b8e46375d7e2490319f19f83f71044449c8f",
+   "explanation": "Only evaluates one window per letter, anchored to the trailing run of that letter, rather than all n circular windows; minimum over two anchored windows misses the optimum.",
+   "kind": "wrong-answer",
+   "lines": "9-38",
+   "outcome": "GENUINE",
+   "reason": "Only evaluates one window per letter, anchored to the trailing run of that letter, rather than all n circular windows; minimum over two anchored windows misses the optimum.",
+   "sourceHash": "8c7013215927d5541306e1a19117b621bda70a64292ce44cdc803827044d27ea",
+   "test": "0011",
+   "witnessTest": "0049"
+  }
  },
- "oracleProofHash": "2bdd096ae5ab54d0daf357d201a8304d55b6fb7534b2424588baf3eeb0f7617b",
+ "independentAuditPath": "pipeline/ratings-pools/1600/independent-audit.json",
+ "independentRecordHash": "67f4cf3b25e851d7176f82b68890ec3c42003ce03c093842233136a43afce9fc",
+ "outcome": "TECHNICAL",
  "packageHash": "cf57299f03e994d5d4a45cef5e59228ff5dd0ef2483e4dd49146c5b516584c6f",
+ "publicationApproved": false,
  "qualificationBasis": "generated",
  "rating": 1600,
- "reviewUrl": "https://staging.itsdev.in/sessions/5530f32a77d64925a0c5a1a29797a7c2",
- "reviewer": "devin-5530f32a77d64925a0c5a1a29797a7c2",
+ "reasons": [],
+ "reviewUrl": "https://staging.itsdev.in/sessions/ab69a3bc4df34f7999b57b482222032a",
+ "reviewer": "devin-ab69a3bc4df34f7999b57b482222032a",
  "schemaVersion": 1,
- "testPairsHash": "d9d6c4dd7814bb3fdbe3baa854bd39cf4eca4b52c8a3cc303e2321570c54d1d1",
- "workerCommit": "3e2cdd3f1770c770adb17221878548006b827c7c"
+ "supersedes": {
+  "auditHash": "8fef4e997650590b8e55a97f1d0328a3a08c554c75402fbbaeabcdf82a8e7c5b",
+  "historyPath": "audits/history/46C/8fef4e997650590b8e55a97f1d0328a3a08c554c75402fbbaeabcdf82a8e7c5b.json",
+  "reviewer": "devin-5530f32a77d64925a0c5a1a29797a7c2"
+ },
+ "validator": "devin-1ffab6b544d64d17bf1498a01b5257c0"
 }

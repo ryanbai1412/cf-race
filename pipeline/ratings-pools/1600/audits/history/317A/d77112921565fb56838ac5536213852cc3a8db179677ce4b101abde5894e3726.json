@@ -1,0 +1,111 @@
+{
+  "approved": true,
+  "archiveHash": "3afeb60cb0f65e1c2d64c7ba7fd5a998bf43ad11a9690891fd4fa9df1dbe14ae",
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "hashes": true,
+    "independentOracle": true,
+    "independentOutputs": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sandboxReplay": true,
+    "sourceAttribution": true,
+    "statementComplete": true
+  },
+  "coverageHash": "445239176768733843dec48bab11e3c86d4223c842a30c28085692945966a137",
+  "evidenceHash": "ab46b491b3bb286bad52ac67a981fe16d8f3705d207e6511c1fa1ac0e46be0c2",
+  "id": "317A",
+  "incorrectAnalysis": {
+    "3885239": {
+      "independentAlgorithmicWitness": {
+        "actual": "6\n",
+        "actualHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+        "exitCode": 0,
+        "expected": "0\n",
+        "input": "-25 4 -8\n",
+        "test": "0012",
+        "timeout": false,
+        "verdict": "WA"
+      },
+      "reason": "Skips the initial already-perfect check before spending additions to recover a negative first value; -25 4 -8 needs 0 additions but returns 6."
+    },
+    "3893128": {
+      "independentAlgorithmicWitness": {
+        "actual": "40\n",
+        "actualHash": "673650f936cb3b0a2f93ce09d81be10748b1b203c19e8176b4eefc1964a0cf3a",
+        "exitCode": 0,
+        "expected": "39\n",
+        "input": "-4 6 447215792\n",
+        "test": "0055",
+        "timeout": false,
+        "verdict": "WA"
+      },
+      "reason": "Rounds signed-state recovery down and unconditionally adds one transition; -4 6 447215792 needs 39 but returns 40."
+    },
+    "3921936": {
+      "independentAlgorithmicWitness": {
+        "actual": "-1\n",
+        "actualHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+        "exitCode": 0,
+        "expected": "0\n",
+        "input": "-134 -345 -134\n",
+        "test": "0005",
+        "timeout": false,
+        "verdict": "WA"
+      },
+      "reason": "Classifies two nonpositive operands as impossible before checking whether the initial maximum already meets m; -134 -345 -134 needs 0 but returns -1."
+    },
+    "3929401": {
+      "independentAlgorithmicWitness": {
+        "actual": "4\n",
+        "actualHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+        "exitCode": 0,
+        "expected": "2\n",
+        "input": "1 2 5\n",
+        "test": "0001",
+        "timeout": false,
+        "verdict": "WA"
+      },
+      "reason": "Recursive count adds both a mutated n and an outer +1 per step; 1 2 5 needs 2 but returns 4."
+    },
+    "3930716": {
+      "independentAlgorithmicWitness": {
+        "actual": "-1\n",
+        "actualHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+        "exitCode": 0,
+        "expected": "0\n",
+        "input": "-134 -345 -134\n",
+        "test": "0005",
+        "timeout": false,
+        "verdict": "WA"
+      },
+      "reason": "Uses sum-of-operands as an impossibility rule before checking the initial target; -134 -345 -134 already meets m and needs 0 but returns -1."
+    }
+  },
+  "independentAssessment": {
+    "authenticity": "Five accepted and five algorithmically incorrect counted sources have distinct hashes and submission IDs in SHA-verified pinned public submission rows. This verifies pinned dataset bytes, not direct live Codeforces API submission retrieval.",
+    "coverage": "Includes both extrema of signed input and target, already-perfect initial states, both operands nonpositive, recovery from -10^18 by positive unit operand, and near-10^18 growth.",
+    "derivation": "If the initial maximum reaches m return 0. Otherwise two nonpositive operands cannot grow. With one positive operand, repeatedly add it to the smaller one until nonnegative, then always add the current larger to smaller for fastest growth. Independently compared against both-choice literal BFS on 6,300 signed small states.",
+    "generator": "Fixed-seed authored generator reproduced all 155 exact supplemental records twice inside the pinned offline Docker sandbox; answers separately matched the independent oracle.",
+    "independentOracleSourceHash": "9a6ccc8ac5f4e6368c0a687253a014609c3963f32f10299b9945eff013e4542d",
+    "officialCompleteness": "All 70 advertised official input/output pairs SHA-verified against the pinned upstream public statement row, plus all 155 authored inputs and their output bytes checked independently.",
+    "publication": "Only publication_gate(require_approval=False) requested; no publish, PR, merge, deployment, production, board, worker/test/evidence mutation.",
+    "samplesChecked": 3,
+    "sandbox": "All ten sources compiled and executed only in the existing pinned network-none, nonroot, read-only, capability-dropped Docker sandbox, with bounded CPU/memory/PIDs and current execution v2; all 2,250 official+authored verdict/exit/timeout/output-hash tuples match, and all 30 sample runs checked.",
+    "smallCrossChecks": 6300,
+    "statement": "Complete pinned statement paragraph order and sample meanings checked against retained English original and current public mirror; only the documented exponent markup correction changes rendering. Signed bounds are -10^18 <= x,y,m <= 10^18; single integer answer.",
+    "testsChecked": 225
+  },
+  "packageHash": "b1dd5be22286428c30283ddaa70997c8c8e89b1dc811ddc5911738a44ab861ad",
+  "qualificationBasis": "official",
+  "rating": 1600,
+  "reviewUrl": "https://staging.itsdev.in/sessions/f2823eddff2b4a639d38c7c49d347210",
+  "reviewer": "devin-f2823eddff2b4a639d38c7c49d347210",
+  "schemaVersion": 1,
+  "semanticHash": "20b4f31023c66b09028f88d10e882af3f4bd56ba75a1a1c7de79efe142d96e64",
+  "testPairsHash": "5add24d1e61b55004db7dd24fe146a1f4805ffe3c5fbe50633b58e64a7b5bd7f",
+  "workerCommit": "5924eeb3b0c8645a7f85f6a74bffdc5358b9d0b7"
+}

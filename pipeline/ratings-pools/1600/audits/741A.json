@@ -1,571 +1,100 @@
 {
-  "approved": true,
-  "archiveSha256": "1afc42899a2985139a29109b52bcb38084a27dac26f5fe6d025e0e9f21296912",
-  "baseCommit": "aacfef9c156995a0ed353243ffa677013c620bac",
-  "checks": {
-    "coverage": true,
-    "fiveAcceptedFiveIncorrect": true,
-    "fullTests": true,
-    "hashes": true,
-    "noSpecialChecker": true,
-    "sourceAttribution": true
+ "acceptedConfirmed": 5,
+ "approved": true,
+ "checks": {
+  "algorithmicallyWrong": true,
+  "coverage": true,
+  "fiveAcceptedFiveIncorrect": true,
+  "fullTests": true,
+  "hashes": true,
+  "independentReference": true,
+  "inputConstraints": true,
+  "noSpecialChecker": true,
+  "sandboxReplay": true,
+  "sourceAttribution": true,
+  "upstreamPinned": true
+ },
+ "evidenceHash": "d0a09b2b317b81d0daaf39189356c379ef782f5ccb3086a77d09831e0cb44ba6",
+ "generatorReplay": null,
+ "genuineWrong": 5,
+ "id": "741A",
+ "incorrectAnalysis": {
+  "22771801": {
+   "actualOutputSha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+   "excerptSha256": "085af11646f41a6bcd70fbc845efe86d01501dfbba6a31408429ec0d3ec5d2f5",
+   "explanation": "Permutation check by sum only, and the result is the plain lcm of cycle lengths without halving even cycles (2 1 4 3: two 2-cycles give 2 vs 1).",
+   "kind": "wrong-answer",
+   "lines": "17,34-45",
+   "outcome": "GENUINE",
+   "reason": "Permutation check by sum only, and the result is the plain lcm of cycle lengths without halving even cycles (2 1 4 3: two 2-cycles give 2 vs 1).",
+   "sourceHash": "f368116e5c16ddf093e6f801bbceba65d35a7400f9ca2cc13a539f0e4a5f594f",
+   "test": "0003",
+   "witnessTest": "0003"
   },
-  "evidenceHash": "d0a09b2b317b81d0daaf39189356c379ef782f5ccb3086a77d09831e0cb44ba6",
-  "id": "741A",
-  "packageHash": "ca296a8682814b53c0da502d9e04c598a2ac6eb5ef99264f9a160613caa63f6f",
-  "qualificationBasis": "official",
-  "rating": 1600,
-  "review": {
-    "coverage": "242 tests, 239 distinct; 61 non-permutation (-1) cases, 67 with n=100, 3 with n=1, self-loops, even and odd cycles mixed, max answer 116396280.",
-    "crlfIndependence": "Every incorrect source was re-run on LF-normalized copies of all test inputs; first failing test unchanged and numerically wrong answers persist, so no counterexample depends on CRLF line endings.",
-    "freshReplay": {
-      "22733654": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.004,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "242/242",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 242
-        }
-      },
-      "22734208": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.006,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "242/242",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 242
-        }
-      },
-      "22734238": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.005,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "242/242",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 242
-        }
-      },
-      "22734595": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.003,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "242/242",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 242
-        }
-      },
-      "22734828": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.004,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "242/242",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 242
-        }
-      },
-      "22771801": {
-        "compiled": true,
-        "counterexample": "0003: 4 2 1 4 3 -> 2, expected 1",
-        "evidenceFailedTest": "0003",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0003",
-        "lfNumericallyWrongTests": 145,
-        "maxCpu": 0.032,
-        "myFirstFailed": "0003",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 145,
-        "perTestEvidenceMatch": "242/242",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 97,
-          "WA": 145
-        }
-      },
-      "22813715": {
-        "compiled": true,
-        "counterexample": "0008: 10 10 1 4 8 5 2 3 7 9 6 -> 4, expected 2",
-        "evidenceFailedTest": "0008",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0008",
-        "lfNumericallyWrongTests": 127,
-        "maxCpu": 2.221,
-        "myFirstFailed": "0008",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 127,
-        "perTestEvidenceMatch": "242/242",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 109,
-          "TLE": 6,
-          "WA": 127
-        }
-      },
-      "22813922": {
-        "compiled": true,
-        "counterexample": "0008: 10 10 1 4 8 5 2 3 7 9 6 -> 4, expected 2",
-        "evidenceFailedTest": "0008",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0008",
-        "lfNumericallyWrongTests": 128,
-        "maxCpu": 0.024,
-        "myFirstFailed": "0008",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 128,
-        "perTestEvidenceMatch": "242/242",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 114,
-          "WA": 128
-        }
-      },
-      "22818067": {
-        "compiled": true,
-        "counterexample": "0001: 4 2 3 1 4 -> 2, expected 3",
-        "evidenceFailedTest": "0001",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0001",
-        "lfNumericallyWrongTests": 173,
-        "maxCpu": 0.024,
-        "myFirstFailed": "0001",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 173,
-        "perTestEvidenceMatch": "242/242",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 64,
-          "RE": 5,
-          "WA": 173
-        }
-      },
-      "24098221": {
-        "compiled": true,
-        "counterexample": "0004: 5 2 4 3 1 2 -> 3, expected -1",
-        "evidenceFailedTest": "0004",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0004",
-        "lfNumericallyWrongTests": 217,
-        "maxCpu": 0.03,
-        "myFirstFailed": "0004",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 217,
-        "perTestEvidenceMatch": "242/242",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 25,
-          "WA": 217
-        }
-      }
-    },
-    "harnessCorrection": {
-      "freshReplayResult": "All 10 sources: verdict and first failed test equal evidence and every per-test raw output sha256 equals evidence; all 5 incorrect are numerically wrong on their recorded first failing test and fail there identically with LF-only inputs; samples run cleanly. Records pipeline/ratings-pools/1600/audits/history/correction-20261013/replay*/741A-*.json, summary pipeline/ratings-pools/1600/audits/history/correction-20261013/replay-summary.json.",
-      "harnessDifference": "myharness.py (c582ff42) vs myharness_tok.py (1dd7efd4) differ only on line 32, the per-test result append: tok adds 'tokSha' (sha256 of whitespace-joined output tokens) and 'outBytes', computed after the process exited from the same captured bytes. Compile command, rlimits, execution, timeout, rc, cpu and raw output 'sha' code are byte-identical. myharness_tail.py likewise only adds 'tail' and 'outBytes'; myharness_O0.py differs by -O0 (behavioral) and was supplementary only.",
-      "originalActualRuns": "Primary replay: audit6/me/myrun.py (sha256 8558e594d8c595c955176998acdfbe5bd846c1e414863227d4e7e3f011a281cb) mounting myharness_tok.py (not c582ff42), judged by audit6/me/runcheck_tok.py (sha256 d9febbfe8abbb2cacf6845de3835967885f99b5f5b53246088d0026c691244e9). LF-only replays of the 5 incorrect: auditlf/myrun_lf.py (sha256 1a4349e05f6aa3296ce322c88ec4819a93783a26fef91335cf10087e079c24dd) mounting myharness_tok.py, judged by auditlf/lfcheck.py (sha256 bff7ed5af3ed0e41281300ad98910335b0538e55f68ee6e070efa54324efed83). All original runners/checkers/records: pipeline/ratings-pools/1600/audits/history/correction-20261013/original-runs.tar.gz (sha256 221fdd021ee5270079f95e26f4df0271a788d20d1d44a45b2c14f2547ac4fe6e).",
-      "originalError": "Superseded review.sandbox stated 'Own harness (sha256 c582ff42...983d0d)' for all replays.",
-      "supersededAudit": {
-        "auditHash": "1263a23709d68671d67e902fa537bc938bb0b00b30ad68f0442d5cc633e7362c",
-        "fileSha256": "ff9083e533f74ffef2a03f42a2d8711a7029e438f849f85529116df2f9b12139",
-        "path": "pipeline/ratings-pools/1600/audits/history/741A/1263a23709d68671d67e902fa537bc938bb0b00b30ad68f0442d5cc633e7362c.json"
-      },
-      "verifiedEquivalence": "All 11 originally-attested IDs (normal + LF-only) were replayed with both myharness_tok.py and unchanged myharness.py c582ff42 (pipeline/ratings-pools/1600/audits/history/correction-20261013/code/launcher_c582.py): over 165 replay pairs / 35100 test executions raw output sha256 equal 35100/35100, rc equal 35099/35100, timeout flag equal 35094/35100; the only differences are CPU-limit boundary flips on tests already past the first failure, outputs identical (none for this ID). Judgment is equivalent (pipeline/ratings-pools/1600/audits/history/correction-20261013/harness-equivalence.json)."
-    },
-    "incorrectAreAlgorithmic": "Each of the 5 incorrect sources was read in full; review.incorrectProofs gives, per source, the implemented algorithm, faulty source line numbers with their text, and a legal LF witness on the evidence failedTest with normal exit, expected vs actual and source/input/expected/actual/proof sha256. Proof witnesses: each incorrect source re-run on its evidence failedTest with CRLF->LF normalized input by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/witness.py (sha256 861f8f394e90ad2a775e4b349c81af07620fb224de258c42e9263f10e1c310c4) mounting pipeline/ratings-pools/1600/audits/history/correction-20261013/code/harness_witness.py (sha256 3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933; identical to myharness_tok.py except it also returns the full output base64), classified by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/mktuples.py (sha256 3fb42a6cbde5e4c63ef52b7a54c33ec03a9d5eedfb7d4bb244ef0c6be4b73750): qualifies only if exit code 0, no timeout, same token count as expected and at least one token numerically different (format/debug-only/CRLF/TLE/wrong-problem excluded).",
-    "incorrectProofs": {
-      "22771801": {
-        "fault": "sum(crush)==n(n+1)/2 is not a permutation test; even cycle lengths are not halved before the lcm",
-        "faultyLineText": {
-          "17": "if sum(crush) != (n * (n + 1)) / 2:",
-          "34": "        if len1 not in graph_len:",
-          "36": "            graph_len.append(len1)",
-          "43": "        n1 = lcm(n1, n2)"
-        },
-        "faultyLines": [
-          17,
-          34,
-          36,
-          43
-        ],
-        "implementedAlgorithm": "sum check for permutation, cycle lengths via DFS, lcm of distinct lengths",
-        "language": "Python 3",
-        "proofSha256": "ebe5f4040fec1b5f8d4b442aa410ef500f98a5c0d201b2461cb80ca56b03cec7",
-        "qualifies": true,
-        "sourceLines": 45,
-        "sourceSha256": "f368116e5c16ddf093e6f801bbceba65d35a7400f9ca2cc13a539f0e4a5f594f",
-        "submission": "741A/22771801",
-        "witness": {
-          "actual": "2",
-          "actualOutputBytes": 2,
-          "actualOutputSha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.012,
-          "exitCode": 0,
-          "expected": "1",
-          "expectedOutputSha256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "4\n2 1 4 3\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "5475ddcc0a3548886fd25b25d7723a9c9cca5a25fdd98e708dca32205228b576",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "aae54d9299ae3cb24944d29e75b9782f76b5537885fe1ab6436ff4a0a0978a45",
-          "record": "witness/741A-22771801.json",
-          "test": "0003",
-          "timedOut": false
-        }
-      },
-      "22813715": {
-        "fault": "only length-2 cycles are halved (skipped); even cycles of length >= 4 must contribute c/2, not c",
-        "faultyLineText": {
-          "34": "        if c == 2:",
-          "35": "            continue",
-          "36": "        cycle_size = lcm(cycle_size, c)"
-        },
-        "faultyLines": [
-          34,
-          35,
-          36
-        ],
-        "implementedAlgorithm": "cycle detection, return -1 if not a permutation, lcm of cycle lengths skipping length 2",
-        "language": "Python 3",
-        "proofSha256": "5b255d15b71e3881786352f0ce0bebda8f64ba3f64b3ebc3390ff580a3e2e482",
-        "qualifies": true,
-        "sourceLines": 44,
-        "sourceSha256": "6eaccfb31fc685d364290551f33073e788458aff5d7b5497e3fa5a41e0db532a",
-        "submission": "741A/22813715",
-        "witness": {
-          "actual": "4",
-          "actualOutputBytes": 2,
-          "actualOutputSha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.013,
-          "exitCode": 0,
-          "expected": "2",
-          "expectedOutputSha256": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "10\n10 1 4 8 5 2 3 7 9 6\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "62b1990c60b56720941d1329d329e8c4fe44994a1a5e69ed53f105eb0b6afaa0",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "72a4c0513158d84cdf2cc5e09449e7bb4f6a761c598c84a76f8ee312f73b4533",
-          "record": "witness/741A-22813715.json",
-          "test": "0008",
-          "timedOut": false
-        }
-      },
-      "22813922": {
-        "fault": "only length-2 cycles are halved; even cycles of length >= 4 must contribute c/2",
-        "faultyLineText": {
-          "24": "        if c == 2:",
-          "25": "            continue",
-          "26": "        cycle_size = lcm(cycle_size, c)"
-        },
-        "faultyLines": [
-          24,
-          25,
-          26
-        ],
-        "implementedAlgorithm": "same as 22813715 with gcd lcm",
-        "language": "Python 3",
-        "proofSha256": "6cb3ad4a5e2b567fb8de4830ec81e1c6acf324e70042fa4a35d940af50cef819",
-        "qualifies": true,
-        "sourceLines": 34,
-        "sourceSha256": "04aedb31f3676e308267b4a4e2538d89cc05dc662cd739536cc3827847d729f8",
-        "submission": "741A/22813922",
-        "witness": {
-          "actual": "4",
-          "actualOutputBytes": 2,
-          "actualOutputSha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.013,
-          "exitCode": 0,
-          "expected": "2",
-          "expectedOutputSha256": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "10\n10 1 4 8 5 2 3 7 9 6\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "62b1990c60b56720941d1329d329e8c4fe44994a1a5e69ed53f105eb0b6afaa0",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "72a4c0513158d84cdf2cc5e09449e7bb4f6a761c598c84a76f8ee312f73b4533",
-          "record": "witness/741A-22813922.json",
-          "test": "0008",
-          "timedOut": false
-        }
-      },
-      "22818067": {
-        "fault": "uses count-1 instead of the cycle length (halved when even) and requires divisibility instead of taking the lcm",
-        "faultyLineText": {
-          "17": "            if count > 1:",
-          "18": "                circle_sizes.append(count - 1)",
-          "20": "    ans = max(circle_sizes)",
-          "21": "    for size in circle_sizes:",
-          "22": "        if ans % size != 0:",
-          "23": "            return -1"
-        },
-        "faultyLines": [
-          17,
-          18,
-          20,
-          21,
-          22,
-          23
-        ],
-        "implementedAlgorithm": "cycle sizes count-1, answer = max size if every size divides it",
-        "language": "Python 3",
-        "proofSha256": "7f1db6b98041bae49eaede42597d2524b2477cca22d4d111f2d5c2aea8eb03af",
-        "qualifies": true,
-        "sourceLines": 26,
-        "sourceSha256": "abc9d65857a5f985f690be03c4b53a0dc97490c760382388802129d1072bfbc7",
-        "submission": "741A/22818067",
-        "witness": {
-          "actual": "2",
-          "actualOutputBytes": 2,
-          "actualOutputSha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.012,
-          "exitCode": 0,
-          "expected": "3",
-          "expectedOutputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "4\n2 3 1 4\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "b32b6dd0fdb30c86dfdc3946150109380b96fdaecd8b988c09275010132b1bd4",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "1b36282247cfe4bc6c49bdabc19bf362f433d0bff64cc110fe62cdda9334b5f3",
-          "record": "witness/741A-22818067.json",
-          "test": "0001",
-          "timedOut": false
-        }
-      },
-      "24098221": {
-        "fault": "answer must be lcm over all cycles of (len if odd else len/2) and -1 if some node is not on a cycle; it returns the minimum cycle length and only prints -1 when no cycle >1 exists",
-        "faultyLineText": {
-          "22": "\tif flag and count > 1:",
-          "24": "\t\tmini = min(mini, count)",
-          "25": "if mini == float('inf'):",
-          "26": "\tprint(-1)",
-          "30": "\tprint(mini)"
-        },
-        "faultyLines": [
-          22,
-          24,
-          25,
-          26,
-          30
-        ],
-        "implementedAlgorithm": "finds cycles, returns min cycle length (2 -> 1)",
-        "language": "Python 3",
-        "proofSha256": "6cd87f3cde19c138a2e56a1709fe11ac2109d9bcd3a0a2b40d65445d8eaa3814",
-        "qualifies": true,
-        "sourceLines": 30,
-        "sourceSha256": "873d7ffcc9c573f661f48c1e2d60eb823e83cd4f08bdad913bccf2e0406f2d49",
-        "submission": "741A/24098221",
-        "witness": {
-          "actual": "3",
-          "actualOutputBytes": 2,
-          "actualOutputSha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.013,
-          "exitCode": 0,
-          "expected": "-1",
-          "expectedOutputSha256": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "5\n2 4 3 1 2\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "2f5acf2b4b406dd0c3beb9963466b28323f97f85a9fc6b810c81144cccca20bb",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "187bcf70481f878d51c49a7e2af0ed1e09db83f41afac61d0da43945e4b0482d",
-          "record": "witness/741A-24098221.json",
-          "test": "0004",
-          "timedOut": false
-        }
-      }
-    },
-    "independentOracle": "-1 unless crush is a permutation; otherwise lcm over cycles of (L if L odd else L/2); cross-checked against direct search over t<=500 of f^(2t)==identity on 4000 random n<=9 inputs (half permutations, half arbitrary maps).",
-    "officialTests": "official_tests_complete=true, testset_size 88; package tests 0001-0088 equal the pinned row's official tests positionally (CRLF-normalized inputs, token-equal outputs); source row equals the sha-verified pinned parquet row.",
-    "oracleResult": "All 242 package tests and all samples pass a strict format/range parse; every expected output equals my oracle; all upstream official rows equal my oracle.",
-    "sandbox": "Corrected 2026-10-13 (supersedes auditHash 1263a23709d68671d67e902fa537bc938bb0b00b30ad68f0442d5cc633e7362c). Fresh full replay of all 10 sources on every package test and sample, plus LF-only-input replay of the 5 incorrect, with own harness myharness_tok.py sha256 1dd7efd4776d4d8f0eb30512e4182274d33b1bd28c0a2abbffa41c137685d4a9 (pipeline/ratings-pools/1600/audits/history/correction-20261013/code/harness.py), launched by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/launcher.py sha256 0815a7c051885918656ae9fd38f763d4a0bef346a37f83431a5a3a5fa451856d, judged by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/judge.py sha256 df9f3e33be2e97e9d864dac1ae32ec96edf39845235872d36af6da473f6a1b5f (full-output token sha256 vs expected; WA counted only when numerically wrong); not worker pool_harness. Pinned python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3, --pull=never, --network=none, --read-only, --user=65534:65534, --cap-drop=ALL, no-new-privileges, pids<=32, 1 CPU, 2560m memory/swap, tmpfs /w 128m and /tmp 16m, inputs and harness mounted read-only, RLIMIT_CPU/AS at problem limits, RLIMIT_FSIZE 16MiB, launched from env -i (PATH only) without credentials; g++ -O2 -std=c++17 -DONLINE_JUDGE; python3 for Python sources. Proof witnesses: each incorrect source re-run on its evidence failedTest with CRLF->LF normalized input by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/witness.py (sha256 861f8f394e90ad2a775e4b349c81af07620fb224de258c42e9263f10e1c310c4) mounting pipeline/ratings-pools/1600/audits/history/correction-20261013/code/harness_witness.py (sha256 3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933; identical to myharness_tok.py except it also returns the full output base64), classified by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/mktuples.py (sha256 3fb42a6cbde5e4c63ef52b7a54c33ec03a9d5eedfb7d4bb244ef0c6be4b73750): qualifies only if exit code 0, no timeout, same token count as expected and at least one token numerically different (format/debug-only/CRLF/TLE/wrong-problem excluded).",
-    "singleAnswer": "Output is uniquely determined by the input; token comparison is correct; no special checker or float tolerance.",
-    "statement": "Statement bounds explicit (1 ≤ n ≤ 100, 1 ≤ crush_i ≤ n); no exponent flattening, no normalization. Output -1 or the unique smallest t.",
-    "submissionProvenance": "All sources byte-identical (sha256) to rows in pinned open-r1/codeforces-submissions shards (shard sha256 verified independently); upstream verdict/problem/language match; for every incorrect source the first failing package test equals upstream passedTestCount+1.",
-    "submissions": [
-      {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "22733654",
-        "maxCpu": 0.005,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "242/242",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "22734208",
-        "maxCpu": 0.004,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "242/242",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "22734238",
-        "maxCpu": 0.006,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "242/242",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "22734595",
-        "maxCpu": 0.005,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "242/242",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "22734828",
-        "maxCpu": 0.007,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "242/242",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "counterexample": "0003: 4 2 1 4 3 -> 2, expected 1",
-        "defect": "sum(crush)==n(n+1)/2 is not a permutation test, and even cycles are not halved",
-        "evidenceFailedTest": "0003",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "formatOrDebugOnlyWA": 0,
-        "id": "22771801",
-        "maxCpu": 0.028,
-        "myFirstFailed": "0003",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 145,
-        "perTestEvidenceMatch": "242/242",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "counterexample": "0008: 10 10 1 4 8 5 2 3 7 9 6 -> 4, expected 2",
-        "defect": "skips cycles of length 2 but does not halve other even cycle lengths",
-        "evidenceFailedTest": "0008",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "formatOrDebugOnlyWA": 0,
-        "id": "22813715",
-        "maxCpu": 2.15,
-        "myFirstFailed": "0008",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 127,
-        "perTestEvidenceMatch": "242/242",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "counterexample": "0008: 10 10 1 4 8 5 2 3 7 9 6 -> 4, expected 2",
-        "defect": "same as 22813715 with a gcd-based lcm: even cycles longer than 2 not halved",
-        "evidenceFailedTest": "0008",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "formatOrDebugOnlyWA": 0,
-        "id": "22813922",
-        "maxCpu": 0.027,
-        "myFirstFailed": "0008",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 128,
-        "perTestEvidenceMatch": "242/242",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "counterexample": "0001: 4 2 3 1 4 -> 2, expected 3",
-        "defect": "uses count-1 as the cycle size and a divisibility test instead of lcm",
-        "evidenceFailedTest": "0001",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "formatOrDebugOnlyWA": 0,
-        "id": "22818067",
-        "maxCpu": 0.035,
-        "myFirstFailed": "0001",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 173,
-        "perTestEvidenceMatch": "242/242",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "counterexample": "0004: 5 2 4 3 1 2 -> 3, expected -1",
-        "defect": "returns the minimum cycle length instead of the lcm of adjusted lengths",
-        "evidenceFailedTest": "0004",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "formatOrDebugOnlyWA": 0,
-        "id": "24098221",
-        "maxCpu": 0.041,
-        "myFirstFailed": "0004",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 217,
-        "perTestEvidenceMatch": "242/242",
-        "samplesOK": true
-      }
-    ]
+  "22813715": {
+   "actualOutputSha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+   "excerptSha256": "5aa205080a4b11559b6d5ff11f2abaa98df7dd017bbdf6bdab4fe983e144d46c",
+   "explanation": "Halves only length-2 cycles (skips them); even cycles of length >=4 are not halved before the lcm (a 4-cycle contributes 4 instead of 2: 4 vs 2).",
+   "kind": "wrong-answer",
+   "lines": "34-36",
+   "outcome": "GENUINE",
+   "reason": "Halves only length-2 cycles (skips them); even cycles of length >=4 are not halved before the lcm (a 4-cycle contributes 4 instead of 2: 4 vs 2).",
+   "sourceHash": "6eaccfb31fc685d364290551f33073e788458aff5d7b5497e3fa5a41e0db532a",
+   "test": "0008",
+   "witnessTest": "0008"
   },
-  "reviewUrl": "https://staging.itsdev.in/sessions/204c72b1a58f47088f37a65c8104a8b8",
-  "reviewer": "devin-204c72b1a58f47088f37a65c8104a8b8",
-  "schemaVersion": 1,
-  "validator": "devin-1ffab6b544d64d17bf1498a01b5257c0"
+  "22813922": {
+   "actualOutputSha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+   "excerptSha256": "cd43fda99fbc06b31650eedee0e0ab2ca8e05bf0e14e2a1b40ed4d0511f73d2e",
+   "explanation": "Same: only length-2 cycles are skipped; even cycles of length >=4 are used at full length in the lcm (4 vs 2).",
+   "kind": "wrong-answer",
+   "lines": "24-26",
+   "outcome": "GENUINE",
+   "reason": "Same: only length-2 cycles are skipped; even cycles of length >=4 are used at full length in the lcm (4 vs 2).",
+   "sourceHash": "04aedb31f3676e308267b4a4e2538d89cc05dc662cd739536cc3827847d729f8",
+   "test": "0008",
+   "witnessTest": "0008"
+  },
+  "22818067": {
+   "actualOutputSha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+   "excerptSha256": "650fd1c2f870dd3478d0438a4eeb75f2b95593b49a2db9f50dc3e95adfd35f78",
+   "explanation": "Records count-1 for each cycle (off by one; a 3-cycle becomes 2) and returns the max cycle if all divide it, instead of the lcm of halved-even/odd cycle lengths (2 3 1 4: 2 vs 3).",
+   "kind": "wrong-answer",
+   "lines": "17-24",
+   "outcome": "GENUINE",
+   "reason": "Records count-1 for each cycle (off by one; a 3-cycle becomes 2) and returns the max cycle if all divide it, instead of the lcm of halved-even/odd cycle lengths (2 3 1 4: 2 vs 3).",
+   "sourceHash": "abc9d65857a5f985f690be03c4b53a0dc97490c760382388802129d1072bfbc7",
+   "test": "0001",
+   "witnessTest": "0001"
+  },
+  "24098221": {
+   "actualOutputSha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+   "excerptSha256": "a29eb5c2feb3e5d4faa391a986bd11d2ef2caebd870080e7bf782bbb2b33a097",
+   "explanation": "Never verifies that crush is a permutation (non-permutations must print -1) and prints the MINIMUM cycle length instead of the lcm (2 4 3 1 2: 3 vs -1).",
+   "kind": "wrong-answer",
+   "lines": "6-30",
+   "outcome": "GENUINE",
+   "reason": "Never verifies that crush is a permutation (non-permutations must print -1) and prints the MINIMUM cycle length instead of the lcm (2 4 3 1 2: 3 vs -1).",
+   "sourceHash": "873d7ffcc9c573f661f48c1e2d60eb823e83cd4f08bdad913bccf2e0406f2d49",
+   "test": "0004",
+   "witnessTest": "0004"
+  }
+ },
+ "independentAuditPath": "pipeline/ratings-pools/1600/independent-audit.json",
+ "independentRecordHash": "6fdd8e39b26fe3612678ee00a40899b6c330d74b9e1d42bba04fde488ee3fa6b",
+ "outcome": "TECHNICAL",
+ "packageHash": "ca296a8682814b53c0da502d9e04c598a2ac6eb5ef99264f9a160613caa63f6f",
+ "publicationApproved": false,
+ "qualificationBasis": "official",
+ "rating": 1600,
+ "reasons": [],
+ "reviewUrl": "https://staging.itsdev.in/sessions/ab69a3bc4df34f7999b57b482222032a",
+ "reviewer": "devin-ab69a3bc4df34f7999b57b482222032a",
+ "schemaVersion": 1,
+ "supersedes": {
+  "auditHash": "2bd342eac4ccafaadc419f0a1a9734288683be7b565d060107b4b2ad7e5109c0",
+  "historyPath": "audits/history/741A/2bd342eac4ccafaadc419f0a1a9734288683be7b565d060107b4b2ad7e5109c0.json",
+  "reviewer": "devin-204c72b1a58f47088f37a65c8104a8b8"
+ },
+ "validator": "devin-1ffab6b544d64d17bf1498a01b5257c0"
 }

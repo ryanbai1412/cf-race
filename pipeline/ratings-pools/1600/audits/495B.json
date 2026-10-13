@@ -1,556 +1,100 @@
 {
-  "approved": true,
-  "archiveSha256": "744edb561bcee1cf08b0a3411528af860963910fe81b27efe3ee126a4dfb2873",
-  "baseCommit": "250fa510af916839ba5a07502e986f19e3033ba1",
-  "checks": {
-    "coverage": true,
-    "fiveAcceptedFiveIncorrect": true,
-    "fullTests": true,
-    "hashes": true,
-    "noSpecialChecker": true,
-    "sourceAttribution": true
+ "acceptedConfirmed": 5,
+ "approved": true,
+ "checks": {
+  "algorithmicallyWrong": true,
+  "coverage": true,
+  "fiveAcceptedFiveIncorrect": true,
+  "fullTests": true,
+  "hashes": true,
+  "independentReference": true,
+  "inputConstraints": true,
+  "noSpecialChecker": true,
+  "sandboxReplay": true,
+  "sourceAttribution": true,
+  "upstreamPinned": true
+ },
+ "evidenceHash": "7a79611f2900f393cb95bd9defdb042c9818ca7629cc1659a2c3ddf6246a29df",
+ "generatorReplay": null,
+ "genuineWrong": 5,
+ "id": "495B",
+ "incorrectAnalysis": {
+  "9121726": {
+   "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+   "excerptSha256": "b257df8298f1e87bf0fd5f7842eb2ee82db6b21d05b9134c291826f8130d96c2",
+   "explanation": "Whenever (a-b)//b<=1 (i.e. a-b<2b) it prints 1; but if a-b<=b no x>b divides a-b, so the answer is 0 (e.g. a-b==b or a-b<b with a>b).",
+   "kind": "wrong-answer",
+   "lines": "6-8",
+   "outcome": "GENUINE",
+   "reason": "Whenever (a-b)//b<=1 (i.e. a-b<2b) it prints 1; but if a-b<=b no x>b divides a-b, so the answer is 0 (e.g. a-b==b or a-b<b with a>b).",
+   "sourceHash": "be240f019460969b182cd1fb6e669a1793a57fe157677673556ad630b868cd24",
+   "test": "0004",
+   "witnessTest": "0039"
   },
-  "evidenceHash": "7a79611f2900f393cb95bd9defdb042c9818ca7629cc1659a2c3ddf6246a29df",
-  "id": "495B",
-  "packageHash": "e131cfdd73e987307a70884dff03b3a43e00c97c7921ddb344a98607d2c7cb66",
-  "qualificationBasis": "official",
-  "rating": 1600,
-  "review": {
-    "coverage": "191 tests, 189 distinct; 4 infinity cases (incl. 0 0), 93 a<b, a=0 and b=0 cases, 5 with a=1e9, 38 with a>b but answer 0, divisor equal to b, 7 perfect-square differences (kills sqrt-boundary bugs), max answer 500.",
-    "freshReplay": {
-      "9104748": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.002,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "191/191",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 191
-        }
-      },
-      "9104818": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.002,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "191/191",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 191
-        }
-      },
-      "9104887": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.003,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "191/191",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 191
-        }
-      },
-      "9105045": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.002,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "191/191",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 191
-        }
-      },
-      "9105144": {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "maxCpu": 0.003,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "191/191",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 191
-        }
-      },
-      "9121726": {
-        "compiled": true,
-        "counterexample": "0004: 0 1000000000 -> 1, expected 0",
-        "evidenceFailedTest": "0004",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0004",
-        "lfNumericallyWrongTests": 131,
-        "maxCpu": 2.233,
-        "myFirstFailed": "0004",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 131,
-        "perTestEvidenceMatch": "191/191",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 51,
-          "RE": 6,
-          "TLE": 3,
-          "WA": 131
-        }
-      },
-      "9135973": {
-        "compiled": true,
-        "counterexample": "0010: 257424 24 -> 128, expected 127",
-        "evidenceFailedTest": "0010",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0010",
-        "lfNumericallyWrongTests": 7,
-        "maxCpu": 0.034,
-        "myFirstFailed": "0010",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 7,
-        "perTestEvidenceMatch": "191/191",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 184,
-          "WA": 7
-        }
-      },
-      "9188071": {
-        "compiled": true,
-        "counterexample": "0032: 5 2 -> 0, expected 1",
-        "evidenceFailedTest": "0032",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0032",
-        "lfNumericallyWrongTests": 3,
-        "maxCpu": 0.029,
-        "myFirstFailed": "0032",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 3,
-        "perTestEvidenceMatch": "191/191",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 188,
-          "WA": 3
-        }
-      },
-      "9226910": {
-        "compiled": true,
-        "counterexample": "0005: 11 2 -> 1, expected 2",
-        "evidenceFailedTest": "0005",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0005",
-        "lfNumericallyWrongTests": 7,
-        "maxCpu": 0.029,
-        "myFirstFailed": "0005",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 7,
-        "perTestEvidenceMatch": "191/191",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 184,
-          "WA": 7
-        }
-      },
-      "9291817": {
-        "compiled": true,
-        "counterexample": "0001: 21 5 -> 3, expected 2",
-        "evidenceFailedTest": "0001",
-        "evidenceVerdict": "WA",
-        "formatOrDebugOnlyWA": 0,
-        "lfFirstFailed": "0001",
-        "lfNumericallyWrongTests": 52,
-        "maxCpu": 0.025,
-        "myFirstFailed": "0001",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 52,
-        "perTestEvidenceMatch": "191/191",
-        "resourceBoundaryOnly": [],
-        "samplesOK": true,
-        "verdictCounts": {
-          "AC": 139,
-          "WA": 52
-        }
-      }
-    },
-    "harnessCorrection": {
-      "freshReplayResult": "All 10 sources: verdict and first failed test equal evidence and every per-test raw output sha256 equals evidence; all 5 incorrect are numerically wrong on their recorded first failing test and fail there identically with LF-only inputs; samples run cleanly. Records pipeline/ratings-pools/1600/audits/history/correction-20261013/replay*/495B-*.json, summary pipeline/ratings-pools/1600/audits/history/correction-20261013/replay-summary.json.",
-      "harnessDifference": "myharness.py (c582ff42) vs myharness_tok.py (1dd7efd4) differ only on line 32, the per-test result append: tok adds 'tokSha' (sha256 of whitespace-joined output tokens) and 'outBytes', computed after the process exited from the same captured bytes. Compile command, rlimits, execution, timeout, rc, cpu and raw output 'sha' code are byte-identical. myharness_tail.py likewise only adds 'tail' and 'outBytes'; myharness_O0.py differs by -O0 (behavioral) and was supplementary only.",
-      "originalActualRuns": "Primary replay: audit5/me/myrun.py (sha256 b2fb9fc3b141971d7c7e477392ba3b733b657796cf86dbcd3a448aa2e210ee2a) mounting myharness.py (c582ff42..., as originally stated), judged by audit5/me/runcheck.py (sha256 37efd694a41e86c6ea4e98161ba274928daf97651fc0c2ef18bd623b8fd24cf4). LF-only replays of the 5 incorrect: auditlf/myrun_lf.py (sha256 1a4349e05f6aa3296ce322c88ec4819a93783a26fef91335cf10087e079c24dd) mounting myharness_tok.py, judged by auditlf/lfcheck.py (sha256 bff7ed5af3ed0e41281300ad98910335b0538e55f68ee6e070efa54324efed83). All original runners/checkers/records: pipeline/ratings-pools/1600/audits/history/correction-20261013/original-runs.tar.gz (sha256 221fdd021ee5270079f95e26f4df0271a788d20d1d44a45b2c14f2547ac4fe6e).",
-      "originalError": "Superseded review.sandbox stated 'Own harness (sha256 c582ff42...983d0d)' for all replays.",
-      "supersededAudit": {
-        "auditHash": "529d5a373560248879f4f56e97f6f98357e7a73f1a18de5343b4cfa3dbce011e",
-        "fileSha256": "53c1631e5809f2c8b9be1a1a69f488c43a3fd34a87bd5c2fd9045501944ab135",
-        "path": "pipeline/ratings-pools/1600/audits/history/495B/529d5a373560248879f4f56e97f6f98357e7a73f1a18de5343b4cfa3dbce011e.json"
-      },
-      "verifiedEquivalence": "All 11 originally-attested IDs (normal + LF-only) were replayed with both myharness_tok.py and unchanged myharness.py c582ff42 (pipeline/ratings-pools/1600/audits/history/correction-20261013/code/launcher_c582.py): over 165 replay pairs / 35100 test executions raw output sha256 equal 35100/35100, rc equal 35099/35100, timeout flag equal 35094/35100; the only differences are CPU-limit boundary flips on tests already past the first failure, outputs identical (this ID: [{\"record\": \"495B-9121726.json\", \"lf\": false, \"test\": \"0089.in\", \"tok\": [0, false, 0.942, \"53c234e5e8472b6a\"], \"c582\": [0, true, 1.162, \"53c234e5e8472b6a\"]}, {\"record\": \"495B-9121726.json\", \"lf\": true, \"test\": \"0089.in\", \"tok\": [0, false, 0.976, \"53c234e5e8472b6a\"], \"c582\": [0, true, 1.096, \"53c234e5e8472b6a\"]}]). Judgment is equivalent (pipeline/ratings-pools/1600/audits/history/correction-20261013/harness-equivalence.json)."
-    },
-    "incorrectAreAlgorithmic": "Each of the 5 incorrect sources was read in full; review.incorrectProofs gives, per source, the implemented algorithm, faulty source line numbers with their text, and a legal LF witness on the evidence failedTest with normal exit, expected vs actual and source/input/expected/actual/proof sha256. Proof witnesses: each incorrect source re-run on its evidence failedTest with CRLF->LF normalized input by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/witness.py (sha256 861f8f394e90ad2a775e4b349c81af07620fb224de258c42e9263f10e1c310c4) mounting pipeline/ratings-pools/1600/audits/history/correction-20261013/code/harness_witness.py (sha256 3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933; identical to myharness_tok.py except it also returns the full output base64), classified by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/mktuples.py (sha256 3fb42a6cbde5e4c63ef52b7a54c33ec03a9d5eedfb7d4bb244ef0c6be4b73750): qualifies only if exit code 0, no timeout, same token count as expected and at least one token numerically different (format/debug-only/CRLF/TLE/wrong-problem excluded).",
-    "incorrectProofs": {
-      "9121726": {
-        "fault": "line 6 'if x//b <= 1: print(\"1\")' is not a valid test (no a<b handling; x//b<=1 prints 1 even when no divisor exceeds b); on a=0,b=1e9 x is negative and it prints 1",
-        "faultyLineText": {
-          "6": "    if x//b <= 1:",
-          "7": "        print(\"1\")",
-          "8": "        return"
-        },
-        "faultyLines": [
-          6,
-          7,
-          8
-        ],
-        "implementedAlgorithm": "a==b -> infinity; else x=a-b, shortcut, then builds divisor list of x by trial factor extension and counts divisors > b",
-        "language": "Python 3",
-        "proofSha256": "16b3a713ff3373583dfe908a0c40cc21d3769db13248bdaa5b5cd76d896a09c4",
-        "qualifies": true,
-        "sourceLines": 35,
-        "sourceSha256": "be240f019460969b182cd1fb6e669a1793a57fe157677673556ad630b868cd24",
-        "submission": "495B/9121726",
-        "witness": {
-          "actual": "1",
-          "actualOutputBytes": 2,
-          "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.012,
-          "exitCode": 0,
-          "expected": "0",
-          "expectedOutputSha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "0 1000000000\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "36f0cd76c1b2c4ecfb4275ae3d5acb4e6ba3c627a27ffecb6fb18a127af454d2",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "fa4260f673ff5acc48b3525fbdf50991c8d630214b49d56cd836393d04ee6568",
-          "record": "witness/495B-9121726.json",
-          "test": "0004",
-          "timedOut": false
-        }
-      },
-      "9135973": {
-        "fault": "counts divisors with i >= b / n//i >= b; the statement requires x > b (x mod x... remainder b needs divisor strictly greater than b), so divisor equal to b is overcounted",
-        "faultyLineText": {
-          "16": "        if i >= b: ans += 1",
-          "17": "        if n // i >= b and n // i != i: ans += 1"
-        },
-        "faultyLines": [
-          16,
-          17
-        ],
-        "implementedAlgorithm": "n=a-b; sqrt enumeration of divisor pairs of n, counting those that qualify",
-        "language": "Python 3",
-        "proofSha256": "2d03752bc0bedd8bf5f493535363e7066755e110a3e1e5abd2b45ba736a170e6",
-        "qualifies": true,
-        "sourceLines": 19,
-        "sourceSha256": "a834c053d52cdae49e24e19dcd0c5d5bf299a99d9b25639989324c659d50eaad",
-        "submission": "495B/9135973",
-        "witness": {
-          "actual": "128",
-          "actualOutputBytes": 4,
-          "actualOutputSha256": "56292515f7d3a7110811eb8de26b3f75f82a0766aa5a1fd66ebcfcb84fe6d5ff",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.012,
-          "exitCode": 0,
-          "expected": "127",
-          "expectedOutputSha256": "da3f6868f09ca69bfc05b0c2ccf93739e50b4802369828ce65bbe658f5711a4a",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "257424 24\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "6cceed6e972b36201abbd92df11750b8de99c692afe93e0221b9d28b97bc8668",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "63eb5754ef0c8e27efb730450f44c0ca7b148e1f7253dd31695add0ada0d6a92",
-          "record": "witness/495B-9135973.json",
-          "test": "0010",
-          "timedOut": false
-        }
-      },
-      "9188071": {
-        "fault": "range(1, r) with r=int(sqrt(a-b)) never tests d=r; r is only added when a-b is a perfect square, so divisor pair (r,(a-b)/r) is lost when r divides a-b but a-b != r*r",
-        "faultyLineText": {
-          "13": "    if (a-b) == r*r:",
-          "14": "        ds.append(r)",
-          "8": "    r = int((a-b)**0.5)",
-          "9": "    for d in range(1, r):"
-        },
-        "faultyLines": [
-          8,
-          9,
-          13,
-          14
-        ],
-        "implementedAlgorithm": "sqrt enumeration of divisors of a-b",
-        "language": "Python 3",
-        "proofSha256": "084b96b855bce39dd7ff69223c6a6b6c32c2a420a515d769edb6feae54b1aba6",
-        "qualifies": true,
-        "sourceLines": 16,
-        "sourceSha256": "d6c7f5141b288484f55118e7e7a07a6a67b386fc0dbf73008ce9f6b1a9de7b94",
-        "submission": "495B/9188071",
-        "witness": {
-          "actual": "0",
-          "actualOutputBytes": 2,
-          "actualOutputSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.013,
-          "exitCode": 0,
-          "expected": "1",
-          "expectedOutputSha256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "5 2\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "b473e10de5a7cd1069016e2a38d54b157b0762f5081ddf80d9cd0eafeba1580f",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "5655ae615032182a94dfc38d5fe5d4bd91e8fa30326c331d924acd4c5e8cf2a5",
-          "record": "witness/495B-9188071.json",
-          "test": "0032",
-          "timedOut": false
-        }
-      },
-      "9226910": {
-        "fault": "range(1, int(sqrt(n))) excludes i=floor(sqrt(n)), dropping that divisor pair",
-        "faultyLineText": {
-          "5": "    return set(chain(*((i, n//i) for i in range(1, int(sqrt(n)))"
-        },
-        "faultyLines": [
-          5
-        ],
-        "implementedAlgorithm": "set of divisor pairs from range(1,int(sqrt(n))), count > b",
-        "language": "Python 3",
-        "proofSha256": "dcfd42fc0361e6e72f61645735f25db6fcabe0568fe7a8a27483ae29783632c2",
-        "qualifies": true,
-        "sourceLines": 18,
-        "sourceSha256": "1738e84c6d4df0bf912c372c64af86b23f2624efd122cf14271ec93c3e769ee9",
-        "submission": "495B/9226910",
-        "witness": {
-          "actual": "1",
-          "actualOutputBytes": 2,
-          "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.013,
-          "exitCode": 0,
-          "expected": "2",
-          "expectedOutputSha256": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "11 2\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "925fd7d539f096bd47841e01f2ed5ba14ca587aeef318c5ec3eddbc97747b99e",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "d55066882c49999019b539d56ccb984825ca42911731a5e2519853f391819e6b",
-          "record": "witness/495B-9226910.json",
-          "test": "0005",
-          "timedOut": false
-        }
-      },
-      "9291817": {
-        "fault": "s=1 counts a-b unconditionally; range(2,y) skips x=y; line 10 tests a >= b*x instead of a/x > b, so it counts invalid paired divisors",
-        "faultyLineText": {
-          "10": "            if a >= b * x: s += 1",
-          "5": "    s, a = 1, a - b",
-          "7": "    for x in range(2, y):",
-          "9": "            if x >= b: s += 1"
-        },
-        "faultyLines": [
-          5,
-          7,
-          9,
-          10
-        ],
-        "implementedAlgorithm": "s starts at 1 (for a-b itself), enumerates x in range(2,y), adds square root",
-        "language": "Python 3",
-        "proofSha256": "7b5635859b055c870a3d374ce0efc268a2b6a02ccff7c234cd06b0df72d99582",
-        "qualifies": true,
-        "sourceLines": 12,
-        "sourceSha256": "23aa65470fdcec0f814a2bc49a96a4bc6592009bce4a42b41cba49b3b51c1528",
-        "submission": "495B/9291817",
-        "witness": {
-          "actual": "3",
-          "actualOutputBytes": 2,
-          "actualOutputSha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
-          "classification": "MATH-WRONG",
-          "cpuSeconds": 0.012,
-          "exitCode": 0,
-          "expected": "2",
-          "expectedOutputSha256": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
-          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
-          "input": "21 5\n",
-          "isEvidenceFailedTest": true,
-          "lfInputSha256": "49116e4ee43f8e45382259914243c26f9b5c987609201332593a4517ee9208ab",
-          "packageInputHadCRLF": true,
-          "packageInputSha256": "e6f71f826f416d38cf233107cd975fe43fae7fa5c9bc5fd4284f1418ca95c7b9",
-          "record": "witness/495B-9291817.json",
-          "test": "0001",
-          "timedOut": false
-        }
-      }
-    },
-    "independentOracle": "a==b -> infinity; a<b -> 0; else count divisors d of a-b with d>b (sqrt enumeration); cross-checked against literal count of x in [1,a+1] with a mod x == b for all a,b in 0..149.",
-    "officialTests": "official_tests_complete=true, testset_size 37; package tests 0001-0037 equal the pinned row's official tests positionally (inputs equal after CRLF normalization, outputs token-equal); source row equals independently downloaded, sha-verified pinned parquet row.",
-    "oracleResult": "All 191 package tests and all samples pass a strict format/range parse; every expected output equals my oracle; all upstream official rows equal my oracle.",
-    "sandbox": "Corrected 2026-10-13 (supersedes auditHash 529d5a373560248879f4f56e97f6f98357e7a73f1a18de5343b4cfa3dbce011e). Fresh full replay of all 10 sources on every package test and sample, plus LF-only-input replay of the 5 incorrect, with own harness myharness_tok.py sha256 1dd7efd4776d4d8f0eb30512e4182274d33b1bd28c0a2abbffa41c137685d4a9 (pipeline/ratings-pools/1600/audits/history/correction-20261013/code/harness.py), launched by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/launcher.py sha256 0815a7c051885918656ae9fd38f763d4a0bef346a37f83431a5a3a5fa451856d, judged by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/judge.py sha256 df9f3e33be2e97e9d864dac1ae32ec96edf39845235872d36af6da473f6a1b5f (full-output token sha256 vs expected; WA counted only when numerically wrong); not worker pool_harness. Pinned python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3, --pull=never, --network=none, --read-only, --user=65534:65534, --cap-drop=ALL, no-new-privileges, pids<=32, 1 CPU, 2560m memory/swap, tmpfs /w 128m and /tmp 16m, inputs and harness mounted read-only, RLIMIT_CPU/AS at problem limits, RLIMIT_FSIZE 16MiB, launched from env -i (PATH only) without credentials; g++ -O2 -std=c++17 -DONLINE_JUDGE; python3 for Python sources. Proof witnesses: each incorrect source re-run on its evidence failedTest with CRLF->LF normalized input by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/witness.py (sha256 861f8f394e90ad2a775e4b349c81af07620fb224de258c42e9263f10e1c310c4) mounting pipeline/ratings-pools/1600/audits/history/correction-20261013/code/harness_witness.py (sha256 3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933; identical to myharness_tok.py except it also returns the full output base64), classified by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/mktuples.py (sha256 3fb42a6cbde5e4c63ef52b7a54c33ec03a9d5eedfb7d4bb244ef0c6be4b73750): qualifies only if exit code 0, no timeout, same token count as expected and at least one token numerically different (format/debug-only/CRLF/TLE/wrong-problem excluded).",
-    "singleAnswer": "Output is uniquely determined by the input; token comparison is correct; no special checker or float tolerance.",
-    "statement": "Packaged bound '0 ≤ a, b ≤ 10<sup>9</sup>'; original package HTML ('≤ 109') preserved in statement-sources/495B.original.html, one-line diff; attestation raw codeforces.me snapshot hash matches and contains sup.upper-index markup. Output 'infinity' or a count is fully specified.",
-    "submissionProvenance": "All sources byte-identical (sha256) to rows in pinned open-r1/codeforces-submissions shards (shard sha256 verified independently); upstream verdict/problem/language match; for every incorrect source the first failing package test equals upstream passedTestCount+1.",
-    "submissions": [
-      {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "9104748",
-        "maxCpu": 0.004,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "191/191",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "9104818",
-        "maxCpu": 0.003,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "191/191",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "9104887",
-        "maxCpu": 0.003,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "191/191",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "9105045",
-        "maxCpu": 0.004,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "191/191",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "evidenceFailedTest": null,
-        "evidenceVerdict": "AC",
-        "expected": "OK",
-        "id": "9105144",
-        "maxCpu": 0.003,
-        "myFirstFailed": null,
-        "myVerdict": "AC",
-        "perTestEvidenceMatch": "191/191",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "counterexample": "0004: 0 1000000000 -> 1, expected 0",
-        "defect": "x//b<=1 shortcut prints 1 (and divides by zero for b=0); ad-hoc divisor generation; numerically wrong (0004)",
-        "evidenceFailedTest": "0004",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "formatOrDebugOnlyWA": 0,
-        "id": "9121726",
-        "maxCpu": 2.081,
-        "myFirstFailed": "0004",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 131,
-        "perTestEvidenceMatch": "191/191",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "counterexample": "0010: 257424 24 -> 128, expected 127",
-        "defect": "counts divisors >= b instead of > b",
-        "evidenceFailedTest": "0010",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "formatOrDebugOnlyWA": 0,
-        "id": "9135973",
-        "maxCpu": 0.085,
-        "myFirstFailed": "0010",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 7,
-        "perTestEvidenceMatch": "191/191",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "counterexample": "0032: 5 2 -> 0, expected 1",
-        "defect": "range(1, r) skips divisor r=floor(sqrt(a-b)) and its pair when a-b is not a perfect square",
-        "evidenceFailedTest": "0032",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "formatOrDebugOnlyWA": 0,
-        "id": "9188071",
-        "maxCpu": 0.033,
-        "myFirstFailed": "0032",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 3,
-        "perTestEvidenceMatch": "191/191",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "counterexample": "0005: 11 2 -> 1, expected 2",
-        "defect": "range(1, int(sqrt(n))) excludes the sqrt boundary divisor pair",
-        "evidenceFailedTest": "0005",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "formatOrDebugOnlyWA": 0,
-        "id": "9226910",
-        "maxCpu": 0.025,
-        "myFirstFailed": "0005",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 7,
-        "perTestEvidenceMatch": "191/191",
-        "samplesOK": true
-      },
-      {
-        "compiled": true,
-        "counterexample": "0001: 21 5 -> 3, expected 2",
-        "defect": "starts count at 1 for n itself unconditionally, range(2,y) misses y, wrong a>=b*x condition",
-        "evidenceFailedTest": "0001",
-        "evidenceVerdict": "WA",
-        "expected": "WRONG_ANSWER",
-        "formatOrDebugOnlyWA": 0,
-        "id": "9291817",
-        "maxCpu": 0.022,
-        "myFirstFailed": "0001",
-        "myVerdict": "WA",
-        "numericallyWrongTests": 52,
-        "perTestEvidenceMatch": "191/191",
-        "samplesOK": true
-      }
-    ]
+  "9135973": {
+   "actualOutputSha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+   "excerptSha256": "78b31e97db990ac869701f4e7c53455f7841efd9eeb43dd2631be20912aeb346",
+   "explanation": "Counts divisors i of a-b with i>=b; the condition a mod x = b requires x>b, so the divisor x=b is wrongly counted.",
+   "kind": "wrong-answer",
+   "lines": "16-17",
+   "outcome": "GENUINE",
+   "reason": "Counts divisors i of a-b with i>=b; the condition a mod x = b requires x>b, so the divisor x=b is wrongly counted.",
+   "sourceHash": "a834c053d52cdae49e24e19dcd0c5d5bf299a99d9b25639989324c659d50eaad",
+   "test": "0010",
+   "witnessTest": "0027"
   },
-  "reviewUrl": "https://staging.itsdev.in/sessions/204c72b1a58f47088f37a65c8104a8b8",
-  "reviewer": "devin-204c72b1a58f47088f37a65c8104a8b8",
-  "schemaVersion": 1,
-  "validator": "devin-1ffab6b544d64d17bf1498a01b5257c0"
+  "9188071": {
+   "actualOutputSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+   "excerptSha256": "4c21a2b6d8a582de3dfb8818aad215abc88215c14d68736ec8f56e7fc6b25f4f",
+   "explanation": "Divisor loop range(1,r) excludes d=r=floor(sqrt(a-b)); when r divides a-b but a-b is not a perfect square, the pair (r,(a-b)/r) is lost.",
+   "kind": "wrong-answer",
+   "lines": "8-14",
+   "outcome": "GENUINE",
+   "reason": "Divisor loop range(1,r) excludes d=r=floor(sqrt(a-b)); when r divides a-b but a-b is not a perfect square, the pair (r,(a-b)/r) is lost.",
+   "sourceHash": "d6c7f5141b288484f55118e7e7a07a6a67b386fc0dbf73008ce9f6b1a9de7b94",
+   "test": "0032",
+   "witnessTest": "0032"
+  },
+  "9226910": {
+   "actualOutputSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+   "excerptSha256": "d856af227c494580b2112e3389e096779658fb82deeb5ba70830fc4045fb6e70",
+   "explanation": "range(1,int(sqrt(n))) excludes i=floor(sqrt(n)), so divisor pairs at that boundary (including the perfect-square root) are dropped.",
+   "kind": "wrong-answer",
+   "lines": "5",
+   "outcome": "GENUINE",
+   "reason": "range(1,int(sqrt(n))) excludes i=floor(sqrt(n)), so divisor pairs at that boundary (including the perfect-square root) are dropped.",
+   "sourceHash": "1738e84c6d4df0bf912c372c64af86b23f2624efd122cf14271ec93c3e769ee9",
+   "test": "0005",
+   "witnessTest": "0006"
+  },
+  "9291817": {
+   "actualOutputSha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+   "excerptSha256": "c12418eaaaee75eab5e80997b822df477ec29f1e488bbd59b24027027001f05a",
+   "explanation": "Starts the count at 1 (assuming a-b>b), loops range(2,y) skipping y=floor(sqrt), and uses >= instead of >, so boundary divisors are miscounted.",
+   "kind": "wrong-answer",
+   "lines": "5-11",
+   "outcome": "GENUINE",
+   "reason": "Starts the count at 1 (assuming a-b>b), loops range(2,y) skipping y=floor(sqrt), and uses >= instead of >, so boundary divisors are miscounted.",
+   "sourceHash": "23aa65470fdcec0f814a2bc49a96a4bc6592009bce4a42b41cba49b3b51c1528",
+   "test": "0001",
+   "witnessTest": "0006"
+  }
+ },
+ "independentAuditPath": "pipeline/ratings-pools/1600/independent-audit.json",
+ "independentRecordHash": "5ee54677eed8876df6151fff1eabddede90d0946e8f5ad42b159c6b1107ca886",
+ "outcome": "TECHNICAL",
+ "packageHash": "e131cfdd73e987307a70884dff03b3a43e00c97c7921ddb344a98607d2c7cb66",
+ "publicationApproved": false,
+ "qualificationBasis": "official",
+ "rating": 1600,
+ "reasons": [],
+ "reviewUrl": "https://staging.itsdev.in/sessions/ab69a3bc4df34f7999b57b482222032a",
+ "reviewer": "devin-ab69a3bc4df34f7999b57b482222032a",
+ "schemaVersion": 1,
+ "supersedes": {
+  "auditHash": "2dd15d7148c3ba619ff8df2599a6ce15639150d3be05ac33d7bcdcc478384e69",
+  "historyPath": "audits/history/495B/2dd15d7148c3ba619ff8df2599a6ce15639150d3be05ac33d7bcdcc478384e69.json",
+  "reviewer": "devin-204c72b1a58f47088f37a65c8104a8b8"
+ },
+ "validator": "devin-1ffab6b544d64d17bf1498a01b5257c0"
 }
