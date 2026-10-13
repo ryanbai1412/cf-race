@@ -1,0 +1,476 @@
+{
+  "baseCommit": "5b28d333",
+  "bruteChecks": 59132,
+  "bruteReference": "brute(): an independent single-pass character state machine (empty/zero/number/other) with a sentinel separator; no regex or split. test_recipe_600A adds a third reference (manual split plus a per-character digit check). brute_checks covers: every string over {0,1,a,.,comma,semicolon} of length 1..6 (55986), 3000 fixed-seed random strings (seed 600002) over 0-9aZ.,; up to length 40, and every extra.",
+  "datasetCards": {
+    "note": "Read both cards before any other API call. official_tests may be truncated (here official_tests_complete=false: 26 kept of testset_size 43). generated_tests is only a count (8); the generated tests themselves are not in the supplied row.",
+    "open-r1/codeforces": {
+      "sha256": "b9971cff0a797603b79d78f49129830b0a1a4b99d9860e392fba126a4ef4dc69",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md"
+    },
+    "open-r1/codeforces-submissions": {
+      "sha256": "8352430bd0fbc94cfe8762a9278c18a8494fca567a8aaf29a9e353c3f4627687",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md"
+    }
+  },
+  "exclusionCheck": {
+    "customChecker": false,
+    "fileIO": false,
+    "floating": false,
+    "imageMissing": false,
+    "interactive": false,
+    "multipleValidOutputs": false,
+    "note": "The output is fully determined. Output lines never contain whitespace (the alphabet has none), so token comparison equals line comparison. Its only extra leniency is accepting both lines joined by whitespace on one line, which is a line-layout difference; it cannot turn a wrong classification into an accept."
+  },
+  "extras": {
+    "categories": {
+      "adversarial": 108,
+      "boundary": 30,
+      "maxSize": 8
+    },
+    "count": 146,
+    "includes": "30 boundary words (0, 00, 000, 01, 02, 007, single separators, dot and uppercase words, leading/trailing empty words, all-number and no-number dash cases); 20 hand-written adversarial strings (zero families, mixed separators, numbers above 64 bits); three 4000-digit words; 60 fixed-seed strings from a word vocabulary; 30 fixed-seed random-character strings; 8 strings at the legal maximum |s|=10^5 (mixed words, 50000 zeros, 10^5 separators giving 100001 empty words, one 10^5-letter word, all numbers, long numbers, long zero runs, 4000-digit nines).",
+    "maxInputLength": 100000,
+    "minInputLength": 1,
+    "motivation": "The official suite (26 of 43 kept upstream) has no max-length case. test_recipe_600A re-implements mutants modelled on selected WRONG_ANSWER sources (the sources are not executed); each mutant is killed by at least 25 extras: zero rejected by w[0]!=\"0\" (109331195, 105967924, 105789683), isdigit-only acceptance of leading zeros (154914789), int()==0 accepting 00 (111955085), empty/dotted words dropped (121158382), \"\" printed instead of - (105824496), only \"01\" rejected (162712627), \";\" used as joiner (105811063), lines swapped (105963405), lowercase-only classification (151263146), \"0\" accepted only as the last word (173914988).",
+    "numberLengthCap": "Digit-only words in the extras are capped at 4000 digits. CPython >=3.11 int() raises ValueError on strings over 4300 digits. The two pinned Python 3 OK sources would therefore fail a statement-legal 10^5-digit number under a modern interpreter: 14513434 calls str(int(i)) without a guard and raises RE, and 14513478 catches the error and misclassifies the word as a non-number. That is an interpreter artifact, not an algorithmic error, so those cases were deliberately not authored. The parent may add one if it uses only C++ AC references.",
+    "seed": 600001,
+    "sha256OfJson": "4eb8fe22e079f7eed0c5692e042e0e427f4eee3122fb73abbcf91d84741a996e"
+  },
+  "failedUpstreamPairs": [],
+  "id": "600A",
+  "inputs": {
+    "archiveBytes": 4542856,
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "file": "inputs/600A.json",
+    "fileBytes": 59540,
+    "fileSha256": "617796c32982dbd6ad5966c080566056472abf676a8ca0d6d4cebad526a45883",
+    "manifestEntry": {
+      "bytes": 59540,
+      "sha256": "617796c32982dbd6ad5966c080566056472abf676a8ca0d6d4cebad526a45883"
+    },
+    "manifestMatches": true,
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "sourceRowHash": "955c61c00bf84989aa5888868f91d924a20eeabfde8a292347083abd2594d5b1",
+    "sourceRowHashMatches": true,
+    "sourceRowHashRecomputed": "955c61c00bf84989aa5888868f91d924a20eeabfde8a292347083abd2594d5b1",
+    "sourceShard": {
+      "bytes": 403816275,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00006-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "56472c2a050a04899399691e1247b91ca6f9f8ac62fc633aeb1e39065832ffb7",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00006-of-00011.parquet"
+    }
+  },
+  "notAuditNotSignoffNotValidated": true,
+  "officialReview": {
+    "failures": [],
+    "generatedTestsCountField": 8,
+    "generatedTestsInRow": 0,
+    "lineEndings": "All 26 official pairs are CRLF; samples are LF with no trailing newline. parse uses strip().splitlines(), which is lossless because the alphabet has no whitespace. review compares both the tokens and the stripped lines.",
+    "maxOfficialLength": 113,
+    "officialComplete": false,
+    "officialCount": 26,
+    "samples": 4,
+    "testsetSize": 43
+  },
+  "oracle": "answer(): re.split(\"[,;]\") gives exactly k+1 words for k separators. Each word is classified with fullmatch 0|[1-9][0-9]*. Each class is joined with \",\" inside quotes, or printed as \"-\" if empty. Returns the two output lines (each one token).",
+  "recipeFiles": [
+    "pipeline/ratings-pools/1600/recipe_600A.py",
+    "pipeline/ratings-pools/1600/test_recipe_600A.py"
+  ],
+  "role": "recipe-author",
+  "selectedSubmissionsReview": {
+    "count": 32,
+    "entries": [
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 43.0,
+        "sourceBytes": 289,
+        "sourceSha256": "af267e13ea180143c927f6bc0acffa2857257b638b0c1d2f1077b1a1b85fd994",
+        "submissionId": "14513434",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 43.0,
+        "sourceBytes": 2554,
+        "sourceSha256": "18c477c19f5505f6d116a7838d1641ed4d23c4567668c363aa79836546b88d7d",
+        "submissionId": "14513439",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 43.0,
+        "sourceBytes": 954,
+        "sourceSha256": "2bda6e10151e9f9bc73c90ed824d8dad4838f672013edcc9f978094f7e5719f5",
+        "submissionId": "14513443",
+        "verdict": "OK"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 43.0,
+        "sourceBytes": 475,
+        "sourceSha256": "2d6fe2f0128e87c215b824968884302ce7cf87fbcc8cb17891c1fb6550dbaeb4",
+        "submissionId": "14513478",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 43.0,
+        "sourceBytes": 2080,
+        "sourceSha256": "245d2e70ce0d3bbcac8e9229f447843f5a5792d875e608614b33e8e2c9d32bc1",
+        "submissionId": "14513502",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 43.0,
+        "sourceBytes": 1240,
+        "sourceSha256": "86ecf4ad4e4cf8decb65a52ad45388c3a46622d58d68c125f80f81735b1429c5",
+        "submissionId": "14513523",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 43.0,
+        "sourceBytes": 1259,
+        "sourceSha256": "5b372b9606ee6d130137791049aa039fb2057950d7db385964e1665aefb6c5f5",
+        "submissionId": "14513543",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 43.0,
+        "sourceBytes": 1946,
+        "sourceSha256": "2255ba2f4d817fc4849c9e2740b6337055114333aa80132288044674b9dfc9c7",
+        "submissionId": "14513546",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 43.0,
+        "sourceBytes": 1038,
+        "sourceSha256": "208cba0e20f84bcc8f2cbdde07011e35d2d827ab028ef54410969ebbf7d7f270",
+        "submissionId": "14513555",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 43.0,
+        "sourceBytes": 1252,
+        "sourceSha256": "58d9d077999f1fb429c4d325384a7e523c2c0875f9fb69c18098b0c85de40241",
+        "submissionId": "14513573",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 43.0,
+        "sourceBytes": 1114,
+        "sourceSha256": "779e84f0c5255aa5fbad136a7c3fbd8d3de938ddc53e7b91cdd8fd5c8b998241",
+        "submissionId": "14513600",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 43.0,
+        "sourceBytes": 988,
+        "sourceSha256": "3c30d0d827ca275c6dc3cae9f222b2c241c5d93e1a141ef714703b88eaf1f478",
+        "submissionId": "14513631",
+        "verdict": "OK"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 0.0,
+        "sourceBytes": 1364,
+        "sourceSha256": "50a239b369f754805b5e4647ca1e3f87a73b53b122c3c4e57172b6dd57ef3d4d",
+        "submissionId": "105789683",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 0.0,
+        "sourceBytes": 622,
+        "sourceSha256": "f6c2dc9c2457b55b8f48cb8db8befbc2a621721f1c4b972354c0a7a4ab4e3a86",
+        "submissionId": "105811063",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 4.0,
+        "sourceBytes": 869,
+        "sourceSha256": "0bcff0abe8b85856dceb6cbff998dbb8dcace834f5054776411f90d7259979d8",
+        "submissionId": "105824496",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 0.0,
+        "sourceBytes": 751,
+        "sourceSha256": "ef0f2dd06651febd9b4357e047f52257883ba31ce2e53371120d5a5cfd52069e",
+        "submissionId": "105963405",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 0.0,
+        "sourceBytes": 416,
+        "sourceSha256": "e1f2408f414529143dc9c39a0ca9175f473ab952429da7f269eb4a6291df477c",
+        "submissionId": "105967924",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 0.0,
+        "sourceBytes": 305,
+        "sourceSha256": "31a5d05d82d44a5bee35dc45fb72ae33e03034e256f4bbab17a52a4678fd1604",
+        "submissionId": "109331195",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 0.0,
+        "sourceBytes": 414,
+        "sourceSha256": "88ff6df76fa8d5bc6cbab6d7909e962db3a8e2390fca0ac6e0f5515036b07265",
+        "submissionId": "110128827",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 19.0,
+        "sourceBytes": 304,
+        "sourceSha256": "15dffbf743afd06fa41054890420e2653fd55881feb7f60b97cb9a7d680ddca0",
+        "submissionId": "111955085",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 1.0,
+        "sourceBytes": 580,
+        "sourceSha256": "dff38a85b2b6129890daeff70420a9e7b4d8c9e73ac08d1ebb92a4bd509a108a",
+        "submissionId": "121158382",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 0.0,
+        "sourceBytes": 1002,
+        "sourceSha256": "01e2abbb9c05adedb15f216dfb81219259e297a9b58b59f04c9da3b9719fc417",
+        "submissionId": "123904079",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 0.0,
+        "sourceBytes": 449,
+        "sourceSha256": "0b7bb37eb10a1fc73bafeb7a19e3c97e809263d954150573f2958c29855e4295",
+        "submissionId": "147242278",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 0.0,
+        "sourceBytes": 441,
+        "sourceSha256": "c3ee0706cf3a25d8a51c99cc44804a743bbad2ad18c0d34200def07c86ab99a8",
+        "submissionId": "151263146",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 0.0,
+        "sourceBytes": 693,
+        "sourceSha256": "f301349626710a190b4ba192a3003ed460e88369611c8eb6d2a3b3fe3718df16",
+        "submissionId": "154914789",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 0.0,
+        "sourceBytes": 1082,
+        "sourceSha256": "3f06119edde296ca5ac5de0d47b58540f0f9a1d4990407d9a5a65f7e56805da3",
+        "submissionId": "154918188",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 5.0,
+        "sourceBytes": 690,
+        "sourceSha256": "ef7235cce41a70c5bbbefa14a828fdf49e8efc8bb7ae6a8853391ca14d8fde6c",
+        "submissionId": "162712627",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 5.0,
+        "sourceBytes": 862,
+        "sourceSha256": "6cf3c9e864274fb181861a594b09e06276e8be1d0041e8b4abf905cae9681805",
+        "submissionId": "173914988",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 0.0,
+        "sourceBytes": 450,
+        "sourceSha256": "60d71446c6bfe2c27f8556837398bad667758126034d501fb4ebae7ef8516f70",
+        "submissionId": "196131993",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 0.0,
+        "sourceBytes": 692,
+        "sourceSha256": "3540c59f422c9c064ff8bcd4392516c8b6c6359bc820ed9aba42e112959283d6",
+        "submissionId": "198955045",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 0.0,
+        "sourceBytes": 721,
+        "sourceSha256": "885589d6cded22ecb1a40ae8271d5217e7e59f3d1ab54eeba12ad3b7e8a58ca8",
+        "submissionId": "202742857",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 0.0,
+        "sourceBytes": 176,
+        "sourceSha256": "69f10b6afd582b8c15a87b1401c8107a11916608d071c595f3dd8a7d8a8c5727",
+        "submissionId": "212073855",
+        "verdict": "WRONG_ANSWER"
+      }
+    ],
+    "inspectedNotExecuted": true,
+    "note": "Parent qualification should not count presentation- or debug-only failures. The genuine classification bugs are the ones modelled by the mutants listed under extras.",
+    "presentationOrDebugIssues": {
+      "110128827": "print('\"',a,'\"') puts spaces inside the quotes on every output, so it fails every test on format alone. It also drops empty and dotted words (a real bug), but a witness must show the classification error, not only the spaces.",
+      "123904079": "No quotes are printed, and its empty-word comma joining also differs.",
+      "147242278": "print('\"',x,'\"') puts spaces inside the quotes on every output. It also rejects the word \"0\" (i[0]!=\"0\"), a real bug hidden behind the format.",
+      "151263146": "No quotes are printed. It also treats only lowercase letters as non-numeric and crashes in int() on uppercase or dotted words.",
+      "154914789": "Prints a debug print(s) per character and a literal \"&quot\"; it is also isdigit-only.",
+      "154918188": "Prints a debug print(s) per character and a literal \"&quot\".",
+      "196131993": "Classification is correct. print(x,'\"') adds a space before the closing quote, so the failure is presentation only.",
+      "198955045": "Prints the word list with print(l) as debug output. The rest of the logic matches the oracle, so the failure is debug only.",
+      "202742857": "Classification is correct but no quotes are printed: format only.",
+      "212073855": "Not a solution to this problem: it splits on whitespace and prints lists."
+    },
+    "verdicts": {
+      "OK": 12,
+      "WRONG_ANSWER": 20
+    }
+  },
+  "semantics": "One line s, 1<=|s|<=10^5 (public statement 10<sup>5</sup>; row text flattened to 105), over . , ; digits and Latin letters. Words are maximal runs without , or ; so k separators give k+1 words, empty words included. A word is a number iff it is \"0\" or a nonzero digit followed by digits (no sign, dot or leading zero). Output line1: numbers joined by \",\" in order, quoted, or - if none; line2: all other words likewise. Unique output; lines contain no whitespace so token comparison equals line comparison. Checked against a character-level state machine and exhaustive small strings.",
+  "statement": {
+    "comparison": "With tags stripped, the public div matches the row description, input/output format, all four examples and the note word for word. The only difference is the flattened superscript: the row shows 10^5 as 105. No image, interaction or file I/O. stdio, 2 s, 256 MB.",
+    "imageMissing": false,
+    "normalizationNeeded": true,
+    "normalizationProposal": {
+      "attestation": "10<sup class=\"upper-index\">5</sup>",
+      "entry": {
+        "600A": [
+          [
+            "≤ 105)",
+            "≤ 10<sup>5</sup>)",
+            1
+          ]
+        ]
+      },
+      "field": "input_format",
+      "target": "normalize_statement.MULTI_REPAIRS"
+    },
+    "publicSource": {
+      "attestedExcerpt": "(<span class=\"tex-span\">1 ≤ |<i>s</i>| ≤ 10<sup class=\"upper-index\">5</sup></span>)",
+      "bodyBytes": 60023,
+      "bodySha256": "85c249ae59ab52c72449b7938a12f00ac78f853bc286cb9185d11c9d48a48eb3",
+      "httpStatus": 200,
+      "method": "plain curl GET, Mozilla/5.0 UA",
+      "problemStatementDiv": {
+        "byteRange": [
+          36133,
+          41084
+        ],
+        "bytes": 4951,
+        "sha256": "3b5781da7f6533615cdadf45c37fea8108c51cfeca20744a33b41a3beeb97040"
+      },
+      "url": "https://codeforces.me/problemset/problem/600/A?locale=en"
+    },
+    "rowText": "The only line of input contains the string s (1 ≤ |s| ≤ 105). The string contains only symbols '.' (ASCII 46), ',' (ASCII 44), ';' (ASCII 59), digits, lowercase and uppercase latin letters."
+  },
+  "statementCopy": "pipeline/ratings-pools/1600/statement-sources/600A.recipe-author.original.html",
+  "tests": {
+    "assertionCallsIncludingUnittestInternalDispatch": 3553,
+    "command": "python3 -m unittest test_recipe_600A (from pipeline/ratings-pools/1600)",
+    "note": "test_brute_differs_and_agrees re-runs brute_checks (59132 internal assert statements).",
+    "topLevelAssertions": 2035,
+    "unitTests": 7
+  }
+}
