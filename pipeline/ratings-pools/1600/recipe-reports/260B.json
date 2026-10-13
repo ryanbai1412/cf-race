@@ -2,7 +2,7 @@
   "id": "260B",
   "rating": 1600,
   "role": "recipe-author-only",
-  "status": "authored-pending-local-checks",
+  "status": "authored-local-checks-passed-not-qualified",
   "qualification": "Not qualified. No external programs executed, no independent audit/signoff, and no contribution to the parent's validated-problem count.",
   "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
   "inputProvenance": {
@@ -73,8 +73,12 @@
     "targetCount": 160,
     "scope": "Each pair is an individual one-line input, not a concatenated multi-test file. Three real100000-character cases; legal minimum10; all month/year endpoints; overlaps and first/last windows; invalid-date distractors; lead-by-one order traps; fixed-seed small random mixtures.",
     "categories": ["boundary", "adversarial", "maxSize"],
-    "actualCount": null,
-    "independentOutputChecks": null
+    "actualCount": 160,
+    "independentOutputChecks": 160,
+    "categoryCounts": {"boundary": 42, "adversarial": 115, "maxSize": 3},
+    "maxSizeLengths": [100000, 100000, 100000],
+    "suiteCanonicalJsonSha256": "77b444a1a6e04311891329f919557f4edd0c9727872934cf9814dc01e9f46ddf",
+    "determinism": "Identical canonical JSON digest under PYTHONHASHSEED=1 and777."
   },
   "sourceMotivatedCoverage": [
     {
@@ -100,15 +104,20 @@
     "inventoryOfficialCount": 39,
     "officialTestsComplete": false,
     "generatedTestsReportedButNotIncluded": 9,
-    "reviewStatus": "pending targeted local checks",
-    "failedUpstreamPairs": null,
+    "reviewStatus": "All27 official pairs and one sample passed exact constraints, unique-answer oracle, and independent calendar-literal brute; source digest unchanged.",
+    "failedUpstreamPairs": [],
     "note": "Do not interpret testset_size/inventory39 as39 supplied tests. Only27 official pairs and one sample are present; no absent tests reconstructed. Separate upstream generated-test files were not included/read."
   },
   "checks": {
-    "unitTestMethods": null,
-    "bruteAssertions": null,
-    "astSyntax": "pre-push two modules parsed",
-    "diffCheck": null
+    "unitTestMethods": 9,
+    "unitTestSkipped": 0,
+    "unitTestCommand": "CF260B_SOURCE_ARCHIVE=<provided archive path> python3 -m unittest -v test_recipe_260B (cwd pipeline/ratings-pools/1600)",
+    "bruteAssertions": 14826,
+    "bruteInputScenarios": 8105,
+    "bruteCountMapAssertions": 8105,
+    "bruteUniqueAnswerAssertions": 6721,
+    "astSyntax": "Both recipe_260B.py and test_recipe_260B.py parsed successfully.",
+    "diffCheck": "git diff --check 5b28d33..HEAD passed after initial push; rechecked for final report commit."
   },
   "parentFollowUp": "Parent may integrate this additive recipe and proposed normalization. Generated-basis qualification requires extensive generated suite,5 actual AC/5 genuine algorithmic WA, a distinct accepted sixth oracle, disjoint validators, and later different-agent audit. This author performs none of those steps."
 }

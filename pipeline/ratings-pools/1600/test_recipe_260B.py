@@ -73,7 +73,7 @@ class Recipe260BTests(unittest.TestCase):
     def test_real_exhaustive_and_random_brute_checks(self):
         counts = recipe.brute_checks()
         self.assertEqual(set(counts), {PID})
-        self.assertGreaterEqual(counts[PID], 8105)
+        self.assertEqual(counts[PID], 14826)
 
     def test_review_reports_invalid_pairs_without_repair(self):
         samples = [('sample', {'input': '01-01-2013', 'output': '01-01-2013'})]
