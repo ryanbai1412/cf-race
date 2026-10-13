@@ -54,6 +54,20 @@ class ArchiveTests(unittest.TestCase):
             extract(path, self.root / "restored", "0" * 64)
         self.assertFalse((self.root / "restored").exists())
 
+    def test_truncated_gzip_even_with_current_sha(self):
+        path = self.archive(["safe"])
+        path.write_bytes(path.read_bytes()[:-8])
+        with self.assertRaises(EOFError):
+            self.unpack(path)
+        self.assertFalse((self.root / "restored").exists())
+
+    def test_corrupt_gzip_footer_even_with_current_sha(self):
+        path = self.archive(["safe"])
+        raw = bytearray(path.read_bytes()); raw[-8] ^= 1; path.write_bytes(raw)
+        with self.assertRaises(OSError):
+            self.unpack(path)
+        self.assertFalse((self.root / "restored").exists())
+
     def test_duplicate_member(self):
         with self.assertRaises(ValueError):
             self.unpack(self.archive(["safe", "safe"]))

@@ -1,5 +1,6 @@
 """Local, data-only reconstruction and cross-pool evidence replay."""
 import argparse
+import gzip
 import hashlib
 import json
 from pathlib import Path, PurePosixPath
@@ -32,7 +33,7 @@ def extract(archive, destination, expected_sha256, max_bytes=8 * 1024 ** 3,
     destination.mkdir(parents=True)
     files, seen, expanded = {}, set(), 0
     try:
-        with tarfile.open(archive, "r|gz") as stream:
+        with gzip.open(archive, "rb") as compressed, tarfile.open(fileobj=compressed, mode="r|") as stream:
             for member in stream:
                 name = relative_name(member.name.rstrip("/"))
                 if name in seen or len(seen) >= max_members:
@@ -58,6 +59,8 @@ def extract(archive, destination, expected_sha256, max_bytes=8 * 1024 ** 3,
                 if size != member.size:
                     raise ValueError("truncated archive member")
                 files[name] = {"sha256": h.hexdigest(), "bytes": size}
+            while compressed.read(1024 * 1024):
+                pass
         return {"archiveSHA256": expected_sha256, "expandedBytes": expanded,
                 "members": len(seen), "files": files}
     except Exception:
