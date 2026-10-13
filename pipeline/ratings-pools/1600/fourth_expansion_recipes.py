@@ -33,6 +33,9 @@ def parse(pid, text):
         raise ValueError('empty input')
     n = a[0]
     if pid == '23B':
+        lines = text.splitlines()
+        if len(lines) != n+1 or any(len(line.split()) != 1 for line in lines):
+            raise ValueError('party line layout')
         if not 1 <= n <= 100000 or len(a) != n+1 or not all(1 <= x <= 100000 for x in a[1:]):
             raise ValueError('party arity/range')
         return a[1:]
@@ -254,7 +257,8 @@ def extras(pid):
         result = answer(pid,parse(pid,text))
         cases.append({'input':text,'output':' '.join(map(str,result))+'\n','reason':reason,'category':category})
     def array(values, reason, category='adversarial'):
-        add(str(len(values))+'\n'+' '.join(map(str,values))+'\n',reason,category)
+        separator = '\n' if pid == '23B' else ' '
+        add(str(len(values))+'\n'+separator.join(map(str,values))+'\n',reason,category)
     if pid == '23B':
         for n in (1,2,3,4,99999,100000):
             add(f'1\n{n}\n','minimum/survivor threshold/maximum party','boundary')

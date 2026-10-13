@@ -5,9 +5,24 @@ import unittest
 from unittest.mock import patch
 
 import normalize_statement
+import fourth_expansion_recipes
 import run_pool
 from pool_contract import digest, manifest, read_json, write_json
 from pool_sources import PINS, sha_file
+
+
+class PartyLayoutTests(unittest.TestCase):
+    def test_one_query_per_line(self):
+        self.assertEqual(fourth_expansion_recipes.parse('23B', '3\n1\n2\n100000\n'), [1, 2, 100000])
+        with self.assertRaisesRegex(ValueError, 'party line layout'):
+            fourth_expansion_recipes.parse('23B', '3\n1 2 100000\n')
+
+    def test_all_generated_inputs_follow_statement_layout(self):
+        cases = fourth_expansion_recipes.extras('23B')
+        self.assertGreaterEqual(len(cases), 100)
+        for case in cases:
+            values = fourth_expansion_recipes.parse('23B', case['input'])
+            self.assertEqual(len(case['input'].splitlines()), len(values)+1)
 
 
 class SourcePolicyTests(unittest.TestCase):
