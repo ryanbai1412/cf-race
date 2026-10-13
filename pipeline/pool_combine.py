@@ -14,7 +14,7 @@ from pool_sources import sha_file
 def relative_name(name):
     parts = PurePosixPath(name).parts
     if (not parts or name.startswith("/") or "\\" in name or
-            any(p in ("..", ".") for p in name.split("/")) or
+            any(p in ("", "..", ".") for p in name.split("/")) or
             any(":" in p for p in parts)):
         raise ValueError(f"unsafe archive path: {name}")
     return PurePosixPath(*parts).as_posix()
@@ -27,6 +27,8 @@ def extract(archive, destination, expected_sha256, max_bytes=8 * 1024 ** 3,
         raise ValueError("archive SHA256 mismatch")
     if destination.exists():
         raise ValueError("extraction destination must not exist")
+    if any(p.is_symlink() for p in (destination, *destination.parents)):
+        raise ValueError("symlink in extraction destination")
     destination.mkdir(parents=True)
     files, seen, expanded = {}, set(), 0
     try:
@@ -82,17 +84,72 @@ def verify_manifest(root, declared, ignored=()):
     return len(actual)
 
 
+def decision_record(entry, root):
+    binding = entry["decision"]
+    path = root / relative_name(binding["path"])
+    if any(p.is_symlink() for p in (path, *path.parents)) or not path.resolve().is_relative_to(root):
+        raise ValueError("unsafe decision path")
+    record = read_json(path)
+    for key in binding["selector"]:
+        record = record[key]
+    if digest(record) != binding["recordHash"]:
+        raise ValueError("current independent decision changed")
+    if not (record.get("approved") is True or record.get("technicalState") == "qualified" or
+            record.get("status") == "technical-pass" or record.get("outcome") == "TECHNICAL"):
+        raise ValueError("current independent decision excludes candidate")
+    if record.get("id", entry["id"]) != entry["id"]:
+        raise ValueError("decision identity mismatch")
+    for key in ("packageHash", "evidenceHash"):
+        if record.get(key) != entry[key]:
+            raise ValueError("decision belongs to different content")
+    audit_hash = record.get("auditHash", record.get("auditDigest", digest(record)))
+    if audit_hash != entry["auditHash"]:
+        raise ValueError("decision belongs to different audit")
+    return record
+
+
 def replay(index, root, output):
     root = Path(root).resolve()
     seen, entries, counts = set(), [], {str(r): 0 for r in RATINGS}
-    empty = root / "empty-publication-approval.json"
-    write_json(empty, {})
+    def local(name):
+        path = root / relative_name(name)
+        if any(p.is_symlink() for p in (path, *path.parents)) or not path.resolve().is_relative_to(root):
+            raise ValueError("unsafe restored evidence path")
+        return path
+
+    for record in index.get("reviewArtifacts", []):
+        if sha_file(local(record["path"])) != record["sha256"]:
+            raise ValueError("changed independent review artifact")
+    inventory = {}
+    for row in index["decisions"]:
+        pid = row["id"]
+        if (not re.fullmatch(r"[1-9][0-9]*[A-Z][0-9]*", pid) or
+                row["rating"] not in RATINGS or pid in inventory):
+            raise ValueError("invalid, aliased or duplicate inventory identity")
+        inventory[pid] = row
+        binding = row["record"]
+        record = read_json(local(binding["path"]))
+        for key in binding["selector"]:
+            record = record[key]
+        if digest(record) != binding["recordHash"]:
+            raise ValueError("inventory decision bytes changed")
+    empty = local(index["emptyApproval"])
+    if read_json(empty) != {}:
+        raise ValueError("dry-run approval must be empty")
+    source_count = 0
     for entry in index["entries"]:
         pid, rating = entry["id"], entry["rating"]
         if not re.fullmatch(r"[1-9][0-9]*[A-Z][0-9]*", pid) or pid in seen or rating not in RATINGS:
             raise ValueError("invalid, aliased or duplicate cross-pool identity")
         seen.add(pid)
-        paths = {key: root / relative_name(entry[key]) for key in ("package", "evidence", "audit")}
+        if entry.get("status") != "technical-validated":
+            raise ValueError("provisional, rejected or held candidate in technical list")
+        row = inventory.get(pid, {})
+        if (row.get("status") != "technical-validated" or row.get("rating") != rating or
+                row.get("record") != entry["decision"]):
+            raise ValueError("technical list/inventory disagreement")
+        decision_record(entry, root)
+        paths = {key: local(entry[key]) for key in ("package", "evidence", "audit")}
         evidence, audit = read_json(paths["evidence"]), read_json(paths["audit"])
         meta = read_json(paths["package"] / "meta.json")
         if meta.get("id") != pid or meta.get("rating") != rating:
@@ -102,15 +159,31 @@ def replay(index, root, output):
             if entry[key] != value:
                 raise ValueError(f"index binding changed: {pid}/{key}")
         verify_evidence(paths["package"], evidence, audit)
+        sources = {str(r["submissionId"]): r for r in entry["sources"]}
+        runs = {str(r["submissionId"]): r for r in evidence["submissions"]}
+        if len(sources) != len(entry["sources"]) or set(sources) != set(runs):
+            raise ValueError("missing/duplicate source-byte bindings")
+        for sid, record in sources.items():
+            path = local(record["path"])
+            source = read_json(path)
+            if (sha_file(path) != record["sha256"] or str(source["submissionId"]) != sid or
+                    hashlib.sha256(source["code"].encode()).hexdigest() != runs[sid]["sourceHash"] or
+                    source["sourceHash"] != runs[sid]["sourceHash"] or source["source"] != runs[sid]["source"]):
+                raise ValueError("changed public source bytes/attribution")
+            source_count += 1
         wrong = [r for r in evidence["submissions"] if r["expected"] != "OK"]
-        if len(wrong) < 5 or any(r["verdict"] != "WA" for r in wrong):
-            raise ValueError("technical pool requires five algorithmic WA references, not timeouts")
-        dry = publication_gate(paths["package"], paths["evidence"].parent.parent.parent,
+        if len(wrong) < 5:
+            raise ValueError("technical pool requires five independently reviewed incorrect references")
+        evidence_root = local(entry["evidenceRoot"])
+        if (paths["evidence"] != evidence_root / str(rating) / "evidence" / f"{pid}.json" or
+                paths["audit"] != evidence_root / str(rating) / "audits" / f"{pid}.json"):
+            raise ValueError("gate paths must bind the indexed evidence and audit")
+        dry = publication_gate(paths["package"], evidence_root,
                                require_approval=False)
         if dry["legacy"]:
             raise ValueError("legacy allowance is not validation")
         try:
-            publication_gate(paths["package"], paths["evidence"].parent.parent.parent,
+            publication_gate(paths["package"], evidence_root,
                              approval_path=empty, require_approval=True)
         except ValueError as error:
             if "explicit content-bound publication approval required" not in str(error):
@@ -120,9 +193,12 @@ def replay(index, root, output):
         counts[str(rating)] += 1
         entries.append({"id": pid, "rating": rating, **{k: dry[k] for k in
                         ("packageHash", "evidenceHash", "auditHash")}})
+    if seen != {pid for pid, row in inventory.items() if row["status"] == "technical-validated"}:
+        raise ValueError("technical inventory entries omitted from replay")
     report = {"schemaVersion": 1, "technicalCounts": counts,
               "technicalTotal": len(entries), "shortfalls": {r: max(0, 100 - n) for r, n in counts.items()},
               "publicationApproved": 0, "published": 0, "publicCodeExecuted": False,
+              "sourceBindingsVerified": source_count,
               "dryGatesPassed": len(entries), "emptyApprovalsRejected": len(entries),
               "indexHash": digest(index), "entries": entries}
     write_json(output, report)
