@@ -2,7 +2,7 @@
   "id": "59C",
   "rating": 1600,
   "role": "recipe-author",
-  "status": "authored-pending-local-checks",
+  "status": "authored-local-checks-passed",
   "qualification": "Not performed. No public submissions executed. This recipe/report is not an independent audit, signoff, or validated-pool count.",
   "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
   "inputBinding": {
@@ -67,6 +67,9 @@
   },
   "generatedSuite": {
     "targetCount": 160,
+    "actualCount": 160,
+    "categoryCounts": {"boundary": 84, "adversarial": 69, "maxSize": 7},
+    "actualMaximumLengthCases": 6,
     "categories": ["boundary", "adversarial", "maxSize"],
     "maxDimension": 100,
     "seeds": {"extras": 591600, "bruteRandom": 59001600},
@@ -80,11 +83,26 @@
     }
   },
   "checks": {
-    "status": "pending-after-first-push",
-    "bruteAssertions": null,
-    "generatedPairsReviewed": null,
-    "officialPairsReviewed": null,
-    "samplesReviewed": null,
-    "failedUpstreamPairs": null
+    "status": "passed-after-first-push",
+    "unitTestMethodsPassed": 9,
+    "unitTestMethodsSkipped": 0,
+    "unitTestCommand": "CF59C_INPUT_ARCHIVE=<authenticated-input-archive> python3 -m unittest discover -s pipeline/ratings-pools/1600 -p test_recipe_59C.py -v",
+    "bruteAssertions": 6978,
+    "bruteBreakdown": {"exhaustiveTemplates": 6678, "fixedSeedRandomTemplates": 300},
+    "separateLookaheadReferenceVsLiteralAssertions": 490,
+    "generatedPairsReviewed": 160,
+    "generatedLookaheadReferenceAssertions": 160,
+    "generatedAdditionalLiteralBruteAssertions": 56,
+    "officialPairsReviewed": 76,
+    "samplesReviewed": 3,
+    "importedLookaheadReferenceAssertions": 79,
+    "failedUpstreamPairs": [],
+    "malformedUpstreamPairs": [],
+    "constraintsAndOracleReview": "All supplied pairs parse with exact two-line layout and have matching oracle output tokens; their raw LF/CRLF bytes were not edited. All 79 imported pairs also agree with the separate lookahead reference.",
+    "astSyntax": {"recipe_59C.py": "passed", "test_recipe_59C.py": "passed"},
+    "reportJsonAndPublicCaptureHash": "passed",
+    "gitDiffCheck": "passed",
+    "publicProgramsExecuted": 0,
+    "pushFirst": "Recipe, tests, initial report and public capture were committed and pushed before any recipe test execution."
   }
 }
