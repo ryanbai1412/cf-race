@@ -1,0 +1,119 @@
+{
+  "id": "793B",
+  "rating": 1600,
+  "role": "recipe-author-only",
+  "status": "authored-local-checks-pending",
+  "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
+  "sourceIntegrity": {
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "archiveBytes": 4542856,
+    "manifestSha256": "c5aa6b8341d4ab6814424de54e241e91390fdc4c079e7f1daa4379bf07075381",
+    "inputPath": "inputs/793B.json",
+    "inputSha256": "dfc3150a60764cceab0e351dd7890400cff83a41d8cda80e99a284db87370ead",
+    "inputBytes": 85392,
+    "sourceRowHash": "6231a477f8810117db50569f308f43173922dbde2213555896a5b4c71e9129c2",
+    "digestMethod": "pool_contract.digest: canonical JSON, sorted keys, compact separators, ensure_ascii=False, SHA256",
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "officialPairsDigest": "de779c78646dd4086c54d2099e9fad14d636bb9fffb7f0095cd77627e69f183f",
+    "samplePairsDigest": "77bdfc666b684c2f18450e35f0f0c041a637a3db75b6391b72ec1d484932c408",
+    "selectedSubmissionsDigest": "e2a2b0f43a5c8c9097664e5e362c5cad34a5fbb7fb1ce77c439d52d2efecc80c",
+    "verified": ["archive byte length and SHA256", "793B file byte length and manifest SHA256", "full source row canonical digest", "both manifest and input pins"],
+    "sourceShard": {
+      "path": "data/train-00002-of-00011.parquet",
+      "bytes": 151609539,
+      "sha256": "ffb14a8f832b5430c6d92b122d4ce44e240fa1f2808f5cffb9c11e3cb6d38a02",
+      "verificationScope": "The authenticated attachment records extraction from the byte-hash verified full upstream LFS shard. This child verified attachment/file/row bindings, not a fresh download of the full shard."
+    },
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "preservation": "No imported statement, source row, test, sample, public submission source or expected-output bytes were rewritten. The portable unit fixtures retain the original CRLF official inputs and original no-final-newline sample inputs."
+  },
+  "datasetDocumentation": [
+    {
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
+      "sha256": "b9971cff0a797603b79d78f49129830b0a1a4b99d9860e392fba126a4ef4dc69"
+    },
+    {
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md",
+      "sha256": "8352430bd0fbc94cfe8762a9278c18a8494fca567a8aaf29a9e353c3f4627687"
+    }
+  ],
+  "statementAttestation": {
+    "url": "https://codeforces.me/problemset/problem/793/B?locale=en",
+    "originalProblemUrl": "https://codeforces.com/problemset/problem/793/B?locale=en",
+    "attribution": "Codeforces, Tinkoff Challenge - Elimination Round, B. Igor and his way to work; public English statement mirrored by codeforces.me.",
+    "httpBodySha256": "723d00652d1b196f103d7b9f5762c7f04492c588001b87ddbc3cd408998f99a6",
+    "httpBodyBytes": 59526,
+    "localPath": "statement-sources/793B.recipe-author.original.html",
+    "problemStatementSha256": "04fa44886c9e789fced99c42da94d0bc69309c97d0b06be6de12e17d832662d2",
+    "problemStatementBytes": 4208,
+    "extraction": "Exact raw bytes from the opening problem-statement div through its balanced closing div; no HTML reserialization or text replacement.",
+    "constraintsQuote": "The first line contains two integers n and m (1 <= n, m <= 1000). Each of the next n lines contains m characters. S and T appear exactly once each.",
+    "movementQuote": "A turn is a change in movement direction. Igor's car can only move to the left, to the right, upwards and downwards. Initially Igor can choose any direction.",
+    "outputQuote": "In the only line print YES if there is a path between Igor's home and Igor's office with no more than two turns, and NO otherwise.",
+    "quoteRendering": "Quotes above are plain-text renderings, not byte quotations; exact original markup is bound by the statement SHA256.",
+    "imageScope": "The two omitted upstream note pictures illustrate the fully textual grid samples; they contain no missing problem definition. Their original URLs remain in the unchanged public statement copy."
+  },
+  "statementNormalization": {
+    "needed": false,
+    "replacements": [],
+    "proposal": "None. The upstream bound 1000 agrees with original English HTML; no power-of-ten inference or source correction is necessary."
+  },
+  "semantics": {
+    "input": "1<=n,m<=1000, exactly n physical rows of m characters from . * S T, one S and one T. n*m=1 has no legal instance because the endpoints are distinct cells. LF and CRLF are accepted without flattening rows; extra rows, characters or header tokens are rejected.",
+    "output": "Unique uppercase YES or NO decision, no path construction, floating point, file IO, interaction or custom checker. Token comparison is appropriate.",
+    "oracle": "A shortest feasible path can have collinear reversals/loops removed. A path with at most two genuine turns is HVH or VHV, with zero-length end segments covering straight and one-turn cases. Intersect the obstacle-bounded first/last straight intervals and test each possible middle segment. Checking every candidate costs at most O(n*m), with O(1) auxiliary oracle storage excluding the parsed rows.",
+    "smallReference": "Separate BFS enumerates states (row,column,previous exact direction,turns) and walks one cell per edge; the initial direction costs no turn. Exhaust all obstacle masks for all ordered S/T pairs on 1x2,2x1,1x3,3x1,2x2,2x3,3x2,3x3: 10252 assertions. Add 500 independently seeded grids up to 8x8.",
+    "maximumReference": "Unit-test-only bytearray straight-segment closure sweeps all four directions from the previous reached set for exactly three layers. This checks the four 1000x1000 extras without using the production interval-intersection oracle."
+  },
+  "authoredSuite": {
+    "plannedIndividualCases": 160,
+    "generationSeed": 1600793,
+    "bruteRandomSeed": 7931600,
+    "coverage": ["minimum legal 1x2 and 2x1", "skinny maximum width/height, open and blocked", "free initial direction", "zero/one/exactly two turns", "reachable paths requiring three/four turns", "both HVH and VHV and reflected/transposed orientations", "pivot outside the endpoints' rectangle", "obstacles outside a used segment", "small randomized grids and all small-space obstacle masks", "four full 1000x1000 open, disconnected, forced-two-turn and forced-three-turn grids"],
+    "selectedWrongSourceMotivation": [
+      {
+        "submissionId": "26617825",
+        "verdict": "WRONG_ANSWER",
+        "sourceSha256": "1d84c43655f8ab9f92dbfdfcf5ea0f1bce5e491863c10bea82046125b878c497",
+        "observation": "Source inspection: intersects the start/end horizontal intervals and tests only vertical middle segments; it never checks VHV paths. The authored S** / ... / **T motif requires VHV.",
+        "scope": "Suite motivation only; no public source execution or wrong-answer qualification claim."
+      },
+      {
+        "submissionId": "26783990",
+        "verdict": "WRONG_ANSWER",
+        "observation": "Source inspection: DFS visited is indexed only by cell, even though future reachability depends on arrival direction and used-turn budget. Exhaustive and randomized direction-state comparisons cover this class of defect.",
+        "scope": "Suite motivation only; no public source execution or claimed algorithmic kill."
+      },
+      {
+        "submissionId": "147850316",
+        "verdict": "WRONG_ANSWER",
+        "sourceSha256": "ee079450642667030260fe24fe5c9b1a4e021fdecf661d7c11248b7541f55158",
+        "observation": "Source inspection: globally marks every row/column containing an obstacle and rejects them as middle corridors, even for obstacles outside the actually used segment. The authored *S. / ... / .T* motif avoids those obstacles.",
+        "scope": "Suite motivation only; capitalization, exceptions and presentation are not used as algorithmic evidence."
+      }
+    ]
+  },
+  "upstreamPairs": {
+    "declaredOfficialTestsetSize": 66,
+    "suppliedOfficialPairs": 13,
+    "suppliedSamples": 2,
+    "officialTestsComplete": false,
+    "declaredOpenR1GeneratedCount": 16,
+    "suppliedOpenR1GeneratedPairs": 0,
+    "localReviewStatus": "pending-targeted-unit-tests",
+    "failedPairs": null,
+    "preservation": "No pair is replaced, repaired, discarded or renumbered as a Codeforces test. Official-row-N means only the one-based supplied-row index."
+  },
+  "localChecks": {
+    "status": "pending-after-first-push",
+    "bruteAssertions": null,
+    "generatedPairsChecked": null,
+    "unitTests": null,
+    "astSyntax": null,
+    "diffCheck": null
+  },
+  "qualificationBoundary": "This is a recipe-author report, not an independent audit or signoff and not a validated problem count. No public programs were executed. Incomplete official data requires parent generated-basis qualification with five actual AC validators, five actual genuine algorithmic WA failures, a disjoint sixth accepted oracle and a later different-agent audit. Parent integration/registration and all execution/publication remain out of scope."
+}
