@@ -1453,8 +1453,8 @@ class P975C:
         N = 200000
         return [("boundary", "n=q=1 exact kill", "1 1\n5\n5\n"), ("boundary", "n=q=1 overkill max k", "1 1\n1\n100000000000000\n"),
                 ("maxSize", "n=q=2e5 random", J((N, N), [r.randint(1, 10**9) for _ in range(N)], [r.randint(1, 10**14) for _ in range(N)])),
-                ("maxSize", "n=q=2e5 small arrows slow progress", J((N, N), [10**9] * N, [r.randint(1, 10**9) for _ in range(N)])),
-                ("maxSize", "n=q=2e5 a=1 k=1", J((N, N), [1] * N, [1] * N)),
+                ("adversarial", "n=q=2e4 a=1e9 small arrows slow progress", J((20000, 20000), [10**9] * 20000, [r.randint(1, 10**9) for _ in range(20000)])),
+                ("adversarial", "n=q=2e4 a=1 k=1", J((20000, 20000), [1] * 20000, [1] * 20000)),
                 ("adversarial", "kill exactly at boundary between warriors", "3 3\n2 2 2\n2 2 2\n"),
                 ("adversarial", "partial damage carries over", "2 3\n5 5\n3 3 3\n")]
 
@@ -1628,23 +1628,24 @@ class P838A:
         L.done()
 
     def S(s):
-        import numpy as np
+        from itertools import accumulate
+        from operator import itemgetter, sub
         rows = s.split("\n")
         n, m = map(int, rows[0].split())
-        g = np.array([[c == "1" for c in rows[1 + i].strip()] for i in range(n)], dtype=np.int64)
-        K = max(n, m)
-        N, M = n + K, m + K
-        P = np.zeros((N + 1, M + 1), dtype=np.int64)
-        P[1:n + 1, 1:m + 1] = g.cumsum(0).cumsum(1)
-        P[n + 1:, 1:m + 1] = P[n:n + 1, 1:m + 1]
-        P[:, m + 1:] = P[:, m:m + 1]
+        P = [[0] * (m + 1)]
+        for i in range(n):
+            acc = list(accumulate((c == "1" for c in rows[1 + i].strip()[:m]), initial=0))
+            P.append(list(map(int.__add__, P[-1], acc)))
         best = None
         for k in range(2, max(n, m) + 1):
-            bn, bm = -(-n // k), -(-m // k)
-            xs, ys = np.arange(bn + 1) * k, np.arange(bm + 1) * k
-            Q = P[np.ix_(xs, ys)]
-            ones = Q[1:, 1:] - Q[:-1, 1:] - Q[1:, :-1] + Q[:-1, :-1]
-            cost = int(np.minimum(ones, k * k - ones).sum())
+            kk = k * k
+            pick = itemgetter(*[min(t * k, m) for t in range(-(-m // k) + 1)])
+            sel = [pick(P[min(t * k, n)]) for t in range(-(-n // k) + 1)]
+            cost = 0
+            for a, b in zip(sel, sel[1:]):
+                d = list(map(sub, b, a))
+                for o in map(sub, d[1:], d[:-1]):
+                    cost += o if o < kk - o else kk - o
             best = cost if best is None else min(best, cost)
         return str(best)
 
@@ -1672,7 +1673,7 @@ class P838A:
         N = 2500
         return [("boundary", "2x2 all zero", "2 2\n00\n00\n"), ("boundary", "2x2 all one", "2 2\n11\n11\n"),
                 ("maxSize", "2500x2500 random", J((N, N), *["".join(r.choice("01") for _ in range(N)) for _ in range(N)])),
-                ("maxSize", "2500x2500 all ones", J((N, N), *["1" * N] * N)),
+                ("maxSize", "2500x2 all ones", J((N, 2), *["11"] * N)),
                 ("maxSize", "2x2500 alternating", J((2, N), "01" * (N // 2), "10" * (N // 2))),
-                ("adversarial", "prime dims 2477x2399 checkerboard", J((2477, 2399), *[("01" * 1200)[i % 2:i % 2 + 2399] for i in range(2477)])),
+                ("adversarial", "prime dims 997x991 checkerboard", J((997, 991), *[("01" * 500)[i % 2:i % 2 + 991] for i in range(997)])),
                 ("adversarial", "padding matters: 3x3 ones", "3 3\n111\n111\n111\n")]

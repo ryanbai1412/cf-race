@@ -1,0 +1,54 @@
+{
+ "adversarial": [
+  {
+   "reason": "prime dims 997x991 checkerboard",
+   "test": "0034"
+  },
+  {
+   "reason": "padding matters: 3x3 ones",
+   "test": "0035"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "2x2 all zero",
+   "test": "0029"
+  },
+  {
+   "reason": "2x2 all one",
+   "test": "0030"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 2,
+   "boundary": 2,
+   "maxSize": 3,
+   "random": 143
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "2<=n,m<=2500; n binary strings of length m",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_h.P838A.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "2500x2500 random",
+   "test": "0031"
+  },
+  {
+   "reason": "2500x2 all ones",
+   "test": "0032"
+  },
+  {
+   "reason": "2x2500 alternating",
+   "test": "0033"
+  }
+ ],
+ "packageHash": "06f12794df977e2a70e5906595388325f3ada6246e4f0752ec9ad2ed237ac431",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

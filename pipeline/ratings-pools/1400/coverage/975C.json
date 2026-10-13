@@ -1,0 +1,54 @@
+{
+ "adversarial": [
+  {
+   "reason": "n=q=2e4 a=1e9 small arrows slow progress",
+   "test": "0011"
+  },
+  {
+   "reason": "n=q=2e4 a=1 k=1",
+   "test": "0012"
+  },
+  {
+   "reason": "kill exactly at boundary between warriors",
+   "test": "0013"
+  },
+  {
+   "reason": "partial damage carries over",
+   "test": "0014"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "n=q=1 exact kill",
+   "test": "0008"
+  },
+  {
+   "reason": "n=q=1 overkill max k",
+   "test": "0009"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 4,
+   "boundary": 2,
+   "maxSize": 1,
+   "random": 143
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "n,q in [1,2e5]; ai in [1,1e9]; ki in [1,1e14]",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_h.P975C.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "n=q=2e5 random",
+   "test": "0010"
+  }
+ ],
+ "packageHash": "ccd01444e727564accbbd9b16293bd10b57b9d14ddfe15f8db3635542fe569d3",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}
