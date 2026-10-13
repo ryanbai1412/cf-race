@@ -20,37 +20,352 @@
   "incorrectAnalysis": {
     "151496305": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "n=1, a=[1]: expected 0, prints 1 (LF-normalized rerun also 1).",
+      "counterexample": "0003: correct 0, actual '1'. a=[1]. The only non-empty segment is [1,1], which turns the 1 into 0, so 0 ones remain.",
       "kind": "wrong-answer",
-      "reason": "Kadane over gains c with floor at 0 never forces a flip; for an all-ones array the mandatory move loses one, but max(c)=0 so it prints sum(a).",
+      "reason": "max(c) includes c[0]=0 and the floor at 0, so it represents an empty flip. The mandatory non-empty flip is never enforced and an all-ones array loses nothing.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1",
+          "constraints": "1<=n<=100 and every a_i is 0 or 1 (statement Input section).",
+          "correctAnswer": "0",
+          "derivation": "a=[1]. The only non-empty segment is [1,1], which turns the 1 into 0, so 0 ones remain.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "1\n",
+            "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+            "path": "archive/327A/sub-151496305-lf-0003.json",
+            "sha256": "de4d942d20009ddcda5eaac4cfe824643002a8b24509bc69dc270d17d03fd6ca",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/327A/summary.json",
+              "sha256": "773c3cff24f4a2632159f9ab233e39307e5bd40f7d3307c07320458996404843",
+              "sourceHash": "6afaff79ca76bfffcda58c49b9fe45edf1e21dd0e6202a2290c8e5e55f629789"
+            },
+            "verdict": "WA"
+          },
+          "test": "0003",
+          "validLFInput": "1\n1\n",
+          "validLFInputSha256": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer-token input. The LF-normalized rerun prints the same 1. No debug/format output; not TLE/RE.",
+        "faultyLogic": "max(c) includes c[0]=0 and the floor at 0, so it represents an empty flip. The mandatory non-empty flip is never enforced and an all-ones array loses nothing.",
+        "implementedAlgorithm": "Kadane prefix c[i+1] = c[i]+1 for a zero, max(0, c[i]-1) for a one, starting from c[0]=0; prints max(c)+sum(a).",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "1\n",
+          "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "path": "archive/327A/sub-151496305-lf-0003.json",
+          "sha256": "de4d942d20009ddcda5eaac4cfe824643002a8b24509bc69dc270d17d03fd6ca",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/327A/summary.json",
+            "sha256": "773c3cff24f4a2632159f9ab233e39307e5bd40f7d3307c07320458996404843",
+            "sourceHash": "6afaff79ca76bfffcda58c49b9fe45edf1e21dd0e6202a2290c8e5e55f629789"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Exactly one flip of a non-empty segment [i,j] is mandatory. Answer = ones(a) + max over non-empty segments of (zeros - ones inside the segment); for an all-ones array the best segment is a single cell, so the answer is n-1.",
+        "recordedFailedTest": "0003",
+        "sourceHash": "6afaff79ca76bfffcda58c49b9fe45edf1e21dd0e6202a2290c8e5e55f629789",
+        "sourceLines": [
+          {
+            "code": "c = [0]\nfor i in range(n):\n    if a[i] == 0:\n        c.append(c[i] + 1)\n    else:\n        c.append(max(0, c[i] - 1))",
+            "end": 8,
+            "start": 3
+          },
+          {
+            "code": "print(max(c) + sum(a))",
+            "end": 10,
+            "start": 10
+          }
+        ]
+      },
       "test": "0003"
     },
     "152529149": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "n=1, a=[1]: expected 0, prints 1.",
+      "counterexample": "0003: correct 0, actual '1'. a=[1]. The mandatory flip of [1,1] leaves 0 ones.",
       "kind": "wrong-answer",
-      "reason": "Adds the longest run of zeros to the count of ones and never accounts for the mandatory flip when there are no zeros (M=0).",
+      "reason": "Assumes the best flip is one zero run and never forces a flip. With no zeros M=0 and it prints the original count. It also ignores segments spanning several zero runs.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1",
+          "constraints": "1<=n<=100 and every a_i is 0 or 1 (statement Input section).",
+          "correctAnswer": "0",
+          "derivation": "a=[1]. The mandatory flip of [1,1] leaves 0 ones.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "1\n",
+            "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+            "path": "archive/327A/sub-152529149-lf-0003.json",
+            "sha256": "b651835188b31fc6daf25397b20fbe08563f9b862627ef47c39c89fe269f0ca9",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/327A/summary.json",
+              "sha256": "773c3cff24f4a2632159f9ab233e39307e5bd40f7d3307c07320458996404843",
+              "sourceHash": "41fc7ea63da9787c7e6d0b9b62c25563fe6df333ac777bd585e6bd59fe220887"
+            },
+            "verdict": "WA"
+          },
+          "test": "0003",
+          "validLFInput": "1\n1\n",
+          "validLFInputSha256": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer-token input. The LF rerun prints the same 1. No diagnostics; not TLE/RE.",
+        "faultyLogic": "Assumes the best flip is one zero run and never forces a flip. With no zeros M=0 and it prints the original count. It also ignores segments spanning several zero runs.",
+        "implementedAlgorithm": "itertools.groupby: res = number of ones, M = longest run of zeros; prints res+M.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "1\n",
+          "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "path": "archive/327A/sub-152529149-lf-0003.json",
+          "sha256": "b651835188b31fc6daf25397b20fbe08563f9b862627ef47c39c89fe269f0ca9",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/327A/summary.json",
+            "sha256": "773c3cff24f4a2632159f9ab233e39307e5bd40f7d3307c07320458996404843",
+            "sourceHash": "41fc7ea63da9787c7e6d0b9b62c25563fe6df333ac777bd585e6bd59fe220887"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Exactly one flip of a non-empty segment [i,j] is mandatory. Answer = ones(a) + max over non-empty segments of (zeros - ones inside the segment); for an all-ones array the best segment is a single cell, so the answer is n-1.",
+        "recordedFailedTest": "0003",
+        "sourceHash": "41fc7ea63da9787c7e6d0b9b62c25563fe6df333ac777bd585e6bd59fe220887",
+        "sourceLines": [
+          {
+            "code": "res = M = 0\nimport itertools\nfor i, j in itertools.groupby(A):\n    if i == 0:\n        M = max(M, len(list(j)))\n    else:\n        res += len(list(j))\n\nprint(res + M)",
+            "end": 13,
+            "start": 5
+          }
+        ]
+      },
       "test": "0003"
     },
     "152531602": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "n=1, a=[1]: expected 0, prints 1.",
+      "counterexample": "0003: correct 0, actual '1'. a=[1]. The only allowed move flips the single 1, leaving 0 ones.",
       "kind": "wrong-answer",
-      "reason": "Run-length Kadane starts from local=best=0 and so allows an empty flip; all-ones arrays get answer n instead of n-1.",
+      "reason": "res counts one-runs instead of ones, and best starts at 0 (empty interval allowed). For any all-ones array B=[(1,-n)], res=1, best=0, so it prints 1 whatever n is (correct n-1). For n=1 it prints 1 where the answer is 0.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1",
+          "constraints": "1<=n<=100 and every a_i is 0 or 1 (statement Input section).",
+          "correctAnswer": "0",
+          "derivation": "a=[1]. The only allowed move flips the single 1, leaving 0 ones.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "1\n",
+            "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+            "path": "archive/327A/sub-152531602-lf-0003.json",
+            "sha256": "29f1454bf7e8ffe426ec600ca07c82d8a92446dd8e7bc11664a6b46ec74be5c4",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/327A/summary.json",
+              "sha256": "773c3cff24f4a2632159f9ab233e39307e5bd40f7d3307c07320458996404843",
+              "sourceHash": "a914f440a37e33fea59c0d08d9a3f419fcd89b848743f883682e796b4aaa8130"
+            },
+            "verdict": "WA"
+          },
+          "test": "0003",
+          "validLFInput": "1\n1\n",
+          "validLFInputSha256": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer-token input. The LF rerun prints the same 1. No diagnostics; not TLE/RE.",
+        "faultyLogic": "res counts one-runs instead of ones, and best starts at 0 (empty interval allowed). For any all-ones array B=[(1,-n)], res=1, best=0, so it prints 1 whatever n is (correct n-1). For n=1 it prints 1 where the answer is 0.",
+        "implementedAlgorithm": "groupby runs. Each one-run is appended as (1, -length) and increments res by 1 (line 11), so res counts ONE-RUNS, not ones. Each zero-run is appended as (0, +length). Kadane over the run weights with local=best=0 initialisation (line 14) allows an empty interval. Prints best+res.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "1\n",
+          "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "path": "archive/327A/sub-152531602-lf-0003.json",
+          "sha256": "29f1454bf7e8ffe426ec600ca07c82d8a92446dd8e7bc11664a6b46ec74be5c4",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/327A/summary.json",
+            "sha256": "773c3cff24f4a2632159f9ab233e39307e5bd40f7d3307c07320458996404843",
+            "sourceHash": "a914f440a37e33fea59c0d08d9a3f419fcd89b848743f883682e796b4aaa8130"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Exactly one flip of a non-empty segment [i,j] is mandatory. Answer = ones(a) + max over non-empty segments of (zeros - ones inside the segment); for an all-ones array the best segment is a single cell, so the answer is n-1.",
+        "recordedFailedTest": "0003",
+        "sourceHash": "a914f440a37e33fea59c0d08d9a3f419fcd89b848743f883682e796b4aaa8130",
+        "sourceLines": [
+          {
+            "code": "res = 0\n\nfor i, j in itertools.groupby(A):\n    if i:\n        B.append((i, -len(list(j))))\n        res += 1\n    else: B.append((i, len(list(j))))",
+            "end": 12,
+            "start": 6
+          },
+          {
+            "code": "local = best = 0\n\nfor i in range(len(B)):\n    local = max(local + B[i][1], B[i][1])\n    best = max(best, local)\n\nprint(best + res)",
+            "end": 20,
+            "start": 14
+          }
+        ]
+      },
       "test": "0003"
     },
     "152617775": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "n=1, a=[1]: expected 0, prints 1.",
+      "counterexample": "0003: correct 0, actual '1'. a=[1]. The forced flip of [1,1] gives 0 ones.",
       "kind": "wrong-answer",
-      "reason": "Hard-codes print(1) when there is no zero; the correct answer for an all-ones array of length n is n-1.",
+      "reason": "The no-zero branch hard-codes 1 instead of n-1. The span heuristic is also wrong in general (e.g. 0 1 1 1 0).",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1",
+          "constraints": "1<=n<=100 and every a_i is 0 or 1 (statement Input section).",
+          "correctAnswer": "0",
+          "derivation": "a=[1]. The forced flip of [1,1] gives 0 ones.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "1\n",
+            "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+            "path": "archive/327A/sub-152617775-lf-0003.json",
+            "sha256": "1d4fa6a5994e45cf5b95d8aa5ccbe16a5f66e39ae18fde88dceeef4ba736d0a0",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/327A/summary.json",
+              "sha256": "773c3cff24f4a2632159f9ab233e39307e5bd40f7d3307c07320458996404843",
+              "sourceHash": "1d0479ee53cd6b9b1443e104ad0c9880c73bff24de561b4e4ca041c8c1e4beed"
+            },
+            "verdict": "WA"
+          },
+          "test": "0003",
+          "validLFInput": "1\n1\n",
+          "validLFInputSha256": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Problem-specific attempt, not a placeholder. The LF rerun prints the same 1; no diagnostics; not TLE/RE.",
+        "faultyLogic": "The no-zero branch hard-codes 1 instead of n-1. The span heuristic is also wrong in general (e.g. 0 1 1 1 0).",
+        "implementedAlgorithm": "Concatenates the digits into a string. If there is no 0 it prints the constant 1. Otherwise it flips the span from the first 0 to the last 0 and prints zeros-in-span + ones-outside-span.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "1\n",
+          "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "path": "archive/327A/sub-152617775-lf-0003.json",
+          "sha256": "1d4fa6a5994e45cf5b95d8aa5ccbe16a5f66e39ae18fde88dceeef4ba736d0a0",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/327A/summary.json",
+            "sha256": "773c3cff24f4a2632159f9ab233e39307e5bd40f7d3307c07320458996404843",
+            "sourceHash": "1d0479ee53cd6b9b1443e104ad0c9880c73bff24de561b4e4ca041c8c1e4beed"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Exactly one flip of a non-empty segment [i,j] is mandatory. Answer = ones(a) + max over non-empty segments of (zeros - ones inside the segment); for an all-ones array the best segment is a single cell, so the answer is n-1.",
+        "recordedFailedTest": "0003",
+        "sourceHash": "1d0479ee53cd6b9b1443e104ad0c9880c73bff24de561b4e4ca041c8c1e4beed",
+        "sourceLines": [
+          {
+            "code": "s = s.replace(\" \",\"\")\nif \"0\" not in s:\n    print(1)\n    exit()",
+            "end": 6,
+            "start": 3
+          },
+          {
+            "code": "first = s.index(\"0\")\ns1 = s[::-1]\noi = s1.index(\"0\")\nlast = len(s)-oi\nres = s[first:last]\nc1 = res.count(\"1\")\nc0 = res.count(\"0\")\nprint(c0+(s.count(\"1\")-c1))",
+            "end": 14,
+            "start": 7
+          }
+        ]
+      },
       "test": "0003"
     },
     "152676687": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "n=1, a=[1]: expected 0, prints 1.",
+      "counterexample": "0003: correct 0, actual '1'. a=[1]. The only move flips the 1, so 0 ones remain.",
       "kind": "wrong-answer",
-      "reason": "Count of ones plus longest zero run; with no zeros it skips the forced flip (n instead of n-1).",
+      "reason": "Only flips one zero run and never accounts for the mandatory flip when there are no zeros.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1",
+          "constraints": "1<=n<=100 and every a_i is 0 or 1 (statement Input section).",
+          "correctAnswer": "0",
+          "derivation": "a=[1]. The only move flips the 1, so 0 ones remain.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "1\n",
+            "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+            "path": "archive/327A/sub-152676687-lf-0003.json",
+            "sha256": "0b25c1d9d222c86947d66b659f1fb35bea01331ad6fedc792d9b367d3d986aaa",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/327A/summary.json",
+              "sha256": "773c3cff24f4a2632159f9ab233e39307e5bd40f7d3307c07320458996404843",
+              "sourceHash": "e644736e2451a4cf340a12db11678639ceb4f4bf32ca9a5824d828eec31b0772"
+            },
+            "verdict": "WA"
+          },
+          "test": "0003",
+          "validLFInput": "1\n1\n",
+          "validLFInputSha256": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer-token input. The LF rerun prints the same 1; no diagnostics; not TLE/RE.",
+        "faultyLogic": "Only flips one zero run and never accounts for the mandatory flip when there are no zeros.",
+        "implementedAlgorithm": "Tracks the longest run of zeros m; prints count(1)+m.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "1\n",
+          "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "path": "archive/327A/sub-152676687-lf-0003.json",
+          "sha256": "0b25c1d9d222c86947d66b659f1fb35bea01331ad6fedc792d9b367d3d986aaa",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/327A/summary.json",
+            "sha256": "773c3cff24f4a2632159f9ab233e39307e5bd40f7d3307c07320458996404843",
+            "sourceHash": "e644736e2451a4cf340a12db11678639ceb4f4bf32ca9a5824d828eec31b0772"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Exactly one flip of a non-empty segment [i,j] is mandatory. Answer = ones(a) + max over non-empty segments of (zeros - ones inside the segment); for an all-ones array the best segment is a single cell, so the answer is n-1.",
+        "recordedFailedTest": "0003",
+        "sourceHash": "e644736e2451a4cf340a12db11678639ceb4f4bf32ca9a5824d828eec31b0772",
+        "sourceLines": [
+          {
+            "code": "m=0\nc=0\nfor i in l:\n    if(i==1):\n        c=0\n    else:\n        c+=1\n    if(c>m):\n        m=c\nprint(l.count(1)+m)",
+            "end": 12,
+            "start": 3
+          }
+        ]
+      },
       "test": "0003"
     }
   },
@@ -72,6 +387,20 @@
     "nonRoot": true,
     "readOnly": true,
     "runner": "pipeline/pool_sandbox.run"
+  },
+  "semanticReview": {
+    "executionArchive": {
+      "immutable": true,
+      "sha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+      "url": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz"
+    },
+    "genuineAlgorithmicWrong": 5,
+    "method": "Source-specific manual review: full code of every designated-wrong source read line by line; implemented algorithm, faulty logic and exact source lines recorded; each counted counterexample derived by hand from problem semantics and checked against the package answer, an independent brute force, and the existing LF execution log.",
+    "performed": true,
+    "previousAuditDigest": "d5f9258abfbd4166d6192f950e0da38b2e0107a8ee2eeb1718517cd5fc3a1725",
+    "previousAuditFileSha256": "817f3186c1abc001cfb772db085454514d376ab0e9c4f1865119ee49bf1b305a",
+    "reviewer": "devin-5e1f99ced59a4a219ae81a8e70c05226",
+    "sourcesReviewed": 5
   },
   "verified": {
     "downloadedSourceVerification": "pinned open-r1/codeforces-submissions shards sha256-verified and every source byte-matched",

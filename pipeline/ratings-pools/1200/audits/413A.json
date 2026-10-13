@@ -20,37 +20,347 @@
   "incorrectAnalysis": {
     "6425240": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "n=9 m=5 min=2 max=3, reported 4 2 4 3 3: 4>max, so expected Incorrect; prints Correct.",
+      "counterexample": "0019: correct Incorrect, actual 'Correct'. min=2 and max=3, but 4 is reported, which exceeds max: Incorrect. Both 2 and 3 are present, so line 22 prints Correct.",
       "kind": "wrong-answer",
-      "reason": "When both min and max already appear in the reported list it prints Correct without checking that every reported value is within [min,max].",
+      "reason": "When both extremes are present it never checks that every reported value is within [min,max].",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "Correct",
+          "constraints": "1<=m<n<=100, 1<=min<max<=100, 1<=t_i<=100.",
+          "correctAnswer": "Incorrect",
+          "derivation": "min=2 and max=3, but 4 is reported, which exceeds max: Incorrect. Both 2 and 3 are present, so line 22 prints Correct.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "e2a43c62ab1323d4c65f344b6e51e74e590e4a51d83748da7b8410c25fb89e69",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "Correct\n",
+            "outputHash": "6b00fd3e470a767e082f1c8ba36f747e01c80072f81bd6ba55e94a1dc1a978c8",
+            "path": "archive/413A/sub-6425240-lf-0019.json",
+            "sha256": "af9d5b01420c2f184e5dfec63f02b439a5d608690b1fae9a71ad1099017dcacd",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/413A/summary.json",
+              "sha256": "5818369df6e240ecb03f4ada7ed38a059bf1c0bad8ee03e8ec1eaa41df8e8866",
+              "sourceHash": "d6cc85249356f8a08225401b4c5e594941a475083d101e0281a7150d05f157e6"
+            },
+            "verdict": "WA"
+          },
+          "test": "0019",
+          "validLFInput": "9 5 2 3\n4 2 4 3 3\n",
+          "validLFInputSha256": "d2a7aec235f4d5ceeb96320cba0f139f1693a454f0bd1cd1967f0ea943b5e091",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Token output. The LF rerun prints Correct; no diagnostics; not TLE/RE.",
+        "faultyLogic": "When both extremes are present it never checks that every reported value is within [min,max].",
+        "implementedAlgorithm": "Sorted z. Four presence cases for min/max with range checks only in the cases where an extreme is missing. Both present prints Correct (line 21).",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "Correct\n",
+          "outputHash": "6b00fd3e470a767e082f1c8ba36f747e01c80072f81bd6ba55e94a1dc1a978c8",
+          "path": "archive/413A/sub-6425240-lf-0019.json",
+          "sha256": "af9d5b01420c2f184e5dfec63f02b439a5d608690b1fae9a71ad1099017dcacd",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/413A/summary.json",
+            "sha256": "5818369df6e240ecb03f4ada7ed38a059bf1c0bad8ee03e8ec1eaa41df8e8866",
+            "sourceHash": "d6cc85249356f8a08225401b4c5e594941a475083d101e0281a7150d05f157e6"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Correct iff every reported t_i lies in [min,max] and the number of missing extremes (min absent + max absent) is <= n-m.",
+        "recordedFailedTest": "0019",
+        "sourceHash": "d6cc85249356f8a08225401b4c5e594941a475083d101e0281a7150d05f157e6",
+        "sourceLines": [
+          {
+            "code": "z.sort()",
+            "end": 4,
+            "start": 4
+          },
+          {
+            "code": "if ((mins in z) and (maxs not in z)):\n    if (z[len(z)-1]<maxs):\n        print (\"Correct\")\n    else:\n        print (\"Incorrect\")\n\nif ((mins not in z) and (maxs in z)):\n    if (z[0]>mins):\n        print (\"Correct\")\n    else:\n        print (\"Incorrect\")\nif ((mins not in z) and (maxs not in z)):\n    if (z[0]>mins and z[len(z)-1]<maxs and n-m>=2):\n        print (\"Correct\")\n    else:\n        print (\"Incorrect\")\nif ((mins in z) and (maxs in z)):\n    print (\"Correct\")",
+            "end": 22,
+            "start": 5
+          }
+        ]
+      },
       "test": "0019"
     },
     "6429846": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "n=2 m=1 min=1 max=2, reported [1]: add 2 for Correct; prints Incorrect.",
+      "counterexample": "0001: correct Correct, actual 'Incorrect'. n=2, m=1, min=1, max=2, reported [1]: 1 is in range and min is present. One slot remains to add 2: Correct. The code has k=o=0 and n-m=1, so it prints Incorrect.",
       "kind": "wrong-answer",
-      "reason": "Compares the whole list l to min/max (l==max) instead of each element, so it never detects that an extreme is present, and it also requires n-m>1.",
+      "reason": "The presence test compares the list instead of the element i, so present extremes are never detected. The k+0 typos then reduce the logic to n-m > 1.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "Incorrect",
+          "constraints": "1<=m<n<=100, 1<=min<max<=100, 1<=t_i<=100.",
+          "correctAnswer": "Correct",
+          "derivation": "n=2, m=1, min=1, max=2, reported [1]: 1 is in range and min is present. One slot remains to add 2: Correct. The code has k=o=0 and n-m=1, so it prints Incorrect.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "fb312f7facbba07095eaf368c200b1a8f0d7ca3db946817c312fb116d4812c7c",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "Incorrect\n",
+            "outputHash": "01900ba1fe275deb511f1f99948ff769d90072b37e09ee9290594eb60ee3f9cd",
+            "path": "archive/413A/sub-6429846-lf-0001.json",
+            "sha256": "84bad081235e24dbe0120d04f6a3186519e5bb09e579ff83b6342a3f4eba299e",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/413A/summary.json",
+              "sha256": "5818369df6e240ecb03f4ada7ed38a059bf1c0bad8ee03e8ec1eaa41df8e8866",
+              "sourceHash": "e64822aaee520881beb1215bca6ab92c9faef9936faa5a71fb2e8c44a1f4e04f"
+            },
+            "verdict": "WA"
+          },
+          "test": "0001",
+          "validLFInput": "2 1 1 2\n1\n",
+          "validLFInputSha256": "78c7e2fdba281481ed38a420124a08513697b495f18fd0157fe3c7495789d7f2",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Token output. The LF rerun prints Incorrect; no diagnostics; not TLE/RE.",
+        "faultyLogic": "The presence test compares the list instead of the element i, so present extremes are never detected. The k+0 typos then reduce the logic to n-m > 1.",
+        "implementedAlgorithm": "Loop lines 5-7 compare the whole LIST l with the ints max/min (l == max is always False), so k = o = 0. It then prints Correct iff n-m > 1 (line 16), else Incorrect.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "Incorrect\n",
+          "outputHash": "01900ba1fe275deb511f1f99948ff769d90072b37e09ee9290594eb60ee3f9cd",
+          "path": "archive/413A/sub-6429846-lf-0001.json",
+          "sha256": "84bad081235e24dbe0120d04f6a3186519e5bb09e579ff83b6342a3f4eba299e",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/413A/summary.json",
+            "sha256": "5818369df6e240ecb03f4ada7ed38a059bf1c0bad8ee03e8ec1eaa41df8e8866",
+            "sourceHash": "e64822aaee520881beb1215bca6ab92c9faef9936faa5a71fb2e8c44a1f4e04f"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Correct iff every reported t_i lies in [min,max] and the number of missing extremes (min absent + max absent) is <= n-m.",
+        "recordedFailedTest": "0001",
+        "sourceHash": "e64822aaee520881beb1215bca6ab92c9faef9936faa5a71fb2e8c44a1f4e04f",
+        "sourceLines": [
+          {
+            "code": "k=0\no=0\nfor i in l:\n    if l==max: k=1\n    if l==min: o=1\n\nif k+o==2:\n    print('Correct')\n    exit()\n\nif k+0==1 and n-m>0:\n    print('Correct')\n    exit()\nif k+0==0 and n-m>1:\n    print('Correct')\n    exit()",
+            "end": 18,
+            "start": 3
+          },
+          {
+            "code": "print('Incorrect')",
+            "end": 23,
+            "start": 23
+          }
+        ]
+      },
       "test": "0001"
     },
     "6453650": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "n=3 m=2 min=1 max=5, reported 1 6: 6>max, so expected Incorrect; prints Correct.",
+      "counterexample": "0008: correct Incorrect, actual 'Correct'. min=1, max=5, reported 1 and 6: 6 > max, so Incorrect. The code gets cnt = 1 <= n-m = 1 and prints Correct.",
       "kind": "wrong-answer",
-      "reason": "Never checks for reported temperatures outside [min,max].",
+      "reason": "No range check: a reported value above max (or below min) counts as a missing extreme instead of making the data inconsistent.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "Correct",
+          "constraints": "1<=m<n<=100, 1<=min<max<=100, 1<=t_i<=100.",
+          "correctAnswer": "Incorrect",
+          "derivation": "min=1, max=5, reported 1 and 6: 6 > max, so Incorrect. The code gets cnt = 1 <= n-m = 1 and prints Correct.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "2e6f55e6d699b7f90747f3ff530c453908192088eb02ee7baaf03bb45adc656c",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "Correct\n",
+            "outputHash": "6b00fd3e470a767e082f1c8ba36f747e01c80072f81bd6ba55e94a1dc1a978c8",
+            "path": "archive/413A/sub-6453650-lf-0008.json",
+            "sha256": "32f2aeded5bfcaf1691715dcf263a03376cb416a621d89240ba20c06546d1395",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/413A/summary.json",
+              "sha256": "5818369df6e240ecb03f4ada7ed38a059bf1c0bad8ee03e8ec1eaa41df8e8866",
+              "sourceHash": "3f6691b2fec07d5e41606e5d36c8b59c22b51024868349601218a116b94295ca"
+            },
+            "verdict": "WA"
+          },
+          "test": "0008",
+          "validLFInput": "3 2 1 5\n1 6\n",
+          "validLFInputSha256": "26140b931e84a9996747e0f30d45b85a6c258d5abc7a74968fe6b40bb935102f",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Token output. The LF rerun prints Correct; no diagnostics; not TLE/RE.",
+        "faultyLogic": "No range check: a reported value above max (or below min) counts as a missing extreme instead of making the data inconsistent.",
+        "implementedAlgorithm": "Sorted a. cnt = (a[0] != min) + (a[-1] != max). Correct iff n-m >= cnt.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "Correct\n",
+          "outputHash": "6b00fd3e470a767e082f1c8ba36f747e01c80072f81bd6ba55e94a1dc1a978c8",
+          "path": "archive/413A/sub-6453650-lf-0008.json",
+          "sha256": "32f2aeded5bfcaf1691715dcf263a03376cb416a621d89240ba20c06546d1395",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/413A/summary.json",
+            "sha256": "5818369df6e240ecb03f4ada7ed38a059bf1c0bad8ee03e8ec1eaa41df8e8866",
+            "sourceHash": "3f6691b2fec07d5e41606e5d36c8b59c22b51024868349601218a116b94295ca"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Correct iff every reported t_i lies in [min,max] and the number of missing extremes (min absent + max absent) is <= n-m.",
+        "recordedFailedTest": "0008",
+        "sourceHash": "3f6691b2fec07d5e41606e5d36c8b59c22b51024868349601218a116b94295ca",
+        "sourceLines": [
+          {
+            "code": "a = sorted(list(map(int, input().split())))\ncnt = 0\nif minn != a[0]:\n    cnt += 1\nif maxx != a[-1]:\n    cnt += 1\nif n - m >= cnt:\n    print(\"Correct\")\nelse:\n    print(\"Incorrect\")",
+            "end": 11,
+            "start": 2
+          }
+        ]
+      },
       "test": "0008"
     },
     "6541329": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "n=3 m=2 min=1 max=5, reported 1 6: expected Incorrect; prints Correct.",
+      "counterexample": "0008: correct Incorrect, actual 'Correct'. Reported 6 > max = 5 makes the report inconsistent: Incorrect. The code reaches line 16 and prints Correct.",
       "kind": "wrong-answer",
-      "reason": "Never checks for out-of-range reported temperatures, and the elif means it never registers max when min is present.",
+      "reason": "No range check at all, and when only one extreme is present it prints Correct without checking that a slot remains (irrelevant here since one slot exists). On 0008, element 1 sets lim=1, element 6 sets nothing, and the else branch (line 16) prints Correct.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "Correct",
+          "constraints": "1<=m<n<=100, 1<=min<max<=100, 1<=t_i<=100.",
+          "correctAnswer": "Incorrect",
+          "derivation": "Reported 6 > max = 5 makes the report inconsistent: Incorrect. The code reaches line 16 and prints Correct.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "2e6f55e6d699b7f90747f3ff530c453908192088eb02ee7baaf03bb45adc656c",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "Correct\n",
+            "outputHash": "6b00fd3e470a767e082f1c8ba36f747e01c80072f81bd6ba55e94a1dc1a978c8",
+            "path": "archive/413A/sub-6541329-lf-0008.json",
+            "sha256": "e303c2ebb4a6e117b790a42035ebf81fa675d069ab716472bf3c890b44883c38",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/413A/summary.json",
+              "sha256": "5818369df6e240ecb03f4ada7ed38a059bf1c0bad8ee03e8ec1eaa41df8e8866",
+              "sourceHash": "ae2a9811e95723a292aa212b2769443de4c3df32c2674e7b6569f935734252e1"
+            },
+            "verdict": "WA"
+          },
+          "test": "0008",
+          "validLFInput": "3 2 1 5\n1 6\n",
+          "validLFInputSha256": "26140b931e84a9996747e0f30d45b85a6c258d5abc7a74968fe6b40bb935102f",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Token output. The LF rerun prints Correct; no diagnostics; not TLE/RE.",
+        "faultyLogic": "No range check at all, and when only one extreme is present it prints Correct without checking that a slot remains (irrelevant here since one slot exists). On 0008, element 1 sets lim=1, element 6 sets nothing, and the else branch (line 16) prints Correct.",
+        "implementedAlgorithm": "Per element: if a[i] == min then lim=1, elif a[i] == max then lim1=1 (the elif is per element, so min and max in different elements are both registered). If neither is present: Incorrect when n-m == 1, else Correct. If at least one is present: Correct.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "Correct\n",
+          "outputHash": "6b00fd3e470a767e082f1c8ba36f747e01c80072f81bd6ba55e94a1dc1a978c8",
+          "path": "archive/413A/sub-6541329-lf-0008.json",
+          "sha256": "e303c2ebb4a6e117b790a42035ebf81fa675d069ab716472bf3c890b44883c38",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/413A/summary.json",
+            "sha256": "5818369df6e240ecb03f4ada7ed38a059bf1c0bad8ee03e8ec1eaa41df8e8866",
+            "sourceHash": "ae2a9811e95723a292aa212b2769443de4c3df32c2674e7b6569f935734252e1"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Correct iff every reported t_i lies in [min,max] and the number of missing extremes (min absent + max absent) is <= n-m.",
+        "recordedFailedTest": "0008",
+        "sourceHash": "ae2a9811e95723a292aa212b2769443de4c3df32c2674e7b6569f935734252e1",
+        "sourceLines": [
+          {
+            "code": "for i in range(len(a)):\n    if a[i] == min:\n        lim = 1\n    elif a[i] == max:\n        lim1 = 1\nif lim == 0 and lim1 == 0:\n    if n - m == 1:\n        print('Incorrect')\n    else:\n        print('Correct')\nelse:\n    print('Correct')",
+            "end": 16,
+            "start": 5
+          }
+        ]
+      },
       "test": "0008"
     },
     "6557715": {
       "algorithmicallyWrongOnFailedTest": true,
-      "counterexample": "n=3 m=2 min=1 max=5, reported 1 6: expected Incorrect; prints Correct.",
+      "counterexample": "0008: correct Incorrect, actual 'Correct'. 6 > max = 5, so Incorrect. The code gets cnt = 1, need = 1 <= 1 and prints Correct.",
       "kind": "wrong-answer",
-      "reason": "Counts present extremes but never rejects out-of-range values.",
+      "reason": "Ignores out-of-range reported values.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "Correct",
+          "constraints": "1<=m<n<=100, 1<=min<max<=100, 1<=t_i<=100.",
+          "correctAnswer": "Incorrect",
+          "derivation": "6 > max = 5, so Incorrect. The code gets cnt = 1, need = 1 <= 1 and prints Correct.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "packageInputSha256": "2e6f55e6d699b7f90747f3ff530c453908192088eb02ee7baaf03bb45adc656c",
+          "proof": {
+            "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+            "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+            "output": "Correct\n",
+            "outputHash": "6b00fd3e470a767e082f1c8ba36f747e01c80072f81bd6ba55e94a1dc1a978c8",
+            "path": "archive/413A/sub-6557715-lf-0008.json",
+            "sha256": "287501ea3d6ad7a92a0d60530579c14b9f4a15783c0c517aa04bf46ee5dff054",
+            "sourceHashBinding": {
+              "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+              "path": "archive/413A/summary.json",
+              "sha256": "5818369df6e240ecb03f4ada7ed38a059bf1c0bad8ee03e8ec1eaa41df8e8866",
+              "sourceHash": "e939ddad428d18ae3f3beb3244f26da016905c2874d84c650bde5e163521c0d9"
+            },
+            "verdict": "WA"
+          },
+          "test": "0008",
+          "validLFInput": "3 2 1 5\n1 6\n",
+          "validLFInputSha256": "26140b931e84a9996747e0f30d45b85a6c258d5abc7a74968fe6b40bb935102f",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Token output. The LF rerun prints Correct; no diagnostics; not TLE/RE.",
+        "faultyLogic": "Ignores out-of-range reported values.",
+        "implementedAlgorithm": "cnt = number of reported values equal to Min or Max; need = 2 - cnt. Correct iff n-m >= need.",
+        "language": "Python 3",
+        "lfExecution": {
+          "archive": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz",
+          "archiveSha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+          "output": "Correct\n",
+          "outputHash": "6b00fd3e470a767e082f1c8ba36f747e01c80072f81bd6ba55e94a1dc1a978c8",
+          "path": "archive/413A/sub-6557715-lf-0008.json",
+          "sha256": "287501ea3d6ad7a92a0d60530579c14b9f4a15783c0c517aa04bf46ee5dff054",
+          "sourceHashBinding": {
+            "note": "summary.json (same original archive) records this submission's sourceHash and the LF failedTest rerun produced by run/rerun.py from exactly these source bytes",
+            "path": "archive/413A/summary.json",
+            "sha256": "5818369df6e240ecb03f4ada7ed38a059bf1c0bad8ee03e8ec1eaa41df8e8866",
+            "sourceHash": "e939ddad428d18ae3f3beb3244f26da016905c2874d84c650bde5e163521c0d9"
+          },
+          "verdict": "WA"
+        },
+        "problemSemantics": "Correct iff every reported t_i lies in [min,max] and the number of missing extremes (min absent + max absent) is <= n-m.",
+        "recordedFailedTest": "0008",
+        "sourceHash": "e939ddad428d18ae3f3beb3244f26da016905c2874d84c650bde5e163521c0d9",
+        "sourceLines": [
+          {
+            "code": "cnt = 0\nfor i in a:\n    if i == Min or i == Max:\n        cnt += 1\ncnt = 2 - cnt\nif n - m >= cnt:\n    print(\"Correct\")\nelse:\n    print(\"Incorrect\")",
+            "end": 12,
+            "start": 4
+          }
+        ]
+      },
       "test": "0008"
     }
   },
@@ -72,6 +382,20 @@
     "nonRoot": true,
     "readOnly": true,
     "runner": "pipeline/pool_sandbox.run"
+  },
+  "semanticReview": {
+    "executionArchive": {
+      "immutable": true,
+      "sha256": "1b9255dfe4e6d6a179c35362d178a67a57f8ce2fc0e1a8a94bdac913bd30cda2",
+      "url": "https://staging.itsdev.in/attachments/69bba30a-5ba5-4ef9-adb6-9d0414d2d75e/rating1200-batch2-audit-5e1f99ce.tar.gz"
+    },
+    "genuineAlgorithmicWrong": 5,
+    "method": "Source-specific manual review: full code of every designated-wrong source read line by line; implemented algorithm, faulty logic and exact source lines recorded; each counted counterexample derived by hand from problem semantics and checked against the package answer, an independent brute force, and the existing LF execution log.",
+    "performed": true,
+    "previousAuditDigest": "db7ea4ab84ebc9cd66b94f47d34ebe7872eef8128a633f69d0b84d36369c2bc2",
+    "previousAuditFileSha256": "96665941927b235258bcad59ef11c5dedff829c186ceb087d06433954c08d270",
+    "reviewer": "devin-5e1f99ced59a4a219ae81a8e70c05226",
+    "sourcesReviewed": 5
   },
   "verified": {
     "downloadedSourceVerification": "pinned open-r1/codeforces-submissions shards sha256-verified and every source byte-matched",
