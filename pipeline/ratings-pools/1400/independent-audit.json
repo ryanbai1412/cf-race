@@ -64,7 +64,7 @@
   "problems": {
     "107A": {
       "archiveSha256": "25eb44ce7b035f092d176d6442af05367816160c76f1be9074a4e1d152084c4a",
-      "auditHash": "034133007410eb725d5322ec7605ca7e15ce57453697f93eb0f8a0914ccd2f49",
+      "auditHash": "8ebf16a3ee4e3b0d04cacbefcbfbf0f74531021577fef9236a37cb377d79287e",
       "authoredPairs": 150,
       "builderChildAudit": {
         "decision": "reject",
@@ -191,7 +191,7 @@
       "contractGate": null,
       "evidenceHash": "3c23ce12b7f746ef35979e21c945e7b15d463a4d973c62b80827edf3369317a3",
       "issues": [
-        "only 4/5 incorrect sources are counted WA algorithmic kills"
+        "only 2/5 incorrect sources are counted WA algorithmic kills"
       ],
       "memoryLimitMb": 256,
       "officialComplete": false,
@@ -405,11 +405,11 @@
         },
         {
           "builderVerdict": "WA",
-          "countedByAudit": true,
+          "countedByAudit": false,
           "expected": "WRONG_ANSWER",
           "failedTest": "0001",
           "failedTestOutput": null,
-          "kind": "wrong-answer",
+          "kind": null,
           "language": "Python 3",
           "lfNormalizedRerun": {
             "crlfFailed": "0001",
@@ -421,7 +421,7 @@
           },
           "mutantChecks": null,
           "perTestOutputHashesMatch": true,
-          "reason": "Prints tank/tap pairs without the leading count line required by the statement.",
+          "reason": "Presentation-only: the tank/tap pairs are correct but the leading count line is missing. Not counted, by the same rule applied to 197B.",
           "rerunFailedTest": "0001",
           "rerunVerdict": "WA",
           "sourceHash": "e24d326fb37f54c3df27dd612dd4812e72fd7333aa1d8c86e89408845cb879b8",
@@ -509,11 +509,11 @@
         },
         {
           "builderVerdict": "WA",
-          "countedByAudit": true,
+          "countedByAudit": false,
           "expected": "WRONG_ANSWER",
           "failedTest": "0001",
           "failedTestOutput": null,
-          "kind": "wrong-answer",
+          "kind": null,
           "language": "Python 3",
           "lfNormalizedRerun": {
             "crlfFailed": "0001",
@@ -525,7 +525,7 @@
           },
           "mutantChecks": null,
           "perTestOutputHashesMatch": true,
-          "reason": "Leaves the count line out when answers exist (prints only the pairs).",
+          "reason": "Presentation-only: the tank/tap pairs are correct but the leading count line is missing. Not counted, by the same rule applied to 197B.",
           "rerunFailedTest": "0001",
           "rerunVerdict": "WA",
           "sourceHash": "2c6490798a2861cf169c07064f3e05f1abebb10f9f6e30c0a9c1c7d458dd0a52",
@@ -1987,7 +1987,7 @@
     },
     "197B": {
       "archiveSha256": "90235a1ed207e07f9e1e7278ab4a8ff4e94e4fe892798e375ad17d6aa2efd570",
-      "auditHash": "99da7ad0a64f7eeec85975e941ab01edebd4d28eb332f9d2929cba9fc0af0944",
+      "auditHash": "55ac5972f42a956f223d9c49b2303892f6172a87eb9f7ccecdac15130be64f98",
       "authoredPairs": 150,
       "builderChildAudit": {
         "decision": "reject",
@@ -2100,17 +2100,276 @@
         }
       },
       "codeforcesRating": 1400,
-      "contractGate": {
-        "auditHash": "99da7ad0a64f7eeec85975e941ab01edebd4d28eb332f9d2929cba9fc0af0944",
-        "passed": true
-      },
+      "contractGate": null,
       "evidenceHash": "40165fdb27cdac3c23b3b35274566dc6051ca0427c91ad9e8aaa252f8ad5bb1e",
-      "issues": [],
+      "issues": [
+        "only 3/5 incorrect sources are counted WA algorithmic kills"
+      ],
       "memoryLimitMb": 256,
       "officialComplete": false,
       "officialPairs": 42,
       "openR1GeneratedPairs": 9,
       "packageHash": "66cb5419b77fa845e2af4911140ac0e85196e4af7cadf4ec40043273235abe6b",
+      "replacementCandidatesExecuted": [
+        {
+          "firstSemanticWitness": [
+            {
+              "expected": "Infinity",
+              "got": "Enter degrees of the polynomials P and Q: Enter a0, a1, ... ",
+              "input": "2 1\n1 1 1\n2 5\n",
+              "test": "0001"
+            }
+          ],
+          "semanticWA": 201,
+          "shard": "train-00022-of-00036.parquet",
+          "sourceHash": "fa4a90eb4ce5234394fad4241e260604085dcf2a50c4275516b819296a88a00c",
+          "submissionId": "94246367"
+        },
+        {
+          "firstSemanticWitness": [
+            {
+              "expected": "Infinity",
+              "got": "INFINITY",
+              "input": "2 1\n1 1 1\n2 5\n",
+              "test": "0001"
+            }
+          ],
+          "semanticWA": 94,
+          "shard": "train-00022-of-00036.parquet",
+          "sourceHash": "37e69a661ab10b246238ee94dead8daf2ee0bc6b259079614a0ee61916bab144",
+          "submissionId": "141821290"
+        },
+        {
+          "firstSemanticWitness": [
+            {
+              "expected": "1/2",
+              "got": "1 / 2",
+              "input": "2 2\n2 1 6\n4 5 -7\n",
+              "test": "0004"
+            }
+          ],
+          "semanticWA": 91,
+          "shard": "train-00022-of-00036.parquet",
+          "sourceHash": "f452277964ecc736857459b39f26c487a1287a9829e7570942f84976aab4c60d",
+          "submissionId": "54898171"
+        },
+        {
+          "firstSemanticWitness": [
+            {
+              "expected": "Infinity",
+              "got": "Infinite",
+              "input": "2 1\n1 1 1\n2 5\n",
+              "test": "0001"
+            }
+          ],
+          "semanticWA": 90,
+          "shard": "train-00022-of-00036.parquet",
+          "sourceHash": "7aae99817c1916bf4638ff323a667d9f58bfbe80545eb3119c3e042af84ceb4c",
+          "submissionId": "111627602"
+        },
+        {
+          "firstSemanticWitness": [
+            {
+              "expected": "-9/5",
+              "got": "-9/-5",
+              "input": "1 1\n9 0\n-5 2\n",
+              "test": "0005"
+            }
+          ],
+          "semanticWA": 75,
+          "shard": "train-00022-of-00036.parquet",
+          "sourceHash": "7a2c097c182eef819ace54d6f90a62dc60c2cc2bca1b752d9ba1c0701a27ccf9",
+          "submissionId": "50677198"
+        },
+        {
+          "firstSemanticWitness": [
+            {
+              "expected": "-Infinity",
+              "got": "Infinity",
+              "input": "3 2\n4 3 1 2\n-5 7 0\n",
+              "test": "0008"
+            }
+          ],
+          "semanticWA": 60,
+          "shard": "train-00022-of-00036.parquet",
+          "sourceHash": "8081e0645c821f39c9afeecdde4a0914e4ae2b79ae28ac0b32a6e9dd2e803863",
+          "submissionId": "165490894"
+        },
+        {
+          "firstSemanticWitness": [
+            {
+              "expected": "-Infinity",
+              "got": "Infinity",
+              "input": "3 2\n4 3 1 2\n-5 7 0\n",
+              "test": "0008"
+            }
+          ],
+          "semanticWA": 57,
+          "shard": "train-00022-of-00036.parquet",
+          "sourceHash": "cf5badf9bf1aebba3a9eedba55eec604f4a7f8da54a7097964dabcf6b50e2465",
+          "submissionId": "21696304"
+        },
+        {
+          "firstSemanticWitness": [
+            {
+              "expected": "-Infinity",
+              "got": "Infinity",
+              "input": "3 2\n4 3 1 2\n-5 7 0\n",
+              "test": "0008"
+            }
+          ],
+          "semanticWA": 54,
+          "shard": "train-00022-of-00036.parquet",
+          "sourceHash": "6efc1a964123cc939a93fef67fb71e7e9d57545cec906250a3a7386339669c40",
+          "submissionId": "103987333"
+        },
+        {
+          "firstSemanticWitness": [
+            {
+              "expected": "-Infinity",
+              "got": "Infinity",
+              "input": "3 2\n4 3 1 2\n-5 7 0\n",
+              "test": "0008"
+            }
+          ],
+          "semanticWA": 52,
+          "shard": "train-00022-of-00036.parquet",
+          "sourceHash": "f9a3ff5cddd91f5d065424a0e60b68db2270060c843daa93b9d69d4cbe283f02",
+          "submissionId": "98057127"
+        },
+        {
+          "firstSemanticWitness": [
+            {
+              "expected": "-Infinity",
+              "got": "Infinity",
+              "input": "3 2\n4 3 1 2\n-5 7 0\n",
+              "test": "0008"
+            }
+          ],
+          "semanticWA": 52,
+          "shard": "train-00022-of-00036.parquet",
+          "sourceHash": "b40040580f13eb3b8f8f0198d913d708b9a2763ab7064e54aba567e43b4f4338",
+          "submissionId": "93077666"
+        }
+      ],
+      "replacementNote": "Genuine algorithmic CF-WA candidates exist (e.g. sign errors on -Infinity). Swapping one in changes the package/evidence bytes, so it needs a builder rebuild and a fresh independent audit; no signoff carries over.",
+      "semanticCheck": {
+        "method": "all 201 package tests rerun with LF line endings in the sandbox; each WA output parsed as an exact fraction/Infinity and compared numerically with the expected answer",
+        "selectedIncorrect": [
+          {
+            "firstSemantic": [
+              {
+                "expected": "0/1",
+                "got": "1/1",
+                "input": "0 1\n1\n1 0\n",
+                "test": "0003"
+              },
+              {
+                "expected": "0/1",
+                "got": "-5/3",
+                "input": "1 2\n5 3\n-3 2 -1\n",
+                "test": "0006"
+              },
+              {
+                "expected": "0/1",
+                "got": "2/1",
+                "input": "1 2\n-4 8\n-2 5 -3\n",
+                "test": "0007"
+              }
+            ],
+            "lfFailedTest": "0003",
+            "lfVerdict": "WA",
+            "nonWA": [],
+            "recordedFailedTest": "0003",
+            "semanticWA": 72,
+            "sid": "4906508",
+            "tests": 201,
+            "tokenWA": 72
+          },
+          {
+            "firstSemantic": [],
+            "lfFailedTest": "0004",
+            "lfVerdict": "WA",
+            "nonWA": [],
+            "recordedFailedTest": "0004",
+            "semanticWA": 0,
+            "sid": "6327041",
+            "tests": 201,
+            "tokenWA": 16
+          },
+          {
+            "firstSemantic": [],
+            "lfFailedTest": "0006",
+            "lfVerdict": "WA",
+            "nonWA": [],
+            "recordedFailedTest": "0006",
+            "semanticWA": 0,
+            "sid": "8471901",
+            "tests": 201,
+            "tokenWA": 51
+          },
+          {
+            "firstSemantic": [
+              {
+                "expected": "-Infinity",
+                "got": "Infinity",
+                "input": "1 0\n-1 3\n2\n",
+                "test": "0002"
+              },
+              {
+                "expected": "-Infinity",
+                "got": "Infinity",
+                "input": "3 2\n4 3 1 2\n-5 7 0\n",
+                "test": "0008"
+              },
+              {
+                "expected": "-Infinity",
+                "got": "Infinity",
+                "input": "50 0\n10 17 -79 81 33 68 -29 -63 -28 90 67 -30 83 -54 55 -14 -24 -2 -80 90 -31 -87 52 -95 95 3 40 22 -4 39 -39 64 -50 -81",
+                "test": "0045"
+              }
+            ],
+            "lfFailedTest": "0002",
+            "lfVerdict": "WA",
+            "nonWA": [],
+            "recordedFailedTest": "0002",
+            "semanticWA": 49,
+            "sid": "8471960",
+            "tests": 201,
+            "tokenWA": 135
+          },
+          {
+            "firstSemantic": [
+              {
+                "expected": "-9/5",
+                "got": "-9/-5",
+                "input": "1 1\n9 0\n-5 2\n",
+                "test": "0005"
+              },
+              {
+                "expected": "-5/3",
+                "got": "--5/3",
+                "input": "1 1\n-5 7\n3 1\n",
+                "test": "0010"
+              },
+              {
+                "expected": "-2/3",
+                "got": "-2/-3",
+                "input": "0 0\n36\n-54\n",
+                "test": "0012"
+              }
+            ],
+            "lfFailedTest": "0005",
+            "lfVerdict": "WA",
+            "nonWA": [],
+            "recordedFailedTest": "0005",
+            "semanticWA": 23,
+            "sid": "11940891",
+            "tests": 201,
+            "tokenWA": 27
+          }
+        ]
+      },
       "submissions": [
         {
           "builderVerdict": "AC",
@@ -2274,7 +2533,7 @@
         },
         {
           "builderVerdict": "WA",
-          "countedByAudit": true,
+          "countedByAudit": false,
           "expected": "WRONG_ANSWER",
           "failedTest": "0004",
           "failedTestOutput": {
@@ -2282,7 +2541,7 @@
             "got": "2/4\n",
             "input": "2 2\r\n2 1 6\r\n4 5 -7\r\n"
           },
-          "kind": "wrong-answer",
+          "kind": null,
           "language": "Python 3",
           "lfNormalizedRerun": {
             "crlfFailed": "0004",
@@ -2294,7 +2553,7 @@
           },
           "mutantChecks": null,
           "perTestOutputHashesMatch": true,
-          "reason": "Prints p0/q0 without normalizing the sign or reducing by gcd when p0%q0!=0 (2/4 instead of 1/2).",
+          "reason": "Presentation-only: prints an unreduced fraction (2/4 instead of 1/2). On all 201 package tests with LF line endings, every one of its 16 WA outputs is numerically equal to the expected value (sem197.json), so no algorithmic defect is witnessed. Revoked from the earlier 13/28 signoff.",
           "rerunFailedTest": "0004",
           "rerunVerdict": "WA",
           "sourceHash": "a317122232b89beee34b5626f8ccd56afd7290bc3f1c15de937c86c8a4df9118",
@@ -2304,7 +2563,7 @@
         },
         {
           "builderVerdict": "WA",
-          "countedByAudit": true,
+          "countedByAudit": false,
           "expected": "WRONG_ANSWER",
           "failedTest": "0006",
           "failedTestOutput": {
@@ -2312,7 +2571,7 @@
             "got": "0\n",
             "input": "1 2\r\n5 3\r\n-3 2 -1\r\n"
           },
-          "kind": "wrong-answer",
+          "kind": null,
           "language": "Python 3",
           "lfNormalizedRerun": {
             "crlfFailed": "0006",
@@ -2332,7 +2591,7 @@
             }
           },
           "perTestOutputHashesMatch": true,
-          "reason": "Prints \"0\" instead of \"0/1\" when the denominator degree is larger.",
+          "reason": "Presentation-only: prints the integer 0 instead of the fraction 0/1 when deg P < deg Q. On all 201 package tests with LF line endings, every one of its 51 WA outputs is numerically equal to the expected value (sem197.json); its degree, sign and Infinity handling is never wrong on a package test. Revoked from the earlier 13/28 signoff.",
           "rerunFailedTest": "0006",
           "rerunVerdict": "WA",
           "sourceHash": "c54ebaaaed27bd1dc13dcea2da3ada985cb90c468e83918ee7e7534bd10014da",
@@ -2403,7 +2662,7 @@
       ],
       "testCount": 201,
       "timeLimitMs": 2000,
-      "verdict": "VALIDATED"
+      "verdict": "NOT_VALIDATED_HELD"
     },
     "198B": {
       "archiveSha256": "e0f23fded119cfcf6de58b318bb6d640ce6572a98fb7bd4c50520eb2b3680499",
@@ -6919,7 +7178,7 @@
     },
     "279A": {
       "archiveSha256": "690478a9f71331d4ad2cd325cc588ae1ef743675f092123aecea82b0608588fe",
-      "auditHash": "a84e98afefee98abc1ff8b6e9eb51fad0a1300f8e7de119d062b96247a055748",
+      "auditHash": "f0a81422fa404524642fcae22c349a88a87d54df3f24dbfe7ab914e76a62bc2d",
       "authoredPairs": 150,
       "builderChildAudit": {
         "decision": "approve",
@@ -7013,7 +7272,7 @@
       },
       "codeforcesRating": 1400,
       "contractGate": {
-        "auditHash": "a84e98afefee98abc1ff8b6e9eb51fad0a1300f8e7de119d062b96247a055748",
+        "auditHash": "f0a81422fa404524642fcae22c349a88a87d54df3f24dbfe7ab914e76a62bc2d",
         "passed": true
       },
       "evidenceHash": "93729677e068a2f92392e6c85b61a74e0c8b68617dbcd0b119710d636298fe08",
@@ -7176,7 +7435,7 @@
           },
           "mutantChecks": null,
           "perTestOutputHashesMatch": true,
-          "reason": "Closed-form turn formula with wrong region boundaries; independently verified wrong on the failed test by spiral simulation.",
+          "reason": "Region conditions leave cases uncovered (e.g. x<=-2 with y=0: range(-x,|x|) is empty), so it prints no answer on 29 valid tests (first 0020: -97 0, expected 387). Missing a case is a logic defect, not presentation.",
           "rerunFailedTest": "0020",
           "rerunVerdict": "WA",
           "sourceHash": "6023e594ac71600806b6327ed8ea6f322955b6ce932be05dedf00eae4c5d8592",
@@ -9086,7 +9345,7 @@
     },
     "337B": {
       "archiveSha256": "0306402995ac8aa6c697147e23d485c6f5dd0aaabb94adae86b62f12ae361495",
-      "auditHash": "9650a52cab8ab1ce76b3c03d1c79d1df893f29f1159262d16aa0d2b3871fd82f",
+      "auditHash": "220e2047d94990b29a5d1c7fa80457369709af5b33664aa56c0c92f8aa036641",
       "authoredPairs": 150,
       "builderChildAudit": {
         "decision": "reject",
@@ -9232,7 +9491,7 @@
       "contractGate": null,
       "evidenceHash": "75a9d63a58f4f3ff0757d1b820e5c0b94fd31479d413bdd937e19047325810c9",
       "issues": [
-        "only 2/5 incorrect sources are counted WA algorithmic kills"
+        "only 1/5 incorrect sources are counted WA algorithmic kills"
       ],
       "memoryLimitMb": 256,
       "officialComplete": true,
@@ -9410,7 +9669,7 @@
         },
         {
           "builderVerdict": "WA",
-          "countedByAudit": true,
+          "countedByAudit": false,
           "expected": "WRONG_ANSWER",
           "failedTest": "0004",
           "failedTestOutput": {
@@ -9418,7 +9677,7 @@
             "got": "0\n",
             "input": "4 4 5 5\r\n"
           },
-          "kind": "wrong-answer",
+          "kind": null,
           "language": "Python 3",
           "lfNormalizedRerun": {
             "crlfFailed": "0004",
@@ -9438,7 +9697,7 @@
             }
           },
           "perTestOutputHashesMatch": true,
-          "reason": "Prints 0 instead of the required irreducible fraction 0/1 when a:b == c:d (spec violation in an explicit branch); also float ratio comparisons.",
+          "reason": "Presentation-only: prints 0 instead of 0/1 when a:b == c:d. All 10 of its WA outputs on LF tests are numerically equal to the expected value (semall.json), so it is not counted (same rule as 197B).",
           "rerunFailedTest": "0004",
           "rerunVerdict": "WA",
           "sourceHash": "ba784cfe64a07f11c16c9219458f3f4f3e0584b660ccda096fc4f0264dbfa531",
@@ -13236,11 +13495,1163 @@
   "reviewer": "devin-independent-auditor-session-4faf13bf1be94c698c44ee6503b27b8c",
   "sandbox": "pipeline/pool_sandbox.py: pinned python@sha256:5887f265..., network none, uid 65534, read-only rootfs, cap-drop ALL, no-new-privileges, pids 64, 1 CPU, 1280m mem, no swap; no third-party code was run on the host",
   "schemaVersion": 1,
+  "semanticCheckOtherValidated": [
+    {
+      "firstSemantic": [
+        {
+          "expected": "0 0",
+          "got": "0 1",
+          "test": "0004"
+        },
+        {
+          "expected": "0 1",
+          "got": "0 2",
+          "test": "0007"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "125A",
+      "semanticWA": 55,
+      "sid": "22026877",
+      "tokenWA": 55
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "1 0",
+          "got": "0 12",
+          "test": "0021"
+        },
+        {
+          "expected": "2 0",
+          "got": "1 12",
+          "test": "0022"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "125A",
+      "semanticWA": 7,
+      "sid": "42101202",
+      "tokenWA": 7
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "0 8",
+          "got": "1 0",
+          "test": "0003"
+        },
+        {
+          "expected": "2 9",
+          "got": "3 0",
+          "test": "0012"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "125A",
+      "semanticWA": 81,
+      "sid": "42101236",
+      "tokenWA": 81
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "1 2",
+          "got": "3.0",
+          "test": "0001"
+        },
+        {
+          "expected": "0 2",
+          "got": "1.6666666666666667",
+          "test": "0002"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "125A",
+      "semanticWA": 172,
+      "sid": "49637309",
+      "tokenWA": 172
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "0 0",
+          "got": "0 1",
+          "test": "0004"
+        },
+        {
+          "expected": "0 1",
+          "got": "0 2",
+          "test": "0007"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "125A",
+      "semanticWA": 62,
+      "sid": "49637385",
+      "tokenWA": 62
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "3",
+          "got": "0",
+          "test": "0004"
+        },
+        {
+          "expected": "8",
+          "got": "4",
+          "test": "0010"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "270B",
+      "semanticWA": 92,
+      "sid": "153510996",
+      "tokenWA": 92
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "0",
+          "got": "1",
+          "test": "0002"
+        },
+        {
+          "expected": "3",
+          "got": "1",
+          "test": "0004"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "270B",
+      "semanticWA": 105,
+      "sid": "211206820",
+      "tokenWA": 105
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "3",
+          "got": "0",
+          "test": "0004"
+        },
+        {
+          "expected": "8",
+          "got": "4",
+          "test": "0010"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "270B",
+      "semanticWA": 92,
+      "sid": "225897139",
+      "tokenWA": 92
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "3",
+          "got": "1",
+          "test": "0004"
+        },
+        {
+          "expected": "3",
+          "got": "1",
+          "test": "0009"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "270B",
+      "semanticWA": 150,
+      "sid": "225897527",
+      "tokenWA": 150
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "2",
+          "got": "3",
+          "test": "0001"
+        },
+        {
+          "expected": "1",
+          "got": "2",
+          "test": "0008"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "270B",
+      "semanticWA": 71,
+      "sid": "225898375",
+      "tokenWA": 71
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "2",
+          "got": "1",
+          "test": "0004"
+        },
+        {
+          "expected": "3",
+          "got": "2",
+          "test": "0013"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "277A",
+      "semanticWA": 9,
+      "sid": "9220573",
+      "tokenWA": 9
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "2",
+          "got": "1",
+          "test": "0004"
+        },
+        {
+          "expected": "3",
+          "got": "2",
+          "test": "0013"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "277A",
+      "semanticWA": 9,
+      "sid": "9357260",
+      "tokenWA": 9
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "2",
+          "got": "1",
+          "test": "0004"
+        },
+        {
+          "expected": "3",
+          "got": "2",
+          "test": "0013"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "277A",
+      "semanticWA": 10,
+      "sid": "10617748",
+      "tokenWA": 10
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "2",
+          "got": "3",
+          "test": "0002"
+        },
+        {
+          "expected": "2",
+          "got": "1",
+          "test": "0004"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "277A",
+      "semanticWA": 108,
+      "sid": "11352639",
+      "tokenWA": 108
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "2",
+          "got": "1",
+          "test": "0004"
+        },
+        {
+          "expected": "3",
+          "got": "2",
+          "test": "0013"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "277A",
+      "semanticWA": 36,
+      "sid": "11352706",
+      "tokenWA": 36
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "387",
+          "got": "",
+          "test": "0020"
+        },
+        {
+          "expected": "383",
+          "got": "",
+          "test": "0021"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "279A",
+      "semanticWA": 29,
+      "sid": "191418646",
+      "tokenWA": 29
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "52",
+          "got": "27",
+          "test": "0007"
+        },
+        {
+          "expected": "400",
+          "got": "147",
+          "test": "0008"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "279A",
+      "semanticWA": 55,
+      "sid": "193191838",
+      "tokenWA": 55
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "3",
+          "got": "0",
+          "test": "0004"
+        },
+        {
+          "expected": "3",
+          "got": "0",
+          "test": "0013"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "279A",
+      "semanticWA": 30,
+      "sid": "200117074",
+      "tokenWA": 30
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "400",
+          "got": "401",
+          "test": "0008"
+        },
+        {
+          "expected": "128",
+          "got": "129",
+          "test": "0010"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "279A",
+      "semanticWA": 57,
+      "sid": "206358102",
+      "tokenWA": 57
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "3",
+          "got": "4",
+          "test": "0004"
+        },
+        {
+          "expected": "383",
+          "got": "384",
+          "test": "0021"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "279A",
+      "semanticWA": 9,
+      "sid": "211700308",
+      "tokenWA": 9
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "1",
+          "got": "2",
+          "test": "0018"
+        },
+        {
+          "expected": "1",
+          "got": "0",
+          "test": "0019"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "315A",
+      "semanticWA": 7,
+      "sid": "3832878",
+      "tokenWA": 7
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "0",
+          "got": "4",
+          "test": "0002"
+        },
+        {
+          "expected": "2",
+          "got": "3",
+          "test": "0004"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "315A",
+      "semanticWA": 83,
+      "sid": "3852053",
+      "tokenWA": 83
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "2",
+          "got": "0",
+          "test": "0005"
+        },
+        {
+          "expected": "6",
+          "got": "5",
+          "test": "0008"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "315A",
+      "semanticWA": 79,
+      "sid": "3878628",
+      "tokenWA": 79
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "2",
+          "got": "3",
+          "test": "0004"
+        },
+        {
+          "expected": "6",
+          "got": "5",
+          "test": "0008"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "315A",
+      "semanticWA": 40,
+      "sid": "4204402",
+      "tokenWA": 40
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "3",
+          "got": "0",
+          "test": "0003"
+        },
+        {
+          "expected": "2",
+          "got": "0",
+          "test": "0004"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "315A",
+      "semanticWA": 165,
+      "sid": "4403875",
+      "tokenWA": 165
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "ugly",
+          "got": "respectable",
+          "test": "0007"
+        },
+        {
+          "expected": "ugly",
+          "got": "respectable",
+          "test": "0008"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "334B",
+      "semanticWA": 8,
+      "sid": "4177010",
+      "tokenWA": 8
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "ugly",
+          "got": "respectable",
+          "test": "0007"
+        },
+        {
+          "expected": "ugly",
+          "got": "respectable",
+          "test": "0008"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "334B",
+      "semanticWA": 59,
+      "sid": "4177576",
+      "tokenWA": 59
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "respectable",
+          "got": "ugly",
+          "test": "0025"
+        },
+        {
+          "expected": "respectable",
+          "got": "ugly",
+          "test": "0026"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "334B",
+      "semanticWA": 40,
+      "sid": "4180814",
+      "tokenWA": 40
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "ugly",
+          "got": "respectable",
+          "test": "0007"
+        },
+        {
+          "expected": "ugly",
+          "got": "respectable",
+          "test": "0008"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "334B",
+      "semanticWA": 8,
+      "sid": "4187940",
+      "tokenWA": 8
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "ugly",
+          "got": "respectable",
+          "test": "0007"
+        },
+        {
+          "expected": "ugly",
+          "got": "respectable",
+          "test": "0008"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "334B",
+      "semanticWA": 47,
+      "sid": "4189069",
+      "tokenWA": 47
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "no",
+          "got": "yes",
+          "test": "0009"
+        },
+        {
+          "expected": "no",
+          "got": "yes",
+          "test": "0010"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "358A",
+      "semanticWA": 37,
+      "sid": "4881213",
+      "tokenWA": 37
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "yes",
+          "got": "no",
+          "test": "0008"
+        },
+        {
+          "expected": "yes",
+          "got": "no",
+          "test": "0011"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "358A",
+      "semanticWA": 11,
+      "sid": "4882668",
+      "tokenWA": 11
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "yes",
+          "got": "no",
+          "test": "0011"
+        },
+        {
+          "expected": "yes",
+          "got": "no",
+          "test": "0015"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "358A",
+      "semanticWA": 35,
+      "sid": "4884281",
+      "tokenWA": 35
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "no",
+          "got": "yes",
+          "test": "0009"
+        },
+        {
+          "expected": "no",
+          "got": "yes",
+          "test": "0010"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "358A",
+      "semanticWA": 37,
+      "sid": "4885597",
+      "tokenWA": 37
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "no",
+          "got": "yes",
+          "test": "0004"
+        },
+        {
+          "expected": "no",
+          "got": "yes",
+          "test": "0006"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "358A",
+      "semanticWA": 91,
+      "sid": "4900050",
+      "tokenWA": 91
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "4",
+          "got": "6",
+          "test": "0010"
+        },
+        {
+          "expected": "2",
+          "got": "100",
+          "test": "0011"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "388A",
+      "semanticWA": 107,
+      "sid": "5888189",
+      "tokenWA": 107
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "3",
+          "got": "1",
+          "test": "0021"
+        },
+        {
+          "expected": "11",
+          "got": "16",
+          "test": "0022"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "388A",
+      "semanticWA": 57,
+      "sid": "5898411",
+      "tokenWA": 57
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "4",
+          "got": "6",
+          "test": "0010"
+        },
+        {
+          "expected": "2",
+          "got": "100",
+          "test": "0011"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "388A",
+      "semanticWA": 107,
+      "sid": "9089117",
+      "tokenWA": 107
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "4",
+          "got": "6",
+          "test": "0010"
+        },
+        {
+          "expected": "2",
+          "got": "100",
+          "test": "0011"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "388A",
+      "semanticWA": 107,
+      "sid": "9126570",
+      "tokenWA": 107
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "4",
+          "got": "6",
+          "test": "0010"
+        },
+        {
+          "expected": "2",
+          "got": "100",
+          "test": "0011"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "388A",
+      "semanticWA": 107,
+      "sid": "9245036",
+      "tokenWA": 107
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "6",
+          "got": "4",
+          "test": "0004"
+        },
+        {
+          "expected": "33",
+          "got": "32",
+          "test": "0008"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "38C",
+      "semanticWA": 93,
+      "sid": "19534179",
+      "tokenWA": 93
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "6",
+          "got": "4",
+          "test": "0004"
+        },
+        {
+          "expected": "33",
+          "got": "32",
+          "test": "0008"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "38C",
+      "semanticWA": 93,
+      "sid": "27553787",
+      "tokenWA": 93
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "15",
+          "got": "10",
+          "test": "0002"
+        },
+        {
+          "expected": "33",
+          "got": "30",
+          "test": "0008"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "38C",
+      "semanticWA": 91,
+      "sid": "27553944",
+      "tokenWA": 91
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "136",
+          "got": "112",
+          "test": "0010"
+        },
+        {
+          "expected": "1455",
+          "got": "990",
+          "test": "0012"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "38C",
+      "semanticWA": 77,
+      "sid": "27554069",
+      "tokenWA": 77
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "6",
+          "got": "4",
+          "test": "0004"
+        },
+        {
+          "expected": "66",
+          "got": "0",
+          "test": "0024"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "38C",
+      "semanticWA": 14,
+      "sid": "36872890",
+      "tokenWA": 14
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "1682",
+          "got": "1556",
+          "test": "0020"
+        },
+        {
+          "expected": "1356600",
+          "got": "678980",
+          "test": "0028"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "41B",
+      "semanticWA": 6,
+      "sid": "5056958",
+      "tokenWA": 6
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "1682",
+          "got": "1172",
+          "test": "0020"
+        },
+        {
+          "expected": "1356600",
+          "got": "678980",
+          "test": "0028"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "41B",
+      "semanticWA": 6,
+      "sid": "9382036",
+      "tokenWA": 6
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "8",
+          "got": "4",
+          "test": "0001"
+        },
+        {
+          "expected": "10",
+          "got": "20",
+          "test": "0002"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "41B",
+      "semanticWA": 74,
+      "sid": "25366403",
+      "tokenWA": 74
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "1682",
+          "got": "1172",
+          "test": "0020"
+        },
+        {
+          "expected": "1356600",
+          "got": "678980",
+          "test": "0028"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "41B",
+      "semanticWA": 6,
+      "sid": "27681704",
+      "tokenWA": 6
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "1682",
+          "got": "1172",
+          "test": "0020"
+        },
+        {
+          "expected": "17",
+          "got": "14",
+          "test": "0071"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "41B",
+      "semanticWA": 2,
+      "sid": "61597190",
+      "tokenWA": 2
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "4123",
+          "got": "3214",
+          "test": "0005"
+        },
+        {
+          "expected": "4312",
+          "got": "3421",
+          "test": "0007"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "435B",
+      "semanticWA": 37,
+      "sid": "6752853",
+      "tokenWA": 37
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "9190",
+          "got": "1990",
+          "test": "0001"
+        },
+        {
+          "expected": "3104",
+          "got": "1034",
+          "test": "0003"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "435B",
+      "semanticWA": 131,
+      "sid": "6755856",
+      "tokenWA": 131
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "4123",
+          "got": "3214",
+          "test": "0005"
+        },
+        {
+          "expected": "4312",
+          "got": "3421",
+          "test": "0007"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "435B",
+      "semanticWA": 37,
+      "sid": "6756206",
+      "tokenWA": 37
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "9220",
+          "got": "9202",
+          "test": "0009"
+        },
+        {
+          "expected": "86863",
+          "got": "86683",
+          "test": "0010"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "435B",
+      "semanticWA": 34,
+      "sid": "6794843",
+      "tokenWA": 34
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "9907000008001234",
+          "got": "9970000008001234",
+          "test": "0004"
+        },
+        {
+          "expected": "4123",
+          "got": "3214",
+          "test": "0005"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "435B",
+      "semanticWA": 61,
+      "sid": "6816804",
+      "tokenWA": 61
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "3\r\n3\r\n3\r\n3\r\n3\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n5\r\n5\r\n",
+          "got": "4\n3\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n5\n5\n5\n5\n5\n5\n4\n4\n4\n4\n4\n4",
+          "test": "0004"
+        },
+        {
+          "expected": "1\n1\n0\n1",
+          "got": "1\n0\n0\n1",
+          "test": "0019"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "548B",
+      "semanticWA": 30,
+      "sid": "11307618",
+      "tokenWA": 30
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "1\r\n2\r\n2\r\n2\r\n5",
+          "got": "1\n2\n1\n2\n5",
+          "test": "0007"
+        },
+        {
+          "expected": "3\n3\n3\n4",
+          "got": "3\n2\n3\n4",
+          "test": "0023"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "548B",
+      "semanticWA": 13,
+      "sid": "11309046",
+      "tokenWA": 13
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "3\r\n3\r\n3\r\n3\r\n3\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n5\r\n5\r\n",
+          "got": "4\n3\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n5\n5\n5\n5\n5\n5\n4\n4\n4\n4\n4\n4",
+          "test": "0004"
+        },
+        {
+          "expected": "1\r\n2\r\n2\r\n2\r\n5",
+          "got": "1\n2\n3\n4\n5",
+          "test": "0007"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "548B",
+      "semanticWA": 41,
+      "sid": "11313092",
+      "tokenWA": 41
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "3\r\n3\r\n3\r\n3\r\n3\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n5\r\n5\r\n",
+          "got": "4\n3\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n5\n5\n5\n5\n5\n5\n4\n4\n4\n4\n4\n4",
+          "test": "0004"
+        },
+        {
+          "expected": "1\r\n0\r\n1\r\n0\r\n1\r\n0\r\n1\r\n0\r\n1\r\n0",
+          "got": "True\nFalse\nTrue\nFalse\nTrue\nFalse\nTrue\nFalse\nTrue\nFalse",
+          "test": "0005"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "548B",
+      "semanticWA": 72,
+      "sid": "11314099",
+      "tokenWA": 72
+    },
+    {
+      "firstSemantic": [
+        {
+          "expected": "3\r\n3\r\n3\r\n3\r\n3\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n4\r\n5\r\n5\r\n",
+          "got": "4\n3\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n5\n5\n5\n5\n5\n5\n4\n4\n4\n4\n4\n4",
+          "test": "0004"
+        },
+        {
+          "expected": "1\r\n2\r\n2\r\n2\r\n5",
+          "got": "1\n2\n3\n4\n5",
+          "test": "0007"
+        }
+      ],
+      "lfVerdict": "WA",
+      "pid": "548B",
+      "semanticWA": 41,
+      "sid": "11320706",
+      "tokenWA": 41
+    }
+  ],
+  "supersedes": {
+    "previous197BAuditFileSha256": "f8961310a3ff83f18f6224c188a8490f8b4d254d6aaa2311bea0697a943430c5",
+    "previous197BAuditHash": "99da7ad0a64f7eeec85975e941ab01edebd4d28eb332f9d2929cba9fc0af0944",
+    "previousAudit": {
+      "commit": "a1ac57830d399c2e7b76292b370e0b0c195da566",
+      "path": "pipeline/ratings-pools/1400/independent-audit.json",
+      "sha256": "12790623ac6e9579452775da04113cec478872a052472e68ceaafa4a441d0f60",
+      "validatedCount": 13
+    },
+    "reason": "197B revoked: counted incorrect sources 8471901 (0 vs 0/1) and 6327041 (unreduced fraction) have only presentation-only failures on every package test, so they are not algorithmic kills. 197B package/evidence bytes are unchanged; only the verdict changed. The same check on the other 12 validated packages found no presentation-only counted kill."
+  },
   "targetReached": false,
-  "validatedCount": 13,
+  "validatedCount": 12,
   "validatedIds": [
     "125A",
-    "197B",
     "270B",
     "277A",
     "279A",

@@ -2,8 +2,10 @@
 
 Reviewer: `devin-independent-auditor-session-4faf13bf1be94c698c44ee6503b27b8c` (https://staging.itsdev.in/sessions/4faf13bf1be94c698c44ee6503b27b8c)
 
-**Verified: 13 of 28 candidates** (125A, 197B, 270B, 277A, 279A, 315A, 334B, 358A, 388A, 38C, 41B, 435B, 548B). The target is 100, so it is **not reached**. The builder supplied 28 execution-passed packages (v2 bundle), not 100; the 9 initial archives are byte-identical to v1, and the 19 new ones were audited from scratch.
+**Verified: 12 of 28 candidates** (125A, 270B, 277A, 279A, 315A, 334B, 358A, 388A, 38C, 41B, 435B, 548B). The target is 100, so it is **not reached**. The builder supplied 28 execution-passed packages (v2 bundle), not 100; the 9 initial archives are byte-identical to v1, and the 19 new ones were audited from scratch.
 Builder child audits were read for cross-checking only; none of their approvals are inherited. Disagreements are listed below.
+
+**Correction:** this report supersedes the 13/28 audit (commit `a1ac5783`, JSON SHA256 `12790623ac6e9579452775da04113cec478872a052472e68ceaafa4a441d0f60`). 197B revoked: counted incorrect sources 8471901 (0 vs 0/1) and 6327041 (unreduced fraction) have only presentation-only failures on every package test, so they are not algorithmic kills. 197B package/evidence bytes are unchanged; only the verdict changed. The same check on the other 12 validated packages found no presentation-only counted kill. Superseded 197B audit SHA256 `f8961310a3ff83f18f6224c188a8490f8b4d254d6aaa2311bea0697a943430c5`, auditHash `99da7ad0a64f7eeec85975e941ab01edebd4d28eb332f9d2929cba9fc0af0944`.
 
 - Builder branch `devin/1791845646-rated-1400` @ `556e9047951a6774775812684c3a5cb516789f3d`
 - Bundle SHA256 `05f8c1e2b4e896b45be0eb85cc02cab9e10b0aeac0f48f59164138f274de13a7`: verified=True
@@ -15,11 +17,11 @@ Builder child audits were read for cross-checking only; none of their approvals 
 
 | Problem | Verdict | Tests (official/open-r1 gen/authored) | Accepted reproduced | Counted WA kills | Extra CF-WA killed | Extra CF-OK passing | Issues |
 |---|---|---|---|---|---|---|---|
-| 107A | **NOT_VALIDATED_HELD** | 179 (16 partial/13/150) | 5/5 | 4/5 | 15/15 | 11/14 | only 4/5 incorrect sources are counted WA algorithmic kills |
+| 107A | **NOT_VALIDATED_HELD** | 179 (16 partial/13/150) | 5/5 | 2/5 | 15/15 | 11/14 | only 2/5 incorrect sources are counted WA algorithmic kills |
 | 125A | **VALIDATED** | 172 (22/0/150) | 5/5 | 5/5 | 33/33 | 20/20 | none |
 | 152C | **REJECTED** | 178 (16 partial/12/150) | 5/5 | 5/5 | 37/37 | 18/20 | accepted contradiction: CF-OK source(s) 19459348(RE@0001) fail the package; cause: CRLF bytes reach Python input(); passes on LF-normalized tests |
 | 175A | **REJECTED** | 284 (134/0/150) | 5/5 | 4/5 | 36/36 | 5/18 | accepted contradiction: CF-OK source(s) 37495712(RE@0001), 124238640(RE@0001), 27107190(RE@0001), 196162162(RE@0001), 55006515(RE@0001), 35154521(RE@0001), 78795916(RE@0001), 29819107(RE@0001), 44186543(RE@0001), 46821841(RE@0001), 29784607(RE@0001), 34276976(RE@0001) fail the package; cause: CRLF bytes reach Python input(); passes on LF-normalized tests; only 4/5 incorrect sources are counted WA algorithmic kills |
-| 197B | **VALIDATED** | 201 (42 partial/9/150) | 5/5 | 5/5 | 49/49 | 16/18 | none |
+| 197B | **NOT_VALIDATED_HELD** | 201 (42 partial/9/150) | 5/5 | 3/5 | 49/49 | 16/18 | only 3/5 incorrect sources are counted WA algorithmic kills |
 | 198B | **REJECTED** | 182 (23 partial/9/150) | 5/5 | 3/5 | 7/8 | 6/9 | only 3/5 incorrect sources are counted WA algorithmic kills; coverage gap: CF-WRONG_ANSWER source(s) 11382563 pass the full package |
 | 226A | **NOT_VALIDATED_HELD** | 228 (78/0/150) | 5/5 | 3/5 | 4/4 | 13/15 | only 3/5 incorrect sources are counted WA algorithmic kills |
 | 233B | **NOT_VALIDATED_HELD** | 198 (48/0/150) | 5/5 | 3/5 | 22/22 | 12/12 | only 3/5 incorrect sources are counted WA algorithmic kills |
@@ -34,7 +36,7 @@ Builder child audits were read for cross-checking only; none of their approvals 
 | 289B | **NOT_VALIDATED_HELD** | 180 (12 partial/18/150) | 5/5 | 4/5 | 38/38 | 19/20 | only 4/5 incorrect sources are counted WA algorithmic kills |
 | 315A | **VALIDATED** | 180 (19 partial/11/150) | 5/5 | 5/5 | 30/30 | 20/20 | none |
 | 334B | **VALIDATED** | 195 (45/0/150) | 5/5 | 5/5 | 30/30 | 19/20 | none |
-| 337B | **NOT_VALIDATED_HELD** | 184 (34/0/150) | 5/5 | 2/5 | 4/4 | 16/18 | only 2/5 incorrect sources are counted WA algorithmic kills |
+| 337B | **NOT_VALIDATED_HELD** | 184 (34/0/150) | 5/5 | 1/5 | 4/4 | 16/18 | only 1/5 incorrect sources are counted WA algorithmic kills |
 | 358A | **VALIDATED** | 186 (28 partial/8/150) | 5/5 | 5/5 | 30/30 | 20/20 | none |
 | 388A | **VALIDATED** | 186 (36/0/150) | 5/5 | 5/5 | 30/30 | 20/20 | none |
 | 38C | **VALIDATED** | 185 (27 partial/8/150) | 5/5 | 5/5 | 16/16 | 18/20 | none |
@@ -47,7 +49,6 @@ Builder child audits were read for cross-checking only; none of their approvals 
 ## Disagreements with builder child audits
 
 - 152C: child 126f9ac4 approved; this audit REJECTED (accepted contradiction: CF-OK source(s) 19459348(RE@0001) fail the package; cause: CRLF bytes reach Python input(); passes on LF-normalized tests)
-- 197B: child d95ca109 rejected; this audit VALIDATED (all checks passed)
 - 198B: child 946996ea approved; this audit REJECTED (only 3/5 incorrect sources are counted WA algorithmic kills; coverage gap: CF-WRONG_ANSWER source(s) 11382563 pass the full package)
 - 233B: child d95ca109 approved; this audit NOT_VALIDATED_HELD (only 3/5 incorrect sources are counted WA algorithmic kills)
 - 248B: child 946996ea approved; this audit REJECTED (accepted contradiction: CF-OK source(s) 31873459(RE@0019), 27547806(RE@0019), 32332414(RE@0019), 4713392(RE@0019), 9705234(RE@0019), 32011925(RE@0019), 11022217(RE@0019), 14779449(RE@0019), 26181773(RE@0019), 7776787(RE@0019), 4786395(RE@0019), 17711024(RE@0019), 13496928(RE@0019) fail the package; cause: Python 3.11 sandbox int-str 4300-digit limit (harness fidelity))
@@ -74,11 +75,11 @@ Builder child audits were read for cross-checking only; none of their approvals 
 
 - packageHash `c82dbd5e3ff41403997cbf9463e9d8d56fbbae614e2aee661b2164d89e3dd997`
 - evidenceHash `3c23ce12b7f746ef35979e21c945e7b15d463a4d973c62b80827edf3369317a3`
-- auditHash `034133007410eb725d5322ec7605ca7e15ce57453697f93eb0f8a0914ccd2f49`
+- auditHash `8ebf16a3ee4e3b0d04cacbefcbfbf0f74531021577fef9236a37cb377d79287e`
 - archive SHA256 `25eb44ce7b035f092d176d6442af05367816160c76f1be9074a4e1d152084c4a`
 - contract gate: None
 - CRLF-input tests: 16; independent reference: tests=182, invalid=0, mismatches=0
-- issues: only 4/5 incorrect sources are counted WA algorithmic kills
+- issues: only 2/5 incorrect sources are counted WA algorithmic kills
 - CF-OK sources failing: 627433 GNU C++ CE@None, 627519 MS C++ CE@None, 627460 GNU C++ CE@None
 - replacement WA candidates (executed here, need builder revalidation and re-audit): 90226422@0001, 114310642@0006, 104842606@0001, 195071546@0005, 113620524@0004, 136410791@0001, 73553259@0005, 97366270@0011
 
@@ -89,11 +90,11 @@ Builder child audits were read for cross-checking only; none of their approvals 
 | [627474](https://codeforces.com/contest/107/submission/627474) | MS C++ | OK | AC | AC | None | True | AC@None | - | True |  |
 | [627482](https://codeforces.com/contest/107/submission/627482) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
 | [627502](https://codeforces.com/contest/107/submission/627502) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
-| [5408132](https://codeforces.com/contest/107/submission/5408132) | Python 3 | WRONG_ANSWER | WA | WA | 0001 | True | WA@0001 | - | True | wrong-answer: Prints tank/tap pairs without the leading count line required by the statement. |
+| [5408132](https://codeforces.com/contest/107/submission/5408132) | Python 3 | WRONG_ANSWER | WA | WA | 0001 | True | WA@0001 | - | False | : Presentation-only: the tank/tap pairs are correct but the leading count line is missing. Not counted, by the same rule applied to 197B. |
 | [9819565](https://codeforces.com/contest/107/submission/9819565) | Python 3 | WRONG_ANSWER | WA | WA | 0001 | True | WA@0001 | - | False | : Source is the placeholder print("x"); it implements no algorithm, so its WA is not an algorithmic kill. |
 | [27308114](https://codeforces.com/contest/107/submission/27308114) | Python 3 | WRONG_ANSWER | WA | WA | 0002 | True | WA@0002 | - | True | wrong-answer: Merges pipes into union sets but treats a closed cycle as a chain (1->2->3->1) and prints a pair instead of 0. |
 | [30302698](https://codeforces.com/contest/107/submission/30302698) | Python 3 | WRONG_ANSWER | WA | WA | 0011 | True | WA@0011 | - | True | wrong-answer: Treats every in-degree-0 house as a tank, including houses with no outgoing pipe; n=1000,p=0 prints 1000 pairs with diameter inf instead of 0. |
-| [37558696](https://codeforces.com/contest/107/submission/37558696) | Python 3 | WRONG_ANSWER | WA | WA | 0001 | True | WA@0001 | - | True | wrong-answer: Leaves the count line out when answers exist (prints only the pairs). |
+| [37558696](https://codeforces.com/contest/107/submission/37558696) | Python 3 | WRONG_ANSWER | WA | WA | 0001 | True | WA@0001 | - | False | : Presentation-only: the tank/tap pairs are correct but the leading count line is missing. Not counted, by the same rule applied to 197B. |
 
 ### 125A: VALIDATED
 
@@ -167,16 +168,18 @@ Builder child audits were read for cross-checking only; none of their approvals 
 | [42333877](https://codeforces.com/contest/175/submission/42333877) | Python 3 | WRONG_ANSWER | WA | WA | 0004 | True | WA@0004 | - | True | wrong-answer: Splits the integer from the right and never rejects leading zeros or parts that are empty after integer conversion. |
 | [193699107](https://codeforces.com/contest/175/submission/193699107) | Python 3 | WRONG_ANSWER | WA | WA | 0003 | True | WA@0003 | - | True | wrong-answer: Accepts parts with leading zeros through int() and only special-cases a "000" prefix; 0009 prints 9 instead of -1. |
 
-### 197B: VALIDATED
+### 197B: NOT_VALIDATED_HELD
 
 - packageHash `66cb5419b77fa845e2af4911140ac0e85196e4af7cadf4ec40043273235abe6b`
 - evidenceHash `40165fdb27cdac3c23b3b35274566dc6051ca0427c91ad9e8aaa252f8ad5bb1e`
-- auditHash `99da7ad0a64f7eeec85975e941ab01edebd4d28eb332f9d2929cba9fc0af0944`
+- auditHash `55ac5972f42a956f223d9c49b2303892f6172a87eb9f7ccecdac15130be64f98`
 - archive SHA256 `90235a1ed207e07f9e1e7278ab4a8ff4e94e4fe892798e375ad17d6aa2efd570`
-- contract gate: {'auditHash': '99da7ad0a64f7eeec85975e941ab01edebd4d28eb332f9d2929cba9fc0af0944', 'passed': True}
+- contract gate: None
 - CRLF-input tests: 42; independent reference: tests=206, invalid=0, mismatches=0
-- issues: none
+- issues: only 3/5 incorrect sources are counted WA algorithmic kills
 - CF-OK sources failing: 1788242 MS C++ CE@None, 1788172 MS C++ CE@None
+- semantic check (LF, numeric fraction comparison): 4906508: 72 token-WA, 72 numerically wrong; 6327041: 16 token-WA, 0 numerically wrong; 8471901: 51 token-WA, 0 numerically wrong; 8471960: 135 token-WA, 49 numerically wrong; 11940891: 27 token-WA, 23 numerically wrong
+- replacement WA candidates (executed here, need builder revalidation and re-audit): 94246367@0001, 141821290@0001, 54898171@0004, 111627602@0001, 50677198@0005, 165490894@0008, 21696304@0008, 103987333@0008, 98057127@0008, 93077666@0008
 
 | Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -186,8 +189,8 @@ Builder child audits were read for cross-checking only; none of their approvals 
 | [1788224](https://codeforces.com/contest/197/submission/1788224) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
 | [1788278](https://codeforces.com/contest/197/submission/1788278) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
 | [4906508](https://codeforces.com/contest/197/submission/4906508) | Python 3 | WRONG_ANSWER | WA | WA | 0003 | True | WA@0003 | `1/1\n` | True | wrong-answer: The degree comparison has duplicated branches (n>m twice, m<n is unreachable), so n<m prints a fraction instead of 0/1. |
-| [6327041](https://codeforces.com/contest/197/submission/6327041) | Python 3 | WRONG_ANSWER | WA | WA | 0004 | True | WA@0004 | `2/4\n` | True | wrong-answer: Prints p0/q0 without normalizing the sign or reducing by gcd when p0%q0!=0 (2/4 instead of 1/2). |
-| [8471901](https://codeforces.com/contest/197/submission/8471901) | Python 3 | WRONG_ANSWER | WA | WA | 0006 | True | WA@0006 | `0\n` | True | wrong-answer: Prints "0" instead of "0/1" when the denominator degree is larger. |
+| [6327041](https://codeforces.com/contest/197/submission/6327041) | Python 3 | WRONG_ANSWER | WA | WA | 0004 | True | WA@0004 | `2/4\n` | False | : Presentation-only: prints an unreduced fraction (2/4 instead of 1/2). On all 201 package tests with LF line endings, every one of its 16 WA outputs is numerically equal to the expected value (sem197.json), so no algorithmic defect is witnessed. Revoked from the earlier 13/28 signoff. |
+| [8471901](https://codeforces.com/contest/197/submission/8471901) | Python 3 | WRONG_ANSWER | WA | WA | 0006 | True | WA@0006 | `0\n` | False | : Presentation-only: prints the integer 0 instead of the fraction 0/1 when deg P < deg Q. On all 201 package tests with LF line endings, every one of its 51 WA outputs is numerically equal to the expected value (sem197.json); its degree, sign and Infinity handling is never wrong on a package test. Revoked from the earlier 13/28 signoff. |
 | [8471960](https://codeforces.com/contest/197/submission/8471960) | Python 3 | WRONG_ANSWER | WA | WA | 0002 | True | WA@0002 | `Infinity\n` | True | wrong-answer: Ignores the leading-coefficient signs when the limit is infinite, so it prints Infinity instead of -Infinity. |
 | [11940891](https://codeforces.com/contest/197/submission/11940891) | Python 3 | WRONG_ANSWER | WA | WA | 0005 | True | WA@0005 | `-9/-5\n` | True | wrong-answer: Adds a "-" prefix from b*c<0 but keeps the signed values, so 9/-5 prints -9/-5 instead of -9/5. |
 
@@ -419,9 +422,9 @@ Builder child audits were read for cross-checking only; none of their approvals 
 
 - packageHash `1c495b3b7a7e2b36735d2a75e45c0fde255e731a659f6635952611d746e43ada`
 - evidenceHash `93729677e068a2f92392e6c85b61a74e0c8b68617dbcd0b119710d636298fe08`
-- auditHash `a84e98afefee98abc1ff8b6e9eb51fad0a1300f8e7de119d062b96247a055748`
+- auditHash `f0a81422fa404524642fcae22c349a88a87d54df3f24dbfe7ab914e76a62bc2d`
 - archive SHA256 `690478a9f71331d4ad2cd325cc588ae1ef743675f092123aecea82b0608588fe`
-- contract gate: {'auditHash': 'a84e98afefee98abc1ff8b6e9eb51fad0a1300f8e7de119d062b96247a055748', 'passed': True}
+- contract gate: {'auditHash': 'f0a81422fa404524642fcae22c349a88a87d54df3f24dbfe7ab914e76a62bc2d', 'passed': True}
 - CRLF-input tests: 32; independent reference: tests=186, invalid=0, mismatches=0
 - issues: none
 - max-size coverage: {'bound': 100, 'maxSizeMetric': 100, 'nAtMax': 10, 'ratio': 1.0, 'test': '0040'}
@@ -433,7 +436,7 @@ Builder child audits were read for cross-checking only; none of their approvals 
 | [3238923](https://codeforces.com/contest/279/submission/3238923) | MS C++ | OK | AC | AC | None | True | AC@None | - | True |  |
 | [3238926](https://codeforces.com/contest/279/submission/3238926) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
 | [3238943](https://codeforces.com/contest/279/submission/3238943) | MS C++ | OK | AC | AC | None | True | AC@None | - | True |  |
-| [191418646](https://codeforces.com/contest/279/submission/191418646) | Python 3 | WRONG_ANSWER | WA | WA | 0020 | True | WA@0020 | `` | True | wrong-answer: Closed-form turn formula with wrong region boundaries; independently verified wrong on the failed test by spiral simulation. |
+| [191418646](https://codeforces.com/contest/279/submission/191418646) | Python 3 | WRONG_ANSWER | WA | WA | 0020 | True | WA@0020 | `` | True | wrong-answer: Region conditions leave cases uncovered (e.g. x<=-2 with y=0: range(-x,|x|) is empty), so it prints no answer on 29 valid tests (first 0020: -97 0, expected 387). Missing a case is a logic defect, not presentation. |
 | [193191838](https://codeforces.com/contest/279/submission/193191838) | Python 3 | WRONG_ANSWER | WA | WA | 0007 | True | WA@0007 | `27\n` | True | wrong-answer: Closed-form turn formula with wrong region boundaries; independently verified wrong on the failed test by spiral simulation. |
 | [200117074](https://codeforces.com/contest/279/submission/200117074) | Python 3 | WRONG_ANSWER | WA | WA | 0004 | True | WA@0004 | `0\n` | True | wrong-answer: Closed-form turn formula with wrong region boundaries; independently verified wrong on the failed test by spiral simulation. |
 | [206358102](https://codeforces.com/contest/279/submission/206358102) | Python 3 | WRONG_ANSWER | WA | WA | 0008 | True | WA@0008 | `401\n` | True | wrong-answer: Closed-form turn formula with wrong region boundaries; independently verified wrong on the failed test by spiral simulation. |
@@ -543,11 +546,11 @@ Builder child audits were read for cross-checking only; none of their approvals 
 
 - packageHash `2a4288d0daad6a9cf96ecae1dc78c6d7ade183638b5616250de085e4ebb0eafc`
 - evidenceHash `75a9d63a58f4f3ff0757d1b820e5c0b94fd31479d413bdd937e19047325810c9`
-- auditHash `9650a52cab8ab1ce76b3c03d1c79d1df893f29f1159262d16aa0d2b3871fd82f`
+- auditHash `220e2047d94990b29a5d1c7fa80457369709af5b33664aa56c0c92f8aa036641`
 - archive SHA256 `0306402995ac8aa6c697147e23d485c6f5dd0aaabb94adae86b62f12ae361495`
 - contract gate: None
 - CRLF-input tests: 34; independent reference: tests=186, invalid=0, mismatches=0
-- issues: only 2/5 incorrect sources are counted WA algorithmic kills
+- issues: only 1/5 incorrect sources are counted WA algorithmic kills
 - max-size coverage: {'bound': 1000, 'maxSizeMetric': 1000, 'nAtMax': 8, 'ratio': 1.0, 'test': '0038'}
 - CF-OK sources failing: 4289261 Python 3 RE@0001, 4289534 Python 3 RE@0001
 - replacement WA candidates (executed here, need builder revalidation and re-audit): 206284682@0001, 228128852@0004, 206144360@0001, 206151818@0001
@@ -559,7 +562,7 @@ Builder child audits were read for cross-checking only; none of their approvals 
 | [4288745](https://codeforces.com/contest/337/submission/4288745) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
 | [4288786](https://codeforces.com/contest/337/submission/4288786) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
 | [4288898](https://codeforces.com/contest/337/submission/4288898) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
-| [199577681](https://codeforces.com/contest/337/submission/199577681) | Python 3 | WRONG_ANSWER | WA | WA | 0004 | True | WA@0004 | `0\n` | True | wrong-answer: Prints 0 instead of the required irreducible fraction 0/1 when a:b == c:d (spec violation in an explicit branch); also float ratio comparisons. |
+| [199577681](https://codeforces.com/contest/337/submission/199577681) | Python 3 | WRONG_ANSWER | WA | WA | 0004 | True | WA@0004 | `0\n` | False | : Presentation-only: prints 0 instead of 0/1 when a:b == c:d. All 10 of its WA outputs on LF tests are numerically equal to the expected value (semall.json), so it is not counted (same rule as 197B). |
 | [202536774](https://codeforces.com/contest/337/submission/202536774) | Python 3 | WRONG_ANSWER | WA | WA | 0003 | True | WA@0003 | `1/-1\n` | True | wrong-answer: Ad-hoc formula 1/round(1/z) with shifted a,b; prints e.g. 1/-1. |
 | [206033978](https://codeforces.com/contest/337/submission/206033978) | Python 3 | WRONG_ANSWER | WA | WA | 0001 | True | WA@0001 | `` | False | : Only defines a function; never reads input or prints, so no algorithm runs. |
 | [206034249](https://codeforces.com/contest/337/submission/206034249) | Python 3 | WRONG_ANSWER | WA | WA | 0001 | True | WA@0001 | `Enter multiple values: 0.33333333333333337\n` | False | : Writes an input() prompt to stdout and prints a float; not a genuine attempt at the required p/q output. |
