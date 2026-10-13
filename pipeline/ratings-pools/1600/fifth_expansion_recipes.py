@@ -19,10 +19,11 @@ SEMANTICS = {
 
 def parse(pid, text):
     tokens = text.split()
+    lines = [line.split() for line in text.strip().splitlines()]
     if not tokens:
         raise ValueError('empty input')
     if pid == '606B':
-        if len(tokens) != 5:
+        if len(tokens) != 5 or list(map(len,lines))!=[4,1]:
             raise ValueError('robot arity')
         x,y,u,v = map(int,tokens[:4]); word = tokens[4]
         if not (1<=x<=500 and 1<=y<=500 and 1<=u<=x and 1<=v<=y and 1<=len(word)<=100000 and set(word)<=set('LRUD')):
@@ -30,7 +31,7 @@ def parse(pid, text):
         return x,y,u,v,word
     n = int(tokens[0])
     if pid == '500B':
-        if not 1<=n<=300 or len(tokens)!=1+2*n:
+        if not 1<=n<=300 or len(tokens)!=1+2*n or list(map(len,lines))!=[1,n]+[1]*n:
             raise ValueError('permutation arity')
         values = list(map(int,tokens[1:n+1])); matrix = tokens[n+1:]
         if sorted(values)!=list(range(1,n+1)) or any(len(row)!=n or not set(row)<=set('01') for row in matrix):
@@ -43,6 +44,8 @@ def parse(pid, text):
         upper = 200000 if pid=='689B' else 100000
         if not (2 if pid=='788A' else 1)<=n<=upper or len(a)!=n+1:
             raise ValueError('array arity/range')
+        if list(map(len,lines))!=([1]*(n+1) if pid=='756B' else [1,n]):
+            raise ValueError('array line layout')
         values = a[1:]
         if pid=='689B' and (any(not i<=v<=n for i,v in enumerate(values,1)) or values!=sorted(values)):
             raise ValueError('shortcut constraints')
@@ -55,12 +58,12 @@ def parse(pid, text):
         if len(a)<2:
             raise ValueError('graph header')
         m=a[1]; edges=list(zip(a[2::2],a[3::2]))
-        if not (2<=n<=100000 and 1<=m<=100000 and len(a)==2+2*m):
+        if not (2<=n<=100000 and 1<=m<=100000 and len(a)==2+2*m) or list(map(len,lines))!=[2]*(m+1):
             raise ValueError('graph arity/range')
         if not all(1<=u<=n and 1<=v<=n and u!=v for u,v in edges) or len({tuple(sorted(e)) for e in edges})!=m:
             raise ValueError('graph loops/duplicates')
         return n,edges
-    if len(a)!=n+2 or not 2<=n<=50000:
+    if len(a)!=n+2 or not 2<=n<=50000 or list(map(len,lines))!=[3,n-1]:
         raise ValueError('tree arity/range')
     old,new=a[1:3]
     if not (1<=old<=n and 1<=new<=n and old!=new):
@@ -221,7 +224,8 @@ def extras(pid):
         if text in seen:return
         seen.add(text);out=answer(pid,parse(pid,text));cases.append({'input':text,'output':' '.join(map(str,out))+'\n','reason':reason,'category':category})
     def array(values,reason,category='adversarial'):
-        add(str(len(values))+'\n'+'\n'.join(map(str,values))+'\n',reason,category)
+        separator='\n' if pid=='756B' else ' '
+        add(str(len(values))+'\n'+separator.join(map(str,values))+'\n',reason,category)
     def graph(n,edges,reason,category='adversarial'):
         add(f'{n} {len(edges)}\n'+''.join(f'{u} {v}\n' for u,v in edges),reason,category)
     def permutation(values,edges,reason,category='adversarial'):

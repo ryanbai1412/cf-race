@@ -79,7 +79,10 @@ def parse(pid, text):
         raise ValueError('hexagon does not close')
     if pid=='768B' and (not 1<=a[1]<=a[2]<=(1<<max(1,a[0].bit_length()))-1 or a[2]-a[1]>100000):
         raise ValueError('final list range')
-    if pid=='910B' and (a[1]>a[0] or a[2]>a[0]): raise ValueError('bar pieces longer than bar')
+    if pid=='910B':
+        if len(text.strip().splitlines())!=3 or any(len(line.split())!=1 for line in text.strip().splitlines()):
+            raise ValueError('bar input requires three individual integer lines')
+        if a[1]>a[0] or a[2]>a[0]: raise ValueError('bar pieces longer than bar')
     if pid=='845B' and (len(v)!=1 or len(v[0])!=6 or not v[0].isdigit()): raise ValueError('ticket layout')
     return v[0] if pid=='845B' else tuple(a)
 
@@ -357,9 +360,9 @@ def extras(pid):
             add(scalar(a,b,c,a,b,c),'fixed-seed valid closed hexagon')
     elif pid=='910B':
         for n,a,b in ((1,1,1),(1000,1000,1000),(8,1,2),(20,5,6)):
-            add(scalar(n,a,b),'six pieces, full bars, shared cuts','maxSize' if n==1000 else 'boundary')
+            add('\n'.join(map(str,(n,a,b)))+'\n','six pieces, full bars, shared cuts','maxSize' if n==1000 else 'boundary')
         for _ in range(150):
-            n=rng.randint(1,1000);add(scalar(n,rng.randint(1,n),rng.randint(1,n)),'fixed-seed packing tightness')
+            n=rng.randint(1,1000);add('\n'.join(map(str,(n,rng.randint(1,n),rng.randint(1,n))))+'\n','fixed-seed packing tightness')
     else:
         fixed={'11B':[(-10**9,),(-1,),(0,),(1,),(10**9,)],'86A':[(1,1),(8,10),(10**9,10**9),(1,10**9)],
                '197A':[(1,1,1),(100,100,100),(5,5,2),(6,7,4)],'209A':[(1,),(2,),(3,),(10**6,)],
