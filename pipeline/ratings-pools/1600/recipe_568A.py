@@ -1,5 +1,5 @@
 """Primes or Palindromes? (568A): largest n with pi(n) <= (p/q) * rub(n)."""
-from bisect import bisect_left, bisect_right
+from bisect import bisect_right
 from fractions import Fraction
 from functools import lru_cache
 import itertools
