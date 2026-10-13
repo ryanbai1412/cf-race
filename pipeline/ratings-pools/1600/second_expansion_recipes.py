@@ -48,13 +48,19 @@ def answer(pid,data):
         coins,queries = data
         counts = sorted(Counter(coins).items(),reverse=True)
         result = []
+        memo = {}
         for x in queries:
+            requested = x
+            if requested in memo:
+                result.append(memo[requested])
+                continue
             used = 0
             for value,count in counts:
                 take = min(count,x//value)
                 x -= take*value
                 used += take
-            result.append(-1 if x else used)
+            memo[requested] = -1 if x else used
+            result.append(memo[requested])
         return result
     if pid == '214B':
         counts = Counter(data)
