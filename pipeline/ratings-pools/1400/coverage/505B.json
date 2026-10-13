@@ -1,0 +1,42 @@
+{
+ "adversarial": [
+  {
+   "reason": "same pair different colors",
+   "test": "0034"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "n=2 one edge",
+   "test": "0031"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 1,
+   "boundary": 1,
+   "maxSize": 2,
+   "random": 146
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "2<=n<=100, 1<=m<=100; edges a<b, c in [1,m], no duplicate (a,b,c); q in [1,100]; u!=v",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_f.P505B.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "n=100 m=100 random colors",
+   "test": "0032"
+  },
+  {
+   "reason": "single color chain across all vertices",
+   "test": "0033"
+  }
+ ],
+ "packageHash": "abff605b9298f455d3ac2ebcfa92622920e288947c06733df4e6ea6814d6e985",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

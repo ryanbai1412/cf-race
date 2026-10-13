@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "d2f827d4f7ee1623c8f1975dfb417dffca4bd7af1dd5069201aeda5579424daa",
+  "incorrectAnalysis": {
+    "22026877": {
+      "kind": "wrong-answer",
+      "reason": "Rounds centimetres to inches with ceiling (n+2)//3 instead of round-to-nearest (n+1)//3, so n=1 cm becomes 1 inch; correct answer '0 0', program prints '0 1'.",
+      "test": "0004"
+    },
+    "42101202": {
+      "kind": "wrong-answer",
+      "reason": "Splits feet with n//36 before rounding and rounds only the remainder, never carrying a rounded-up 12 inches into feet: n=35 prints '0 12' instead of '1 0'.",
+      "test": "0021"
+    },
+    "42101236": {
+      "kind": "wrong-answer",
+      "reason": "Rounds any remainder >=18 cm up to a whole foot (rounding to nearest foot rather than nearest inch): n=24 prints '1 0' instead of '0 8'.",
+      "test": "0003"
+    },
+    "49637309": {
+      "kind": "wrong-answer",
+      "reason": "Prints a single float n//36+(n%36)/3 instead of the integer pair feet/inches and performs no inch rounding: n=42 prints '3.0' instead of '1 2'.",
+      "test": "0001"
+    },
+    "49637385": {
+      "kind": "wrong-answer",
+      "reason": "Uses ceil((n%36)/3) (round up) instead of round-to-nearest and ignores foot carry: n=1 prints '0 1' instead of '0 0'.",
+      "test": "0004"
+    }
+  },
+  "packageHash": "590e236e38caee6ab2bd6a116d04ab2b36bb8264505c0e7f9ec6cc1467fcc99f",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/946996ea9147459282415e0603225781",
+  "reviewer": "devin-audit-session-946996ea9147459282415e0603225781"
+}

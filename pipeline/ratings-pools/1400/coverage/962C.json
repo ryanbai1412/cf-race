@@ -1,0 +1,54 @@
+{
+ "adversarial": [
+  {
+   "reason": "digits 8 and zeros only: every square subsequence needs leading zero",
+   "test": "0075"
+  },
+  {
+   "reason": "perfect square 44721^2",
+   "test": "0076"
+  },
+  {
+   "reason": "zeros in middle",
+   "test": "0077"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "n=1",
+   "test": "0071"
+  },
+  {
+   "reason": "n=2 impossible",
+   "test": "0072"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 3,
+   "boundary": 2,
+   "maxSize": 2,
+   "random": 143
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "one line n in [1,2e9] without leading zeros",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_d.P962C.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "n=2e9",
+   "test": "0073"
+  },
+  {
+   "reason": "n=1999999999",
+   "test": "0074"
+  }
+ ],
+ "packageHash": "9cbd0baff948ab5c4e3950322672540361be69abfd4fcd5861772835ca44fcf3",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

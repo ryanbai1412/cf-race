@@ -1,0 +1,54 @@
+{
+ "adversarial": [
+  {
+   "reason": "p=1e9-1 y=1e9",
+   "test": "0064"
+  },
+  {
+   "reason": "p large, y prime",
+   "test": "0065"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "p=y=2",
+   "test": "0059"
+  },
+  {
+   "reason": "p=2 y=3",
+   "test": "0060"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 2,
+   "boundary": 2,
+   "maxSize": 3,
+   "random": 143
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "one line p y; 2<=p<=y<=1e9",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_d.P937B.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "p=2 y=1e9",
+   "test": "0061"
+  },
+  {
+   "reason": "p=y=1e9",
+   "test": "0062"
+  },
+  {
+   "reason": "p=31622 y=1e9 (sqrt bound)",
+   "test": "0063"
+  }
+ ],
+ "packageHash": "a433ed03fca020a713fd1c53ba8bc13313c2937646709be16b206cf109f59d4e",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

@@ -19,7 +19,8 @@ for f in ("inventory.json", "api-problems.json"):
     cp(WS / f, OUT / f)
 for f in ("build.py", "gen_run.py", "bundle.py", "add_oracles.py", "index_subs.py", "count_subs.py", "extract.py",
           "mkpacket.py", "samplecheck.py", "stmt.py", "export_owned.py", "pipeline_run.sh", "oracle_batches.json",
-          "subcounts.json", "todo1.txt", "gen_results.jsonl"):
+          "subcounts.json", "todo1.txt", "todo2.txt", "todo3.txt", "todo4.txt", "one2.sh", "gen_results.jsonl",
+          "contra.py", "crlf_scan.py", "crlf_scan.log"):
     if (W / f).exists():
         cp(W / f, OUT / "tools" / f)
 cp(W / "NOTES.md", OUT / "STATUS.md")
@@ -49,4 +50,9 @@ for d in sorted((WS / "packages").iterdir()):
     for f in d.rglob("*"):
         if f.is_file() and "tests" not in f.relative_to(d).parts:
             cp(f, OUT / "packages" / d.name / f.relative_to(d))
+for f in (WS / "audits").glob("*.json"):
+    cp(f, OUT / "audits" / f.name)
+for d in sorted((W / "audits_in").iterdir()):
+    if (d / "AUDIT_REPORT.md").exists():
+        cp(d / "AUDIT_REPORT.md", OUT / "audits" / "reports" / f"{d.name}.md")
 print("exported to", OUT)

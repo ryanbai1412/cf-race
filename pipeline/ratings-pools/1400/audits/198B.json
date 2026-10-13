@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "df6b45c558d12824a4be77e2a452c118415ea2ffa857c9dafd8d24502519b48d",
+  "incorrectAnalysis": {
+    "23110434": {
+      "kind": "wrong-answer",
+      "reason": "DFS never checks the rising water level (position must exceed elapsed time), only walls and visited marks, so it accepts paths that would be flooded: n=6,k=2 '--X-X-'/'X--XX-' prints YES instead of NO.",
+      "test": "0002"
+    },
+    "31871384": {
+      "kind": "wrong-answer",
+      "reason": "Hard-codes the wall jump as +3 (ninja(pos+3,...)) instead of +k: on n=5,k=4 it finds a nonexistent path and prints YES instead of NO.",
+      "test": "0004"
+    },
+    "31959794": {
+      "kind": "complexity",
+      "reason": "Memo vis=[[0]*n]*2 aliases both walls and only truthy results prune (failed states store 0 and are re-explored; returns vis[pos] list), so DFS is exponential; on n=101,k=1 it did not finish within 60 s vs the 2 s limit.",
+      "test": "0023"
+    },
+    "9741783": {
+      "kind": "wrong-answer",
+      "reason": "DFS caps consecutive up-moves at k+1 (numUps == jump+1 returns False) and forbids position 0 for down moves, pruning valid climbs: n=5,k=2 with an all-safe left wall prints NO instead of YES.",
+      "test": "0012"
+    },
+    "9742416": {
+      "kind": "complexity",
+      "reason": "BFS over (wall,height,counters,water) states with no visited set, so the queue grows exponentially; on test 0023 (n=101,k=1) it exceeds the 2 s limit (sandbox: >4 s then memory exhaustion at 6 s) where an O(n) BFS answers NO instantly.",
+      "test": "0023"
+    }
+  },
+  "packageHash": "190e31375bb375853b42fdbdff92c64914f27c6f77542177ad05cae69c387ca5",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/946996ea9147459282415e0603225781",
+  "reviewer": "devin-audit-session-946996ea9147459282415e0603225781"
+}

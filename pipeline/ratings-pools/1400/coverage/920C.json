@@ -1,0 +1,54 @@
+{
+ "adversarial": [
+  {
+   "reason": "element must cross a forbidden edge late",
+   "test": "0137"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "n=2 swapped, forbidden",
+   "test": "0131"
+  },
+  {
+   "reason": "n=2 swapped, allowed",
+   "test": "0132"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 1,
+   "boundary": 2,
+   "maxSize": 4,
+   "random": 143
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "n in [2,2e5]; permutation of 1..n; string of n-1 0/1",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_h.P920C.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "n=2e5 block-shuffled matching segments YES",
+   "test": "0133"
+  },
+  {
+   "reason": "n=2e5 reversed all allowed YES",
+   "test": "0134"
+  },
+  {
+   "reason": "n=2e5 random perm with one 0 NO",
+   "test": "0135"
+  },
+  {
+   "reason": "n=2e5 sorted all forbidden YES",
+   "test": "0136"
+  }
+ ],
+ "packageHash": "0673159b02b586426ded6bdd5903978d9c904f3fc71f024e238c09479ce7e562",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

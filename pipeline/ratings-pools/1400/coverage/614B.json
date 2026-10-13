@@ -1,0 +1,62 @@
+{
+ "adversarial": [
+  {
+   "reason": "non-beautiful 11 and 101 looking digits",
+   "test": "0034"
+  },
+  {
+   "reason": "zero among long numbers",
+   "test": "0035"
+  },
+  {
+   "reason": "non-beautiful is last and has zeros",
+   "test": "0036"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "n=1 single zero",
+   "test": "0028"
+  },
+  {
+   "reason": "n=1 non-beautiful",
+   "test": "0029"
+  },
+  {
+   "reason": "all ones",
+   "test": "0030"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 3,
+   "boundary": 3,
+   "maxSize": 3,
+   "random": 141
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "n in [1,1e5]; non-negative ai without leading zeros; >=n-1 beautiful; total length <=1e5",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_h.P614B.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "n=1e5 all '1' (total length 1e5)",
+   "test": "0031"
+  },
+  {
+   "reason": "one huge 10^99999 power",
+   "test": "0032"
+  },
+  {
+   "reason": "long non-beautiful plus many tens",
+   "test": "0033"
+  }
+ ],
+ "packageHash": "53f7ce0cc123018fcead2206901006d102430c1b4b4055e7383ed45cc578a411",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

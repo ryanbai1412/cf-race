@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "3063abd76fe36e68e1e8fc819346a89db8482530bbc1f37a999e98d1b9f12e03",
+  "incorrectAnalysis": {
+    "3832878": {
+      "kind": "wrong-answer",
+      "reason": "Decides whether a self-loop opener can open another same-type bottle using only the number of that type encountered so far; it never revisits the first self-loop after a later duplicate appears. With (1,1) preceding (1,2), the first bottle can open the second but itself remains closed; it incorrectly counts both closed and prints 2 instead of 1.",
+      "test": "0018"
+    },
+    "3852053": {
+      "kind": "wrong-answer",
+      "reason": "Counts distinct cap types a and ignores all opener types b, instead of counting bottles lacking a matching opener on another bottle. In the four-bottle cycle every cap can be opened, so the answer is 0, but it prints 4.",
+      "test": "0002"
+    },
+    "3878628": {
+      "kind": "wrong-answer",
+      "reason": "Subtracts the count of matching opener-cap pairs from n, overcounting a bottle when it has multiple openers. The recorded five-bottle input has five matching pairs but only three openable bottles, so the correct count is 2 and its output is 0.",
+      "test": "0005"
+    },
+    "4204402": {
+      "kind": "wrong-answer",
+      "reason": "Adds the opener bottle's index i when b[i]==a[j], then subtracts the number of useful opener bottles rather than opened target bottles. One opener serves both cap-3 bottles in the recorded input; it subtracts 1 instead of 2 and outputs 3 instead of 2.",
+      "test": "0004"
+    },
+    "4403875": {
+      "kind": "wrong-answer",
+      "reason": "Subtracts the number of distinct non-self opener labels without checking whether any bottle has a matching cap. The labels 828,392,903 open none of the caps 2,4,4; all three bottles stay closed, but it returns 0.",
+      "test": "0003"
+    }
+  },
+  "packageHash": "eeee817832ae8d051f09ddc3c9c80fe0ee09f7cfe09f169bcba849394a1bed35",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/d95ca10992d04e87be20e568cee77b39",
+  "reviewer": "devin-audit-session-d95ca10992d04e87be20e568cee77b39"
+}

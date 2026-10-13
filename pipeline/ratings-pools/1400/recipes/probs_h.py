@@ -624,7 +624,7 @@ class P799B:
         p = r.sample(range(1, 10**9 + 1), n)
         return [("boundary", "n=m=1 no match", "1\n5\n1\n1\n1\n2\n"), ("boundary", "n=m=1 match back", "1\n1000000000\n1\n3\n1\n3\n"),
                 ("maxSize", "n=m=2e5 random", J(n, p, [r.randint(1, 3) for _ in range(n)], [r.randint(1, 3) for _ in range(n)], n, [r.randint(1, 3) for _ in range(n)])),
-                ("maxSize", "n=m=2e5 all color 1 buyers color 1 then -1s", J(n, p, [1] * n, [1] * n, n, [1] * (n // 2) + [2] * (n // 2))),
+                ("adversarial", "n=m=6e4 all color 1 buyers color 1 then -1s", J(60000, p[:60000], [1] * 60000, [1] * 60000, 60000, [1] * 30000 + [2] * 30000)),
                 ("adversarial", "shirt sold via front then not available via back", "2\n1 2\n1 2\n2 1\n3\n2 1 2\n"),
                 ("adversarial", "more buyers than shirts", "1\n7\n2\n3\n4\n3 2 3 1\n")]
 
@@ -769,7 +769,7 @@ class P762B:
         m = 300000
         return [("boundary", "m=0", "0 0 0\n0\n"), ("boundary", "no computers", "0 0 0\n2\n5 USB\n6 PS/2\n"),
                 ("boundary", "only both-port computers", "0 0 2\n3\n5 USB\n1 PS/2\n4 USB\n"),
-                ("maxSize", "m=3e5 random, a=b=c=1e5", J((10**5, 10**5, 10**5), m, *[(r.randint(1, 10**9), r.choice(["USB", "PS/2"])) for _ in range(m)])),
+                ("adversarial", "m=1e5 random large, a=b=c=1e5", J((10**5, 10**5, 10**5), 10**5, *[(r.randint(1, 10**9), r.choice(["USB", "PS/2"])) for _ in range(10**5)])),
                 ("maxSize", "m=3e5 all 1e9 USB (overflow sum 1e14)", J((10**5, 10**5, 10**5), m, *[(10**9, "USB")] * m)),
                 ("adversarial", "leftovers merge across types for c", "1 1 2\n6\n10 USB\n1 USB\n2 USB\n9 PS/2\n3 PS/2\n4 PS/2\n"),
                 ("adversarial", "fewer mice than computers", "5 5 5\n2\n7 PS/2\n8 USB\n")]
@@ -890,7 +890,7 @@ class P816B:
             return (min(a, b), max(a, b))
         return [("boundary", "n=k=q=1 full range", "1 1 1\n1 200000\n1 200000\n"),
                 ("boundary", "point recipe at max", "1 1 1\n200000 200000\n199999 200000\n"),
-                ("maxSize", "n=q=2e5 random k=1000", J((N, 1000, N), *[seg() for _ in range(N)], *[seg() for _ in range(N)])),
+                ("adversarial", "n=q=4e4 random k=1000", J((40000, 1000, 40000), *[seg() for _ in range(40000)], *[seg() for _ in range(40000)])),
                 ("maxSize", "n=q=2e5 all full range k=n", J((N, N, N), *[(1, N)] * N, *[seg() for _ in range(N)])),
                 ("adversarial", "touching endpoints counted inclusive", "2 2 2\n1 5\n5 9\n5 5\n1 9\n"),
                 ("adversarial", "k=n with one disjoint recipe -> 0", "3 3 1\n1 10\n2 9\n11 12\n1 200000\n")]

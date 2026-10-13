@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "bf4fe451daf80ff5a1095b3ccb23d3d346d3c1bcd646492a460184de238b4b40",
+  "incorrectAnalysis": {
+    "6388077": {
+      "kind": "wrong-answer",
+      "reason": "Treats an older/repeated solved-count x smaller than the last recorded count as invalid. The valid history 0,1,2,3,4,2 for participant 1 has the required earlier x-1=1 before the final x=2, so the answer is YES; it incorrectly emits NO.",
+      "test": "0012"
+    },
+    "6391028": {
+      "kind": "complexity",
+      "reason": "For each nonzero x scans backward through earlier submissions to find the same participant at x-1, giving quadratic worst-case work. The recorded 100000-row input requires 732504343 inner comparisons before completion (computed independently from nearest predecessor positions); the bounded replay reaches the CPU limit before emitting NO.",
+      "test": "0026"
+    },
+    "6391324": {
+      "kind": "wrong-answer",
+      "reason": "Uses the number of submission events, including repeated counts, as the number of solved problems; additionally the intended state assignment is written as a comparison == True. The history 0,1,2,1,2,4 lacks any earlier 3, but the event count makes it accept the final 4 and print YES instead of NO.",
+      "test": "0010"
+    },
+    "6396554": {
+      "kind": "wrong-answer",
+      "reason": "Indexes state by solved count x and compares participant ids k, reversing the roles of the two fields. The first event (7,1) has no preceding (6,1) and already requires NO, but its unrelated id-order check accepts the input and emits YES.",
+      "test": "0004"
+    },
+    "6397137": {
+      "kind": "wrong-answer",
+      "reason": "Rejects participant 2's first event with x=1 but only breaks out of the loop and then unconditionally executes the success print. It emits both NO and YES, falsely reporting success after a failed chronological prerequisite; the required answer is the single NO token. Its transition rule also wrongly requires strict increments rather than allowing valid repeats.",
+      "test": "0002"
+    }
+  },
+  "packageHash": "4e681c07761fd36a946b7aa8c0f2ef9b73eceeeb90bd121c6e8f7a41fcfa976f",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/d95ca10992d04e87be20e568cee77b39",
+  "reviewer": "devin-audit-session-d95ca10992d04e87be20e568cee77b39"
+}

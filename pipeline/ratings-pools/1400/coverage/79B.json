@@ -1,0 +1,42 @@
+{
+ "adversarial": [
+  {
+   "reason": "waste in first row shifts later rows",
+   "test": "0034"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "1x1 waste queried",
+   "test": "0031"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 1,
+   "boundary": 1,
+   "maxSize": 2,
+   "random": 146
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "n,m in [1,4e4]; k,t in [1,1e3]; distinct waste cells; queries in grid",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_h.P79B.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "4e4x4e4 k=t=1000 random",
+   "test": "0032"
+  },
+  {
+   "reason": "last cell queries after waste near end",
+   "test": "0033"
+  }
+ ],
+ "packageHash": "b739afc383ce134492c80c2d02cf9a6f6c81271c2cd2c4b63fe6b9d5b0273ad5",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

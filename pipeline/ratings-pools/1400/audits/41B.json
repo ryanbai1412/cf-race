@@ -1,0 +1,48 @@
+{
+ "approved": true,
+ "checks": {
+  "algorithmicallyWrong": true,
+  "coverage": true,
+  "deterministicGeneration": true,
+  "fiveAcceptedFiveIncorrect": true,
+  "fullTests": true,
+  "generatedBasis": true,
+  "hashes": true,
+  "independentOracle": true,
+  "inputConstraints": true,
+  "noSpecialChecker": true,
+  "sourceAttribution": true
+ },
+ "evidenceHash": "18d76462526d0d16bb31736ddd87a3f8ad4493a5e0def6d4925a616d73fa664e",
+ "incorrectAnalysis": {
+  "25366403": {
+   "kind": "wrong-answer",
+   "reason": "Both loops run over range(n-1), never considering the last day, and j is not restricted to j > i; on 0001 (n=2, prices 3 7, b=4) the only profitable sale is on day 2, so it prints 4 instead of 8.",
+   "test": "0001"
+  },
+  "27681704": {
+   "kind": "wrong-answer",
+   "reason": "Chooses the buy day by maximum per-dollar gain max(a[i+1:])-a[i] and multiplies by dollars bought that day; total gain (b//a_i)*gain_i is not maximized by the per-unit gain; 0020 prints 1172 instead of 1682.",
+   "test": "0020"
+  },
+  "5056958": {
+   "kind": "wrong-answer",
+   "reason": "Picks the pair with the largest per-dollar price difference a_sell - a_buy, ignoring how many dollars b // a_buy can be bought, so a cheaper buy day with smaller difference but more dollars is missed; 0020 prints 1556 instead of 1682.",
+   "test": "0020"
+  },
+  "61597190": {
+   "kind": "wrong-answer",
+   "reason": "Maximizes the price ratio a_j/a_i (real division) instead of the integer outcome (b//a_i)*a_j + b%a_i, so the flooring of dollars bought is ignored; 0020 prints 1172 instead of 1682.",
+   "test": "0020"
+  },
+  "9382036": {
+   "kind": "wrong-answer",
+   "reason": "Selects the most negative an[i]-an[j] (largest per-dollar difference, tie -> cheaper buy) rather than maximizing (b//a_i)*a_j + b%a_i; also ignores affordability (b//vmn may be 0); 0020 prints 1172 instead of 1682.",
+   "test": "0020"
+  }
+ },
+ "packageHash": "70c9c03b3b3bd4f70bf40e765379edbb45ac2ac55bf9bb9d82d03f92cd42a514",
+ "qualificationBasis": "generated",
+ "reviewUrl": "https://staging.itsdev.in/sessions/f009e0db32da4a20aa8bf62ebb1a486e",
+ "reviewer": "devin-audit-session-f009e0db32da4a20aa8bf62ebb1a486e"
+}

@@ -1,0 +1,46 @@
+{
+ "adversarial": [
+  {
+   "reason": "N=10 vertical flip",
+   "test": "0041"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "N=1 equal",
+   "test": "0037"
+  },
+  {
+   "reason": "N=1 different",
+   "test": "0038"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 1,
+   "boundary": 2,
+   "maxSize": 2,
+   "random": 145
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "N in [1,10]; 2N lines of N chars from X/O",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_d.P958A1.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "N=10 transpose (flip+rotate)",
+   "test": "0039"
+  },
+  {
+   "reason": "N=10 one cell differs",
+   "test": "0040"
+  }
+ ],
+ "packageHash": "f78d67f00a1a6a4b8e6c211c85d98dd4bfb9b4844cc984d821ef2d8365f7c5f4",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

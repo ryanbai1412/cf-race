@@ -1,0 +1,46 @@
+{
+ "adversarial": [
+  {
+   "reason": "carry-over must be taken first",
+   "test": "0045"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "n=1 v=1",
+   "test": "0041"
+  },
+  {
+   "reason": "fruit on day 3000 needs day 3001",
+   "test": "0042"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 1,
+   "boundary": 2,
+   "maxSize": 2,
+   "random": 145
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "n,v in [1,3000]; a_i,b_i in [1,3000]",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_f.P441B.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "n=3000 all same day max",
+   "test": "0043"
+  },
+  {
+   "reason": "n=3000 random",
+   "test": "0044"
+  }
+ ],
+ "packageHash": "5c0e678a5d14c8e10f6450d5c5bc03889b7c11836934ba1848bb6c5dc34e1d78",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

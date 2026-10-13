@@ -1,0 +1,50 @@
+{
+ "adversarial": [
+  {
+   "reason": "hiding largest is not optimal with negatives",
+   "test": "0036"
+  },
+  {
+   "reason": "duplicate maxima",
+   "test": "0037"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "all -1e9 (product 1e18)",
+   "test": "0032"
+  },
+  {
+   "reason": "mixed extremes",
+   "test": "0033"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 2,
+   "boundary": 2,
+   "maxSize": 2,
+   "random": 144
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "n,m in [2,50]; all values in [-1e9,1e9]",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_h.P934A.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "n=m=50 random full range",
+   "test": "0034"
+  },
+  {
+   "reason": "n=m=50 all zeros",
+   "test": "0035"
+  }
+ ],
+ "packageHash": "38974c163849b207d76a5242ae700d130da3c608df55cd04e48ef2a2820a7a08",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

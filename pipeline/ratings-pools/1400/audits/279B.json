@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "9882a21c686ddd966f320bb28614cd208adacd1913de34d077fd771aa0213ee2",
+  "incorrectAnalysis": {
+    "183040305": {
+      "kind": "wrong-answer",
+      "reason": "Sorts the reading times (books must be a contiguous run starting at some i) and uses strict t>0, so it greedily picks the cheapest books; on 0005 (2 10 / 6 4) prints 1 instead of 2.",
+      "test": "0005"
+    },
+    "183292864": {
+      "kind": "wrong-answer",
+      "reason": "Sorts the times, ignoring the contiguous-segment requirement, prints a stray debug list print(arr) to stdout, and prints index i instead of a count; on 0001 it outputs \"[3, 1, 2, 1]\\n3\" instead of \"3\".",
+      "test": "0001"
+    },
+    "183293018": {
+      "kind": "wrong-answer",
+      "reason": "Sorts the times (ignores contiguity) and counts the book that overflows t (stops only after total>=t and prints i+1); on 0001 (4 5 / 3 1 2 1) prints 4 instead of 3.",
+      "test": "0001"
+    },
+    "183369494": {
+      "kind": "wrong-answer",
+      "reason": "Sorts the times and compares against n instead of t (budget variable confusion); on 0004 (1 10 / 4) prints 0 instead of 1.",
+      "test": "0004"
+    },
+    "183621632": {
+      "kind": "wrong-answer",
+      "reason": "Sorts the times (ignores contiguity) and requires t-i>0 strictly, rejecting a book that exactly uses the remaining time; on 0005 (2 10 / 6 4) prints 1 instead of 2.",
+      "test": "0005"
+    }
+  },
+  "packageHash": "8dc1534513a5e4ce6abf4e50734ea4eee92558a98c0c42c48d187101e8f2fa6c",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/126f9ac4221e4ce5a780c10a81c7fc8e",
+  "reviewer": "devin-audit-session-126f9ac4221e4ce5a780c10a81c7fc8e"
+}

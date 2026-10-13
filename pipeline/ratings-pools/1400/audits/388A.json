@@ -1,0 +1,48 @@
+{
+ "approved": true,
+ "checks": {
+  "algorithmicallyWrong": true,
+  "coverage": true,
+  "deterministicGeneration": true,
+  "fiveAcceptedFiveIncorrect": true,
+  "fullTests": true,
+  "generatedBasis": true,
+  "hashes": true,
+  "independentOracle": true,
+  "inputConstraints": true,
+  "noSpecialChecker": true,
+  "sourceAttribution": true
+ },
+ "evidenceHash": "c113d73853f193416137830b43e44af44c11a3243dee86c3eb4c3bb240790d4a",
+ "incorrectAnalysis": {
+  "5888189": {
+   "kind": "wrong-answer",
+   "reason": "Greedy builds each pile as a strictly decreasing chain of strengths, ignoring that a box of strength x can hold x boxes (equal strengths can stack under a larger capacity); on 0010 (four 1s, six 2s) it makes 6 piles instead of 4.",
+   "test": "0010"
+  },
+  "5898411": {
+   "kind": "wrong-answer",
+   "reason": "Tracks pile capacity only via the newest box (ml = a[j]+1, l reset to 1) instead of the minimum remaining capacity of all boxes in the pile, so piles are over-filled and too few piles counted; 0021 prints 1 instead of 3.",
+   "test": "0021"
+  },
+  "9089117": {
+   "kind": "wrong-answer",
+   "reason": "Answers the maximum frequency of a single strength value, ignoring capacity constraints of piles; 0010 (four 1s, six 2s) prints 6 instead of 4.",
+   "test": "0010"
+  },
+  "9126570": {
+   "kind": "wrong-answer",
+   "reason": "Places each box on the first pile whose top strength is strictly smaller, i.e. piles are strictly increasing chains with no capacity counting; this equals max frequency, so 0010 prints 6 instead of 4.",
+   "test": "0010"
+  },
+  "9245036": {
+   "kind": "wrong-answer",
+   "reason": "b[i] starts at i and adds count[i], so max(b[i]-i) is just the maximum frequency of one strength value, not the minimum pile count; 0010 prints 6 instead of 4.",
+   "test": "0010"
+  }
+ },
+ "packageHash": "6f3ab24ba997e1c6053512a076d3e29b84127a2766d6ac3329377c6ea315253b",
+ "qualificationBasis": "generated",
+ "reviewUrl": "https://staging.itsdev.in/sessions/f009e0db32da4a20aa8bf62ebb1a486e",
+ "reviewer": "devin-audit-session-f009e0db32da4a20aa8bf62ebb1a486e"
+}

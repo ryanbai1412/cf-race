@@ -1,0 +1,58 @@
+{
+ "adversarial": [
+  {
+   "reason": "overlapping windows along chain",
+   "test": "0055"
+  },
+  {
+   "reason": "link skips far back, disjoint windows",
+   "test": "0056"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "n=1 k=0",
+   "test": "0049"
+  },
+  {
+   "reason": "n=1 k=1",
+   "test": "0050"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 2,
+   "boundary": 2,
+   "maxSize": 4,
+   "random": 142
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "n in [1,1e5], k in [0,n]; 0<=ai<i",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_h.P928B.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "n=1e5 chain to previous, k=0 (answer i)",
+   "test": "0051"
+  },
+  {
+   "reason": "n=1e5 random links k=3",
+   "test": "0052"
+  },
+  {
+   "reason": "n=1e5 k=n all no links",
+   "test": "0053"
+  },
+  {
+   "reason": "n=1e5 random links k=500",
+   "test": "0054"
+  }
+ ],
+ "packageHash": "8095e561cf7faf1a5538e52c4924fd4bda6fb7c92a1d69dd06ae678846d69451",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

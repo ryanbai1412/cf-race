@@ -1,0 +1,48 @@
+{
+ "approved": true,
+ "checks": {
+  "algorithmicallyWrong": true,
+  "coverage": true,
+  "deterministicGeneration": true,
+  "fiveAcceptedFiveIncorrect": true,
+  "fullTests": true,
+  "generatedBasis": true,
+  "hashes": true,
+  "independentOracle": true,
+  "inputConstraints": true,
+  "noSpecialChecker": true,
+  "sourceAttribution": true
+ },
+ "evidenceHash": "581d2476be98725af3eafce8a1daa9c22639a32cae10a045f88e30db1dcbc9fd",
+ "incorrectAnalysis": {
+  "129896253": {
+   "kind": "wrong-answer",
+   "reason": "Accumulator is overwritten (answer = C(val,2) instead of +=) so only the last bucket counts, and calculate() tests parity of no//2 rather than the original's low bit (calculate(5)=1 but f(5)=2); on 0004 prints 1 instead of 2.",
+   "test": "0004"
+  },
+  "47719996": {
+   "kind": "wrong-answer",
+   "reason": "Popcount buckets are summed only for i in range(n) instead of all bit counts 0..30, so classes with popcount >= n are dropped (and n > 40 indexes past bits[39]); test 0004 has n=6 with all six values of popcount >= 6, giving 0 instead of 2.",
+   "test": "0004"
+  },
+  "54885453": {
+   "kind": "wrong-answer",
+   "reason": "Counts adjacent equal pairs after sorting (k-1 per class) instead of k*(k-1)/2, and norm() is not a canonical representative of f; on 0001 (1 2 4, one class of size 3) prints 2 instead of 3.",
+   "test": "0001"
+  },
+  "54885605": {
+   "kind": "wrong-answer",
+   "reason": "norm() (strip factors of 2, then repeatedly map 4k+1 -> 2k+1) is not canonical for f = popcount: e.g. 7 and 11 both have f=3 but norm 7 and 11; on 0004 values with equal popcount get different norms, printing 0 instead of 2.",
+   "test": "0004"
+  },
+  "75475383": {
+   "kind": "complexity",
+   "reason": "O(n^2) double loop recomputing recursive f for every pair; n=1e5 in 0012 means ~5e9 pair evaluations, far beyond the 2s limit (killed at 6s with no output).",
+   "test": "0012"
+  }
+ },
+ "packageHash": "fcf14c09bf67e238c207c87ba3755b471f31532ccb4e1a0398e5ebc9249993db",
+ "qualificationBasis": "generated",
+ "reviewUrl": "https://staging.itsdev.in/sessions/f009e0db32da4a20aa8bf62ebb1a486e",
+ "reviewer": "devin-audit-session-f009e0db32da4a20aa8bf62ebb1a486e"
+}

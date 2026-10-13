@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "f0c396fba02a5477d9db5d48aae4433e9bc453e08cd5cca4f28dc8d524311dc9",
+  "incorrectAnalysis": {
+    "10617748": {
+      "kind": "wrong-answer",
+      "reason": "Unconditionally subtracts one from the employee component count, omitting the case with no initial language knowledge. The valid two-employee all-zero input requires 2 lessons, but it returns 1.",
+      "test": "0004"
+    },
+    "11352639": {
+      "kind": "wrong-answer",
+      "reason": "On a new employee it unions the language set with only the first intersecting component and breaks, rather than merging every bridged component. Employee 7's languages {7,4} connect the existing {6,7} and {4,5} islands; the stale second island leaves four components instead of three and produces 3 rather than 2 lessons.",
+      "test": "0002"
+    },
+    "11352706": {
+      "kind": "wrong-answer",
+      "reason": "Always returns component_count-1 and misses the no-language-known special case. For two employees with zero languages the necessary teaching cost is 2, whereas this program emits 1.",
+      "test": "0004"
+    },
+    "9220573": {
+      "kind": "wrong-answer",
+      "reason": "Uses the usual component-connection cost components-1 when nobody initially knows any language. For two employees each knowing zero languages, both must learn a language, so the answer is 2, not its 1.",
+      "test": "0004"
+    },
+    "9357260": {
+      "kind": "wrong-answer",
+      "reason": "The any(lang) test checks whether employee Boolean-list objects are nonempty, not whether any language bit is true; each list has m entries even when all are false. It therefore subtracts one even when nobody knows any language, returning 1 instead of the required 2 on the recorded two-employee all-zero input.",
+      "test": "0004"
+    }
+  },
+  "packageHash": "5e56b7be4eafa7211ad99cf76cbcc44762abfea231daadc3a4ebb5361a771674",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/d95ca10992d04e87be20e568cee77b39",
+  "reviewer": "devin-audit-session-d95ca10992d04e87be20e568cee77b39"
+}

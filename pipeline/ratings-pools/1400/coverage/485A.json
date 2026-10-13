@@ -1,0 +1,50 @@
+{
+ "adversarial": [
+  {
+   "reason": "m=1e5 not power of two times a",
+   "test": "0027"
+  },
+  {
+   "reason": "m=99999 odd",
+   "test": "0028"
+  },
+  {
+   "reason": "a multiple of odd part",
+   "test": "0029"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "a=m=1",
+   "test": "0024"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 3,
+   "boundary": 1,
+   "maxSize": 2,
+   "random": 144
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "one line a m; 1<=a,m<=1e5",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_c.P485A.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "m=2^16 power of two",
+   "test": "0025"
+  },
+  {
+   "reason": "a=m=1e5",
+   "test": "0026"
+  }
+ ],
+ "packageHash": "f2044450502a716698ecdc9ef66b9ccc2a7db3d788401175ecda9c412b699abf",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

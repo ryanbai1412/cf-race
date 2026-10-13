@@ -1,0 +1,62 @@
+{
+ "adversarial": [
+  {
+   "reason": "balanced count but wrong order",
+   "test": "0040"
+  },
+  {
+   "reason": "extra open at end",
+   "test": "0041"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "single char",
+   "test": "0033"
+  },
+  {
+   "reason": "single close",
+   "test": "0034"
+  },
+  {
+   "reason": "pair ok",
+   "test": "0035"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 2,
+   "boundary": 3,
+   "maxSize": 4,
+   "random": 141
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "non-empty string of <>{}[]() with length <=1e6",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_h.P612C.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "1e6 deep nesting random kinds",
+   "test": "0036"
+  },
+  {
+   "reason": "1e6 alternating pairs '()' ",
+   "test": "0037"
+  },
+  {
+   "reason": "1e6 random brackets",
+   "test": "0038"
+  },
+  {
+   "reason": "1e6 all opens",
+   "test": "0039"
+  }
+ ],
+ "packageHash": "b5494bf6e2f3bb9341cb4209bef7a0621252ff5f42d7684ef7bdc761baea07a4",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

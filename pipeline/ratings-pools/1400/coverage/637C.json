@@ -1,0 +1,54 @@
+{
+ "adversarial": [
+  {
+   "reason": "ten codes pairwise distance 6",
+   "test": "0056"
+  },
+  {
+   "reason": "minimum distance 2 -> 0",
+   "test": "0057"
+  },
+  {
+   "reason": "minimum distance 4 -> 1",
+   "test": "0058"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "n=1 answer 6",
+   "test": "0052"
+  },
+  {
+   "reason": "n=2 differ in all 6",
+   "test": "0053"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 3,
+   "boundary": 2,
+   "maxSize": 2,
+   "random": 143
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "n in [1,1000]; distinct six-digit codes (leading zeros allowed)",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_h.P637C.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "n=1000 random codes",
+   "test": "0054"
+  },
+  {
+   "reason": "n=1000 consecutive (distance 1)",
+   "test": "0055"
+  }
+ ],
+ "packageHash": "56f79fa31863f66a478b5a3eb69193fb450d4e6c2bde63c2f9392d93750bdbdb",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

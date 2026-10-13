@@ -1,0 +1,46 @@
+{
+ "adversarial": [
+  {
+   "reason": "speed difference exactly (t-1)d",
+   "test": "0067"
+  },
+  {
+   "reason": "d=0 constant",
+   "test": "0068"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "t=2 d=0",
+   "test": "0065"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 2,
+   "boundary": 1,
+   "maxSize": 2,
+   "random": 145
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "v1 v2 in [1,100]; t in [2,100], d in [0,10]; feasible: |v1-v2| <= (t-1)d",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_c.P534B.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "max t and d",
+   "test": "0066"
+  },
+  {
+   "reason": "v1=1 v2=1 t=100 d=10 tent",
+   "test": "0069"
+  }
+ ],
+ "packageHash": "fcf811a339f8c4c54048af692ab051fb61bb2b8ddbd02cf06120d7128e7fdf64",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

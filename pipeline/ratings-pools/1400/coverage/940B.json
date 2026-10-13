@@ -1,0 +1,50 @@
+{
+ "adversarial": [
+  {
+   "reason": "k>n",
+   "test": "0062"
+  },
+  {
+   "reason": "division expensive",
+   "test": "0063"
+  },
+  {
+   "reason": "k=n",
+   "test": "0064"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "n=1",
+   "test": "0059"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 3,
+   "boundary": 1,
+   "maxSize": 2,
+   "random": 144
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "four lines n k A B, each in [1,2e9]",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_d.P940B.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "k=1 max (answer ~4e18 needs 64-bit)",
+   "test": "0060"
+  },
+  {
+   "reason": "k=2 max",
+   "test": "0061"
+  }
+ ],
+ "packageHash": "4223c503d9e5e793bd6e090f5db88f2e3eb47f40c4e90c39eec542b2e2942c2b",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

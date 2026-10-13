@@ -50,3 +50,16 @@ Owned paths only: pipeline/ratings-pools/1400/, pipeline/problems/<ids>/, proble
 - quarantined, upstream open-r1 generated inputs violate statement bounds: 514B 670D1 632B 797B. Truncated: 745B. Earlier: 108B 205B 24A 1009B 413C 479C 493B.
 - excluded, output not unique / case-insensitive: 675B 851B 868B 955B.
 - Per-package archives: `python3 pipeline/rated_pool.py archive --rating 1400 --id PID ...` (verified byte-reproducible for 125A); SHA256SUMS bundled in rating1400-execution-passed-audit.tar.gz.
+
+## Status 2026-10-13 00:23 UTC (resume pass)
+- Independently validated (different-agent audit, current publication_gate(require_approval=False) passes): 20 —
+  125A 152C 198B 233B 248B 270B 272B 277A 279A 279B 289B 315A 334B 358A 388A 38C 417B 41B 435B 548B.
+- Audit-rejected (kept, not counted): 107A (print("x") / missing count line), 175A (debug echo), 261A (debug print; wrong-problem source),
+  197B (8471901 representation-only failure), 245E (CRLF artifacts; correct Python input() fails official tests), 337B (non-attempt sources),
+  518B (CRLF artifacts + debug prints), 226A (false coverage label; recipe label fixed and test 2 8 added, re-run pending re-audit).
+- CRLF artifact scan (crlf_scan.log): counted incorrect source passes its failedTest after CRLF->LF on 525B 612C 448B 614B 475B 637C 804B 698A 518B 245E -> not sent to audit.
+- New accepted contradictions: 386B 5705687 WA@0045; 581C 13261919 WA@0076; 430B 6589136 WA@0020; 445B 7022262/7022264 WA@0007.
+- Upstream-invalid generated inputs: 929A (x not increasing, 2 open-r1 inputs), 713A, 719B (+ earlier list).
+- Source shortfall: 437C (2 incorrect), 492C (2 accepted, 0 incorrect).
+- 762B/799B/816B generator JSON exceeded sandbox 8 MiB output cap; second max case shrunk (one true max case kept), rerunning.
+- Shared defects reported to parent: CRLF official inputs unnormalized; first-5-by-id incorrect selection admits non-attempts.

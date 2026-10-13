@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "3e4e7386e7087c2203892154e2ccbbdb9191b103a82329311a9551d6016839ca",
+  "incorrectAnalysis": {
+    "11307618": {
+      "kind": "wrong-answer",
+      "reason": "Scores each row by its total number of 1s (sum) instead of the longest run of consecutive 1s; also O(q*n*m); on 0004 first answer is 4 instead of 3.",
+      "test": "0004"
+    },
+    "11309046": {
+      "kind": "wrong-answer",
+      "reason": "max_pod resets the run counter at each new run but never keeps the per-row maximum, so it scores each row by its last run of 1s, not its longest; on 0007 (1x5) prints 1 2 1 2 5 instead of 1 2 2 2 5.",
+      "test": "0007"
+    },
+    "11313092": {
+      "kind": "wrong-answer",
+      "reason": "Scores rows by sum(row) (count of 1s) instead of the longest consecutive run; on 0004 first answer is 4 instead of 3.",
+      "test": "0004"
+    },
+    "11314099": {
+      "kind": "wrong-answer",
+      "reason": "Keeps per-row sums (reduce add) instead of the longest consecutive run of 1s; on 0004 first answer is 4 instead of 3.",
+      "test": "0004"
+    },
+    "11320706": {
+      "kind": "wrong-answer",
+      "reason": "Uses max row sum (count of 1s) instead of the longest consecutive run; on 0004 first answer is 4 instead of 3.",
+      "test": "0004"
+    }
+  },
+  "packageHash": "dff0aff8a12ef1aa21a67393cc6ca8348d32f3b5e8c66d65f4772a45a9a9efbb",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/126f9ac4221e4ce5a780c10a81c7fc8e",
+  "reviewer": "devin-audit-session-126f9ac4221e4ce5a780c10a81c7fc8e"
+}

@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "ec24691b263c4615a545d812809f62dc8cb097d3adaaf3694505330079fa4d58",
+  "incorrectAnalysis": {
+    "126957423": {
+      "kind": "wrong-answer",
+      "reason": "Enumerates hypothetical digit sums and integral quadratic roots but never checks that the candidate's actual digit sum equals the hypothetical sum. For n=4 it accepts x=1 using s=3, although 1^2+sum_digits(1)*1=2, not 4; the correct answer is -1.",
+      "test": "0003"
+    },
+    "126959060": {
+      "kind": "wrong-answer",
+      "reason": "Confuses the digit-sum bound with the candidate-x domain: it searches only x=1..161. The recorded n=10000000100000000 has root x=100000000 (digit sum 1), which it misses and prints -1.",
+      "test": "0005"
+    },
+    "127232883": {
+      "kind": "complexity",
+      "reason": "Linearly tests every x starting at 1, recomputing digit sums, instead of using a bounded digit-sum/quadratic or near-square-root search. The recorded root is 100000000, requiring 100000000 candidate evaluations; the offline bounded replay reaches the CPU limit without an answer.",
+      "test": "0005"
+    },
+    "127737961": {
+      "kind": "wrong-answer",
+      "reason": "Uses floating-point sqrt(... )%1==0 as a perfect-square test and never verifies the original equation with exact integers. It prints 999959999 for n=999920076596999923; that candidate has digit sum 77 and yields 999920076596999924, one too large. The true answer is -1.",
+      "test": "0046"
+    },
+    "128560902": {
+      "kind": "complexity",
+      "reason": "Enumerates all x from zero through floor(sqrt(n)), with a digit-sum calculation per candidate. Reaching the recorded root 100000000 needs at least 100000001 evaluations; the offline bounded replay reaches the CPU limit without an answer.",
+      "test": "0005"
+    }
+  },
+  "packageHash": "f396281e73a4bd3a07aa1a7728aa0414d7b03a2b1bee8e9f99570ec0e30ecf71",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/d95ca10992d04e87be20e568cee77b39",
+  "reviewer": "devin-audit-session-d95ca10992d04e87be20e568cee77b39"
+}

@@ -1,0 +1,50 @@
+{
+ "adversarial": [
+  {
+   "reason": "U-turn creates shortcut adjacency",
+   "test": "0064"
+  },
+  {
+   "reason": "spiral touching at the end",
+   "test": "0066"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "single move",
+   "test": "0061"
+  },
+  {
+   "reason": "back and forth",
+   "test": "0062"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 2,
+   "boundary": 2,
+   "maxSize": 2,
+   "random": 144
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "one line of 1..100 letters from L,R,U,D",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_d.P8B.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "100 straight moves",
+   "test": "0063"
+  },
+  {
+   "reason": "staircase 100",
+   "test": "0065"
+  }
+ ],
+ "packageHash": "c805dd7b0ec1c2f4bd57731932bbcfc58bb9b81f9dacdc6cc9b506f2c8494157",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

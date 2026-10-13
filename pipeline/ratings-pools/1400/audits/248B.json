@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "728d089f00c9ef1999fee7edbbd431476513162370a1e595ecdb41040fd87c49",
+  "incorrectAnalysis": {
+    "4307483": {
+      "kind": "wrong-answer",
+      "reason": "Computes ceil(10**(n-1)/210) with float division; float precision is lost for large n (and the bound uses 10**(n+1)), so n=120 prints a wrong 120-digit number 999...8775 instead of the correct minimum (1 followed by zeros and a 3-digit tail).",
+      "test": "0009"
+    },
+    "4786571": {
+      "kind": "wrong-answer",
+      "reason": "After n-=1 it requires n>2, i.e. original n>3, so n=3 prints -1 instead of 210 (off-by-one in the existence threshold).",
+      "test": "0011"
+    },
+    "7554568": {
+      "kind": "wrong-answer",
+      "reason": "Outputs '210' followed by n-3 zeros, which is divisible by 210 but not the minimum n-digit multiple: n=5 prints 21000 instead of 10080.",
+      "test": "0002"
+    },
+    "8474692": {
+      "kind": "wrong-answer",
+      "reason": "Builds the answer as 10**n + x, which has n+1 digits, instead of 10**(n-1) + x: n=5 prints 100080 instead of 10080.",
+      "test": "0002"
+    },
+    "9741229": {
+      "kind": "wrong-answer",
+      "reason": "Prints '210' followed by n-3 zeros, a multiple of 210 but not the smallest n-digit one: n=5 prints 21000 instead of 10080.",
+      "test": "0002"
+    }
+  },
+  "packageHash": "90a7bc594438a76b0abbbc45aee0114b49db72cc9506310f5f1f5975751db2e3",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/946996ea9147459282415e0603225781",
+  "reviewer": "devin-audit-session-946996ea9147459282415e0603225781"
+}

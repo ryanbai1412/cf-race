@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "ec1f8add6c5eddbb5b0777ef31dd076d02809274e4a2cbd605957f933380843f",
+  "incorrectAnalysis": {
+    "19534179": {
+      "kind": "wrong-answer",
+      "reason": "Only considers piece length d=l (sum of floor multiples of l) instead of maximizing d*sum(a_i//d) over all d>=l; on 0004 (2 2 / 3 3) prints 4 instead of 6 (d=3).",
+      "test": "0004"
+    },
+    "27553787": {
+      "kind": "wrong-answer",
+      "reason": "Only considers piece length d=l; never tries longer pieces; on 0004 (2 2 / 3 3) prints 4 instead of 6.",
+      "test": "0004"
+    },
+    "27553944": {
+      "kind": "wrong-answer",
+      "reason": "Heuristic: splits stripes in halves while mutating the list during iteration and uses len(b)*min(b), not a search over piece length d; on 0002 (5 3 / 5 5 7 3 1) prints 10 instead of 15.",
+      "test": "0002"
+    },
+    "27554069": {
+      "kind": "wrong-answer",
+      "reason": "Heuristic: fixes piece length to the minimum usable stripe length instead of trying every d>=l; on 0010 prints 112 instead of 136.",
+      "test": "0010"
+    },
+    "36872890": {
+      "kind": "wrong-answer",
+      "reason": "Off-by-one: loops d in range(l, max(a)) and so never tries d=max(a) (and outputs 0 when l==max(a)); on 0004 (2 2 / 3 3) prints 4 instead of 6.",
+      "test": "0004"
+    }
+  },
+  "packageHash": "524af8c89488613b07661bf1ab1bded891e341e22345da8fa185cc95f959c050",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/126f9ac4221e4ce5a780c10a81c7fc8e",
+  "reviewer": "devin-audit-session-126f9ac4221e4ce5a780c10a81c7fc8e"
+}

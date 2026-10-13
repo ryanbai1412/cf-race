@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "af1cfaf9cbbbe1b5984d6122afd08ce8c06e8cf0528a131e1546bf9a9aea3839",
+  "incorrectAnalysis": {
+    "4177010": {
+      "kind": "wrong-answer",
+      "reason": "Checks only that x and y values each appear with multiplicities 3,2,3 and ignores duplicate points / exact point set; 8 points with duplicates (1,0),(2,1),(0,2) satisfy the counts and it prints respectable instead of ugly.",
+      "test": "0007"
+    },
+    "4177576": {
+      "kind": "wrong-answer",
+      "reason": "Checks only 3 distinct x, 3 distinct y and absence of the centre, not that all 8 required points are distinct and present; the duplicate-point test prints respectable instead of ugly.",
+      "test": "0007"
+    },
+    "4180814": {
+      "kind": "wrong-answer",
+      "reason": "Assumes unit spacing: verifies vertex+(0..2) offsets instead of the three distinct x/y values (and picks the min vertex with 'or'), so a valid set with arbitrary coordinates prints ugly instead of respectable.",
+      "test": "0025"
+    },
+    "4187940": {
+      "kind": "wrong-answer",
+      "reason": "Only validates x and y multiplicity patterns 3,2,3, never that points are distinct or that the centre is missing; the duplicate-point test prints respectable instead of ugly.",
+      "test": "0007"
+    },
+    "4189069": {
+      "kind": "wrong-answer",
+      "reason": "Requires equal spacing x2-x1==x1-x0 (not part of the statement) and checks only corner-column/row counts, not distinctness; the duplicate-point test prints respectable instead of ugly.",
+      "test": "0007"
+    }
+  },
+  "packageHash": "eb03ab6beb6dde89862b84744c27661eb94bbda6ee6c8b9f306f7b5491d913a8",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/946996ea9147459282415e0603225781",
+  "reviewer": "devin-audit-session-946996ea9147459282415e0603225781"
+}

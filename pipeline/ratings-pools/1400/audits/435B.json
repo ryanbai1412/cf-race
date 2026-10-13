@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "708e7bc306a8ad1fdea9f4fa497e8fff977c58cd38895beb698471c8b37cd879",
+  "incorrectAnalysis": {
+    "6752853": {
+      "kind": "wrong-answer",
+      "reason": "Greedily chooses the adjacent swap with greatest immediate numeric gain, instead of allocating swaps to bring the largest reachable digit to the next prefix position. On 1234 with 3 swaps it builds 3214, while moving 4 to the front yields the achievable optimum 4123.",
+      "test": "0005"
+    },
+    "6755856": {
+      "kind": "wrong-answer",
+      "reason": "The condition 'if j-i: continue' skips every desired digit at any later position, irrespective of available k, so no nontrivial swap can occur. It leaves 1990 unchanged with k=1 instead of moving the first 9 one place left to obtain 9190.",
+      "test": "0001"
+    },
+    "6756206": {
+      "kind": "wrong-answer",
+      "reason": "Consumes the swap budget in left-to-right insertion-sort order rather than choosing the best achievable prefix. For 1234,k=3 it spends all swaps on early smaller digits and returns 3214 instead of bringing 4 to the front for 4123.",
+      "test": "0005"
+    },
+    "6794843": {
+      "kind": "wrong-answer",
+      "reason": "Chooses the rightmost occurrence of an equal maximum reachable digit, wasting swaps compared with the nearest equal maximum. For 9022,k=2 it spends both swaps moving the last 2 and obtains 9202; moving the nearer 2 leaves one swap to obtain 9220.",
+      "test": "0009"
+    },
+    "6816804": {
+      "kind": "wrong-answer",
+      "reason": "Checks t<k only outside an inner loop which can perform multiple swaps, so that loop overspends the allowed budget. For 9090000078001234,k=6 it emits 9970000008001234, whose independently computed minimum adjacent-swap distance is 7. The legal optimum with 6 swaps is 9907000008001234.",
+      "test": "0004"
+    }
+  },
+  "packageHash": "04e08683a5f31880b482266aca6879e2ee66bd398236601a8a7ac0cfac743f87",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/d95ca10992d04e87be20e568cee77b39",
+  "reviewer": "devin-audit-session-d95ca10992d04e87be20e568cee77b39"
+}

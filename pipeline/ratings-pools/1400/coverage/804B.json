@@ -1,0 +1,58 @@
+{
+ "adversarial": [
+  {
+   "reason": "aabb",
+   "test": "0037"
+  },
+  {
+   "reason": "baba",
+   "test": "0038"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "single a",
+   "test": "0031"
+  },
+  {
+   "reason": "single b",
+   "test": "0032"
+  },
+  {
+   "reason": "ab",
+   "test": "0033"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 2,
+   "boundary": 3,
+   "maxSize": 3,
+   "random": 142
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "string of a/b with length 1..1e6",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_h.P804B.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "1e6 a's then... a^999999 b (modular wrap)",
+   "test": "0034"
+  },
+  {
+   "reason": "1e6 random",
+   "test": "0035"
+  },
+  {
+   "reason": "1e6 b's then a's (answer 0)",
+   "test": "0036"
+  }
+ ],
+ "packageHash": "4a212e8dc42dbad1b560ba862d3f6857d025d81338b24a56638c173f51d64bad",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

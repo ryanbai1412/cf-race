@@ -58,7 +58,7 @@ class P226A:
     def G():
         return [("boundary", "n=1 m=1 answer 0", "1 1\n"), ("boundary", "m=1 large n", "1000000000 1\n"),
                 ("maxSize", "both maximum", "1000000000 1000000000\n"),
-                ("adversarial", "3^n = 1 mod m so answer m-1 wraps (m divides 3^n -> -1 mod m)", "2 9\n"),
+                ("adversarial", "m divides 3^n so 3^n-1 wraps to m-1", "2 9\n"), ("adversarial", "3^n = 1 mod m so answer 0", "2 8\n"),
                 ("adversarial", "m prime near max", "999999999 999999937\n"), ("adversarial", "power of 3 modulus", "5 243\n")]
 
 

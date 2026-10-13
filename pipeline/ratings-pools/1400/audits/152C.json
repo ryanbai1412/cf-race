@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "7d0e6b0a7719a634842723cc43bc15396d4b59a778b592001256880fe953da8b",
+  "incorrectAnalysis": {
+    "15021289": {
+      "kind": "wrong-answer",
+      "reason": "Reduces with float modulo res % (1e9+7): the huge integer product is converted to a double and loses precision; on 0008 (9x23) prints 454718424 instead of 454717784.",
+      "test": "0008"
+    },
+    "21213094": {
+      "kind": "wrong-answer",
+      "reason": "No modulo: multiplies distinct-letter counts per column without reducing mod 1e9+7; on 0007 prints 3125000000 instead of 124999979.",
+      "test": "0007"
+    },
+    "32826732": {
+      "kind": "wrong-answer",
+      "reason": "No modulo: returns the unreduced product of len(set(column)); on 0007 prints 3125000000 instead of 124999979.",
+      "test": "0007"
+    },
+    "4839442": {
+      "kind": "wrong-answer",
+      "reason": "No modulo: prints the exact product of per-column distinct-letter counts instead of reducing mod 1e9+7; on 0007 (5x14) prints 3125000000 instead of 124999979.",
+      "test": "0007"
+    },
+    "54790763": {
+      "kind": "wrong-answer",
+      "reason": "No modulo: unreduced product P *= len(set(group)); on 0007 prints 3125000000 instead of 124999979.",
+      "test": "0007"
+    }
+  },
+  "packageHash": "f7bfc82a3b02fe278b6a1da326f74a49196e2fb86391198691a5c87c91fa17df",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/126f9ac4221e4ce5a780c10a81c7fc8e",
+  "reviewer": "devin-audit-session-126f9ac4221e4ce5a780c10a81c7fc8e"
+}

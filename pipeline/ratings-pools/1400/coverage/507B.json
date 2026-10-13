@@ -1,0 +1,54 @@
+{
+ "adversarial": [
+  {
+   "reason": "distance just over k diameters",
+   "test": "0042"
+  },
+  {
+   "reason": "integer-exact 3-4-5 multiple",
+   "test": "0043"
+  },
+  {
+   "reason": "squared distance overflows 32-bit",
+   "test": "0044"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "same point",
+   "test": "0038"
+  },
+  {
+   "reason": "exactly one diameter",
+   "test": "0039"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 3,
+   "boundary": 2,
+   "maxSize": 2,
+   "random": 143
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "one line r x y x' y'; 1<=r<=1e5, |coords|<=1e5",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_c.P507B.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "r=1, opposite corners (distance ~282843)",
+   "test": "0040"
+  },
+  {
+   "reason": "max r tiny distance",
+   "test": "0041"
+  }
+ ],
+ "packageHash": "efb7c9449fa79bacb42a058270441286a2ab31d5e1cb28e7ddd563e74f5da1e7",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

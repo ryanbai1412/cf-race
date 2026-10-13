@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "93729677e068a2f92392e6c85b61a74e0c8b68617dbcd0b119710d636298fe08",
+  "incorrectAnalysis": {
+    "191418646": {
+      "kind": "wrong-answer",
+      "reason": "Left-edge branch for x<=-2 tests y in range(-x, abs(x)), which is empty, so points on the left edge (e.g. (-97,0)) match no branch and nothing is printed; expected 387.",
+      "test": "0020"
+    },
+    "193191838": {
+      "kind": "wrong-answer",
+      "reason": "Quadrant classifier never assigns the bottom-edge segment (quad 4) and defaults to the left-edge formula, so (-7,-13) on the bottom edge yields 27 instead of 52.",
+      "test": "0007"
+    },
+    "200117074": {
+      "kind": "wrong-answer",
+      "reason": "Left-edge condition uses the constant y>=4 instead of y>=x (typo), so (-1,-1) falls through to the else branch and prints 0 instead of 3.",
+      "test": "0004"
+    },
+    "206358102": {
+      "kind": "wrong-answer",
+      "reason": "In quadrant IV it returns 4*|y|+1 for points with x<|y|+1, but the bottom edge segment is reached on turn 4*|y|: (37,-100) prints 401 instead of 400.",
+      "test": "0008"
+    },
+    "211700308": {
+      "kind": "wrong-answer",
+      "reason": "Assigns the diagonal x==y<0 (bottom-left corner) to the bottom edge, printing -4y, but that corner ends the left-edge segment reached on turn 4|x|-1: (-1,-1) prints 4 instead of 3.",
+      "test": "0004"
+    }
+  },
+  "packageHash": "1c495b3b7a7e2b36735d2a75e45c0fde255e731a659f6635952611d746e43ada",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/946996ea9147459282415e0603225781",
+  "reviewer": "devin-audit-session-946996ea9147459282415e0603225781"
+}

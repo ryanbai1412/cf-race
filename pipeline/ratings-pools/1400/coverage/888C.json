@@ -1,0 +1,54 @@
+{
+ "adversarial": [
+  {
+   "reason": "best char limited by tail gap",
+   "test": "0048"
+  },
+  {
+   "reason": "alphabet once",
+   "test": "0049"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "single char",
+   "test": "0043"
+  },
+  {
+   "reason": "two distinct",
+   "test": "0044"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 2,
+   "boundary": 2,
+   "maxSize": 3,
+   "random": 143
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "1<=|s|<=1e5 lowercase",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_h.P888C.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "1e5 random 26 letters",
+   "test": "0045"
+  },
+  {
+   "reason": "1e5 same letter",
+   "test": "0046"
+  },
+  {
+   "reason": "1e5 one 'a' in middle among b's",
+   "test": "0047"
+  }
+ ],
+ "packageHash": "6afaec0f805532cd2af668f64d69f015ad33769362b38e3fa612a5a0049537b8",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

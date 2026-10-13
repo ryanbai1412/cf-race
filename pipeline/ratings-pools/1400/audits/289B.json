@@ -1,0 +1,48 @@
+{
+ "approved": true,
+ "checks": {
+  "algorithmicallyWrong": true,
+  "coverage": true,
+  "deterministicGeneration": true,
+  "fiveAcceptedFiveIncorrect": true,
+  "fullTests": true,
+  "generatedBasis": true,
+  "hashes": true,
+  "independentOracle": true,
+  "inputConstraints": true,
+  "noSpecialChecker": true,
+  "sourceAttribution": true
+ },
+ "evidenceHash": "1772a873273638f16d176ac26de3b0a57281c7b07d23b812f5fcb4c488345491",
+ "incorrectAnalysis": {
+  "18764386": {
+   "kind": "wrong-answer",
+   "reason": "Chooses the element nearest to the mean as target rather than the median; on 0003 the nearest-to-mean element 7 costs 108 instead of the optimal 104.",
+   "test": "0003"
+  },
+  "3746791": {
+   "kind": "complexity",
+   "reason": "Brute-forces every target 0..10000 summing |a_i - j| over all n*m cells: O(n*m*10^4) up to 1e8 Python ops; on 0016 (53x91) it needs ~4.8e7 ops and ran 2.7s CPU in my sandbox vs 2s limit (max tests 100x100 also time out).",
+   "test": "0016"
+  },
+  "4039763": {
+   "kind": "wrong-answer",
+   "reason": "Targets the residue-class value nearest the arithmetic mean instead of the median; L1 cost is minimized at the median. On 0003 (5 7 1 2 5 100, d=1) mean ~20 gives 160, median gives 104.",
+   "test": "0003"
+  },
+  "4803409": {
+   "kind": "wrong-answer",
+   "reason": "Uses rounded mean of a_i//d as target instead of the median, which does not minimize the sum of absolute deviations; 0003 gives 160 instead of 104.",
+   "test": "0003"
+  },
+  "7253300": {
+   "kind": "wrong-answer",
+   "reason": "Feasibility check compares only a[0][0] % d with the maximum residue over all cells, so mixed residues pass whenever the first cell has the max residue (and it floors non-multiple distances); 0002 (6 7, d=7: residues 6 and 0) prints 0 instead of -1.",
+   "test": "0002"
+  }
+ },
+ "packageHash": "9d887a9713d895c4f13d600cbd95d518645d7f8a1afb84b6bb7a951299df73ff",
+ "qualificationBasis": "generated",
+ "reviewUrl": "https://staging.itsdev.in/sessions/f009e0db32da4a20aa8bf62ebb1a486e",
+ "reviewer": "devin-audit-session-f009e0db32da4a20aa8bf62ebb1a486e"
+}

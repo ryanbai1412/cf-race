@@ -1,0 +1,50 @@
+{
+ "adversarial": [
+  {
+   "reason": "odd target requiring overshoot",
+   "test": "0056"
+  },
+  {
+   "reason": "9999 to 10000",
+   "test": "0057"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "n=1 m=2",
+   "test": "0052"
+  },
+  {
+   "reason": "n=2 m=1",
+   "test": "0053"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 2,
+   "boundary": 2,
+   "maxSize": 2,
+   "random": 144
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "one line n m distinct; 1<=n,m<=1e4",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_c.P520B.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "n=1 m=1e4",
+   "test": "0054"
+  },
+  {
+   "reason": "n=1e4 m=1",
+   "test": "0055"
+  }
+ ],
+ "packageHash": "bae25357a8c9074a122aa868269341d8ee231dc1782af97d556ff32dcc2b842c",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

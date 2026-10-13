@@ -1,0 +1,50 @@
+{
+ "adversarial": [
+  {
+   "reason": "equal values different forms",
+   "test": "0034"
+  },
+  {
+   "reason": "integer vs fraction collisions",
+   "test": "0035"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "m=1 minimal",
+   "test": "0030"
+  },
+  {
+   "reason": "m=1 maximal digits",
+   "test": "0031"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 2,
+   "boundary": 2,
+   "maxSize": 2,
+   "random": 144
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "m in [1,2e5]; each line (a+b)/c with positive integers of up to two digits",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_h.P958D1.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "m=2e5 random",
+   "test": "0032"
+  },
+  {
+   "reason": "m=2e5 all identical",
+   "test": "0033"
+  }
+ ],
+ "packageHash": "3e70f0ebaa21f7e4befc1784f94baf979145e9c901724ac6e36975887c58166d",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}
