@@ -1,0 +1,183 @@
+{
+  "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
+  "constraints": {
+    "checker": "exact score token; no custom checker, floats, interaction, file I/O or multiple valid scores",
+    "distances": [
+      1,
+      2000000000
+    ],
+    "inputLayout": "Four lines [n], [n distances], [m], [m distances], as in all supplied official tests and samples; original prose says the integers follow each count rather than explicitly requiring the array line. Authored suites preserve this conventional layout.",
+    "output": "one a:b token; maximize a-b then a",
+    "teamSizes": [
+      1,
+      200000
+    ],
+    "threePointRule": "distance > d",
+    "threshold": "any nonnegative integer",
+    "twoPointRule": "distance <= d",
+    "uniqueOutput": true
+  },
+  "datasetDocumentation": [
+    {
+      "bodySha256": "b9971cff0a797603b79d78f49129830b0a1a4b99d9860e392fba126a4ef4dc69",
+      "readBeforeFurtherRequests": true,
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md"
+    },
+    {
+      "bodySha256": "8352430bd0fbc94cfe8762a9278c18a8494fca567a8aaf29a9e353c3f4627687",
+      "readBeforeFurtherRequests": true,
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md"
+    }
+  ],
+  "id": "493C",
+  "independentlyValidated": false,
+  "inputBinding": {
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "canonicalDigest": "pool_contract.digest",
+    "file": "inputs/493C.json",
+    "fileBytes": 59916,
+    "fileSha256": "e7a36c2ee1bea303dcd3bea6833fef15c12ebf46114cb871634c3543578cc5d7",
+    "fullUpstreamLfsVerification": "Provided archive attests extraction from the byte-hash-verified full shard; this child verified its file and canonical row, not redownloaded the shard.",
+    "officialPairsHash": "8640a804b348e146b02cb87f81ad85a983510f12cdee370ef8280e19fb889850",
+    "provenance": {
+      "bytes": 337144355,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00008-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "f138b6d3ff6b7ba5de9ace08eb34146ca3ca19d68d2adbb92b239a2721ce2c4d",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00008-of-00011.parquet"
+    },
+    "samplePairsHash": "901a4ce7db432ed36a330937e3bc5f2f4c7a477cc4ec63949a9cb91575961f6b",
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "sourceRowHash": "b2a8c9323060152d7ca64a7bbf04dee328f0510d822b5af8d06f82b1aa648274"
+  },
+  "localChecks": {
+    "astSyntax": null,
+    "gitDiffCheck": null,
+    "status": "pending initial push",
+    "unittest": null
+  },
+  "oracle": {
+    "authoredPairs": 160,
+    "denseRandomCases": 500,
+    "efficient": "Sort both arrays and merge all equal-distance groups. Start at d=0 with (3n,3m); subtract one per throw when d reaches its distance, then lexicographically maximize (a-b,a). Includes all-two endpoint. O(n log n+m log m) time and O(n+m) space.",
+    "independentBrute": "Enumerate every d=0..3 on every ordered array of length1..4 over {1,2,3}; count each throw literally without prefix counts or sorted sweeps. Also 500 fixed-seed dense cases over d=0..25, 200 sparse cases at all change points, and every authored pair including maxima.",
+    "maxDimensionPairs": 4,
+    "observedBruteAssertions": null,
+    "plannedBruteAssertions": 15260,
+    "smallExhaustiveCases": 14400,
+    "sparseRandomCases": 200
+  },
+  "ownedPaths": [
+    "pipeline/ratings-pools/1600/recipe_493C.py",
+    "pipeline/ratings-pools/1600/test_recipe_493C.py",
+    "pipeline/ratings-pools/1600/recipe-reports/493C.json",
+    "pipeline/ratings-pools/1600/statement-sources/493C.recipe-author.original.html"
+  ],
+  "pins": {
+    "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+    "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+  },
+  "qualified": false,
+  "role": "recipe-author",
+  "schemaVersion": 1,
+  "scope": "Only 493C additive recipe, functional tests, source copy and author report; not an audit/signoff or validated-pool increment.",
+  "selectedSourceMotivation": [
+    {
+      "execution": "not executed; no qualification witness claimed",
+      "lines": "12-22,47-54",
+      "sourceSha256": "3f86f907eb8ba1218042307067b015b1101d5ee74e2a21d170dd81dcc018a10a",
+      "staticObservation": "Initial incumbent 0:0 may remain on negative optima; test n<m. Also pop(0) slowness is not an algorithmic proof.",
+      "submissionId": "8966609"
+    },
+    {
+      "execution": "not executed; no qualification witness claimed",
+      "lines": "14-30",
+      "sourceSha256": "9a685f3bba5b536745717a372a0051405c426d4e16e93e47074f85ef47d6109e",
+      "staticObservation": "Array counts propagate only adjacent occupied distances and below the minimum; sparse gaps motivate adversarial tests.",
+      "submissionId": "8987486"
+    },
+    {
+      "execution": "not executed; no qualification witness claimed",
+      "lines": "13-31",
+      "sourceSha256": "a500e60e594aafb916a3ae71c877936aedf783d49f09a3340dd56e4888c0f9c7",
+      "staticObservation": "Ternary-search assumption is unsuitable for a non-unimodal threshold advantage.",
+      "submissionId": "8990295"
+    },
+    {
+      "execution": "not executed; no qualification witness claimed",
+      "lines": "13-47",
+      "sourceSha256": "6c68655bc4b8d44edaa97a45a670e6d8d3a43aa40f7ad90d5ba3720f2b78eec8",
+      "staticObservation": "Ternary search over compressed thresholds can miss separated peaks; long plateau decrement also risks performance, not proof.",
+      "submissionId": "8991527"
+    },
+    {
+      "execution": "not executed; no qualification witness claimed",
+      "lines": "57-61",
+      "sourceSha256": "2486d01f1d89b317374674aa03db021fe5f70dcfa9c1c6ad16dd75a28de7784c",
+      "staticObservation": "Starts at all-two and updates only strict improvement, so tied higher first scores need coverage.",
+      "submissionId": "9203126"
+    },
+    {
+      "execution": "not executed; no qualification witness claimed",
+      "lines": "13-32,36-41",
+      "sourceSha256": "03cfebeb5c5909bd7e3eaf3a1f29e6774a0004d5c82515afa1362f2fc8000bd7",
+      "staticObservation": "Sweep does not sort the input; unsorted cases motivate tests.",
+      "submissionId": "9432452"
+    },
+    {
+      "execution": "not executed; no qualification witness claimed",
+      "lines": "10-16",
+      "sourceSha256": "351ea2d90823edcc0361e8b8f7c53aded62f280678f1f3899bca2880197873e4",
+      "staticObservation": "Only evaluates individual first-team positions; duplicate group atomicity and d=0/second-team-only candidates need coverage.",
+      "submissionId": "11828510"
+    }
+  ],
+  "sourceSafety": "Read-only source inspection; no downloaded public program compilation/execution, no sandbox runs, APIs, credentials or proxy bypass. No remote database/storage changes.",
+  "statementAttestation": {
+    "bodyBytes": 59363,
+    "bodySha256": "ddfa566486b922a7112420ff1fd2ba804b1f8f8b1a3fc21ef8138de9efa88a7e",
+    "copy": "statement-sources/493C.recipe-author.original.html",
+    "copyByteRange": {
+      "endExclusive": 40424,
+      "startInclusive": 37099
+    },
+    "copyIsUnmodifiedBodySlice": true,
+    "copySha256": "bb39712bbf3fdf7aec34c277dc20f81ddd42b20078f19e43961c9980e501cd00",
+    "correctionsApplied": false,
+    "exactSourceCorrectionProposals": [
+      {
+        "attestedHtml": "2·10<sup class=\"upper-index\">5</sup>",
+        "field": "input_format",
+        "new": "2·10<sup>5</sup>)",
+        "occurrences": 2,
+        "old": "2·105)"
+      },
+      {
+        "attestedHtml": "2·10<sup class=\"upper-index\">9</sup>",
+        "field": "input_format",
+        "new": "2·10<sup>9</sup>)",
+        "occurrences": 2,
+        "old": "2·109)"
+      }
+    ],
+    "httpMethod": "public GET",
+    "locale": "en",
+    "originalAttribution": "Codeforces Round 281 (Div. 2), problem C, Vasya and Basketball; public English mirror codeforces.me; pinned data open-r1/codeforces.",
+    "requiredImages": "None; description, constraints, scores and samples are all present as HTML text.",
+    "url": "https://codeforces.me/problemset/problem/493/C?locale=en"
+  },
+  "status": "authored-checks-pending",
+  "upstreamReview": {
+    "advertisedOpenR1GeneratedPairs": 11,
+    "bytesPreserved": true,
+    "declaredOfficialTestsetSize": 35,
+    "failedPairs": null,
+    "officialTestsComplete": false,
+    "openR1GeneratedPairsSupplied": false,
+    "providedOfficialPairs": 26,
+    "qualificationLimitation": "26 of 35 original official pairs supplied, plus 11 advertised generated pairs absent from attachment. Generated-basis qualification requires parent 5 actual AC/5 genuine algorithmic WA, a separate sixth accepted oracle and a later different-agent audit.",
+    "samples": 2,
+    "status": "pending local checks after initial push"
+  }
+}
