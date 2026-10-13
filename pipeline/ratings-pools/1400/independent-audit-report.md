@@ -2,10 +2,10 @@
 
 Reviewer: `devin-independent-auditor-session-4faf13bf1be94c698c44ee6503b27b8c` (https://staging.itsdev.in/sessions/4faf13bf1be94c698c44ee6503b27b8c)
 
-**Verified: 12 of 28 candidates** (125A, 270B, 277A, 279A, 315A, 334B, 358A, 388A, 38C, 41B, 435B, 548B). The target is 100, so it is **not reached**. The builder supplied 28 execution-passed packages (v2 bundle), not 100; the 9 initial archives are byte-identical to v1, and the 19 new ones were audited from scratch.
+**Verified: 11 of 28 candidates** (270B, 277A, 279A, 315A, 334B, 358A, 388A, 38C, 41B, 435B, 548B). The target is 100, so it is **not reached**. The builder supplied 28 execution-passed packages (v2 bundle), not 100; the 9 initial archives are byte-identical to v1, and the 19 new ones were audited from scratch.
 Builder child audits were read for cross-checking only; none of their approvals are inherited. Disagreements are listed below.
 
-**Correction:** this report supersedes the 13/28 audit (commit `a1ac5783`, JSON SHA256 `12790623ac6e9579452775da04113cec478872a052472e68ceaafa4a441d0f60`). 197B revoked: counted incorrect sources 8471901 (0 vs 0/1) and 6327041 (unreduced fraction) have only presentation-only failures on every package test, so they are not algorithmic kills. 197B package/evidence bytes are unchanged; only the verdict changed. The same check on the other 12 validated packages found no presentation-only counted kill. Superseded 197B audit SHA256 `f8961310a3ff83f18f6224c188a8490f8b4d254d6aaa2311bea0697a943430c5`, auditHash `99da7ad0a64f7eeec85975e941ab01edebd4d28eb332f9d2929cba9fc0af0944`.
+**Correction:** this report supersedes the 12/28 audit (commit `86a80c09`, JSON SHA256 `f58f9a444d90f084f590a9f01a36ba74d45f8fcf10a9967d1d12224fe5b14163`). 125A revoked: counted incorrect source 42101202 always prints the correct rounded total inches; its 7 WA outputs (all n%36==35) only fail to carry 12 inches into a foot, the same quantity in non-canonical form, so it is presentation-only under the rule applied to 197B 6327041. 125A drops to 4/5 genuine kills and is held. Package/evidence bytes are unchanged; only the verdict changed. The earlier 197B revocation (13/28 -> 12/28) is kept below and in history. Superseded 125A audit SHA256 `38d08811b28b0104472dfbf77ecc9fad2b2b4a6b91b8763f71cadcf4b8d1ed65`, auditHash `73d11041e9fdda74ec412a1b7bbe31007ce798254ece1f789a469188f458d2e1`. Earlier: 13/28 audit `a1ac5783` (`12790623ac6e9579452775da04113cec478872a052472e68ceaafa4a441d0f60`); superseded 197B audit SHA256 `f8961310a3ff83f18f6224c188a8490f8b4d254d6aaa2311bea0697a943430c5`, auditHash `99da7ad0a64f7eeec85975e941ab01edebd4d28eb332f9d2929cba9fc0af0944`.
 
 - Builder branch `devin/1791845646-rated-1400` @ `556e9047951a6774775812684c3a5cb516789f3d`
 - Bundle SHA256 `05f8c1e2b4e896b45be0eb85cc02cab9e10b0aeac0f48f59164138f274de13a7`: verified=True
@@ -18,7 +18,7 @@ Builder child audits were read for cross-checking only; none of their approvals 
 | Problem | Verdict | Tests (official/open-r1 gen/authored) | Accepted reproduced | Counted WA kills | Extra CF-WA killed | Extra CF-OK passing | Issues |
 |---|---|---|---|---|---|---|---|
 | 107A | **NOT_VALIDATED_HELD** | 179 (16 partial/13/150) | 5/5 | 2/5 | 15/15 | 11/14 | only 2/5 incorrect sources are counted WA algorithmic kills |
-| 125A | **VALIDATED** | 172 (22/0/150) | 5/5 | 5/5 | 33/33 | 20/20 | none |
+| 125A | **NOT_VALIDATED_HELD** | 172 (22/0/150) | 5/5 | 4/5 | 33/33 | 20/20 | only 4/5 incorrect sources are counted WA algorithmic kills |
 | 152C | **REJECTED** | 178 (16 partial/12/150) | 5/5 | 5/5 | 37/37 | 18/20 | accepted contradiction: CF-OK source(s) 19459348(RE@0001) fail the package; cause: CRLF bytes reach Python input(); passes on LF-normalized tests |
 | 175A | **REJECTED** | 284 (134/0/150) | 5/5 | 4/5 | 36/36 | 5/18 | accepted contradiction: CF-OK source(s) 37495712(RE@0001), 124238640(RE@0001), 27107190(RE@0001), 196162162(RE@0001), 55006515(RE@0001), 35154521(RE@0001), 78795916(RE@0001), 29819107(RE@0001), 44186543(RE@0001), 46821841(RE@0001), 29784607(RE@0001), 34276976(RE@0001) fail the package; cause: CRLF bytes reach Python input(); passes on LF-normalized tests; only 4/5 incorrect sources are counted WA algorithmic kills |
 | 197B | **NOT_VALIDATED_HELD** | 201 (42 partial/9/150) | 5/5 | 3/5 | 49/49 | 16/18 | only 3/5 incorrect sources are counted WA algorithmic kills |
@@ -48,6 +48,7 @@ Builder child audits were read for cross-checking only; none of their approvals 
 
 ## Disagreements with builder child audits
 
+- 125A: child 946996ea approved; this audit NOT_VALIDATED_HELD (only 4/5 incorrect sources are counted WA algorithmic kills)
 - 152C: child 126f9ac4 approved; this audit REJECTED (accepted contradiction: CF-OK source(s) 19459348(RE@0001) fail the package; cause: CRLF bytes reach Python input(); passes on LF-normalized tests)
 - 198B: child 946996ea approved; this audit REJECTED (only 3/5 incorrect sources are counted WA algorithmic kills; coverage gap: CF-WRONG_ANSWER source(s) 11382563 pass the full package)
 - 233B: child d95ca109 approved; this audit NOT_VALIDATED_HELD (only 3/5 incorrect sources are counted WA algorithmic kills)
@@ -96,15 +97,17 @@ Builder child audits were read for cross-checking only; none of their approvals 
 | [30302698](https://codeforces.com/contest/107/submission/30302698) | Python 3 | WRONG_ANSWER | WA | WA | 0011 | True | WA@0011 | - | True | wrong-answer: Treats every in-degree-0 house as a tank, including houses with no outgoing pipe; n=1000,p=0 prints 1000 pairs with diameter inf instead of 0. |
 | [37558696](https://codeforces.com/contest/107/submission/37558696) | Python 3 | WRONG_ANSWER | WA | WA | 0001 | True | WA@0001 | - | False | : Presentation-only: the tank/tap pairs are correct but the leading count line is missing. Not counted, by the same rule applied to 197B. |
 
-### 125A: VALIDATED
+### 125A: NOT_VALIDATED_HELD
 
 - packageHash `590e236e38caee6ab2bd6a116d04ab2b36bb8264505c0e7f9ec6cc1467fcc99f`
 - evidenceHash `d2f827d4f7ee1623c8f1975dfb417dffca4bd7af1dd5069201aeda5579424daa`
-- auditHash `73d11041e9fdda74ec412a1b7bbe31007ce798254ece1f789a469188f458d2e1`
+- auditHash `da376cc4c721df71f793164459c40a868a3ee67f2b7b132b8e3855161b527a8c`
 - archive SHA256 `0cdd9980ca3b6c1c3f3cffec91d83afd2595abeed3a3bc2c7ed87a42b668fb66`
-- contract gate: {'auditHash': '73d11041e9fdda74ec412a1b7bbe31007ce798254ece1f789a469188f458d2e1', 'passed': True}
+- contract gate: None
 - CRLF-input tests: 22; independent reference: tests=174, invalid=0, mismatches=0
-- issues: none
+- issues: only 4/5 incorrect sources are counted WA algorithmic kills
+- semantic check (LF, numeric fraction comparison): 42101202: 7 token-WA, 0 numerically wrong
+- replacement WA candidates (executed here, need builder revalidation and re-audit): 210509999@0021, 219225771@0021, 67135490@0021, 149945129@0021, 147008686@0001, 149945330@0021, 64165010@0021, 144606347@0021
 
 Source-level evidence for counted incorrect sources (fault line, smallest valid LF witness, auditor reference answer vs source output, sandbox output hash):
 
@@ -124,7 +127,7 @@ Source-level evidence for counted incorrect sources (fault line, smallest valid 
 | [814501](https://codeforces.com/contest/125/submission/814501) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
 | [814503](https://codeforces.com/contest/125/submission/814503) | GNU C++ | OK | AC | AC | None | True | AC@None | - | True |  |
 | [22026877](https://codeforces.com/contest/125/submission/22026877) | Python 3 | WRONG_ANSWER | WA | WA | 0004 | True | WA@0004 | - | True | wrong-answer: Rounds up with ceil(n/3); n=1 gives 1 inch but the statement rounds 1 cm to 0 inches. |
-| [42101202](https://codeforces.com/contest/125/submission/42101202) | Python 3 | WRONG_ANSWER | WA | WA | 0021 | True | WA@0021 | - | True | wrong-answer: Converts to feet before rounding inches; n=35 prints 0 12 instead of carrying to 1 0. |
+| [42101202](https://codeforces.com/contest/125/submission/42101202) | Python 3 | WRONG_ANSWER | WA | WA | 0021 | True | WA@0021 | - | False | : Presentation-only: the rounded total is always right ((n%36)//3 plus a round-up when (n%36)%3==2 equals (n+1)//3 - 12*(n//36)), but when n%36==35 it prints "a 12" without carrying into feet. All 7 WA tests are that case with the same total inches (sem125.json; outputs reproduced from the recorded LF-run hashes, no new execution). Non-canonical form of the same quantity, excluded like 197B 6327041. |
 | [42101236](https://codeforces.com/contest/125/submission/42101236) | Python 3 | WRONG_ANSWER | WA | WA | 0003 | True | WA@0003 | - | True | wrong-answer: Rounds a remainder of 18 cm or more up to a whole foot; n=24 prints 1 0 instead of 0 8. |
 | [49637309](https://codeforces.com/contest/125/submission/49637309) | Python 3 | WRONG_ANSWER | WA | WA | 0001 | True | WA@0001 | - | True | wrong-answer: Source print(n//36+(n%36)/3) adds the leftover inches straight onto the feet count, mixing units, and never rounds. Witness on the recorded failedTest 0001: n=42 (reference answer 1 2) prints 3.0. On test 0073, n=9 (reference answer 0 3), it prints the same bytes 3.0 (identical outputHash 66e4c000f2000eb1...). Two different correct answers give the same output, so no output format could encode the correct answer; the defect is numeric, not presentation. Also wrong on test 0002: n=5 should round to 0 2, but it prints 1.6666666666666667. |
 | [49637385](https://codeforces.com/contest/125/submission/49637385) | Python 3 | WRONG_ANSWER | WA | WA | 0004 | True | WA@0004 | - | True | wrong-answer: Rounds inches with ceil; n=1 prints 0 1 instead of 0 0. |

@@ -540,7 +540,7 @@
     },
     "125A": {
       "archiveSha256": "0cdd9980ca3b6c1c3f3cffec91d83afd2595abeed3a3bc2c7ed87a42b668fb66",
-      "auditHash": "73d11041e9fdda74ec412a1b7bbe31007ce798254ece1f789a469188f458d2e1",
+      "auditHash": "da376cc4c721df71f793164459c40a868a3ee67f2b7b132b8e3855161b527a8c",
       "authoredPairs": 150,
       "builderChildAudit": {
         "decision": "approve",
@@ -627,17 +627,174 @@
         }
       },
       "codeforcesRating": 1400,
-      "contractGate": {
-        "auditHash": "73d11041e9fdda74ec412a1b7bbe31007ce798254ece1f789a469188f458d2e1",
-        "passed": true
-      },
+      "contractGate": null,
       "evidenceHash": "d2f827d4f7ee1623c8f1975dfb417dffca4bd7af1dd5069201aeda5579424daa",
-      "issues": [],
+      "issues": [
+        "only 4/5 incorrect sources are counted WA algorithmic kills"
+      ],
       "memoryLimitMb": 256,
       "officialComplete": true,
       "officialPairs": 22,
       "openR1GeneratedPairs": 0,
       "packageHash": "590e236e38caee6ab2bd6a116d04ab2b36bb8264505c0e7f9ec6cc1467fcc99f",
+      "replacementCandidatesExecuted": [
+        {
+          "cfVerdict": "WRONG_ANSWER",
+          "failedTest": "0021",
+          "language": "Python 3",
+          "shard": "train-00003-of-00036.parquet",
+          "sourceHash": "639a07442086b233f48a66f78c4abb00bd8ddd2c961982fe024d087c76939051",
+          "submissionId": "210509999",
+          "verdict": "WA"
+        },
+        {
+          "cfVerdict": "WRONG_ANSWER",
+          "failedTest": "0021",
+          "language": "Python 3",
+          "shard": "train-00003-of-00036.parquet",
+          "sourceHash": "4b37a9522dfcbe4b976d15f450c1c8d674a8005ca432f064593a11b7e48edc1f",
+          "submissionId": "219225771",
+          "verdict": "WA"
+        },
+        {
+          "cfVerdict": "WRONG_ANSWER",
+          "failedTest": "0021",
+          "language": "Python 3",
+          "shard": "train-00003-of-00036.parquet",
+          "sourceHash": "8dc5a8db16dae61220d094831dfe6c7072dcf45099422569e62a8332bb21d1c6",
+          "submissionId": "67135490",
+          "verdict": "WA"
+        },
+        {
+          "cfVerdict": "WRONG_ANSWER",
+          "failedTest": "0021",
+          "language": "Python 3",
+          "shard": "train-00003-of-00036.parquet",
+          "sourceHash": "e3684a4fe55db32acfccbf14ec310b96507a7ed670f179aa1e889836396c2744",
+          "submissionId": "149945129",
+          "verdict": "WA"
+        },
+        {
+          "cfVerdict": "WRONG_ANSWER",
+          "failedTest": "0001",
+          "language": "Python 3",
+          "shard": "train-00003-of-00036.parquet",
+          "sourceHash": "c01d0252b9d51d8db7e1b3d23597e7c96643f6eec2c29ae7940a8c6cd9ef54ab",
+          "submissionId": "147008686",
+          "verdict": "WA"
+        },
+        {
+          "cfVerdict": "WRONG_ANSWER",
+          "failedTest": "0021",
+          "language": "Python 3",
+          "shard": "train-00003-of-00036.parquet",
+          "sourceHash": "cc191259acd85eed5111ad47ada21db817806053126017e72f86e6d93cdccadb",
+          "submissionId": "149945330",
+          "verdict": "WA"
+        },
+        {
+          "cfVerdict": "WRONG_ANSWER",
+          "failedTest": "0021",
+          "language": "Python 3",
+          "shard": "train-00003-of-00036.parquet",
+          "sourceHash": "3ef05be40f5676050f341357b2b89a35df2637a01e1438fd312d4e86043ffb1e",
+          "submissionId": "64165010",
+          "verdict": "WA"
+        },
+        {
+          "cfVerdict": "WRONG_ANSWER",
+          "failedTest": "0021",
+          "language": "Python 3",
+          "shard": "train-00003-of-00036.parquet",
+          "sourceHash": "fefc30bb07c6b7ab8d7ca9f4e65cf2a9c5b245094bd8cab08b0f0d3c5e4c6d5b",
+          "submissionId": "144606347",
+          "verdict": "WA"
+        }
+      ],
+      "replacementNote": "125A needs one more genuine algorithmic wrong source (wrong rounded total inches). Swapping one in changes the package/evidence bytes, so it needs a builder rebuild and a fresh independent audit; no signoff carries over.",
+      "semanticCheck": {
+        "detail": {
+          "conclusion": "Presentation-only. (n%36)//3 + [(n%36)%3==2] equals (n+1)//3 - 12*(n//36), so 12*a+b == (n+1)//3 for every n: the rounded total is always right. All 7 WA tests have n%36==35 and print \"a 12\" instead of carrying to \"a+1 0\". Same quantity, non-canonical representation; excluded like 197B 6327041 (2/4 vs 1/2).",
+          "method": "Existing bounded LF rerun (rerun/125A-42101202.json, 172 tests, no new execution). An auditor-written arithmetic model of the 7-line source reproduces the recorded outputHash on every test, so the exact outputs are known without re-executing; each WA output is then compared as total inches 12*a+b.",
+          "outputHashMismatches": [],
+          "sid": "42101202",
+          "testsModelled": 172,
+          "waTests": [
+            {
+              "expected": "1 0",
+              "expectedTotalInches": 12,
+              "n": 35,
+              "outputHash": "c84f1f0f270a4c124ffc1da9f2dc10733c47be495779ee61ec46e11476287e2f",
+              "sourceOutput": "0 12",
+              "sourceTotalInches": 12,
+              "test": "0021"
+            },
+            {
+              "expected": "2 0",
+              "expectedTotalInches": 24,
+              "n": 71,
+              "outputHash": "8f4f6b55e3c480251f7579fdb93faa642d7ba89292181e94fdd82fc879f29123",
+              "sourceOutput": "1 12",
+              "sourceTotalInches": 24,
+              "test": "0022"
+            },
+            {
+              "expected": "1 0",
+              "expectedTotalInches": 12,
+              "n": 35,
+              "outputHash": "c84f1f0f270a4c124ffc1da9f2dc10733c47be495779ee61ec46e11476287e2f",
+              "sourceOutput": "0 12",
+              "sourceTotalInches": 12,
+              "test": "0026"
+            },
+            {
+              "expected": "14 0",
+              "expectedTotalInches": 168,
+              "n": 503,
+              "outputHash": "17c76330d349601e904bba7eded60d96197d2300b4a93fd19f00f002ea75ab19",
+              "sourceOutput": "13 12",
+              "sourceTotalInches": 168,
+              "test": "0077"
+            },
+            {
+              "expected": "263 0",
+              "expectedTotalInches": 3156,
+              "n": 9467,
+              "outputHash": "dd9e9655244588bac124ab770178a6047ba8b5f60338085b498d3bd880a42f9d",
+              "sourceOutput": "262 12",
+              "sourceTotalInches": 3156,
+              "test": "0126"
+            },
+            {
+              "expected": "67 0",
+              "expectedTotalInches": 804,
+              "n": 2411,
+              "outputHash": "9928ba2a9b8dd07a6fff94b2b04e47eb5b85451d343562d6a05191cda52c52ef",
+              "sourceOutput": "66 12",
+              "sourceTotalInches": 804,
+              "test": "0168"
+            },
+            {
+              "expected": "4 0",
+              "expectedTotalInches": 48,
+              "n": 143,
+              "outputHash": "9c9bb755543a9bfb833dc1bb863c8cd2a4ebf3ce82d27ebf72fa8981191d4cab",
+              "sourceOutput": "3 12",
+              "sourceTotalInches": 48,
+              "test": "0170"
+            }
+          ],
+          "waWithWrongTotalInches": 0
+        },
+        "method": "Existing bounded LF rerun (rerun/125A-42101202.json, 172 tests, no new execution). An auditor-written arithmetic model of the 7-line source reproduces the recorded outputHash on every test, so the exact outputs are known without re-executing; each WA output is then compared as total inches 12*a+b.",
+        "selectedIncorrect": [
+          {
+            "semanticWA": 0,
+            "sid": "42101202",
+            "tokenWA": 7
+          }
+        ]
+      },
       "submissions": [
         {
           "builderVerdict": "AC",
@@ -833,11 +990,11 @@
         },
         {
           "builderVerdict": "WA",
-          "countedByAudit": true,
+          "countedByAudit": false,
           "expected": "WRONG_ANSWER",
           "failedTest": "0021",
           "failedTestOutput": null,
-          "kind": "wrong-answer",
+          "kind": null,
           "language": "Python 3",
           "lfNormalizedRerun": {
             "crlfFailed": "0021",
@@ -849,7 +1006,7 @@
           },
           "mutantChecks": null,
           "perTestOutputHashesMatch": true,
-          "reason": "Converts to feet before rounding inches; n=35 prints 0 12 instead of carrying to 1 0.",
+          "reason": "Presentation-only: the rounded total is always right ((n%36)//3 plus a round-up when (n%36)%3==2 equals (n+1)//3 - 12*(n//36)), but when n%36==35 it prints \"a 12\" without carrying into feet. All 7 WA tests are that case with the same total inches (sem125.json; outputs reproduced from the recorded LF-run hashes, no new execution). Non-canonical form of the same quantity, excluded like 197B 6327041.",
           "rerunFailedTest": "0021",
           "rerunVerdict": "WA",
           "sourceHash": "53f7e47a4cc82f55c0c5d0f995766f163bf3b0e3794024c1e90798cb17da9f2b",
@@ -1083,7 +1240,7 @@
       ],
       "testCount": 172,
       "timeLimitMs": 2000,
-      "verdict": "VALIDATED"
+      "verdict": "NOT_VALIDATED_HELD"
     },
     "152C": {
       "archiveSha256": "48f95e3c42f94c2f413dbd80f4cb31f46e0cda2d6ed4cf46be8950f407f02151",
@@ -16802,24 +16959,40 @@
   ],
   "sourceLevelReview": {
     "method": "For each source: the exact fault line(s) in the stored source, and the smallest valid package test (LF line endings) where its output differs numerically/token-wise from this auditor's own reference S. Recorded with the input hash, the reference answer, the source output, the sandbox outputHash, cpuSeconds, and an aggregate hash of all per-test output hashes for the bounded run (executionVersion 2, ONLINE_JUDGE flags).",
-    "scope": "all 60 counted incorrect sources of the 12 validated packages",
+    "scope": "all 60 incorrect sources counted in the 12 packages validated before the 125A revision (59 still counted after 125A 42101202 was un-counted)",
     "unpinned": []
   },
   "supersedes": {
+    "history": [
+      {
+        "commit": "a1ac57830d399c2e7b76292b370e0b0c195da566",
+        "previous197BAuditFileSha256": "f8961310a3ff83f18f6224c188a8490f8b4d254d6aaa2311bea0697a943430c5",
+        "previous197BAuditHash": "99da7ad0a64f7eeec85975e941ab01edebd4d28eb332f9d2929cba9fc0af0944",
+        "reason": "197B revoked: counted incorrect sources 8471901 (0 vs 0/1) and 6327041 (unreduced fraction) have only presentation-only failures on every package test, so they are not algorithmic kills. 197B package/evidence bytes are unchanged; only the verdict changed. The same check on the other 12 validated packages found no presentation-only counted kill.",
+        "sha256": "12790623ac6e9579452775da04113cec478872a052472e68ceaafa4a441d0f60",
+        "validatedCount": 13
+      },
+      {
+        "commit": "86a80c098a8ee9b56e7ff3641ada4f676726f539",
+        "sha256": "f58f9a444d90f084f590a9f01a36ba74d45f8fcf10a9967d1d12224fe5b14163",
+        "validatedCount": 12
+      }
+    ],
+    "previous125AAuditFileSha256": "38d08811b28b0104472dfbf77ecc9fad2b2b4a6b91b8763f71cadcf4b8d1ed65",
+    "previous125AAuditHash": "73d11041e9fdda74ec412a1b7bbe31007ce798254ece1f789a469188f458d2e1",
     "previous197BAuditFileSha256": "f8961310a3ff83f18f6224c188a8490f8b4d254d6aaa2311bea0697a943430c5",
     "previous197BAuditHash": "99da7ad0a64f7eeec85975e941ab01edebd4d28eb332f9d2929cba9fc0af0944",
     "previousAudit": {
-      "commit": "a1ac57830d399c2e7b76292b370e0b0c195da566",
+      "commit": "86a80c098a8ee9b56e7ff3641ada4f676726f539",
       "path": "pipeline/ratings-pools/1400/independent-audit.json",
-      "sha256": "12790623ac6e9579452775da04113cec478872a052472e68ceaafa4a441d0f60",
-      "validatedCount": 13
+      "sha256": "f58f9a444d90f084f590a9f01a36ba74d45f8fcf10a9967d1d12224fe5b14163",
+      "validatedCount": 12
     },
-    "reason": "197B revoked: counted incorrect sources 8471901 (0 vs 0/1) and 6327041 (unreduced fraction) have only presentation-only failures on every package test, so they are not algorithmic kills. 197B package/evidence bytes are unchanged; only the verdict changed. The same check on the other 12 validated packages found no presentation-only counted kill."
+    "reason": "125A revoked: counted incorrect source 42101202 always prints the correct rounded total inches; its 7 WA outputs (all n%36==35) only fail to carry 12 inches into a foot, the same quantity in non-canonical form, so it is presentation-only under the rule applied to 197B 6327041. 125A drops to 4/5 genuine kills and is held. Package/evidence bytes are unchanged; only the verdict changed. The earlier 197B revocation (13/28 -> 12/28) is kept below and in history."
   },
   "targetReached": false,
-  "validatedCount": 12,
+  "validatedCount": 11,
   "validatedIds": [
-    "125A",
     "270B",
     "277A",
     "279A",
