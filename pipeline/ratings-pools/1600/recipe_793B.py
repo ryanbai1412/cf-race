@@ -139,26 +139,27 @@ def extras(pid):
                           'reason': reason, 'category': category})
 
     fixed = [
-        (('ST',), 'minimum legal area; free initial horizontal direction', 'boundary'),
-        (('S', 'T'), 'minimum legal area; free initial vertical direction', 'boundary'),
+        (('ST',), 'minimum legal area; free initial direction', 'boundary'),
+        (('S', 'T'), 'minimum legal area; free initial direction', 'boundary'),
         (('S*T',), 'collinear endpoints separated by road works', 'boundary'),
-        (('S', '*', 'T'), 'blocked one-column grid', 'boundary'),
+        (('S', '*', 'T'), 'blocked single-axis grid', 'boundary'),
         (('S*', '.T'), 'exactly one turn; endpoint cells are traversable', 'boundary'),
         (('S**', '...', '**T'), 'only VHV succeeds; checking HVH alone is incomplete', 'adversarial'),
         (('S.*', '*.*', '*.T'), 'only HVH succeeds; checking VHV alone is incomplete', 'adversarial'),
         (('S**', '...', '**.', 'T..'), 'connected corridor requires three turns, not two', 'adversarial'),
         (('*S.', '...', '.T*'), 'obstacles outside the used segment must not block whole rows/columns', 'adversarial'),
         (('S..', '...', '..T'), 'open grid has many paths but one unique decision token', 'boundary'),
-        (('..S..', '****.', 'T....', '****.', '.....'), 'two turns via a pivot column outside both endpoint columns', 'adversarial'),
+        (('..S..', '****.', 'T....', '****.', '.....'), 'two turns via a pivot outside the endpoint rectangle', 'adversarial'),
         (('S....', '****.', '.....', '.****', '..T..'), 'connected serpentine sample requires four turns', 'adversarial'),
     ]
     for rows, reason, category in fixed:
         for transpose in (False, True):
             oriented = tuple(''.join(col) for col in zip(*rows)) if transpose else rows
+            oriented_reason = reason.translate(str.maketrans('HV', 'VH')) if transpose else reason
             for flip_rows, flip_columns in itertools.product((False, True), repeat=2):
                 transformed = oriented[::-1] if flip_rows else oriented
                 transformed = tuple(row[::-1] for row in transformed) if flip_columns else transformed
-                add(transformed, reason + '; reflected/transposed orientation', category)
+                add(transformed, oriented_reason + '; reflected/transposed orientation', category)
 
     add(('S' + '.' * 998 + 'T',), 'maximum width in one row; long zero-turn ray', 'boundary')
     add(tuple('S' if r == 0 else 'T' if r == 999 else '.' for r in range(1000)),

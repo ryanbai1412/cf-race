@@ -70,6 +70,23 @@ def segment_closure_reference(rows):
     return 'YES' if reached[target[0] * m + target[1]] else 'NO'
 
 
+def orientation_reference(rows, vertical_first):
+    (sr, sc), (tr, tc) = recipe._endpoints(rows)
+
+    def straight(a, b):
+        if a[0] == b[0]:
+            return all(rows[a[0]][c] != '*' for c in range(min(a[1], b[1]), max(a[1], b[1]) + 1))
+        if a[1] == b[1]:
+            return all(rows[r][a[1]] != '*' for r in range(min(a[0], b[0]), max(a[0], b[0]) + 1))
+        return False
+
+    for pivot in range(len(rows) if vertical_first else len(rows[0])):
+        a, b = ((pivot, sc), (pivot, tc)) if vertical_first else ((sr, pivot), (tr, pivot))
+        if straight((sr, sc), a) and straight(a, b) and straight(b, (tr, tc)):
+            return True
+    return False
+
+
 class Recipe793BTests(unittest.TestCase):
     def test_interface_and_pid(self):
         self.assertEqual(recipe.IDS, ('793B',))
@@ -139,6 +156,10 @@ class Recipe793BTests(unittest.TestCase):
                 expected = segment_closure_reference(rows) if case['category'] == 'maxSize' else recipe._brute(rows)
                 self.assertEqual(case['output'], expected + '\n')
                 self.assertEqual(recipe.answer('793B', rows), expected)
+                if 'only VHV' in case['reason'] or 'only HVH' in case['reason']:
+                    vertical_first = 'only VHV' in case['reason']
+                    self.assertTrue(orientation_reference(rows, vertical_first))
+                    self.assertFalse(orientation_reference(rows, not vertical_first))
                 if case['category'] == 'maxSize':
                     self.assertEqual((n, m), (1000, 1000))
                     maxima.append(expected)

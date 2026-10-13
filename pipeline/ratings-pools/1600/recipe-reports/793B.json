@@ -2,7 +2,7 @@
   "id": "793B",
   "rating": 1600,
   "role": "recipe-author-only",
-  "status": "authored-local-checks-pending",
+  "status": "recipe-authored-not-qualified",
   "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
   "sourceIntegrity": {
     "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
@@ -69,7 +69,9 @@
     "maximumReference": "Unit-test-only bytearray straight-segment closure sweeps all four directions from the previous reached set for exactly three layers. This checks the four 1000x1000 extras without using the production interval-intersection oracle."
   },
   "authoredSuite": {
-    "plannedIndividualCases": 160,
+    "individualCases": 160,
+    "categories": {"boundary": 24, "adversarial": 132, "maxSize": 4},
+    "outputs": {"YES": 103, "NO": 57},
     "generationSeed": 1600793,
     "bruteRandomSeed": 7931600,
     "coverage": ["minimum legal 1x2 and 2x1", "skinny maximum width/height, open and blocked", "free initial direction", "zero/one/exactly two turns", "reachable paths requiring three/four turns", "both HVH and VHV and reflected/transposed orientations", "pivot outside the endpoints' rectangle", "obstacles outside a used segment", "small randomized grids and all small-space obstacle masks", "four full 1000x1000 open, disconnected, forced-two-turn and forced-three-turn grids"],
@@ -84,6 +86,7 @@
       {
         "submissionId": "26783990",
         "verdict": "WRONG_ANSWER",
+        "sourceSha256": "fa750ac4674488810dfca888ea46c6d82228db34bb0b6fb7dd798db13525e00e",
         "observation": "Source inspection: DFS visited is indexed only by cell, even though future reachability depends on arrival direction and used-turn budget. Exhaustive and randomized direction-state comparisons cover this class of defect.",
         "scope": "Suite motivation only; no public source execution or claimed algorithmic kill."
       },
@@ -103,17 +106,23 @@
     "officialTestsComplete": false,
     "declaredOpenR1GeneratedCount": 16,
     "suppliedOpenR1GeneratedPairs": 0,
-    "localReviewStatus": "pending-targeted-unit-tests",
-    "failedPairs": null,
+    "localReviewStatus": "all-13-supplied-official-and-2-samples-match-constraints-and-oracles",
+    "failedPairs": [],
     "preservation": "No pair is replaced, repaired, discarded or renumbered as a Codeforces test. Official-row-N means only the one-based supplied-row index."
   },
   "localChecks": {
-    "status": "pending-after-first-push",
-    "bruteAssertions": null,
-    "generatedPairsChecked": null,
-    "unitTests": null,
-    "astSyntax": null,
-    "diffCheck": null
+    "status": "passed-author-checks-only",
+    "bruteAssertions": 10752,
+    "assertionCountScope": "Only the independent equality assertions in brute_checks(), not a fabricated total of every unittest assertion and not a count of qualified problems.",
+    "generatedPairsChecked": 160,
+    "generatedIndependentReferences": {"directionStateBFS": 156, "threeSegmentClosureAt1000x1000": 4},
+    "suppliedPairsIndependentlyChecked": 15,
+    "unitTests": 9,
+    "unitCommand": "python3 -m unittest discover -s pipeline/ratings-pools/1600 -p 'test_recipe_793B.py' -v",
+    "astSyntax": "passed: ast.parse on recipe_793B.py and test_recipe_793B.py",
+    "diffCheck": "passed: git diff --check 5b28d33",
+    "scopeCheck": "Only the three assigned new author files and the permitted attributed public statement copy are changed; no foundation registration or sibling edit.",
+    "publicProgramsExecuted": 0
   },
   "qualificationBoundary": "This is a recipe-author report, not an independent audit or signoff and not a validated problem count. No public programs were executed. Incomplete official data requires parent generated-basis qualification with five actual AC validators, five actual genuine algorithmic WA failures, a disjoint sixth accepted oracle and a later different-agent audit. Parent integration/registration and all execution/publication remain out of scope."
 }
