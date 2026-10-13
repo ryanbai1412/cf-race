@@ -179,7 +179,7 @@ Builder child audits were read for cross-checking only; none of their approvals 
 - issues: only 3/5 incorrect sources are counted WA algorithmic kills
 - CF-OK sources failing: 1788242 MS C++ CE@None, 1788172 MS C++ CE@None
 - semantic check (LF, numeric fraction comparison): 4906508: 72 token-WA, 72 numerically wrong; 6327041: 16 token-WA, 0 numerically wrong; 8471901: 51 token-WA, 0 numerically wrong; 8471960: 135 token-WA, 49 numerically wrong; 11940891: 27 token-WA, 23 numerically wrong
-- replacement WA candidates (executed here, need builder revalidation and re-audit): 94246367@0001, 141821290@0001, 54898171@0004, 111627602@0001, 50677198@0005, 165490894@0008, 21696304@0008, 103987333@0008, 98057127@0008, 93077666@0008
+- replacement WA candidates (executed here, need builder revalidation and re-audit): 165490894@0008, 21696304@0008, 103987333@0008, 98057127@0008, 93077666@0008, 59668523@0008, 55689536@0008, 42844074@0008, 144003147@0008, 75117786@0008
 
 | Submission | Lang | Expected | Builder | Rerun | Failed test | Hashes match | LF rerun | Got on failed test | Counted | Analysis |
 |---|---|---|---|---|---|---|---|---|---|---|
