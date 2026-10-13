@@ -1,0 +1,408 @@
+{
+  "id": "763A",
+  "rating": 1600,
+  "title": "Timofey and a tree",
+  "role": "recipe-author",
+  "status": "excluded",
+  "exclusion": {
+    "code": "multiple-valid-output",
+    "reason": "The original English statement asks for YES plus any vertex that can be the root, so a test can have several correct outputs. The pinned row has generated_checker=null, and exact-token comparison against the single stored vertex would reject correct solutions. Official tests 5, 8 and 13 (0-based) each have more than one valid root. Printing a canonical vertex (e.g. the smallest valid one) would change the original problem.",
+    "originalOutputQuote": "Otherwise print \"YES\" in the first line. In the second line print the index of the vertex which Timofey should take in hands. If there are multiple answers, print any of them.",
+    "recipeWritten": false,
+    "qualificationClaimed": false,
+    "independentAuditClaimed": false,
+    "parentValidatedCountContribution": 0
+  },
+  "provenance": {
+    "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "archiveBytes": 4542856,
+    "inputPath": "inputs/763A.json",
+    "inputSha256": "1dc1c95de187d11586c14aac62da0225842a0cbb2b6a52cf7fe9657e8dc763bf",
+    "inputBytes": 68666,
+    "sourceRowHash": "bfe0e51401a74c591dcf0f98bbfcf5fd93f7959c4ddcef8379ee5d8cfdd5bc08",
+    "sourceRowHashMethod": "pool_contract.digest(sourceRow)",
+    "sourceIndexHashFromInput": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "verification": "Archive hash and length, the manifest hash and length for inputs/763A.json, and the canonical source-row digest all matched. Only inputs/763A.json and inputs/MANIFEST.json were read from the archive. No imported bytes were changed.",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "upstreamShardProvenanceFromInput": {
+      "path": "data/train-00001-of-00011.parquet",
+      "sha256": "51082ac8f61eb9282f18586c373c3c360eeba9368323eb2aa209121162f39885",
+      "bytes": 236490756,
+      "scope": "Authenticated extraction provenance supplied with the input. This author did not download or rehash the full shard."
+    },
+    "aliases": [
+      "764/C"
+    ],
+    "selectedPublicSubmissionCount": 29,
+    "selectedPublicSubmissionVerdicts": {
+      "OK": 12,
+      "TIME_LIMIT_EXCEEDED": 3,
+      "WRONG_ANSWER": 14
+    },
+    "publicProgramsExecuted": 0
+  },
+  "documentationRead": [
+    {
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
+      "bodySha256": "b9971cff0a797603b79d78f49129830b0a1a4b99d9860e392fba126a4ef4dc69",
+      "bodyBytes": 16911,
+      "relevant": "The card says about 30% of problems allow multiple correct answers and need a checker, and that generated_checker is set when a problem has multiple possible answers. For 763A it is null even though the statement allows any valid vertex, so the null value does not mean the answer is unique."
+    },
+    {
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md",
+      "bodySha256": "8352430bd0fbc94cfe8762a9278c18a8494fca567a8aaf29a9e353c3f4627687",
+      "bodyBytes": 7836
+    }
+  ],
+  "statementAttestation": {
+    "url": "https://codeforces.me/contest/763/problem/A",
+    "sourceType": "Public mirror of original English Codeforces HTML, not the official domain",
+    "bodySha256": "b8fb067624d50edce8d47d6392ec6fcb7282c2f3b050ec9e901e717ed6fed407",
+    "bodyBytes": 61091,
+    "capturedAtUtc": "2026-10-13T02:48:51Z",
+    "locale": "en",
+    "method": "Plain unauthenticated curl with no proxy token, no bypass and no live Codeforces API. Both pinned dataset cards were read and hashed before the statement was used.",
+    "inputMarkupQuotes": [
+      "2 ≤ <i>n</i> ≤ 10<sup class=\"upper-index\">5</sup>",
+      "1 ≤ <i>c</i><sub class=\"lower-index\"><i>i</i></sub> ≤ 10<sup class=\"upper-index\">5</sup>"
+    ],
+    "outputQuote": "If there are multiple answers, print any of them.",
+    "sourceCorrectionProposal": {
+      "field": "input_format",
+      "from": "≤ 105)",
+      "to": "≤ 10<sup>5</sup>)",
+      "occurrences": 2,
+      "originalFragments": [
+        "(2 ≤ n ≤ 105)",
+        "(1 ≤ ci ≤ 105)"
+      ],
+      "proposedFragments": [
+        "(2 ≤ n ≤ 10<sup>5</sup>)",
+        "(1 ≤ ci ≤ 10<sup>5</sup>)"
+      ],
+      "applied": false,
+      "reason": "The original public English superscript markup confirms both exponent-loss instances. Lost subscripts in c1, c2, ..., cn and ci are cosmetic and do not affect bounds. No input, source or package bytes were normalized."
+    }
+  },
+  "sourceAttestedSemantics": {
+    "inputLayout": "Line 1: n. Next n-1 lines: u v, one edge per line. Last line: n colors c1..cn.",
+    "constraints": "2 <= n <= 10^5; 1 <= u,v <= n, u != v, the edges form a tree; 1 <= c_i <= 10^5.",
+    "question": "Find a root r such that every subtree hanging off r (each component of the tree minus r) is monochromatic. Print NO if there is none, otherwise YES and any such r.",
+    "notUnique": true
+  },
+  "nonUniqueOutputWitnesses": [
+    {
+      "kind": "official",
+      "index": 5,
+      "input": "2\r\n1 2\r\n1 1\r\n",
+      "inputSha256": "600cdbfb2ab3e93177f5c648f0f41cbad8fa7364d3d7345b9ba0332fef62a5ea",
+      "originalOutput": "YES\r\n1",
+      "allValidRoots": [
+        1,
+        2
+      ],
+      "alternativeValidOutputs": [
+        "YES\n2\n"
+      ]
+    },
+    {
+      "kind": "official",
+      "index": 8,
+      "input": "3\r\n2 1\r\n2 3\r\n4 4 4\r\n",
+      "inputSha256": "98373d28255b07496fc428f55803b7f838678e62c7a4c279333a7c41aef5320f",
+      "originalOutput": "YES\r\n1",
+      "allValidRoots": [
+        1,
+        2,
+        3
+      ],
+      "alternativeValidOutputs": [
+        "YES\n2\n",
+        "YES\n3\n"
+      ]
+    },
+    {
+      "kind": "official",
+      "index": 13,
+      "input": "3\r\n2 1\r\n2 3\r\n4 4 5\r\n",
+      "inputSha256": "205f6db84ad35edd681d7047a98d9be09c2ee6cd233bb98b79fd345acaee61c4",
+      "originalOutput": "YES\r\n2",
+      "allValidRoots": [
+        2,
+        3
+      ],
+      "alternativeValidOutputs": [
+        "YES\n3\n"
+      ]
+    }
+  ],
+  "upstreamDiagnostics": {
+    "scope": "Recipe-author diagnostics only. This is not execution of external sources, qualification, or an independent audit or signoff.",
+    "officialPairsSupplied": 15,
+    "samplesSupplied": 3,
+    "officialTestsetSizeMetadata": 67,
+    "officialTestsComplete": false,
+    "generatedTestsField": 15,
+    "generatedTestsFieldType": "integer count, not input/output pairs",
+    "pairsChecked": 18,
+    "pairsWithMultipleValidRoots": 3,
+    "method": "Each sample and official pair was parsed with the attested layout, after CRLF was normalized in memory only. For every candidate root r, an exhaustive O(n^2) check tested whether each neighbour component of r is monochromatic. The expected output was then checked for membership in the set of valid roots, or for NO when that set is empty. No canonical-vertex comparison was used.",
+    "pairs": [
+      {
+        "kind": "sample",
+        "index": 0,
+        "inputSha256": "4d21a1b643f300e8531086f367660718b5bdfc3697ac8ffae058b93cc9e66272",
+        "outputSha256": "7ca9d80b61c74dc3757423b417be8e795d1253c8b6e58a13b62b76d61ba5efb9",
+        "expectedTokens": [
+          "YES",
+          "2"
+        ],
+        "allValidRoots": [
+          2
+        ],
+        "expectedIsValid": true
+      },
+      {
+        "kind": "sample",
+        "index": 1,
+        "inputSha256": "bb68ae0f265df294b6a3c8325954ec2acdfef6e1578efb916b0a99534d6d4911",
+        "outputSha256": "7ca9d80b61c74dc3757423b417be8e795d1253c8b6e58a13b62b76d61ba5efb9",
+        "expectedTokens": [
+          "YES",
+          "2"
+        ],
+        "allValidRoots": [
+          2
+        ],
+        "expectedIsValid": true
+      },
+      {
+        "kind": "sample",
+        "index": 2,
+        "inputSha256": "efeb0c19a5730aa448b0b7d3e2139a917d138dd51fd8ff88b568e9ccfaf811fd",
+        "outputSha256": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+        "expectedTokens": [
+          "NO"
+        ],
+        "allValidRoots": [],
+        "expectedIsValid": true
+      },
+      {
+        "kind": "official",
+        "index": 0,
+        "inputSha256": "9391cb78665fee8c5cb8b18c79444fe5d73667e5a50fda1560c1a4ebee8b1726",
+        "outputSha256": "075f1d7fc7dd9986424ab9276bc0549087f45373a008cc24edb059c2e6dec838",
+        "expectedTokens": [
+          "YES",
+          "2"
+        ],
+        "allValidRoots": [
+          2
+        ],
+        "expectedIsValid": true
+      },
+      {
+        "kind": "official",
+        "index": 1,
+        "inputSha256": "1fc8f26c5e16d9add2b9de0f5d3ee7a788a8819ed8a2282a1d159fcbd804b513",
+        "outputSha256": "075f1d7fc7dd9986424ab9276bc0549087f45373a008cc24edb059c2e6dec838",
+        "expectedTokens": [
+          "YES",
+          "2"
+        ],
+        "allValidRoots": [
+          2
+        ],
+        "expectedIsValid": true
+      },
+      {
+        "kind": "official",
+        "index": 2,
+        "inputSha256": "f1d95fb6d15f1b0783c26381dd9c8e4aa0a1dc8eb6525f62d54ebf7138c7b204",
+        "outputSha256": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+        "expectedTokens": [
+          "NO"
+        ],
+        "allValidRoots": [],
+        "expectedIsValid": true
+      },
+      {
+        "kind": "official",
+        "index": 3,
+        "inputSha256": "679e651b2411fa48e198b3ddd80f64fbe57448746f64aeca4a533ea2ee16cf59",
+        "outputSha256": "075f1d7fc7dd9986424ab9276bc0549087f45373a008cc24edb059c2e6dec838",
+        "expectedTokens": [
+          "YES",
+          "2"
+        ],
+        "allValidRoots": [
+          2
+        ],
+        "expectedIsValid": true
+      },
+      {
+        "kind": "official",
+        "index": 4,
+        "inputSha256": "bf5e932c98e73400b3fd49e6560863665f4e90c93058de106b0ef0f89c77ff23",
+        "outputSha256": "7bf29e2689d78485b30a4d09ca78e65122992b3ea4c2ad5c0039e846a00ecbb4",
+        "expectedTokens": [
+          "YES",
+          "4"
+        ],
+        "allValidRoots": [
+          4
+        ],
+        "expectedIsValid": true
+      },
+      {
+        "kind": "official",
+        "index": 5,
+        "inputSha256": "600cdbfb2ab3e93177f5c648f0f41cbad8fa7364d3d7345b9ba0332fef62a5ea",
+        "outputSha256": "46beb78523e5290944b7ce12723bdce2399a31a2aab63878e1a36af32c218723",
+        "expectedTokens": [
+          "YES",
+          "1"
+        ],
+        "allValidRoots": [
+          1,
+          2
+        ],
+        "expectedIsValid": true
+      },
+      {
+        "kind": "official",
+        "index": 6,
+        "inputSha256": "9e737ff48022baf696984c8241d6bfc92ac4199f5ae5475bce894de155ef7ac0",
+        "outputSha256": "bde1f1951a8eee2f415c3f9bc1ec1f5a9b489c0c18d9e1fc379ec195e907d3ee",
+        "expectedTokens": [
+          "YES",
+          "5"
+        ],
+        "allValidRoots": [
+          5
+        ],
+        "expectedIsValid": true
+      },
+      {
+        "kind": "official",
+        "index": 7,
+        "inputSha256": "73522c743216defc829ce982104a6c80148ce13624f7eb385530029b6bb29591",
+        "outputSha256": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+        "expectedTokens": [
+          "NO"
+        ],
+        "allValidRoots": [],
+        "expectedIsValid": true
+      },
+      {
+        "kind": "official",
+        "index": 8,
+        "inputSha256": "98373d28255b07496fc428f55803b7f838678e62c7a4c279333a7c41aef5320f",
+        "outputSha256": "46beb78523e5290944b7ce12723bdce2399a31a2aab63878e1a36af32c218723",
+        "expectedTokens": [
+          "YES",
+          "1"
+        ],
+        "allValidRoots": [
+          1,
+          2,
+          3
+        ],
+        "expectedIsValid": true
+      },
+      {
+        "kind": "official",
+        "index": 9,
+        "inputSha256": "3c67bb6b9e130f7216a632c71e5b93ba47504e6c94ed44765efddc50dbb440b8",
+        "outputSha256": "46beb78523e5290944b7ce12723bdce2399a31a2aab63878e1a36af32c218723",
+        "expectedTokens": [
+          "YES",
+          "1"
+        ],
+        "allValidRoots": [
+          1
+        ],
+        "expectedIsValid": true
+      },
+      {
+        "kind": "official",
+        "index": 10,
+        "inputSha256": "4b0ae474e6d9798291cc4531517413cdfdc14cdde18e1996873c80f69352cddd",
+        "outputSha256": "7bf29e2689d78485b30a4d09ca78e65122992b3ea4c2ad5c0039e846a00ecbb4",
+        "expectedTokens": [
+          "YES",
+          "4"
+        ],
+        "allValidRoots": [
+          4
+        ],
+        "expectedIsValid": true
+      },
+      {
+        "kind": "official",
+        "index": 11,
+        "inputSha256": "77f52c9866b8d13a40b1c434dc1587366b75cbc04f0ee1f54097d167bc68864f",
+        "outputSha256": "46beb78523e5290944b7ce12723bdce2399a31a2aab63878e1a36af32c218723",
+        "expectedTokens": [
+          "YES",
+          "1"
+        ],
+        "allValidRoots": [
+          1
+        ],
+        "expectedIsValid": true
+      },
+      {
+        "kind": "official",
+        "index": 12,
+        "inputSha256": "430297a704132db0fbbe6ef8ab10cd2f69c26fc5136a49000d6f217fde3889b8",
+        "outputSha256": "075f1d7fc7dd9986424ab9276bc0549087f45373a008cc24edb059c2e6dec838",
+        "expectedTokens": [
+          "YES",
+          "2"
+        ],
+        "allValidRoots": [
+          2
+        ],
+        "expectedIsValid": true
+      },
+      {
+        "kind": "official",
+        "index": 13,
+        "inputSha256": "205f6db84ad35edd681d7047a98d9be09c2ee6cd233bb98b79fd345acaee61c4",
+        "outputSha256": "075f1d7fc7dd9986424ab9276bc0549087f45373a008cc24edb059c2e6dec838",
+        "expectedTokens": [
+          "YES",
+          "2"
+        ],
+        "allValidRoots": [
+          2,
+          3
+        ],
+        "expectedIsValid": true
+      },
+      {
+        "kind": "official",
+        "index": 14,
+        "inputSha256": "b0d73406047715f0b0ebe18111754300266eb1c37e14470cf0c569421f5871f8",
+        "outputSha256": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+        "expectedTokens": [
+          "NO"
+        ],
+        "allValidRoots": [],
+        "expectedIsValid": true
+      }
+    ],
+    "failedUpstreamPairs": [],
+    "incompleteness": "52 of the 67 metadata testset entries are absent, and generated_tests is only a count. No completeness claim or generated-basis qualification is made."
+  },
+  "authoredGeneratedTests": 0,
+  "ownedFiles": [
+    "pipeline/ratings-pools/1600/recipe-reports/763A.json"
+  ],
+  "integrationDisposition": "Exclude from the exact-token single-answer recipe pool. Do not register a recipe or count this report as a validated problem. Supporting the original problem would need a separately authorized checker (accept NO when no valid root exists, otherwise YES with any valid root) and qualification outside this task."
+}
