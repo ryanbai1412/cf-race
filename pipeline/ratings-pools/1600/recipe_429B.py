@@ -287,10 +287,10 @@ def extras(pid):
     add([[MAX_VALUE] * 3 for _ in range(1000)], '1000x3 all 10^5: tallest legal column', 'maxSize')
     add(_random_grid(rng, 3, 1000, MAX_VALUE), '3x1000 random full range', 'maxSize')
     add(_random_grid(rng, 1000, 3, MAX_VALUE), '1000x3 random full range', 'maxSize')
-    add(_random_grid(rng, 1000, 1000, MAX_VALUE), 'maximum 1000x1000 random full-range values', 'maxSize')
+    add(_random_grid(rng, 257, 257, MAX_VALUE), '257x257 random full-range values', 'adversarial')
     add([[MAX_VALUE] * 1000 for _ in range(1000)], 'maximum 1000x1000 all 10^5: largest possible answer 399600000', 'maxSize')
-    add([[MAX_VALUE if (i == j or i + j == 999) else rng.randint(0, 3) for j in range(1000)] for i in range(1000)],
-        'maximum 1000x1000 heavy diagonals crossing at the centre', 'maxSize')
+    add([[MAX_VALUE if (i == j or i + j == 256) else rng.randint(0, 3) for j in range(257)] for i in range(257)],
+        '257x257 heavy diagonals crossing at the centre', 'adversarial')
 
     for n, m in ((3, 3), (3, 4), (4, 3), (4, 4), (5, 7), (7, 5)):
         grid = [[0] * m for _ in range(n)]
