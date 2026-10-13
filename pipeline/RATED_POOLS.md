@@ -23,7 +23,9 @@ data-only gates run. Provisional, rejected and held records stay in the inventor
 but cannot enter the technically validated list. Historical and superseded
 decisions are retained by reference, never transferred to replacement bytes.
 
-After downloading the exact archive described by `rated-pools-combined.json`:
+Download the evidence archive from the private handoff attachments. The public
+`rated-pools-combined.json` descriptor records hashes and sizes, not private
+download URLs. After obtaining the exact archive:
 
 ```sh
 python3 pipeline/pool_combine.py extract rated-pools-combined-evidence.tar.gz \
