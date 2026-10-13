@@ -144,6 +144,17 @@ class Recipe607ATests(unittest.TestCase):
         samples = [(f'examples/{i}', pair) for i, pair in enumerate(SAMPLES)]
         self.assertEqual(recipe.review('607A', tests, samples), [])
 
+    def test_original_public_statement_capture(self):
+        base = Path(__file__).parent
+        report = json.loads((base / 'recipe-reports/607A.json').read_text())
+        source = report['publicStatement']
+        captured = (base / source['path']).read_bytes()
+        self.assertEqual(hashlib.sha256(captured).hexdigest(), source['capturedStatementSha256'])
+        self.assertEqual(len(captured), source['capturedStatementBytes'])
+        for exact in source['exactConstraintMarkup'] + source['semanticQuotes']:
+            self.assertIn(exact, captured.decode())
+        self.assertFalse(report['statementNormalization']['needed'])
+
     def test_review_reports_errors_without_mutating_input(self):
         pair = {'input': '2\n0 1\n1 1\n', 'output': '0\n'}
         original = dict(pair)
