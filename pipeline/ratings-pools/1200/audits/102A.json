@@ -12094,9 +12094,32 @@
       "observedVerdict": "WA",
       "reason": "On 0001 emits a debug list [0,0,1,1] followed by the correct answer 6. Its recorded failure is debug-output-only, not an algorithmic counterexample.",
       "semanticReview": {
-        "algorithmicWrong": false,
-        "excludedNonAlgorithmicCauses": "Recorded 0001 WA is debug-output-only; no mathematical wrong answer at the designated failedTest. The 0037 mathematical observation is supplemental, not a claim that 0001 qualifies.",
-        "faultyLogic": "The designated 0001 failure is the debug print(pushed) before the correct numeric answer; removing that diagnostic yields 6. The active BFS also misses a triangle entirely outside component 1 (already visible on included LF 0037: triangle 3-4-5 costs 27, final line -1), but the recorded failedTest is debug-only; it has not been substituted as counted evidence.",
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "[0, 0, 1, 0, 0, 0]\n-1\n",
+          "actualOutputSha256": "de3e80759f53cdd24cb510f9d93ddf2ba4696610c537223cac532991064f614e",
+          "constraintValidity": "n=5,m=4; prices 1,1,9,9,9 are in 1..1000000; all four listed edges are distinct, loop-free and within 1..5. Original included input is already exact LF.",
+          "correctAnswer": "27\n",
+          "countsAsDesignatedEvidence": false,
+          "diagnosticOutputExcluded": "[0, 0, 1, 0, 0, 0]\n",
+          "diagnosticRemovalMethod": "Read the original run’s final numeric line after the pure print-only diagnostic at source line 413; no edited diagnostic code copy was executed.",
+          "executionLogTestSelector": "0037",
+          "existingLfExecutionLogPath": "fresh/102A/source-84970328.json",
+          "existingLfExecutionLogSha256": "f839c335c6ced414990e3d39ef0144e0106d81c00e1029fd2b3de77c24cf403e",
+          "mathematicalAnswerAfterRemovingDiagnostics": "-1\n",
+          "mathematicalDerivation": "The only triangle is vertices 3,4,5 with all three edges (3,4),(4,5),(5,3), each price 9: minimum 9+9+9=27. Component {1,2} contains only one edge. BFS(1) cannot see the triangle and leaves minn empty, so its mathematical answer -1 is wrong even after removing the parent-array diagnostic.",
+          "sourceHashBinding": {
+            "embeddedIdentityField": "identity.sourceHash",
+            "embeddedSourceTextField": "identity.code",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "sourceHash": "52e8716c396b20befeddd3b02bba5fdfac368b7b76022aee27c3e181892da4e6"
+          },
+          "testName": "0037",
+          "validLfInput": "5 4\n1 1 9 9 9\n1 2\n3 4\n4 5\n5 3\n",
+          "validLfInputSha256": "e155c0cae055462e4b68fe53fef49b5421c9ae72364d557085a96e5447ba9014"
+        },
+        "excludedNonAlgorithmicCauses": "The originally designated 0001 has correct mathematical answer 6 after removing line 413 diagnostic; it remains nonqualifying. Source-level algorithmicWrong is nevertheless true, proved separately by existing included LF 0037; this does not substitute or alter evidence.failedTest.",
+        "faultyLogic": "The active BFS starts only at vertex 1 (line 412); the matching triple 3-4-5 in another component is never reached, so minn is empty and line 415 emits -1. Removing diagnostic print(pushed) at line 413 cannot change that computation. The originally designated 0001 remains debug-only and does not qualify.",
         "focusLines": [
           {
             "code": "n,m=[int(i) for i in input().split()]\nprice=[int(i) for i in input().split()]\nfrom collections import defaultdict\ngraph=defaultdict(list)\nfor i in range(m):\n    p,c=[int(i) for i in input().split()]\n    graph[p].append(c)\n    graph[c].append(p)\nvisited=[0]*(n+1)\npushed=[0]*(n+1)\nminn=[]\n\ndef bfs(p):\n    stack=[]\n    stack.append(p)\n    while stack:\n        start=stack.pop(0)\n        visited[start]=1\n        for j in graph[start]:\n            if not visited[j]:\n                visited[j]=1\n                stack.append(j)\n                pushed[j]=start\n            else:\n                if pushed[j]==pushed[start]:\n                    minn.append(price[j-1]+price[start-1]+price[pushed[j]-1])\n\nbfs(1)\nprint(pushed)\nif not minn:\n    print(-1)\nelse:\n    print(min(minn))",
@@ -12105,6 +12128,7 @@
           }
         ],
         "implementedAlgorithm": "Most of the file is other tasks inside unexecuted triple-quoted blocks. The active code builds an undirected graph, BFSes only from vertex 1 and tries to price a triangle from sibling visits.",
+        "qualifiesAtRecordedFailedTest": false,
         "sourceHash": "52e8716c396b20befeddd3b02bba5fdfac368b7b76022aee27c3e181892da4e6",
         "sourceLines": [
           {

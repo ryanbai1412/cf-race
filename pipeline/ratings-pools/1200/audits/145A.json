@@ -11213,7 +11213,7 @@
           "validLfInputSha256": "1cf74548e8dd188fd5c57a017e95c19c420cab3b5c4ef4d9a9789147004125e1"
         },
         "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
-        "faultyLogic": "swap is actually a difference in required flips, not a number of swaps. When all mismatches are 4->7, the formula charges those flips once via swap and again through x47//2, inventing additional operations.",
+        "faultyLogic": "swap is the digit-count imbalance, not a number of swaps. On four 4→7 mismatches and no 7→4 mismatches, lines 49–54 set x74 to zero, leave swap=4 by subtracting that zero, then set x74=4 again. Line 55 prints (4+4)//2+4=8, although four flips suffice. The complemented sp/st strings are computed but never used to fix this.",
         "focusLines": [
           {
             "code": "s4 = s.count('4')\nt4 = t.count('4')\n\nswap = abs(s4-t4)",

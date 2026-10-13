@@ -12138,9 +12138,32 @@
       "observedVerdict": "WA",
       "reason": "On all-equal 0002 computes the correct four indices but concatenates them as 1234 rather than four tokens. It also floors the global average on other cases, but replacing the recorded proof would require fresh counted-evidence revalidation, which was not authorized.",
       "semanticReview": {
-        "algorithmicWrong": false,
-        "excludedNonAlgorithmicCauses": "Recorded 0002 prints correct count and elements but concatenates their digits, a format-only failure. Included 0048 separately exposes a semantic defect; not substituting that for the designated proof.",
-        "faultyLogic": "The recorded all-equal test has the correct four selected positions but missing spaces (1234). The floor-of-global-mean is separately a semantic bug on included LF 0048 (1,2 -> correct zero, first line 1), but the designated 0002 counterexample is exclusively output layout.",
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1\n1",
+          "actualOutputSha256": "c553228271d4cf65305957e97cd75da60964776a9e615c702bd6a4c077d266c0",
+          "constraintValidity": "n=2 is the minimum permitted n and both values 1,2 are in 1..1000. Original included input is already exact LF.",
+          "correctAnswer": "0\n",
+          "countsAsDesignatedEvidence": false,
+          "diagnosticOutputExcluded": "",
+          "diagnosticRemovalMethod": "None required; 0048 original output is syntactically valid and mathematically wrong.",
+          "executionLogTestSelector": "0048",
+          "existingLfExecutionLogPath": "fresh/134A/source-43496029.json",
+          "existingLfExecutionLogSha256": "72a31305777638ac095904f36ec9c7b1c20472db52817df6ee792f7bc19ecbac",
+          "mathematicalAnswerAfterRemovingDiagnostics": "1\n1",
+          "mathematicalDerivation": "For [1,2], removing position 1 leaves only 2, whose average differs from 1; removing position 2 leaves only 1, whose average differs from 2. There are zero qualifying indices. floor((1+2)/2)=1 makes this source output count 1 and index 1; both tokens are valid presentation on this case, but the mathematical answer is wrong.",
+          "sourceHashBinding": {
+            "embeddedIdentityField": "identity.sourceHash",
+            "embeddedSourceTextField": "identity.code",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "sourceHash": "309c6934e5412f1f1b13bc7fba44189fbd897f91e77c03048372a2bb6c14e2e3"
+          },
+          "testName": "0048",
+          "validLfInput": "2\n1 2\n",
+          "validLfInputSha256": "fdcb27265764b2a73c62380d364aa177b18028a2d6fffe621bac5a23affde265"
+        },
+        "excludedNonAlgorithmicCauses": "The originally designated 0002 has correct count/selected elements but concatenates the index digits; it remains nonqualifying. Source-level algorithmicWrong is true on existing included LF 0048 without any presentation issue; evidence.failedTest is not changed.",
+        "faultyLogic": "Flooring the whole-array average at line 9 replaces the exact arithmetic predicate by a weaker one. For [1,2], it selects the value 1, though the other element has mean 2. The originally designated all-equal 0002 remains exclusively concatenated-index formatting and does not qualify.",
         "focusLines": [
           {
             "code": "for i in range(a):\n    suma+=mas[i]\nsuma//=a\nfor i in range(a):\n    if mas[i]==suma:\n        kol.append(i)\n        k+=1\nprint(k)\nif k!=0:\n    for i in range(len(kol)):\n        print(kol[i]+1, end='')",
@@ -12149,6 +12172,7 @@
           }
         ],
         "implementedAlgorithm": "Floors the whole-array mean once and selects elements equal to that floor; then prints the number followed by concatenated index characters.",
+        "qualifiesAtRecordedFailedTest": false,
         "sourceHash": "309c6934e5412f1f1b13bc7fba44189fbd897f91e77c03048372a2bb6c14e2e3",
         "sourceLines": [
           {
