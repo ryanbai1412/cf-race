@@ -1,0 +1,270 @@
+{
+  "schemaVersion": 1,
+  "id": "607A",
+  "rating": 1600,
+  "role": "recipe-author",
+  "status": "authored; local checks pending first push",
+  "qualification": {
+    "qualified": false,
+    "independentAudit": false,
+    "reason": "Authoring only. No submissions executed. Incomplete official suite requires parent 5 actual AC / 5 genuine algorithmic WA checks, a disjoint sixth accepted oracle, and later different-agent audit. This report is not a validation/signoff and adds zero validated problems."
+  },
+  "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
+  "inputBinding": {
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "archiveBytes": 4542856,
+    "manifestSha256": "c5aa6b8341d4ab6814424de54e241e91390fdc4c079e7f1daa4379bf07075381",
+    "file": "inputs/607A.json",
+    "sha256": "936cd97aba59209b2db7470ad85eff7fa4a65308d4535bf001b088b3f324ff14",
+    "bytes": 52851,
+    "sourceRowHash": "81c486ff41b1b77a66f35bd079f0495a8a9f089b389259fb1d863a19370eec7d",
+    "sourceRowHashVerifiedUsing": "pool_contract.digest(sourceRow)",
+    "sourceIndexHashFromAttachment": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "source": {
+      "bytes": 236490756,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00001-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "51082ac8f61eb9282f18586c373c3c360eeba9368323eb2aa209121162f39885",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00001-of-00011.parquet"
+    },
+    "verification": "Archive bytes and SHA256, per-file manifest bytes/SHA256, sourceRowHash, and exact pins checked. Full LFS shard was verified by attachment supplier, not redownloaded by this author. All supplied source/test/statement bytes remain unchanged."
+  },
+  "datasetDocumentation": [
+    {
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
+      "bodySha256": "b9971cff0a797603b79d78f49129830b0a1a4b99d9860e392fba126a4ef4dc69",
+      "readBeforeStatementRetrieval": true
+    },
+    {
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md",
+      "bodySha256": "8352430bd0fbc94cfe8762a9278c18a8494fca567a8aaf29a9e353c3f4627687",
+      "readBeforeStatementRetrieval": true
+    }
+  ],
+  "publicStatement": {
+    "sourceUrl": "https://codeforces.me/problemset/problem/607/A?locale=en",
+    "originalUrl": "https://codeforces.com/problemset/problem/607/A?locale=en",
+    "attribution": "Codeforces, 607/A Chain Reaction, original English statement served by public Codeforces mirror codeforces.me. HTML response saved verbatim; no authenticated proxy or bypass used.",
+    "bodySha256": "c7fefb439c34abfb51209b4c4dcf6f35dfb166bd1957b220edea13113e1e2eef",
+    "bytes": 59074,
+    "path": "statement-sources/607A.recipe-author.original.html",
+    "exactConstraintMarkup": [
+      "1 ≤ <i>n</i> ≤ 100 000",
+      "0 ≤ <i>a</i><sub class=\"lower-index\"><i>i</i></sub> ≤ 1 000 000",
+      "1 ≤ <i>b</i><sub class=\"lower-index\"><i>i</i></sub> ≤ 1 000 000"
+    ],
+    "semanticQuotes": [
+      "within distance",
+      "inclusive",
+      "If a beacon is destroyed, it cannot be activated.",
+      "strictly to the right",
+      "No two beacons will have the same position"
+    ]
+  },
+  "statementNormalization": {
+    "needed": false,
+    "replacements": [],
+    "exactCorrectionProposal": null,
+    "reason": "Upstream text already spells out 100 000 and 1 000 000 rather than flattened powers. Original public English markup confirms those bounds. No source correction is proposed."
+  },
+  "semantics": {
+    "n": [
+      1,
+      100000
+    ],
+    "position": [
+      0,
+      1000000
+    ],
+    "power": [
+      1,
+      1000000
+    ],
+    "layout": "One integer n on its own line, followed by exactly n lines of two unsigned-decimal integers a_i,b_i. Positions distinct; rows need not be sorted. LF and original CRLF accepted.",
+    "inputMode": "stdio",
+    "generatedChecker": null,
+    "interactive": false,
+    "uniqueOutput": "Single integer, minimum destroyed original beacons. No custom, floating or multiple-valid-output checker needed.",
+    "activation": "Inclusive leftward radius, never destroys itself, destroyed beacons do not activate. Added beacon chooses any suffix deletion (including none); its coordinate/power are not part of input or restricted by input bounds."
+  },
+  "oracle": {
+    "method": "Sort by coordinate. S[i+1]=1+S[j], where j is number of earlier positions strictly less than a_i-b_i. Output n-max(S). S describes actual survivors of a prefix when its last beacon activates; it is not a freely selectable surviving subset.",
+    "complexity": "O(n log n) time, O(n) auxiliary memory",
+    "argument": "The added rightmost beacon destroys exactly a suffix, or none. For each retained prefix, its last beacon activates and deletes all predecessors at coordinates >=a_i-b_i; the untouched prefix then executes unchanged. Maximize survivors across all prefixes.",
+    "independentReference": "For every retained prefix, mark destroyed indices by literal right-to-left activations and pairwise inclusive-distance tests; do not activate marked indices. Enumerate all suffix cutoffs, then minimize suffix deletions plus marked indices. No bisect or DP in this reference."
+  },
+  "authoredSuite": {
+    "plannedCount": 160,
+    "boundaryCount": 20,
+    "fixedSeedSmallCount": 120,
+    "fixedSeedMediumCount": 16,
+    "maxSizeCount": 4,
+    "seeds": [
+      1600607,
+      6071600
+    ],
+    "maximumCases": [
+      {
+        "n": 100000,
+        "pattern": "positions 0..99999, power 1",
+        "independentExpectedOutput": 50000
+      },
+      {
+        "n": 100000,
+        "pattern": "positions 1000000,999990,...,10, power 1",
+        "independentExpectedOutput": 0
+      },
+      {
+        "n": 100000,
+        "pattern": "positions 0..99999, power 1000000",
+        "independentExpectedOutput": 99999
+      },
+      {
+        "n": 100000,
+        "pattern": "detached (1000000,1), then positions 0..99998, power 1",
+        "independentExpectedOutput": 49999
+      }
+    ],
+    "maxSizeReasoning": [
+      "Each active dense unit beacon destroys its immediate predecessor; best survivor count is ceil(n/2).",
+      "All gaps exceed radius so no beacon is destroyed, even in reverse input order.",
+      "Every activation deletes all earlier beacons, leaving exactly one survivor.",
+      "Detached endpoint survives in addition to ceil(99999/2) dense-prefix survivors."
+    ]
+  },
+  "brutePlan": {
+    "exhaustiveDomain": "Every nonempty subset of coordinates 0..5 with powers 1..4: sum C(6,n)*4^n = 15624 cases.",
+    "randomCount": 400,
+    "randomSeed": 6071600,
+    "expectedComparisonCount": 16024,
+    "additionalGeneratedChecks": "All 156 nonmaximum authored cases against literal simulation; four maximum cases against independent closed forms; all ten supplied official/sample pairs against literal simulation."
+  },
+  "upstreamPairs": {
+    "official_tests": [
+      {
+        "name": "official_tests/0",
+        "inputSha256": "84fc9dc6bd7c6523f8191d83a32e4ed6c6eca56b4b3677c95f05e44599ae3aa6",
+        "outputSha256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+        "inputBytes": 23,
+        "outputBytes": 3
+      },
+      {
+        "name": "official_tests/1",
+        "inputSha256": "10a27f8802166ba904516f322f79827557ee551f672b1796946a6c2144d60e07",
+        "outputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "inputBytes": 38,
+        "outputBytes": 3
+      },
+      {
+        "name": "official_tests/2",
+        "inputSha256": "12557c0d0933cb6808fcd17e35c99ae73895df407d19352f5cc13db40468bfe2",
+        "outputSha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+        "inputBytes": 8,
+        "outputBytes": 3
+      },
+      {
+        "name": "official_tests/3",
+        "inputSha256": "2f208ae0089e610284c16b9ddcbaf4737958816cc87b9ad40c93925de5996e23",
+        "outputSha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+        "inputBytes": 14,
+        "outputBytes": 3
+      },
+      {
+        "name": "official_tests/4",
+        "inputSha256": "0488821b3f2588036d5494a873c2be07e431d6f8a034e4f7d483806a1a17e906",
+        "outputSha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+        "inputBytes": 20,
+        "outputBytes": 3
+      },
+      {
+        "name": "official_tests/5",
+        "inputSha256": "cb22c13294dee1161c7cee044713136c5a5d89ed4f11d79fdbcaa75cf70aba3d",
+        "outputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "inputBytes": 38,
+        "outputBytes": 3
+      },
+      {
+        "name": "official_tests/6",
+        "inputSha256": "6dc99e41e6b485424bbe8ab59142de8e14795e7c7d24446f103d8b361e5c0e07",
+        "outputSha256": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+        "inputBytes": 30,
+        "outputBytes": 3
+      },
+      {
+        "name": "official_tests/7",
+        "inputSha256": "15d0a0bf3be07322804b13a19d5732e90f550c18373f69656044dce60ef61f63",
+        "outputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "inputBytes": 77,
+        "outputBytes": 3
+      }
+    ],
+    "examples": [
+      {
+        "name": "examples/0",
+        "inputSha256": "067c64578fd3b46f56ec8d0e9f8d0ea177bd9cc4205271f7847a6d8aaba12042",
+        "outputSha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "inputBytes": 17,
+        "outputBytes": 1
+      },
+      {
+        "name": "examples/1",
+        "inputSha256": "5bd9bf7198375016c946a542ea5ec3441c9885f909f7cbd633a3383ebf7bf156",
+        "outputSha256": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+        "inputBytes": 29,
+        "outputBytes": 1
+      }
+    ]
+  },
+  "upstreamSuite": {
+    "declaredTestsetSize": 41,
+    "suppliedOfficialPairs": 8,
+    "suppliedExamples": 2,
+    "officialTestsComplete": false,
+    "generatedTestsMetadataOnly": 22,
+    "note": "generated_tests is an integer count, not additional supplied input/output bytes. Eight official pairs, not 41, are available in the attachment."
+  },
+  "upstreamReview": {
+    "status": "pending post-push checks",
+    "failedPairs": null
+  },
+  "sourceInspection": {
+    "scope": "Static inspection only; no public-source execution, verdict replay, WA proof or qualification claim. Entire selectedSubmissions bytes remain bound by input file hash.",
+    "motifs": [
+      {
+        "submissionId": "14995957",
+        "sourceSha256": "9e9e186e105ca11f9f94915a036890258c52eeefa966f8606f76c871ed2b508d",
+        "observation": "Coordinate scan begins at 1 with no initialization for a beacon at zero; motivate zero-coordinate boundaries."
+      },
+      {
+        "submissionId": "15276552",
+        "sourceSha256": "64d19369b9c21c3bd731d94fc9c427ba6b82d649aa0372b847e57dd1fd7370b3",
+        "observation": "Consumes Becone[0] at successive increasing coordinates without sorting; motivate arbitrary input ordering."
+      },
+      {
+        "submissionId": "49236533",
+        "sourceSha256": "3f2ec6f1a213adb52b9c155247522ae0c37e20ab4ec85d71dc55beaefd8a30f9",
+        "observation": "Considers the original sequence and removal of just its last beacon; motivate optimum requiring deletion of two suffix beacons."
+      },
+      {
+        "submissionId": "23036394",
+        "sourceSha256": "15fe0e6aca6330315b2e944b72572e126fe5f7565f2ec0e2e09108837e85b9e8",
+        "observation": "Slices coordinate array with sorted index i rather than ab[i][0]; motivate sparse, large coordinates."
+      }
+    ],
+    "excludedAsProof": [
+      "Hardcoded sample outputs (14998551)",
+      "Debug printing (18178256)",
+      "TLE-labelled sources: no timeout-only kills claimed."
+    ],
+    "unitMutants": "Own authored variants check omitted coordinate zero, exclusive radius, missing sort, no suffix deletion, and only-zero/one suffix deletion. They are defect motifs, not executions of original submissions."
+  },
+  "localChecks": {
+    "status": "pending; commit/push precedes final local validation"
+  },
+  "integration": "No shared registrations, product/gate/foundation, packages, inventory, qualifications, evidence or audits changed. Parent owns integration and independent qualification."
+}
