@@ -1,0 +1,146 @@
+{
+  "authoredSuite": {
+    "bruteSeed": 4461601,
+    "categories": [
+      "boundary",
+      "adversarial",
+      "maxSize"
+    ],
+    "fixedSeed": 4461600,
+    "plannedCount": 160,
+    "plannedMaxSizeCount": 5,
+    "validation": "pending after initial push"
+  },
+  "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
+  "checks": {
+    "bruteAssertions": null,
+    "status": "pending after initial push",
+    "unittestMethods": null
+  },
+  "datasetCardsRead": [
+    "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
+    "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md"
+  ],
+  "id": "446A",
+  "inputBinding": {
+    "archiveBytes": 4542856,
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "bytes": 53665,
+    "canonicalDigest": "pool_contract.digest(sourceRow)",
+    "manifestPath": "inputs/MANIFEST.json",
+    "manifestSha256": "c5aa6b8341d4ab6814424de54e241e91390fdc4c079e7f1daa4379bf07075381",
+    "path": "inputs/446A.json",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "sha256": "c1d2277f25f18182314ff6ea5c7ed4059c5a81ee6370f241ce4866e63a478599",
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "sourceRowHash": "dfc7032651397d6e0dc12e181157213ebc3d7da4a85573adcd47e3635d567610",
+    "upstreamShard": {
+      "bytes": 110782908,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00009-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "7b0a8a962a669eeeafc769ccaf05ed5a3b29f2128489e28f8873cad265acfc17",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00009-of-00011.parquet"
+    },
+    "upstreamVerificationScope": "Parent supplied row from a byte-hash verified full upstream LFS shard; this author verified the attachment manifest, input bytes and canonical sourceRow digest, not a second download of the full shard."
+  },
+  "ownedFiles": [
+    "recipe_446A.py",
+    "test_recipe_446A.py",
+    "recipe-reports/446A.json",
+    "statement-sources/446A.recipe-author.original.html"
+  ],
+  "parentIntegrationRequirements": [
+    "No recipe registration or shared pipeline changes made.",
+    "Official suite is incomplete (72 supplied / 92 advertised); original pairs remain supplementary for any generated-basis qualification.",
+    "Parent must perform extensive generated suite validation against 5 actual AC and 5 actual genuine algorithmic WA sources, use a disjoint sixth accepted oracle and obtain later different-agent audit. This authoring is not qualification and does not add to independently validated count."
+  ],
+  "qualification": "not-qualified; no independent audit/signoff performed",
+  "role": "recipe-author",
+  "schemaVersion": 1,
+  "selectedSubmissionBinding": {
+    "canonicalDigest": "847dfc2810e752f03494f734bd60701f3001c0a5f5a3aa1530464479546f7bc1",
+    "count": 32,
+    "executed": false,
+    "originalSourcesPreserved": true
+  },
+  "semantics": {
+    "ai": [
+      1,
+      1000000000
+    ],
+    "bruteReference": "Enumerate each replacement position and candidate v-1,v,v+1 for every original value v, then directly scan modified arrays. Candidates represent every possible integer ordering relative to retained neighbors, including endpoints outside input bounds.",
+    "layout": "Two nonempty lines: one n, then exactly n array integers. CRLF accepted without changing source bytes.",
+    "n": [
+      1,
+      100000
+    ],
+    "oracle": "O(n) strict increasing left/right runs; one-sided extension or join across one replaced element if retained neighbor difference >=2.",
+    "replacement": "At most one element of the chosen contiguous segment, to any integer, including 0 or >10^9.",
+    "uniqueOutput": "Single exact integer: maximum length. Standard input/output; no interactive, custom, floating, or multiple-valid-output checker."
+  },
+  "sourceCorrectionProposal": {
+    "applied": false,
+    "field": "input_format",
+    "original": "The first line contains integer n (1 ≤ n ≤ 105). The next line contains n integers a1, a2, ..., an (1 ≤ ai ≤ 109).",
+    "proposed": "The first line contains integer n (1 ≤ n ≤ 10<sup>5</sup>). The next line contains n integers a1, a2, ..., an (1 ≤ ai ≤ 10<sup>9</sup>).",
+    "reason": "Full original public English HTML explicitly attests the exponents. Original source row remains unchanged; parent must apply documented normalization before qualification.",
+    "replacements": [
+      {
+        "new": "≤ 10<sup>5</sup>)",
+        "occurrences": 1,
+        "old": "≤ 105)"
+      },
+      {
+        "new": "≤ 10<sup>9</sup>)",
+        "occurrences": 1,
+        "old": "≤ 109)"
+      }
+    ]
+  },
+  "sourceReviewMotivation": {
+    "finding": "Treats at most one non-increasing adjacency as sufficient; no integer bridge feasibility check. The locally reimplemented algorithmic mutant on 4\\n1 2 2 3\\n predicts 4, whereas exhaustive replacement must give 3. Not a sandbox replay or a qualification kill claim.",
+    "lineRange": [
+      5,
+      23
+    ],
+    "sourceSha256": "28cc0aa6dfa4cd9a5bdfd0963c4cc718606d168fb166a949d59487b5aa480cbd",
+    "submissionId": "10175997",
+    "verdict": "WRONG_ANSWER"
+  },
+  "statementAttestation": {
+    "attribution": "Codeforces Round #FF (Div. 1), problem A, DZY Loves Sequences; original English Codeforces statement publicly mirrored by codeforces.me. Original dataset rows from open-r1/codeforces; public submissions from open-r1/codeforces-submissions.",
+    "bodyBytes": 58204,
+    "bodySha256": "a08bc2788d2443159549a9a9775eacf40260c90998cd59bc2fe601f57c3c8c37",
+    "constraintMarkup": [
+      "10<sup class=\"upper-index\">5</sup>",
+      "10<sup class=\"upper-index\">9</sup>"
+    ],
+    "copyByteRange": {
+      "endExclusive": 39265,
+      "startInclusive": 36353
+    },
+    "copyDescription": "Byte-exact balanced problem-statement div from the fetched body; no row or fetched statement text rewritten.",
+    "copyPath": "statement-sources/446A.recipe-author.original.html",
+    "copySha256": "c9c47634aed140ec44928e85331088ef48c292e0e795fc1d10a9f50b8ee9d395",
+    "locale": "en",
+    "unboundedReplacementQuote": "change one number to any integer you want",
+    "url": "https://codeforces.me/problemset/problem/446/A?locale=en"
+  },
+  "status": "authored-awaiting-local-checks",
+  "upstreamReview": {
+    "advertisedGeneratedCount": 9,
+    "advertisedOfficialPairs": 92,
+    "bytePreservation": "All statement, sample, official-test and public-source bytes in the input remain unchanged. No packages or outputs rewritten.",
+    "failedPairs": null,
+    "generatedPairsSupplied": false,
+    "officialTestsComplete": false,
+    "pairResults": [],
+    "reviewStatus": "pending after initial push",
+    "suppliedOfficialPairs": 72,
+    "suppliedSamples": 1
+  }
+}
