@@ -11,9 +11,9 @@ from pool_sandbox import run
 from pool_contract import write_json
 
 
-def inspect(pid):
-    evidence = read(BASE / "evidence" / f"{pid}.json")
-    package = BASE / "packages" / pid
+def inspect(pid, base=BASE):
+    evidence = read(base / "evidence" / f"{pid}.json")
+    package = base / "packages" / pid
     meta = read(package / "meta.json")
     outputs = {text[0].lower() for path in (package / "tests").glob("*.out")
                if (text := tokens(path.read_bytes())) and len(text) == 1}
@@ -22,7 +22,7 @@ def inspect(pid):
         if reference["expected"] == "OK":
             continue
         sid = str(reference["submissionId"])
-        source = read(BASE / "state" / pid / "sources" / f"{sid}.json")
+        source = read(base / "state" / pid / "sources" / f"{sid}.json")
         name = reference["failedTest"]
         raw = (package / "tests" / f"{name}.in").read_bytes()
         expected = (package / "tests" / f"{name}.out").read_bytes()
@@ -47,7 +47,7 @@ def inspect(pid):
                           "actual": [output.decode(errors="replace")[:2000] for output in decoded],
                           "sourceReview": "REQUIRED; normal different output alone is not proof of an algorithmic source"})
         print(pid, sid, name, normal, shapes, flush=True)
-    write_json(BASE / "review" / f"{pid}-witnesses.json", witnesses)
+    write_json(base / "review" / f"{pid}-witnesses.json", witnesses)
     return witnesses
 
 
