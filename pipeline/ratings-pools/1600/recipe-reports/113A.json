@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "113A",
   "role": "recipe-author",
-  "status": "authored-final-capture-check-pending",
+  "status": "authored-targeted-checks-passed",
   "qualificationPerformed": false,
   "independentAuditPerformed": false,
   "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
@@ -85,7 +85,7 @@
   "oracle": {
     "efficient": "For every word recognize only its final ending. Reject unknown endings and mixed gender. A single recognized word is YES. Otherwise require nondecreasing adjective/noun/verb phase and exactly one noun. O(total input characters), O(number of words) parsed data, O(1) oracle auxiliary space.",
     "independentReference": "Three directly encoded whole-sentence regular grammars: one valid word, masculine adjective* noun verb*, feminine adjective* noun verb*. Uses fullmatch on the complete text, never calls suffix classification or phase logic.",
-    "plannedBruteDomains": [
+    "executedBruteDomains": [
       "Exhaust all lengths 1..5 over six suffix-only valid words plus invalid a (19607 sequences).",
       "Exhaust all one-word strings of lengths 1..4 over aeilnorst (7380 words).",
       "500 small fixed-seed random prefix/type/invalid-ending sequences (seed 1131600).",
@@ -146,11 +146,12 @@
     "reviewScope": "Every supplied official/sample input passed exact layout/range parsing and every supplied expected output matched the efficient oracle. No malformed pairs or contradictions were observed; no source bytes or outputs were altered."
   },
   "localChecks": {
-    "status": "functional-checks-passed-final-capture-check-pending",
+    "status": "passed",
     "unitTestsPassed": 9,
     "bruteCrossChecksPassed": 27647,
     "syntax": "Both Python files AST-parsed successfully.",
-    "diffCheck": "Initial check found only trailing whitespace in full public-page chrome. Exact original statement element retained instead; final diff check pending.",
+    "diffCheck": "git diff --check 5b28d33..HEAD passed. Initial check found only trailing whitespace in full public-page chrome; retained the exact original statement element instead, without modifying any source statement bytes.",
+    "publicSourceBinding": "Retained statement element is an unchanged contiguous substring of the full original HTTP body; both SHA256 bindings verified.",
     "commands": [
       "python3 -m unittest discover -s pipeline/ratings-pools/1600 -p test_recipe_113A.py -v",
       "python3 AST parse of recipe_113A.py and test_recipe_113A.py",
