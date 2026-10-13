@@ -1,0 +1,138 @@
+{
+  "authoredTests": {
+    "byCategory": {
+      "adversarial": 146,
+      "boundary": 11,
+      "maxSize": 8
+    },
+    "count": 165,
+    "maxSizeCases": "8 cases with |s|=100000, including k=13",
+    "motivation": "Targets wrong algorithms in the selected WA sources: run ended by an unpaired letter at end (5544489 stale reset), counting forbidden adjacencies or (run length+1)//2 instead of min letter counts (48082580, 30291853, 9284800), local skip greedy (5544384, 90464038, 90466093, 186382481), runs of different pairs touching, reversed pair order. Sources inspected only, never executed.",
+    "seed": 16015400
+  },
+  "checks": {
+    "bruteChecks": {
+      "154A": 78174
+    },
+    "commands": [
+      "python3 -m unittest test_recipe_154A (from pipeline/ratings-pools/1600)",
+      "python3 -c ast.parse",
+      "git diff --check"
+    ],
+    "unittestAssertionCalls": 1787,
+    "unittestMethods": 7
+  },
+  "constraints": {
+    "k": [
+      0,
+      13
+    ],
+    "letterReuse": "each letter in at most one pair",
+    "lineLayout": "line1 s, line2 k, then k lines of one pair each; LF or CRLF accepted; no blank/extra lines, no spaces",
+    "pairLine": "exactly two different lowercase letters, no separators",
+    "sAlphabet": "a-z",
+    "sLength": [
+      1,
+      100000
+    ]
+  },
+  "exclusion": null,
+  "files": {
+    "recipe_154A.py": "e1974b17a0bc0edd4ea69a2c275e327ffa9aebe390c8a6eb8ca62d162bf3c2c5",
+    "statement-sources/154A.recipe-author.original.html": "d49bd7729f99a9fc87b07a59c89930fbba9f33371034d39049458219118e165a",
+    "test_recipe_154A.py": "d229f279df874abbc6fd1bbda8992f0529163dabafb72ad2130a8899be65f227"
+  },
+  "id": "154A",
+  "inputs": {
+    "archiveBytes": 4542856,
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "file": "inputs/154A.json",
+    "fileBytes": 49065,
+    "fileSha256": "04f6427556e4a99fb4844259f50af825b6bb7e652e20f1d6d0894433d82d54dd",
+    "manifestEntryMatches": true,
+    "manifestSha256": "c5aa6b8341d4ab6814424de54e241e91390fdc4c079e7f1daa4379bf07075381",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "sourceRowHash": "336c8d9dfd217aca1b8be51810fa08eaeb6e67a5461490a42bf31a5240aae19e",
+    "sourceRowHashRecomputed": "336c8d9dfd217aca1b8be51810fa08eaeb6e67a5461490a42bf31a5240aae19e",
+    "sourceShard": {
+      "bytes": 403816275,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00006-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "56472c2a050a04899399691e1247b91ca6f9f8ac62fc633aeb1e39065832ffb7",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00006-of-00011.parquet"
+    }
+  },
+  "notAnAudit": true,
+  "officialReview": {
+    "failures": [],
+    "lineEndings": "All 15 official inputs/outputs use CRLF; parser uses splitlines so CR is accepted.",
+    "malformedOrContradictoryPairs": [],
+    "officialComplete": false,
+    "officialTestsInRow": 15,
+    "openR1GeneratedTests": "Row reports generated_tests=15 but the generated test bytes are not in this input; they were not reviewed here and must be validated with parse() by the parent.",
+    "samples": 2,
+    "testsetSize": 42
+  },
+  "oracle": {
+    "efficient": "answer(): O(n) scan; each maximal run of letters from one pair contributes min(count of each letter).",
+    "independent": [
+      "exhaustive(): minimum deletion count over all kept subsequences (n<=6 in brute_checks, n<=10 in tests)",
+      "last_kept_dp(): O(27n) DP maximizing kept letters by last kept letter"
+    ]
+  },
+  "problem": {
+    "aliases": [
+      "155/C"
+    ],
+    "customChecker": false,
+    "fileIO": false,
+    "floatingOutput": false,
+    "inputMode": "stdio",
+    "interactive": false,
+    "memoryLimitMB": 256.0,
+    "multipleValidOutputs": false,
+    "sourceId": "154/A",
+    "statementComplete": "Full pinned description/input/output/note/examples read; no image or omitted question. Matches public English statement text apart from the flattened exponent.",
+    "timeLimitSeconds": 2.0,
+    "title": "Hometask"
+  },
+  "role": "recipe-author",
+  "semantics": "Line 1: nonempty lowercase s, |s|<=10^5 (exponent attested from public English statement). Line 2: integer k 0..13. Next k lines: two different lowercase letters, every letter in at most one pair; pairs are unordered. Unique integer: minimum deletions so no forbidden pair is adjacent. Oracle: for every maximal run consisting only of the two letters of one pair, delete the rarer letter (min of the two counts); runs are independent because other letters are never worth deleting. Independently checked by exhaustive kept-subsequence enumeration and a separate last-kept-letter dynamic program.",
+  "sourceCorrectionProposal": {
+    "field": "sourceRow.input_format",
+    "from": "The length of string s doesn't exceed 105.",
+    "needed": true,
+    "note": "Proposal only; no imported statement, row, sample, test, or source bytes were changed.",
+    "occurrences": 1,
+    "otherFields": "No other flattened numerals in description/output_format/note/examples; \"0 ≤ k ≤ 13\" is literal.",
+    "to": "The length of string s doesn't exceed 10<sup>5</sup>."
+  },
+  "statementAttestation": {
+    "attestedMarkup": "The length of string <span class=\"tex-span\"><i>s</i></span> doesn't exceed <span class=\"tex-span\">10<sup class=\"upper-index\">5</sup></span>.",
+    "bodyBytes": 59778,
+    "bodySha256": "fed8c68730e4091b9db056b2c2fbe486fdd0081c5f840b0f73a7c797fb4294dd",
+    "capturedAt": "2026-10-13T01:47:57Z",
+    "copy": {
+      "bodyByteRange": [
+        36367,
+        40839
+      ],
+      "bytes": 4472,
+      "kind": "byte-exact excerpt of the full HTTP body: the complete <div class=\"problem-statement\"> element (all statement, input, output, examples and note sections)",
+      "reason": "Page chrome outside the statement element (scripts, navigation) has trailing whitespace and is not needed; full-body SHA256 is retained so the excerpt is verifiable against a fresh fetch.",
+      "sha256": "d49bd7729f99a9fc87b07a59c89930fbba9f33371034d39049458219118e165a"
+    },
+    "copyPath": "statement-sources/154A.recipe-author.original.html",
+    "crossCheck": "cf-p.vercel.app proxy returned 200 with 1097 bytes (no statement body); not used.",
+    "locale": "en",
+    "sourceUrl": "https://codeforces.me/problemset/problem/154/A?locale=en",
+    "transport": "Public unauthenticated HTTP GET (curl), raw response body retained unchanged."
+  },
+  "statusNote": "Recipe authored only. Not a qualification, audit, or signoff; parent qualification and a different-agent audit are still required.",
+  "validated": false
+}
