@@ -53,12 +53,13 @@ def main(workspace, out_dir, *ids):
             gq = base / "gen-qualification" / pid
             if gq.exists():
                 add_tree(tar, gq, f"gen-qualification/{pid}", manifest)
-        for sub in ("recipes", "genrecipes", "tools"):
+        for sub in ("recipes", "genrecipes", "tools", "diagnostics"):
             add_tree(tar, POOL / sub, f"worker/{sub}", manifest)
         for name in ("inventory.json", "api-problems.json", "report.json"):
             if (base / name).exists():
                 add_tree(tar, base / name, f"workspace/{name}", manifest)
         add_tree(tar, POOL / "exclusions.json", "worker/exclusions.json", manifest)
+        add_tree(tar, POOL / "AUDIT-HANDOFF.md", "worker/AUDIT-HANDOFF.md", manifest)
         report = out / "worker-report.json"
         if report.exists():
             add_tree(tar, report, "worker-report.json", manifest)
