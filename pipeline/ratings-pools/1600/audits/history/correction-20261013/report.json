@@ -1,0 +1,304 @@
+{
+ "base": "3e2cdd3f1770c770adb17221878548006b827c7c",
+ "bundle": "pipeline/ratings-pools/1600/audits/history/correction-20261013",
+ "codeSha256": {
+  "code/compare.py": "640662a295141b2ea151ac8f8533da61747d524326ab392b3cbeb4012b7ed11c",
+  "code/harness.py": "1dd7efd4776d4d8f0eb30512e4182274d33b1bd28c0a2abbffa41c137685d4a9",
+  "code/harness_c582.py": "c582ff42561c5181591b7fef36aa3ac550cffbcb09dd45135e7ea9a522983d0d",
+  "code/harness_witness.py": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
+  "code/judge.py": "df9f3e33be2e97e9d864dac1ae32ec96edf39845235872d36af6da473f6a1b5f",
+  "code/launcher.py": "0815a7c051885918656ae9fd38f763d4a0bef346a37f83431a5a3a5fa451856d",
+  "code/launcher_c582.py": "2c922cea90c9f5576dab14487e549203979a935a0a5f6db480b24701bc34f4c6",
+  "code/mkfinal.py": "fe80acb401203fa2385d236c4e06908a3f3a36d9f4aa59e73f3306bfe794e4c5",
+  "code/mktuples.py": "3fb42a6cbde5e4c63ef52b7a54c33ec03a9d5eedfb7d4bb244ef0c6be4b73750",
+  "code/proofs_a.json": "25aeb6b3aae2a485d0a9d9aac40b2d59a7ebd0aaebd8eae6579675cf51ef9e4d",
+  "code/proofs_b.json": "d68cf714a9ce257d114538dd87cc0dcfc32e4e140474216ed6629bff93a0dd69",
+  "code/wanalyze.py": "aacdb6e4fc43e5c4baf1222539ae26b9ee9b7ba2e8227d5666db036be60e663f",
+  "code/wfull_analyze.py": "60945bd2e4545af0944ee7a0bac200adefa09ba4c503551e23dda9d3aa22fef1",
+  "code/witness.py": "861f8f394e90ad2a775e4b349c81af07620fb224de258c42e9263f10e1c310c4",
+  "code/witness_full.py": "fd21a67c2781b88d8a41b9ec2c8cfd145b6f6028013b3f1f61cd4edd76a30609"
+ },
+ "revoked": {
+  "209A": {
+   "auditHash": "a8061232a8466236477b8595a94e9d895e75886d1ecaafe80c7d4c91bc153cf6",
+   "gaps": {
+    "209A/30579897": {
+     "fault": "closed form n(n+1)/2 is not the zebroid count (e.g. n=2 answer 3, prints 4.0); float division also formats as x.0",
+     "faultyLineText": {
+      "2": "ans = n*(n+1)",
+      "3": "ans = ans/2",
+      "9": "    ans=ans+1;"
+     },
+     "faultyLines": [
+      2,
+      3,
+      9
+     ],
+     "pointerGap": "evidence failedTest 0001 is format-only (prints 6.0 for expected 6); first legal LF math-wrong normal-exit test is 0004 (2 -> 4.0, expected 3)",
+     "proofSha256": "346dee496ae445e00f18095fd64d2ef6579a8af6826be672d94120df370970e1",
+     "recommendedWitness": {
+      "actual": "4.0",
+      "actualOutputSha256": "5ca797740e932dd836206d2b4bea825c83bc47e25e45006d0a2b62fe71be40b6",
+      "cpu": 0.029,
+      "expected": "3",
+      "expectedOutputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "input": "2\n",
+      "lfInputSha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "packageInputSha256": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "rc": 0,
+      "record": "witness-full/209A-30579897.json",
+      "test": "0004",
+      "timeout": false
+     }
+    },
+    "209A/37271596": {
+     "excluded": "wrong-problem source: reads n as a character string and counts adjacent pairs; does not implement 209A; needs replacement",
+     "fault": "does not model 209A at all: treats the integer n as a string of characters; this is source for a different problem (wrong-problem)",
+     "faultyLineText": {
+      "12": "\t\tfor i in range(0,rl1-1,2):",
+      "13": "\t\t\tif route[i] != route[i+1]:",
+      "14": "\t\t\t\tnew_route += 1",
+      "15": "\t\t\telse:",
+      "16": "\t\t\t\tnew_route += 2",
+      "3": "\t\troute = list(input())"
+     },
+     "faultyLines": [
+      3,
+      12,
+      13,
+      14,
+      15,
+      16
+     ],
+     "proofSha256": "861fa5a41fe64a9b7ff10474d2487f5cf2fcd0978d5b117b19a17d6b19162f0e"
+    }
+   },
+   "history": "pipeline/ratings-pools/1600/audits/history/209A/a8061232a8466236477b8595a94e9d895e75886d1ecaafe80c7d4c91bc153cf6.json",
+   "qualifyingIncorrect": "3/5"
+  },
+  "235A": {
+   "auditHash": "db715cb94f7cd767e2541feb75466946d03ad3414bd9678c4d34712045e2897b",
+   "gaps": {
+    "235A/6367509": {
+     "fault": "for even n the candidate (n-1)(n-2)(n-3) is never considered (needed when 3|n), and res/2*(n-2) is float (prints 60.0)",
+     "faultyLineText": {
+      "5": "for i in range(n - 2 if n % 2 != 0 else n - 3, 0, -2):",
+      "7": "        res = res * i if n % 2 != 0 else max(res * i, res / 2 * (n - 2))"
+     },
+     "faultyLines": [
+      5,
+      7
+     ],
+     "pointerGap": "evidence failedTest 0005 is format-only (prints 60.0 for expected 60); first legal LF math-wrong normal-exit test is 0032 (924 -> 783770988, expected 783776526)",
+     "proofSha256": "f6df14e7508c602f71c8ccf905025d49375612ebc992d7666816e773c96f8c1a",
+     "recommendedWitness": {
+      "actual": "783770988",
+      "actualOutputSha256": "b3f97ef315641a0fd8066917e9b090c6ad6daf78f94b1e8cbfdb2a69286abbde",
+      "cpu": 0.025,
+      "expected": "783776526",
+      "expectedOutputSha256": "88fa1eac821f5869a0b2c071c6614190d605c2941eaa41c2909a9c8d00ceac4e",
+      "input": "924\n",
+      "lfInputSha256": "16d89bcc46ed3bd2db9661fba091edeaa897e8bd53bebd37299fbc7db4686384",
+      "packageInputSha256": "edbde904b6a2cc8ed984e328c8b829e96f9371fc916061f5f1963015b403dfce",
+      "rc": 0,
+      "record": "witness-full/235A-6367509.json",
+      "test": "0032",
+      "timeout": false
+     }
+    }
+   },
+   "history": "pipeline/ratings-pools/1600/audits/history/235A/db715cb94f7cd767e2541feb75466946d03ad3414bd9678c4d34712045e2897b.json",
+   "qualifyingIncorrect": "4/5"
+  },
+  "55B": {
+   "auditHash": "8f2f2d76f1c6d7a7dbf9f1a505d5943ccee50c4885815516718410fc75e9504e",
+   "gaps": {
+    "55B/5592269": {
+     "fault": "line 13 prints intermediate values (a b c ops) instead of an answer for '*'-first sequences other than '*+*'/'**+'; line 14 always merges the two largest with '+' first and evaluates a*b + (c+d), never e.g. (c+d)*0 + 1 (1 1000 0 2 / + * + -> 1002, expected 1)",
+     "faultyLineText": {
+      "12": "    a, b, c = sorted([a * b, c, d])",
+      "13": "    print(a, b, c, t[1: ])",
+      "14": "else: print(f(a, b, c + d, t[1: ]))"
+     },
+     "faultyLines": [
+      12,
+      13,
+      14
+     ],
+     "pointerGap": "evidence failedTest 0003 prints intermediate values (2 3 4 ++), not an answer; first legal LF math-wrong normal-exit test is 0087 (1 1000 0 2 / + * + -> 1002, expected 1); 0091 and 0222 are the only other math-wrong tests",
+     "proofSha256": "a21d7d8810c3e8c7843678b9f03d005a671b10991ae8973b6dec8ac367791db4",
+     "recommendedWitness": {
+      "actual": "1002",
+      "actualOutputSha256": "8d2510d85c94c519a91dbab464e232a824442bc7f6ef8901d8b5534825373878",
+      "cpu": 0.033,
+      "expected": "1",
+      "expectedOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "input": "1 1000 0 2\n+ * +\n",
+      "lfInputSha256": "2418f06149386be83c19c61625087fdc4ec17f3d522b64b0552828132be94e56",
+      "packageInputSha256": "2418f06149386be83c19c61625087fdc4ec17f3d522b64b0552828132be94e56",
+      "rc": 0,
+      "record": "witness-full/55B-5592269.json",
+      "test": "0087",
+      "timeout": false
+     }
+    }
+   },
+   "history": "pipeline/ratings-pools/1600/audits/history/55B/8f2f2d76f1c6d7a7dbf9f1a505d5943ccee50c4885815516718410fc75e9504e.json",
+   "qualifyingIncorrect": "4/5"
+  },
+  "704A": {
+   "auditHash": "1c544277f04b546423daff0006ba470ffcbe6a6f8c6920f3bca6b75881259d2a",
+   "gaps": {
+    "704A/20046740": {
+     "fault": "one 'check' counter mixes type-2 reads with the type-3 prefix pointer, so type 3 subtracts the wrong amount; line 24 prints a Python list (format)",
+     "faultyLineText": {
+      "16": "\t\t\tcheck+=l[b]",
+      "19": "\t\tsum-=(b-check)",
+      "20": "\t\tcheck+=(b-check)",
+      "24": "print(f)"
+     },
+     "faultyLines": [
+      16,
+      19,
+      20,
+      24
+     ],
+     "pointerGap": "evidence failedTest 0001 is format-only (Python list [1, 2, 3, 2] with correct numbers); first legal LF test with wrong numbers is 0003 (85 values, value #26 is 8, expected 9) but every output of this source is list-formatted, so replacing the source is cleaner",
+     "proofSha256": "4f3c4c600ad5bca27dc1c8b4056c6ce88ae86b53b612afbc7066729736da3ac6",
+     "recommendedWitness": {
+      "actual": "[0, 1, 2, 2, 3, 4, 5, 4, 5, 3, 4, 5, 6, 7, 2, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 8, 5, 6, 7, 8, 9, 10, 1",
+      "actualOutputSha256": "c1781e100b2595b4c9bbebe588e17b681113e015757b016f7eece12b5355eb1c",
+      "cpu": 0.023,
+      "expected": "0\r\n1\r\n2\r\n2\r\n3\r\n4\r\n5\r\n4\r\n5\r\n3\r\n4\r\n5\r\n6\r\n7\r\n2\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\n9\r\n7\r\n8\r\n9\r\n10\r\n11\r\n12\r\n",
+      "expectedOutputSha256": "6ec6c46fa5d11137d19c9da02b17788f1aa565d425633de90d5540d11a9900eb",
+      "input": "10 85\n2 2\n1 10\n1 1\n2 6\n1 2\n1 4\n1 7\n2 1\n1 1\n3 3\n1 9\n1 6\n1 8\n1 10\n3 8\n2 8\n1 6\n1 3\n1 9\n1 6\n1 3\n1 8\n1 1\n1 6\n1 10\n2 1\n2 10\n1 10\n1 1\n1 10\n1 6\n1 2\n1 8\n1 3\n1 4\n1 9\n1 5\n1 5\n2 2\n2 4\n1 7\n1 1\n2 4\n1 9\n1 1\n1 7\n1 8\n",
+      "lfInputSha256": "b36e09d4ceafde9c4661464aaea1e1a6810f48ceaa0af45246cdc4776bbb6cc6",
+      "packageInputSha256": "c81ed2e1e4f81f525778a2cc87ce1b3bd2b77a5baf995c6f62bb1c005132edd5",
+      "rc": 0,
+      "record": "witness-full/704A-20046740.json",
+      "test": "0003",
+      "timeout": false
+     }
+    }
+   },
+   "history": "pipeline/ratings-pools/1600/audits/history/704A/1c544277f04b546423daff0006ba470ffcbe6a6f8c6920f3bca6b75881259d2a.json",
+   "qualifyingIncorrect": "4/5"
+  },
+  "888D": {
+   "auditHash": "589408cbb788f1f527361765f5353e04e2d4a7b424df688c6ef9caf1a4c1f6cc",
+   "gaps": {
+    "888D/58168625": {
+     "fault": "k>=3 formulas are wrong (5 4 -> 56.0, expected 76); k=2 is numerically right but float-formatted (7.0)",
+     "faultyLineText": {
+      "10": "    print(n*(n-1)*(n-2) - n*(n-1) - n*(n-1)*(n-2)/6+1)",
+      "12": "    print(n*(n-1)*(n-2)*(n-3) - n*(n-1)*(n-2) - n*(n-1)*(n-2)*(n-3)/24+1)",
+      "8": "    print(n*(n-1) - n*(n-1)/2 + 1)"
+     },
+     "faultyLines": [
+      8,
+      10,
+      12
+     ],
+     "pointerGap": "evidence failedTest 0002 is format-only (prints 7.0 for expected 7); first legal LF math-wrong normal-exit test is 0004 (5 4 -> 56.0, expected 76)",
+     "proofSha256": "f0adb948527358461a92d860539e326346cc643af0a7b00081807f87a0f46652",
+     "recommendedWitness": {
+      "actual": "56.0",
+      "actualOutputSha256": "7ee8e1633840ee5d0c3d71ce6a00831a7c49e9c9f91fc350e284a14f2148e84f",
+      "cpu": 0.013,
+      "expected": "76",
+      "expectedOutputSha256": "bad8a8c24e18664287f4f20cb8de2b089525d51f939c537b471f2d273fb66f3f",
+      "input": "5 4\n",
+      "lfInputSha256": "501ddf83f5c6affb4bdc50a6a3f4feab9f41898825e236599893739a52e1196c",
+      "packageInputSha256": "d467b3ecc6606f2cfa853717df3e2c09cdf9eaf73f35dfa9f4e620b50a7768a1",
+      "rc": 0,
+      "record": "witness-full/888D-58168625.json",
+      "test": "0004",
+      "timeout": false
+     }
+    }
+   },
+   "history": "pipeline/ratings-pools/1600/audits/history/888D/589408cbb788f1f527361765f5353e04e2d4a7b424df688c6ef9caf1a4c1f6cc.json",
+   "qualifyingIncorrect": "4/5"
+  }
+ },
+ "signed": {
+  "11B": {
+   "fileSha256": "aadeace7f0eaa8ffd9bba6794725f2a0e930e136a8d7a6d82a20588c42fec1fe",
+   "history": "pipeline/ratings-pools/1600/audits/history/11B/5c752b1bf4a85220c3ea6a06006ad41489f035541b0c5532b3a3a9d8a6a18659.json",
+   "newAuditHash": "ed8441c9615843496cc96bde4cbaf0c66bc93ba429bae7983bac6ec4886adb67",
+   "oldAuditHash": "5c752b1bf4a85220c3ea6a06006ad41489f035541b0c5532b3a3a9d8a6a18659"
+  },
+  "322B": {
+   "fileSha256": "5d8066b3d731e2d3e2b50adbf961b587ad1c1d4f6166fb9b17b4936a462f5477",
+   "history": "pipeline/ratings-pools/1600/audits/history/322B/5200314b8f8379f3feb74cedf80602e81b5330fce90895de256b03887dcc98e8.json",
+   "newAuditHash": "8a56313ef431779548301144af2d0f514d94cc800140fb18137dfb1889f192b9",
+   "oldAuditHash": "5200314b8f8379f3feb74cedf80602e81b5330fce90895de256b03887dcc98e8"
+  },
+  "373B": {
+   "fileSha256": "3db751346c40fc62a2b4765a8977ddf88324d8ca9556986ca48ca2545ec43d4f",
+   "history": "pipeline/ratings-pools/1600/audits/history/373B/aa1833c9bcf0ad87d5c8c6fd831175ecde440c44fd6697991affc6cb5c1ec933.json",
+   "newAuditHash": "172be271f9bc497d2684075ad945f4ff785e177eb10042b26839109b3ac9a5bd",
+   "oldAuditHash": "aa1833c9bcf0ad87d5c8c6fd831175ecde440c44fd6697991affc6cb5c1ec933"
+  },
+  "40B": {
+   "fileSha256": "cd6377c523004adf6dcf05a31071bfe335271afd6bc5d3ee54d67f559d13c24e",
+   "history": "pipeline/ratings-pools/1600/audits/history/40B/346ff4525e9b8a7e56741454e0da924298cf563e46d63ad370d1d8172e973a54.json",
+   "newAuditHash": "1d10585fc62cf9fdd3869051c1fdf339a14452f691a8b6199da5c4031a9f0878",
+   "oldAuditHash": "346ff4525e9b8a7e56741454e0da924298cf563e46d63ad370d1d8172e973a54"
+  },
+  "495B": {
+   "fileSha256": "9603dce53839e950e53f7ea05c3c8b8bc130c737b6da5aa7b16bb191838b6392",
+   "history": "pipeline/ratings-pools/1600/audits/history/495B/529d5a373560248879f4f56e97f6f98357e7a73f1a18de5343b4cfa3dbce011e.json",
+   "newAuditHash": "2dd15d7148c3ba619ff8df2599a6ce15639150d3be05ac33d7bcdcc478384e69",
+   "oldAuditHash": "529d5a373560248879f4f56e97f6f98357e7a73f1a18de5343b4cfa3dbce011e"
+  },
+  "559A": {
+   "fileSha256": "07746284af0ac9150bebaf8d05af70a7decea1cc6ff2e16fd0c858a9a30722d8",
+   "history": "pipeline/ratings-pools/1600/audits/history/559A/1a384df732c639cd101ca61bedb4827fe0ef639cef372bc6ca2176706be333a9.json",
+   "newAuditHash": "79a5dd0c7a710b65607593840a169ee9176c27eabe780d51c67f93410b5343c1",
+   "oldAuditHash": "1a384df732c639cd101ca61bedb4827fe0ef639cef372bc6ca2176706be333a9"
+  },
+  "597A": {
+   "fileSha256": "07e86b8a6fa4e85a848d8c12f76b8d5a94910517cca107721b8fae8e466903e8",
+   "history": "pipeline/ratings-pools/1600/audits/history/597A/b3e4e1a5161d64bd2a57a2b0d65a6e9ff7e901d138e96181e8a1c6f1f9e148cc.json",
+   "newAuditHash": "558d91593adebdd0a24cbca21f3ee20442fa6ace9193b08e1a4ee5fcc5c1da78",
+   "oldAuditHash": "b3e4e1a5161d64bd2a57a2b0d65a6e9ff7e901d138e96181e8a1c6f1f9e148cc"
+  },
+  "665A": {
+   "fileSha256": "d10ccb49ed268263370c76b52b4dbcd6e5aeb9061ed18c920c7aa720cc1fad29",
+   "history": "pipeline/ratings-pools/1600/audits/history/665A/93dff67d0dae7b228ce516ce7825288e1dd2ac736c05605b3f7ba90807ce9464.json",
+   "newAuditHash": "4b40185ddb53e0ede46238d65a587fdf08eecd26c7d00ae75fbc56d006535924",
+   "oldAuditHash": "93dff67d0dae7b228ce516ce7825288e1dd2ac736c05605b3f7ba90807ce9464"
+  },
+  "678B": {
+   "fileSha256": "dc4d57ae86e86c6774951ce19eeb8fc798ddecb55fd3f359b71a51f005fb76cb",
+   "history": "pipeline/ratings-pools/1600/audits/history/678B/b6f9351b3466227387fbc302da0766f11585d247bcdcd9d5a040c68a65e928d9.json",
+   "newAuditHash": "35ab4071edbad56af87201852c0928e084e07eac5ab76579dbd1a5e44f41d8b9",
+   "oldAuditHash": "b6f9351b3466227387fbc302da0766f11585d247bcdcd9d5a040c68a65e928d9"
+  },
+  "741A": {
+   "fileSha256": "aa176ca27c23a5f59bcc8afad6ca540da969d692b9448d2abe1d649d315975a5",
+   "history": "pipeline/ratings-pools/1600/audits/history/741A/1263a23709d68671d67e902fa537bc938bb0b00b30ad68f0442d5cc633e7362c.json",
+   "newAuditHash": "2bd342eac4ccafaadc419f0a1a9734288683be7b565d060107b4b2ad7e5109c0",
+   "oldAuditHash": "1263a23709d68671d67e902fa537bc938bb0b00b30ad68f0442d5cc633e7362c"
+  },
+  "845B": {
+   "fileSha256": "7b798bf86bebcbb6410bd10eb1525b4d47572cea331473375b5b22d269b91042",
+   "history": "pipeline/ratings-pools/1600/audits/history/845B/42425a59126b7bda2980ca36420147fa24a1fb463de8ffe94b0bf72e7d40bc90.json",
+   "newAuditHash": "ca1115a8d513a6bf898073d183c4eeee563252a72349cb893d76f2044fd67e9a",
+   "oldAuditHash": "42425a59126b7bda2980ca36420147fa24a1fb463de8ffe94b0bf72e7d40bc90"
+  },
+  "86A": {
+   "fileSha256": "f00bdc578218f602f44ca51c48ce667ac11762fa32c431d53fe8d915502442bb",
+   "history": "pipeline/ratings-pools/1600/audits/history/86A/1313cacba834eebe4c8e717794ac30c30e599ea0258a6bf6f401d6811a878765.json",
+   "newAuditHash": "bcf7c9a56ed8f5b14b45d939791e6b4d0441576f3f57ed28a41632e4cb499f60",
+   "oldAuditHash": "1313cacba834eebe4c8e717794ac30c30e599ea0258a6bf6f401d6811a878765"
+  },
+  "910B": {
+   "fileSha256": "e9ac7e8b9c96409acea98111663cdcec1f236f8fd711e6ba46219e16dfb3891c",
+   "history": "pipeline/ratings-pools/1600/audits/history/910B/0d6cfe964a806b8f412113fb345380a44ca811dbd93d30ff925c34ee9795ee10.json",
+   "newAuditHash": "c8681b517a24f7c178d27ca7acf564c0fdad2532cc34ffc32d7bdf278f1c7a03",
+   "oldAuditHash": "0d6cfe964a806b8f412113fb345380a44ca811dbd93d30ff925c34ee9795ee10"
+  }
+ }
+}

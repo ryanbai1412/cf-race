@@ -17,11 +17,221 @@
   "rating": 1600,
   "review": {
     "coverage": "n=1, m=1, n=m=5000, x=1, x=1e9, innermost-ring cases, all four n/m parities, many zero answers, non-square boards; max answer 9998.",
-    "incorrectAreAlgorithmic": "Every incorrect source read in full; each prints a numerically wrong single answer on at least one valid test (not just formatting/debug output).",
+    "incorrectAreAlgorithmic": "Each of the 5 incorrect sources was read in full; review.incorrectProofs gives, per source, the implemented algorithm, faulty source line numbers with their text, and a legal LF witness on the evidence failedTest with normal exit, expected vs actual and source/input/expected/actual/proof sha256. Proof witnesses: each incorrect source re-run on its evidence failedTest with CRLF->LF normalized input by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/witness.py (sha256 861f8f394e90ad2a775e4b349c81af07620fb224de258c42e9263f10e1c310c4) mounting pipeline/ratings-pools/1600/audits/history/correction-20261013/code/harness_witness.py (sha256 3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933; identical to myharness_tok.py except it also returns the full output base64), classified by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/mktuples.py (sha256 3fb42a6cbde5e4c63ef52b7a54c33ec03a9d5eedfb7d4bb244ef0c6be4b73750): qualifies only if exit code 0, no timeout, same token count as expected and at least one token numerically different (format/debug-only/CRLF/TLE/wrong-problem excluded).",
+    "incorrectProofs": {
+      "110395900": {
+        "fault": "side counts ignore the chessboard parity offset of each ring and double-count/miss corners (9 10 1 -> 18, expected 17)",
+        "faultyLineText": {
+          "12": "    left = n // 2",
+          "13": "    if m > 0:",
+          "14": "        right = n // 2 if m % 2 != 0 else n // 2 + 1",
+          "15": "        left = n // 2 if m % 2 != 0 else n // 2 + 1",
+          "8": "    top = m // 2 if m % 2 == 0 else m // 2 + 1",
+          "9": "    bottom = n // 2 if n % 2 == 0 else n // 2 + 1"
+        },
+        "faultyLines": [
+          8,
+          9,
+          12,
+          13,
+          14,
+          15
+        ],
+        "implementedAlgorithm": "per-ring side counts top/bottom/left/right",
+        "language": "Python 3",
+        "proofSha256": "f86dcd6ddb9fac1e360dd7144c1e1a55428c2a4fa91148738d92588ea893ea05",
+        "qualifies": true,
+        "sourceLines": 30,
+        "sourceSha256": "df216ad0a61619242e5a9860e090eaaffc4686cee6117670702fbed72943a8b5",
+        "submission": "40B/110395900",
+        "witness": {
+          "actual": "18",
+          "actualOutputBytes": 3,
+          "actualOutputSha256": "7ee29791fc17e986b97128845622b077fb45e349fdb80523fac9dba879b4ad60",
+          "classification": "MATH-WRONG",
+          "cpuSeconds": 0.012,
+          "exitCode": 0,
+          "expected": "17",
+          "expectedOutputSha256": "5b677464f4941a4c274964d723bf47e3cd7cdcb5d53379a3b7176f0c456cf9a0",
+          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
+          "input": "9 10\n1\n",
+          "isEvidenceFailedTest": true,
+          "lfInputSha256": "f36a9810dc6aba4996a88553e86b1fbb2cd5274cd7c07e8c0315c14afabbd0a0",
+          "packageInputHadCRLF": true,
+          "packageInputSha256": "9287ecd34aa88e0ed6a7f72bfb8d660a80c29204a522eab0bc81c34db22cd374",
+          "record": "witness/40B-110395900.json",
+          "test": "0005",
+          "timedOut": false
+        }
+      },
+      "154018525": {
+        "fault": "counts half of the outer x rings, not ring x alone (3 3 2 -> 4, expected 1)",
+        "faultyLineText": {
+          "3": "ans = (n * m - (n - 2 * x) * (m - 2 * x)) // 2"
+        },
+        "faultyLines": [
+          3
+        ],
+        "implementedAlgorithm": "(n*m - (n-2x)(m-2x))//2",
+        "language": "Python 3",
+        "proofSha256": "b561e3744a531d08002c7dcada79ac9ea082e4f94674596ab7f582f5958b54eb",
+        "qualifies": true,
+        "sourceLines": 4,
+        "sourceSha256": "4fcc4bc7aea28059a5fd390cff0e6be0b7df62f3176dc0947e23867d32f761f9",
+        "submission": "40B/154018525",
+        "witness": {
+          "actual": "4",
+          "actualOutputBytes": 2,
+          "actualOutputSha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+          "classification": "MATH-WRONG",
+          "cpuSeconds": 0.012,
+          "exitCode": 0,
+          "expected": "1",
+          "expectedOutputSha256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
+          "input": "3 3\n2\n",
+          "isEvidenceFailedTest": true,
+          "lfInputSha256": "8f4fc949f49243ab3413bad13d659ced9dddca29a5ecc1c26f2f6d4ff81e50d0",
+          "packageInputHadCRLF": true,
+          "packageInputSha256": "efeaa6f7e66854a942e158b20b27646423e424ddfe9237bd89f07fd59f7b3bca",
+          "record": "witness/40B-154018525.json",
+          "test": "0002",
+          "timedOut": false
+        }
+      },
+      "16218702": {
+        "fault": "no guard for an empty ring (y2 < y1 when 2x > m): counts cells of a nonexistent ring (5000 1 3 -> 4991, expected 0)",
+        "faultyLineText": {
+          "3": "x1, y1, x2, y2 = x - 1, x - 1, n - x, m - x",
+          "4": "for i in range(x1, x2 + 1):",
+          "6": "        v += (y2 - y1 + 1) // 2 + ((i + y1) % 2 == 0 and (i + y2) % 2 == 0)"
+        },
+        "faultyLines": [
+          3,
+          4,
+          6
+        ],
+        "implementedAlgorithm": "walks rows of the ring rectangle [x-1, n-x] x [x-1, m-x] counting black cells",
+        "language": "Python 3",
+        "proofSha256": "f8ae42db753a5b5dd1a6271a789462703a8f221b903c3598a57d74f595cb132c",
+        "qualifies": true,
+        "sourceLines": 9,
+        "sourceSha256": "160b9abf42c26da9cc7899e28bd7ef178a0bf56370572f4163559c27fe693359",
+        "submission": "40B/16218702",
+        "witness": {
+          "actual": "4991",
+          "actualOutputBytes": 5,
+          "actualOutputSha256": "a849ef7c71bfa93a42b916cdc00d0410fd4ec6a891a381abca1f9db98ba0a915",
+          "classification": "MATH-WRONG",
+          "cpuSeconds": 0.014,
+          "exitCode": 0,
+          "expected": "0",
+          "expectedOutputSha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
+          "input": "5000 1\n3\n",
+          "isEvidenceFailedTest": true,
+          "lfInputSha256": "2f4db2a346bb09d4094c6f3efeee39bc797f075586750d3a61e31ed18bd58533",
+          "packageInputHadCRLF": true,
+          "packageInputSha256": "a862fcbe0a06293af6b5c5034f8c816e390559b6094333ed2c6859afa949a08a",
+          "record": "witness/40B-16218702.json",
+          "test": "0009",
+          "timedOut": false
+        }
+      },
+      "222705995": {
+        "fault": "x==1 counts all black squares (inner ones are repainted more than once); other branch unrelated to the board",
+        "faultyLineText": {
+          "10": "        return min(x, 2 * x - 1)",
+          "5": "    if x == 1:",
+          "6": "        return (n * m + 1) // 2",
+          "7": "    elif (n * m) % 2 == 0:",
+          "8": "        return min(x, 2 * x - 2)",
+          "9": "    else:"
+        },
+        "faultyLines": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "implementedAlgorithm": "ad-hoc: x==1 -> (nm+1)//2, else min(x, 2x-2/2x-1)",
+        "language": "Python 3",
+        "proofSha256": "90075c78f8c0585583380b9acf71a5b1e9d7e54904a3825671c0f535444cb155",
+        "qualifies": true,
+        "sourceLines": 13,
+        "sourceSha256": "a01aef0060e6f68bd812a4539e63e72e8954d77592e6913a8865acade25cedeb",
+        "submission": "40B/222705995",
+        "witness": {
+          "actual": "5",
+          "actualOutputBytes": 2,
+          "actualOutputSha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+          "classification": "MATH-WRONG",
+          "cpuSeconds": 0.012,
+          "exitCode": 0,
+          "expected": "4",
+          "expectedOutputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
+          "input": "3 3\n1\n",
+          "isEvidenceFailedTest": true,
+          "lfInputSha256": "be73ba0d3c0d08c219d5c36247ffbe8d14429ef0edc9c19b343330cfd7d4ad5e",
+          "packageInputHadCRLF": true,
+          "packageInputSha256": "328ba82a40b869250942211388edbca5dc0856990bf69715d283aaf0e24b6f7a",
+          "record": "witness/40B-222705995.json",
+          "test": "0001",
+          "timedOut": false
+        }
+      },
+      "37641670": {
+        "fault": "counts all black cells of the inner rectangle instead of only its border ring",
+        "faultyLineText": {
+          "3": "print(((n-(timesleft-1)*2) * (m-(timesleft-1)*2)+1)//2)"
+        },
+        "faultyLines": [
+          3
+        ],
+        "implementedAlgorithm": "black cells of the inner (n-2(x-1)) x (m-2(x-1)) rectangle",
+        "language": "Python 3",
+        "proofSha256": "1f82f815c24993199add02ff2f166984897b85b88c4d3be526c0ee7d312ed8b1",
+        "qualifies": true,
+        "sourceLines": 3,
+        "sourceSha256": "5d3cc1070c62b6fe8591ea4a4269c6d9c5816d29645f311d6215ac9e41548e0f",
+        "submission": "40B/37641670",
+        "witness": {
+          "actual": "5",
+          "actualOutputBytes": 2,
+          "actualOutputSha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+          "classification": "MATH-WRONG",
+          "cpuSeconds": 0.012,
+          "exitCode": 0,
+          "expected": "4",
+          "expectedOutputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
+          "input": "3 3\n1\n",
+          "isEvidenceFailedTest": true,
+          "lfInputSha256": "be73ba0d3c0d08c219d5c36247ffbe8d14429ef0edc9c19b343330cfd7d4ad5e",
+          "packageInputHadCRLF": true,
+          "packageInputSha256": "328ba82a40b869250942211388edbca5dc0856990bf69715d283aaf0e24b6f7a",
+          "record": "witness/40B-37641670.json",
+          "test": "0001",
+          "timedOut": false
+        }
+      }
+    },
     "independentOracle": "black cells (i+j even) with min(i,j,n-1-i,m-1-j)==x-1 via concentric-rectangle parity counts; cross-checked against literal simultaneous-repaint simulation for all n,m<=15, x<=9.",
     "officialTests": "official_tests_complete; every official pinned-row pair present in package (inputs equal after CRLF normalization, outputs token-equal); source row byte-equal to independently downloaded, hash-verified pinned open-r1/codeforces parquet row.",
     "oracleResult": "All 226 package tests and all samples pass strict format/range parse; every expected output equals my oracle; all official upstream rows also equal my oracle.",
     "preservedContradictions": "build-gaps/40B.json is a superseded diagnostic not consumed by publication_gate. Prior signoff was revoked in 6c46613 for ambiguous flattened bounds; this audit binds only the new normalized package 34593c7066bbd161d81fb2bc728597553b8f290b634983eea8f9274877af594c.",
+    "proofCorrection": {
+      "reason": "Re-signed 2026-10-13 to add per-reference source-level proof tuples; replay sandbox statement unchanged (original runs used the stated harness).",
+      "supersededAudit": {
+        "auditHash": "346ff4525e9b8a7e56741454e0da924298cf563e46d63ad370d1d8172e973a54",
+        "fileSha256": "34ae171142d7c517961b998d4d309989e3c6e54f0a9fb86a058744848882c6b7",
+        "path": "pipeline/ratings-pools/1600/audits/history/40B/346ff4525e9b8a7e56741454e0da924298cf563e46d63ad370d1d8172e973a54.json"
+      },
+      "witnessHarness": "Proof witnesses: each incorrect source re-run on its evidence failedTest with CRLF->LF normalized input by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/witness.py (sha256 861f8f394e90ad2a775e4b349c81af07620fb224de258c42e9263f10e1c310c4) mounting pipeline/ratings-pools/1600/audits/history/correction-20261013/code/harness_witness.py (sha256 3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933; identical to myharness_tok.py except it also returns the full output base64), classified by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/mktuples.py (sha256 3fb42a6cbde5e4c63ef52b7a54c33ec03a9d5eedfb7d4bb244ef0c6be4b73750): qualifies only if exit code 0, no timeout, same token count as expected and at least one token numerically different (format/debug-only/CRLF/TLE/wrong-problem excluded)."
+    },
     "sandbox": "Own harness (sha256 c582ff42...983d0d, not worker pool_harness): pinned python@sha256:5887f265...05d3, --network=none, --read-only, --user=65534, --cap-drop=ALL, no-new-privileges, pids<=32, 1 CPU, 2560m memory, RLIMIT_CPU/AS at problem limits, bounded output, launched from env -i shell without credentials; re-run against the normalized-six archive bytes.",
     "singleAnswer": "Output is one integer uniquely determined by the input; token comparison is correct, no special checker, no float tolerance.",
     "statement": "Packaged input bound \"1 ≤ x ≤ 10<sup>9</sup>\"; original package HTML (\"1 ≤ x ≤ 109\") preserved byte-identical in statement-sources/40B.original.html; diff is exactly that one line. Attested public English source https://codeforces.me/contest/40/problem/B raw snapshot hash matches attestation and contains sup.upper-index markup; I re-fetched it and Luogu CF40B independently (both show 10^9). 43/70 official x exceed 109, max 1e9.",

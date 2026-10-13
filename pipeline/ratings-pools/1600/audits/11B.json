@@ -17,11 +17,229 @@
   "rating": 1600,
   "review": {
     "coverage": "x in {-1e9,-1,0,1,1e9}, exact triangular targets, answer offsets 0/1/2 beyond first T(n)>=|x|, negative targets; official rows include 999961559..999961561 near T(44720).",
-    "incorrectAreAlgorithmic": "Every incorrect source read in full; each prints a numerically wrong single answer on at least one valid test (not just formatting/debug output).",
+    "incorrectAreAlgorithmic": "Each of the 5 incorrect sources was read in full; review.incorrectProofs gives, per source, the implemented algorithm, faulty source line numbers with their text, and a legal LF witness on the evidence failedTest with normal exit, expected vs actual and source/input/expected/actual/proof sha256. Proof witnesses: each incorrect source re-run on its evidence failedTest with CRLF->LF normalized input by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/witness.py (sha256 861f8f394e90ad2a775e4b349c81af07620fb224de258c42e9263f10e1c310c4) mounting pipeline/ratings-pools/1600/audits/history/correction-20261013/code/harness_witness.py (sha256 3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933; identical to myharness_tok.py except it also returns the full output base64), classified by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/mktuples.py (sha256 3fb42a6cbde5e4c63ef52b7a54c33ec03a9d5eedfb7d4bb244ef0c6be4b73750): qualifies only if exit code 0, no timeout, same token count as expected and at least one token numerically different (format/debug-only/CRLF/TLE/wrong-problem excluded).",
+    "incorrectProofs": {
+      "10166888": {
+        "fault": "no abs() for negative x (prints 2x for x=-1e9) and the positive branch uses the non-minimal i+2(a-p) walk",
+        "faultyLineText": {
+          "1": "a=int(input())",
+          "10": "    for i in range(1,a**2):",
+          "15": "        if p>a:",
+          "16": "            p=((i-1)*i)//2",
+          "17": "            i=i-1",
+          "22": "        m=i+(a-p)*2"
+        },
+        "faultyLines": [
+          1,
+          10,
+          15,
+          16,
+          17,
+          22
+        ],
+        "implementedAlgorithm": "linear search T(i) vs a, then i + 2(a-p)",
+        "language": "Python 3",
+        "proofSha256": "16446d69b66dd191a019920ef349939da23964285fd9937ebb4388688968b9ec",
+        "qualifies": true,
+        "sourceLines": 24,
+        "sourceSha256": "f8aa2d97e9fc65a7ba8102d2186061da140924a49fff5784f4a9b62be00b82ce",
+        "submission": "11B/10166888",
+        "witness": {
+          "actual": "-2000000000",
+          "actualOutputBytes": 12,
+          "actualOutputSha256": "c597eb4cfd277ce0fbbaf14076a4a55d4ec6d4788ffd3f7f37545178534ce498",
+          "classification": "MATH-WRONG",
+          "cpuSeconds": 0.013,
+          "exitCode": 0,
+          "expected": "44723",
+          "expectedOutputSha256": "69ed5646421a7e21dad8bdde048fbb28f079f6cd8c810bcf403e4073e1d5a315",
+          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
+          "input": "-1000000000\n",
+          "isEvidenceFailedTest": true,
+          "lfInputSha256": "4e2cc7e216ca6c001a03c32e5b25064ce9fe86f386ce1eada056423c9b585b3b",
+          "packageInputHadCRLF": true,
+          "packageInputSha256": "4f7043b4310ad0e337801538618aea5e7198571f16f578d2cc521e93e7aee5f5",
+          "record": "witness/11B-10166888.json",
+          "test": "0004",
+          "timedOut": false
+        }
+      },
+      "11086185": {
+        "fault": "when T(k)-x is even and nonzero the answer is k, but it prints k+1 or k+2; float sqrt also",
+        "faultyLineText": {
+          "11": "    elif ((location - x) + (k + 1)) % 2 == 0:",
+          "12": "        print(k+1)",
+          "13": "    else:",
+          "14": "        print(k+2)",
+          "7": "    k = ceil(((8 * x + 1) ** 0.5 - 1) / 2)"
+        },
+        "faultyLines": [
+          7,
+          11,
+          12,
+          13,
+          14
+        ],
+        "implementedAlgorithm": "k = ceil float sqrt, then k, k+1 or k+2",
+        "language": "Python 3",
+        "proofSha256": "10ce5e6774dcee431e9b49eebcd79b55b5ec1bde908371b058c9589f29443509",
+        "qualifies": true,
+        "sourceLines": 18,
+        "sourceSha256": "fb29b0110eb98e828c0d4c81d5697e9817c16a8ebdca91238edb07ea1afc05c8",
+        "submission": "11B/11086185",
+        "witness": {
+          "actual": "44722",
+          "actualOutputBytes": 6,
+          "actualOutputSha256": "758413247b9d7b2b146b291cb7ac9c2f26ce2d96015f2cc726c7dfe5b0080cdb",
+          "classification": "MATH-WRONG",
+          "cpuSeconds": 0.013,
+          "exitCode": 0,
+          "expected": "44721",
+          "expectedOutputSha256": "e30b55c2c33af345bb9dc4f627c6e4f027a66daafc916b07f32f8c60f776a8c8",
+          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
+          "input": "999961561\n",
+          "isEvidenceFailedTest": true,
+          "lfInputSha256": "9d466b50bf695d40dd4bf70662d81640b7f0db118fd167ef6ba84fdb0b009396",
+          "packageInputHadCRLF": true,
+          "packageInputSha256": "974b4c4bd4051e36881165afc0094e93e8162a25ebb5b9c3207dc40b0414aca7",
+          "record": "witness/11B-11086185.json",
+          "test": "0006",
+          "timedOut": false
+        }
+      },
+      "5293912": {
+        "fault": "only considers n+1 or n+2 after the first k(k+1)/2 >= x; the answer can be n+3 (x=1e9: prints 44722, expected 44723)",
+        "faultyLineText": {
+          "3": "n = int((sqrt(1 + 8 * x) - 1) / 2)",
+          "6": "else: print(n + 1 + (n + 1 + k - x) % 2)"
+        },
+        "faultyLines": [
+          3,
+          6
+        ],
+        "implementedAlgorithm": "n from float sqrt, then n, n+1 or n+2 by parity",
+        "language": "Python 3",
+        "proofSha256": "be17ac6e499dbeee6608e2a5349b569c0cc00fab31d02a1b36c9d3a869c25b6f",
+        "qualifies": true,
+        "sourceLines": 6,
+        "sourceSha256": "636e054fae413ba3983afb724e2828628cf117a309916ca585053ee617039044",
+        "submission": "11B/5293912",
+        "witness": {
+          "actual": "44722",
+          "actualOutputBytes": 6,
+          "actualOutputSha256": "758413247b9d7b2b146b291cb7ac9c2f26ce2d96015f2cc726c7dfe5b0080cdb",
+          "classification": "MATH-WRONG",
+          "cpuSeconds": 0.012,
+          "exitCode": 0,
+          "expected": "44723",
+          "expectedOutputSha256": "69ed5646421a7e21dad8bdde048fbb28f079f6cd8c810bcf403e4073e1d5a315",
+          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
+          "input": "-1000000000\n",
+          "isEvidenceFailedTest": true,
+          "lfInputSha256": "4e2cc7e216ca6c001a03c32e5b25064ce9fe86f386ce1eada056423c9b585b3b",
+          "packageInputHadCRLF": true,
+          "packageInputSha256": "4f7043b4310ad0e337801538618aea5e7198571f16f578d2cc521e93e7aee5f5",
+          "record": "witness/11B-5293912.json",
+          "test": "0004",
+          "timedOut": false
+        }
+      },
+      "7047288": {
+        "fault": "returns b or b+1; when parity needs two more steps the answer is b+2",
+        "faultyLineText": {
+          "12": "    if((x-n)%2==0):",
+          "13": "        return b",
+          "14": "    return b+1"
+        },
+        "faultyLines": [
+          12,
+          13,
+          14
+        ],
+        "implementedAlgorithm": "binary search smallest b with b(b+1)/2 >= x, then b or b+1 by parity",
+        "language": "Python 3",
+        "proofSha256": "75b0127a460b1f6cb5c1c04d418c9ce4bacbbf8ec42e5001b6f910d278c79be5",
+        "qualifies": true,
+        "sourceLines": 19,
+        "sourceSha256": "3b7a0ccd78fb787b6d19f1e9fa8b44202886e9cd0bdf99951ecc22c9636c3681",
+        "submission": "11B/7047288",
+        "witness": {
+          "actual": "44722",
+          "actualOutputBytes": 6,
+          "actualOutputSha256": "758413247b9d7b2b146b291cb7ac9c2f26ce2d96015f2cc726c7dfe5b0080cdb",
+          "classification": "MATH-WRONG",
+          "cpuSeconds": 0.012,
+          "exitCode": 0,
+          "expected": "44723",
+          "expectedOutputSha256": "69ed5646421a7e21dad8bdde048fbb28f079f6cd8c810bcf403e4073e1d5a315",
+          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
+          "input": "-1000000000\n",
+          "isEvidenceFailedTest": true,
+          "lfInputSha256": "4e2cc7e216ca6c001a03c32e5b25064ce9fe86f386ce1eada056423c9b585b3b",
+          "packageInputHadCRLF": true,
+          "packageInputSha256": "4f7043b4310ad0e337801538618aea5e7198571f16f578d2cc521e93e7aee5f5",
+          "record": "witness/11B-7047288.json",
+          "test": "0004",
+          "timedOut": false
+        }
+      },
+      "7620572": {
+        "fault": "back-and-forth correction costs 2 jumps per unit; not minimal (1e9 -> 121600, expected 44723)",
+        "faultyLineText": {
+          "18": "while current+i<=n:",
+          "19": "    current+=i",
+          "20": "    i+=1",
+          "22": "i-=1",
+          "23": "i+=2*(n-current)"
+        },
+        "faultyLines": [
+          18,
+          19,
+          20,
+          22,
+          23
+        ],
+        "implementedAlgorithm": "largest i with T(i) <= n, then i + 2(n - T(i))",
+        "language": "Python 3",
+        "proofSha256": "8c6735309cf444282682e35b6c88d1e90f48a986bb77ab20b7e620ac727db0fa",
+        "qualifies": true,
+        "sourceLines": 24,
+        "sourceSha256": "52421eaae779767cc37926ae6c7a0d864d97f7324973be2a0af11036ce6c4b07",
+        "submission": "11B/7620572",
+        "witness": {
+          "actual": "121600",
+          "actualOutputBytes": 7,
+          "actualOutputSha256": "b3ec269d5058c2e560c1dcf90f0e808a0c59bfcd83ecb4f1a55218d90a013e83",
+          "classification": "MATH-WRONG",
+          "cpuSeconds": 0.016,
+          "exitCode": 0,
+          "expected": "44723",
+          "expectedOutputSha256": "69ed5646421a7e21dad8bdde048fbb28f079f6cd8c810bcf403e4073e1d5a315",
+          "harnessSha256": "3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933",
+          "input": "-1000000000\n",
+          "isEvidenceFailedTest": true,
+          "lfInputSha256": "4e2cc7e216ca6c001a03c32e5b25064ce9fe86f386ce1eada056423c9b585b3b",
+          "packageInputHadCRLF": true,
+          "packageInputSha256": "4f7043b4310ad0e337801538618aea5e7198571f16f578d2cc521e93e7aee5f5",
+          "record": "witness/11B-7620572.json",
+          "test": "0004",
+          "timedOut": false
+        }
+      }
+    },
     "independentOracle": "abs(x); smallest n with T(n)=n(n+1)/2 >= |x| and (T(n)-|x|) even; cross-checked against BFS over signed jump sums for every x in [-300,300].",
     "officialTests": "official_tests_complete; every official pinned-row pair present in package (inputs equal after CRLF normalization, outputs token-equal); source row byte-equal to independently downloaded, hash-verified pinned open-r1/codeforces parquet row.",
     "oracleResult": "All 185 package tests and all samples pass strict format/range parse; every expected output equals my oracle; all official upstream rows also equal my oracle.",
     "preservedContradictions": "build-gaps/11B.json is a superseded diagnostic not consumed by publication_gate. Prior signoff was revoked in 6c46613 for ambiguous flattened bounds; this audit binds only the new normalized package 9e900e57a1c74f68033a6b0e43390e3f2518c9a2e463938fa401431aaa0bf52e.",
+    "proofCorrection": {
+      "reason": "Re-signed 2026-10-13 to add per-reference source-level proof tuples; replay sandbox statement unchanged (original runs used the stated harness).",
+      "supersededAudit": {
+        "auditHash": "5c752b1bf4a85220c3ea6a06006ad41489f035541b0c5532b3a3a9d8a6a18659",
+        "fileSha256": "30a8afdf3bace3821af139f4035b7845b063f87364b860cddfa1a6b8094222ba",
+        "path": "pipeline/ratings-pools/1600/audits/history/11B/5c752b1bf4a85220c3ea6a06006ad41489f035541b0c5532b3a3a9d8a6a18659.json"
+      },
+      "witnessHarness": "Proof witnesses: each incorrect source re-run on its evidence failedTest with CRLF->LF normalized input by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/witness.py (sha256 861f8f394e90ad2a775e4b349c81af07620fb224de258c42e9263f10e1c310c4) mounting pipeline/ratings-pools/1600/audits/history/correction-20261013/code/harness_witness.py (sha256 3f8ba396fe38919fe6cd8df86eee621e83f177d7cc0649b9ea8ea1038d308933; identical to myharness_tok.py except it also returns the full output base64), classified by pipeline/ratings-pools/1600/audits/history/correction-20261013/code/mktuples.py (sha256 3fb42a6cbde5e4c63ef52b7a54c33ec03a9d5eedfb7d4bb244ef0c6be4b73750): qualifies only if exit code 0, no timeout, same token count as expected and at least one token numerically different (format/debug-only/CRLF/TLE/wrong-problem excluded)."
+    },
     "sandbox": "Own harness (sha256 c582ff42...983d0d, not worker pool_harness): pinned python@sha256:5887f265...05d3, --network=none, --read-only, --user=65534, --cap-drop=ALL, no-new-privileges, pids<=32, 1 CPU, 2560m memory, RLIMIT_CPU/AS at problem limits, bounded output, launched from env -i shell without credentials; re-run against the normalized-six archive bytes.",
     "singleAnswer": "Output is one integer uniquely determined by the input; token comparison is correct, no special checker, no float tolerance.",
     "statement": "Packaged input bound \"- 10<sup>9</sup> ≤ x ≤ 10<sup>9</sup>\"; original package HTML (\"- 109 ≤ x ≤ 109\") preserved byte-identical in statement-sources/11B.original.html; diff is exactly that one line. Attested public English source https://codeforces.me/contest/11/problem/B raw snapshot hash 9b6c9747... matches attestation and contains sup.upper-index markup; I re-fetched it and Luogu CF11B independently (both show 10^9). All 30 official inputs within [-1e9,1e9], 27 exceed |109|.",
