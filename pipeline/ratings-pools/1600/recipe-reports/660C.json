@@ -1,0 +1,703 @@
+{
+  "id": "660C",
+  "role": "recipe-author",
+  "notAnAudit": true,
+  "validated": false,
+  "statusNote": "Recipe author exclusion only. Not a qualification, audit, or signoff.",
+  "semantics": "n, k (1 <= n <= 3*10^5, 0 <= k <= n), a_1..a_n in {0,1}. Print z = max length of an all-ones run after changing at most k zeros to ones, then ANY resulting array b achieving f(b) = z; several arrays may be valid and every one is accepted.",
+  "exclusion": {
+    "excluded": true,
+    "category": "multiple-valid-outputs",
+    "reasons": [
+      "The original statement (codeforces.me div, bound below) says: 'On the second line print n integers aj — the elements of the array a after the changes.' and 'If there are multiple answers, you can print any one of them.' The pinned row's output_format carries the same sentence. Codeforces judges 660C with a checker that accepts any array b with b >= a pointwise, at most k zero-to-one changes, and f(b) = z. pipeline/checker.py and the repo judge compare whitespace-split tokens against one stored answer, and run_pool.py line 127 writes checkerSemantics '... Token comparison is appropriate; no floating/multiple-answer/special checker.' That claim would be false for 660C.",
+      "The stored answers are not unique in the pinned official suite. 4 of the 21 pinned official tests (0-based indices [1, 6, 13, 19]) and sample index [1] have more than one valid output array. For example official test 1 / sample 2 ('10 2 / 1 0 0 1 0 1 0 1 0 1', z=5) stores '1 0 0 1 1 1 1 1 0 1' but '1 0 0 1 0 1 1 1 1 1' is equally valid. Official test 6 has 3 valid arrays and official test 13 ('3 1 / 0 0 0', z=1) accepts '1 0 0', '0 1 0' and '0 0 1'. Every count was confirmed by exhaustive enumeration over all <=k zero-flip subsets (all 21 official tests and both samples have n <= 10).",
+      "Pinned CF-accepted sources use different tie-breaks, so a token checker would reject a real full-testset AC program. Sources were inspected, not executed. 17232829 (OK, passedTestCount 38 = testset_size 38, source sha256 79bdbf3197b7ed66a1d9f1d9b000239b4395791be8d1ec2e8c59e878271000d8) updates with 'if(R-L>=MR-ML) MR=R,ML=L;' at source line 31, so among optimal windows it keeps the LAST left end. A Python re-implementation of lines 27-36 (scratch, not the submission bytes) gives token-unequal but valid outputs on official tests [1, 6, 13, 19] (e.g. '1 0 0 1 0 1 1 1 1 1' on official test 1 and '0 0 1' on official test 13). 17233039 (OK, 38) uses strict improvement at line 16 ('if (i - l + 1 > ans)') and matches every stored output, so the stored suite reflects one tie-break, not a canonical answer.",
+      "Forcing a unique answer (for example the leftmost optimal window) would make token comparison falsely unique: correct programs with another tie-break would be scored WA, and those verdicts are tie-break differences, not algorithmic proof. The pinned row has generated_checker=None, so open-r1 supplies no checker either. The task's exclusion rule for multiple-valid-output / custom-checker problems applies, so no recipe_660C.py or test_recipe_660C.py was written."
+    ],
+    "reversal": "Feasible only if the parent adds an audited custom-checker contract for 660C. The checker would parse z and n tokens b_j in {0,1}, require b_j >= a_j, at most k positions with b_j != a_j, the longest ones-run of b equal to z, and z equal to the optimum from a two-pointer/prefix-count oracle. Stored outputs would then serve only as witnesses. Every pinned official output and sample is valid (see officialReview), so no test bytes would need rewriting."
+  },
+  "files": {},
+  "inputs": {
+    "archiveBytes": 4542856,
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "file": "inputs/660C.json",
+    "fileBytes": 59689,
+    "fileSha256": "4b91aa5f4edc8f9bc445fad79258b33207b7b8f4605d120631128afc9baac630",
+    "manifestEntryMatches": true,
+    "manifestSha256": "c5aa6b8341d4ab6814424de54e241e91390fdc4c079e7f1daa4379bf07075381",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "manifestPinsMatch": true,
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "sourceRowHash": "d8dd3faefde324c697366c9da7f4cca73ba807079b3615f38e26458f9c06c862",
+    "sourceRowHashRecomputed": "d8dd3faefde324c697366c9da7f4cca73ba807079b3615f38e26458f9c06c862",
+    "sourceRowHashMethod": "pipeline/pool_contract.digest(sourceRow)",
+    "sourceShard": {
+      "bytes": 67488507,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00003-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "cadad10f9d2c5226460578249998baf677c076a6e3b80e91850fa097dd040ef6",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00003-of-00011.parquet"
+    }
+  },
+  "datasetCards": {
+    "open-r1/codeforces": {
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
+      "sha256": "b9971cff0a797603b79d78f49129830b0a1a4b99d9860e392fba126a4ef4dc69"
+    },
+    "open-r1/codeforces-submissions": {
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md",
+      "sha256": "8352430bd0fbc94cfe8762a9278c18a8494fca567a8aaf29a9e353c3f4627687"
+    },
+    "note": "Card states ~30% of problems need a custom checker for multiple correct answers; this row's generated_checker is None. No other dataset API was called."
+  },
+  "problem": {
+    "aliases": [
+      "660/C"
+    ],
+    "sourceId": "660/C",
+    "title": "Hard Process",
+    "contest": "Educational Codeforces Round 11",
+    "rating": 1600,
+    "tags": [
+      "binary search",
+      "dp",
+      "two pointers"
+    ],
+    "timeLimitSeconds": 1.0,
+    "memoryLimitMB": 256.0,
+    "inputMode": "stdio",
+    "interactive": false,
+    "fileIO": false,
+    "floatingOutput": false,
+    "multipleValidOutputs": true,
+    "customChecker": true,
+    "customCheckerNote": "Any array reaching the optimum with <= k zero-to-one changes is accepted; generated_checker=None, so no audited checker is available.",
+    "constraints": {
+      "n": [
+        1,
+        300000
+      ],
+      "k": "0 <= k <= n",
+      "a_i": [
+        0,
+        1
+      ],
+      "output": "line 1: z; line 2: n integers b_j in {0,1}"
+    },
+    "statementComplete": "Full pinned description/input_format/output_format read; note is None. No image, and no question is omitted. Matches the public statement apart from the flattened superscript."
+  },
+  "statementAttestation": {
+    "sourceUrl": "https://codeforces.me/problemset/problem/660/C?locale=en",
+    "locale": "en",
+    "transport": "Public unauthenticated HTTP GET (curl, browser User-Agent), HTTP 200; raw response body unchanged.",
+    "bodyBytes": 58368,
+    "bodySha256": "20236650c64b4f558ce856fb6976d37c6ed9c3ba4ab5d681a2fc3d8228536006",
+    "problemStatementDiv": {
+      "bodyByteRange": [
+        36390,
+        39420
+      ],
+      "bytes": 3030,
+      "sha256": "416ba77256f848968ee9d3dde96fd94baa6522a6a2b22d68f294b098a428cc1a"
+    },
+    "attestedSentences": [
+      "If there are multiple answers, you can print any one of them."
+    ],
+    "attestedBounds": [
+      "1 ≤ <i>n</i> ≤ 3·10<sup class=\"upper-index\">5</sup>, 0 ≤ <i>k</i> ≤ <i>n</i>",
+      "0 ≤ <i>a</i><sub class=\"lower-index\"><i>i</i></sub> ≤ 1"
+    ],
+    "limits": "time limit per test 1 second; memory limit per test 256 megabytes; standard input/output",
+    "copy": null,
+    "copyNote": "No statement copy committed: the exclusion path commits only this report."
+  },
+  "sourceCorrectionProposal": {
+    "needed": true,
+    "note": "The upstream input_format flattens the superscript. The public statement div has '3·10<sup class=\"upper-index\">5</sup>'. Any future package would need this exact edit to input_format, and nothing else changes. '0 ≤ ai ≤ 1' is correct (only the subscript is flattened).",
+    "edits": [
+      {
+        "field": "input_format",
+        "from": "1 ≤ n ≤ 3·105",
+        "to": "1 ≤ n ≤ 3·10^5"
+      }
+    ],
+    "applied": false
+  },
+  "officialReview": {
+    "reviewMethod": "Inspection-only scratch script (not committed, per exclusion rule): regex-validated tokens and exact 2-line layout, checked n/k/a_i ranges and arity, checked each stored output (z optimum via prefix-count sweep, b >= a, <= k changes, f(b) = z), and enumerated every valid output array by exhaustive subset brute force, which agreed with the window enumeration on all 23 pairs.",
+    "officialTestsInRow": 21,
+    "testsetSize": 38,
+    "officialComplete": false,
+    "inputLineEndings": "All 21 official inputs and outputs are CRLF with a trailing CRLF; the row examples are LF without a trailing newline.",
+    "allInputsWithinConstraints": true,
+    "allStoredOutputsValid": true,
+    "duplicateOfficialInputs": "Official tests 2 and 3 are both '1 0 / 0' (same bytes); kept as-is.",
+    "malformedOrContradictoryPairs": [],
+    "nonUniqueAnswerOfficialIndices": [
+      1,
+      6,
+      13,
+      19
+    ],
+    "nonUniqueAnswerSampleIndices": [
+      1
+    ],
+    "openR1GeneratedTests": "Row reports generated_tests=9 as a count only; generated test bytes are not in this input and were not reviewed.",
+    "samples": [
+      {
+        "index": 0,
+        "inputSha256": "14ac2057e0fd0573a9ff8713205144d3eb191b971f2eea730cda593e2ce25b9d",
+        "outputSha256": "85fa3e5da85cc904b79bb17d0904c6471ddb24ab93b79ef0cf88ff1b8d9b8300",
+        "n": 7,
+        "k": 1,
+        "zeros": 3,
+        "crlf": false,
+        "withinConstraints": true,
+        "storedZ": 4,
+        "optimumZ": 4,
+        "storedOutputValid": true,
+        "validOutputCount": 1,
+        "exhaustiveBrute": {
+          "optimum": 4,
+          "validOutputCount": 1,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": true
+      },
+      {
+        "index": 1,
+        "inputSha256": "358995a20eae09c708d41dddf3eaabf42ff7836a37fb7b29fe884300d0d65b2c",
+        "outputSha256": "d2769cd065f52b82553e1fac9650d9753fd1605d8d17cb9c8705c026ac4a8ade",
+        "n": 10,
+        "k": 2,
+        "zeros": 5,
+        "crlf": false,
+        "withinConstraints": true,
+        "storedZ": 5,
+        "optimumZ": 5,
+        "storedOutputValid": true,
+        "validOutputCount": 2,
+        "exhaustiveBrute": {
+          "optimum": 5,
+          "validOutputCount": 2,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": false,
+        "storedOutputTokens": [
+          "5",
+          "1 0 0 1 1 1 1 1 0 1"
+        ],
+        "alternativeValid": [
+          "1 0 0 1 0 1 1 1 1 1"
+        ]
+      }
+    ],
+    "tests": [
+      {
+        "index": 0,
+        "inputSha256": "d8c75f67535a01c27f28dd0f5c2835b18c7ec1ca4f52aa385cae7bface251ba0",
+        "outputSha256": "81e80e9beca408fb75dedca4a492732b65d5b3c34572a52bf2b3a022433ddb98",
+        "n": 7,
+        "k": 1,
+        "zeros": 3,
+        "crlf": true,
+        "withinConstraints": true,
+        "storedZ": 4,
+        "optimumZ": 4,
+        "storedOutputValid": true,
+        "validOutputCount": 1,
+        "exhaustiveBrute": {
+          "optimum": 4,
+          "validOutputCount": 1,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": true
+      },
+      {
+        "index": 1,
+        "inputSha256": "a32453bfeb1c1458dc9a1539694975db593d8f98613ccdde1110eb24dbb41eca",
+        "outputSha256": "7ff799498b419aea272ac9cf3f6b75f408b0539c8df93002964dc8313e762678",
+        "n": 10,
+        "k": 2,
+        "zeros": 5,
+        "crlf": true,
+        "withinConstraints": true,
+        "storedZ": 5,
+        "optimumZ": 5,
+        "storedOutputValid": true,
+        "validOutputCount": 2,
+        "exhaustiveBrute": {
+          "optimum": 5,
+          "validOutputCount": 2,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": false,
+        "storedOutputTokens": [
+          "5",
+          "1 0 0 1 1 1 1 1 0 1"
+        ],
+        "alternativeValid": [
+          "1 0 0 1 0 1 1 1 1 1"
+        ]
+      },
+      {
+        "index": 2,
+        "inputSha256": "d6b1665fdf71dce8f101c61b4ccd72959a19c06c86ba7fa1da879c62a87b042a",
+        "outputSha256": "1b65b6b25638d3319fe371d1443f075eb1ba0aba97f1050d620c88aad483bad2",
+        "n": 1,
+        "k": 0,
+        "zeros": 1,
+        "crlf": true,
+        "withinConstraints": true,
+        "storedZ": 0,
+        "optimumZ": 0,
+        "storedOutputValid": true,
+        "validOutputCount": 1,
+        "exhaustiveBrute": {
+          "optimum": 0,
+          "validOutputCount": 1,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": true
+      },
+      {
+        "index": 3,
+        "inputSha256": "d6b1665fdf71dce8f101c61b4ccd72959a19c06c86ba7fa1da879c62a87b042a",
+        "outputSha256": "1b65b6b25638d3319fe371d1443f075eb1ba0aba97f1050d620c88aad483bad2",
+        "n": 1,
+        "k": 0,
+        "zeros": 1,
+        "crlf": true,
+        "withinConstraints": true,
+        "storedZ": 0,
+        "optimumZ": 0,
+        "storedOutputValid": true,
+        "validOutputCount": 1,
+        "exhaustiveBrute": {
+          "optimum": 0,
+          "validOutputCount": 1,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": true
+      },
+      {
+        "index": 4,
+        "inputSha256": "30202171a29f6db0bf30a57877434342437f016d52bc523c3e8d08e42e5e00d4",
+        "outputSha256": "ca468612f93514fc82d94492a7c04f7502dd234175bbd3c28d34061bfe9b6753",
+        "n": 7,
+        "k": 0,
+        "zeros": 5,
+        "crlf": true,
+        "withinConstraints": true,
+        "storedZ": 1,
+        "optimumZ": 1,
+        "storedOutputValid": true,
+        "validOutputCount": 1,
+        "exhaustiveBrute": {
+          "optimum": 1,
+          "validOutputCount": 1,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": true
+      },
+      {
+        "index": 5,
+        "inputSha256": "3031d2af90307a58e485f2323562c9846cbf6ca271e33f8b100c465ac7b3773a",
+        "outputSha256": "8f5f92a5e0ab974739289668efc20b44a23106f8b9f01e9a2c5620cfd285e603",
+        "n": 7,
+        "k": 2,
+        "zeros": 4,
+        "crlf": true,
+        "withinConstraints": true,
+        "storedZ": 5,
+        "optimumZ": 5,
+        "storedOutputValid": true,
+        "validOutputCount": 1,
+        "exhaustiveBrute": {
+          "optimum": 5,
+          "validOutputCount": 1,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": true
+      },
+      {
+        "index": 6,
+        "inputSha256": "a7523ce73d11da778e479dd620f8141378827ceb47dc28c06b70c840a6f81a64",
+        "outputSha256": "f2196ac4448ef68fa96756f5cb49a1e6da73b5c28075c882c42b5f7c01054a7b",
+        "n": 7,
+        "k": 3,
+        "zeros": 5,
+        "crlf": true,
+        "withinConstraints": true,
+        "storedZ": 4,
+        "optimumZ": 4,
+        "storedOutputValid": true,
+        "validOutputCount": 3,
+        "exhaustiveBrute": {
+          "optimum": 4,
+          "validOutputCount": 3,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": false,
+        "storedOutputTokens": [
+          "4",
+          "1 1 1 1 0 1 0"
+        ],
+        "alternativeValid": [
+          "1 0 0 1 1 1 1",
+          "1 0 1 1 1 1 0"
+        ]
+      },
+      {
+        "index": 7,
+        "inputSha256": "ce6510d1b459fee76600f51cbaaac12b46e17972d63f8676b5f02420c419aaa3",
+        "outputSha256": "bfacca0e07f0a2186293ef743acc0ab60b56a7de33736e6780d3684168b245e2",
+        "n": 3,
+        "k": 0,
+        "zeros": 0,
+        "crlf": true,
+        "withinConstraints": true,
+        "storedZ": 3,
+        "optimumZ": 3,
+        "storedOutputValid": true,
+        "validOutputCount": 1,
+        "exhaustiveBrute": {
+          "optimum": 3,
+          "validOutputCount": 1,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": true
+      },
+      {
+        "index": 8,
+        "inputSha256": "054bc2c04a52acc080974dc5eb707ed1578a90d61bac9521aa7bd5584041f966",
+        "outputSha256": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+        "n": 1,
+        "k": 0,
+        "zeros": 0,
+        "crlf": true,
+        "withinConstraints": true,
+        "storedZ": 1,
+        "optimumZ": 1,
+        "storedOutputValid": true,
+        "validOutputCount": 1,
+        "exhaustiveBrute": {
+          "optimum": 1,
+          "validOutputCount": 1,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": true
+      },
+      {
+        "index": 9,
+        "inputSha256": "1a33d3f0b480c3ec7995c669247dfc26bcf1227e17ecdd274d2b2574148f5509",
+        "outputSha256": "12557c0d0933cb6808fcd17e35c99ae73895df407d19352f5cc13db40468bfe2",
+        "n": 2,
+        "k": 0,
+        "zeros": 1,
+        "crlf": true,
+        "withinConstraints": true,
+        "storedZ": 1,
+        "optimumZ": 1,
+        "storedOutputValid": true,
+        "validOutputCount": 1,
+        "exhaustiveBrute": {
+          "optimum": 1,
+          "validOutputCount": 1,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": true
+      },
+      {
+        "index": 10,
+        "inputSha256": "6d04100a8642a9df692af2b88a3e2cfac4a5b96756464749d410834553f5f489",
+        "outputSha256": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+        "n": 1,
+        "k": 1,
+        "zeros": 1,
+        "crlf": true,
+        "withinConstraints": true,
+        "storedZ": 1,
+        "optimumZ": 1,
+        "storedOutputValid": true,
+        "validOutputCount": 1,
+        "exhaustiveBrute": {
+          "optimum": 1,
+          "validOutputCount": 1,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": true
+      },
+      {
+        "index": 11,
+        "inputSha256": "436692b18d655104cb4da6d89be7d40627397e860bc56e5c43afaff16be32039",
+        "outputSha256": "30511577124c0490e66c4c9ea3eed0c95fd940c7693f33fa6fd4892ba67eeb5f",
+        "n": 3,
+        "k": 1,
+        "zeros": 2,
+        "crlf": true,
+        "withinConstraints": true,
+        "storedZ": 2,
+        "optimumZ": 2,
+        "storedOutputValid": true,
+        "validOutputCount": 1,
+        "exhaustiveBrute": {
+          "optimum": 2,
+          "validOutputCount": 1,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": true
+      },
+      {
+        "index": 12,
+        "inputSha256": "370e1a48a65759e2c3bc14be41b25e597a3658990f9facc35e0c771aa4b4feb0",
+        "outputSha256": "c6c5c7a745aba33407dd913374fed4fb9260803df7e0a548f6ae3ffbca96617a",
+        "n": 2,
+        "k": 0,
+        "zeros": 2,
+        "crlf": true,
+        "withinConstraints": true,
+        "storedZ": 0,
+        "optimumZ": 0,
+        "storedOutputValid": true,
+        "validOutputCount": 1,
+        "exhaustiveBrute": {
+          "optimum": 0,
+          "validOutputCount": 1,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": true
+      },
+      {
+        "index": 13,
+        "inputSha256": "212543a4e437ba1e5d3e749c6ee9485408064bcc133352afd0440569265142e7",
+        "outputSha256": "f136ba1706c5475c06c9c153a72866a644b3a73084edf7d1c7c4ebce2c8534d1",
+        "n": 3,
+        "k": 1,
+        "zeros": 3,
+        "crlf": true,
+        "withinConstraints": true,
+        "storedZ": 1,
+        "optimumZ": 1,
+        "storedOutputValid": true,
+        "validOutputCount": 3,
+        "exhaustiveBrute": {
+          "optimum": 1,
+          "validOutputCount": 3,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": false,
+        "storedOutputTokens": [
+          "1",
+          "1 0 0"
+        ],
+        "alternativeValid": [
+          "0 0 1",
+          "0 1 0"
+        ]
+      },
+      {
+        "index": 14,
+        "inputSha256": "71862020e64f56401b9fcdf48e5dfd668d55f4effd828e8e6d72328a0d7df72f",
+        "outputSha256": "0c75ad28a9ac6ffd6c1b93b20beddc24eca2734c268412ee2579e807b7a41d80",
+        "n": 7,
+        "k": 7,
+        "zeros": 5,
+        "crlf": true,
+        "withinConstraints": true,
+        "storedZ": 7,
+        "optimumZ": 7,
+        "storedOutputValid": true,
+        "validOutputCount": 1,
+        "exhaustiveBrute": {
+          "optimum": 7,
+          "validOutputCount": 1,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": true
+      },
+      {
+        "index": 15,
+        "inputSha256": "cd8b17a746cc0243a5b9513cd25fee8489e21f77fe31e492b0da64bc8cb8da5f",
+        "outputSha256": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+        "n": 1,
+        "k": 1,
+        "zeros": 0,
+        "crlf": true,
+        "withinConstraints": true,
+        "storedZ": 1,
+        "optimumZ": 1,
+        "storedOutputValid": true,
+        "validOutputCount": 1,
+        "exhaustiveBrute": {
+          "optimum": 1,
+          "validOutputCount": 1,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": true
+      },
+      {
+        "index": 16,
+        "inputSha256": "143f7baea03b512ba233b7e459ee7b6c80cd19164926174d12c793e8d5d64ba5",
+        "outputSha256": "5061aa7341b7ef41c44ed75d40e7609ade80c476f1aa493dffe143b654979179",
+        "n": 3,
+        "k": 0,
+        "zeros": 3,
+        "crlf": true,
+        "withinConstraints": true,
+        "storedZ": 0,
+        "optimumZ": 0,
+        "storedOutputValid": true,
+        "validOutputCount": 1,
+        "exhaustiveBrute": {
+          "optimum": 0,
+          "validOutputCount": 1,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": true
+      },
+      {
+        "index": 17,
+        "inputSha256": "a9ebf70a20df280663f182a1c302451bd1a25cd21a23a718722da64df626987a",
+        "outputSha256": "0c75ad28a9ac6ffd6c1b93b20beddc24eca2734c268412ee2579e807b7a41d80",
+        "n": 7,
+        "k": 3,
+        "zeros": 0,
+        "crlf": true,
+        "withinConstraints": true,
+        "storedZ": 7,
+        "optimumZ": 7,
+        "storedOutputValid": true,
+        "validOutputCount": 1,
+        "exhaustiveBrute": {
+          "optimum": 7,
+          "validOutputCount": 1,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": true
+      },
+      {
+        "index": 18,
+        "inputSha256": "9764f6993d81323d1495b34dd60b78c4965e1f80616255e70d64f40866def418",
+        "outputSha256": "97cfd50f2c47758e99830d17c9114072d07979c08ecf5d426cef7cf15e3487f2",
+        "n": 10,
+        "k": 3,
+        "zeros": 6,
+        "crlf": true,
+        "withinConstraints": true,
+        "storedZ": 6,
+        "optimumZ": 6,
+        "storedOutputValid": true,
+        "validOutputCount": 1,
+        "exhaustiveBrute": {
+          "optimum": 6,
+          "validOutputCount": 1,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": true
+      },
+      {
+        "index": 19,
+        "inputSha256": "e3da30d27bdc85feb58814210b5a550e22a9d45bf131d336c449d113b24b8e05",
+        "outputSha256": "6578879d857e79c404f9a95d6e7bb1168f22aed3d9ef3931bec269304470d5e7",
+        "n": 2,
+        "k": 1,
+        "zeros": 2,
+        "crlf": true,
+        "withinConstraints": true,
+        "storedZ": 1,
+        "optimumZ": 1,
+        "storedOutputValid": true,
+        "validOutputCount": 2,
+        "exhaustiveBrute": {
+          "optimum": 1,
+          "validOutputCount": 2,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": false,
+        "storedOutputTokens": [
+          "1",
+          "1 0"
+        ],
+        "alternativeValid": [
+          "0 1"
+        ]
+      },
+      {
+        "index": 20,
+        "inputSha256": "ed482ec8342241cb6b4e71817522748ccdab6be7b687affec98275d2ba95582e",
+        "outputSha256": "f620f52a17737de11a738a9b95e448926bb0fd6b5c546232241b2ecbb874841f",
+        "n": 2,
+        "k": 2,
+        "zeros": 1,
+        "crlf": true,
+        "withinConstraints": true,
+        "storedZ": 2,
+        "optimumZ": 2,
+        "storedOutputValid": true,
+        "validOutputCount": 1,
+        "exhaustiveBrute": {
+          "optimum": 2,
+          "validOutputCount": 1,
+          "agrees": true
+        },
+        "firstTieMatchesStoredTokens": true,
+        "lastTieMatchesStoredTokens": true
+      }
+    ]
+  },
+  "selectedSubmissionsReview": {
+    "count": 32,
+    "executed": false,
+    "verdicts": {
+      "OK": 12,
+      "WRONG_ANSWER": 16,
+      "TIME_LIMIT_EXCEEDED": 4
+    },
+    "notes": {
+      "17232829": "OK@38 (full testset): two-pointer with 'R-L>=MR-ML' (line 31), keeps the last optimal window. Valid, but token-unequal to stored outputs on official tests [1, 6, 13, 19] (re-implemented scratch logic, not executed).",
+      "17233039": "OK@38: two-pointer with strict improvement (line 16), matches the stored tie-break on every pinned pair.",
+      "otherOK": "The other 10 GNU C++11 OK sources (all passedTestCount 38) were read; they use strict-improvement sweeps or binary search, so they pick the earliest window (by left or right end) and flip zeros inside it.",
+      "TLE": "The Python TIME_LIMIT_EXCEEDED sources are not algorithmic evidence.",
+      "WA": "The Python WRONG_ANSWER sources were not analyzed in depth. Under a token checker their recorded failures cannot be told apart from tie-break differences without a custom checker, so they are not relied on."
+    }
+  },
+  "checks": {
+    "bruteChecks": {
+      "660C": 0
+    },
+    "unittestAssertionCalls": 0,
+    "unittestMethods": 0,
+    "commands": [
+      "python3 -c json.load (report)",
+      "git diff --check"
+    ],
+    "note": "No recipe or unit test authored (exclusion), so there are no brute_checks or unittest assertions to report. The scratch review exhaustively enumerated every valid output for the 21 official tests and 2 samples."
+  }
+}
