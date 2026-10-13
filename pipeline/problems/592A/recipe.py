@@ -35,11 +35,17 @@ def free(b, side):
     return any(b[r][c] == "B" and all(b[i][c] == "." for i in range(r + 1, 8)) for r in range(8) for c in range(8))
 
 
+def lone(b, side):
+    return any([b[r][c] for r in range(8) if b[r][c] != "."] == [side] for c in range(8))
+
+
 def gen(g, dw, db):
+    # A column holding a single pawn of each colour keeps that player able to move until the game ends,
+    # which is a sufficient condition for the statement's "always a move available" guarantee.
     while True:
         t = board(g, dw, db)
         b = t.split()
-        if free(b, "W") and free(b, "B"):
+        if free(b, "W") and free(b, "B") and lone(b, "W") and lone(b, "B"):
             return t
 
 

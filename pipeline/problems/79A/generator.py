@@ -35,14 +35,14 @@ def solve(s):
 
 
 def cases(g):
-    out = [("boundary", "empty pile", fmt(0, 0)), ("boundary", "x=0 y=21 cannot move", fmt(0, 21)),
-           ("boundary", "x=0 y=22 one move", fmt(0, 22)), ("boundary", "x=2 y=2 one move", fmt(2, 2)),
-           ("adversarial", "only 100s, y=1", fmt(10 ** 6, 1)), ("adversarial", "x=1 y=12 then 0", fmt(1, 12)),
-           ("adversarial", "only 10s large", fmt(0, 10 ** 6)), ("adversarial", "only 100s large", fmt(10 ** 6, 0)),
-           ("maxSize", "x=y=1e6", fmt(10 ** 6, 10 ** 6)), ("maxSize", "x=1e6 y=999999", fmt(10 ** 6, 999999))]
-    out += fill(g, lambda g: fmt(g.randint(0, 30), g.randint(0, 300)), 70, reason="small random")
-    out += fill(g, lambda g: fmt(g.randint(0, 10 ** 4), g.randint(0, 10 ** 4)), 30)
-    out += fill(g, lambda g: fmt(g.randint(0, 10 ** 6), g.randint(0, 10 ** 6)), 3, reason="large random")
+    out = [("boundary", "empty pile", fmt([0, 0])), ("boundary", "x=0 y=21 cannot move", fmt([0, 21])),
+           ("boundary", "x=0 y=22 one move", fmt([0, 22])), ("boundary", "x=2 y=2 one move", fmt([2, 2])),
+           ("adversarial", "only 100s, y=1", fmt([10 ** 6, 1])), ("adversarial", "x=1 y=12 then 0", fmt([1, 12])),
+           ("adversarial", "only 10s large", fmt([0, 10 ** 6])), ("adversarial", "only 100s large", fmt([10 ** 6, 0])),
+           ("maxSize", "x=y=1e6", fmt([10 ** 6, 10 ** 6])), ("maxSize", "x=1e6 y=999999", fmt([10 ** 6, 999999]))]
+    out += fill(g, lambda g: fmt([g.randint(0, 30), g.randint(0, 300)]), 70, reason="small random")
+    out += fill(g, lambda g: fmt([g.randint(0, 10 ** 4), g.randint(0, 10 ** 4)]), 30)
+    out += fill(g, lambda g: fmt([g.randint(0, 10 ** 6), g.randint(0, 10 ** 6)]), 3, reason="large random")
     return out
 
 
