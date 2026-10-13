@@ -132,6 +132,13 @@ class ExtrasTests(unittest.TestCase):
         self.assertTrue(any(max(a for _, a in b) == recipe.MAX_A for b in parsed))
         self.assertIn('1000000015\n', {c['output'] for c in self.cases})
 
+    def test_floor_log_labels_are_true(self):
+        labelled = [c for c in self.cases if 'floor-based log4 loops undershoot' in c['reason']]
+        self.assertEqual(len(labelled), 13)
+        for case in labelled:
+            boxes = recipe.parse(PID, case['input'])
+            self.assertLess(floor_l4(boxes), recipe.answer(PID, boxes))
+
     def test_wrong_algorithms_are_killed(self):
         small = [recipe.parse(PID, c['input']) for c in self.cases if len(c['input']) < 5000]
         small = [b for b in small if max(k for k, _ in b) < 1000]

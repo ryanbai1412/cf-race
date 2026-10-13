@@ -118,8 +118,9 @@ def extras(pid):
     for k in (0, 7, 123456789):
         add([(k, 1)], f'single box a=1 at k={k}: catches printing k when the carried count is already 1', 'boundary')
     for m in range(1, 15):
-        add([(0, 4 ** m)], f'a=4^{m} exactly: float ceil(log(a,4)) can overshoot to {m + 1}', 'boundary')
-        add([(0, 4 ** m + 1)], f'a=4^{m}+1: one more level; floor-based log4 loops undershoot', 'boundary')
+        add([(0, 4 ** m)], f'a=4^{m} exactly: largest count that fits in {m} levels', 'boundary')
+        undershoot = '; floor-based log4 loops undershoot' if m >= 2 else ''
+        add([(0, 4 ** m + 1)], f'a=4^{m}+1: smallest count needing {m + 1} levels{undershoot}', 'boundary')
         add([(5, 4 ** m - 1)], f'a=4^{m}-1 at k=5', 'boundary')
     add([(0, 4), (1, 4), (2, 4)], 'nesting: total area 84>64 but smaller boxes go inside larger ones (p=3); area-sum solutions say 4')
     add([(0, 4), (1, 4)], 'nesting: four unit boxes fit inside one side-2 box (p=2); area-sum gives 3')
