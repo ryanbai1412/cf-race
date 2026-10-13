@@ -42,3 +42,7 @@ source compiles under v2 and then fails a pair. The history is kept in `state/ID
 `worker/exclusions.json` lists each prepare-blocked, truncated or multiple-answer exclusion with its reason.
 
 `generate`-stage oracle defect: 71A. The fixed public oracle overflows `char a[100]` on official test 0008, which has a 100-character word and is within constraints. See `diagnostics/71A-oracle.json`. Not retried with another oracle. It needs a next-stage independent author's oracle.
+
+`generate`-stage oracle defect: 1657B. The fixed public oracle writes `a[n]` past the end of its VLA on official test 0002 (n=100000, within constraints). See `diagnostics/1657B-oracle.json`.
+
+Incomplete, gate not met: 271A (4 incorrect). 1657A: 5 accepted pass, but every public TLE-labelled source passes the whole suite quickly, so only 1 incorrect is confirmed. Its gate is not lowered.

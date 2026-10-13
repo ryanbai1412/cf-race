@@ -1,0 +1,18 @@
+{
+ "decision": "Not retried with a different public oracle (gen_qualify.py rule: one fixed oracle per candidate). Stays excluded until a next-stage independent author's oracle is supplied.",
+ "diagnosis": "The oracle declares a stack VLA long a[n] but writes a[i] for i = 1..n, so a[n] is out of bounds (undefined behaviour). It also allocates up to 100000 longs on the stack per case. The official test has n=100000 (within constraints) and the worker recipe oracle matches its expected output. So the defect is in the oracle, not the upstream data.",
+ "failedTest": "0002 (official test 2 of the supplemental pairs, numbered official-first)",
+ "id": "1657B",
+ "officialTestFirstCase": "100000 1000000000 1000000000 1",
+ "officialTestInputSha256": "52af9f8d391e8d60daf7384049a8980a60d9f3426e847783e5530aa12b904e09",
+ "officialTestOutputSha256": "7b919aa7609aa8a3ce80700bd2c2db2714f89d2f535aba2569243a2fb49c01d4",
+ "oracle": {
+  "language": "C++20 (GCC 11-64)",
+  "sourceHash": "1c9024aa673154f87e00a708571c229e672499ffac4734e58adcf26c0d456236",
+  "submissionId": "167515064",
+  "url": "https://codeforces.com/contest/1657/submission/167515064"
+ },
+ "quarantineReason": "oracle/constraint contradiction quarantined at 0002; do not repair upstream tests silently",
+ "stage": "generate",
+ "status": "quarantined-oracle-defect"
+}
