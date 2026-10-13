@@ -17,9 +17,10 @@ import more_recipes
 import expansion_recipes
 import second_expansion_recipes
 import third_expansion_recipes
+import fourth_expansion_recipes
 import qualification
 
-MODULES = (recipes, extended_recipes, additional_recipes, more_recipes, expansion_recipes, second_expansion_recipes, third_expansion_recipes)
+MODULES = (recipes, extended_recipes, additional_recipes, more_recipes, expansion_recipes, second_expansion_recipes, third_expansion_recipes, fourth_expansion_recipes)
 IDS = tuple(pid for module in MODULES for pid in module.IDS)
 
 SEMANTICS = {
@@ -34,6 +35,7 @@ SEMANTICS.update(more_recipes.SEMANTICS)
 SEMANTICS.update(expansion_recipes.SEMANTICS)
 SEMANTICS.update(second_expansion_recipes.SEMANTICS)
 SEMANTICS.update(third_expansion_recipes.SEMANTICS)
+SEMANTICS.update(fourth_expansion_recipes.SEMANTICS)
 
 BOUNDARY_CASES = {
     '337C': {(2, 0, 2), (2, 2, 2)},
