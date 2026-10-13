@@ -100,6 +100,9 @@ def decision_record(entry, root):
         record = record[key]
     if digest(record) != binding["recordHash"]:
         raise ValueError("current independent decision changed")
+    if (record.get("approved") is False or record.get("primaryAuditApproved") is False or
+            record.get("nativeAudit", {}).get("approved") is False):
+        raise ValueError("current independent decision excludes candidate")
     if not (record.get("approved") is True or record.get("technicalState") == "qualified" or
             record.get("status") == "technical-pass" or record.get("outcome") == "TECHNICAL" or
             record.get("primaryVerdict") == "VALIDATED"):

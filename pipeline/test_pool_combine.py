@@ -209,6 +209,19 @@ class ReplayTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.run_replay()
 
+    def test_explicit_revocation_overrides_positive_wrapper_status(self):
+        entry = self.index["entries"][0]
+        for fields in ({"primaryVerdict": "VALIDATED", "primaryAuditHash": entry["auditHash"],
+                        "primaryAuditApproved": False},
+                       {"outcome": "TECHNICAL", "nativeAudit": {"auditHash": entry["auditHash"], "approved": False}}):
+            row = {"id": entry["id"], "packageHash": entry["packageHash"],
+                   "evidenceHash": entry["evidenceHash"], **fields}
+            write_json(self.root / "primary.json", row)
+            entry["decision"] = {"path": "primary.json", "selector": [], "recordHash": digest(row)}
+            self.index["decisions"][0]["record"] = copy.deepcopy(entry["decision"])
+            with self.assertRaises(ValueError):
+                self.run_replay()
+
     def test_duplicate_cross_rating_inventory(self):
         row = copy.deepcopy(self.index["decisions"][0]); row["rating"] = 800
         self.index["decisions"].append(row)
