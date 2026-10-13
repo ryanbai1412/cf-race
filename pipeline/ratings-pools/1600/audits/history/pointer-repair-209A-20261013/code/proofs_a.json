@@ -1,0 +1,290 @@
+{
+ "209A/119337156": {
+  "algorithm": "Fibonacci-sum formula c = sum fib +1 without modulo",
+  "fault": "never reduces modulo 1e9+7, so for large n the printed integer is the unreduced count, not the required residue",
+  "faultyLines": [
+   14,
+   15,
+   18
+  ]
+ },
+ "209A/130943124": {
+  "algorithm": "closed form n(n+1)/2, plus 1 when n is even, reduced mod 1e9+7 (float division then int())",
+  "fault": "n(n+1)/2 (+1 for even n) is not the zebroid-subsequence count; the correct value follows the recurrence a(i)=a(i-1)+b(i-1)+1 alternating parity (n=2: answer 3, prints 4)",
+  "faultyLines": [
+   2,
+   3,
+   5
+  ]
+ },
+ "209A/14574007": {
+  "algorithm": "sum over i of floor(n^i / i^i)",
+  "fault": "unrelated formula for the count of zebroid subsequences; no recurrence, no modulo",
+  "faultyLines": [
+   6,
+   7,
+   8
+  ]
+ },
+ "209A/30579897": {
+  "algorithm": "n(n+1)/2 (+1 if n even) in float",
+  "fault": "closed form n(n+1)/2 is not the zebroid count (e.g. n=2 answer 3, prints 4.0); float division also formats as x.0",
+  "faultyLines": [
+   2,
+   3,
+   9
+  ]
+ },
+ "209A/37271596": {
+  "algorithm": "reads each line as a character list and counts adjacent pairs",
+  "fault": "does not model 209A at all: treats the integer n as a string of characters; this is source for a different problem (wrong-problem)",
+  "faultyLines": [
+   3,
+   12,
+   13,
+   14,
+   15,
+   16
+  ]
+ },
+ "209A/68858672": {
+  "algorithm": "correct DP a/b (subsequences ending in parity) without modulo",
+  "fault": "never reduces modulo 1e9+7, so for large n the printed integer is the unreduced count, not the required residue",
+  "faultyLines": [
+   5,
+   7,
+   8
+  ]
+ },
+ "495B/9121726": {
+  "algorithm": "a==b -> infinity; else x=a-b, shortcut, then builds divisor list of x by trial factor extension and counts divisors > b",
+  "fault": "line 6 'if x//b <= 1: print(\"1\")' is not a valid test (no a<b handling; x//b<=1 prints 1 even when no divisor exceeds b); on a=0,b=1e9 x is negative and it prints 1",
+  "faultyLines": [
+   6,
+   7,
+   8
+  ]
+ },
+ "495B/9135973": {
+  "algorithm": "n=a-b; sqrt enumeration of divisor pairs of n, counting those that qualify",
+  "fault": "counts divisors with i >= b / n//i >= b; the statement requires x > b (x mod x... remainder b needs divisor strictly greater than b), so divisor equal to b is overcounted",
+  "faultyLines": [
+   16,
+   17
+  ]
+ },
+ "495B/9188071": {
+  "algorithm": "sqrt enumeration of divisors of a-b",
+  "fault": "range(1, r) with r=int(sqrt(a-b)) never tests d=r; r is only added when a-b is a perfect square, so divisor pair (r,(a-b)/r) is lost when r divides a-b but a-b != r*r",
+  "faultyLines": [
+   8,
+   9,
+   13,
+   14
+  ]
+ },
+ "495B/9226910": {
+  "algorithm": "set of divisor pairs from range(1,int(sqrt(n))), count > b",
+  "fault": "range(1, int(sqrt(n))) excludes i=floor(sqrt(n)), dropping that divisor pair",
+  "faultyLines": [
+   5
+  ]
+ },
+ "495B/9291817": {
+  "algorithm": "s starts at 1 (for a-b itself), enumerates x in range(2,y), adds square root",
+  "fault": "s=1 counts a-b unconditionally; range(2,y) skips x=y; line 10 tests a >= b*x instead of a/x > b, so it counts invalid paired divisors",
+  "faultyLines": [
+   5,
+   7,
+   9,
+   10
+  ]
+ },
+ "597A/14200120": {
+  "algorithm": "closed form (b-a-a%k)//k+1",
+  "fault": "subtracting a%k does not align a to the next multiple of k; off by one whenever a%k != 0",
+  "faultyLines": [
+   2,
+   3
+  ]
+ },
+ "597A/14202037": {
+  "algorithm": "n=b-a+1; compare n%k against offset of first multiple using ceil(a/k)",
+  "fault": "ceil(a/k) uses float division; for |a| ~1e18 the double loses precision, so the offset and the count are wrong",
+  "faultyLines": [
+   1,
+   4
+  ]
+ },
+ "597A/14204083": {
+  "algorithm": "sign case split computing multiples via (b-a+1)//k and abs() floor divisions",
+  "fault": "for a,b>=0 it adds 1 when a%k==0 to (b-a+1)//k, double-counting (k=1,a=1,b=10 gives 11); negative-range branch uses abs values incorrectly",
+  "faultyLines": [
+   10,
+   11,
+   12,
+   13,
+   22,
+   23,
+   24
+  ]
+ },
+ "597A/14204630": {
+  "algorithm": "round a up to multiple of k, b down, count",
+  "fault": "a += k - a%k advances a by k when a is already a multiple of k, skipping a",
+  "faultyLines": [
+   2
+  ]
+ },
+ "597A/14207809": {
+  "algorithm": "round a and b to multiples of k and count",
+  "fault": "a = a + a%k is not rounding up to a multiple of k (should add (k - a%k)%k)",
+  "faultyLines": [
+   3
+  ]
+ },
+ "704A/19747251": {
+  "algorithm": "per-app list of event indices, reads[x] = number read per app, z = unread total; type 3 sweeps all apps with bisect",
+  "fault": "line 20 rebinds i to the app id, then bisect(l, i) bounds by the app id instead of the event index of the t-th generated notification, and reads.get(x,0) uses x not the app i, so prefix reads are miscounted",
+  "faultyLines": [
+   20,
+   21
+  ]
+ },
+ "704A/19861223": {
+  "algorithm": "keeps list of unread notifications' app ids; type 2 removes app's entries; type 3 slices",
+  "fault": "list = list[data:] drops the first t currently-unread notifications, not the first t generated notifications (some of which may already be read)",
+  "faultyLines": [
+   17
+  ]
+ },
+ "704A/19864529": {
+  "algorithm": "per-event snapshot of per-app unread counts; type 3 subtracts a snapshot",
+  "fault": "subtracts data[t], the state after event t, not the state after the t-th type-1 notification; event index != notification index",
+  "faultyLines": [
+   31
+  ]
+ },
+ "704A/20046740": {
+  "algorithm": "per-app counter l[b], total sum, global check counter",
+  "fault": "one 'check' counter mixes type-2 reads with the type-3 prefix pointer, so type 3 subtracts the wrong amount; line 24 prints a Python list (format)",
+  "faultyLines": [
+   16,
+   19,
+   20,
+   24
+  ]
+ },
+ "704A/20067801": {
+  "algorithm": "app list of generated notifications with -1 for read; type 3 marks prefix",
+  "fault": "type 2 adds l[b] to check and marks only app.index(b) (first occurrence) as read; type 3 subtracts (b-check) treating check as a prefix pointer, conflating type-2 reads with the first-t prefix",
+  "faultyLines": [
+   15,
+   17,
+   19,
+   22,
+   23
+  ]
+ },
+ "741A/22771801": {
+  "algorithm": "sum check for permutation, cycle lengths via DFS, lcm of distinct lengths",
+  "fault": "sum(crush)==n(n+1)/2 is not a permutation test; even cycle lengths are not halved before the lcm",
+  "faultyLines": [
+   17,
+   34,
+   36,
+   43
+  ]
+ },
+ "741A/22813715": {
+  "algorithm": "cycle detection, return -1 if not a permutation, lcm of cycle lengths skipping length 2",
+  "fault": "only length-2 cycles are halved (skipped); even cycles of length >= 4 must contribute c/2, not c",
+  "faultyLines": [
+   34,
+   35,
+   36
+  ]
+ },
+ "741A/22813922": {
+  "algorithm": "same as 22813715 with gcd lcm",
+  "fault": "only length-2 cycles are halved; even cycles of length >= 4 must contribute c/2",
+  "faultyLines": [
+   24,
+   25,
+   26
+  ]
+ },
+ "741A/22818067": {
+  "algorithm": "cycle sizes count-1, answer = max size if every size divides it",
+  "fault": "uses count-1 instead of the cycle length (halved when even) and requires divisibility instead of taking the lcm",
+  "faultyLines": [
+   17,
+   18,
+   20,
+   21,
+   22,
+   23
+  ]
+ },
+ "741A/24098221": {
+  "algorithm": "finds cycles, returns min cycle length (2 -> 1)",
+  "fault": "answer must be lcm over all cycles of (len if odd else len/2) and -1 if some node is not on a cycle; it returns the minimum cycle length and only prints -1 when no cycle >1 exists",
+  "faultyLines": [
+   22,
+   24,
+   25,
+   26,
+   30
+  ]
+ },
+ "86A/12987773": {
+  "algorithm": "uses only digit count of r: s=10^len(r)-1, e=s//2; prints e(e+1) if r>=e else r(s-r)",
+  "fault": "ignores l entirely (the optimum e may be < l) and uses e*(e+1) for the product instead of e*(s-e)",
+  "faultyLines": [
+   2,
+   4,
+   5,
+   7
+  ]
+ },
+ "86A/14539014": {
+  "algorithm": "loop i in [l,r], reflection 9-i, special case 10",
+  "fault": "reflection of i is 9-i only for single digits; for multi-digit i the reflection is 10^d-1-i",
+  "faultyLines": [
+   4,
+   5,
+   9
+  ]
+ },
+ "86A/19402416": {
+  "algorithm": "reads l,r as strings; one hard-coded branch; prints 20",
+  "fault": "line 4 compares str to int so the branch is dead; line 16 unconditionally prints 20",
+  "faultyLines": [
+   4,
+   16
+  ]
+ },
+ "86A/57799532": {
+  "algorithm": "greedy digit rewrite of r toward 5..., helper check() to decrement digits",
+  "fault": "check() assigns r = r_copy locally and never returns it, so the decrement is lost; the greedy rewrite of r's digits to 5 can exceed r or drop below l",
+  "faultyLines": [
+   19,
+   33,
+   34,
+   35,
+   36,
+   37
+  ]
+ },
+ "86A/74821405": {
+  "algorithm": "if len(r)>len(l) and len(r)>2: try i + '5'*(len(r)-2) for i in 1..99; else brute force l..r",
+  "fault": "the candidates str(i)+'5...5' are never checked against [l,r] and need not include the optimum (e.g. 50 for r=100)",
+  "faultyLines": [
+   9,
+   10,
+   12,
+   13,
+   16
+  ]
+ }
+}
