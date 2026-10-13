@@ -200,6 +200,9 @@ class Recipe493CTests(unittest.TestCase):
         self.assertEqual(len(SAMPLES), 2)
         self.assertEqual(recipe.review('493C', list(enumerate(OFFICIAL_PAIRS)),
                                        [('sample-' + str(i), p) for i, p in enumerate(SAMPLES)]), [])
+        for pair in OFFICIAL_PAIRS + SAMPLES:
+            self.assertEqual(pair['output'].split(),
+                             [recipe._literal_best(recipe.parse('493C', pair['input']))])
         report = json.loads(Path(__file__).with_name('recipe-reports').joinpath('493C.json').read_text())
         raw = json.dumps(OFFICIAL_PAIRS, sort_keys=True, separators=(',', ':'),
                          ensure_ascii=False).encode()

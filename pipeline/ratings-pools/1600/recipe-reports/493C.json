@@ -1,4 +1,19 @@
 {
+  "authoredSuite": {
+    "allInputsUnique": true,
+    "allPairsLiteralScoredIndependently": true,
+    "canonicalDigest": "edd72eea439109af963d2e118a92c47f4128f9ad274340d60e42e6f4196249c1",
+    "categories": {
+      "adversarial": 138,
+      "boundary": 18,
+      "maxSize": 4
+    },
+    "deterministicSeeds": [
+      4931600,
+      4931601
+    ],
+    "pairs": 160
+  },
   "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
   "constraints": {
     "checker": "exact score token; no custom checker, floats, interaction, file I/O or multiple valid scores",
@@ -52,10 +67,26 @@
     "sourceRowHash": "b2a8c9323060152d7ca64a7bbf04dee328f0510d822b5af8d06f82b1aa648274"
   },
   "localChecks": {
-    "astSyntax": null,
-    "gitDiffCheck": null,
-    "status": "pending initial push",
-    "unittest": null
+    "astSyntax": {
+      "files": [
+        "recipe_493C.py",
+        "test_recipe_493C.py"
+      ],
+      "result": "passed"
+    },
+    "bruteAssertions": 15260,
+    "checkedRecipeCommit": "70ca5320ea365ce4b9e8a52c45b1345e60d2eb12",
+    "gitDiffCheck": {
+      "command": "git diff --check 5b28d333386f24f8ed15eb55b8c18627c6326070..HEAD",
+      "result": "passed"
+    },
+    "scope": "Targeted recipe checks, not parent qualification or independent auditor validation.",
+    "status": "passed after initial commit/push; final rerun required after this report commit",
+    "unittest": {
+      "command": "python3 -m unittest discover -s pipeline/ratings-pools/1600 -p test_recipe_493C.py -v",
+      "result": "passed",
+      "testMethods": 9
+    }
   },
   "oracle": {
     "authoredPairs": 160,
@@ -63,7 +94,7 @@
     "efficient": "Sort both arrays and merge all equal-distance groups. Start at d=0 with (3n,3m); subtract one per throw when d reaches its distance, then lexicographically maximize (a-b,a). Includes all-two endpoint. O(n log n+m log m) time and O(n+m) space.",
     "independentBrute": "Enumerate every d=0..3 on every ordered array of length1..4 over {1,2,3}; count each throw literally without prefix counts or sorted sweeps. Also 500 fixed-seed dense cases over d=0..25, 200 sparse cases at all change points, and every authored pair including maxima.",
     "maxDimensionPairs": 4,
-    "observedBruteAssertions": null,
+    "observedBruteAssertions": 15260,
     "plannedBruteAssertions": 15260,
     "smallExhaustiveCases": 14400,
     "sparseRandomCases": 200
@@ -167,17 +198,17 @@
     "requiredImages": "None; description, constraints, scores and samples are all present as HTML text.",
     "url": "https://codeforces.me/problemset/problem/493/C?locale=en"
   },
-  "status": "authored-checks-pending",
+  "status": "authored-targeted-checks-passed",
   "upstreamReview": {
     "advertisedOpenR1GeneratedPairs": 11,
     "bytesPreserved": true,
     "declaredOfficialTestsetSize": 35,
-    "failedPairs": null,
+    "failedPairs": [],
     "officialTestsComplete": false,
     "openR1GeneratedPairsSupplied": false,
     "providedOfficialPairs": 26,
     "qualificationLimitation": "26 of 35 original official pairs supplied, plus 11 advertised generated pairs absent from attachment. Generated-basis qualification requires parent 5 actual AC/5 genuine algorithmic WA, a separate sixth accepted oracle and a later different-agent audit.",
     "samples": 2,
-    "status": "pending local checks after initial push"
+    "status": "all supplied 26 official pairs and 2 samples satisfy constraints and exact oracle"
   }
 }
