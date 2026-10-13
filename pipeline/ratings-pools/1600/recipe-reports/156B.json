@@ -1,0 +1,108 @@
+{
+  "id": "156B",
+  "role": "recipe-author-only",
+  "status": "authored-pending-local-checks",
+  "qualification": "Not performed. This report is not an audit, signoff, parent identity attestation, or validated-problem count.",
+  "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
+  "inputIntegrity": {
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "archiveBytes": 4542856,
+    "file": "inputs/156B.json",
+    "fileSha256": "30d6aaebabd51800f7fa833fbf409686d9b96c083bb13ecdf7a9dad06c4fba2c",
+    "fileBytes": 54520,
+    "manifestSha256": "c5aa6b8341d4ab6814424de54e241e91390fdc4c079e7f1daa4379bf07075381",
+    "sourceRowHash": "a30fb8dd12c9ce5697facf1f9e168be3ee9f0a5adb93debc5d033bd3bb91f06a",
+    "sourceRowHashMethod": "pipeline.pool_contract.digest(sourceRow)",
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "upstreamProvenanceFromAttachment": {
+      "path": "data/train-00003-of-00011.parquet",
+      "bytes": 67488507,
+      "sha256": "cadad10f9d2c5226460578249998baf677c076a6e3b80e91850fa097dd040ef6",
+      "limitation": "Parent supplied full-LFS-shard verification; this author verified the attachment and canonical row digest, without re-downloading the full shard."
+    },
+    "preservation": "Only inputs/156B.json and MANIFEST.json extracted/read. All original statement, sample, official test, and selected submission strings remain unchanged in the byte-identical input attachment. No imported expected outputs repaired."
+  },
+  "documentationReadBeforeFurtherRequests": [
+    "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
+    "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md",
+    "pipeline/ratings-pools/1600/normalize_statement.py"
+  ],
+  "statementAttestation": {
+    "sourceUrl": "https://codeforces.me/problemset/problem/156/B?locale=en",
+    "locale": "en",
+    "title": "B. Suspects",
+    "fullBodySha256": "9e92adbdd938a05090a48109b5d74fb304e93283b07fe2ff1644afd2015f270a",
+    "fullBodyBytes": 61360,
+    "path": "statement-sources/156B.recipe-author.original.html",
+    "sha256": "33305e5f84ba735315d6d650af914096ca8ea4fcd2abfe6734cd379c2e616ce7",
+    "bytes": 5412,
+    "extraction": "Unchanged balanced div.problem-statement element, UTF-8 byte range [37009, 42421) of the full response; page chrome is not committed.",
+    "constraintAttestation": "1\u2009≤\u2009<i>n</i>\u2009≤\u200910<sup class=\"upper-index\">5</sup>,\u20090\u2009≤\u2009<i>m</i>\u2009≤\u2009<i>n</i>",
+    "normalizationProposal": {
+      "sourceField": "input_format",
+      "from": "≤ 105,",
+      "to": "≤ 10<sup>5</sup>,",
+      "occurrences": 1,
+      "reason": "Pinned upstream text lost exponent markup; independent public English HTML explicitly renders 10^5. This proposal is not applied to sourceRow, packages, or shared normalization registrations."
+    },
+    "statementCompleteness": "Full original description/input/output/examples/note inspected. No missing required question/image, interaction, file I/O, floating answer, or custom checker. Multiple possible criminals do not imply multiple valid outputs: each speaker classification is uniquely determined."
+  },
+  "constraints": {
+    "n": [1, 100000],
+    "m": "integer 0..n",
+    "layout": "Exactly n+1 nonempty lines: first line n m, then one explicitly signed integer +a_i or -a_i per line; 1<=a_i<=n. LF/CRLF and horizontal surrounding whitespace allowed, missing final newline allowed. Flattening or added blank rows rejected.",
+    "guarantee": "At least one criminal c in 1..n yields exactly m true answers; parser rejects unsatisfiable instances.",
+    "output": "Exactly n lines in speaker order, each Truth, Lie, or Not defined. Exact strings returned by answer; unique output is safe for token comparison, and review additionally enforces line layout."
+  },
+  "oracle": {
+    "algorithm": "Count all negative statements and per-target signed balance. Candidate c is feasible iff negatives+balance[c]==m. A statement about an excluded target is always false for + and true for -. An included target is ambiguous with multiple candidates; with one candidate its sign determines Truth/Lie.",
+    "complexity": "O(n) time and O(n) memory, exact integers",
+    "independentReference": "Materialize the boolean truth vector separately for every possible criminal by interpreting each signed statement, retain vectors with exactly m truths, and classify columns using all/any. This does not use histogram/candidate logic.",
+    "brutePlan": "Every signed assignment for n=1..4 and every m=0..n, checking all feasible instances; 300 fixed-seed additional n=5..40 cases. Independent truth tables also check every small authored pair and each supplied official/sample pair.",
+    "bruteAssertionCount": null
+  },
+  "authoredCoverage": {
+    "requestedCases": 150,
+    "randomSeed": 1561601,
+    "categories": ["boundary", "adversarial", "maxSize"],
+    "maxSizeCases": 4,
+    "maxSizeDimensions": "n=100000; unique criminal, all-candidate self-denial, balanced sign cancellation, and partial candidate membership with all three output labels",
+    "smallCoverage": "Exhaustive feasible n=1..2 inputs; m=0/n, repeated targets, self-reference, unmentioned candidates, one/two/all candidates, mixed signs, and fixed-seed random small cases.",
+    "qualificationWarning": "150 authored cases are not 150 validated problems. Parent must integrate, execute independent 5AC/5 genuine algorithmic WA plus disjoint sixth accepted oracle, and arrange later different-agent audit."
+  },
+  "selectedSourceInspection": {
+    "executed": false,
+    "selectedCount": 19,
+    "verdictCounts": {"OK": 12, "WRONG_ANSWER": 2, "TIME_LIMIT_EXCEEDED": 5},
+    "coverageMotivationsOnly": [
+      {"submissionId": "72577648", "observation": "Unique-candidate branch prints Truth only for x==criminal, marking every negative statement Lie even when it denies an innocent target.", "authoredWitnessInput": "3 3\n+1\n-2\n-3\n", "mathematicalOutput": "Truth\nTruth\nTruth\n"},
+      {"submissionId": "159445718", "observation": "Counts distinct positive/negative targets using sets, discarding repeated speakers; also enumerates criminals to 100000 rather than n.", "authoredWitnessInput": "3 3\n+1\n+1\n-2\n", "mathematicalOutput": "Truth\nTruth\nTruth\n"}
+    ],
+    "limitation": "Static observations motivate tests, not execution evidence or algorithmic-WA attestations. The five TLE sources cannot be counted as algorithmic proof from timing kills. Only two selected WRONG_ANSWER sources are available here; parent qualification needs additional genuine-WA coverage."
+  },
+  "upstreamPairs": {
+    "suppliedOfficialPairs": 44,
+    "suppliedSamples": 3,
+    "inventoryOfficialCount": 97,
+    "sourceRowTestsetSize": 97,
+    "officialTestsComplete": false,
+    "generatedTestsField": 8,
+    "generatedPairsProvided": 0,
+    "countDiscrepancy": "Inventory/testset size 97 is not the number of supplied official pairs. Only the actual 44 pairs and 3 examples can be reviewed from this attachment. generated_tests is the integer 8, not eight embedded pairs.",
+    "reviewStatus": "pending-local-checks",
+    "failedPairs": null
+  },
+  "localChecks": {
+    "status": "pending-after-first-push",
+    "commands": [
+      "RECIPE_156B_INPUT=/home/ubuntu/156b-author-input/inputs/156B.json python3 -m unittest discover -s pipeline/ratings-pools/1600 -p test_recipe_156B.py -v",
+      "python3 AST parse of recipe_156B.py and test_recipe_156B.py",
+      "git diff 5b28d33 --check"
+    ]
+  },
+  "boundaries": "No public program execution, audit/signoff, PR, main push, merge, deployment, remote storage/database write, Tasks board action, shared foundation edit, registration edit, dependency edit, sibling recipe edit, or runtime test-data commit."
+}
