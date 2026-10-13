@@ -11778,7 +11778,7 @@
           "correctAnswer": "13",
           "existingLfExecutionLogPath": "fresh/1000A/counterexample-132672237.json",
           "existingLfExecutionLogSha256": "94ece5139d4275c2eb7a6144fcc2e21df5f7db542e222d0abdc5e5c1a98b8631",
-          "mathematicalDerivation": "For n=100 shirts, preserving one shirt per common size gives 87 unchanged shirts: old/new size deficits are S:3, XS:1, XXS:4, XXXL:5, totalling 13 required changes. The greedy sequential substitution spends one shirt needed later and reports 14 instead of the achievable minimum 13.",
+          "mathematicalDerivation": "The two 100-shirt multisets have 87 common shirts. Current deficits are S:3, XS:1, XXS:4, XXXL:5; old surpluses are L:2,M:1,XL:1,XXL:4,XXXS:5. Each of those 13 surplus words must change at least one character. The bound is achieved with one character each: L→S twice, M→S once, XL→XS once, XXL→XXS four times, XXXS→XXXL five times, preserving every word length. Thus exactly 13 seconds, not the greedy source’s 14.",
           "sourceHashBinding": {
             "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
             "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
@@ -11983,7 +11983,7 @@
           "correctAnswer": "7\n",
           "existingLfExecutionLogPath": "fresh/1000A/counterexample-135205335.json",
           "existingLfExecutionLogSha256": "eaa38b38451803e73cf7cdd82d6855cc796a934146d49369312a870939e210be",
-          "mathematicalDerivation": "The 26 old/new shirts have deficits L:5, XXL:1, XXXL:1; seven replacements are necessary and sufficient because other counts intersect. Membership-only testing wrongly reuses existing shirts and reports zero.",
+          "mathematicalDerivation": "Among 26 shirts, new deficits are L:5, XXL:1, XXXL:1; old surpluses are M:5, XXS:1, XXXS:1. Seven changed words give a seven-second lower bound. Replace M→L five times, XXS→XXL once and XXXS→XXXL once, one character each with equal word lengths; seven seconds is achievable. The membership-only source reuses existing shirts and returns zero.",
           "sourceHashBinding": {
             "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
             "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
