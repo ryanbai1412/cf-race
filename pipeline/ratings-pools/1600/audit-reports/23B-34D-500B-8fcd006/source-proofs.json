@@ -1,0 +1,2083 @@
+{
+  "schemaVersion": 1,
+  "scope": [
+    "23B",
+    "34D",
+    "500B"
+  ],
+  "workerCommit": "8fcd0068e9d0d1d6d3551fcbe5c9358b6ded472b",
+  "archiveHash": "c23b7888cddcd86285f888e0e2cf2266aa7e4584ac4ba972e214a2583d403a4e",
+  "strictSourceProofCount": 11,
+  "includedIntendedBoundsNumericProofCount": 13,
+  "approvedIds": [],
+  "proofs": [
+    {
+      "problem": "23B",
+      "submissionId": "11601107",
+      "sourceHash": "074d52c7b92795ecf092c1b285c16dd50673b585920b052d48e22cf1fa8e4111",
+      "originalSource": "import sys\nfrom itertools import *\nfrom math import *\ndef solve():\n    t = int(input())\n    res = list()\n    for test in range(t):\n        val = int(input())\n        res.append(val // 2)\n    print(' '.join(map(str, res)))\n\n\n\nif sys.hexversion == 50594544 : sys.stdin = open(\"test.txt\")\nsolve()",
+      "sourceIdentity": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "implementedAlgorithm": "Returns floor(n/2) independently for each party and prints tokens.",
+      "preciseFault": "Half the attendees is not the extremal survivor count max(n-2,0); for n=2 both must leave, not one.",
+      "lineAnchors": [
+        {
+          "line": 7,
+          "source": "    for test in range(t):"
+        },
+        {
+          "line": 8,
+          "source": "        val = int(input())"
+        },
+        {
+          "line": 9,
+          "source": "        res.append(val // 2)"
+        },
+        {
+          "line": 10,
+          "source": "    print(' '.join(map(str, res)))"
+        }
+      ],
+      "witness": {
+        "test": "0030",
+        "inputHash": "a6e2b7a040683432de03a18fd8a1939a2fdf82585b364bfc874bdd4095c4cae1",
+        "storedExpectedHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "independentExpectedHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "mathematicalProofHash": "28c9929303c35668b72acd7f78fdc1a858eabf20997dbbb5c7261af936a54653",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": true,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 1,
+        "expectedTokenCount": 1,
+        "strictSourceWitnessQualifies": true,
+        "mathematicalProof": {
+          "method": "At most n-2 survive: n cannot survive because every initial degree has a departure round. If n-1 survived they must all initially have degree n-1 to avoid rounds through n-2; the sole departing vertex is then adjacent to every survivor and cannot leave before round n-1 either. For n>=3 take an (n-2)-clique joined to two mutually nonadjacent leaves: leaves depart at degree n-2, leaving the clique at already-passed degree n-3. n=1,2 leave nobody.",
+          "partySizes": [
+            2
+          ]
+        },
+        "inputBase64": "MQoyCg==",
+        "storedExpectedBase64": "MAo=",
+        "independentExpectedBase64": "MAo=",
+        "actualOutputBase64": "MQo=",
+        "stderr": ""
+      },
+      "recordedFailedTest": {
+        "test": "0002",
+        "inputHash": "30c0028bd6e0ebcfff44e8be21e77022b8cfc70f71f6f1ed5b6e3da0f65273e7",
+        "storedExpectedHash": "109c186862f8668d006898077f11f8dae57026f01ac460240a4fc680084a5806",
+        "independentExpectedHash": "109c186862f8668d006898077f11f8dae57026f01ac460240a4fc680084a5806",
+        "actualOutputHash": "beddf53706e4748813b9122ab0183c01832422a23b49710cd3299fe96513d1e0",
+        "mathematicalProofHash": "74f25fb903272cc612c90ccaf63df1f1022f9b3dfaf6017b0a0bb25fe01c536c",
+        "currentStatementLegal": false,
+        "publicIntendedBoundsLegal": true,
+        "isLF": true,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 100000,
+        "expectedTokenCount": 100000,
+        "strictSourceWitnessQualifies": false,
+        "expectedFirst12": [
+          73980,
+          52900,
+          99592,
+          84680,
+          12879,
+          99799,
+          1600,
+          99441,
+          14,
+          3132,
+          43361,
+          99552
+        ],
+        "actualFirst12": [
+          36991,
+          26451,
+          49797,
+          42341,
+          6440,
+          49900,
+          801,
+          49721,
+          8,
+          1567,
+          21681,
+          49777
+        ]
+      },
+      "failedTestMathBindingPasses": false,
+      "classification": "STRICT_LF_MATH_PROOF",
+      "strictSourceProofPasses": true,
+      "bindingRepairRequired": true,
+      "completeSourceRead": true,
+      "contentProofHash": "7288fecf47da41581ce090e8e046f683cbb06ffbb467b634f71762dc5b42a08a"
+    },
+    {
+      "problem": "23B",
+      "submissionId": "11922651",
+      "sourceHash": "336bd9e598a353be8ef6e63ec5b9e54f9b501495c41ba85ae76f1ef42000be71",
+      "originalSource": "num_tests = int(input())\nresults = num_tests * [None]\n\nfor i in range(num_tests):\n  n = int(input())\n  result = (n // 4) * 2\n  if n % 4 == 3:\n    result += 1\n  results[i] = result\n\nprint('\\n'.join(map(str, results)))",
+      "sourceIdentity": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "implementedAlgorithm": "Returns twice floor(n/4), plus one when n modulo 4 is three.",
+      "preciseFault": "The block-of-four formula is unrelated to the extremal graph construction; n=99999 returns 49999 rather than 99997. No included LF failure satisfies the currently printed literal 105 bound.",
+      "lineAnchors": [
+        {
+          "line": 6,
+          "source": "  result = (n // 4) * 2"
+        },
+        {
+          "line": 7,
+          "source": "  if n % 4 == 3:"
+        },
+        {
+          "line": 8,
+          "source": "    result += 1"
+        }
+      ],
+      "witness": {
+        "test": "0033",
+        "inputHash": "20a0954e5392f9bf4d345c80f9a8142697eb739c81adec99c25d2c0f6f3b5c6c",
+        "storedExpectedHash": "d4aad5a889f16949a5849c680a12043060393d890dd960f17d90511571ffe15a",
+        "independentExpectedHash": "d4aad5a889f16949a5849c680a12043060393d890dd960f17d90511571ffe15a",
+        "actualOutputHash": "9c9034d82f2e5b9e8e06256508aab83663fc39a547664bfb5448d4c18237ea43",
+        "mathematicalProofHash": "8db22cdcb957f38b797df6f66a0d9232ef23a287836c0e5f2ff36e3a770cfb20",
+        "currentStatementLegal": false,
+        "publicIntendedBoundsLegal": true,
+        "isLF": true,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 1,
+        "expectedTokenCount": 1,
+        "strictSourceWitnessQualifies": false,
+        "mathematicalProof": {
+          "method": "At most n-2 survive: n cannot survive because every initial degree has a departure round. If n-1 survived they must all initially have degree n-1 to avoid rounds through n-2; the sole departing vertex is then adjacent to every survivor and cannot leave before round n-1 either. For n>=3 take an (n-2)-clique joined to two mutually nonadjacent leaves: leaves depart at degree n-2, leaving the clique at already-passed degree n-3. n=1,2 leave nobody.",
+          "partySizes": [
+            99999
+          ]
+        },
+        "inputBase64": "MQo5OTk5OQo=",
+        "storedExpectedBase64": "OTk5OTcK",
+        "independentExpectedBase64": "OTk5OTcK",
+        "actualOutputBase64": "NDk5OTkK",
+        "stderr": ""
+      },
+      "recordedFailedTest": {
+        "test": "0002",
+        "inputHash": "30c0028bd6e0ebcfff44e8be21e77022b8cfc70f71f6f1ed5b6e3da0f65273e7",
+        "storedExpectedHash": "109c186862f8668d006898077f11f8dae57026f01ac460240a4fc680084a5806",
+        "independentExpectedHash": "109c186862f8668d006898077f11f8dae57026f01ac460240a4fc680084a5806",
+        "actualOutputHash": "68b0f63307117aa5fd60a5e68192b2952cd905fcef083dc7d3578004b5ac7f7c",
+        "mathematicalProofHash": "74f25fb903272cc612c90ccaf63df1f1022f9b3dfaf6017b0a0bb25fe01c536c",
+        "currentStatementLegal": false,
+        "publicIntendedBoundsLegal": true,
+        "isLF": true,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 100000,
+        "expectedTokenCount": 100000,
+        "strictSourceWitnessQualifies": false,
+        "expectedFirst12": [
+          73980,
+          52900,
+          99592,
+          84680,
+          12879,
+          99799,
+          1600,
+          99441,
+          14,
+          3132,
+          43361,
+          99552
+        ],
+        "actualFirst12": [
+          36990,
+          26450,
+          49796,
+          42340,
+          6440,
+          49900,
+          800,
+          49721,
+          8,
+          1566,
+          21681,
+          49776
+        ]
+      },
+      "failedTestMathBindingPasses": false,
+      "classification": "BOUND_REPAIR_REQUIRED",
+      "strictSourceProofPasses": false,
+      "bindingRepairRequired": true,
+      "completeSourceRead": true,
+      "contentProofHash": "ee0bac38b4202f42d4a3d4ef40662343774607b7b34417923e834f4d12f53bb6"
+    },
+    {
+      "problem": "23B",
+      "submissionId": "11922982",
+      "sourceHash": "995ba1bd8a52e145a5cf8c6e95a223ece3c30fc1bf1f5456fda5892a0cd25d9f",
+      "originalSource": "num_tests = int(input())\nresults = num_tests * [None]\n\nfor i in range(num_tests):\n  n = int(input())\n  result = 0\n  if n == 3:\n    result = 1\n  elif n > 3:\n    result = n - 2 - n % 2\n  results[i] = result\n\nprint('\\n'.join(map(str, results)))",
+      "sourceIdentity": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "implementedAlgorithm": "Special-cases n=3 and otherwise returns n-2-n%2 for n>3.",
+      "preciseFault": "Odd n greater than three incorrectly loses another survivor; n=99999 returns 99996 instead of 99997. No included LF failure satisfies the currently printed literal 105 bound.",
+      "lineAnchors": [
+        {
+          "line": 7,
+          "source": "  if n == 3:"
+        },
+        {
+          "line": 8,
+          "source": "    result = 1"
+        },
+        {
+          "line": 9,
+          "source": "  elif n > 3:"
+        },
+        {
+          "line": 10,
+          "source": "    result = n - 2 - n % 2"
+        }
+      ],
+      "witness": {
+        "test": "0033",
+        "inputHash": "20a0954e5392f9bf4d345c80f9a8142697eb739c81adec99c25d2c0f6f3b5c6c",
+        "storedExpectedHash": "d4aad5a889f16949a5849c680a12043060393d890dd960f17d90511571ffe15a",
+        "independentExpectedHash": "d4aad5a889f16949a5849c680a12043060393d890dd960f17d90511571ffe15a",
+        "actualOutputHash": "2cc0e7ea8d786ab45e40b6df816a90fcbf7b2581e7013bbf11cc2df628ea90f8",
+        "mathematicalProofHash": "8db22cdcb957f38b797df6f66a0d9232ef23a287836c0e5f2ff36e3a770cfb20",
+        "currentStatementLegal": false,
+        "publicIntendedBoundsLegal": true,
+        "isLF": true,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 1,
+        "expectedTokenCount": 1,
+        "strictSourceWitnessQualifies": false,
+        "mathematicalProof": {
+          "method": "At most n-2 survive: n cannot survive because every initial degree has a departure round. If n-1 survived they must all initially have degree n-1 to avoid rounds through n-2; the sole departing vertex is then adjacent to every survivor and cannot leave before round n-1 either. For n>=3 take an (n-2)-clique joined to two mutually nonadjacent leaves: leaves depart at degree n-2, leaving the clique at already-passed degree n-3. n=1,2 leave nobody.",
+          "partySizes": [
+            99999
+          ]
+        },
+        "inputBase64": "MQo5OTk5OQo=",
+        "storedExpectedBase64": "OTk5OTcK",
+        "independentExpectedBase64": "OTk5OTcK",
+        "actualOutputBase64": "OTk5OTYK",
+        "stderr": ""
+      },
+      "recordedFailedTest": {
+        "test": "0002",
+        "inputHash": "30c0028bd6e0ebcfff44e8be21e77022b8cfc70f71f6f1ed5b6e3da0f65273e7",
+        "storedExpectedHash": "109c186862f8668d006898077f11f8dae57026f01ac460240a4fc680084a5806",
+        "independentExpectedHash": "109c186862f8668d006898077f11f8dae57026f01ac460240a4fc680084a5806",
+        "actualOutputHash": "95bbcc6430464007a2c2a5872132fc0e3a3142510cb3af5c45e8218c0d65f68c",
+        "mathematicalProofHash": "74f25fb903272cc612c90ccaf63df1f1022f9b3dfaf6017b0a0bb25fe01c536c",
+        "currentStatementLegal": false,
+        "publicIntendedBoundsLegal": true,
+        "isLF": true,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 100000,
+        "expectedTokenCount": 100000,
+        "strictSourceWitnessQualifies": false,
+        "expectedFirst12": [
+          73980,
+          52900,
+          99592,
+          84680,
+          12879,
+          99799,
+          1600,
+          99441,
+          14,
+          3132,
+          43361,
+          99552
+        ],
+        "actualFirst12": [
+          73980,
+          52900,
+          99592,
+          84680,
+          12878,
+          99798,
+          1600,
+          99440,
+          14,
+          3132,
+          43360,
+          99552
+        ]
+      },
+      "failedTestMathBindingPasses": false,
+      "classification": "BOUND_REPAIR_REQUIRED",
+      "strictSourceProofPasses": false,
+      "bindingRepairRequired": true,
+      "completeSourceRead": true,
+      "contentProofHash": "6182cda7f92ef9ec8542a833bd73155309641e699e6f2b54dffef03ba1fade1c"
+    },
+    {
+      "problem": "23B",
+      "submissionId": "34057632",
+      "sourceHash": "b384bad83cd22a6b8ab05b746d1adf58b7a967bc8f9c9074e4fff8f8dc9ea3dc",
+      "originalSource": "a=int(input())\ns=0\nfor i in range(0,a):\n    c=int(input())\n    if(c>1):\n        s=s+1\nprint(s)",
+      "sourceIdentity": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "implementedAlgorithm": "Counts how many input party sizes exceed one and prints that aggregate once.",
+      "preciseFault": "It calculates a batch predicate count, not the survivor maximum for each party. A single n=2 party gives numeric 1 instead of 0, so this is not merely missing lines.",
+      "lineAnchors": [
+        {
+          "line": 1,
+          "source": "a=int(input())"
+        },
+        {
+          "line": 3,
+          "source": "for i in range(0,a):"
+        },
+        {
+          "line": 4,
+          "source": "    c=int(input())"
+        },
+        {
+          "line": 5,
+          "source": "    if(c>1):"
+        },
+        {
+          "line": 6,
+          "source": "        s=s+1"
+        },
+        {
+          "line": 7,
+          "source": "print(s)"
+        }
+      ],
+      "witness": {
+        "test": "0030",
+        "inputHash": "a6e2b7a040683432de03a18fd8a1939a2fdf82585b364bfc874bdd4095c4cae1",
+        "storedExpectedHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "independentExpectedHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "mathematicalProofHash": "28c9929303c35668b72acd7f78fdc1a858eabf20997dbbb5c7261af936a54653",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": true,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 1,
+        "expectedTokenCount": 1,
+        "strictSourceWitnessQualifies": true,
+        "mathematicalProof": {
+          "method": "At most n-2 survive: n cannot survive because every initial degree has a departure round. If n-1 survived they must all initially have degree n-1 to avoid rounds through n-2; the sole departing vertex is then adjacent to every survivor and cannot leave before round n-1 either. For n>=3 take an (n-2)-clique joined to two mutually nonadjacent leaves: leaves depart at degree n-2, leaving the clique at already-passed degree n-3. n=1,2 leave nobody.",
+          "partySizes": [
+            2
+          ]
+        },
+        "inputBase64": "MQoyCg==",
+        "storedExpectedBase64": "MAo=",
+        "independentExpectedBase64": "MAo=",
+        "actualOutputBase64": "MQo=",
+        "stderr": ""
+      },
+      "recordedFailedTest": {
+        "test": "0002",
+        "inputHash": "30c0028bd6e0ebcfff44e8be21e77022b8cfc70f71f6f1ed5b6e3da0f65273e7",
+        "storedExpectedHash": "109c186862f8668d006898077f11f8dae57026f01ac460240a4fc680084a5806",
+        "independentExpectedHash": "109c186862f8668d006898077f11f8dae57026f01ac460240a4fc680084a5806",
+        "actualOutputHash": "6642cf338840c05f7a5b64a5f8d1e3e644e106cf978535b3d5bec7435e3f439f",
+        "mathematicalProofHash": "74f25fb903272cc612c90ccaf63df1f1022f9b3dfaf6017b0a0bb25fe01c536c",
+        "currentStatementLegal": false,
+        "publicIntendedBoundsLegal": true,
+        "isLF": true,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": false,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 1,
+        "expectedTokenCount": 100000,
+        "strictSourceWitnessQualifies": false,
+        "expectedFirst12": [
+          73980,
+          52900,
+          99592,
+          84680,
+          12879,
+          99799,
+          1600,
+          99441,
+          14,
+          3132,
+          43361,
+          99552
+        ],
+        "actualFirst12": [
+          98790
+        ]
+      },
+      "failedTestMathBindingPasses": false,
+      "classification": "STRICT_LF_MATH_PROOF",
+      "strictSourceProofPasses": true,
+      "bindingRepairRequired": true,
+      "completeSourceRead": true,
+      "contentProofHash": "67597f49b37f2f78566f1d241fdeabe6334d0c267ade832ffa37bdcdcaaf1fcb"
+    },
+    {
+      "problem": "23B",
+      "submissionId": "40262778",
+      "sourceHash": "33e64920facb10616d4b083a72e4f911a581e49d3f559415507e8a03a1e2607c",
+      "originalSource": "t = int(input())\n\na = []\nfor i in range(0,t):\n    a.append(int(input())-2)\n\nfor i in range(0,t):\n    print(a[i])",
+      "sourceIdentity": {
+        "bytes": 150601982,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00022-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+      },
+      "implementedAlgorithm": "Returns n-2 for every party without a lower-bound case.",
+      "preciseFault": "n=1 has zero possible survivors but this formula returns negative one.",
+      "lineAnchors": [
+        {
+          "line": 4,
+          "source": "for i in range(0,t):"
+        },
+        {
+          "line": 5,
+          "source": "    a.append(int(input())-2)"
+        },
+        {
+          "line": 7,
+          "source": "for i in range(0,t):"
+        },
+        {
+          "line": 8,
+          "source": "    print(a[i])"
+        }
+      ],
+      "witness": {
+        "test": "0029",
+        "inputHash": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba",
+        "storedExpectedHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "independentExpectedHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "actualOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+        "mathematicalProofHash": "180e933c9135631fe8cd0d0895eb651f7ed761d42c17c805372b4e5bf7a07be1",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": true,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 1,
+        "expectedTokenCount": 1,
+        "strictSourceWitnessQualifies": true,
+        "mathematicalProof": {
+          "method": "At most n-2 survive: n cannot survive because every initial degree has a departure round. If n-1 survived they must all initially have degree n-1 to avoid rounds through n-2; the sole departing vertex is then adjacent to every survivor and cannot leave before round n-1 either. For n>=3 take an (n-2)-clique joined to two mutually nonadjacent leaves: leaves depart at degree n-2, leaving the clique at already-passed degree n-3. n=1,2 leave nobody.",
+          "partySizes": [
+            1
+          ]
+        },
+        "inputBase64": "MQoxCg==",
+        "storedExpectedBase64": "MAo=",
+        "independentExpectedBase64": "MAo=",
+        "actualOutputBase64": "LTEK",
+        "stderr": ""
+      },
+      "recordedFailedTest": {
+        "test": "0002",
+        "inputHash": "30c0028bd6e0ebcfff44e8be21e77022b8cfc70f71f6f1ed5b6e3da0f65273e7",
+        "storedExpectedHash": "109c186862f8668d006898077f11f8dae57026f01ac460240a4fc680084a5806",
+        "independentExpectedHash": "109c186862f8668d006898077f11f8dae57026f01ac460240a4fc680084a5806",
+        "actualOutputHash": "408619910493c4358e6c3a021193bb4a23f3af0a382ae2ad93d27393e8cb68e7",
+        "mathematicalProofHash": "74f25fb903272cc612c90ccaf63df1f1022f9b3dfaf6017b0a0bb25fe01c536c",
+        "currentStatementLegal": false,
+        "publicIntendedBoundsLegal": true,
+        "isLF": true,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 100000,
+        "expectedTokenCount": 100000,
+        "strictSourceWitnessQualifies": false,
+        "expectedFirst12": [
+          73980,
+          52900,
+          99592,
+          84680,
+          12879,
+          99799,
+          1600,
+          99441,
+          14,
+          3132,
+          43361,
+          99552
+        ],
+        "actualFirst12": [
+          73980,
+          52900,
+          99592,
+          84680,
+          12879,
+          99799,
+          1600,
+          99441,
+          14,
+          3132,
+          43361,
+          99552
+        ]
+      },
+      "failedTestMathBindingPasses": false,
+      "classification": "STRICT_LF_MATH_PROOF",
+      "strictSourceProofPasses": true,
+      "bindingRepairRequired": true,
+      "completeSourceRead": true,
+      "contentProofHash": "2205ba118ae81ea52d053d74cfe8e72d14742defdc9867904432bfe1e6811527"
+    },
+    {
+      "problem": "34D",
+      "submissionId": "6657730",
+      "sourceHash": "cccd79bf81a5ff6830bf3cfd051f633ee47c1cb977ff7409ea91c2521e016bb8",
+      "originalSource": "from sys import setrecursionlimit\nimport threading\nsetrecursionlimit(10 ** 9)\nthreading.stack_size(67108864)\n\ndef dfs(u, fr):\n    global al, parent\n    for i in al[u]:\n        if i != fr:\n            parent[i] = u\n            dfs(i, u)\n\ndef main():\n    n, r1, r2 = [int(i) for i in input().split()]\n    r1 -= 1\n    r2 -= 1\n    p = [int(i) for i in input().split()]\n    al = [[] for i in range(n)]\n    for i in range(n - 1):\n        if i >= r1:\n            al[i + 1].append(p[i] - 1)\n            al[p[i] - 1].append(i + 1)\n        else:\n            al[i].append(p[i] - 1)\n            al[p[i] - 1].append(i)\n    parent = [-1] * n\n    dfs(r2, -1)\n    print(\" \".join([str(i + 1) for i in parent if i != -1]))\n\nthread = threading.Thread(target=main)\nthread.start()",
+      "sourceIdentity": {
+        "bytes": 139386582,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00023-of-00036.parquet"
+      },
+      "implementedAlgorithm": "Builds an undirected tree in main and tries to DFS it from the new capital in a thread.",
+      "preciseFault": "dfs declares al and parent global, but main assigns them as locals. dfs raises NameError before producing any parent answer. The thread error is missing-answer-only, not a normal returned mathematical wrong mapping.",
+      "lineAnchors": [
+        {
+          "line": 6,
+          "source": "def dfs(u, fr):"
+        },
+        {
+          "line": 7,
+          "source": "    global al, parent"
+        },
+        {
+          "line": 8,
+          "source": "    for i in al[u]:"
+        },
+        {
+          "line": 18,
+          "source": "    al = [[] for i in range(n)]"
+        },
+        {
+          "line": 26,
+          "source": "    parent = [-1] * n"
+        },
+        {
+          "line": 27,
+          "source": "    dfs(r2, -1)"
+        },
+        {
+          "line": 28,
+          "source": "    print(\" \".join([str(i + 1) for i in parent if i != -1]))"
+        },
+        {
+          "line": 30,
+          "source": "thread = threading.Thread(target=main)"
+        },
+        {
+          "line": 31,
+          "source": "thread.start()"
+        }
+      ],
+      "witness": {
+        "test": "0030",
+        "inputHash": "821f76517542ba64ffe2bc5acc8513a0aba4bd8454408a80a267c77d19423d37",
+        "storedExpectedHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "independentExpectedHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "actualOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "mathematicalProofHash": "9c917efea2e775ae1e0cf8976c8f3bc37bd6414e04f54f0fc700264ce7d416e6",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": true,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": false,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 0,
+        "expectedTokenCount": 1,
+        "strictSourceWitnessQualifies": false,
+        "mathematicalProof": {
+          "method": "Unique tree paths determine parents. Only edges on the old-root/new-root path reverse; all other parent edges remain unchanged. Follow original parent links from the new root and reverse them, saving the old next link before overwrite.",
+          "oldRoot": 1,
+          "newRoot": 2,
+          "reversedPath": [
+            2,
+            1
+          ],
+          "originalParents": [
+            0,
+            1
+          ]
+        },
+        "inputBase64": "MiAxIDIKMQo=",
+        "storedExpectedBase64": "Mgo=",
+        "independentExpectedBase64": "Mgo=",
+        "actualOutputBase64": "",
+        "stderr": "Exception in thread Thread-1 (main):\nTraceback (most recent call last):\n  File \"/usr/local/lib/python3.11/threading.py\", line 1045, in _bootstrap_inner\n    self.run()\n  File \"/usr/local/lib/python3.11/threading.py\", line 982, in run\n    self._target(*self._args, **self._kwargs)\n  File \"/work/main.py\", line 27, in main\n    dfs(r2, -1)\n  File \"/work/main.py\", line 8, in dfs\n    for i in al[u]:\n             ^^\nNameError: name 'al' is not defined. Did you mean: 'all'?\n"
+      },
+      "recordedFailedTest": {
+        "test": "0001",
+        "inputHash": "e45deddbb7f98e6940892c3ba778e780a13131a98d83c7e3201b5c8b3bf0f73e",
+        "storedExpectedHash": "5255a923fe25a2d355a8a6cb9deced20cd1e8296806f76d36090ee9fc0e3dcd4",
+        "independentExpectedHash": "337b794ce718a09a620090d53541c3b4640a64133bbee2188444810cd3169f81",
+        "actualOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "mathematicalProofHash": "be0d0e593dffe0fc24bf61abffcd9c057c7906be51967ea5f004a2040d312499",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": false,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": false,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 0,
+        "expectedTokenCount": 2,
+        "strictSourceWitnessQualifies": false,
+        "expectedFirst12": [
+          2,
+          3
+        ],
+        "actualFirst12": []
+      },
+      "failedTestMathBindingPasses": false,
+      "classification": "NONQUALIFY_MISSING_ANSWER_ONLY",
+      "strictSourceProofPasses": false,
+      "bindingRepairRequired": true,
+      "completeSourceRead": true,
+      "contentProofHash": "44a36c4c6c510d5637dcc3cb3b3c1f0efb62f64e8cf26ddbf38e89f780dbff7f"
+    },
+    {
+      "problem": "34D",
+      "submissionId": "39433531",
+      "sourceHash": "8917010cdc73abc3a5f708b517ccaefedb710394399b1e2e90f758f88feb20a4",
+      "originalSource": "n,old,new = tuple(map(int,input().split()))\np = list(map(int,input().split()))\nroute = {}\n\nfor i in range(1,n+1):\n    if i != old:\n        nei = p.pop(0)\n        if nei not in route:\n            route[nei] = [i]\n        else:\n            route[nei].append(i)\n        if i not in route:\n            route[i] = [nei]\n        else:\n            route[i].append(nei)\n\nans = {}\ndef trackallroute(x,pre):\n    if len(route[x]) == 1:\n        return\n    for e in route[x]:\n        if e != pre:\n            ans[e] = x\n            trackallroute(e,x)\ntrackallroute(new,-1)\nfinal = ''\nans = sorted(ans.items())\nfor e in ans:\n    final += str(e[1])+' '\nprint(final)",
+      "sourceIdentity": {
+        "bytes": 139386582,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00023-of-00036.parquet"
+      },
+      "implementedAlgorithm": "Builds both directions of tree edges and recursively records child parents from the new capital.",
+      "preciseFault": "trackallroute returns immediately for any degree-one starting vertex. A leaf new root therefore produces only a blank answer. All normal-exit included wrong runs are missing-answer-only, not an incorrect complete parent map.",
+      "lineAnchors": [
+        {
+          "line": 18,
+          "source": "def trackallroute(x,pre):"
+        },
+        {
+          "line": 19,
+          "source": "    if len(route[x]) == 1:"
+        },
+        {
+          "line": 20,
+          "source": "        return"
+        },
+        {
+          "line": 21,
+          "source": "    for e in route[x]:"
+        },
+        {
+          "line": 23,
+          "source": "            ans[e] = x"
+        },
+        {
+          "line": 25,
+          "source": "trackallroute(new,-1)"
+        },
+        {
+          "line": 30,
+          "source": "print(final)"
+        }
+      ],
+      "witness": {
+        "test": "0030",
+        "inputHash": "821f76517542ba64ffe2bc5acc8513a0aba4bd8454408a80a267c77d19423d37",
+        "storedExpectedHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "independentExpectedHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "actualOutputHash": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "mathematicalProofHash": "9c917efea2e775ae1e0cf8976c8f3bc37bd6414e04f54f0fc700264ce7d416e6",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": true,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": false,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 0,
+        "expectedTokenCount": 1,
+        "strictSourceWitnessQualifies": false,
+        "mathematicalProof": {
+          "method": "Unique tree paths determine parents. Only edges on the old-root/new-root path reverse; all other parent edges remain unchanged. Follow original parent links from the new root and reverse them, saving the old next link before overwrite.",
+          "oldRoot": 1,
+          "newRoot": 2,
+          "reversedPath": [
+            2,
+            1
+          ],
+          "originalParents": [
+            0,
+            1
+          ]
+        },
+        "inputBase64": "MiAxIDIKMQo=",
+        "storedExpectedBase64": "Mgo=",
+        "independentExpectedBase64": "Mgo=",
+        "actualOutputBase64": "Cg==",
+        "stderr": ""
+      },
+      "recordedFailedTest": {
+        "test": "0001",
+        "inputHash": "e45deddbb7f98e6940892c3ba778e780a13131a98d83c7e3201b5c8b3bf0f73e",
+        "storedExpectedHash": "5255a923fe25a2d355a8a6cb9deced20cd1e8296806f76d36090ee9fc0e3dcd4",
+        "independentExpectedHash": "337b794ce718a09a620090d53541c3b4640a64133bbee2188444810cd3169f81",
+        "actualOutputHash": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "mathematicalProofHash": "be0d0e593dffe0fc24bf61abffcd9c057c7906be51967ea5f004a2040d312499",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": false,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": false,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 0,
+        "expectedTokenCount": 2,
+        "strictSourceWitnessQualifies": false,
+        "expectedFirst12": [
+          2,
+          3
+        ],
+        "actualFirst12": []
+      },
+      "failedTestMathBindingPasses": false,
+      "classification": "NONQUALIFY_MISSING_ANSWER_ONLY",
+      "strictSourceProofPasses": false,
+      "bindingRepairRequired": true,
+      "completeSourceRead": true,
+      "contentProofHash": "84f049b6470a2391e67cd21a635971f95c5fdf4b840df99a91ab88ff7c437645"
+    },
+    {
+      "problem": "34D",
+      "submissionId": "100879558",
+      "sourceHash": "5293525b66b401db03fcdb801e27f4655210ce0910a863da9e18213a8c145067",
+      "originalSource": "staes,captal1,captal2=[int(i) for i in input().split()]\ndic1=dict({})\nfor i in range(0,staes):\n        dic1[i+1]=0\nl2=[int(i) for i in input().split()]\nj=0\nfor i in range(0,staes):\n    if i+1!=captal1:\n        dic1[i+1]=l2[j]\n        if (l2[j]==captal1):\n            if((captal1<i+1)and(dic1[captal1]==0)):\n                dic1[captal1]=i+1\n        j+=1\n    \nfor i in range(0,staes):\n    if i+1!=captal2:\n        print(dic1[i+1],end=\" \")",
+      "sourceIdentity": {
+        "bytes": 139386582,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00023-of-00036.parquet"
+      },
+      "implementedAlgorithm": "Copies old parents and sets the old root parent to the first later-indexed vertex whose old parent is the old root.",
+      "preciseFault": "It does not reverse the new-root-to-old-root path and picks a child by numeric order rather than by that path. For old root 2, new root 1 in a three-node star, it chooses parent 3 for node 2 instead of parent 1.",
+      "lineAnchors": [
+        {
+          "line": 8,
+          "source": "    if i+1!=captal1:"
+        },
+        {
+          "line": 9,
+          "source": "        dic1[i+1]=l2[j]"
+        },
+        {
+          "line": 10,
+          "source": "        if (l2[j]==captal1):"
+        },
+        {
+          "line": 11,
+          "source": "            if((captal1<i+1)and(dic1[captal1]==0)):"
+        },
+        {
+          "line": 12,
+          "source": "                dic1[captal1]=i+1"
+        },
+        {
+          "line": 15,
+          "source": "for i in range(0,staes):"
+        },
+        {
+          "line": 16,
+          "source": "    if i+1!=captal2:"
+        },
+        {
+          "line": 17,
+          "source": "        print(dic1[i+1],end=\" \")"
+        }
+      ],
+      "witness": {
+        "test": "0131",
+        "inputHash": "2846f442774bc27e125d654b94bcfb62a4637358d02bdd9920a0a87598fe6f7f",
+        "storedExpectedHash": "f251ddc12234e0da8d3b778bd0f7463fb477f16f47757f5617dc8b4ff4d4f14a",
+        "independentExpectedHash": "f251ddc12234e0da8d3b778bd0f7463fb477f16f47757f5617dc8b4ff4d4f14a",
+        "actualOutputHash": "e54508773cbebacf0a91133a6b8802332a1c5fcdb637f19e9f62f92be6231f47",
+        "mathematicalProofHash": "c794fd00a78532119ee5e3cb70900334cb42ad66b8275fce0c6dc347e2d838d1",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": true,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 2,
+        "expectedTokenCount": 2,
+        "strictSourceWitnessQualifies": true,
+        "mathematicalProof": {
+          "method": "Unique tree paths determine parents. Only edges on the old-root/new-root path reverse; all other parent edges remain unchanged. Follow original parent links from the new root and reverse them, saving the old next link before overwrite.",
+          "oldRoot": 2,
+          "newRoot": 1,
+          "reversedPath": [
+            1,
+            2
+          ],
+          "originalParents": [
+            2,
+            0,
+            2
+          ]
+        },
+        "inputBase64": "MyAyIDEKMiAyCg==",
+        "storedExpectedBase64": "MSAyCg==",
+        "independentExpectedBase64": "MSAyCg==",
+        "actualOutputBase64": "MyAyIA==",
+        "stderr": ""
+      },
+      "recordedFailedTest": {
+        "test": "0003",
+        "inputHash": "8e69d8cc05acf20dbf07e8e3bad6c0bfb44867f6e86dc33a084b1a0480a1db7f",
+        "storedExpectedHash": "8e2dde61cc505cfa380a379a9298ac42f8d731f233568654d4d61040a50dc4fe",
+        "independentExpectedHash": "f6b229b9b96f9036092ba7dc34f94e846dad40db672f31196f2b1275b6ad7b6b",
+        "actualOutputHash": "ac37a922953f43dd992119534d149707e85478b3a94ddc5d9e5ff991f04ba854",
+        "mathematicalProofHash": "627848298c585cf27031a311cdefc26b6d83295f48df982b59a1559a9c91b40c",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": false,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 6,
+        "expectedTokenCount": 6,
+        "strictSourceWitnessQualifies": false,
+        "expectedFirst12": [
+          7,
+          7,
+          5,
+          5,
+          7,
+          6
+        ],
+        "actualFirst12": [
+          7,
+          7,
+          5,
+          5,
+          7,
+          0
+        ]
+      },
+      "failedTestMathBindingPasses": true,
+      "classification": "STRICT_LF_MATH_PROOF",
+      "strictSourceProofPasses": true,
+      "bindingRepairRequired": false,
+      "completeSourceRead": true,
+      "contentProofHash": "2251ca40ee6dd48c94b317b7c0ab7c6ea7511227424f4e0b00a2b8118ffb672a"
+    },
+    {
+      "problem": "34D",
+      "submissionId": "120273696",
+      "sourceHash": "c485cbe09a9e72bd324871034ae92bd4bc1e183fbd8da294e6451c29a17a02ab",
+      "originalSource": "n, r1, r2 = map(int, input().split())\np = [0] + list(map(int, input().split()))\n\nadj = [set() for _ in range(n + 1)]\nfor i in range(1, n + 1):\n    j = i - 1 if i >= r1 else i\n    adj[i].add(p[j])\n    adj[p[j]].add(i)\n\n\nval = [0] * (n + 1)\nval[r2] = -1\n\ndef dfs(k):\n    for v in adj[k]:\n        if val[v] == 0:\n            val[v] = k\n            dfs(v)\n\ndfs(r2)\nfor x in val:\n    if x != 0 and x != -1:\n        print(x, end=\" \")",
+      "sourceIdentity": {
+        "bytes": 139386582,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00023-of-00036.parquet"
+      },
+      "implementedAlgorithm": "Converts every vertex, including the old root, into an adjacency edge using a shifted parent index, then DFSes from the new root.",
+      "preciseFault": "The conversion must skip r1; instead it adds a spurious edge from r1 to a parent entry belonging to another city (or synthetic vertex zero when r1=1). This can create cycles/shortcuts and change real parents, not just add an output token.",
+      "lineAnchors": [
+        {
+          "line": 2,
+          "source": "p = [0] + list(map(int, input().split()))"
+        },
+        {
+          "line": 5,
+          "source": "for i in range(1, n + 1):"
+        },
+        {
+          "line": 6,
+          "source": "    j = i - 1 if i >= r1 else i"
+        },
+        {
+          "line": 7,
+          "source": "    adj[i].add(p[j])"
+        },
+        {
+          "line": 8,
+          "source": "    adj[p[j]].add(i)"
+        },
+        {
+          "line": 14,
+          "source": "def dfs(k):"
+        },
+        {
+          "line": 15,
+          "source": "    for v in adj[k]:"
+        },
+        {
+          "line": 16,
+          "source": "        if val[v] == 0:"
+        },
+        {
+          "line": 17,
+          "source": "            val[v] = k"
+        },
+        {
+          "line": 21,
+          "source": "for x in val:"
+        },
+        {
+          "line": 22,
+          "source": "    if x != 0 and x != -1:"
+        }
+      ],
+      "witness": {
+        "test": "0125",
+        "inputHash": "12e8a8cc4c0c46dd4c471218bf270d608b8aa5ea0e46d38f160f3666c45c8421",
+        "storedExpectedHash": "4068bf6b92eecb51f6a03fadb4b8177c5fc5c65d731a49d71e79ed61e4462671",
+        "independentExpectedHash": "4068bf6b92eecb51f6a03fadb4b8177c5fc5c65d731a49d71e79ed61e4462671",
+        "actualOutputHash": "02fa87bd8a9e40aacb507be5affcc1e7318e77d6f715b1e5fdba2a3436e48e3b",
+        "mathematicalProofHash": "749e5b3fa3f2ce30129f378c4ad00d6577d3e39623c54d2a1c77b101c33be853",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": true,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 8,
+        "expectedTokenCount": 8,
+        "strictSourceWitnessQualifies": true,
+        "mathematicalProof": {
+          "method": "Unique tree paths determine parents. Only edges on the old-root/new-root path reverse; all other parent edges remain unchanged. Follow original parent links from the new root and reverse them, saving the old next link before overwrite.",
+          "oldRoot": 7,
+          "newRoot": 9,
+          "reversedPath": [
+            9,
+            4,
+            1,
+            2,
+            7
+          ],
+          "originalParents": [
+            2,
+            7,
+            1,
+            1,
+            2,
+            3,
+            0,
+            4,
+            4
+          ]
+        },
+        "inputBase64": "OSA3IDkKMiA3IDEgMSAyIDMgNCA0Cg==",
+        "storedExpectedBase64": "NCAxIDEgOSAyIDMgMiA0Cg==",
+        "independentExpectedBase64": "NCAxIDEgOSAyIDMgMiA0Cg==",
+        "actualOutputBase64": "NCAxIDcgOSAyIDMgMiA0IA==",
+        "stderr": ""
+      },
+      "recordedFailedTest": {
+        "test": "0007",
+        "inputHash": "6bd79453845d902a5e7f954d4fc1e5e18f588d694876a4bdc95547fa3bb99408",
+        "storedExpectedHash": "5749fdd6b67e4204b3047ba33540bc87f60c84d784a46c6307c78299f8fa67e9",
+        "independentExpectedHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "actualOutputHash": "ccd0b6eb7b8a74cbe84cd0ffbcd3736b527c8bf6e1102f4f052a536601da6360",
+        "mathematicalProofHash": "9c917efea2e775ae1e0cf8976c8f3bc37bd6414e04f54f0fc700264ce7d416e6",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": false,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": false,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 2,
+        "expectedTokenCount": 1,
+        "strictSourceWitnessQualifies": false,
+        "expectedFirst12": [
+          2
+        ],
+        "actualFirst12": [
+          1,
+          2
+        ]
+      },
+      "failedTestMathBindingPasses": false,
+      "classification": "STRICT_LF_MATH_PROOF",
+      "strictSourceProofPasses": true,
+      "bindingRepairRequired": true,
+      "completeSourceRead": true,
+      "contentProofHash": "7a63f7866019e9dfec7ebdf82c8c0bbb40c02dd4dc88bcea916e6701db806a74"
+    },
+    {
+      "problem": "34D",
+      "submissionId": "139380605",
+      "sourceHash": "652c94fa62034ada9615062106c4a371de329460371bcd867c7567d208a099bb",
+      "originalSource": "def find_new_map(n: int, old_capital: int, new_capital: int,\n                 old_map: list) -> list:\n    \"\"\"\n    Parameters:\n    :n (int): number of cities\n    :old_capital (int): old capital's number\n    :new_capital (int): new capitel's number\n    :old_map (list): old road map representation\n    :return: new road map representation\n    \"\"\"\n    old_map.insert(old_capital - 1, -1)\n    next_node = old_map[new_capital - 1]\n    prev_node = new_capital\n    while prev_node != old_capital:\n        old_map[next_node - 1] = prev_node\n        prev_node = next_node\n        next_node = old_map[prev_node - 1]\n    old_map.remove(old_capital)\n    return old_map\n\nn, old, new = map(int,input().split())\nm = list(map(int,input().split()))\n\nprint(\" \".join(str(x) for x in find_new_map(n,old,new,m)))",
+      "sourceIdentity": {
+        "bytes": 139386582,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00023-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00023-of-00036.parquet"
+      },
+      "implementedAlgorithm": "Inserts an old-root sentinel, reverses the new-root path in place, then removes the first array value equal to the old capital.",
+      "preciseFault": "It reads next_node after overwriting that same parent slot (17 after 15), causing a two-vertex loop on longer paths; even direct paths fail because remove(old_capital) deletes a parent value rather than the new-root indexed entry. The LF witness has a full normal-exit numerically wrong parent list.",
+      "lineAnchors": [
+        {
+          "line": 11,
+          "source": "    old_map.insert(old_capital - 1, -1)"
+        },
+        {
+          "line": 12,
+          "source": "    next_node = old_map[new_capital - 1]"
+        },
+        {
+          "line": 14,
+          "source": "    while prev_node != old_capital:"
+        },
+        {
+          "line": 15,
+          "source": "        old_map[next_node - 1] = prev_node"
+        },
+        {
+          "line": 16,
+          "source": "        prev_node = next_node"
+        },
+        {
+          "line": 17,
+          "source": "        next_node = old_map[prev_node - 1]"
+        },
+        {
+          "line": 18,
+          "source": "    old_map.remove(old_capital)"
+        },
+        {
+          "line": 19,
+          "source": "    return old_map"
+        }
+      ],
+      "witness": {
+        "test": "0065",
+        "inputHash": "ffa1b16570772dbd72e579752a785c599d61a677655b40daeb870e12cf9748ca",
+        "storedExpectedHash": "90c114f1791376233de0f907af52441488a094ccc841cd09bbf2447aa656ade1",
+        "independentExpectedHash": "90c114f1791376233de0f907af52441488a094ccc841cd09bbf2447aa656ade1",
+        "actualOutputHash": "91fca9c2183284d691f81edc55d8ee106a4343e0f876fd560801d1fe9103e791",
+        "mathematicalProofHash": "b53ef657d39dfbf48792c891ca1551b76cb572c613c3d3f7a32d7f3126b58cca",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": true,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 5,
+        "expectedTokenCount": 5,
+        "strictSourceWitnessQualifies": true,
+        "mathematicalProof": {
+          "method": "Unique tree paths determine parents. Only edges on the old-root/new-root path reverse; all other parent edges remain unchanged. Follow original parent links from the new root and reverse them, saving the old next link before overwrite.",
+          "oldRoot": 3,
+          "newRoot": 5,
+          "reversedPath": [
+            5,
+            3
+          ],
+          "originalParents": [
+            3,
+            1,
+            0,
+            2,
+            3,
+            2
+          ]
+        },
+        "inputBase64": "NiAzIDUKMyAxIDIgMyAyCg==",
+        "storedExpectedBase64": "MyAxIDUgMiAyCg==",
+        "independentExpectedBase64": "MyAxIDUgMiAyCg==",
+        "actualOutputBase64": "MSA1IDIgMyAyCg==",
+        "stderr": ""
+      },
+      "recordedFailedTest": {
+        "test": "0001",
+        "inputHash": "e45deddbb7f98e6940892c3ba778e780a13131a98d83c7e3201b5c8b3bf0f73e",
+        "storedExpectedHash": "5255a923fe25a2d355a8a6cb9deced20cd1e8296806f76d36090ee9fc0e3dcd4",
+        "independentExpectedHash": "337b794ce718a09a620090d53541c3b4640a64133bbee2188444810cd3169f81",
+        "actualOutputHash": "ece3d232c1ca9ef8a80b6fdb1585b8f5cf653b9dd023b0521c8da64db859ffac",
+        "mathematicalProofHash": "be0d0e593dffe0fc24bf61abffcd9c057c7906be51967ea5f004a2040d312499",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": false,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 2,
+        "expectedTokenCount": 2,
+        "strictSourceWitnessQualifies": false,
+        "expectedFirst12": [
+          2,
+          3
+        ],
+        "actualFirst12": [
+          3,
+          2
+        ]
+      },
+      "failedTestMathBindingPasses": true,
+      "classification": "STRICT_LF_MATH_PROOF",
+      "strictSourceProofPasses": true,
+      "bindingRepairRequired": false,
+      "completeSourceRead": true,
+      "contentProofHash": "5cce14c5bc3f96d547c85a2699247cf633aee8f9b0686a8c599a9acc0da21557"
+    },
+    {
+      "problem": "500B",
+      "submissionId": "160875547",
+      "sourceHash": "8a590954d8262fa67dced4078ee55ad40607f9eb4fc830d3100254c91803922e",
+      "originalSource": "import queue\nn = int(input())\nperm = list(map(int, input().split()))\nadj_table = []\nfor i in range(n):\n    adj_table = adj_table + [list(map(lambda x:ord(x)-ord('0'),list(input())))]\nq = queue.Queue()\nmarked = [False]*n\nq.put(0)\nmarked[0] = True\nsubsets = []\nwhere_indices = [-1]*n\npointer = -1\nfor i in range(n):\n    if marked[i]:\n        continue\n    else:\n        subsets = subsets + [[]]\n        pointer = pointer + 1\n        q.put(i)\n        marked[i] = True\n        while not q.empty():\n            current_pos = q.get()\n            where_indices[current_pos] = pointer\n            subsets[pointer] = subsets[pointer] + [current_pos]\n            for j in range(n):\n                if adj_table[current_pos][j]==1 and not marked[j]:\n                    q.put(j)\n                    marked[j] = 1\n\nfor i in range(pointer + 1):\n    for j in range(len(subsets[i])):\n        subsets[i][j] = perm[subsets[i][j]]\n    subsets[i] = sorted(subsets[i])\n\n\nfor i in range(n):\n    print(subsets[where_indices[i]][0], end = \" \")\n    subsets[where_indices[i]] = subsets[where_indices[i]][1:]",
+      "sourceIdentity": {
+        "bytes": 143535599,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00025-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "0fe4a49998adbbfce09027033e613e939c46974aa3e25afc6a7b8e2a1f605dbb",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00025-of-00036.parquet"
+      },
+      "implementedAlgorithm": "Queues and marks index zero before looping over unmarked component starts; sorts the collected values and prints by recorded component index.",
+      "preciseFault": "The initial queued index zero is incorrectly absorbed into the next unmarked component, even with no edge connecting them. The three-node edgeless witness illegally moves values between isolated vertices.",
+      "lineAnchors": [
+        {
+          "line": 7,
+          "source": "q = queue.Queue()"
+        },
+        {
+          "line": 8,
+          "source": "marked = [False]*n"
+        },
+        {
+          "line": 9,
+          "source": "q.put(0)"
+        },
+        {
+          "line": 10,
+          "source": "marked[0] = True"
+        },
+        {
+          "line": 14,
+          "source": "for i in range(n):"
+        },
+        {
+          "line": 15,
+          "source": "    if marked[i]:"
+        },
+        {
+          "line": 16,
+          "source": "        continue"
+        },
+        {
+          "line": 18,
+          "source": "        subsets = subsets + [[]]"
+        },
+        {
+          "line": 20,
+          "source": "        q.put(i)"
+        },
+        {
+          "line": 22,
+          "source": "        while not q.empty():"
+        },
+        {
+          "line": 24,
+          "source": "            where_indices[current_pos] = pointer"
+        },
+        {
+          "line": 25,
+          "source": "            subsets[pointer] = subsets[pointer] + [current_pos]"
+        },
+        {
+          "line": 31,
+          "source": "for i in range(pointer + 1):"
+        },
+        {
+          "line": 33,
+          "source": "        subsets[i][j] = perm[subsets[i][j]]"
+        },
+        {
+          "line": 37,
+          "source": "for i in range(n):"
+        },
+        {
+          "line": 38,
+          "source": "    print(subsets[where_indices[i]][0], end = \" \")"
+        }
+      ],
+      "witness": {
+        "test": "0107",
+        "inputHash": "7ca906a5aa059629da8b88a6992a0296031555427100e0f4ac046197b19e0203",
+        "storedExpectedHash": "71a18fbe44f5c038b799d19abaf2d158bf40309ccfce9617cb3d3bf3c699cfee",
+        "independentExpectedHash": "71a18fbe44f5c038b799d19abaf2d158bf40309ccfce9617cb3d3bf3c699cfee",
+        "actualOutputHash": "8a2ddba46c83c9200c27fa4b1837029985f87d6cb73817eac213af747d11a595",
+        "mathematicalProofHash": "9f3f75e5dcdafb024384058d7d00a094cd3ec08132b8b6bc3d0aaa3060d5b1ae",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": true,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 3,
+        "expectedTokenCount": 3,
+        "strictSourceWitnessQualifies": true,
+        "mathematicalProof": {
+          "method": "Edge transpositions generate every permutation within a connected component (a path moves any chosen value between its endpoints); no value can cross components. Assign component values ascending to its ascending positions to get the unique lexicographic minimum. Components independently computed by union-find.",
+          "components": [
+            {
+              "indices1Based": [
+                1
+              ],
+              "sortedValues": [
+                2
+              ]
+            },
+            {
+              "indices1Based": [
+                2
+              ],
+              "sortedValues": [
+                1
+              ]
+            },
+            {
+              "indices1Based": [
+                3
+              ],
+              "sortedValues": [
+                3
+              ]
+            }
+          ]
+        },
+        "inputBase64": "MwoyIDEgMwowMDAKMDAwCjAwMAo=",
+        "storedExpectedBase64": "MiAxIDMK",
+        "independentExpectedBase64": "MiAxIDMK",
+        "actualOutputBase64": "MSAyIDMg",
+        "stderr": ""
+      },
+      "recordedFailedTest": {
+        "test": "0003",
+        "inputHash": "a0e85810ed8f71825c493e535257d7429c6d9841198e0b51ebdb251e16f4d79b",
+        "storedExpectedHash": "95c930b1c8ccaaaf1238aff53e820e3a7803546c7d19516a750d41542ba11f6f",
+        "independentExpectedHash": "e1a5ddad7a7350968b9aeb2f805368066f66d0da0c0f569cecdc2bc2492b7b54",
+        "actualOutputHash": "797cb96a1e2f5dcd5a45b0ba0faf7cbb4f9cf5f05aaeaac667a7e13c96476312",
+        "mathematicalProofHash": "5f645719f0c600532d06a5f2beb19dc7b47e986a62031e2ac59092e2bd08e356",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": false,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 7,
+        "expectedTokenCount": 7,
+        "strictSourceWitnessQualifies": false,
+        "expectedFirst12": [
+          1,
+          3,
+          5,
+          4,
+          2,
+          7,
+          6
+        ],
+        "actualFirst12": [
+          1,
+          2,
+          5,
+          4,
+          3,
+          7,
+          6
+        ]
+      },
+      "failedTestMathBindingPasses": true,
+      "classification": "STRICT_LF_MATH_PROOF",
+      "strictSourceProofPasses": true,
+      "bindingRepairRequired": false,
+      "completeSourceRead": true,
+      "contentProofHash": "22da4bd510cdec722ae4d2188cb3e705a06476fbf6e79d26787bdfaa43e9f8ed"
+    },
+    {
+      "problem": "500B",
+      "submissionId": "204980270",
+      "sourceHash": "75fba99826aa6ec615ce9b6c0767855378c1559a979769857f9fcf00af76d562",
+      "originalSource": "def dfs(pos,visited,graph,p):\n  visited[pos]=True\n  for i in graph[pos]:\n    if p[pos]>p[i]:\n      c=p[i]\n      p[i]=p[pos]\n      p[i]=c\n      if visited[i]==False:\n        dfs(i,visited,graph,p)\nn=int(input())\np=list(map(int,input().split()))\nA=[0 for _ in range(n)]\ngraph=[[] for _ in range(n)]\nfor i in range(n):\n  A[i]=input()\nfor i in range(n):\n  m=-1\n  for j in range(n):\n    if A[j][i]=='1' and m<0:\n      m=j\n    elif A[j][i]=='1':\n      graph[m].append(j)\nvisited=[False]*n\nfor i in range(n):\n  if graph[i]!=[] and visited[i]==False:\n    dfs(i,visited,graph,p)\nprint(\" \".join(map(str,p)))",
+      "sourceIdentity": {
+        "bytes": 143535599,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00025-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "0fe4a49998adbbfce09027033e613e939c46974aa3e25afc6a7b8e2a1f605dbb",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00025-of-00036.parquet"
+      },
+      "implementedAlgorithm": "Constructs lists by linking later column neighbors to the first neighbor, then tries to DFS-swap larger endpoint values.",
+      "preciseFault": "Both swap assignments write p[i]; p[pos] never changes, so all attempted swaps are no-ops. The graph construction also loses the ordinary swap edges. A reverse three-node path stays reversed instead of becoming sorted.",
+      "lineAnchors": [
+        {
+          "line": 1,
+          "source": "def dfs(pos,visited,graph,p):"
+        },
+        {
+          "line": 3,
+          "source": "  for i in graph[pos]:"
+        },
+        {
+          "line": 4,
+          "source": "    if p[pos]>p[i]:"
+        },
+        {
+          "line": 5,
+          "source": "      c=p[i]"
+        },
+        {
+          "line": 6,
+          "source": "      p[i]=p[pos]"
+        },
+        {
+          "line": 7,
+          "source": "      p[i]=c"
+        },
+        {
+          "line": 19,
+          "source": "    if A[j][i]=='1' and m<0:"
+        },
+        {
+          "line": 20,
+          "source": "      m=j"
+        },
+        {
+          "line": 21,
+          "source": "    elif A[j][i]=='1':"
+        },
+        {
+          "line": 22,
+          "source": "      graph[m].append(j)"
+        },
+        {
+          "line": 25,
+          "source": "  if graph[i]!=[] and visited[i]==False:"
+        },
+        {
+          "line": 26,
+          "source": "    dfs(i,visited,graph,p)"
+        },
+        {
+          "line": 27,
+          "source": "print(\" \".join(map(str,p)))"
+        }
+      ],
+      "witness": {
+        "test": "0038",
+        "inputHash": "3cce15ab56a0b153a06d4531a330fc17e0fe176ba0ac0fe26b3d8ee56fbf8982",
+        "storedExpectedHash": "1def07dbe06eeb097aafec8a40329937cd20c93a83634b8221ea2b41a894310c",
+        "independentExpectedHash": "1def07dbe06eeb097aafec8a40329937cd20c93a83634b8221ea2b41a894310c",
+        "actualOutputHash": "7d4e170b3b7a3429b5c48cd27387d1b00e98e175c005e64413cff0df76c3eda5",
+        "mathematicalProofHash": "f5ef04bb1d9e386487b061dcdbf5a9981eafed57b13af08241df456980870a86",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": true,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 3,
+        "expectedTokenCount": 3,
+        "strictSourceWitnessQualifies": true,
+        "mathematicalProof": {
+          "method": "Edge transpositions generate every permutation within a connected component (a path moves any chosen value between its endpoints); no value can cross components. Assign component values ascending to its ascending positions to get the unique lexicographic minimum. Components independently computed by union-find.",
+          "components": [
+            {
+              "indices1Based": [
+                1,
+                2,
+                3
+              ],
+              "sortedValues": [
+                1,
+                2,
+                3
+              ]
+            }
+          ]
+        },
+        "inputBase64": "MwozIDIgMQowMTAKMTAxCjAxMAo=",
+        "storedExpectedBase64": "MSAyIDMK",
+        "independentExpectedBase64": "MSAyIDMK",
+        "actualOutputBase64": "MyAyIDEK",
+        "stderr": ""
+      },
+      "recordedFailedTest": {
+        "test": "0001",
+        "inputHash": "4104363e63970f41bc7dc4b8a3bb8dfc1fbc40e72fe80d7a790de14538878ba0",
+        "storedExpectedHash": "779004375fe5fbdaf4e875a3b19ba89d90f19005218bae9fd394dc20826f7732",
+        "independentExpectedHash": "b4f18f5ee2289226dff88a7509b85fea49cb50749f9b9f860c61f491ce772fd5",
+        "actualOutputHash": "ec4902617fbb739c5c2998ea857ba628c57f79b25a871f6ee4c8f4c73ca8d0f9",
+        "mathematicalProofHash": "c1dc2c16ed3b1fb24a5d3eb0f1d25a06c44865052cc32fc0148c8c7260c4af51",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": false,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 7,
+        "expectedTokenCount": 7,
+        "strictSourceWitnessQualifies": false,
+        "expectedFirst12": [
+          1,
+          2,
+          4,
+          3,
+          6,
+          7,
+          5
+        ],
+        "actualFirst12": [
+          5,
+          2,
+          4,
+          3,
+          6,
+          7,
+          1
+        ]
+      },
+      "failedTestMathBindingPasses": true,
+      "classification": "STRICT_LF_MATH_PROOF",
+      "strictSourceProofPasses": true,
+      "bindingRepairRequired": false,
+      "completeSourceRead": true,
+      "contentProofHash": "abb63df9bd8ee40ade6ab3b1f9d6f1cd8c8e999f1bed03ba8b6b8c984de84fc3"
+    },
+    {
+      "problem": "500B",
+      "submissionId": "205455566",
+      "sourceHash": "295e32f21a1ca7182fd910d6c47866a36566e64e66c6d260a257f3525a018b38",
+      "originalSource": "from collections import defaultdict\n\nn = int(input())\npList = list(map(int, input().split()))\n\ngraph = defaultdict(list)\n\nfor i in range(n):\n    row = input()\n    for j in range(i+1):\n        if row[j] == \"1\":\n            graph[i+1].append(j+1)\n            graph[j+1].append(i+1)\n            \nvisited = set()\nnonVisited = set(list.copy(pList))\ndef dfs(visited, graph, node):\n    if node not in visited:\n        visited.add(node)\n        for neighbour in graph[node]:\n            dfs(visited, graph, neighbour)\n            \n            \nwhile (len(nonVisited) != 0 ):\n    visited = set()\n    dfs(visited, graph, nonVisited.pop())\n    nonVisited = nonVisited.difference(visited)\n    auxList = list()\n    for i in list(visited):\n        auxList.append(pList[i-1])\n    auxList.sort()\n    for i in list(visited):\n        pList[i-1] = auxList.pop(0)\n        \nprint(pList)",
+      "sourceIdentity": {
+        "bytes": 143535599,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00025-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "0fe4a49998adbbfce09027033e613e939c46974aa3e25afc6a7b8e2a1f605dbb",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00025-of-00036.parquet"
+      },
+      "implementedAlgorithm": "Finds whole connected components by DFS into a set, sorts their values, assigns them by list(visited), and prints Python list syntax.",
+      "preciseFault": "It never sorts the component position indices; iteration order of a set is not ascending position order. The LF witness misplaces values even after parsing the output list. The recorded failedTest instead has exactly the right numeric list and fails only on brackets/commas, so that pointer must be repaired.",
+      "lineAnchors": [
+        {
+          "line": 17,
+          "source": "def dfs(visited, graph, node):"
+        },
+        {
+          "line": 18,
+          "source": "    if node not in visited:"
+        },
+        {
+          "line": 19,
+          "source": "        visited.add(node)"
+        },
+        {
+          "line": 20,
+          "source": "        for neighbour in graph[node]:"
+        },
+        {
+          "line": 21,
+          "source": "            dfs(visited, graph, neighbour)"
+        },
+        {
+          "line": 24,
+          "source": "while (len(nonVisited) != 0 ):"
+        },
+        {
+          "line": 26,
+          "source": "    dfs(visited, graph, nonVisited.pop())"
+        },
+        {
+          "line": 27,
+          "source": "    nonVisited = nonVisited.difference(visited)"
+        },
+        {
+          "line": 29,
+          "source": "    for i in list(visited):"
+        },
+        {
+          "line": 30,
+          "source": "        auxList.append(pList[i-1])"
+        },
+        {
+          "line": 31,
+          "source": "    auxList.sort()"
+        },
+        {
+          "line": 32,
+          "source": "    for i in list(visited):"
+        },
+        {
+          "line": 33,
+          "source": "        pList[i-1] = auxList.pop(0)"
+        },
+        {
+          "line": 35,
+          "source": "print(pList)"
+        }
+      ],
+      "witness": {
+        "test": "0132",
+        "inputHash": "42cf66c99f5eda3b711ee7e5001f9b07a14856f89f413ab132cebd6a9a66b815",
+        "storedExpectedHash": "4f8d2ebc247b12b5861652f07f48413422bdacc3b655433ab60d9410468a90bf",
+        "independentExpectedHash": "4f8d2ebc247b12b5861652f07f48413422bdacc3b655433ab60d9410468a90bf",
+        "actualOutputHash": "9636bf91d529b5ce93a1383b2c99942e072e878c6e2014ec96498602a7c70b02",
+        "mathematicalProofHash": "f983565f3f66f5a52334df879d8063173b57c0f9d4cb08522c2db74a0a1cbfc2",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": true,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 8,
+        "expectedTokenCount": 8,
+        "strictSourceWitnessQualifies": true,
+        "mathematicalProof": {
+          "method": "Edge transpositions generate every permutation within a connected component (a path moves any chosen value between its endpoints); no value can cross components. Assign component values ascending to its ascending positions to get the unique lexicographic minimum. Components independently computed by union-find.",
+          "components": [
+            {
+              "indices1Based": [
+                1,
+                3,
+                8
+              ],
+              "sortedValues": [
+                2,
+                5,
+                8
+              ]
+            },
+            {
+              "indices1Based": [
+                2,
+                4,
+                5,
+                7
+              ],
+              "sortedValues": [
+                1,
+                3,
+                4,
+                7
+              ]
+            },
+            {
+              "indices1Based": [
+                6
+              ],
+              "sortedValues": [
+                6
+              ]
+            }
+          ]
+        },
+        "inputBase64": "OAo1IDQgMiAzIDEgNiA3IDgKMDAwMDAwMDEKMDAwMDEwMTAKMDAwMDAwMDEKMDAwMDEwMTAKMDEwMTAwMTAKMDAwMDAwMDAKMDEwMTEwMDAKMTAxMDAwMDAK",
+        "storedExpectedBase64": "MiAxIDUgMyA0IDYgNyA4Cg==",
+        "independentExpectedBase64": "MiAxIDUgMyA0IDYgNyA4Cg==",
+        "actualOutputBase64": "WzUsIDEsIDgsIDMsIDQsIDYsIDcsIDJdCg==",
+        "stderr": ""
+      },
+      "recordedFailedTest": {
+        "test": "0001",
+        "inputHash": "4104363e63970f41bc7dc4b8a3bb8dfc1fbc40e72fe80d7a790de14538878ba0",
+        "storedExpectedHash": "779004375fe5fbdaf4e875a3b19ba89d90f19005218bae9fd394dc20826f7732",
+        "independentExpectedHash": "b4f18f5ee2289226dff88a7509b85fea49cb50749f9b9f860c61f491ce772fd5",
+        "actualOutputHash": "e98f6d3f24e39b1aaa1c17917b04838606b169b85cfb7dd902186e7fad256fa3",
+        "mathematicalProofHash": "c1dc2c16ed3b1fb24a5d3eb0f1d25a06c44865052cc32fc0148c8c7260c4af51",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": false,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": false,
+        "numericAnswerMatches": true,
+        "outputTokenCount": 7,
+        "expectedTokenCount": 7,
+        "strictSourceWitnessQualifies": false,
+        "expectedFirst12": [
+          1,
+          2,
+          4,
+          3,
+          6,
+          7,
+          5
+        ],
+        "actualFirst12": [
+          1,
+          2,
+          4,
+          3,
+          6,
+          7,
+          5
+        ]
+      },
+      "failedTestMathBindingPasses": false,
+      "classification": "STRICT_LF_MATH_PROOF",
+      "strictSourceProofPasses": true,
+      "bindingRepairRequired": true,
+      "completeSourceRead": true,
+      "contentProofHash": "b13e18195443933e895ea150133033e1435979b942bce21faacbfd04bb327a45"
+    },
+    {
+      "problem": "500B",
+      "submissionId": "208057827",
+      "sourceHash": "c2b124172ca615de8b0a4198b0da34404c4f2abb56945d0bb5de5629ee34a88f",
+      "originalSource": "from collections import deque\n\nn = int(input())\np = [int(x) for x in input().split()]\nmat = [input() for _ in range(n)]\nadj_list = [[] for _ in range(n)]\n\nfor i in range(n):\n    for j in range(n):\n        if mat[i][j] == '1':\n            adj_list[i].append(j)\n\ndef bfs(s, vis):\n    q = deque([s])\n    vis[s] = True\n\n    ans, idx = p[s], s\n    while len(q) > 0:\n        u = q.popleft()\n        if p[u] < ans:\n            ans = p[u]\n            idx = u\n\n        for v in adj_list[u]:\n            if vis[v]: continue\n\n            vis[v] = True\n            q.append(v)\n    \n    return idx\n\nfor i in range(n):\n    vis = [False]*n\n    for j in range(i):\n        vis[j] = True\n\n    idx = bfs(i, vis)\n    p[i], p[idx] = p[idx], p[i]\n\nprint(*p)",
+      "sourceIdentity": {
+        "bytes": 143535599,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00025-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "0fe4a49998adbbfce09027033e613e939c46974aa3e25afc6a7b8e2a1f605dbb",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00025-of-00036.parquet"
+      },
+      "implementedAlgorithm": "For each increasing index, blocks all smaller indices and BFSes the remaining graph to swap in its smallest reachable value.",
+      "preciseFault": "Fixing earlier positions does not remove them as paths for future swaps: edge transpositions can route through and restore earlier vertices. Blocking them splits the remaining reachable set; the LF four-node witness strands value 2 behind index zero.",
+      "lineAnchors": [
+        {
+          "line": 13,
+          "source": "def bfs(s, vis):"
+        },
+        {
+          "line": 17,
+          "source": "    ans, idx = p[s], s"
+        },
+        {
+          "line": 18,
+          "source": "    while len(q) > 0:"
+        },
+        {
+          "line": 20,
+          "source": "        if p[u] < ans:"
+        },
+        {
+          "line": 21,
+          "source": "            ans = p[u]"
+        },
+        {
+          "line": 24,
+          "source": "        for v in adj_list[u]:"
+        },
+        {
+          "line": 25,
+          "source": "            if vis[v]: continue"
+        },
+        {
+          "line": 27,
+          "source": "            vis[v] = True"
+        },
+        {
+          "line": 32,
+          "source": "for i in range(n):"
+        },
+        {
+          "line": 33,
+          "source": "    vis = [False]*n"
+        },
+        {
+          "line": 34,
+          "source": "    for j in range(i):"
+        },
+        {
+          "line": 35,
+          "source": "        vis[j] = True"
+        },
+        {
+          "line": 37,
+          "source": "    idx = bfs(i, vis)"
+        },
+        {
+          "line": 38,
+          "source": "    p[i], p[idx] = p[idx], p[i]"
+        }
+      ],
+      "witness": {
+        "test": "0185",
+        "inputHash": "b3213040bd15af05ebc92a10ba4a77dccf78345c4d502b409f081cc07a3946c8",
+        "storedExpectedHash": "243c6d67d2657ddfb7607f3d2e161f9aa8d7b8f58d0856c665d9883860c457f6",
+        "independentExpectedHash": "243c6d67d2657ddfb7607f3d2e161f9aa8d7b8f58d0856c665d9883860c457f6",
+        "actualOutputHash": "1b2ddaa30c8c4e3ed4fb89f733427e7ba72f3a8388ebf19dcfc4f715562a91c0",
+        "mathematicalProofHash": "4750643d9cfca136ca4612644c43c97be13e7215b9696a5cac0a13e09276987c",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": true,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 4,
+        "expectedTokenCount": 4,
+        "strictSourceWitnessQualifies": true,
+        "mathematicalProof": {
+          "method": "Edge transpositions generate every permutation within a connected component (a path moves any chosen value between its endpoints); no value can cross components. Assign component values ascending to its ascending positions to get the unique lexicographic minimum. Components independently computed by union-find.",
+          "components": [
+            {
+              "indices1Based": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "sortedValues": [
+                1,
+                2,
+                3,
+                4
+              ]
+            }
+          ]
+        },
+        "inputBase64": "NAoyIDMgNCAxCjAxMDEKMTAxMAowMTAwCjEwMDAK",
+        "storedExpectedBase64": "MSAyIDMgNAo=",
+        "independentExpectedBase64": "MSAyIDMgNAo=",
+        "actualOutputBase64": "MSAzIDQgMgo=",
+        "stderr": ""
+      },
+      "recordedFailedTest": {
+        "test": "0012",
+        "inputHash": "9067985906abd2c596ffc83c82acd1b0c4633cb5f133a384fce3afc36fb978b5",
+        "storedExpectedHash": "affb245c66dd04cce3f0c13c3b03ec105167cd91f6604160724c7e705bb9200a",
+        "independentExpectedHash": "4d64b5f4e06cc16d43b0702486bc668e16f509dd1178b675ad88848d20e21e71",
+        "actualOutputHash": "57b355d14daa27ad9c85ef552877f602e371302a87f7f3f6c590057e8a729126",
+        "mathematicalProofHash": "653c6e7ba7737a6c5bf14d08babf7bf5bbf6a842c09f66fac7de34405a34dae8",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": false,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 10,
+        "expectedTokenCount": 10,
+        "strictSourceWitnessQualifies": false,
+        "expectedFirst12": [
+          5,
+          1,
+          2,
+          3,
+          4,
+          6,
+          7,
+          10,
+          8,
+          9
+        ],
+        "actualFirst12": [
+          5,
+          1,
+          2,
+          3,
+          4,
+          6,
+          8,
+          10,
+          9,
+          7
+        ]
+      },
+      "failedTestMathBindingPasses": true,
+      "classification": "STRICT_LF_MATH_PROOF",
+      "strictSourceProofPasses": true,
+      "bindingRepairRequired": false,
+      "completeSourceRead": true,
+      "contentProofHash": "b67e03dddebc7518dec955f7699e8b27f0d0393027a14326a829c1273837b68d"
+    },
+    {
+      "problem": "500B",
+      "submissionId": "232241119",
+      "sourceHash": "bd22592d0108ec68ac5b05ec4d3de3756ccb758ce0c24022eef5d39aab2962ea",
+      "originalSource": "n = int(input())\na = list(map(int, input().split()))\ngraph = [[] for _ in range(n)]\nfor i in range(n):\n    s = input()\n    for j in range(n):\n        if s[j] == '1':\n            graph[i].append(j)\n            graph[j].append(i)\n\nvis = [False] * n\nindex = []\nvalue = []\n\n\n# def dfs(i):\n#     vis[i] = True\n#     index.append(i)\n#     value.append(a[i])\n#     for g in graph[i]:\n#         if not vis[g]:\n#             dfs(g)\n\n\nfor i in range(n):\n        index.append(i)\n        value.append(a[i])\n        for g in graph[i]:\n            index.append(g)\n            value.append(a[g])\n            \n        value.sort()\n        index.sort()\n\n        for j in range(len(value)):\n            a[index[j]] = value[j]\n        value = []\n        index = []\nprint(*a)",
+      "sourceIdentity": {
+        "bytes": 143535599,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00025-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "0fe4a49998adbbfce09027033e613e939c46974aa3e25afc6a7b8e2a1f605dbb",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00025-of-00036.parquet"
+      },
+      "implementedAlgorithm": "For each position, sorts the values on its local closed neighborhood once; the full-component DFS is commented out.",
+      "preciseFault": "A single pass of local neighborhoods cannot guarantee the component-wide lexicographic minimum. The LF four-node witness leaves 4,3 at the last two positions rather than 3,4.",
+      "lineAnchors": [
+        {
+          "line": 16,
+          "source": "# def dfs(i):"
+        },
+        {
+          "line": 25,
+          "source": "for i in range(n):"
+        },
+        {
+          "line": 26,
+          "source": "        index.append(i)"
+        },
+        {
+          "line": 27,
+          "source": "        value.append(a[i])"
+        },
+        {
+          "line": 28,
+          "source": "        for g in graph[i]:"
+        },
+        {
+          "line": 29,
+          "source": "            index.append(g)"
+        },
+        {
+          "line": 30,
+          "source": "            value.append(a[g])"
+        },
+        {
+          "line": 32,
+          "source": "        value.sort()"
+        },
+        {
+          "line": 33,
+          "source": "        index.sort()"
+        },
+        {
+          "line": 35,
+          "source": "        for j in range(len(value)):"
+        },
+        {
+          "line": 36,
+          "source": "            a[index[j]] = value[j]"
+        },
+        {
+          "line": 37,
+          "source": "        value = []"
+        },
+        {
+          "line": 38,
+          "source": "        index = []"
+        },
+        {
+          "line": 39,
+          "source": "print(*a)"
+        }
+      ],
+      "witness": {
+        "test": "0185",
+        "inputHash": "b3213040bd15af05ebc92a10ba4a77dccf78345c4d502b409f081cc07a3946c8",
+        "storedExpectedHash": "243c6d67d2657ddfb7607f3d2e161f9aa8d7b8f58d0856c665d9883860c457f6",
+        "independentExpectedHash": "243c6d67d2657ddfb7607f3d2e161f9aa8d7b8f58d0856c665d9883860c457f6",
+        "actualOutputHash": "efad82f96893b92269af7350ed063af707bb77cb6569e1d2daf125dd5e48298b",
+        "mathematicalProofHash": "4750643d9cfca136ca4612644c43c97be13e7215b9696a5cac0a13e09276987c",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": true,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 4,
+        "expectedTokenCount": 4,
+        "strictSourceWitnessQualifies": true,
+        "mathematicalProof": {
+          "method": "Edge transpositions generate every permutation within a connected component (a path moves any chosen value between its endpoints); no value can cross components. Assign component values ascending to its ascending positions to get the unique lexicographic minimum. Components independently computed by union-find.",
+          "components": [
+            {
+              "indices1Based": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "sortedValues": [
+                1,
+                2,
+                3,
+                4
+              ]
+            }
+          ]
+        },
+        "inputBase64": "NAoyIDMgNCAxCjAxMDEKMTAxMAowMTAwCjEwMDAK",
+        "storedExpectedBase64": "MSAyIDMgNAo=",
+        "independentExpectedBase64": "MSAyIDMgNAo=",
+        "actualOutputBase64": "MSAyIDQgMwo=",
+        "stderr": ""
+      },
+      "recordedFailedTest": {
+        "test": "0018",
+        "inputHash": "5267cdc6e128a42f1e4af33145c91eef86de73b1aad29a33e7fc0105c0be4226",
+        "storedExpectedHash": "3b5acaf77b160b478d051b73e202db95ecd50df891412d1c1e51b42e81fb7c42",
+        "independentExpectedHash": "243c6d67d2657ddfb7607f3d2e161f9aa8d7b8f58d0856c665d9883860c457f6",
+        "actualOutputHash": "269391dda543e1888caba795038dc9ff21a8856a31bb9c270965be97a15785dc",
+        "mathematicalProofHash": "4750643d9cfca136ca4612644c43c97be13e7215b9696a5cac0a13e09276987c",
+        "currentStatementLegal": true,
+        "publicIntendedBoundsLegal": true,
+        "isLF": false,
+        "normalExit": true,
+        "verdict": "WA",
+        "exitCode": 0,
+        "timeout": false,
+        "sameLengthNumericWrongAnswer": true,
+        "numericAnswerMatches": false,
+        "outputTokenCount": 4,
+        "expectedTokenCount": 4,
+        "strictSourceWitnessQualifies": false,
+        "expectedFirst12": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "actualFirst12": [
+          2,
+          1,
+          3,
+          4
+        ]
+      },
+      "failedTestMathBindingPasses": true,
+      "classification": "STRICT_LF_MATH_PROOF",
+      "strictSourceProofPasses": true,
+      "bindingRepairRequired": false,
+      "completeSourceRead": true,
+      "contentProofHash": "0b3d91fe10ce11ca86580f2d05d42b0375d346a6f90e6b77503221862c3d6ceb"
+    }
+  ]
+}
