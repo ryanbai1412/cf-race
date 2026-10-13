@@ -1,5 +1,6 @@
 """Concrete recipe stages; invoke the unchanged foundation execution gate."""
 import argparse
+import importlib
 from hashlib import sha256
 from pathlib import Path
 import sys
@@ -22,7 +23,10 @@ import fifth_expansion_recipes
 import qualification
 
 MODULES = (recipes, extended_recipes, additional_recipes, more_recipes, expansion_recipes, second_expansion_recipes, third_expansion_recipes, fourth_expansion_recipes, fifth_expansion_recipes)
+MODULES += tuple(importlib.import_module(path.stem) for path in sorted(BASE.glob('recipe_*.py')))
 IDS = tuple(pid for module in MODULES for pid in module.IDS)
+if len(IDS) != len(set(IDS)):
+    raise ValueError('duplicate registered recipe ID')
 
 SEMANTICS = {
     '235A': 'Unique integer maximum LCM of three positive integers, repeats allowed. n1..10^6; brute all triples n<=32 checks the parity/divisibility formula; outputs fit signed64-bit.',
@@ -38,6 +42,8 @@ SEMANTICS.update(second_expansion_recipes.SEMANTICS)
 SEMANTICS.update(third_expansion_recipes.SEMANTICS)
 SEMANTICS.update(fourth_expansion_recipes.SEMANTICS)
 SEMANTICS.update(fifth_expansion_recipes.SEMANTICS)
+for module in MODULES:
+    SEMANTICS.update(getattr(module, 'SEMANTICS', {}))
 
 BOUNDARY_CASES = {
     '337C': {(2, 0, 2), (2, 2, 2)},
