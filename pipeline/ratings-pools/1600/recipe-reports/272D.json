@@ -370,7 +370,6 @@
     "independentReferences": "Literal DFS enumerates distinct complete point sequences subject to nondecreasing x, without factorials or denominator counting. Separate reference inserts each distinct point multiplicity with binomial interleaving counts. Unit tests also use exact big-integer factorial quotient."
   },
   "authoredSuite": {
-    "targetCount": "120..180 unique deterministic pairs; actual count recorded after local checks",
     "maximumDimensionCases": 4,
     "seed": 2721600,
     "coverage": "min n/m and coordinate endpoints; equal-index duplicates vs cross-index ties; groups larger than n; factorial vs frequency errors; even/composite m; division before modulo; all-equal/distinct and split max n=100000; fixed-seed small arrays.",
@@ -392,7 +391,7 @@
         "submissionIds": [
           "32560588"
         ],
-        "observation": "Multiplies accumulated residue by an adjacent-factor product then integer-divides by two; cancellation after reduction can lose information."
+        "observation": "Paired-point insertion factors use i*(i+1)/2 starting at the singleton count rather than (i+1)*(i+2)/2. A group with only duplicate points starts at i=0 and multiplies by zero. Static observation only; no public execution."
       },
       {
         "submissionIds": [
@@ -408,27 +407,55 @@
         "observation": "Exact full integer factorial quotient appears mathematically correct but may be slow; TLE-only source is not treated as an algorithmic failure."
       }
     ],
-    "inspectionLimit": "Static source motivations only, not executed counterexamples, AC/WA validation or algorithmic signoff."
+    "inspectionLimit": "Static source motivations only, not executed counterexamples, AC/WA validation or algorithmic signoff.",
+    "actualCount": 165,
+    "categories": {
+      "boundary": 6,
+      "adversarial": 155,
+      "maxSize": 4
+    },
+    "hashSeedDeterminism": {
+      "seeds": [
+        "1",
+        "777"
+      ],
+      "serialization": "json.dumps(extras,sort_keys=True,separators=(\",\",\":\")) plus newline",
+      "sha256": "e2e4f407f85c3e98b14ded91502fe6a7cad33e86478173034edda97f5adfed66",
+      "bytes": 4950002
+    }
   },
   "upstreamReview": {
-    "status": "pending-targeted-checks",
+    "status": "all-supplied-pairs-reviewed",
     "suppliedOfficialPairs": 7,
     "suppliedSamples": 2,
     "officialTestsComplete": false,
     "officialTestsetSize": 51,
     "generatedTestsCountOnly": 21,
     "generatedTestsAvailableInAttachment": false,
-    "failedPairs": null,
-    "qualificationGap": "Original suite incomplete. Any generated-basis qualification requires parent-run 5 actual AC / 5 genuine algorithmic WA, distinct sixth accepted oracle and later different-agent audit. This recipe contributes no independently validated problem count."
+    "failedPairs": [],
+    "qualificationGap": "Original suite incomplete. Any generated-basis qualification requires parent-run 5 actual AC / 5 genuine algorithmic WA, distinct sixth accepted oracle and later different-agent audit. This recipe contributes no independently validated problem count.",
+    "reviewedOriginalBytesUnchanged": true
   },
   "localChecks": {
-    "status": "pending-after-initial-push",
-    "bruteAssertions": null,
+    "status": "passed",
+    "bruteAssertions": 7741,
     "commands": [
       "python3 -m unittest discover -s pipeline/ratings-pools/1600 -p test_recipe_272D.py -v",
       "AST parse of recipe_272D.py and test_recipe_272D.py",
       "git diff --check 5b28d33..HEAD"
     ],
-    "publicProgramsExecuted": false
+    "publicProgramsExecuted": false,
+    "unitTestMethods": 9,
+    "unitTestSeconds": 4.43,
+    "bruteBreakdown": {
+      "exhaustiveCoordinateAlphabet1to3_n1to3_eightModuli": 6552,
+      "fixedSeedRandom_n4_eightModuli": 1024,
+      "generatedSuiteIndependentBinomialInterleavings": 165
+    },
+    "additionalExactBigIntegerReferenceCases": 100,
+    "astSyntax": "passed both owned Python files",
+    "gitDiffCheck": "passed against exact base after initial push",
+    "originalFixtureComparison": "Embedded official/sample fixtures equal attachment sourceRow dictionaries and match canonical hashes; no line-ending repair.",
+    "hashSeedDeterminism": "passed for seeds 1 and 777"
   }
 }
