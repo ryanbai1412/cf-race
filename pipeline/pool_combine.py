@@ -174,6 +174,10 @@ def replay(index, root, output):
         wrong = [r for r in evidence["submissions"] if r["expected"] != "OK"]
         if len(wrong) < 5:
             raise ValueError("technical pool requires five independently reviewed incorrect references")
+        analysis = audit.get("incorrectAnalysis", {})
+        if any(analysis.get(str(r["submissionId"]), {}).get("kind") != "wrong-answer" or
+               not analysis[str(r["submissionId"])].get("reason") for r in wrong):
+            raise ValueError("missing independent algorithmic wrong-answer analysis")
         evidence_root = local(entry["evidenceRoot"])
         if (paths["evidence"] != evidence_root / str(rating) / "evidence" / f"{pid}.json" or
                 paths["audit"] != evidence_root / str(rating) / "audits" / f"{pid}.json"):

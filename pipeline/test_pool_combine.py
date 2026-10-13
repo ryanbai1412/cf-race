@@ -134,7 +134,8 @@ class ReplayTests(unittest.TestCase):
             "harnessHash": "a" * 64, "runnerHash": "b" * 64, "checkerHash": "c" * 64}}
         self.audit = {"approved": True, "reviewer": "independent", "reviewUrl": "https://example.com/review",
             "packageHash": ph, "evidenceHash": digest(self.evidence), "checks": {key: True for key in
-            ("sourceAttribution", "fullTests", "coverage", "fiveAcceptedFiveIncorrect", "noSpecialChecker", "hashes")}}
+            ("sourceAttribution", "fullTests", "coverage", "fiveAcceptedFiveIncorrect", "noSpecialChecker", "hashes")},
+            "incorrectAnalysis": {str(i): {"kind": "wrong-answer", "reason": "toy arithmetic defect"} for i in range(5, 10)}}
         self.ep = self.root / "content/1200/evidence/999999A.json"
         self.ap = self.root / "content/1200/audits/999999A.json"
         write_json(self.ep, self.evidence)
@@ -188,6 +189,16 @@ class ReplayTests(unittest.TestCase):
     def test_changed_independent_decision(self):
         self.audit["approved"] = False; write_json(self.ap, self.audit)
         with self.assertRaises(ValueError):
+            self.run_replay()
+
+    def test_missing_semantic_review_even_with_current_hashes(self):
+        self.audit["incorrectAnalysis"].pop("5")
+        write_json(self.ap, self.audit)
+        ah = digest(self.audit)
+        self.index["entries"][0]["auditHash"] = ah
+        self.index["entries"][0]["decision"]["recordHash"] = ah
+        self.index["decisions"][0]["record"]["recordHash"] = ah
+        with self.assertRaisesRegex(ValueError, "algorithmic"):
             self.run_replay()
 
     def test_missing_decision(self):
