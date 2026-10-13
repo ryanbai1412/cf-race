@@ -1,0 +1,109 @@
+{
+  "id": "340C",
+  "rating": 1600,
+  "role": "recipe-author-only",
+  "status": "authored-pending-local-checks",
+  "qualification": "Not qualified or independently audited. Parent must integrate, run distinct external accepted sources and genuinely algorithmic wrong sources in the pinned sandbox, and obtain a different-agent audit. This recipe contributes no independently validated problem count.",
+  "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
+  "branch": "devin/1791857110-340c-recipe",
+  "inputVerification": {
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "archiveBytes": 4542856,
+    "manifestSha256": "c5aa6b8341d4ab6814424de54e241e91390fdc4c079e7f1daa4379bf07075381",
+    "file": "inputs/340C.json",
+    "fileSha256": "9ad72ea78106ad6ab13d0126e9836df99b547a3c4b65d9394d63593b6a8c1457",
+    "fileBytes": 48659,
+    "sourceRowHash": "004557449fd6e0f64206303888f7fc15ec30b8ff86f0811f645fcfb154367a4e",
+    "sourceRowHashMethod": "pool_contract.digest(sourceRow), canonical JSON sort_keys=True, separators=(',', ':'), ensure_ascii=False",
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "upstreamShard": {
+      "path": "data/train-00005-of-00011.parquet",
+      "bytes": 486411551,
+      "sha256": "fd11e585063299408af6ebc747ee1b6e0529e69ba32eaabe7c18931b6a3d8763",
+      "verificationScope": "Recorded from authenticated attachment inventory. Author verified the attached per-file bytes and canonical row hash, not a new download of the full LFS shard."
+    },
+    "preservation": "No attached statement, example, official pair, selected public source, expected output, package or state bytes were modified."
+  },
+  "datasetDocumentation": [
+    {
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
+      "bodySha256": "b9971cff0a797603b79d78f49129830b0a1a4b99d9860e392fba126a4ef4dc69",
+      "read": true
+    },
+    {
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md",
+      "bodySha256": "8352430bd0fbc94cfe8762a9278c18a8494fca567a8aaf29a9e353c3f4627687",
+      "read": true
+    }
+  ],
+  "originalStatementAttestation": {
+    "url": "https://codeforces.me/problemset/problem/340/C?locale=en",
+    "bodySha256": "4c0b2a1ad99e5c81cfa06083157b266c6962a65136b92c6eba5efb1167ef85a7",
+    "bodyBytes": 60678,
+    "locale": "en",
+    "copyPath": "statement-sources/340C.recipe-author.original.html",
+    "copySha256": "0b1ae771cd7431b154863826d996a10689856c6390a3bd4a93ddcea36efae6fc",
+    "copyBytes": 4744,
+    "copyByteRangeHalfOpen": [36995, 41739],
+    "copyMethod": "Byte-exact complete div.problem-statement element, including all paragraphs, constraints, sample and note; no HTML cleanup. Full page chrome omitted.",
+    "attestedMarkup": ["10<sup class=\"upper-index\">5</sup>", "10<sup class=\"upper-index\">7</sup>"],
+    "normalizationProposal": [
+      {
+        "field": "input_format",
+        "old": "(2 ≤ n ≤ 105)",
+        "new": "(2 ≤ n ≤ 10<sup>5</sup>)",
+        "occurrences": 1
+      },
+      {
+        "field": "input_format",
+        "old": "(1 ≤ ai ≤ 107)",
+        "new": "(1 ≤ ai ≤ 10<sup>7</sup>)",
+        "occurrences": 1
+      }
+    ],
+    "applied": false,
+    "images": "Only explanatory fractions in the note are image-backed in original HTML; the pinned note retains their TeX and explicit six route totals. The actual question, constraints and required output are fully text-backed and unambiguous."
+  },
+  "semantics": {
+    "constraints": "Exactly two lines: one integer n in 2..100000, then n distinct integers in 1..10000000. The input format is authoritative over the informal description's non-negative wording, so zero is illegal.",
+    "checker": "stdio; no interaction or generated checker; unique positive reduced numerator and positive denominator as two integer tokens; no floating-point or custom comparison.",
+    "oracleDerivation": "In a uniformly selected permutation, each destination is first with probability 1/n. Each unordered pair is consecutive with probability 2/n: glue the pair in either order, yielding 2*(n-1)! out of n! routes. Expected route length is (sum(ai)+2*sum(i<j,abs(ai-aj)))/n. No return-to-origin leg is present. Sorting and prefix accumulation compute all pair distances exactly; gcd reduction gives the unique output.",
+    "complexity": "O(n log n) time, O(n) space, integer-only arithmetic.",
+    "independentBrute": "Literal enumeration of every route, walking from 0 through the complete permutation and averaging full route lengths with Fraction. Exhaustive ordered distinct arrays from 1..5 at n=2..5; each combination from 1..9 at n=2..6 in both directions; 200 seeded random distinct arrays at n=2..7. No calls to the efficient oracle from the reference."
+  },
+  "authoredSuite": {
+    "targetCount": 160,
+    "maximumCases": "Four legal n=100000 cases: low consecutive, descending high consecutive, two distant clusters and seeded unsorted wide unique coordinates.",
+    "otherCoverage": "Minimum n and coordinate endpoints; no, partial and full gcd cancellation; unsorted and alternating gaps; translated/shuffled arithmetic progressions; multi-digit n; separated medium clusters; seeded small routes with uneven gaps.",
+    "sourceMotivation": [
+      {"submissionIds": ["4384573", "4387281", "5348392"], "observation": "Selected WA sources apply sorted rank/gap formulas to unsorted input without sorting; descending/shuffled/alternating inputs exercise that issue."},
+      {"submissionIds": ["101667533", "101668384"], "observation": "Selected WA sources read n as int(line[0]); legal multi-digit n cases exercise truncated coordinate processing."},
+      {"submissionIds": ["74829280"], "observation": "Selected WA source uses 8*(last-first)+2*sum and n! denominator, rather than general all-pair expected distance; irregular n=4 and larger cases exercise this."}
+    ],
+    "sourceInspectionOnly": "No selected program was compiled or executed. Motivation is not a qualification verdict or source-specific execution counterexample.",
+    "nonAlgorithmicCautions": "14494083 prints numerator/denominator with a slash, so presentation mismatch alone must not count. TLE-only failures of correct factorial/permutation/pair-enumeration sources must not count. No CRLF/debug/runtime-only failure is claimed as algorithmic proof."
+  },
+  "upstreamSuite": {
+    "officialAdvertised": 43,
+    "officialSupplied": 16,
+    "officialComplete": false,
+    "samplesSupplied": 1,
+    "generatedAdvertised": 12,
+    "generatedSupplied": 0,
+    "generatedRepresentation": "sourceRow.generated_tests is the integer 12, not input/output pairs; missing generated bytes were not invented.",
+    "failedOfficialOrSamplePairs": null,
+    "preservedMalformedPairs": null,
+    "reviewStatus": "pending local checks"
+  },
+  "localChecks": {
+    "status": "pending",
+    "bruteAssertions": null,
+    "targetedUnittest": null,
+    "astSyntax": null,
+    "diffCheck": null
+  }
+}
