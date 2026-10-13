@@ -1,0 +1,389 @@
+{
+  "baseCommit": "5b28d333",
+  "bruteChecks": 19979,
+  "bruteReference": "brute(): exhaustive leaf-removal state search over vertex bitmasks, using the statement definitions literally (leaf = non-root degree-1 vertex of the current tree, or the root when alone; sad recomputed by walking every root path in the current tree), BFS by number of removals. prefix_reference(): different formula, bad(u)=bad(parent) or rootdist(u)-min(rootdist of proper ancestors)>a_u. brute_checks: n=1 (3), n=2 all a in {1,2,3}^2 x c in -4..4 (81), n=3 and 4 every labelled tree x a in {1,2}^n x c in {-2,-1,1,3}^(n-1) (192+16384), every labelled tree on 5 vertices x 12 fixed-seed weightings (1500), 1500 fixed-seed trees n=6..8 (five shapes), and every extra (127; brute for n<=8, prefix_reference otherwise). Every check asserts both answer()==brute and prefix_reference()==brute.",
+  "datasetCards": {
+    "note": "Both cards read before any other API call. official_tests may be a truncated subset (here 18 kept of testset_size 106, official_tests_complete=false); generated_tests=4 is only a count, no generated tests in the supplied row.",
+    "open-r1/codeforces": {
+      "sha256": "b9971cff0a797603b79d78f49129830b0a1a4b99d9860e392fba126a4ef4dc69",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md"
+    },
+    "open-r1/codeforces-submissions": {
+      "sha256": "8352430bd0fbc94cfe8762a9278c18a8494fca567a8aaf29a9e353c3f4627687",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md"
+    }
+  },
+  "derivation": "Each p_i edge gives every vertex 2..n exactly one outgoing edge, and a tree has no cycle, so following them always ends at vertex 1: p_i is the parent of i+1 in the tree rooted at 1, even when p_i > i+1 (rows contain 70+ such edges). Leaf removal can delete any set closed under taking descendants that excludes the root (the root is a leaf only when alone, and it is never sad since dist(v,v)=0<a_v). A kept u with an ancestor v and dist(v,u)>a_u leaves v sad, so every such u and its subtree must go; keeping everything else leaves no sad vertex. Answer = |union of subtrees of u with max over proper ancestors v of dist(v,u) > a_u|.",
+  "exclusionCheck": {
+    "customChecker": false,
+    "fileIO": false,
+    "floating": false,
+    "imageMissing": false,
+    "interactive": false,
+    "multipleValidOutputs": false,
+    "note": "Output is a single integer; the minimum is unique, so token comparison is exact."
+  },
+  "extras": {
+    "categories": {
+      "adversarial": 104,
+      "boundary": 15,
+      "maxSize": 8
+    },
+    "cautions": [
+      "The depth-10^5 chain extras are statement-legal and kill no correct algorithm, but recursive accepted sources (e.g. 18551472 recursive dfs) may overflow an 8 MB sandbox stack; treat a crash there as environmental, not a fidelity contradiction, or run with a larger stack.",
+      "Total extras input is about 18.9 MB (each max case up to 2.6 MB). That fits the recipe/rated_pool path, but a generated-basis generator printing the whole suite through pool_harness 8 MiB RLIMIT_FSIZE would not."
+    ],
+    "count": 127,
+    "includes": "15 boundary cases (n=1, equality dist==a, off-by-one over a, c=+-10^9, c=0, c=-1, p_i>i+1, star, subtree-removal of safe children); 16 hand adversarial cases modelled on the WA sources (positive-only accumulation, root distance hiding a suffix, c=-1 edges, reversed path, 10^9 chains); 40 fixed-seed small trees n=2..8 (brute-checked), 40 medium n=9..60, 6 trees n=1000/2000 and one n=3000 with extreme weights; 8 maxSize n=10^5: depth-10^5 chain, chain of c=-1 edges, reversed path with p_i=i+2, two stars (answer 0 and n-1), random full-range tree, deep random tree, broom.",
+    "maxInputBytes": 2617327,
+    "motivation": "test_recipe_682C re-implements (does not execute) mutants: root_distance (20764615, 161217644, 37707078), positive_accumulation (18888172), count_sad_only (20763132), skip_minus_one (161260901), index_bug (126037219), plus hypothetical ge-instead-of-gt and index-order DP (assumes p_i<i+1). Each mutant is killed by at least 10 extras, and every extra tagged [kills X] is asserted to kill X.",
+    "seed": 682001,
+    "sha256OfJson": "482580f799b0f227553aae89e2cc24ae4455c31d50ca66ef1fe160ad5eb42cef",
+    "totalInputBytes": 18858432
+  },
+  "failedUpstreamPairs": [],
+  "id": "682C",
+  "inputs": {
+    "archiveBytes": 4542856,
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "file": "inputs/682C.json",
+    "fileBytes": 50601,
+    "fileSha256": "5f181e0af27cd4345db1bf7eb318a10dc675f0c3e8e4e5a835dc7f2e8dd5147c",
+    "manifestEntry": {
+      "bytes": 50601,
+      "sha256": "5f181e0af27cd4345db1bf7eb318a10dc675f0c3e8e4e5a835dc7f2e8dd5147c"
+    },
+    "manifestMatches": true,
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "sourceRowHash": "bf2f239145fa518d6ccc4d100e65cc08c2c8067af12a1f2a224ff6506670ccdb",
+    "sourceRowHashMatches": true,
+    "sourceRowHashRecomputed": "bf2f239145fa518d6ccc4d100e65cc08c2c8067af12a1f2a224ff6506670ccdb",
+    "sourceShard": {
+      "bytes": 110782908,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00009-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "7b0a8a962a669eeeafc769ccaf05ed5a3b29f2128489e28f8873cad265acfc17",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00009-of-00011.parquet"
+    }
+  },
+  "notAuditNotSignoffNotValidated": true,
+  "officialReview": {
+    "failures": [],
+    "generatedTestsCountField": 4,
+    "generatedTestsInRow": 0,
+    "lineEndings": "All 18 official pairs are CRLF with trailing CRLF; the sample is LF with no trailing newline. parse uses strip().splitlines() and per-line split, enforcing the 1 / n / (n-1)x2 layout.",
+    "maxOfficialN": 39,
+    "note": "Every official pair and the sample parse within constraints and match answer(), prefix_reference() and, for n<=8, brute(). No malformed or contradictory upstream pair. The official suite has no n above 39 and no max-size case.",
+    "officialComplete": false,
+    "officialCount": 18,
+    "officialDigest": "2491d2678414079298c5d6267937a015251faf5682374cab0ce9fffd63abc38b",
+    "rowOrderNote": "All six early-failing WA models first fail exactly row P+1. For 161260901 (passedTestCount 16) the hand transcription first fails row 15. Inference, not verified by execution: the 18 kept rows are a non-prefix subset of the CF tests (accepted sources show passedTestCount 104 of testset 106), so row 15 is CF test 17 or later. The parent should confirm in the pinned sandbox before using passedTestCount as a row index.",
+    "samples": 1,
+    "testsetSize": 106
+  },
+  "oracle": "answer(): BFS from vertex 1 over the undirected adjacency, best(child)=max(best(u),0)+c, a child with best>a is not entered; returns n minus the number of entered vertices. Python ints, no overflow (|sums| up to 10^14).",
+  "recipeFiles": [
+    "pipeline/ratings-pools/1600/recipe_682C.py",
+    "pipeline/ratings-pools/1600/test_recipe_682C.py"
+  ],
+  "role": "recipe-author",
+  "selectedSubmissionsReview": {
+    "count": 21,
+    "entries": [
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 104.0,
+        "review": "C++11 OK. Rooted DFS from 1 over p_i->child lists with long long suffix maximum reset at 0; counts kept vertices.",
+        "sourceBytes": 1199,
+        "sourceSha256": "ea75542fa3a01ae4ab2743e9a5b972d9e64a801c281144c9ffaabcec526552d8",
+        "submissionId": "18549137",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 104.0,
+        "sourceBytes": 781,
+        "sourceSha256": "45cc3084c7d8386c15f2f71993bf2a0ceaf5233801e262d61cb83285214bb02c",
+        "submissionId": "18549559",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 104.0,
+        "sourceBytes": 1439,
+        "sourceSha256": "b651b213ec29d4670bb7391c9e86405559c07feebbafc9224017e38c6a3cb4be",
+        "submissionId": "18550297",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 104.0,
+        "sourceBytes": 1389,
+        "sourceSha256": "08549d2445a294313a6277ab5b005417e191343600a3eb7ebacd2293cc5ae6cb",
+        "submissionId": "18550403",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 104.0,
+        "sourceBytes": 1215,
+        "sourceSha256": "e1681c35dfdf482211be180370ebcebc39afa218f2f5ef4979c762ee3864bf15",
+        "submissionId": "18550727",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 104.0,
+        "sourceBytes": 1508,
+        "sourceSha256": "df438dda1282f2ebcc1faf47343c870d472147b6a26cf1a76a9ac3b4ce5138b7",
+        "submissionId": "18551331",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 104.0,
+        "review": "C++11 OK. Recursive dfs(v,k) on child lists, d[child]=max(0LL,d[v]+c) (long long), be[] propagates removal; recursion depth equals tree depth (10^5 on the max chain extras).",
+        "sourceBytes": 526,
+        "sourceSha256": "10c3fbe8c909027ddfec8639cdb1c53c34141ce3a5a57af7eaf1b0f40ed4aaf8",
+        "submissionId": "18551472",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 104.0,
+        "sourceBytes": 1006,
+        "sourceSha256": "3609b0d0490b16d2b464f060dca4a4862d0caf1f29e1ed2df9314b1bcbf1a2bd",
+        "submissionId": "18551491",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 104.0,
+        "sourceBytes": 1725,
+        "sourceSha256": "40b4926238253070f8013cef78490cc005f6a1b384c241d320f31751cd246dd5",
+        "submissionId": "18551597",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 104.0,
+        "sourceBytes": 1282,
+        "sourceSha256": "a309a35f688990f4ded4c1a46ec810e0cc4390b7dca0c5c6f103b4eecd6f6770",
+        "submissionId": "18551687",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 104.0,
+        "sourceBytes": 886,
+        "sourceSha256": "d0cf1b0d775a16c5329977ae5ccc6520c9d9d0241e5bd63f94b940c5f0640f08",
+        "submissionId": "18551727",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 104.0,
+        "sourceBytes": 920,
+        "sourceSha256": "020052300986b0f583942af3f1263c2bcfb56d2e0e31cb8360a7859a10bb4042",
+        "submissionId": "18551793",
+        "verdict": "OK"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 3.0,
+        "review": "Python 3 WA. Child lists from p_i. dfs passes max(value, value+cost) instead of max(0, value+cost), so after a negative edge the running value stays at the larger prefix and later vertices are over-removed (lines 15-21). Modelled as positive_accumulation; first fails row 4 (expected 1, model 3), consistent with passedTestCount 3.",
+        "sourceBytes": 570,
+        "sourceSha256": "e1cca5adb0d1562770d2d82cc89776a0d1a4da082585cd7ac9d52b51b6e1f4db",
+        "submissionId": "18888172",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 2.0,
+        "review": "Python 3 WA. Accumulates root distance with no reset and counts each vertex with total_distance>a individually, not its subtree (dfs return expression). Modelled as count_sad_only; first fails row 3 (expected 7, model 1), passedTestCount 2.",
+        "sourceBytes": 526,
+        "sourceSha256": "6bed65ded433a9dc3137a2db35ce09c056ac2436bc9268a9370f14361dd7b764",
+        "submissionId": "20763132",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 3.0,
+        "review": "Python 3 WA. Root distance with no reset (total_distance+distance), but removes the whole subtree of a vertex with root distance > a. Modelled as root_distance; first fails row 4 (expected 1, model 0), passedTestCount 3.",
+        "sourceBytes": 766,
+        "sourceSha256": "1eb254858b82cb51bf07f4da8609ad4531134af518306b0a186855a6432ea220",
+        "submissionId": "20764615",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 3.0,
+        "review": "Python 3 WA. Undirected BFS with plain root distance d+nvd (no max with 0), sadness propagated from the visited neighbour. Same algorithm as root_distance; first fails row 4, passedTestCount 3.",
+        "sourceBytes": 582,
+        "sourceSha256": "1ce5c24271d019872dda3d0bfa398c5672c3af7d2b3c8114d23126b491d874d8",
+        "submissionId": "37707078",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 11.0,
+        "review": "Python 3 TLE (not a WA). dist[v]=max(w, dist[u]+w) and counting kept vertices is the correct algorithm; queue.Queue is slow. TLE-only, not algorithmic evidence.",
+        "sourceBytes": 981,
+        "sourceSha256": "bba26a005b5711f117dde169f0a774471f7fc94c134ab0a71a36d87d508a124c",
+        "submissionId": "37917634",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 1.0,
+        "review": "Python 3 WA. Index bug: edge i is stored as edges[i]<->edges[p] instead of vertex i+2, and BFS starts at index 0 with a=[0]+a. Transcribed as index_bug; first fails row 2 (expected 0, model 4), passedTestCount 1.",
+        "sourceBytes": 741,
+        "sourceSha256": "6db0942c052f1a42f546ee514ec18dc0446049dfedc7bf03fc347b5e045aa5ea",
+        "submissionId": "126037219",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 33.0,
+        "review": "Python 3 TLE (not a WA). Leaf-climbing elimination with recursion per climbed edge; at best TLE/RecursionError on deep trees. Not used as algorithmic evidence.",
+        "sourceBytes": 4277,
+        "sourceSha256": "8eaaa7c505da5853a2727c39ea0fdef881db08a4d43a55cc529c962c36992bdd",
+        "submissionId": "161146068",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 3.0,
+        "review": "Python 3 WA. DEBUG=True but my_print is only reached from print_tree, which is never called, so no debug output. Iterative stack with distance_from_root (no reset) removing whole subtrees. root_distance model; first fails row 4, passedTestCount 3.",
+        "sourceBytes": 2935,
+        "sourceSha256": "0a91364c30896a8cfdb0432f90dc99fd7f82f9c641d8d1b5f971627d51422dcf",
+        "submissionId": "161217644",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 16.0,
+        "review": "Python 3 WA. Correct suffix update distances=max(dist, distances[v]+dist), but both traversal loops test `dist != -1` on the edge weight, so any c=-1 edge is treated as absent and its subtree is never counted. Transcribed as skip_minus_one. It first fails row 15 (expected 38, model 37: vertex 20 hangs from removed vertex 12 by the only c=-1 edge), while CF passedTestCount is 16. See officialReview.rowOrderNote.",
+        "sourceBytes": 1360,
+        "sourceSha256": "57e8b884a93e883454acc173945256f879a5d5b7dbb46d133f1d3820b0e5437b",
+        "submissionId": "161260901",
+        "verdict": "WRONG_ANSWER"
+      }
+    ],
+    "executed": false
+  },
+  "semantics": "n 1..10^5, a_i 1..10^9, n-1 lines \"p_i c_i\" with 1<=p_i<=n and -10^9<=c_i<=10^9 joining vertices i+1 and p_i into a tree rooted at 1 (public statement 10<sup>5</sup>/10<sup>9</sup>; row text flattened to 105/109). Leaf removal can delete any root-free subtree and nothing else, and a vertex u must go iff some ancestor v has dist(v,u)>a_u, so the answer is the size of the union of those subtrees: one integer, unique. Oracle: BFS from 1 with best suffix sum max(0,best(parent))+c; checked against exhaustive leaf-removal state search and a prefix-minimum reference.",
+  "statement": {
+    "comparison": "With tags stripped, the public div matches the row description, input/output format, the single example and the note sentence word for word. Differences: flattened superscripts (10^5 shown as 105, 10^9 as 109, i^th as ith) and subscripts (a_u as au, p_i as pi). stdio, 1 s, 256 MB, no interaction, no file I/O.",
+    "imageMissing": false,
+    "normalizationNeeded": true,
+    "normalizationProposal": {
+      "attestation": "10<sup class=\"upper-index\">5</sup>, 10<sup class=\"upper-index\">9</sup>",
+      "entry": {
+        "682C": [
+          [
+            "≤ 105)",
+            "≤ 10<sup>5</sup>)",
+            1
+          ],
+          [
+            "- 109 ≤",
+            "- 10<sup>9</sup> ≤",
+            1
+          ],
+          [
+            "≤ 109)",
+            "≤ 10<sup>9</sup>)",
+            2
+          ]
+        ]
+      },
+      "field": "input_format",
+      "note": "Counts verified against the row input_format: \"≤ 105)\" x1, \"- 109 ≤\" x1, \"≤ 109)\" x2 (a_i bound and c_i upper bound). Cosmetic, not proposed for the machine entry: \"ith\" is i<sup>th</sup> in the public statement.",
+      "target": "normalize_statement.MULTI_REPAIRS"
+    },
+    "noteImage": {
+      "bytes": 131298,
+      "content": "Viewed: six panels showing the sample tree and the removal of leaves 4, 2, 8, 6, 9 (five removals), matching sample output 5. Illustrative only; the statement text fully defines the problem, so the missing image in the row is not an exclusion.",
+      "png": "948x932",
+      "sha256": "c032d2c46080db574ebcfb09edb628eff72e8d4f7f405df9c2386dd30e926e11",
+      "url": "https://espresso.codeforces.com/fbd4615a8a78d87ad6306dedff36765ece0f2f17.png"
+    },
+    "publicSource": {
+      "attestedExcerpts": [
+        "(<span class=\"tex-span\">1 ≤ <i>n</i> ≤ 10<sup class=\"upper-index\">5</sup></span>)",
+        "(<span class=\"tex-span\">1 ≤ <i>a</i><sub class=\"lower-index\"><i>i</i></sub> ≤ 10<sup class=\"upper-index\">9</sup></span>)",
+        "<span class=\"tex-span\"> - 10<sup class=\"upper-index\">9</sup> ≤ <i>c</i><sub class=\"lower-index\"><i>i</i></sub> ≤ 10<sup class=\"upper-index\">9</sup>)</span>"
+      ],
+      "bodyBytes": 60145,
+      "bodySha256": "37869b65e66b97c4e17da109da1afd0cefa8a5dac74268ef9ad4d65b7f8bfe93",
+      "httpStatus": 200,
+      "method": "plain curl GET, Mozilla/5.0 UA",
+      "problemStatementDiv": {
+        "byteRange": [
+          36447,
+          41197
+        ],
+        "bytes": 4750,
+        "sha256": "fd9aea0dfbbf4f6ff35547c238fa247f8b33ae6984f28e93b4719290b179f682"
+      },
+      "url": "https://codeforces.me/problemset/problem/682/C?locale=en"
+    },
+    "rowText": "In the first line of the input integer n (1 ≤ n ≤ 105) is given — the number of vertices in the tree.\n\nIn the second line the sequence of n integers a1, a2, ..., an (1 ≤ ai ≤ 109) is given, where ai is the number written on vertex i.\n\nThe next n - 1 lines describe tree edges: ith of them consists of two integers pi and ci (1 ≤ pi ≤ n,  - 109 ≤ ci ≤ 109), meaning that there is an edge connecting vertices i + 1 and pi with number ci written on it."
+  },
+  "statementCopy": "pipeline/ratings-pools/1600/statement-sources/682C.recipe-author.original.html",
+  "tests": {
+    "assertionCallsIncludingUnittestInternalDispatch": 2183,
+    "command": "python3 -m unittest test_recipe_682C (from pipeline/ratings-pools/1600)",
+    "note": "test_brute_is_exhaustive_and_agrees re-runs brute_checks (19979 checks, two assert statements each).",
+    "topLevelAssertions": 936,
+    "unitTests": 10
+  }
+}
