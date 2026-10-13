@@ -35,6 +35,15 @@ SEMANTICS.update(expansion_recipes.SEMANTICS)
 SEMANTICS.update(second_expansion_recipes.SEMANTICS)
 SEMANTICS.update(third_expansion_recipes.SEMANTICS)
 
+BOUNDARY_CASES = {
+    '337C': {(2, 0, 2), (2, 2, 2)},
+    '343A': {(1, 1), (3, 2)},
+    '476C': {(1, 1), (2, 2)},
+    '678B': {(1000,), (2000,)},
+    '817C': {(1, 1), (12, 1)},
+    '992C': {(0, 0), (0, 10**18), (2, 0)},
+}
+
 
 def recipe(pid):
     return next(module for module in MODULES if pid in module.IDS)
@@ -121,6 +130,10 @@ def review_generated(pid, extra, prepared, generated):
             endpoints = recipe(pid).parse(pid, pair['input'])
             if endpoints in ((1, 1), (10**9, 10**9)):
                 coverage['boundary'].append({'test': name, 'reason': f'Exact global endpoint singleton range {endpoints[0]}..{endpoints[1]}.'})
+    if pid in BOUNDARY_CASES:
+        for name, pair in tests:
+            if recipe(pid).parse(pid, pair['input']) in BOUNDARY_CASES[pid]:
+                coverage['boundary'].append({'test': name, 'reason': 'Explicit minimum or exact arithmetic transition input, independently parsed and output-checked.'})
     write_json(BASE / 'coverage' / f'{pid}.json', coverage)
     print(generated, flush=True)
 
