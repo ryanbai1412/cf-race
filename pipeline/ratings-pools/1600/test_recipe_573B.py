@@ -201,7 +201,7 @@ class Recipe573BTests(unittest.TestCase):
         known = {
             'maximum n and heights: width-limited answer 50000': 50000,
             'maximum n with unit heights': 1,
-            'maximum n alternating unit/maximal towers': 1,
+            'maximum n alternating unit/maximal towers': 2,
             'maximum n exact pyramid peak 50000': 50000,
             'maximum n split by a central unit pair': 25000,
         }
