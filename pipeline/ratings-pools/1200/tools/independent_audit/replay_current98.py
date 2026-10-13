@@ -84,6 +84,9 @@ def main():
     bundle = next(item for item in originals if item['scope'] == 'builder-new38')
     nested = 0
     source_bindings = 0
+    selected_sources = {'1200/state/' + pid + '/sources/' + str(s['submissionId']) + '.json'
+                        for pid in read(b / 'parent-replay.json')['packages']
+                        for s in read(b / '1200/evidence' / (pid + '.json'))['submissions']}
     with tarfile.open(ROOT / bundle['path']) as outer:
         for member in members(outer):
             if not member.isfile() or not member.name.endswith('.tar.gz'):
@@ -96,7 +99,7 @@ def main():
                     if name.startswith(('1200/packages/', '1200/evidence/')) or ('/sources/' in name and name.startswith('1200/state/')):
                         data = tar.extractfile(inner).read()
                         assert (b / name).read_bytes() == data, name
-                        source_bindings += '/sources/' in name
+                        source_bindings += name in selected_sources
             nested += 1
     assert nested == 38 and source_bindings == 380
     print('IMMUTABLE BUILDER38 NESTED PACKAGES/EVIDENCE/380 SOURCES VERIFIED', flush=True)
@@ -165,7 +168,9 @@ def main():
         work = b if row['packagePath'].startswith('batch3/') else original
         package = ROOT / row['packagePath']
         assert digest(manifest(package)) == row['packageHash']
-        assert digest(read(ROOT / row['evidencePath'])) == row['evidenceHash']
+        evidence = read(ROOT / row['evidencePath'])
+        assert digest(evidence) == row['evidenceHash']
+        references = {str(s['submissionId']): s for s in evidence['submissions']}
         audit = read(ROOT / row['auditPath'])
         assert digest(audit) == row['auditHash'] and sha(ROOT / row['auditPath']) == row['auditFileSha256']
         assert not row['publicationApproved'] and not row['published']
@@ -174,7 +179,7 @@ def main():
             source = read(work / '1200/state' / row['id'] / 'sources' / (str(s['submissionId']) + '.json'))
             assert hashlib.sha256(source['code'].encode()).hexdigest() == s['sourceHash']
             sources += 1
-            wrong_sources += s['expected'] != 'OK'
+            wrong_sources += references[str(s['submissionId'])]['expected'] != 'OK'
             genuine += bool(s['algorithmicWrongCounts'])
         try:
             publication_gate(package, work, require_approval=False)
