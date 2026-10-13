@@ -2,7 +2,7 @@
   "id": "340C",
   "rating": 1600,
   "role": "recipe-author-only",
-  "status": "authored-pending-local-checks",
+  "status": "authored-local-checks-passed",
   "qualification": "Not qualified or independently audited. Parent must integrate, run distinct external accepted sources and genuinely algorithmic wrong sources in the pinned sandbox, and obtain a different-agent audit. This recipe contributes no independently validated problem count.",
   "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
   "branch": "devin/1791857110-340c-recipe",
@@ -48,9 +48,15 @@
     "copyPath": "statement-sources/340C.recipe-author.original.html",
     "copySha256": "0b1ae771cd7431b154863826d996a10689856c6390a3bd4a93ddcea36efae6fc",
     "copyBytes": 4744,
-    "copyByteRangeHalfOpen": [36995, 41739],
+    "copyByteRangeHalfOpen": [
+      36995,
+      41739
+    ],
     "copyMethod": "Byte-exact complete div.problem-statement element, including all paragraphs, constraints, sample and note; no HTML cleanup. Full page chrome omitted.",
-    "attestedMarkup": ["10<sup class=\"upper-index\">5</sup>", "10<sup class=\"upper-index\">7</sup>"],
+    "attestedMarkup": [
+      "10<sup class=\"upper-index\">5</sup>",
+      "10<sup class=\"upper-index\">7</sup>"
+    ],
     "normalizationProposal": [
       {
         "field": "input_format",
@@ -80,12 +86,49 @@
     "maximumCases": "Four legal n=100000 cases: low consecutive, descending high consecutive, two distant clusters and seeded unsorted wide unique coordinates.",
     "otherCoverage": "Minimum n and coordinate endpoints; no, partial and full gcd cancellation; unsorted and alternating gaps; translated/shuffled arithmetic progressions; multi-digit n; separated medium clusters; seeded small routes with uneven gaps.",
     "sourceMotivation": [
-      {"submissionIds": ["4384573", "4387281", "5348392"], "observation": "Selected WA sources apply sorted rank/gap formulas to unsorted input without sorting; descending/shuffled/alternating inputs exercise that issue."},
-      {"submissionIds": ["101667533", "101668384"], "observation": "Selected WA sources read n as int(line[0]); legal multi-digit n cases exercise truncated coordinate processing."},
-      {"submissionIds": ["74829280"], "observation": "Selected WA source uses 8*(last-first)+2*sum and n! denominator, rather than general all-pair expected distance; irregular n=4 and larger cases exercise this."}
+      {
+        "submissionIds": [
+          "4384573",
+          "4387281",
+          "5348392"
+        ],
+        "observation": "Selected WA sources apply sorted rank/gap formulas to unsorted input without sorting; descending/shuffled/alternating inputs exercise that issue.",
+        "sourceHashes": {
+          "4384573": "214f1914ce3e34925fca7f9341f55480206da95e05d3b6f06b9687fd3dd571f6",
+          "4387281": "4c5398c32039e015da9208312d5607109bcf958d2038f615117b050cb6d2d3a9",
+          "5348392": "a6c0d0874c80c9041427bb1c0e7502b90fb5dc2539e693ea454a7523897187a3"
+        }
+      },
+      {
+        "submissionIds": [
+          "101667533",
+          "101668384"
+        ],
+        "observation": "Selected WA sources read n as int(line[0]); legal multi-digit n cases exercise truncated coordinate processing.",
+        "sourceHashes": {
+          "101667533": "739701c872359829be8185770d4e4f6f4a158ce9a2abc054ffa0bbf0b05a9c07",
+          "101668384": "1f610a04cc406cb345ecd469a9e149c8f417526d6d3a908a382b4f71bfb678b0"
+        }
+      },
+      {
+        "submissionIds": [
+          "74829280"
+        ],
+        "observation": "Selected WA source uses 8*(last-first)+2*sum and n! denominator, rather than general all-pair expected distance; irregular n=4 and larger cases exercise this.",
+        "sourceHashes": {
+          "74829280": "a127884e34104ba3d6ce40b2d43ce7564786b7213c8926f6418ee72fab4f068a"
+        }
+      }
     ],
     "sourceInspectionOnly": "No selected program was compiled or executed. Motivation is not a qualification verdict or source-specific execution counterexample.",
-    "nonAlgorithmicCautions": "14494083 prints numerator/denominator with a slash, so presentation mismatch alone must not count. TLE-only failures of correct factorial/permutation/pair-enumeration sources must not count. No CRLF/debug/runtime-only failure is claimed as algorithmic proof."
+    "nonAlgorithmicCautions": "14494083 prints numerator/denominator with a slash, so presentation mismatch alone must not count. TLE-only failures of correct factorial/permutation/pair-enumeration sources must not count. No CRLF/debug/runtime-only failure is claimed as algorithmic proof.",
+    "actualCount": 160,
+    "categoryCounts": {
+      "boundary": 10,
+      "adversarial": 146,
+      "maxSize": 4
+    },
+    "canonicalSuiteHash": "75d0a948548bf89c9597faa5b1dfe2d2ffaaf41b7c944de0b221d80ec8887f42"
   },
   "upstreamSuite": {
     "officialAdvertised": 43,
@@ -95,15 +138,252 @@
     "generatedAdvertised": 12,
     "generatedSupplied": 0,
     "generatedRepresentation": "sourceRow.generated_tests is the integer 12, not input/output pairs; missing generated bytes were not invented.",
-    "failedOfficialOrSamplePairs": null,
-    "preservedMalformedPairs": null,
-    "reviewStatus": "pending local checks"
+    "failedOfficialOrSamplePairs": [],
+    "preservedMalformedPairs": [],
+    "reviewStatus": "All supplied official/sample pairs satisfy attested constraints and exact reduced oracle output; original CRLF input bytes preserved. No malformed pair or contradiction found.",
+    "pairReview": [
+      {
+        "name": "official/0000",
+        "inputSha256": "5cb74bc17f73ae3798b1a44e928236db667ea9ec7b5f0336e6c6d927b68b358f",
+        "outputSha256": "30ffdf6371a69b0f81bccabaa57ebd42a157ae6b75988730018faa9f3cae5710",
+        "n": 3,
+        "expected": [
+          22,
+          3
+        ],
+        "suppliedOutput": "22 3",
+        "status": "pass"
+      },
+      {
+        "name": "official/0001",
+        "inputSha256": "2fa3196f8763ba3d666786ad132036127041e9b68641ff08f112025449d64a74",
+        "outputSha256": "3bf4bcd5688bd2f7bc9fd04d47d249c4dbd18fb7f0108ca42836cde6b6b12c8d",
+        "n": 4,
+        "expected": [
+          547,
+          4
+        ],
+        "suppliedOutput": "547 4",
+        "status": "pass"
+      },
+      {
+        "name": "official/0002",
+        "inputSha256": "1344d64b3065a588a23296797c86bcb3751f2baa45868db85f0e9a33e7fc801c",
+        "outputSha256": "0d362e0954a0d499c75e1fdc67180e5c888534bc32f77629cda17e044c6b121e",
+        "n": 5,
+        "expected": [
+          35918,
+          5
+        ],
+        "suppliedOutput": "35918 5",
+        "status": "pass"
+      },
+      {
+        "name": "official/0003",
+        "inputSha256": "9576853ac88b538a425b505d91148038e0d152030172581dfb8d998f8c62af52",
+        "outputSha256": "cbefec5b3c072c5809d9fc7871905e78a9e465b612c745192ae90a3fe7dc67b5",
+        "n": 7,
+        "expected": [
+          255,
+          1
+        ],
+        "suppliedOutput": "255 1",
+        "status": "pass"
+      },
+      {
+        "name": "official/0004",
+        "inputSha256": "952f08eb8024d929f0a029fc370d3775c82c3f03065fe45fc5ec158452862733",
+        "outputSha256": "bc38ac5d7de5a9fa549bc5ab5eff2f9a66615ec064ae2b0c737c24f0e658fe48",
+        "n": 7,
+        "expected": [
+          139050619,
+          7
+        ],
+        "suppliedOutput": "139050619 7",
+        "status": "pass"
+      },
+      {
+        "name": "official/0005",
+        "inputSha256": "8652cbc5d2a55ba51f54476fa1bd5c4f5f47d747e6617f09d58c42aedc089c82",
+        "outputSha256": "c7702d25d598cc2944facf323ec1018dbf2fd5edcfeacacbaa4a97b08ce74318",
+        "n": 6,
+        "expected": [
+          114053569,
+          6
+        ],
+        "suppliedOutput": "114053569 6",
+        "status": "pass"
+      },
+      {
+        "name": "official/0006",
+        "inputSha256": "43b8e0f7b768f638912ab9b91c11b044701586ca4fc7af985f42736bdc73c9ad",
+        "outputSha256": "5ebcbd748f7231f7d7691e96b2c3e751bddbaed794df485d76c1a5c92ddbd1c1",
+        "n": 40,
+        "expected": [
+          644565018,
+          5
+        ],
+        "suppliedOutput": "644565018 5",
+        "status": "pass"
+      },
+      {
+        "name": "official/0007",
+        "inputSha256": "c0aa09eb2de9a8e4caec5150bea46777f287784f2047068d937de2c4cb8bd781",
+        "outputSha256": "95dce473ba0b6523d8e9bd2266d3b09b77bfe0a2d95043931ab9717b462e340a",
+        "n": 50,
+        "expected": [
+          812321046,
+          5
+        ],
+        "suppliedOutput": "812321046 5",
+        "status": "pass"
+      },
+      {
+        "name": "official/0008",
+        "inputSha256": "3163a004b8abf21fe3c9b58e0dcb84ad9cc58e926b6903d47e20c150b80a6b03",
+        "outputSha256": "7ad4b902092d90a361db8a90718f673444ac456daded1eae6a0b1efa75f9dd08",
+        "n": 2,
+        "expected": [
+          1860707,
+          1
+        ],
+        "suppliedOutput": "1860707 1",
+        "status": "pass"
+      },
+      {
+        "name": "official/0009",
+        "inputSha256": "2d4271888ae0d6e4e2edefb4da8dd2087f91fa8cb932a5d3fee70344836ae925",
+        "outputSha256": "e1a778f69b2314deaba8865f84072a416dc4f66a61e2b323873dbd50a3e86a56",
+        "n": 3,
+        "expected": [
+          15070247,
+          1
+        ],
+        "suppliedOutput": "15070247 1",
+        "status": "pass"
+      },
+      {
+        "name": "official/0010",
+        "inputSha256": "b14a73983338291becaa4150f8397ff68264aab490c30bf70c96c44cfaae81a3",
+        "outputSha256": "50d20b2ce97735c73fee18dacad80026f9912b2b0365a69f5010975743b04688",
+        "n": 3,
+        "expected": [
+          11623058,
+          1
+        ],
+        "suppliedOutput": "11623058 1",
+        "status": "pass"
+      },
+      {
+        "name": "official/0011",
+        "inputSha256": "a01cb0ab0d6537dd373bef5c652a92515cf495dec7ba411b5ec273dc25e20cee",
+        "outputSha256": "b30de5ed34bff5c967a03ea9bf4fa447be1d3ae568b12e2ed5df7790fd58e678",
+        "n": 3,
+        "expected": [
+          26664628,
+          3
+        ],
+        "suppliedOutput": "26664628 3",
+        "status": "pass"
+      },
+      {
+        "name": "official/0012",
+        "inputSha256": "7ba9cf436a731dcbb578fe6c74697e9dfade660b40bbd1ab9e9ac02f171a2443",
+        "outputSha256": "5df220481033971d009ef2bed861983fe129423f1170b6f77c345b44808a274a",
+        "n": 4,
+        "expected": [
+          10514045,
+          1
+        ],
+        "suppliedOutput": "10514045 1",
+        "status": "pass"
+      },
+      {
+        "name": "official/0013",
+        "inputSha256": "46df345f3010d9622fcd3fef921924617489d9be91c5f4dff91a0212dfb846ed",
+        "outputSha256": "7f7372fccc9943f6d5f819077378883391f042b59e696efe07cd75cce9acd28d",
+        "n": 4,
+        "expected": [
+          13389647,
+          2
+        ],
+        "suppliedOutput": "13389647 2",
+        "status": "pass"
+      },
+      {
+        "name": "official/0014",
+        "inputSha256": "822b14a3d939ac54c9688c859366b19d8b919a5f295239bf5d9f390b0ff119df",
+        "outputSha256": "4e4fd492a9ebdc75fe103850b1ea2b3000753e12ed15b24d32f1c9005d7d09d2",
+        "n": 5,
+        "expected": [
+          72470111,
+          5
+        ],
+        "suppliedOutput": "72470111 5",
+        "status": "pass"
+      },
+      {
+        "name": "official/0015",
+        "inputSha256": "47c0be20a43e0a8a6fffeb436ceae03437e87c0eff30c54b887c3ef99f9a16c1",
+        "outputSha256": "3d1153cdf2b3372f4028011a61b20f99e8b12ef12f19d27ede6e0333852b1901",
+        "n": 5,
+        "expected": [
+          77072026,
+          5
+        ],
+        "suppliedOutput": "77072026 5",
+        "status": "pass"
+      },
+      {
+        "name": "sample/0000",
+        "inputSha256": "c094a1b62deaab1d8a0fd9f321b89fe533ac187eb234bc76216b22bc5411ce4d",
+        "outputSha256": "30ffdf6371a69b0f81bccabaa57ebd42a157ae6b75988730018faa9f3cae5710",
+        "n": 3,
+        "expected": [
+          22,
+          3
+        ],
+        "suppliedOutput": "22 3",
+        "status": "pass"
+      }
+    ]
   },
   "localChecks": {
-    "status": "pending",
-    "bruteAssertions": null,
-    "targetedUnittest": null,
-    "astSyntax": null,
-    "diffCheck": null
+    "status": "passed",
+    "bruteAssertions": 1432,
+    "bruteAssertionBreakdown": {
+      "exhaustiveOrderedArrays": 320,
+      "combinationForwardReverse": 912,
+      "fixedSeedRandom": 200
+    },
+    "targetedUnittest": {
+      "command": "python3 -m unittest discover -s pipeline/ratings-pools/1600 -p test_recipe_340C.py -v",
+      "methodsPassed": 9,
+      "status": "passed"
+    },
+    "extraIndependentExpectedAnswerChecks": 160,
+    "extraReference": "Unsorted direct unordered-pair absolute differences for n<=200; gap multiplicities for the four maximum cases; Fraction reduction in both references.",
+    "suppliedOfficialSampleReviews": 17,
+    "suppliedSmallLiteralRouteAssertions": 15,
+    "astSyntax": {
+      "files": [
+        "recipe_340C.py",
+        "test_recipe_340C.py"
+      ],
+      "status": "passed"
+    },
+    "diffCheck": {
+      "command": "git diff 5b28d33 --check",
+      "status": "passed"
+    },
+    "crossProcessDeterminism": {
+      "pythonHashSeeds": [
+        1,
+        987
+      ],
+      "canonicalSuiteHash": "75d0a948548bf89c9597faa5b1dfe2d2ffaaf41b7c944de0b221d80ec8887f42",
+      "status": "passed"
+    },
+    "publicProgramsExecuted": 0
   }
 }
