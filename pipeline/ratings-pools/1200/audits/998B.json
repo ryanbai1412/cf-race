@@ -1,0 +1,591 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "07a0edacd5ec42dfdcaf16606d71f2cdfb63c49e895d0e1cefef5bf93132f148",
+  "genuineAlgorithmicIncorrect": 5,
+  "id": "998B",
+  "incorrectAnalysis": {
+    "39837450": {
+      "kind": "wrong-answer",
+      "reason": "Line 17 uses strict cost < b, rejecting a cut whose cost equals the remaining budget. Proof: included LF test 0018 -> '0', correct '1'.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "0\n",
+          "actualOutputSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "alternateToRecordedFailedTest": false,
+          "constraints": "2<=n<=100, B<=100",
+          "correctAnswer": "1",
+          "derivation": "Candidate cuts: positions i (1<=i<n) where prefix has equal odd/even counts; cost |a_i - a_{i+1}|. Sort candidate costs and take the cheapest while the total stays <= B. Test 0018 (n=100, B=1, 1..100): balanced prefixes at even i, each cost 1 <= B=1 -> 1 cut. Source 0.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.012587999999999998,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+            "path": "archive/998B/sub-39837450-lf.json",
+            "sha256": "86affa1ccb8cad807b053e6fb77cb49de588527667890e4deaba6f96943cb355",
+            "sourceBinding": "log produced by tools/rerun.py from 998B/sources (sha256 ffb0d27cf796a6c9e10ae6e00238eae2d9225fa29056cba046fc08e543cf5e02 == evidence sourceHash); logs do not embed source text",
+            "test": "0018",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "LF-normalized audit copy of the recorded failedTest",
+          "originalTestSha256": "d7d352741f49d6ac20ffba810ec5a95d8097fb6dd3d5e192ae9696662319e05e",
+          "packageExpectedOutput": "1",
+          "test": "0018",
+          "validLFInput": "100 1\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100\n",
+          "validLFInputFile": "998B/counterexamples/39837450-0018.in",
+          "validLFInputSha256": "05b753136fa7971eceea03464e1ea176261a65e27189bfaf6497afaca87c030a"
+        },
+        "excludedNonAlgorithmicCauses": "None: LF WA.",
+        "faultyLogic": "Line 17 uses strict cost < b, rejecting a cut whose cost equals the remaining budget.",
+        "implementedAlgorithm": "Sorts all adjacent costs, accepts a cut if cost < remaining b and both sides are balanced.",
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/998B/source-39837450.txt",
+          "sha256": "ffb0d27cf796a6c9e10ae6e00238eae2d9225fa29056cba046fc08e543cf5e02"
+        },
+        "sourceHash": "ffb0d27cf796a6c9e10ae6e00238eae2d9225fa29056cba046fc08e543cf5e02",
+        "sourceLines": [
+          {
+            "code": "def main():\n    n, b = [int(i) for i in input().split(' ')]\n    a = [int(i) for i in input().split(' ')]\n\n    a_ = []\n    for i in range(n):\n        a_.append(1 if a[i] % 2 == 0 else -1)\n\n    diff = []\n    for i in range(n-1):\n        diff.append((i, abs(a[i] - a[i+1])))\n        \n    diff.sort(key=lambda x: x[1])\n\n    ans = 0\n    for i in range(n-1):\n        if diff[i][1] < b and sum(a_[:diff[i][0]+1]) == 0 and sum(a_[diff[i][0]+1:]) == 0:\n            ans += 1\n            b -= diff[i][1]\n    \n    \n    print(ans)",
+            "end": 22,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0018"
+    },
+    "39840126": {
+      "kind": "wrong-answer",
+      "reason": "Line 20 strict b > cost filter excludes cuts costing exactly B. Proof: included LF test 0018 -> '0', correct '1'.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "0\n",
+          "actualOutputSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "alternateToRecordedFailedTest": false,
+          "constraints": "valid",
+          "correctAnswer": "1",
+          "derivation": "Candidate cuts: positions i (1<=i<n) where prefix has equal odd/even counts; cost |a_i - a_{i+1}|. Sort candidate costs and take the cheapest while the total stays <= B. Test 0018 -> 1. Source 0.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.017298,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+            "path": "archive/998B/sub-39840126-lf.json",
+            "sha256": "98795d4c6ed1486ea0b584f943eae4c790b77a8155d595af17a19c7f22903a53",
+            "sourceBinding": "log produced by tools/rerun.py from 998B/sources (sha256 bc6baff7456d8d767a6e83e2864daac219c5856d68ddffcada819fe916becd2c == evidence sourceHash); logs do not embed source text",
+            "test": "0018",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "LF-normalized audit copy of the recorded failedTest",
+          "originalTestSha256": "d7d352741f49d6ac20ffba810ec5a95d8097fb6dd3d5e192ae9696662319e05e",
+          "packageExpectedOutput": "1",
+          "test": "0018",
+          "validLFInput": "100 1\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100\n",
+          "validLFInputFile": "998B/counterexamples/39840126-0018.in",
+          "validLFInputSha256": "05b753136fa7971eceea03464e1ea176261a65e27189bfaf6497afaca87c030a"
+        },
+        "excludedNonAlgorithmicCauses": "None: LF WA.",
+        "faultyLogic": "Line 20 strict b > cost filter excludes cuts costing exactly B.",
+        "implementedAlgorithm": "Collects balanced positions with b > cost, sorts, takes while budget stays >= 0.",
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/998B/source-39840126.txt",
+          "sha256": "bc6baff7456d8d767a6e83e2864daac219c5856d68ddffcada819fe916becd2c"
+        },
+        "sourceHash": "bc6baff7456d8d767a6e83e2864daac219c5856d68ddffcada819fe916becd2c",
+        "sourceLines": [
+          {
+            "code": "n, b = getInputIntList()\n\narr = getInputIntList()\ncount = 0\neven = 0\nodd = 0\ncut = []\nfor i in range(1,n):\n\tif arr[i-1] % 2 == 0:\n\t\teven += 1\n\telse:\n\t\todd += 1\n\tif even == odd and i % 2 == 0 and b > abs(arr[i-1] - arr[i]):\n\t\tcut.append(abs(arr[i-1] - arr[i]))\n\ncut.sort()\nfor i in cut:\n\tb -= i\n\tif b >= 0:\n\t\tcount += 1\n\telse:\n\t\tbreak\nprint(count)",
+            "end": 30,
+            "start": 8
+          }
+        ]
+      },
+      "test": "0018"
+    },
+    "39843766": {
+      "kind": "wrong-answer",
+      "reason": "Line 18 breaks when m-cost <= 0, so spending exactly the budget is refused. Proof: included LF test 0018 -> '0', correct '1'.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "0\n",
+          "actualOutputSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "alternateToRecordedFailedTest": false,
+          "constraints": "valid",
+          "correctAnswer": "1",
+          "derivation": "Candidate cuts: positions i (1<=i<n) where prefix has equal odd/even counts; cost |a_i - a_{i+1}|. Sort candidate costs and take the cheapest while the total stays <= B. Test 0018 -> 1. Source 0.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.012145999999999999,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+            "path": "archive/998B/sub-39843766-lf.json",
+            "sha256": "9f32327ca812a75889ec323a0c6882eb35f62e50dc3822645903f409a31d84cb",
+            "sourceBinding": "log produced by tools/rerun.py from 998B/sources (sha256 6253a59e96caf4c2c6fceb7bad7bc05d51a51eda52c35004729184e4f22220e0 == evidence sourceHash); logs do not embed source text",
+            "test": "0018",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "LF-normalized audit copy of the recorded failedTest",
+          "originalTestSha256": "d7d352741f49d6ac20ffba810ec5a95d8097fb6dd3d5e192ae9696662319e05e",
+          "packageExpectedOutput": "1",
+          "test": "0018",
+          "validLFInput": "100 1\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100\n",
+          "validLFInputFile": "998B/counterexamples/39843766-0018.in",
+          "validLFInputSha256": "05b753136fa7971eceea03464e1ea176261a65e27189bfaf6497afaca87c030a"
+        },
+        "excludedNonAlgorithmicCauses": "None: LF WA.",
+        "faultyLogic": "Line 18 breaks when m-cost <= 0, so spending exactly the budget is refused.",
+        "implementedAlgorithm": "Collects costs at balanced prefixes, sorts, takes while m-cost > 0.",
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/998B/source-39843766.txt",
+          "sha256": "6253a59e96caf4c2c6fceb7bad7bc05d51a51eda52c35004729184e4f22220e0"
+        },
+        "sourceHash": "6253a59e96caf4c2c6fceb7bad7bc05d51a51eda52c35004729184e4f22220e0",
+        "sourceLines": [
+          {
+            "code": "n,m = map(int,input().split())\nls = list(map(int,input().split()))\nbls=list()\nod=0\nev=0\nfor i in range(n):\n    if(ls[i]%2):od+=1\n    else:ev+=1\n    if(ev==od):\n        if(i+1!=n):bls.append(abs(ls[i]-ls[i+1]))\nln = len(bls)\nif ln==0:\n    print(0)\nelse:\n    bls = sorted(bls)\n    c=0\n    for i in range(ln):\n        if(m-bls[i]<=0):break\n        c+=1\n        m-=bls[i]\n    print(c)",
+            "end": 21,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0018"
+    },
+    "39846836": {
+      "kind": "wrong-answer",
+      "reason": "Line 19 uses the wrong cost (segment endpoints, not the two elements adjacent to the cut) and line 18 adds a non-existent cut after the last element. Proof: included LF test 0003 -> '3', correct '2'.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "3\n",
+          "actualOutputSha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+          "alternateToRecordedFailedTest": false,
+          "constraints": "valid",
+          "correctAnswer": "2",
+          "derivation": "Candidate cuts: positions i (1<=i<n) where prefix has equal odd/even counts; cost |a_i - a_{i+1}|. Sort candidate costs and take the cheapest while the total stays <= B. '6 100 / 1 2 3 4 5 6': cuts after 2 and 4, costs 1,1 -> 2. Source records 3 segments -> 3.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.012505,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+            "path": "archive/998B/sub-39846836-lf.json",
+            "sha256": "4bb2debba07d0d2cf3649e1b9ed1b542be12246dcd21ab3cca86d59fc941b0cf",
+            "sourceBinding": "log produced by tools/rerun.py from 998B/sources (sha256 dd4537722dff9ef478b655a2550e95685678a3a215297d249a57184ecdbe6494 == evidence sourceHash); logs do not embed source text",
+            "test": "0003",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "LF-normalized audit copy of the recorded failedTest",
+          "originalTestSha256": "04a5bd4f87e9f84238839ca797efcb3773918bd0100098b3cbd9b42e02eda082",
+          "packageExpectedOutput": "2",
+          "test": "0003",
+          "validLFInput": "6 100\n1 2 3 4 5 6\n",
+          "validLFInputFile": "998B/counterexamples/39846836-0003.in",
+          "validLFInputSha256": "f0f092774a72c3de83c4d619c16b8255f0b2800a997bb86deb5883781290ab23"
+        },
+        "excludedNonAlgorithmicCauses": "None: LF WA.",
+        "faultyLogic": "Line 19 uses the wrong cost (segment endpoints, not the two elements adjacent to the cut) and line 18 adds a non-existent cut after the last element.",
+        "implementedAlgorithm": "Resets counters at each balanced segment and records cost |a[i]-a[s]| (segment end minus segment start), including the final segment when s!=0.",
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/998B/source-39846836.txt",
+          "sha256": "dd4537722dff9ef478b655a2550e95685678a3a215297d249a57184ecdbe6494"
+        },
+        "sourceHash": "dd4537722dff9ef478b655a2550e95685678a3a215297d249a57184ecdbe6494",
+        "sourceLines": [
+          {
+            "code": "n,m=map(int,input().split())\na=list(map(int,input().split()))\nodd=0\neven=0\ns=-1\nb=[]\nfor i in range(n):\n\tif(a[i]%2):\n\t\tif(s==-1):\n\t\t\ts=i\n\t\todd+=1\n\telse:\n\t\tif(s==-1):\n\t\t\ts=i\n\t\teven+=1\n\tif(odd==even):\n\t\t# print(i,s)\n\t\tif(i!=n-1 or s!=0):\n\t\t\tb.append(abs(a[i]-a[s]))\n\t\todd=0\n\t\teven=0\n\t\ts=-1\n# print(b)\nb.sort()\nans=0\ns=0\nfor i in b:\n\tif(s+i<=m):\n\t\tans+=1\n\t\ts+=i\n\telse:\n\t\tbreak\nprint(ans)",
+            "end": 33,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0003"
+    },
+    "39849324": {
+      "kind": "wrong-answer",
+      "reason": "Lines 10-30 test parity of SUMS instead of counts of odd/even elements and do not pick cheapest cuts first. Proof: included LF test 0008 -> '3', correct '2'.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "3\n",
+          "actualOutputSha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+          "alternateToRecordedFailedTest": false,
+          "constraints": "valid",
+          "correctAnswer": "2",
+          "derivation": "Candidate cuts: positions i (1<=i<n) where prefix has equal odd/even counts; cost |a_i - a_{i+1}|. Sort candidate costs and take the cheapest while the total stays <= B. Test 0008 (n=100, B=10): balanced prefixes give 20 candidate cuts with sorted costs 1,5,8,17,...; 1+5=6<=10, 6+8=14>10 -> 2. Source prints 3.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.011989,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+            "path": "archive/998B/sub-39849324-lf.json",
+            "sha256": "ed1105c130661c6b0171df54ca11b8248d869398e7310455490da6b5d010ad62",
+            "sourceBinding": "log produced by tools/rerun.py from 998B/sources (sha256 e7216737455ebe7a07259ee294e25ea2567f3bfa2887cffb481f014cdc87f486 == evidence sourceHash); logs do not embed source text",
+            "test": "0008",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "LF-normalized audit copy of the recorded failedTest",
+          "originalTestSha256": "bf4f77e9b4833ed731fe63ddf9079953cc6c468e3a2d9d9782a6574b56efefbd",
+          "packageExpectedOutput": "2",
+          "test": "0008",
+          "validLFInput": "100 10\n3 20 3 29 90 69 2 30 70 28 71 99 22 99 34 70 87 48 3 92 71 61 26 90 14 38 51 81 16 33 49 71 14 52 50 95 65 16 80 57 87 47 29 14 40 31 74 15 87 76 71 61 30 91 44 10 87 48 84 12 77 51 25 68 49 38 79 8 7 9 39 19 48 40 15 53 29 4 60 86 76 84 6 37 45 71 46 38 80 68 94 71 64 72 41 51 71 60 79 7\n",
+          "validLFInputFile": "998B/counterexamples/39849324-0008.in",
+          "validLFInputSha256": "ec2170aba7afebeb7bc188874bee56442070cca908b753a46d32dab97ed2c01f"
+        },
+        "excludedNonAlgorithmicCauses": "None: LF WA.",
+        "faultyLogic": "Lines 10-30 test parity of SUMS instead of counts of odd/even elements and do not pick cheapest cuts first.",
+        "implementedAlgorithm": "Uses parity of value sums of prefix/suffix (sum%2 and (l-i)%4) to decide balance and spends budget in position order.",
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/998B/source-39849324.txt",
+          "sha256": "e7216737455ebe7a07259ee294e25ea2567f3bfa2887cffb481f014cdc87f486"
+        },
+        "sourceHash": "e7216737455ebe7a07259ee294e25ea2567f3bfa2887cffb481f014cdc87f486",
+        "sourceLines": [
+          {
+            "code": "n,k  = map(int,input().split(' '))\na = list(map(int,input().split()))\n\nc = 0\nl = 0\ns1 = 0\ns2 = 0\nc1 = 0\nc2 = 0\nfor i in range(2,n,2):\n    s1 = sum(a[l:i])%2\n    s2 = sum(a[i:])%2\n    if (l-i)%4 != 0:\n        if s1 == 1:\n            c1 = 1\n    else:\n        if s1==0:\n            c1 = 1\n    if (n-i)%4 !=0:\n        if s2 == 1:\n            c2 = 1\n    else:\n        if s2==0:\n            c2 = 1\n    if c1==1 and c2==1:\n        if i<n-1:\n            if abs(a[i]-a[i-1])<=k:\n                c+=1\n                l = i\n                k = k-abs(a[i]-a[i-1])\n    \n        \nprint(c)",
+            "end": 33,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0008"
+    }
+  },
+  "packageHash": "70cdeb1422434b6af4b88cfacbf76acb126821973f0b03d54578c3b8d80bd8f2",
+  "preAuditBaseline": "no prior audit file existed for this ID at builder head d11faff5",
+  "qualificationBasis": "generated",
+  "rating": 1200,
+  "reasons": [],
+  "referenceAlgorithm": "cuts at balanced prefixes, cost |a_i-a_{i+1}|; take cheapest while total <= B",
+  "reviewUrl": "https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4",
+  "reviewer": "devin-21803116a99741d7a7672cde5aff36d4 (independent rating1200 auditor, https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4)",
+  "schemaVersion": 1,
+  "semanticReviewPerformed": "Source-specific semantic review of all 5 designated-wrong sources from the start (full code read by hand, exact lines, mathematical derivation, normal-exit LF proof bound to fresh executionVersion2 sandbox logs).",
+  "verification": {
+    "archiveFilesAllMatchProvenance": true,
+    "archiveSha256": "e5db2545399809998b366473a96eff3644d867afea1c351b615c702425674c7a",
+    "auditorExtraTests": {
+      "accepted": {
+        "39824083": "AC",
+        "39824828": "AC",
+        "39824985": "AC",
+        "39825064": "AC",
+        "39825128": "AC"
+      },
+      "count": 404,
+      "expectedFrom": "auditor-authored brute force/exhaustive enumeration (tools/extra.py), not the generator formula",
+      "oracle": "AC",
+      "testsJsonSha256": "8e1ddabf39524be65545f4496adb03a052fa40df3d3aa60291c4d8134ec6ceae"
+    },
+    "bruteVsPackage": {
+      "checked": 158,
+      "constraintViolations": [],
+      "crlfInputs": 34,
+      "mismatches": []
+    },
+    "builderBranchCommit": "d11faff5231965a95044873c99042e2bec7bae2d",
+    "bundleSha256": "fd7665582d7f84a4af7e83ac2c4de81621b65e26d2b9a00c078e054eb54e47d1",
+    "coverageClaims": {
+      "adversarial": [
+        {
+          "reason": "cuts too expensive",
+          "test": "0037"
+        },
+        {
+          "reason": "no balanced prefix",
+          "test": "0038"
+        }
+      ],
+      "boundary": [
+        {
+          "reason": "n=2",
+          "test": "0035"
+        },
+        {
+          "reason": "B=100 n=100 alternating",
+          "test": "0036"
+        }
+      ],
+      "checkerSemantics": "Single integer; unique, exact token comparison.",
+      "inputConstraints": "Every supplied pair (34 upstream supplementary + 121 authored) was executed by the independently authored oracle (independent-oracle-session https://staging.itsdev.in/sessions/6df3b1aecd144341b47364542915b70a), which strictly validates all statement constraints and exits nonzero on violation, and reproduced the expected output under the problem limits in the bounded sandbox (qualification/oracle.json). Authored inputs come from pipeline/problems/998B/recipe.py cases().",
+      "maxSize": [
+        {
+          "reason": "n=100 random B=100",
+          "test": "0039"
+        },
+        {
+          "reason": "n=100 B=1",
+          "test": "0040"
+        }
+      ],
+      "packageHash": "70cdeb1422434b6af4b88cfacbf76acb126821973f0b03d54578c3b8d80bd8f2",
+      "statementComplete": "Legend (cuts between balanced prefixes cost |ai-ai+1|, budget B), input (2<=n<=100, 1<=B<=100, 1<=ai<=100, equal evens/odds), output present."
+    },
+    "generator": {
+      "authoredInPackage": 121,
+      "count": 121,
+      "distinct": 121,
+      "equalsPackageAuthored": true,
+      "hashes": [
+        "98f7b6391f2f108e9d74ee4711ee888b603fda7ba70ae438189d926350781bc8",
+        "98f7b6391f2f108e9d74ee4711ee888b603fda7ba70ae438189d926350781bc8"
+      ],
+      "identical": true,
+      "matchesRecorded": true,
+      "pairsDigest": "84f486673a095d5cfbba6cf8b74d820620e27d5ed9d58d73c51fb5a3d25de1d5",
+      "pairsDigestMatches": true
+    },
+    "manifestEqualsEvidenceAndProvenanceFiles": true,
+    "oracle": {
+      "byteExact": 121,
+      "compiled": true,
+      "failedTest": null,
+      "hashesMatchRecorded": true,
+      "maxCpu": 0.15890199999999988,
+      "seconds": 15.4,
+      "testsRun": 158,
+      "verdict": "AC"
+    },
+    "sandbox": {
+      "compilerFlags": [
+        "-O2",
+        "-std=c++17",
+        "-DONLINE_JUDGE"
+      ],
+      "executionVersion": 2,
+      "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+      "network": "none",
+      "runner": "pipeline/pool_sandbox.run (read-only, nonroot 65534, cap-drop ALL, no-new-privileges)"
+    },
+    "sourceVerification": "bundled state/ID/sources code sha256 == evidence sourceHash == batch3 proof manifest; upstream pinned bytes verified separately by parent (upstream-verification.json bd5533e5...), not re-downloaded here",
+    "submissions": {
+      "39824083": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "9cb56e009133192c9206d292f90dfe5881aa6af43d3b9dbdd9ddc4c1c72fbb25",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/998B/sub-39824083.json",
+          "sha256": "705d6933b61aaa444c6dd0373c177d8be89260cece8e0a2ea1aeb8ab0f7e9c38"
+        },
+        "language": "GNU C++11",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "14261359b3bf61c636b9319409de9b085bb61063602e391c347883aa9aaa221c",
+        "verdictMatches": true
+      },
+      "39824828": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "9cb56e009133192c9206d292f90dfe5881aa6af43d3b9dbdd9ddc4c1c72fbb25",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/998B/sub-39824828.json",
+          "sha256": "1323cb36872923cccee16b65f9993fc425d8ffbf3bf8e8aad7feb304b8fbb6b5"
+        },
+        "language": "C++14 (GCC 6-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "657e1a62ea722db7f307d7fea81af4a723015334dd67f87f9576c90c9180f4a2",
+        "verdictMatches": true
+      },
+      "39824985": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "37143b47758ab972056307f97e044d7bdab30795647483d4ef603b86b4a30cdf",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/998B/sub-39824985.json",
+          "sha256": "a4e2977bf00271f51e7d74f253ea183a0ff68e6393eac0d1c3f7729f0bf3961e"
+        },
+        "language": "GNU C++",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "1a3b0ea4a47ea8bcc3d9d762a63ccae57c855937ba6780a127c7fd2652f61289",
+        "verdictMatches": true
+      },
+      "39825064": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "9cb56e009133192c9206d292f90dfe5881aa6af43d3b9dbdd9ddc4c1c72fbb25",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/998B/sub-39825064.json",
+          "sha256": "3801f6a4ca4d38ceb7a541260ea4e5e30dffa2b0bc1b6776d925af6ffe58cf94"
+        },
+        "language": "C++14 (GCC 6-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "5eb64891d56c298a94f00d2bea26d0725f08742c0777afed7d8ec210df93ca17",
+        "verdictMatches": true
+      },
+      "39825128": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "9cb56e009133192c9206d292f90dfe5881aa6af43d3b9dbdd9ddc4c1c72fbb25",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/998B/sub-39825128.json",
+          "sha256": "a38e6adbac907b4331268f7d04d97a5a0c7c5cba5faa23ecfc127a65d32c6893"
+        },
+        "language": "GNU C++11",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "dcb162da9c8b0c32edc7f8395f099400ff23ad67e0623b87b4044f21d947df5b",
+        "verdictMatches": true
+      },
+      "39837450": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0018",
+        "freshOutcomeDigest": "0acd3041610be95398b172a1e45667d5da8556c2b9c273a76cd50e338b33e01c",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/998B/sub-39837450.json",
+          "sha256": "984fab38b726ab516e8edb4192460ff3f13ab9d0ff57fea3f0688c8568345cd2"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0018",
+        "recordedVerdict": "WA",
+        "sourceHash": "ffb0d27cf796a6c9e10ae6e00238eae2d9225fa29056cba046fc08e543cf5e02",
+        "verdictMatches": true
+      },
+      "39840126": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0018",
+        "freshOutcomeDigest": "416ad7e528d24e66bac74bdf6a4a52732d0485e55facf63fb81fae7ffd38238b",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/998B/sub-39840126.json",
+          "sha256": "aa5b684024f2ef619156c53bc873e3ea916b7ea76cd908b9abb99f6597050a62"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0018",
+        "recordedVerdict": "WA",
+        "sourceHash": "bc6baff7456d8d767a6e83e2864daac219c5856d68ddffcada819fe916becd2c",
+        "verdictMatches": true
+      },
+      "39843766": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0018",
+        "freshOutcomeDigest": "0acd3041610be95398b172a1e45667d5da8556c2b9c273a76cd50e338b33e01c",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/998B/sub-39843766.json",
+          "sha256": "d3374a2289cf20878d53da83ccc0c3e3afb60cb75434dd96285fe9e62aeeaac1"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0018",
+        "recordedVerdict": "WA",
+        "sourceHash": "6253a59e96caf4c2c6fceb7bad7bc05d51a51eda52c35004729184e4f22220e0",
+        "verdictMatches": true
+      },
+      "39846836": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0003",
+        "freshOutcomeDigest": "a42acdbb9f25862183a131ff94562ce5e832af02d6f210ee9f7b0097d27c4289",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/998B/sub-39846836.json",
+          "sha256": "30936f6234c9694cbcd0d5b780ebb776c158423ede4368bd72b2c9051ff16ae5"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0003",
+        "recordedVerdict": "WA",
+        "sourceHash": "dd4537722dff9ef478b655a2550e95685678a3a215297d249a57184ecdbe6494",
+        "verdictMatches": true
+      },
+      "39849324": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0008",
+        "freshOutcomeDigest": "e79baae85c2be8ed38559f8e94d77fd3b923779b4f5366dae26cf65b750f2f81",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/998B/sub-39849324.json",
+          "sha256": "d3e0bb2f80092b17de3c574908222a71dbefe05fc153661f8cfde996447de294"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0008",
+        "recordedVerdict": "WA",
+        "sourceHash": "e7216737455ebe7a07259ee294e25ea2567f3bfa2887cffb481f014cdc87f486",
+        "verdictMatches": true
+      }
+    }
+  }
+}
