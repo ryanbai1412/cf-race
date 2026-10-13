@@ -1,8 +1,10 @@
 """Pin candidate source defects for fresh external review, not validation."""
 import argparse
+import hashlib
 import json
 
 from correction_selection_batch02 import source_record
+from correction_triage import indexed_sources
 
 
 PROPOSALS = {
@@ -30,14 +32,16 @@ PROPOSALS = {
         ("53117043", "0001", "Counts rows of X's rather than a completely filled column, yielding legal but infeasible layouts."),
     ],
     "404A": [
-        ("80000612", "0004", "Checks rows without enforcing the diagonal/background constraints throughout the grid."),
-        ("80392064", "0007", "Accepts any palindrome grid without requiring two distinct uniform X letters."),
+        ("112183068", "0004", "Checks the main diagonal and only the anti-diagonal corners, rejecting a valid five-by-five X."),
+        ("112183228", "0007", "Allows the same letter on and outside the diagonals, accepting a uniform grid without two distinct letters."),
         ("80544707", "0007", "Accepts a symmetric grid without checking all off-diagonal cells and distinct letters."),
     ],
     "447B": [
-        ("7092647", "0002", "Appends character positions using k+1..2k, not len(s)+1..len(s)+k."),
-        ("7123806", "0001", "Sums letter weights without multiplying each by its one-based position."),
-        ("7151369", "0002", "Omits w from the alphabet-weight mapping, shifting the x/y/z weights."),
+        ("227179110", "0001", "Weights letters by alphabet index rather than string position and inserts distinct alphabet-weight products."),
+        ("227179620", "0001", "Omits original positions and inserts decreasing weights at positions starting from one rather than after the original string."),
+        ("227179868", "0001", "Adds repeated prefix totals while decrementing k instead of each inserted character's weighted position."),
+        ("227180045", "0001", "Consumes distinct descending weights rather than reusing the maximum for every inserted character."),
+        ("227180557", "0001", "Consumes a descending list of weights rather than reusing the maximum weight at each new position."),
     ],
     "620B": [
         ("15477405", "0003", "Incorrectly aggregates hundreds blocks' zero displays when counting seven-segment lights."),
@@ -51,7 +55,7 @@ PROPOSALS = {
         ("29043587", "0001", "Off-by-one in the derived group formula selects the wrong array value."),
     ],
     "725A": [
-        ("21760805", "0004", "Uses an incorrect reverse-index formula for trailing > direction count."),
+        ("21706346", "0003", "Changes n while scanning internal arrows instead of counting the two outward-facing edge runs."),
         ("21813767", "0001", "Adds the non-escaping middle to the escaping edge counts."),
         ("22053680", "0004", "Counts global arrow imbalance instead of outward-facing edge arrows."),
         ("22053848", "0004", "Counts global arrow imbalance instead of outward-facing edge arrows."),
@@ -59,6 +63,7 @@ PROPOSALS = {
     "742A": [
         ("145924089", "0002", "Uses the tens digit of n rather than n mod 4 for the final power of eight."),
         ("145924448", "0021", "Maps the exponent remainder to the wrong last digit."),
+        ("146252295", "0003", "Computes 8 to n mod 4, returning one rather than six for a positive multiple of four."),
     ],
     "777A": [
         ("24986339", "0005", "Treats rotating shell positions as an additive three-cycle instead of alternating swaps."),
@@ -73,13 +78,33 @@ PROPOSALS = {
         ("32317833", "0004", "Outputs the reverse-list index instead of the chosen canteen value."),
         ("32341376", "0004", "Tracks a repeated value's offset instead of the canteen requested latest."),
         ("32350638", "0001", "Initializes the minimum at minus one; no nonnegative last-seen index can replace it."),
-        ("32979247", "0003", "Reverses the text of each number rather than visit order, and defaults to one when none is found."),
+        ("32979247", "0002", "Reverses the text of the input and compares character offsets with canteen values instead of last-visit positions."),
     ],
     "990A": [
         ("39115520", "0006", "Compares arbitrary n to 2m rather than the nearest multiple of m."),
         ("39124800", "0011", "Multiplies m by increasing factors rather than finding the nearest multiple of m."),
     ],
 }
+
+
+EXCLUSIONS = {
+    "447B": {
+        "17606252": "Emits the extended letter string, not a numeric value witness.",
+        "34659469": "Emits the extended letter string, not a numeric value witness.",
+    },
+    "742A": {
+        "145923027": "Full original replay has a first TLE on exponent 999999999; not a normally terminating wrong-value witness.",
+    },
+}
+
+
+def exclusion_record(pid, sid, reason):
+    matches = [r for r in indexed_sources(pid) if str(r["submission_id"]) == sid]
+    if len(matches) != 1 or matches[0]["testset"] != "TESTS":
+        raise ValueError(f"unpinned prior reference: {pid}/{sid}")
+    row = matches[0]
+    return {"sourceHash": hashlib.sha256(row["source"].encode()).hexdigest(),
+            "publicVerdict": row["verdict"], "reason": reason}
 
 
 def main():
@@ -90,6 +115,12 @@ def main():
     for pid, entries in sorted(PROPOSALS.items()):
         refs = [source_record(pid, sid, witness, defect) for sid, witness, defect in entries]
         records[pid] = {**refs[0], "additionalReplacements": refs[1:]}
+        if pid in EXCLUSIONS:
+            records[pid]["excludePreviouslyClaimed"] = sorted(EXCLUSIONS[pid])
+            records[pid]["excludedPriorReferenceReasons"] = {
+                sid: exclusion_record(pid, sid, reason)
+                for sid, reason in EXCLUSIONS[pid].items()
+            }
     with open(args.output, "w") as output:
         json.dump(records, output, indent=2, sort_keys=True)
         output.write("\n")

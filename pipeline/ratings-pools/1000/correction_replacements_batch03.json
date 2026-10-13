@@ -78,9 +78,9 @@
   "404A": {
     "additionalReplacements": [
       {
-        "defect": "Accepts any palindrome grid without requiring two distinct uniform X letters.",
-        "sourceHash": "8ba269a83de4613be458dbdff0686fc5a37d72685b3dc2dfefe1b6d905953855",
-        "submissionId": "80392064",
+        "defect": "Allows the same letter on and outside the diagonals, accepting a uniform grid without two distinct letters.",
+        "sourceHash": "982d0201ff189cb87af7556a1739686c5d340955cfd346fe66dde0e1944d1a81",
+        "submissionId": "112183228",
         "test": "0007"
       },
       {
@@ -90,30 +90,58 @@
         "test": "0007"
       }
     ],
-    "defect": "Checks rows without enforcing the diagonal/background constraints throughout the grid.",
-    "sourceHash": "b37cd86855a7cd6ab45786e692d7356c83fd2d689c9441cdc94ce01ddefc4918",
-    "submissionId": "80000612",
+    "defect": "Checks the main diagonal and only the anti-diagonal corners, rejecting a valid five-by-five X.",
+    "sourceHash": "32b615c319a0640b063dd8ed2795fea33a67f89df90e202bc151b3ab9e8b5d1c",
+    "submissionId": "112183068",
     "test": "0004"
   },
   "447B": {
     "additionalReplacements": [
       {
-        "defect": "Sums letter weights without multiplying each by its one-based position.",
-        "sourceHash": "6b192556805e065eb0bef65e111bcb578282ab36fd6b558015667e5dce3401cb",
-        "submissionId": "7123806",
+        "defect": "Omits original positions and inserts decreasing weights at positions starting from one rather than after the original string.",
+        "sourceHash": "6cdf888b6ac853b8a1f068453050a3a8141bcb120824d425fbf80695fcb99448",
+        "submissionId": "227179620",
         "test": "0001"
       },
       {
-        "defect": "Omits w from the alphabet-weight mapping, shifting the x/y/z weights.",
-        "sourceHash": "6e3074ad48f90c08be467231cea4659179e123bdb1e145d63fadd86056f41738",
-        "submissionId": "7151369",
-        "test": "0002"
+        "defect": "Adds repeated prefix totals while decrementing k instead of each inserted character's weighted position.",
+        "sourceHash": "45a6f114df2c68a62db34fcb221da822dccca5a579d550a40f574c4ccf644045",
+        "submissionId": "227179868",
+        "test": "0001"
+      },
+      {
+        "defect": "Consumes distinct descending weights rather than reusing the maximum for every inserted character.",
+        "sourceHash": "ba858756207d7e50272673be317da4ed8de308f7dec9297ced28b28cb05e4994",
+        "submissionId": "227180045",
+        "test": "0001"
+      },
+      {
+        "defect": "Consumes a descending list of weights rather than reusing the maximum weight at each new position.",
+        "sourceHash": "04ef1c7e13dae48c9d908cfe2cc28ae76d2e42837f99949e8a5699e939105bab",
+        "submissionId": "227180557",
+        "test": "0001"
       }
     ],
-    "defect": "Appends character positions using k+1..2k, not len(s)+1..len(s)+k.",
-    "sourceHash": "38b3d22b366f5def341d069b4753d9e92b3a40371ca493bf6bcb3351dec58341",
-    "submissionId": "7092647",
-    "test": "0002"
+    "defect": "Weights letters by alphabet index rather than string position and inserts distinct alphabet-weight products.",
+    "excludePreviouslyClaimed": [
+      "17606252",
+      "34659469"
+    ],
+    "excludedPriorReferenceReasons": {
+      "17606252": {
+        "publicVerdict": "WRONG_ANSWER",
+        "reason": "Emits the extended letter string, not a numeric value witness.",
+        "sourceHash": "e417bb39c24ae6e8518a8992087cbbcaf76cb4519acb1fb8b00aabe855ee70be"
+      },
+      "34659469": {
+        "publicVerdict": "WRONG_ANSWER",
+        "reason": "Emits the extended letter string, not a numeric value witness.",
+        "sourceHash": "0d7e16e0a16b5aa8cf4e42d833a8d8d6558974b9675f04b35774cd8b01e6845c"
+      }
+    },
+    "sourceHash": "3617d1d47c6320918264e745fe9ae9c670f48f1de83a89e3ed74b567fd6e9517",
+    "submissionId": "227179110",
+    "test": "0001"
   },
   "620B": {
     "additionalReplacements": [
@@ -182,10 +210,10 @@
         "test": "0004"
       }
     ],
-    "defect": "Uses an incorrect reverse-index formula for trailing > direction count.",
-    "sourceHash": "674a280ffdb39982a2861cbb087f77485c5c489eacbdd35323524ad81eefe6b6",
-    "submissionId": "21760805",
-    "test": "0004"
+    "defect": "Changes n while scanning internal arrows instead of counting the two outward-facing edge runs.",
+    "sourceHash": "1906193d93baf7a97509c05dd3709148f282ddd666feb7399da11a14c57f9bee",
+    "submissionId": "21706346",
+    "test": "0003"
   },
   "742A": {
     "additionalReplacements": [
@@ -194,9 +222,25 @@
         "sourceHash": "7f4e3fc031eadde17b0fb1fa01c2ad21d590bbc6a4df19d91fdb3f7aa845e4f4",
         "submissionId": "145924448",
         "test": "0021"
+      },
+      {
+        "defect": "Computes 8 to n mod 4, returning one rather than six for a positive multiple of four.",
+        "sourceHash": "e3db500bf2ee97638eaa696fa8a5c26bf6924e0525bffced2d82dc342b02ab25",
+        "submissionId": "146252295",
+        "test": "0003"
       }
     ],
     "defect": "Uses the tens digit of n rather than n mod 4 for the final power of eight.",
+    "excludePreviouslyClaimed": [
+      "145923027"
+    ],
+    "excludedPriorReferenceReasons": {
+      "145923027": {
+        "publicVerdict": "TIME_LIMIT_EXCEEDED",
+        "reason": "Full original replay has a first TLE on exponent 999999999; not a normally terminating wrong-value witness.",
+        "sourceHash": "a1f90e463c838de221d45b6d698e7c9019cab6635617fb243485ca9e190feae0"
+      }
+    },
     "sourceHash": "53e1293db6a0e4e069cda76cadc49348ae3cbf7a7af9143e30cc35f693514bd5",
     "submissionId": "145924089",
     "test": "0002"
@@ -250,10 +294,10 @@
         "test": "0001"
       },
       {
-        "defect": "Reverses the text of each number rather than visit order, and defaults to one when none is found.",
+        "defect": "Reverses the text of the input and compares character offsets with canteen values instead of last-visit positions.",
         "sourceHash": "ef14907ca838d4e78ecd41670b698f5c4c555ea5f8d238ba9edaa285f026973c",
         "submissionId": "32979247",
-        "test": "0003"
+        "test": "0002"
       }
     ],
     "defect": "Outputs the reverse-list index instead of the chosen canteen value.",

@@ -131,7 +131,12 @@ def apply(pid, audit, replacement):
                    and (not r.get("algorithmicWrongAnswer") or str(r["submissionId"]) in excluded)]
     evidence = {**original, "submissions": reruns,
                 "excludedSubmissions": original["excludedSubmissions"] + [
-                    {"id": r["submissionId"], "reason": "rejected by independent algorithmic-WA audit", "sourceHash": r["sourceHash"]}
+                    {"id": r["submissionId"], "sourceHash": r["sourceHash"],
+                     "reason": ("conservatively excluded by builder; fresh independent review required: "
+                                + replacement.get("excludedPriorReferenceReasons", {})
+                                  .get(str(r["submissionId"]), {}).get("reason", "no genuine mathematical witness")
+                                if str(r["submissionId"]) in excluded
+                                else "rejected by prior independent algorithmic-WA audit")}
                     for r in old_invalid],
                 "status": "execution-passed", "acceptedContradiction": False,
                 "failurePointerPolicy": "Official-basis references may point to a later normally terminating mathematical witness; raw replay first failure remains in executionFirstFailedTest and state. Generated-basis references retain the first failure.",
