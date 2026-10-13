@@ -11622,6 +11622,50 @@
       },
       "observedVerdict": "WA",
       "reason": "Updates the maximum only inside the loop over later frequency groups. For n=1 the largest frequency group (5 in 0012) has no later group, so prints 4 rather than 5.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "4\n",
+          "actualOutputSha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+          "constraintValidity": "Included package test 0012; LF normalization changes only line delimiters, not tokens. 1<=n,m<=100 and every food type is in 1..100; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "5\n",
+          "existingLfExecutionLogPath": "fresh/1011B/counterexample-40806213.json",
+          "existingLfExecutionLogSha256": "d5471c5a1165072294f99672c2817c342a2baac7fc95c7e33efa53e748da4305",
+          "mathematicalDerivation": "At n=1 the maximum food frequency is type 60 with five packages (next largest type 69 has four). The one participant can eat type 60 for exactly five days; no type has six. The source reports four.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "d09099020a8c552c41dc05fc344dc6276d6a04b4f30babddd47441c9f0bbbbb7",
+            "verifiedSourceMetadataPath": "1200/state/1011B/sources/40806213.json",
+            "verifiedSourceMetadataSha256": "5386487a889206329ba78302a772be2151aef002e22113f6e86f3fa790f38854"
+          },
+          "testName": "0012",
+          "validLfInput": "1 100\n83 72 21 55 49 5 61 60 87 21 89 88 3 75 49 81 36 25 50 61 96 19 36 55 48 8 97 69 50 24 23 39 26 25 41 90 69 20 19 62 38 52 60 6 66 31 9 45 36 12 69 94 22 60 91 65 35 58 13 85 33 87 83 11 95 20 20 85 13 21 57 69 17 94 78 37 59 45 60 7 64 51 60 89 91 22 6 58 95 96 51 53 89 22 28 16 27 56 1 54\n",
+          "validLfInputSha256": "b2a294d8d23005f853f70eac297786c91ea21d1b2732f83f3b6a2c4820d9238f"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "The maximum is updated only inside the inner loop over groups AFTER the candidate group. When a maximum candidate comes from the last group and no later group exists, its feasible days are never recorded.",
+        "focusLines": [
+          {
+            "code": "for i in range(0,len(v)):\n    num=v[i]\n    for k in range(1,num+1):\n        c=0\n        c+=(num//k)\n        for j in range(i+1,len(v)):\n            c+=v[j]//k\n            if c>=n and k>maxa:\n                maxa=k",
+            "end": 28,
+            "start": 20
+          }
+        ],
+        "implementedAlgorithm": "Counts each food type, sorts its frequency, then tests candidate day counts k against how many floor(frequency/k) participants each group can feed.",
+        "sourceHash": "d09099020a8c552c41dc05fc344dc6276d6a04b4f30babddd47441c9f0bbbbb7",
+        "sourceLines": [
+          {
+            "code": "n,m=[int(x) for x in input().split()]\na=list(map(int,input().split()))\nif n==m:\n    print(1)\n    exit()\nd=dict()\nv=[]\nfor i in range(101):\n    d[i]=0\nfor i in range(m):\n    d[a[i]]+=1\nfor i in range(101):\n    if d[i]:\n        v.append(d[i])\nv.sort()\nmaxa=0\nif len(v)==1:\n    print(v[0]//n)\n    exit()\nfor i in range(0,len(v)):\n    num=v[i]\n    for k in range(1,num+1):\n        c=0\n        c+=(num//k)\n        for j in range(i+1,len(v)):\n            c+=v[j]//k\n            if c>=n and k>maxa:\n                maxa=k\n        \n        \nprint(maxa)",
+            "end": 31,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/1011B/sources/40806213.json",
+        "sourceMetadataSha256": "5386487a889206329ba78302a772be2151aef002e22113f6e86f3fa790f38854"
+      },
       "sourceHash": "d09099020a8c552c41dc05fc344dc6276d6a04b4f30babddd47441c9f0bbbbb7",
       "test": "0012",
       "timeout": false
@@ -11645,6 +11689,55 @@
       },
       "observedVerdict": "WA",
       "reason": "Initializes each type with one participant then increments once per requested participant, causing an off-by-one allocation. For n=m=100 and one type on 0007, prints 0 instead of 1.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "0\n",
+          "actualOutputSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "constraintValidity": "Included package test 0007; LF normalization changes only line delimiters, not tokens. 1<=n,m<=100 and every food type is in 1..100; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "1\n",
+          "existingLfExecutionLogPath": "fresh/1011B/counterexample-40813870.json",
+          "existingLfExecutionLogSha256": "fcba2e2e341f6c6502a2ed75b28c761949ebc6111be18fdfe4964ccde650ba9b",
+          "mathematicalDerivation": "All 100 food packages have type 1 and there are 100 participants. Allocate one distinct package of type 1 per participant: one day is feasible; two days would need 200 packages. The source reports zero.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "368c55b1eab1ada0eda9d56c9289c5a390446e595cc32c93f80f2da80fbe2669",
+            "verifiedSourceMetadataPath": "1200/state/1011B/sources/40813870.json",
+            "verifiedSourceMetadataSha256": "5d40ae8b6b24d22ad48094f8a3251790637bd0a98b5c4749948e3a37e834c69b"
+          },
+          "testName": "0007",
+          "validLfInput": "100 100\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n",
+          "validLfInputSha256": "ed1d8f5f87034c7c9c43faf33be87361b767955ba09d8a1fbf7d5fe980b9b38f"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "Initial ans is 1 for each type; after choosing the hundredth real participant from one group of 100, line 25 increments the look-ahead denominator to 101. Lines 26–28 reject when 100//101 is 0 even though all 100 participants each have one actual package; this premature feasibility test discards the valid one-day assignment.",
+        "focusLines": [
+          {
+            "code": "for i in range(len(l)):\n  ans.append(1)\n  f.append(0)\nwhile(n>0):\n  maxi=0\n  for i in range(1,len(l)):\n    if(l[i]//ans[i]>l[maxi]//ans[maxi]):\n      maxi=i\n  ans[maxi]=ans[maxi]+1\n  if(l[maxi]//ans[maxi]==0 and f[maxi]==1):\n    noans=1\n    break\n  f[maxi]=1",
+            "end": 29,
+            "start": 17
+          },
+          {
+            "code": "if(noans):\n  print(0)\nelse:\n  print(l[mini]//(ans[mini]-1))",
+            "end": 41,
+            "start": 38
+          }
+        ],
+        "implementedAlgorithm": "Greedily selects a food type by current quotient l[i]//ans[i], increments that type’s ans allocation for each participant, then reports l[mini]//(ans[mini]-1).",
+        "sourceHash": "368c55b1eab1ada0eda9d56c9289c5a390446e595cc32c93f80f2da80fbe2669",
+        "sourceLines": [
+          {
+            "code": "n,m=map(int,input().split())\nl=list(map(int,input().split()))\nz={}\nfor i in l:\n  if(i in z):\n    z[i]=z[i]+1\n  else:\n    z[i]=1\nl=list(z.values())\nl.sort(reverse=True)\nfor i in range(len(l)):\n  if(i>n):\n    l.pop()\nans=[]\nf=[]\nnoans=0\nfor i in range(len(l)):\n  ans.append(1)\n  f.append(0)\nwhile(n>0):\n  maxi=0\n  for i in range(1,len(l)):\n    if(l[i]//ans[i]>l[maxi]//ans[maxi]):\n      maxi=i\n  ans[maxi]=ans[maxi]+1\n  if(l[maxi]//ans[maxi]==0 and f[maxi]==1):\n    noans=1\n    break\n  f[maxi]=1\n  n=n-1\nmini=0\nfor i in range(len(l)):\n  if(f[i]==1):\n    if(l[mini]/(ans[mini]-1)>l[i]//(ans[i]-1)):\n      mini=i\n  else:\n    break\nif(noans):\n  print(0)\nelse:\n  print(l[mini]//(ans[mini]-1))",
+            "end": 41,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/1011B/sources/40813870.json",
+        "sourceMetadataSha256": "5d40ae8b6b24d22ad48094f8a3251790637bd0a98b5c4749948e3a37e834c69b"
+      },
       "sourceHash": "368c55b1eab1ada0eda9d56c9289c5a390446e595cc32c93f80f2da80fbe2669",
       "test": "0007",
       "timeout": false
@@ -11668,6 +11761,50 @@
       },
       "observedVerdict": "WA",
       "reason": "Candidate days use range(1,m), excluding the maximum feasible m. For n=m=1 with food type 100 on 0005 prints 0 instead of 1.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "0\n",
+          "actualOutputSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "constraintValidity": "Included package test 0005; LF normalization changes only line delimiters, not tokens. 1<=n,m<=100 and every food type is in 1..100; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "1\n",
+          "existingLfExecutionLogPath": "fresh/1011B/counterexample-40815402.json",
+          "existingLfExecutionLogSha256": "f28c2af30d62ba8cd56d09eb5fb0846f842710eaba9bbbd780f7cde5dad6d42d",
+          "mathematicalDerivation": "One participant and one package of type 100 can support exactly one day and cannot support two. The omitted range endpoint causes zero instead of one.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "8630d32e4a597708060889cb838060422943dc44c9f646b314c102eb2cdc5ff8",
+            "verifiedSourceMetadataPath": "1200/state/1011B/sources/40815402.json",
+            "verifiedSourceMetadataSha256": "8843f16125863784a8728136016362d02489a1f7783c76eb4364c5e2f88be27c"
+          },
+          "testName": "0005",
+          "validLfInput": "1 1\n100\n",
+          "validLfInputSha256": "bf33405df3f82e54dd5a38770b86223981f3e27429a7953686478d1630d72481"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "range(1,m) omits day m. For one participant and one package, the only possible nonzero day value is m=1, so the loop never executes.",
+        "focusLines": [
+          {
+            "code": "def main():\n\tn, m = read_ints()\n\ta = collections.Counter(read_ints())\n\tans = 0\n\tfor days in range(1, m):\n\t\tcan = 0\n\t\tfor k, v in a.items():\n\t\t\tcan += v // days\n\t\tif can >= n:\n\t\t\tans = days\n\tprint(ans)",
+            "end": 25,
+            "start": 15
+          }
+        ],
+        "implementedAlgorithm": "Counts packages per type and checks successive candidate day values against sum(frequency//days) >= n.",
+        "sourceHash": "8630d32e4a597708060889cb838060422943dc44c9f646b314c102eb2cdc5ff8",
+        "sourceLines": [
+          {
+            "code": "import itertools\nimport collections\nimport sys\nimport math\n\ninput = sys.stdin.readline\nread = lambda: input().rstrip()\nputs = sys.stdout.write\n\n\ndef read_ints():\n\tyield from map(int, read().split())\n\n\ndef main():\n\tn, m = read_ints()\n\ta = collections.Counter(read_ints())\n\tans = 0\n\tfor days in range(1, m):\n\t\tcan = 0\n\t\tfor k, v in a.items():\n\t\t\tcan += v // days\n\t\tif can >= n:\n\t\t\tans = days\n\tprint(ans)\n\n\nif __name__ == '__main__':\n\tmain()",
+            "end": 29,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/1011B/sources/40815402.json",
+        "sourceMetadataSha256": "8843f16125863784a8728136016362d02489a1f7783c76eb4364c5e2f88be27c"
+      },
       "sourceHash": "8630d32e4a597708060889cb838060422943dc44c9f646b314c102eb2cdc5ff8",
       "test": "0005",
       "timeout": false
@@ -11691,6 +11828,55 @@
       },
       "observedVerdict": "WA",
       "reason": "Searches food labels only over range(m), not the valid type domain 1..100. On 0004 all nine packages have label 42 and n=3, so ignores them and prints 0 instead of 3. The recorded test terminates normally; REs on other tests are not counted as proof.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "0\n",
+          "actualOutputSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "constraintValidity": "Included package test 0004; LF normalization changes only line delimiters, not tokens. 1<=n,m<=100 and every food type is in 1..100; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "3\n",
+          "existingLfExecutionLogPath": "fresh/1011B/counterexample-40834472.json",
+          "existingLfExecutionLogSha256": "f4549b239c00ea83549f3fdfd01d63f0ba78f4aef025ec04cfd79c6fec6389dd",
+          "mathematicalDerivation": "Three participants can each use three of the nine type-42 packages: three days, and a fourth would require 12 packages. The algorithm scans labels below b=9 and reports zero.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "dce12b0066b8eb3182354c7d17b259efc82ac54a7ddef6f510bc93e676b5e807",
+            "verifiedSourceMetadataPath": "1200/state/1011B/sources/40834472.json",
+            "verifiedSourceMetadataSha256": "40dc5c88bc159cccb11508078f1afa44c55eb0a2963cc1aa97b04e87a204a018"
+          },
+          "testName": "0004",
+          "validLfInput": "3 9\n42 42 42 42 42 42 42 42 42\n",
+          "validLfInputSha256": "29cf9940ddea5fbdb39537fa0e8be6d06062caf9563a7e4cb93d65a752a36ce7"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "It searches only the first b array indices, although valid food labels run from 1 to 100 independent of b. Packages numbered 42 with b=9 are ignored; the candidate c=3 is decremented to 0.",
+        "focusLines": [
+          {
+            "code": "'''\na,b = [int(i) for i in input().split()]\nmystr = input()\nstrarr = [ord(i)-96 for i in sorted(mystr)]\n\nminv = 50*26\nfor i in range(a):\n    count = 1\n    current = i\n    c= [strarr[i]]\n    for o in range(i+1,a):\n        if strarr[o] - strarr[current] >= 2:\n            count+=1\n            current = o\n            c.append(strarr[current])\n    if count >= b:\n        if sum(c[:b]) < minv:\n            minv = sum(c[:b])\n\nif minv == 50*26:\n    print(-1)\nelse:\n    print(minv)\n'''\n",
+            "end": 25,
+            "start": 1
+          },
+          {
+            "code": "a,b = [int(i) for i in input().split()]\narr = [int(i) for i in input().split()]\n\nc = int(b/a)\n\nd = [0]*100\n\nfor i in arr:\n    d[i] += 1\n\nsorted(d,key=lambda x:-x)\n\nwhile c > 0:\n    tmp = c\n    tmparr = [0]*b\n    for _ in range(a):\n        flag = False\n        for o in range(b):\n            if d[o]-tmparr[o] >= c:\n                tmparr[o] += c\n                flag = True\n                break\n        if flag == False:\n            c -= 1\n            break\n    if tmp == c:\n        break\nprint(c)",
+            "end": 53,
+            "start": 26
+          }
+        ],
+        "implementedAlgorithm": "The active block fills a fixed 100-slot frequency array and tries to greedily distribute c packages to a participants across type indices 0..b-1. The top block inside a triple-quoted string is an unrelated unexecuted solution.",
+        "sourceHash": "dce12b0066b8eb3182354c7d17b259efc82ac54a7ddef6f510bc93e676b5e807",
+        "sourceLines": [
+          {
+            "code": "'''\na,b = [int(i) for i in input().split()]\nmystr = input()\nstrarr = [ord(i)-96 for i in sorted(mystr)]\n\nminv = 50*26\nfor i in range(a):\n    count = 1\n    current = i\n    c= [strarr[i]]\n    for o in range(i+1,a):\n        if strarr[o] - strarr[current] >= 2:\n            count+=1\n            current = o\n            c.append(strarr[current])\n    if count >= b:\n        if sum(c[:b]) < minv:\n            minv = sum(c[:b])\n\nif minv == 50*26:\n    print(-1)\nelse:\n    print(minv)\n'''\n\na,b = [int(i) for i in input().split()]\narr = [int(i) for i in input().split()]\n\nc = int(b/a)\n\nd = [0]*100\n\nfor i in arr:\n    d[i] += 1\n\nsorted(d,key=lambda x:-x)\n\nwhile c > 0:\n    tmp = c\n    tmparr = [0]*b\n    for _ in range(a):\n        flag = False\n        for o in range(b):\n            if d[o]-tmparr[o] >= c:\n                tmparr[o] += c\n                flag = True\n                break\n        if flag == False:\n            c -= 1\n            break\n    if tmp == c:\n        break\nprint(c)",
+            "end": 53,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/1011B/sources/40834472.json",
+        "sourceMetadataSha256": "40dc5c88bc159cccb11508078f1afa44c55eb0a2963cc1aa97b04e87a204a018"
+      },
       "sourceHash": "dce12b0066b8eb3182354c7d17b259efc82ac54a7ddef6f510bc93e676b5e807",
       "test": "0004",
       "timeout": false
@@ -11714,6 +11900,50 @@
       },
       "observedVerdict": "WA",
       "reason": "The one-group branch always prints 1, ignoring participant demand. For n=100,m=1,type=1 on 0002 prints 1 instead of impossible 0. The recorded test terminates normally; REs on other tests are not counted as proof.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1\n",
+          "actualOutputSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "constraintValidity": "Included package test 0002; LF normalization changes only line delimiters, not tokens. 1<=n,m<=100 and every food type is in 1..100; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "0\n",
+          "existingLfExecutionLogPath": "fresh/1011B/counterexample-40835937.json",
+          "existingLfExecutionLogSha256": "026a062dcaae3e0bbef298d126c2a5323e59b2af4f7e1be78b84c35498e90903",
+          "mathematicalDerivation": "One package of type 1 cannot feed 100 participants even for one day. Maximum daily allocation is floor(1/100)=0, whereas the source unconditionally reports one from its lone group.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "01065616dd5aff9eeecd84b529220acfa115097a84fcdcb8aa297e67646ce8d6",
+            "verifiedSourceMetadataPath": "1200/state/1011B/sources/40835937.json",
+            "verifiedSourceMetadataSha256": "05ae244116cba75f944780bd8b8cf4010a8082d9c4734c82b38deace524c0692"
+          },
+          "testName": "0002",
+          "validLfInput": "100 1\n1\n",
+          "validLfInputSha256": "55d80a73badc262c2a50b32b74441954993634af37072f2db9393c1c603ac934"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "The first element is the label instead of a count, the last run is never reliably appended, and the len(l)==1 branch unconditionally prints one. A single package cannot feed 100 participants for one day.",
+        "focusLines": [
+          {
+            "code": "a.sort()\nl=[]\nz=[]\ncounter=1\nl.append(a[0])\nfor i in range(m):\n    if i == 0:\n        continue\n    if i==m-1 and len(l)==0:\n        l.append(counter+1)\n        break\n    if a[i]==a[i-1]:\n        counter+=1\n    else:\n        l.append(counter)\n        counter=1\nif len(l)==1:\n    print(1)\nif len(l)==0:\n    print(0)\nif len(l)>1:\n    for i in range(n):\n        z.append(max(l))\n        l.remove(max(l))\n    print(sum(z)//n)",
+            "end": 27,
+            "start": 3
+          }
+        ],
+        "implementedAlgorithm": "Sorts food labels, builds an l vector seeded with the first label, appends some run lengths on transitions, and averages the n largest entries if multiple groups remain.",
+        "sourceHash": "01065616dd5aff9eeecd84b529220acfa115097a84fcdcb8aa297e67646ce8d6",
+        "sourceLines": [
+          {
+            "code": "n,m=list(map(int,input().split()))\na=list(map(int,input().split()))\na.sort()\nl=[]\nz=[]\ncounter=1\nl.append(a[0])\nfor i in range(m):\n    if i == 0:\n        continue\n    if i==m-1 and len(l)==0:\n        l.append(counter+1)\n        break\n    if a[i]==a[i-1]:\n        counter+=1\n    else:\n        l.append(counter)\n        counter=1\nif len(l)==1:\n    print(1)\nif len(l)==0:\n    print(0)\nif len(l)>1:\n    for i in range(n):\n        z.append(max(l))\n        l.remove(max(l))\n    print(sum(z)//n)",
+            "end": 27,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/1011B/sources/40835937.json",
+        "sourceMetadataSha256": "05ae244116cba75f944780bd8b8cf4010a8082d9c4734c82b38deace524c0692"
+      },
       "sourceHash": "01065616dd5aff9eeecd84b529220acfa115097a84fcdcb8aa297e67646ce8d6",
       "test": "0002",
       "timeout": false

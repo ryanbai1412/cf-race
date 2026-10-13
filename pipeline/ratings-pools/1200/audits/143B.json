@@ -17474,6 +17474,50 @@
       },
       "observedVerdict": "WA",
       "reason": "Builds the integer digits from range(1,len(integer)+1), not the actual digits. On 2012 in 0001 prints $12,345.00 instead of $2,012.00.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "$1,234.00\n",
+          "actualOutputSha256": "c2a796eaefdbe6383700044d3e9e417fe37da7baeca0e6b31bd8e8c066d39686",
+          "constraintValidity": "Included package test 0001; LF normalization changes only line delimiters, not tokens. one signed/unsigned decimal notation with at most 100 characters, legal integer and fractional syntax; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "$2,012.00",
+          "existingLfExecutionLogPath": "fresh/143B/counterexample-12010010.json",
+          "existingLfExecutionLogSha256": "c232ccca6fe3fa85f22b5703a1e910d65bde942441ba7e53ceec5f0129fa8446",
+          "mathematicalDerivation": "The input 2012 has actual integer digits 2,0,1,2; grouping gives $2,012.00. The source groups enumerated positions 1,2,3,4 and outputs $1,234.00 after LF normalization.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "16d23fd1b0d84e87ab027d592ba02c1a794a45c5ac61d981d15123b474041305",
+            "verifiedSourceMetadataPath": "1200/state/143B/sources/12010010.json",
+            "verifiedSourceMetadataSha256": "cb57428a0f96eb5d6f4e607a863bfaecbfaca0efd5c0b15a3c94a04ff778de3f"
+          },
+          "testName": "0001",
+          "validLfInput": "2012\n",
+          "validLfInputSha256": "5681cc87ec34ece52c0eb6855a9a2e0de1f8b77721306628e638e9793df934bd"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "li is built from range(1,len(i)+1), i.e. positional numbers rather than the actual characters of the integer part. On 2012 it groups 1234, not 2012 (and on CRLF it also accidentally sees a carriage return).",
+        "focusLines": [
+          {
+            "code": "else:\n    i = s\n    j1 = \"00\"\n    n = len(i)\nli = [i for i in range(1,len(i)+1)]\nm = -3; p = 0\nfor i in range(len(i) // 3):\n    li.insert(m-p,',')\n    m = m-3\n    p +=1\nl1 =(''.join(map(str, li)))\nif b:\n    print(\"(\"+\"$\"+l1+\".\"+j1+\")\")\nelse:\n    print(\"$\"+l1+\".\"+j1)",
+            "end": 28,
+            "start": 14
+          }
+        ],
+        "implementedAlgorithm": "Parses optional sign and decimal digits, pads/truncates cents, and inserts commas into what it thinks are integer digits.",
+        "sourceHash": "16d23fd1b0d84e87ab027d592ba02c1a794a45c5ac61d981d15123b474041305",
+        "sourceLines": [
+          {
+            "code": "s = input()\nb = False\nif s[0] == \"-\":\n    s = s[1:]\n    b = True\nif \".\" in s:\n    i,j = s.split(\".\")\n    if len(j) >= 2:\n        j1 = j[:2]\n    elif len(j) == 1:\n        j1 = j+\"0\"\n    elif len(j) == 0:\n        j1 = \"00\"\nelse:\n    i = s\n    j1 = \"00\"\n    n = len(i)\nli = [i for i in range(1,len(i)+1)]\nm = -3; p = 0\nfor i in range(len(i) // 3):\n    li.insert(m-p,',')\n    m = m-3\n    p +=1\nl1 =(''.join(map(str, li)))\nif b:\n    print(\"(\"+\"$\"+l1+\".\"+j1+\")\")\nelse:\n    print(\"$\"+l1+\".\"+j1)",
+            "end": 28,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/143B/sources/12010010.json",
+        "sourceMetadataSha256": "cb57428a0f96eb5d6f4e607a863bfaecbfaca0efd5c0b15a3c94a04ff778de3f"
+      },
       "sourceHash": "16d23fd1b0d84e87ab027d592ba02c1a794a45c5ac61d981d15123b474041305",
       "test": "0001",
       "timeout": false
@@ -17497,6 +17541,50 @@
       },
       "observedVerdict": "WA",
       "reason": "For integer digit count divisible by three, reversal begins with a comma and the attempted removal uses empty slice ans[1:0], discarding the entire integer. On 0006 prints ($.99) instead of ($999,999,999.99).",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "($.99)",
+          "actualOutputSha256": "a199c5fdb56e63a78ef9b5ce99e19dfc53f49c1a794deb2b1bd2b4f0974120e5",
+          "constraintValidity": "Included package test 0006; LF normalization changes only line delimiters, not tokens. one signed/unsigned decimal notation with at most 100 characters, legal integer and fractional syntax; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "($999,999,999.99)",
+          "existingLfExecutionLogPath": "fresh/143B/counterexample-33669577.json",
+          "existingLfExecutionLogSha256": "6234a5194c170d97d930d3acdfe1f0bfdf55e5490c182f9c297dcb1912d248f5",
+          "mathematicalDerivation": "The valid negative -999999999.9999999999 has nine integer 9 digits grouped $999,999,999 and cents truncated to .99. Therefore ($999,999,999.99), not ($.99): the entire integer is lost.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "e4ca148f951ce2703e46c191d829a79adae54c2901bba891289f01e47a76b545",
+            "verifiedSourceMetadataPath": "1200/state/143B/sources/33669577.json",
+            "verifiedSourceMetadataSha256": "2bbf193fe6b38963091e4faa14b05476a407e5fe7d92d93ea34f8f70ddd9ae3c"
+          },
+          "testName": "0006",
+          "validLfInput": "-999999999.9999999999\n",
+          "validLfInputSha256": "2155cc96673a4ca3973770c5f5d04104cb1c270a8470455b2013200bd1b5df02"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "If the integer digit count is divisible by 3, the reversed string has a leading comma; ans[1:0] on line 193 returns EMPTY rather than removing its first character, discarding all integer digits.",
+        "focusLines": [
+          {
+            "code": "#143B\ndef main():\n    from sys import stdin,stdout\n    ip = stdin.readline().strip()\n    inte = None\n    flow = None\n    for i,j in enumerate(ip):\n        if j=='.':\n            flow = ip[i:]\n            inte = ip[:i]\n            break\n    if flow == None:\n        flow = '.00'\n        inte = ip\n    else:\n        if len(flow)==2:\n            flow+='0'\n        else:\n            flow = flow[:3]\n    ne = False\n    if ip[0]=='-':\n        ne = True\n    if ne:\n        inte = inte[1:]\n    inte = inte[::-1]\n    ans =''\n    for i,j in enumerate(inte):\n        ans += j\n        if i%3 == 2:\n            ans+=','\n    ans = ans[::-1]\n    if ans[0]==',':\n        ans = ans[1:0]\n    ans = '$'+ans\n    if ne:\n        stdout.write('({})'.format(ans+flow))\n    else:\n        stdout.write(ans+flow)\nif __name__=='__main__':\n    main()",
+            "end": 200,
+            "start": 161
+          }
+        ],
+        "implementedAlgorithm": "After many unexecuted triple-quoted solutions to other problems, active #143B main splits decimal/sign, reverses integer digits, inserts commas every three digits, and wraps negatives in parentheses.",
+        "sourceHash": "e4ca148f951ce2703e46c191d829a79adae54c2901bba891289f01e47a76b545",
+        "sourceLines": [
+          {
+            "code": "'''\ndef main():\n\tfrom sys import stdin,stdout\nif __name__=='__main__':\n\tmain()\n'''\n#349B\n'''\ndef main():\n\tfrom sys import stdin,stdout\n\tN = int(stdin.readline())\n\tarr = list(map(int,stdin.readline().split()))\n\tdiv = []\n\tfor i in arr:\n\t\tdiv.append(N//i)\n\tmaxim = 0\n\tmaxindex = -1\n\tfor i in range(9):\n\t\tif div[i] >maxim:\n\t\t\tmaxim = div[i]\n\t\t\tmaxindex = i\n\tif maxindex > -1:\n\t\tans = [ (maxindex+1) for i in range(maxim)]\n\t\tN= N%arr[maxindex]\n\t\t#print(N)\n\t\ti = 0\n\t\twhile i<maxim:\n\t\t\t#print('i=',i,'N=',N)\n\t\t\tfor j in range(8,maxindex,-1):\n\t\t\t\t#print('j=',j,'diff=',arr[j]-arr[ans[i]-1])\n\t\t\t\tif arr[j]-arr[ans[i]-1] <=N:\n\t\t\t\t\tN -= arr[j]-arr[ans[i]-1]\n\t\t\t\t\tans[i] = j+1\n\t\t\t\t\tbreak\n\t\t\ti+=1\n\t\tfor i in ans:\n\t\t\tstdout.write(str(i))\n\telse:\n\t\tstdout.write('-1\\n')\nif __name__=='__main__':\n\tmain()\n'''\n#234B Input and Output\n'''\ndef main():\n\tfrom sys import stdin,stdout\n\timport collections\n\twith open('input.txt','r') as ip:\n\t\tN,K = map(int,ip.readline().split())\n\t\tarr = list(map(int,ip.readline().split()))\n\tmydict = collections.defaultdict(set)\n\tfor i in range(len(arr)):\n\t\tmydict[arr[i]].add(i+1)\n\tans = []\n\ti=0\n\twhile K>0:\n\t\tfor it in mydict[sorted(mydict.keys(),reverse=True)[i]]:\n\t\t\tans.append(it)\n\t\t\tK-=1\n\t\t\tif K<1:\n\t\t\t\tbreak\n\t\tminim=i\n\t\ti+=1\n\twith open('output.txt','w') as out:\n\t\tout.write(str(sorted(mydict.keys(),reverse=True)[minim])+'\\n')\n\t\tans=' '.join(str(x) for x in ans)\n\t\tout.write(ans+'\\n')\t\t\nif __name__=='__main__':\n\tmain()\n'''\n#151B\n'''\ndef main():\n\tfrom sys import stdin,stdout\n\timport collections\n\tnames = collections.defaultdict(list)\n\tcounter = 0\n\torder = {}\n\tfor i in range(int(stdin.readline())):\n\t\tn,ns = stdin.readline().split()\n\t\tnames[ns]=[0,0,0]\n\t\torder[ns]=counter\n\t\tcounter+=1\n\t\tn=int(n)\n\t\twhile n:\n\t\t\tip=stdin.readline().strip()\n\t\t\tip=ip.replace('-','')\n\t\t\t#test for taxi\n\t\t\tflag=True\n\t\t\tfor i in range(1,6):\n\t\t\t\tif ip[i]!=ip[0]:\n\t\t\t\t\tflag=False\n\t\t\t\t\tbreak\n\t\t\tif flag:\n\t\t\t\tnames[ns][0]+=1\n\t\t\t\tn-=1\n\t\t\t\tcontinue\n\t\t\t#test for pizza\n\t\t\tflag = True\n\t\t\tfor i in range(1,6):\n\t\t\t\tif int(ip[i])>=int(ip[i-1]):\n\t\t\t\t\tflag =False\n\t\t\t\t\tbreak\n\t\t\tif flag:\n\t\t\t\tnames[ns][1]+=1\n\n\t\t\telse:\n\t\t\t\tnames[ns][2]+=1\n\t\t\tn-=1\n\t#print(names)\n\t#for all girls\n\tt=-1\n\tp=-1\n\tg=-1\n\tfor i in names:\n\t\tt=max(t,names[i][0])\n\t\tp = max(p, names[i][1])\n\t\tg = max(g, names[i][2])\n\n\ttaxi=list(filter(lambda x: names[x][0]==t, names.keys()))\n\tpizza = list(filter(lambda x: names[x][1] == p, names.keys()))\n\tgirls = list(filter(lambda x: names[x][2] == g, names.keys()))\n\n\tpizza.sort(key= lambda x: order[x])\n\ttaxi.sort(key= lambda x: order[x])\t\n\tgirls.sort(key= lambda x: order[x])\n\n\tprint('If you want to call a taxi, you should call:',', '.join(x for x in taxi),end='.\\n')\n\tprint('If you want to order a pizza, you should call:', ', '.join(x for x in pizza),end='.\\n')\n\tprint('If you want to go to a cafe with a wonderful girl, you should call:', ', '.join(x for x in girls),end='.\\n')\n\nif __name__=='__main__':\n\tmain()\n'''\n#SQUADRUN Q2\n'''\ndef LCMgen(a):\n\timport math\n\tlcm = a[0]\n\tfor i in range(1,len(a)):\n\t\tg = math.gcd(lcm,a[i])\n\t\tlcm = (lcm*a[i])//g\n\treturn lcm\t\n\t\ndef main():\n\tfrom sys import stdin,stdout\n\timport collections\n\timport math\n\tN,W = map(int,stdin.readline().split())\n\tcounter = collections.Counter(map(int,stdin.readline().split()))\n\tlcm = LCMgen(list(counter.keys()))\n\tW*=lcm\n\tdiv = 0\n\tfor i in counter:\n\t\tdiv+=counter[i]*(lcm//i)\n\tans = math.ceil(W/div)\n\tstdout.write(str(ans))\nif __name__=='__main__':\n\tmain()\n'''\n#143B\ndef main():\n    from sys import stdin,stdout\n    ip = stdin.readline().strip()\n    inte = None\n    flow = None\n    for i,j in enumerate(ip):\n        if j=='.':\n            flow = ip[i:]\n            inte = ip[:i]\n            break\n    if flow == None:\n        flow = '.00'\n        inte = ip\n    else:\n        if len(flow)==2:\n            flow+='0'\n        else:\n            flow = flow[:3]\n    ne = False\n    if ip[0]=='-':\n        ne = True\n    if ne:\n        inte = inte[1:]\n    inte = inte[::-1]\n    ans =''\n    for i,j in enumerate(inte):\n        ans += j\n        if i%3 == 2:\n            ans+=','\n    ans = ans[::-1]\n    if ans[0]==',':\n        ans = ans[1:0]\n    ans = '$'+ans\n    if ne:\n        stdout.write('({})'.format(ans+flow))\n    else:\n        stdout.write(ans+flow)\nif __name__=='__main__':\n    main()",
+            "end": 200,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/143B/sources/33669577.json",
+        "sourceMetadataSha256": "2bbf193fe6b38963091e4faa14b05476a407e5fe7d92d93ea34f8f70ddd9ae3c"
+      },
       "sourceHash": "e4ca148f951ce2703e46c191d829a79adae54c2901bba891289f01e47a76b545",
       "test": "0006",
       "timeout": false
@@ -17520,6 +17608,50 @@
       },
       "observedVerdict": "WA",
       "reason": "Converts to binary float and rounds to two decimals rather than truncating exact decimal digits. On 0.99999999999999999999 in 0005 prints $1.00 instead of $0.99.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "$1.00\n",
+          "actualOutputSha256": "f8975444634190c3ec3ae0aec5df8f390ddb5eba6f15e1662fbf66e4d2df5c31",
+          "constraintValidity": "Included package test 0005; LF normalization changes only line delimiters, not tokens. one signed/unsigned decimal notation with at most 100 characters, legal integer and fractional syntax; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "$0.99",
+          "existingLfExecutionLogPath": "fresh/143B/counterexample-36232736.json",
+          "existingLfExecutionLogSha256": "2c9a7fd84ba0fe6df4db2e8c2c3d69c9df5aac20c9539ff156c31b5d13e547de",
+          "mathematicalDerivation": "The first two fractional digits of 0.99999999999999999999 are 99 and the integer part is 0; truncation gives $0.99. Rounding the floating number gives the source’s $1.00, a different monetary value.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "e54a1fcc1c523849d724c311f3559a2d924135b563d975d489f3064adc0e6c3a",
+            "verifiedSourceMetadataPath": "1200/state/143B/sources/36232736.json",
+            "verifiedSourceMetadataSha256": "c025cd6f2f54de9b75cf24aea7a5c1172d088df2a28ebf2826890dd9d0fda148"
+          },
+          "testName": "0005",
+          "validLfInput": "0.99999999999999999999\n",
+          "validLfInputSha256": "7a4409df278d9b063580781ceaa340ffeca15f7da01b40afb3898db4e6d2cff5"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "float formatting rounds the supplied decimal number. The required cents are its first two fractional digits with truncation, not rounded arithmetic; 0.999... becomes 1.00 instead of 0.99.",
+        "focusLines": [
+          {
+            "code": "n = input().rstrip('\\n')\n\nfinal = ''\n\nif n[0] == '-':\n    temp = n.find('.')\n\n    if temp != -1:\n        final = '(' + '${:,.2f}'.format(float(n[1:temp + 2])) + ')'\n    else:\n        final = '(' + '${:,.2f}'.format(float(n[1:])) + ')'\nelse:\n    final = '${:,.2f}'.format(float(n))\n\nprint(final)",
+            "end": 23,
+            "start": 9
+          }
+        ],
+        "implementedAlgorithm": "Uses Python float formatting with grouped integer digits and two decimal places, handling negative input via a special substring branch.",
+        "sourceHash": "e54a1fcc1c523849d724c311f3559a2d924135b563d975d489f3064adc0e6c3a",
+        "sourceLines": [
+          {
+            "code": "\"\"\"\nBrandt Smith, Lemuel Gorion and Peter Haddad\n\ncodeforces.com\n\nProblem 143B\n\"\"\"\n\nn = input().rstrip('\\n')\n\nfinal = ''\n\nif n[0] == '-':\n    temp = n.find('.')\n\n    if temp != -1:\n        final = '(' + '${:,.2f}'.format(float(n[1:temp + 2])) + ')'\n    else:\n        final = '(' + '${:,.2f}'.format(float(n[1:])) + ')'\nelse:\n    final = '${:,.2f}'.format(float(n))\n\nprint(final)",
+            "end": 23,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/143B/sources/36232736.json",
+        "sourceMetadataSha256": "c025cd6f2f54de9b75cf24aea7a5c1172d088df2a28ebf2826890dd9d0fda148"
+      },
       "sourceHash": "e54a1fcc1c523849d724c311f3559a2d924135b563d975d489f3064adc0e6c3a",
       "test": "0005",
       "timeout": false
@@ -17543,6 +17675,29 @@
       },
       "observedVerdict": "WA",
       "reason": "On 2012 in 0001 prints an intermediate value/float line followed by the correct financial answer. LF normalization still leaves the debug line, so the recorded failure is not an algorithmically wrong financial answer.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Recorded 0001 has a correct financial result after an additional debug line; debug-output-only.",
+        "faultyLogic": "For recorded 2012, the final currency line is $2,012.00; the preceding print(final,float(...)) line at 29 alone causes the token-check failure. No mathematical conversion error at this recorded test.",
+        "focusLines": [
+          {
+            "code": "n = input().rstrip('\\n')\n\ntemp = n.find('.')\n\nif temp == -1:\n    n = n + '.00'\nelse:\n    n = n + '00'\n\nfinal = ''\n\nfor i in range(0, len(n)):\n    if n[i] == '-':\n        continue\n    elif n[i] == '.':\n        final = final + '.' + n[i + 1] + n[i + 2]\n        break\n    else:\n        final = final + n[i]\n\nprint(final, float(final[:-3]))\nfinal = '${:,d}'.format(int(final[:-3])) + final[len(final) - 3:]\n\nif n[0] == '-':\n    final = '(' + final + ')'\n    \nprint(final)",
+            "end": 35,
+            "start": 9
+          }
+        ],
+        "implementedAlgorithm": "Reads integer and two cents digits directly into final, prints an intermediate value/float trace, then uses integer formatting for the dollar portion and negative parentheses.",
+        "sourceHash": "ae593754e1cf2ffd8394ae621c8ea005adc8c5e4333236d3bd6885e16477d658",
+        "sourceLines": [
+          {
+            "code": "\"\"\"\nBrandt Smith, Lemuel Gorion and Peter Haddad\n\ncodeforces.com\n\nProblem 143B\n\"\"\"\n\nn = input().rstrip('\\n')\n\ntemp = n.find('.')\n\nif temp == -1:\n    n = n + '.00'\nelse:\n    n = n + '00'\n\nfinal = ''\n\nfor i in range(0, len(n)):\n    if n[i] == '-':\n        continue\n    elif n[i] == '.':\n        final = final + '.' + n[i + 1] + n[i + 2]\n        break\n    else:\n        final = final + n[i]\n\nprint(final, float(final[:-3]))\nfinal = '${:,d}'.format(int(final[:-3])) + final[len(final) - 3:]\n\nif n[0] == '-':\n    final = '(' + final + ')'\n    \nprint(final)",
+            "end": 35,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/143B/sources/36233491.json",
+        "sourceMetadataSha256": "1a110648625c39f9226bb9a8946ae64566a1dbf7d1532da7c7ecfb8a4c1836b0"
+      },
       "sourceHash": "ae593754e1cf2ffd8394ae621c8ea005adc8c5e4333236d3bd6885e16477d658",
       "test": "0001",
       "timeout": false
@@ -17566,6 +17721,50 @@
       },
       "observedVerdict": "WA",
       "reason": "Scales the value by 100 then incorrectly includes the cents digits in the integer comma-grouping algorithm. On 2012 in 0001 prints $20,120,0.00 instead of $2,012.00, changing the represented integer value.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "$20,120,0.00\n",
+          "actualOutputSha256": "78b9dda061adc649ea79dc9c52a5ef76dbb3873958b2fc91034373792f4724e7",
+          "constraintValidity": "Included package test 0001; LF normalization changes only line delimiters, not tokens. one signed/unsigned decimal notation with at most 100 characters, legal integer and fractional syntax; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "$2,012.00",
+          "existingLfExecutionLogPath": "fresh/143B/counterexample-4823837.json",
+          "existingLfExecutionLogSha256": "19b9571a3f85fa013ff05ae4cb1fb4301d42cc9884d55e34f7a110d9b7c18496",
+          "mathematicalDerivation": "Decimal 2012 dollars has integer groups 2 and 012 and no cents: $2,012.00. Multiplying by 100 then grouping the six-digit scaled quantity gives the source’s $20,120,0.00, a different dollar magnitude, not just token layout.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "b5924afa705548a44447fad00c2a61566ff92638418bb060d833a9da8cc2f8f8",
+            "verifiedSourceMetadataPath": "1200/state/143B/sources/4823837.json",
+            "verifiedSourceMetadataSha256": "cdbf7dc81d4a748c75c7833bdf4298c9df41e5528780ef538b21057deb30a2a1"
+          },
+          "testName": "0001",
+          "validLfInput": "2012\n",
+          "validLfInputSha256": "5681cc87ec34ece52c0eb6855a9a2e0de1f8b77721306628e638e9793df934bd"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "The integer digits and cents remain in one string t when the grouping loop runs. It inserts commas inside the cent-scaled integer, changing the dollar magnitude; float conversion also loses precision for long valid inputs.",
+        "focusLines": [
+          {
+            "code": "t = str(int(float(input()) * 100))\n\nl = len(t)\na = int(t[0] == '-')\nb = 2 - (l - a) % 3 + a\n\nprint('(' * a + '$' + (t[a : b] + ',') * (b > a) + ','.join(t[i: i + 3] for i in range(b, l, 3)) + '.' + t[-2:] + ')' * a)",
+            "end": 7,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "Converts the decimal input to float, multiplies it by 100, turns it into an integer string, then groups digits in threes and appends the final two digits as cents.",
+        "sourceHash": "b5924afa705548a44447fad00c2a61566ff92638418bb060d833a9da8cc2f8f8",
+        "sourceLines": [
+          {
+            "code": "t = str(int(float(input()) * 100))\n\nl = len(t)\na = int(t[0] == '-')\nb = 2 - (l - a) % 3 + a\n\nprint('(' * a + '$' + (t[a : b] + ',') * (b > a) + ','.join(t[i: i + 3] for i in range(b, l, 3)) + '.' + t[-2:] + ')' * a)",
+            "end": 7,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/143B/sources/4823837.json",
+        "sourceMetadataSha256": "cdbf7dc81d4a748c75c7833bdf4298c9df41e5528780ef538b21057deb30a2a1"
+      },
       "sourceHash": "b5924afa705548a44447fad00c2a61566ff92638418bb060d833a9da8cc2f8f8",
       "test": "0001",
       "timeout": false

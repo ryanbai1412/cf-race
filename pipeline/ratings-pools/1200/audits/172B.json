@@ -13463,6 +13463,50 @@
       },
       "observedVerdict": "WA",
       "reason": "Parses m,a,b,r0 instead of the stated a,b,m,r0 and additionally counts preperiod/extra steps. On input 2 3 5 1 in 0002 prints 2 instead of the true period 4.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "2\n",
+          "actualOutputSha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "constraintValidity": "Included package test 0002; LF normalization changes only line delimiters, not tokens. 1<=m<=100000, 0<=a,b<=1000 and 0<=r0<m; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "4\n",
+          "existingLfExecutionLogPath": "fresh/172B/counterexample-16468754.json",
+          "existingLfExecutionLogSha256": "69cea1df078e1e6a19fadeba88a0fcb1ada1dfda6d8f79b7ae1cd082b2455765",
+          "mathematicalDerivation": "The four numbers are a=2,b=3,m=5,r0=1. The sequence is 1 -> 0 -> 3 -> 4 -> 1 (mod 5), a cycle of four. The source treats 2 as modulus and returns 2, not the true period 4.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "fb0b183043ccd20c834386eeef3ac38f6368f616cb18114cf6f4bb1924a045f0",
+            "verifiedSourceMetadataPath": "1200/state/172B/sources/16468754.json",
+            "verifiedSourceMetadataSha256": "0d240ee6fabda669c6f9acfec365df15d6147852b6172a3097294a7c71ff9c69"
+          },
+          "testName": "0002",
+          "validLfInput": "2 3 5 1\n",
+          "validLfInputSha256": "2028d920e7de58ca56e2302a7df625ce4553e619f35cd155a66b4a68d99f351f"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "The statement orders the numbers a,b,m,r0, so it uses the WRONG modulus/multiplier. The ans+1 also counts a step beyond its repeat criterion. Both faults change the period of valid input.",
+        "focusLines": [
+          {
+            "code": "m, a, b, ro = map(int, input().split())\ndata = set()\nc = (a * ro + b) % m\nans = 0\nwhile not c in data:\n    c = (a * c + b) % m\n    data.add(c)\n    ans += 1\nprint(ans + 1)",
+            "end": 9,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "Parses four input integers as m,a,b,r0; starts at one recurrence application and uses a set to count iterations before printing ans+1.",
+        "sourceHash": "fb0b183043ccd20c834386eeef3ac38f6368f616cb18114cf6f4bb1924a045f0",
+        "sourceLines": [
+          {
+            "code": "m, a, b, ro = map(int, input().split())\ndata = set()\nc = (a * ro + b) % m\nans = 0\nwhile not c in data:\n    c = (a * c + b) % m\n    data.add(c)\n    ans += 1\nprint(ans + 1)",
+            "end": 9,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/172B/sources/16468754.json",
+        "sourceMetadataSha256": "0d240ee6fabda669c6f9acfec365df15d6147852b6172a3097294a7c71ff9c69"
+      },
       "sourceHash": "fb0b183043ccd20c834386eeef3ac38f6368f616cb18114cf6f4bb1924a045f0",
       "test": "0002",
       "timeout": false
@@ -13486,6 +13530,29 @@
       },
       "observedVerdict": "TLE",
       "reason": "Cycle detection is logically correct but linear list membership at every step is O(m^2). On the length-100000 cycle 0010 times out with no answer.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Recorded 0010 TLE only; correct first-repeat period logic is too slow.",
+        "faultyLogic": "Both ri not in R and R.index(ri) are linear searches over an expanding list. A long full-period sequence takes quadratic time and times out on recorded 0010; no wrong period is output.",
+        "focusLines": [
+          {
+            "code": "R=[]\nri=0\nR.append(r0)\nfor i in range(1,m+1):\n    ri=(a*R[i-1]+b)%m\n    if (ri) not in R:\n        R.append(ri)\n    elif ri in R:\n        print (abs(i-R.index(ri)))\n        break",
+            "end": 12,
+            "start": 3
+          }
+        ],
+        "implementedAlgorithm": "Starts with r0 in list R; each recurrence step appends an unseen value or computes step index minus first occurrence as the period.",
+        "sourceHash": "17cf1cd792ae0be1daa2b460d4802c26915389bca4766a6c5b7e7d592ed6ce1e",
+        "sourceLines": [
+          {
+            "code": "a,b,m,r0=0,0,0,0\na,b,m,r0=map(int,input().split())\nR=[]\nri=0\nR.append(r0)\nfor i in range(1,m+1):\n    ri=(a*R[i-1]+b)%m\n    if (ri) not in R:\n        R.append(ri)\n    elif ri in R:\n        print (abs(i-R.index(ri)))\n        break",
+            "end": 12,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/172B/sources/3695316.json",
+        "sourceMetadataSha256": "8e02a1a2af54852c7ae4cb8ccc33d29db05522c04bd58b734e697013328073d2"
+      },
       "sourceHash": "17cf1cd792ae0be1daa2b460d4802c26915389bca4766a6c5b7e7d592ed6ce1e",
       "test": "0010",
       "timeout": true
@@ -13509,6 +13576,29 @@
       },
       "observedVerdict": "TLE",
       "reason": "Uses linear list membership at every cycle step, O(m^2). On 0010 times out; no algorithmically wrong period is proved.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Recorded 0010 TLE only; no mathematically wrong period.",
+        "faultyLogic": "Per-step ri not in R scans an ever-longer list; O(m^2) on the large cycle 0010, where it times out.",
+        "focusLines": [
+          {
+            "code": "R=[]\nri=0\ni=1\nR.append(r0)\nwhile 1:\n    ri=(a*R[i-1]+b)%m\n    if (ri) not in R:\n        R.append(ri)\n        i+=1\n    elif ri in R:\n        break\nprint (abs(i-R.index(ri)))",
+            "end": 14,
+            "start": 3
+          }
+        ],
+        "implementedAlgorithm": "Stores successive recurrence values in a Python list and reports the first repeat’s current step minus the first index.",
+        "sourceHash": "d94003e65b4e6da5ee015ee531fdaee347aa04db75dc5a8782589a8716bb0a84",
+        "sourceLines": [
+          {
+            "code": "a,b,m,r0=0,0,0,0\na,b,m,r0=map(int,input().split())\nR=[]\nri=0\ni=1\nR.append(r0)\nwhile 1:\n    ri=(a*R[i-1]+b)%m\n    if (ri) not in R:\n        R.append(ri)\n        i+=1\n    elif ri in R:\n        break\nprint (abs(i-R.index(ri)))",
+            "end": 14,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/172B/sources/3695350.json",
+        "sourceMetadataSha256": "7619569086ee1a6a4c4f515132f401554841eeb6bf1776ccd2f43c739e06bc73"
+      },
       "sourceHash": "d94003e65b4e6da5ee015ee531fdaee347aa04db75dc5a8782589a8716bb0a84",
       "test": "0010",
       "timeout": true
@@ -13532,6 +13622,29 @@
       },
       "observedVerdict": "TLE",
       "reason": "Uses linear list membership at every cycle step, O(m^2). On 0010 times out; no algorithmically wrong period is proved.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Recorded 0010 TLE, not an incorrect returned period.",
+        "faultyLogic": "The while membership test walks the list every step, quadratic on a large cycle; the observed failure at 0010 is timeout.",
+        "focusLines": [
+          {
+            "code": "ri=r0\ni=0\nR=[]\nwhile (ri) not in R:\n        R.append(ri)\n        ri=(a*ri+b)%m\n        i+=1\nprint (i-R.index(ri))",
+            "end": 10,
+            "start": 3
+          }
+        ],
+        "implementedAlgorithm": "Appends each unseen recurrence value to R until a repeated value appears, then subtracts R.index from the traversed step count.",
+        "sourceHash": "bc08c8235f0d0e6cc456337f661ed94b5235be01c17ecd541914279e3ab4bb00",
+        "sourceLines": [
+          {
+            "code": "a,b,m,r0=0,0,0,0\na,b,m,r0=map(int,input().split())\nri=r0\ni=0\nR=[]\nwhile (ri) not in R:\n        R.append(ri)\n        ri=(a*ri+b)%m\n        i+=1\nprint (i-R.index(ri))",
+            "end": 10,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/172B/sources/3695428.json",
+        "sourceMetadataSha256": "959706c825954bc77e8acca81b85042584e880be89e23f769a0b146b4d3962fd"
+      },
       "sourceHash": "bc08c8235f0d0e6cc456337f661ed94b5235be01c17ecd541914279e3ab4bb00",
       "test": "0010",
       "timeout": true
@@ -13555,6 +13668,29 @@
       },
       "observedVerdict": "TLE",
       "reason": "Correct list-based first-repeat period logic has O(m^2) membership cost. On 0010 times out with no answer.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Recorded 0010 TLE only; correct answer is never produced in time.",
+        "faultyLogic": "List membership x not in rand is O(m) at every one of m steps, yielding O(m^2) and TLE for the full-period 0010; the formula itself calculates cycle length.",
+        "focusLines": [
+          {
+            "code": "rand = [x0]\ni = 1\nwhile True:\n    x = ((a*rand[i-1])+b)%m\n    if(x not in rand):\n        rand.append(x)\n    else:\n        print(len(rand) - rand.index(x))\n        break\n    i+=1",
+            "end": 11,
+            "start": 2
+          }
+        ],
+        "implementedAlgorithm": "Applies the recurrence, appends distinct results to rand, and prints list length minus first index at the repeated value.",
+        "sourceHash": "56c1406fbed710586337e626f6153ddfe22b98321b04e2dd0258590707fc37c0",
+        "sourceLines": [
+          {
+            "code": "a,b,m,x0 = map(int,input().split())\nrand = [x0]\ni = 1\nwhile True:\n    x = ((a*rand[i-1])+b)%m\n    if(x not in rand):\n        rand.append(x)\n    else:\n        print(len(rand) - rand.index(x))\n        break\n    i+=1",
+            "end": 11,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/172B/sources/39179690.json",
+        "sourceMetadataSha256": "6c18295e31e6c2d7cc0ced09d018949489bf2b248abdd7f5d1ea89905be58c7f"
+      },
       "sourceHash": "56c1406fbed710586337e626f6153ddfe22b98321b04e2dd0258590707fc37c0",
       "test": "0010",
       "timeout": true

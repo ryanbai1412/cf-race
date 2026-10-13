@@ -11769,6 +11769,50 @@
       },
       "observedVerdict": "WA",
       "reason": "Greedily changes unmatched requested sizes before reserving exact matches; consumes valuable source sizes and can decrement unavailable counts. On 0035 reports 14 changes rather than the minimum 13.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "14\n",
+          "actualOutputSha256": "9a92adbc0cee38ef658c71ce1b1bf8c65668f166bfb213644c895ccb1ad07a25",
+          "constraintValidity": "Included package test 0035; LF normalization changes only line delimiters, not tokens. n=100 and each listed shirt size is valid; supplied prior/current lists are attainable by permitted replacements; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "13",
+          "existingLfExecutionLogPath": "fresh/1000A/counterexample-132672237.json",
+          "existingLfExecutionLogSha256": "94ece5139d4275c2eb7a6144fcc2e21df5f7db542e222d0abdc5e5c1a98b8631",
+          "mathematicalDerivation": "For n=100 shirts, preserving one shirt per common size gives 87 unchanged shirts: old/new size deficits are S:3, XS:1, XXS:4, XXXL:5, totalling 13 required changes. The greedy sequential substitution spends one shirt needed later and reports 14 instead of the achievable minimum 13.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "56b8ad8609fbfc06223bfaffc0acfc491e8247bd2243b3d27a3082e8040f406b",
+            "verifiedSourceMetadataPath": "1200/state/1000A/sources/132672237.json",
+            "verifiedSourceMetadataSha256": "e747dc48f1ad5ac0262f67464ce427fbcb680adf68ae771ac8bb0ad286f2a043"
+          },
+          "testName": "0035",
+          "validLfInput": "100\nL\nS\nXXS\nM\nXXXS\nS\nXXL\nXS\nXXXL\nXXXL\nXL\nXXXS\nXS\nXXXS\nL\nXXXS\nXXL\nXL\nXXXS\nXL\nXL\nXS\nXXXL\nXS\nXXL\nXL\nXXL\nXXXL\nXXXS\nM\nXXXS\nXXXL\nXL\nXXXL\nXXS\nXXXS\nXXL\nXS\nXXL\nS\nXXXS\nXS\nL\nXXL\nS\nXL\nM\nXXXL\nL\nXXXS\nXL\nL\nXL\nXL\nXXS\nXXXS\nXXS\nM\nXXXS\nM\nXXXL\nXXS\nXL\nXXXS\nXXXS\nXXXS\nXXXS\nS\nXXXL\nXXL\nXS\nXS\nM\nXXL\nM\nS\nXXXL\nXXXL\nXXS\nL\nXXXL\nXXL\nXXS\nXL\nL\nXXS\nM\nXXL\nL\nXXL\nXS\nXS\nXS\nXXXS\nXXXL\nXXXS\nS\nXXXS\nS\nXXXL\nXXL\nS\nXL\nXS\nXXXL\nXXXS\nM\nXXS\nXXS\nXL\nXS\nS\nXXXS\nXXS\nXXXL\nXXXS\nXL\nXXXS\nXXXL\nXXXL\nXXXL\nXS\nXXXL\nXS\nL\nXXXL\nXXS\nS\nM\nXL\nXS\nXXS\nXXXL\nXL\nXXXL\nXXXL\nL\nXS\nXXS\nXXL\nXXXL\nXXXS\nXS\nM\nXS\nXXXL\nXXXS\nS\nS\nXL\nXXL\nXS\nXXXL\nXXXS\nXXXS\nXXS\nL\nL\nL\nS\nXS\nXXS\nXXL\nS\nS\nXXXL\nXL\nXL\nXXL\nXS\nXXXS\nXL\nXL\nXXXS\nXXXL\nXXL\nXXXL\nS\nXXXS\nXXXS\nM\nXXS\nL\nXXL\nXXXS\nXS\nXXL\nXXS\nXXXL\nXXS\nM\nM\nS\nXXXL\nS\nXXXL\nXXXS\nXXS\nXL\nM\n",
+          "validLfInputSha256": "8e6be39dd051d864496dfbc3b3049bce8fbe9715ede1a155576c5d221ab862ee"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "The substitution branches at lines 14–35 spend a remaining shirt without reserving it for a later exact request; a branch can even decrement a size with zero stock. Exact multiset intersection must be maximized globally, independently of input order.",
+        "focusLines": [
+          {
+            "code": "    string = input()\n    if mp[string] != 0:\n      mp[string] -= 1\n    else:\n      cnt += 1\n      if string in \"MSL\":\n        if mp[\"M\"] > 0:\n          mp[\"M\"] -= 1\n        elif mp[\"S\"] > 1:\n          mp[\"S\"] -= 1\n        else:\n          mp[\"L\"] -= 1\n      elif string in \"XSXL\":\n        if mp[\"XL\"] > 0:\n          mp[\"XL\"] -= 1\n        else:\n          mp[\"XS\"] -= 1\n      elif string in \"XXSXXL\":\n        if mp[\"XXL\"] > 0:\n          mp[\"XXL\"] -= 1\n        else:\n          mp[\"XXS\"] -= 1\n      elif string in \"XXXSXXXL\":\n        if mp[\"XXXL\"] > 0:\n          mp[\"XXXL\"] -= 1\n        else:\n          mp[\"XXXS\"] -= 1",
+            "end": 35,
+            "start": 9
+          }
+        ],
+        "implementedAlgorithm": "Counts exact previous-year sizes, consumes them as requests arrive, and greedily substitutes nearby sizes in the current-size branch. It returns how many requests could not be exact matches.",
+        "sourceHash": "56b8ad8609fbfc06223bfaffc0acfc491e8247bd2243b3d27a3082e8040f406b",
+        "sourceLines": [
+          {
+            "code": "from collections import defaultdict as d\ndef solve():\n  n = int(input())\n  mp = d(int)\n  for i in range(n):\n    mp[input()] += 1\n  cnt = 0\n  for i in range(n):\n    string = input()\n    if mp[string] != 0:\n      mp[string] -= 1\n    else:\n      cnt += 1\n      if string in \"MSL\":\n        if mp[\"M\"] > 0:\n          mp[\"M\"] -= 1\n        elif mp[\"S\"] > 1:\n          mp[\"S\"] -= 1\n        else:\n          mp[\"L\"] -= 1\n      elif string in \"XSXL\":\n        if mp[\"XL\"] > 0:\n          mp[\"XL\"] -= 1\n        else:\n          mp[\"XS\"] -= 1\n      elif string in \"XXSXXL\":\n        if mp[\"XXL\"] > 0:\n          mp[\"XXL\"] -= 1\n        else:\n          mp[\"XXS\"] -= 1\n      elif string in \"XXXSXXXL\":\n        if mp[\"XXXL\"] > 0:\n          mp[\"XXXL\"] -= 1\n        else:\n          mp[\"XXXS\"] -= 1\n  return cnt\n      \n\nt = 1\nwhile t != 0:\n  res = solve()\n  print(res)\n  t -= 1",
+            "end": 43,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/1000A/sources/132672237.json",
+        "sourceMetadataSha256": "e747dc48f1ad5ac0262f67464ce427fbcb680adf68ae771ac8bb0ad286f2a043"
+      },
       "sourceHash": "56b8ad8609fbfc06223bfaffc0acfc491e8247bd2243b3d27a3082e8040f406b",
       "test": "0035",
       "timeout": false
@@ -11792,6 +11836,29 @@
       },
       "observedVerdict": "WA",
       "reason": "Unfinished program produces no output on 0001, not an algorithmically wrong numeric answer; expected 2.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Recorded source prints no answer at all. Unfinished implementation, not a mathematical incorrect-answer proof.",
+        "faultyLogic": "The program never prints its accumulated score or implements a full assignment/answer. Its nested character comparison does not itself solve the matching problem.",
+        "focusLines": [
+          {
+            "code": "for i in range(n):\n\tsize = input()\n\tlen_size = len(size)\n\tmin_len = len_size\n\tif size not in previous:\n\t\tfor m in range(n):\n\t\t\tfor j in range(len_size):\n\t\t\t\tif size[j] in previous[m]:\n\t\t\t\t\tlen_size -= 1\n\t\t\t\t\tmin_len = len_size\n\tsum += min_len",
+            "end": 17,
+            "start": 7
+          }
+        ],
+        "implementedAlgorithm": "Reads prior-year shirts into a list, compares characters of each unmatched current-year size against every prior size, and accumulates a provisional min_len score.",
+        "sourceHash": "930abd868a9583189af71431cc1df802ea49f2569a2ee95993881bc63cadeb44",
+        "sourceLines": [
+          {
+            "code": "n = int(input())\nprevious = []\nsum = 0\nfor i in range(n):\n\tsize = input()\n\tprevious.append(size)\nfor i in range(n):\n\tsize = input()\n\tlen_size = len(size)\n\tmin_len = len_size\n\tif size not in previous:\n\t\tfor m in range(n):\n\t\t\tfor j in range(len_size):\n\t\t\t\tif size[j] in previous[m]:\n\t\t\t\t\tlen_size -= 1\n\t\t\t\t\tmin_len = len_size\n\tsum += min_len",
+            "end": 17,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/1000A/sources/134621405.json",
+        "sourceMetadataSha256": "2b529d4a38de9ca9a378b63b2beff84faf7d3066a949320cf7698290eed40fd4"
+      },
       "sourceHash": "930abd868a9583189af71431cc1df802ea49f2569a2ee95993881bc63cadeb44",
       "test": "0001",
       "timeout": false
@@ -11815,6 +11882,29 @@
       },
       "observedVerdict": "WA",
       "reason": "Unfinished program produces no output on 0001, not an algorithmically wrong numeric answer; expected 2.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Unfinished/no-output placeholder; must not count despite WA verdict.",
+        "faultyLogic": "No solution routine is present or invoked. The initialized variables are unused and no output is produced.",
+        "focusLines": [
+          {
+            "code": "while line_number2 <= total_number:\n    cu_Tshirt.append(input())\n    line_number2 += 1\n    #通过扫描加入今年的Tshirt号\n#print(pr_Tshirt)\n#print(cu_Tshirt)\ni = 0\nnum = 0",
+            "end": 18,
+            "start": 11
+          }
+        ],
+        "implementedAlgorithm": "Reads both shirt lists and initializes i and num after commented-out debug-print calls; there is no matching computation after line 18.",
+        "sourceHash": "06b71937bf7fa134aaa7336b8565cd3ee075fb3ca64806ee8e1c7d88dfe8e898",
+        "sourceLines": [
+          {
+            "code": "total_number = eval(input())#获得总T恤数\nline_number1 = 1\nline_number2 = 1\npr_Tshirt = []\ncu_Tshirt = []\n\nwhile line_number1 <= total_number:\n    pr_Tshirt.append(input())\n    line_number1 += 1\n    #通过扫描加入去年的Tshirt号\nwhile line_number2 <= total_number:\n    cu_Tshirt.append(input())\n    line_number2 += 1\n    #通过扫描加入今年的Tshirt号\n#print(pr_Tshirt)\n#print(cu_Tshirt)\ni = 0\nnum = 0",
+            "end": 18,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/1000A/sources/134870628.json",
+        "sourceMetadataSha256": "47b001d2a1ec5ee2fbf6db85bf5e8bdaedc6590863771608e52b78017c2b0b74"
+      },
       "sourceHash": "06b71937bf7fa134aaa7336b8565cd3ee075fb3ca64806ee8e1c7d88dfe8e898",
       "test": "0001",
       "timeout": false
@@ -11838,6 +11928,29 @@
       },
       "observedVerdict": "WA",
       "reason": "Prints a fixed nonsensical debug string on every input. On 0001 this is not a T-shirt algorithm or numeric counterexample; expected 2.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Unrelated constant-output placeholder, not a genuine algorithmically wrong T-shirt implementation.",
+        "faultyLogic": "There is no T-shirt assignment or numeric result to reason about. Output is unrelated constant text, not a faulty competitive algorithm.",
+        "focusLines": [
+          {
+            "code": "print(\"12112e12e31231232131232123123213123213131321eq23132132131321312321312321313\")",
+            "end": 1,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "Executes a single hard-coded print of a nonnumeric e-containing character sequence; it never reads n or either shirt list.",
+        "sourceHash": "2b244d0b8131ce327638bc89e18875d2cab8cc921681a64555effe920c4f28b0",
+        "sourceLines": [
+          {
+            "code": "print(\"12112e12e31231232131232123123213123213131321eq23132132131321312321312321313\")",
+            "end": 1,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/1000A/sources/134981575.json",
+        "sourceMetadataSha256": "2908020b3e265199e21ce0782f55f234738edaaafba265515fc3c245a4308bc9"
+      },
       "sourceHash": "2b244d0b8131ce327638bc89e18875d2cab8cc921681a64555effe920c4f28b0",
       "test": "0001",
       "timeout": false
@@ -11861,6 +11974,50 @@
       },
       "observedVerdict": "WA",
       "reason": "Tests membership in the old list without consuming matched occurrences, so repeated requested sizes reuse one available shirt. On 0009 prints 0 instead of 7.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "0\n",
+          "actualOutputSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "constraintValidity": "Included package test 0009; LF normalization changes only line delimiters, not tokens. n=100 and each listed shirt size is valid; supplied prior/current lists are attainable by permitted replacements; checked by the prior independent per-input constraint validator.",
+          "correctAnswer": "7\n",
+          "existingLfExecutionLogPath": "fresh/1000A/counterexample-135205335.json",
+          "existingLfExecutionLogSha256": "eaa38b38451803e73cf7cdd82d6855cc796a934146d49369312a870939e210be",
+          "mathematicalDerivation": "The 26 old/new shirts have deficits L:5, XXL:1, XXXL:1; seven replacements are necessary and sufficient because other counts intersect. Membership-only testing wrongly reuses existing shirts and reports zero.",
+          "sourceHashBinding": {
+            "note": "The original LF runtime JSON does not embed a source hash. The archived pre-execution script asserts source metadata hash equals evidence hash and SHA256(code); the original log is named by submission ID. This semantic witness binds that source hash to the unmodified log SHA256, without claiming the log alone identifies the source.",
+            "originalArchiveSha256": "23f22b26bc96f5d952bc54073757304873f9f9adcbf9fd00207ecd5dd5849fd4",
+            "preExecutionVerifierPath": "executed-orchestration/rerun.py",
+            "preExecutionVerifierSha256": "984a1e16a44bc7148f7aabeaed9f213e2ec1b2f74331dc1ae34836963413cedf",
+            "sourceHash": "c8fc2209eeb57864b3d9d8b4455b5d6f51de77f9de55ca21d3332b4b7af762c9",
+            "verifiedSourceMetadataPath": "1200/state/1000A/sources/135205335.json",
+            "verifiedSourceMetadataSha256": "2db54cecb2f1cc61b3f4d744587b78c6acd089c7f370480f74eeb5539df243c1"
+          },
+          "testName": "0009",
+          "validLfInput": "26\nS\nL\nM\nL\nS\nXXXS\nXXXS\nM\nXXXS\nXXXS\nM\nXXS\nM\nXXXL\nM\nXL\nXXXL\nXXXS\nXXL\nL\nM\nM\nL\nXL\nXS\nXXL\nXS\nXXXS\nXL\nXXXL\nXXXL\nL\nL\nXXXS\nL\nL\nXXL\nXXXS\nL\nM\nM\nXXL\nS\nL\nXXL\nXXXS\nL\nS\nL\nL\nXL\nXXXL\n",
+          "validLfInputSha256": "2d10a567ded0c3c035e93ffbf896b5297f7efa0aa68c3b03b448b3348ee56151"
+        },
+        "excludedNonAlgorithmicCauses": "None: this is a genuine problem-solving algorithm with a valid LF-normalized mathematical wrong answer; the sandbox run terminates and returns the wrong value independently of formatting or diagnostics.",
+        "faultyLogic": "Membership does not remove a matched element. One old shirt can satisfy unlimited repeated current requests, although only one may remain unchanged.",
+        "focusLines": [
+          {
+            "code": "ans = int(input())\narr = []\nfor i in range(ans):arr.append(input())\nfor i in range(ans):\n    get = input()\n    if get in arr:ans -= 1\nprint(ans)",
+            "end": 13,
+            "start": 7
+          }
+        ],
+        "implementedAlgorithm": "Stores prior sizes in arr and decrements the answer for every requested size satisfying get in arr.",
+        "sourceHash": "c8fc2209eeb57864b3d9d8b4455b5d6f51de77f9de55ca21d3332b4b7af762c9",
+        "sourceLines": [
+          {
+            "code": "'''\n    maybe I should consider use a dictionary\n    how to critic an element has reserved\n    test of double element\n    think about the double num i have done before use '^' or other methods?\n    '''\nans = int(input())\narr = []\nfor i in range(ans):arr.append(input())\nfor i in range(ans):\n    get = input()\n    if get in arr:ans -= 1\nprint(ans)",
+            "end": 13,
+            "start": 1
+          }
+        ],
+        "sourceMetadataPath": "1200/state/1000A/sources/135205335.json",
+        "sourceMetadataSha256": "2db54cecb2f1cc61b3f4d744587b78c6acd089c7f370480f74eeb5539df243c1"
+      },
       "sourceHash": "c8fc2209eeb57864b3d9d8b4455b5d6f51de77f9de55ca21d3332b4b7af762c9",
       "test": "0009",
       "timeout": false
