@@ -1,0 +1,333 @@
+{
+  "approved": true,
+  "baseCommit": "875772d6c19b78fd3c3d08a369ad4835ed9ada94",
+  "bundleSha256": "dba03d1e5317a14e8530c2660c6a998ab6eb4d1bf55ba7c88282ec7fb5152a19",
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "62a819e9357515155162502e1c3100a8767a8417b5ab83204df884ffd705aff0",
+  "id": "400B",
+  "incorrectAnalysis": {
+    "16270565": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "test 0003: expected 9, prints 1.",
+      "kind": "wrong-answer",
+      "reason": "Prints the minimum positive gap instead of the number of distinct gaps.",
+      "test": "0003"
+    },
+    "17529334": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "4x8 rows with gaps 2,2,6,4 (positions (0,2),(4,6),(0,6),(2,6)): distinct gaps {2,6,4}, so expected 3; prints 4 (blank lines removed: still 4, WA).",
+      "kind": "wrong-answer",
+      "reason": "Counts distinct (G,S) position pairs rather than distinct S-G distances. The print() blank lines are whitespace that the token checker ignores, and with them removed the output is still 4.",
+      "test": "0005"
+    },
+    "32749145": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "4x10 test 0006, gaps 5,1,5,8: expected 3, prints 5. (Tests 0020/0023/0024 flip between TLE and WA across runs at about 1s CPU; the first failing test 0006 WA is identical to the recorded run.)",
+      "kind": "wrong-answer",
+      "reason": "Carries g/s from earlier columns and rows and appends s-g at every column scan, so dist collects spurious distances.",
+      "test": "0006"
+    },
+    "5964453": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "test 0003 (10x10, gaps 9,8,...,1,9 with 9 distinct values): expected 9, prints 8.",
+      "kind": "wrong-answer",
+      "reason": "Outputs the maximum G-to-S gap minus one instead of the number of distinct gaps.",
+      "test": "0003"
+    },
+    "6030104": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "test 0003: expected 9, prints 8.",
+      "kind": "wrong-answer",
+      "reason": "Simulates decrementing all gaps by one per move, which counts the maximum gap minus one, not distinct gaps.",
+      "test": "0003"
+    }
+  },
+  "packageHash": "d0f8cf724a34ebbfad1573b8df6af1dfa64adb868b7eca2c2d5d22f476622dcf",
+  "qualificationBasis": "generated",
+  "rating": 1200,
+  "reviewUrl": "https://staging.itsdev.in/sessions/5e1f99ced59a4a219ae81a8e70c05226",
+  "reviewer": "devin-5e1f99ced59a4a219ae81a8e70c05226",
+  "sandbox": {
+    "capDrop": "ALL",
+    "compilerFlags": [
+      "-O2",
+      "-std=c++17",
+      "-DONLINE_JUDGE"
+    ],
+    "executionVersion": 2,
+    "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+    "network": "none",
+    "nonRoot": true,
+    "readOnly": true,
+    "runner": "pipeline/pool_sandbox.run"
+  },
+  "verified": {
+    "downloadedSourceVerification": "pinned open-r1/codeforces-submissions shards sha256-verified and every source byte-matched",
+    "extraTests": {
+      "cornerMax": 6,
+      "count": 406,
+      "description": "400 random grids (n<=5, m<=6, about 10% backwards rows) with expected values from my move-by-move game simulator, plus 1000x1000 / 1000x2 / 1x1000 corner and max cases checked with my distinct-gap formula (which matched the simulator on every small case).",
+      "programs": [
+        {
+          "nonAC": 0,
+          "program": "oracle",
+          "sourceHash": "b862fd2f045094dcb31194ad8b53e06be384ac37d3387b36822453d68049b4b3",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "5933673",
+          "sourceHash": "1d710f26e345895141bbdb1dcf2af5592916bf7f7e676140c1d9d7512cfe3f15",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "5933698",
+          "sourceHash": "07ee4e76514ef4f62fc46125a2fda18d8ca4cbdb9925d1b03a4f952281417ebe",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "5933781",
+          "sourceHash": "d056d3c03f2d6a85cb8ded598dfbe831a75a9219ecbafb5a835ebcdcf01a207e",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "5933798",
+          "sourceHash": "5dd80bfc0b8082b39e60961559fe0dd700688860208f304136e1114cf59a08a1",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "5933870",
+          "sourceHash": "3011ae0601bd186f959d16632acdd0e368ac561ee0bf345e777d899cd007d25e",
+          "verdict": "AC"
+        }
+      ],
+      "smallBrute": 400,
+      "testsHash": "90485453c6f2f7c809d8bc6a87c7efc16676d30b7ac7e52ac783df20f371a096"
+    },
+    "generator": {
+      "distinctInputs": 113,
+      "identical": true,
+      "matchesRecorded": true,
+      "outputHashes": [
+        "deac1d3a48604472c06e2baa6ae1053e3773321a7fbee2a509b108ca21400f5f",
+        "deac1d3a48604472c06e2baa6ae1053e3773321a7fbee2a509b108ca21400f5f"
+      ],
+      "pairs": 113,
+      "pairsEqualPackageAuthored": true,
+      "pairsHash": "bf88b25d1a1327dcafdffab45d82146b7dfb2a53c9562ac7db256de0a13d2b5d",
+      "runs": 2
+    },
+    "oracle": {
+      "packageTests": 143,
+      "sourceHash": "b862fd2f045094dcb31194ad8b53e06be384ac37d3387b36822453d68049b4b3",
+      "testsRun": 145,
+      "verdict": "AC"
+    },
+    "submissions": [
+      {
+        "actualOutputOnFailedTest": null,
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "hfPinnedShardSourceMatch": true,
+        "language": "GNU C++",
+        "lfNormalizedFailedTestVerdict": null,
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "1d710f26e345895141bbdb1dcf2af5592916bf7f7e676140c1d9d7512cfe3f15",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "5933673"
+      },
+      {
+        "actualOutputOnFailedTest": null,
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "hfPinnedShardSourceMatch": true,
+        "language": "GNU C++",
+        "lfNormalizedFailedTestVerdict": null,
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "07ee4e76514ef4f62fc46125a2fda18d8ca4cbdb9925d1b03a4f952281417ebe",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "5933698"
+      },
+      {
+        "actualOutputOnFailedTest": null,
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "hfPinnedShardSourceMatch": true,
+        "language": "GNU C++",
+        "lfNormalizedFailedTestVerdict": null,
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "d056d3c03f2d6a85cb8ded598dfbe831a75a9219ecbafb5a835ebcdcf01a207e",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "5933781"
+      },
+      {
+        "actualOutputOnFailedTest": null,
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "hfPinnedShardSourceMatch": true,
+        "language": "GNU C++0x",
+        "lfNormalizedFailedTestVerdict": null,
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "5dd80bfc0b8082b39e60961559fe0dd700688860208f304136e1114cf59a08a1",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "5933798"
+      },
+      {
+        "actualOutputOnFailedTest": null,
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "hfPinnedShardSourceMatch": true,
+        "language": "GNU C++",
+        "lfNormalizedFailedTestVerdict": null,
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "3011ae0601bd186f959d16632acdd0e368ac561ee0bf345e777d899cd007d25e",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "5933870"
+      },
+      {
+        "actualOutputOnFailedTest": "8\n",
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0003",
+        "freshVerdict": "WA",
+        "hfPinnedShardSourceMatch": true,
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0003",
+        "recordedVerdict": "WA",
+        "sourceHash": "5eb104e675a8c2a3e71a88b3381f8e42aa280d89bb69e7005991c53b85efac9f",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "5964453"
+      },
+      {
+        "actualOutputOnFailedTest": "8\n",
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0003",
+        "freshVerdict": "WA",
+        "hfPinnedShardSourceMatch": true,
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0003",
+        "recordedVerdict": "WA",
+        "sourceHash": "794eb629b9853ecc7934223cdc3c85bff13ffeef85a59c675fe33340640a447a",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "6030104"
+      },
+      {
+        "actualOutputOnFailedTest": "1\n",
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0003",
+        "freshVerdict": "WA",
+        "hfPinnedShardSourceMatch": true,
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0003",
+        "recordedVerdict": "WA",
+        "sourceHash": "fe938dbc38370f6d640ec3cd0410daeec09c8c9d4ce8b5660235382ad0468a90",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "16270565"
+      },
+      {
+        "actualOutputOnFailedTest": "\n\n\n\n4\n",
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0005",
+        "freshVerdict": "WA",
+        "hfPinnedShardSourceMatch": true,
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestVerdictMismatches": [],
+        "quirkRemoved": {
+          "change": "remove blank-line print()",
+          "id": "400B",
+          "modifiedFailingCount": 68,
+          "modifiedFirstFailing": [
+            [
+              "0005",
+              "WA"
+            ],
+            [
+              "0006",
+              "WA"
+            ],
+            [
+              "0019",
+              "WA"
+            ],
+            [
+              "0020",
+              "WA"
+            ],
+            [
+              "0021",
+              "WA"
+            ]
+          ],
+          "modifiedFullSuiteVerdict": "WA",
+          "modifiedOutputOnFailedTest": "4\n",
+          "modifiedSourceHash": "7aa6dffeef20320262e09d46f9e079d8db8e76a3e3bfaa9f9e30f2635c39a991",
+          "modifiedVerdictOnFailedTest": "WA",
+          "originalSourceHash": "5d2e476d724fda4b617aec3472314dd8aa2554b754541fd928aab79fddfdbb71",
+          "recordedFailedTest": "0005",
+          "submissionId": "17529334"
+        },
+        "recordedFailedTest": "0005",
+        "recordedVerdict": "WA",
+        "sourceHash": "5d2e476d724fda4b617aec3472314dd8aa2554b754541fd928aab79fddfdbb71",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "17529334"
+      },
+      {
+        "actualOutputOnFailedTest": "5\n",
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0006",
+        "freshVerdict": "WA",
+        "hfPinnedShardSourceMatch": true,
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestVerdictMismatches": [
+          "0020",
+          "0023",
+          "0024"
+        ],
+        "recordedFailedTest": "0006",
+        "recordedVerdict": "WA",
+        "sourceHash": "d989136856697b0f6ca9933683f878c4b570fcd99a1cff9120705afd7c7f5960",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "32749145"
+      }
+    ]
+  }
+}

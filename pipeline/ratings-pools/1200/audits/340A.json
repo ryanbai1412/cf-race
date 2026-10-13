@@ -1,0 +1,334 @@
+{
+  "approved": false,
+  "baseCommit": "875772d6c19b78fd3c3d08a369ad4835ed9ada94",
+  "bundleSha256": "dba03d1e5317a14e8530c2660c6a998ab6eb4d1bf55ba7c88282ec7fb5152a19",
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "b6542495497b408b3a32a00c235be35c9930a719632e6ade131fd3918bf5ee12",
+  "id": "340A",
+  "incorrectAnalysis": {
+    "4386659": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "test 0002: wrong count when gcd(x,y)>1.",
+      "kind": "wrong-answer",
+      "reason": "Uses x*y instead of lcm(x,y).",
+      "test": "0002"
+    },
+    "4386708": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "test 0002: wrong count.",
+      "kind": "wrong-answer",
+      "reason": "Broken gcd reduction (y = y // y sets y to 1).",
+      "test": "0002"
+    },
+    "4387355": {
+      "algorithmicallyWrongOnFailedTest": false,
+      "counterexample": "test 0001: expected 3, prints 3.0.",
+      "kind": "format-only",
+      "reason": "Float division prints \"3.0\". On its recorded failedTest 0001 (2 3 6 18) the value 3 is numerically correct, so it fails only on float formatting; its real defects (no floor, x*y instead of lcm) appear only on other tests.",
+      "test": "0001"
+    },
+    "4387444": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "test 0002: off by one.",
+      "kind": "wrong-answer",
+      "reason": "b//f - a//f + 1 overcounts when a is not a multiple of lcm.",
+      "test": "0002"
+    },
+    "4387556": {
+      "algorithmicallyWrongOnFailedTest": false,
+      "counterexample": "test 0010: TLE.",
+      "kind": "complexity",
+      "reason": "Correct set-intersection brute force over [a,b]; TLE only.",
+      "test": "0010"
+    }
+  },
+  "packageHash": "970eada797b08e9476b548c5274308811fe2dc5dc678fe52f2d408afc9f65617",
+  "qualificationBasis": "generated",
+  "rating": 1200,
+  "reasons": [
+    "Counted incorrect 4387556 is TIME_LIMIT_EXCEEDED (correct but slow set-intersection brute force, TLE on 0010 in a fresh sandbox rerun), not an algorithmic wrong answer.",
+    "Counted incorrect 4387355 is format-only on its recorded failedTest 0001: it prints \"3.0\" where the expected answer is 3 (numerically equal).",
+    "That leaves 3 genuine algorithmic wrong answers (4386659, 4386708, 4387444), fewer than the 5 required."
+  ],
+  "reviewUrl": "https://staging.itsdev.in/sessions/5e1f99ced59a4a219ae81a8e70c05226",
+  "reviewer": "devin-5e1f99ced59a4a219ae81a8e70c05226",
+  "sandbox": {
+    "capDrop": "ALL",
+    "compilerFlags": [
+      "-O2",
+      "-std=c++17",
+      "-DONLINE_JUDGE"
+    ],
+    "executionVersion": 2,
+    "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+    "network": "none",
+    "nonRoot": true,
+    "readOnly": true,
+    "runner": "pipeline/pool_sandbox.run"
+  },
+  "verified": {
+    "downloadedSourceVerification": "bundled provenance only (pinned-shard download cross-check left to parent)",
+    "extraTests": {
+      "cornerMax": 11,
+      "count": 411,
+      "description": "Independent brute-force/corner tests (see report)",
+      "programs": [
+        {
+          "nonAC": 0,
+          "program": "oracle",
+          "sourceHash": "27c5737e00c394dbd7f8ceb0444791f0a3af84ac9491a5ec088bab119c5941d6",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "4371264",
+          "sourceHash": "4ce0f8dd9faa37406f2c56d401857f24673d30f29c459ff2b8b6174dcf2c7185",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "4371265",
+          "sourceHash": "461d14793e56108527e2cdff599accddfa73776775bb2fb20999a608f4f85c98",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "4371268",
+          "sourceHash": "245db4b0b707d9364694e3799a655f0324c09a0882a31f86dab3f86fe0036703",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "4371270",
+          "sourceHash": "874f488e21e14c2106f4ecd6b64021556aaf75b58ba98c2ebc2ac8946310c804",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "4371271",
+          "sourceHash": "762ba5afa647d0e82fbb3a0d3f2b03340e670f1d90c86d4507f3e243f9836db2",
+          "verdict": "AC"
+        }
+      ],
+      "smallBrute": 400,
+      "testsHash": "6141881dba781172aa0527c630fad5b46d704d7ac5fc00d1b38605200a2a1a35"
+    },
+    "generator": {
+      "distinctInputs": 118,
+      "identical": true,
+      "matchesRecorded": true,
+      "outputHashes": [
+        "817d75658bcb6cc61ca857b9415c5dd9fe45e745b731ad8691c44aaf7a17cb8c",
+        "817d75658bcb6cc61ca857b9415c5dd9fe45e745b731ad8691c44aaf7a17cb8c"
+      ],
+      "pairs": 118,
+      "pairsEqualPackageAuthored": true,
+      "pairsHash": "75f36f1dc0835328fc7310f838e25a4bf02474c2479379a8c054e28df638a2ff",
+      "runs": 2
+    },
+    "oracle": {
+      "packageTests": 153,
+      "sourceHash": "27c5737e00c394dbd7f8ceb0444791f0a3af84ac9491a5ec088bab119c5941d6",
+      "testsRun": 154,
+      "verdict": "AC"
+    },
+    "submissions": [
+      {
+        "actualOutputOnFailedTest": null,
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "hfPinnedShardSourceMatch": null,
+        "language": "GNU C++",
+        "lfNormalizedFailedTestVerdict": null,
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "4ce0f8dd9faa37406f2c56d401857f24673d30f29c459ff2b8b6174dcf2c7185",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4371264"
+      },
+      {
+        "actualOutputOnFailedTest": null,
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "hfPinnedShardSourceMatch": null,
+        "language": "GNU C++",
+        "lfNormalizedFailedTestVerdict": null,
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "461d14793e56108527e2cdff599accddfa73776775bb2fb20999a608f4f85c98",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4371265"
+      },
+      {
+        "actualOutputOnFailedTest": null,
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "hfPinnedShardSourceMatch": null,
+        "language": "GNU C++",
+        "lfNormalizedFailedTestVerdict": null,
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "245db4b0b707d9364694e3799a655f0324c09a0882a31f86dab3f86fe0036703",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4371268"
+      },
+      {
+        "actualOutputOnFailedTest": null,
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "hfPinnedShardSourceMatch": null,
+        "language": "GNU C++",
+        "lfNormalizedFailedTestVerdict": null,
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "874f488e21e14c2106f4ecd6b64021556aaf75b58ba98c2ebc2ac8946310c804",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4371270"
+      },
+      {
+        "actualOutputOnFailedTest": null,
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "hfPinnedShardSourceMatch": null,
+        "language": "GNU C++",
+        "lfNormalizedFailedTestVerdict": null,
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "762ba5afa647d0e82fbb3a0d3f2b03340e670f1d90c86d4507f3e243f9836db2",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4371271"
+      },
+      {
+        "actualOutputOnFailedTest": "8\n",
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0002",
+        "freshVerdict": "WA",
+        "hfPinnedShardSourceMatch": null,
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0002",
+        "recordedVerdict": "WA",
+        "sourceHash": "2715d89d54f9ba5eb576d0efb8acd4947afae1a21d0c684f6272ef4fab1d3ff1",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4386659"
+      },
+      {
+        "actualOutputOnFailedTest": "91\n",
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0002",
+        "freshVerdict": "WA",
+        "hfPinnedShardSourceMatch": null,
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0002",
+        "recordedVerdict": "WA",
+        "sourceHash": "359714cbbc0ac98b2d83a1d02d1e6b4da3aa912d16569e624f4612b914bf37e7",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4386708"
+      },
+      {
+        "actualOutputOnFailedTest": "3.0\n",
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0001",
+        "freshVerdict": "WA",
+        "hfPinnedShardSourceMatch": null,
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestVerdictMismatches": [],
+        "quirkRemoved": {
+          "change": "unchanged (inspect)",
+          "id": "340A",
+          "modifiedFailingCount": 153,
+          "modifiedFirstFailing": [
+            [
+              "0001",
+              "WA"
+            ],
+            [
+              "0002",
+              "WA"
+            ],
+            [
+              "0003",
+              "WA"
+            ],
+            [
+              "0004",
+              "WA"
+            ],
+            [
+              "0005",
+              "WA"
+            ]
+          ],
+          "modifiedFullSuiteVerdict": "WA",
+          "modifiedOutputOnFailedTest": "3.0\n",
+          "modifiedSourceHash": "0bff5b17474b486301bde84b2294529663e352351f447d03d5398f7918dd8b0c",
+          "modifiedVerdictOnFailedTest": "WA",
+          "originalSourceHash": "0bff5b17474b486301bde84b2294529663e352351f447d03d5398f7918dd8b0c",
+          "recordedFailedTest": "0001",
+          "submissionId": "4387355"
+        },
+        "recordedFailedTest": "0001",
+        "recordedVerdict": "WA",
+        "sourceHash": "0bff5b17474b486301bde84b2294529663e352351f447d03d5398f7918dd8b0c",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4387355"
+      },
+      {
+        "actualOutputOnFailedTest": "16\n",
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0002",
+        "freshVerdict": "WA",
+        "hfPinnedShardSourceMatch": null,
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0002",
+        "recordedVerdict": "WA",
+        "sourceHash": "7d32bb86b181a774c4973c9051765d9b13a617dbc3abe4b7bce8b4973bb7ccfe",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4387444"
+      },
+      {
+        "actualOutputOnFailedTest": "",
+        "expected": "TIME_LIMIT_EXCEEDED",
+        "freshFailedTest": "0010",
+        "freshVerdict": "TLE",
+        "hfPinnedShardSourceMatch": null,
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "TLE",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0010",
+        "recordedVerdict": "TLE",
+        "sourceHash": "18e6914e5d32321af4adfb533109058241fee25f04b49e17c8824b22f885d40f",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4387556"
+      }
+    ]
+  }
+}

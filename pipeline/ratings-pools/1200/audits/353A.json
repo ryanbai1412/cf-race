@@ -1,0 +1,295 @@
+{
+  "approved": true,
+  "baseCommit": "875772d6c19b78fd3c3d08a369ad4835ed9ada94",
+  "bundleSha256": "dba03d1e5317a14e8530c2660c6a998ab6eb4d1bf55ba7c88282ec7fb5152a19",
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "f2e67a78ec88561ae41b406fd4add137a7b15bddb1f0cfb6298b7850060625bb",
+  "id": "353A",
+  "incorrectAnalysis": {
+    "4726812": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "2 dominoes (1,1),(2,2): both sums odd and no mixed-parity domino, so expected -1; prints 1.",
+      "kind": "wrong-answer",
+      "reason": "Tests x%2 != d%2 where d is the running bottom sum rather than the current piece bottom y, so it finds a mixed-parity domino that does not exist.",
+      "test": "0011"
+    },
+    "4728267": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "n=1, (1,1): expected -1, prints 1.",
+      "kind": "wrong-answer",
+      "reason": "Only checks total parity and top-sum parity; never checks that a mixed-parity domino exists to rotate.",
+      "test": "0008"
+    },
+    "4729232": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "n=1, (1,1): expected -1, prints 1.",
+      "kind": "wrong-answer",
+      "reason": "Odd-count logic without a mixed-parity domino requirement; both-odd counts with no rotatable domino return 1.",
+      "test": "0008"
+    },
+    "4737225": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "5 dominoes (5,4),(5,4),(1,5),(5,5),(3,3): sums 19/21 both odd and (5,4) is mixed, so expected 1; prints -1.",
+      "kind": "wrong-answer",
+      "reason": "isAllOdd prefix heuristic flags -1 whenever some prefix top sum is even and the final top sum is odd, rejecting solvable cases.",
+      "test": "0004"
+    },
+    "4739111": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "20-domino test 0005: top sum and bottom sum have different parity, so expected -1; prints 1.",
+      "kind": "wrong-answer",
+      "reason": "Prints 1 whenever any mixed domino exists and n>1, even when top and bottom sums have different parity (impossible case).",
+      "test": "0005"
+    }
+  },
+  "packageHash": "e6ac2c4876f39c7aaf606fd3a5a3c998ca02224f52b79c4e4fe8f8f7894afea6",
+  "qualificationBasis": "generated",
+  "rating": 1200,
+  "reviewUrl": "https://staging.itsdev.in/sessions/5e1f99ced59a4a219ae81a8e70c05226",
+  "reviewer": "devin-5e1f99ced59a4a219ae81a8e70c05226",
+  "sandbox": {
+    "capDrop": "ALL",
+    "compilerFlags": [
+      "-O2",
+      "-std=c++17",
+      "-DONLINE_JUDGE"
+    ],
+    "executionVersion": 2,
+    "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+    "network": "none",
+    "nonRoot": true,
+    "readOnly": true,
+    "runner": "pipeline/pool_sandbox.run"
+  },
+  "verified": {
+    "downloadedSourceVerification": "pinned open-r1/codeforces-submissions shards sha256-verified and every source byte-matched",
+    "extraTests": {
+      "cornerMax": 6,
+      "count": 506,
+      "description": "All 36 single dominoes and a 25% sample of the 1296 two-domino inputs (values 1..6), 150 random n in [3,10], and n=100 corner/max cases, with expected values from my 2^n rotation-subset brute force (n<=10) or my parity formula (n=100; matched the brute force on every small case).",
+      "programs": [
+        {
+          "nonAC": 0,
+          "program": "oracle",
+          "sourceHash": "66409ab70b3c18a7d77047faecaa521fa6c6f219e7d24111e017574980677558",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "4726212",
+          "sourceHash": "f8af1bc959276a0bb96970d61509c2386c4912c8307bd17ac61c17f31fdb5369",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "4726214",
+          "sourceHash": "6991cd03f857b4b5aa1548b0d7ea92fa0f1afe9c5e9a6db28fd3133efaa0f8d9",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "4726219",
+          "sourceHash": "f0038d6bfb3a6731ee871741213caef07f15fc8fe6c936feef82bd36baddbad2",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "4726231",
+          "sourceHash": "0666e0ecd8b78618e175c5d34526b3ff064be648d046f9ed989efb6caa8b5e44",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "4726239",
+          "sourceHash": "3135299cc3bbf546b03ccc71df8d3702c7e7bf354f2f1235f9406f9e8c25c1e9",
+          "verdict": "AC"
+        }
+      ],
+      "smallBrute": 500,
+      "testsHash": "1f2d01b4c65e27eebffcfab68ed3d868a8c9ca392268b9436d71526b3ca63c2f"
+    },
+    "generator": {
+      "distinctInputs": 124,
+      "identical": true,
+      "matchesRecorded": true,
+      "outputHashes": [
+        "cf81f6e0b37f06d3f00a00b854ddeb234cfc3f1048ef50799c02929d67e07726",
+        "cf81f6e0b37f06d3f00a00b854ddeb234cfc3f1048ef50799c02929d67e07726"
+      ],
+      "pairs": 124,
+      "pairsEqualPackageAuthored": true,
+      "pairsHash": "42fae91ee1c321c9d66fb68c0606edeea05d749607c711483b7b26398cbab24e",
+      "runs": 2
+    },
+    "oracle": {
+      "packageTests": 183,
+      "sourceHash": "66409ab70b3c18a7d77047faecaa521fa6c6f219e7d24111e017574980677558",
+      "testsRun": 186,
+      "verdict": "AC"
+    },
+    "submissions": [
+      {
+        "actualOutputOnFailedTest": null,
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "hfPinnedShardSourceMatch": true,
+        "language": "GNU C++",
+        "lfNormalizedFailedTestVerdict": null,
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "f8af1bc959276a0bb96970d61509c2386c4912c8307bd17ac61c17f31fdb5369",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4726212"
+      },
+      {
+        "actualOutputOnFailedTest": null,
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "hfPinnedShardSourceMatch": true,
+        "language": "GNU C++",
+        "lfNormalizedFailedTestVerdict": null,
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "6991cd03f857b4b5aa1548b0d7ea92fa0f1afe9c5e9a6db28fd3133efaa0f8d9",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4726214"
+      },
+      {
+        "actualOutputOnFailedTest": null,
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "hfPinnedShardSourceMatch": true,
+        "language": "GNU C++",
+        "lfNormalizedFailedTestVerdict": null,
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "f0038d6bfb3a6731ee871741213caef07f15fc8fe6c936feef82bd36baddbad2",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4726219"
+      },
+      {
+        "actualOutputOnFailedTest": null,
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "hfPinnedShardSourceMatch": true,
+        "language": "GNU C++",
+        "lfNormalizedFailedTestVerdict": null,
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "0666e0ecd8b78618e175c5d34526b3ff064be648d046f9ed989efb6caa8b5e44",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4726231"
+      },
+      {
+        "actualOutputOnFailedTest": null,
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "hfPinnedShardSourceMatch": true,
+        "language": "GNU C++",
+        "lfNormalizedFailedTestVerdict": null,
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "3135299cc3bbf546b03ccc71df8d3702c7e7bf354f2f1235f9406f9e8c25c1e9",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4726239"
+      },
+      {
+        "actualOutputOnFailedTest": "1\n",
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0011",
+        "freshVerdict": "WA",
+        "hfPinnedShardSourceMatch": true,
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0011",
+        "recordedVerdict": "WA",
+        "sourceHash": "80d5311b889886256b7575be3026150b5ec4e3887da61f12eca669bd3e494567",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4726812"
+      },
+      {
+        "actualOutputOnFailedTest": "1\n",
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0008",
+        "freshVerdict": "WA",
+        "hfPinnedShardSourceMatch": true,
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0008",
+        "recordedVerdict": "WA",
+        "sourceHash": "84888c138c395b54cd87f00f1f302e62e827df9f130807b9ca8e5f4f7478c7dd",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4728267"
+      },
+      {
+        "actualOutputOnFailedTest": "1\n",
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0008",
+        "freshVerdict": "WA",
+        "hfPinnedShardSourceMatch": true,
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0008",
+        "recordedVerdict": "WA",
+        "sourceHash": "c5ae95ffc2fd93e9a4cde28a3f33b297343a089d15639a87f441d67e53ea74e0",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4729232"
+      },
+      {
+        "actualOutputOnFailedTest": "-1\n",
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0004",
+        "freshVerdict": "WA",
+        "hfPinnedShardSourceMatch": true,
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0004",
+        "recordedVerdict": "WA",
+        "sourceHash": "a9de749d257c30a81daddf3d4f50544b1298b879728fc4d14825b7072b36effd",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4737225"
+      },
+      {
+        "actualOutputOnFailedTest": "1\n",
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0005",
+        "freshVerdict": "WA",
+        "hfPinnedShardSourceMatch": true,
+        "language": "Python 3",
+        "lfNormalizedFailedTestVerdict": "WA",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0005",
+        "recordedVerdict": "WA",
+        "sourceHash": "32a837825d72318dab9ca3fad2ab7f3c3a5aa4218763361dc496659bfac9aa63",
+        "sourceHashMatchesEvidence": true,
+        "submissionId": "4739111"
+      }
+    ]
+  }
+}
