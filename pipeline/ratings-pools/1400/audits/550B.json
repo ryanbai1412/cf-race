@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "850fbcadff176be31b347c75517cc4735bddfdb407d6634ab90ee5c05d45e7a3",
+  "incorrectAnalysis": {
+    "188014416": {
+      "kind": "wrong-answer",
+      "reason": "Returns immediately when a partial subset is valid, so it never explores valid supersets of that subset. For 4 15 60 10 / 10 20 30 25 it counts 4 instead of all 6 valid subsets.",
+      "test": "0004"
+    },
+    "193158167": {
+      "kind": "wrong-answer",
+      "reason": "Prunes a partial subset when its sum is below l or its spread is below x, even though adding later problems can satisfy both lower bounds. The initial empty subset is pruned, so 3 5 6 1 / 1 2 3 returns 0 instead of 2.",
+      "test": "0001"
+    },
+    "197643532": {
+      "kind": "wrong-answer",
+      "reason": "Uses abs(last-first) for each combination rather than max-min, without sorting the input. Valid subsets with extrema in interior positions are discarded; on the recorded unsorted n=10 case it returns 475 instead of 914.",
+      "test": "0006"
+    },
+    "208069928": {
+      "kind": "wrong-answer",
+      "reason": "Enumerates n-length ordered tuples with repetition rather than subsets of distinct problems, and applies strict inequalities to all three inclusive bounds. On 3 5 6 1 / 1 2 3 its strict sum test excludes both valid boundary-sum subsets and returns 0 instead of 2.",
+      "test": "0001"
+    },
+    "208074946": {
+      "kind": "wrong-answer",
+      "reason": "Subtracts 1 from both inclusive sum bounds even though they are numerical constraints, not indices. On 4 40 50 10 / 10 20 30 25 it accepts sums 39..49 instead of 40..50 and returns 1 instead of 2.",
+      "test": "0002"
+    }
+  },
+  "packageHash": "9760ce21b5f264b705d482e33ed3819f60708c21e4b6568205d08de6858fa70d",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/964d15093b104af1b8a846ce7c048074",
+  "reviewer": "devin-audit-session-964d15093b104af1b8a846ce7c048074"
+}

@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "ffc7f515641f70be1d76b805403c575a98cabf66e01efab0ae53f0fafd2dfbbf",
+  "incorrectAnalysis": {
+    "48066369": {
+      "kind": "wrong-answer",
+      "reason": "For any positive distance shorter than one diameter, int(distance/(2*r)) is zero and the program incorrectly forces the answer to zero. Test 0006 has distance sqrt(65) and diameter 10; one move is required.",
+      "test": "0006"
+    },
+    "48676896": {
+      "kind": "wrong-answer",
+      "reason": "Uses floor(distance/r)-1 instead of ceil(distance/(2*r)). Test 0005 has distance 20 and diameter 18, requiring 2 moves, while it returns 1.",
+      "test": "0005"
+    },
+    "48677159": {
+      "kind": "wrong-answer",
+      "reason": "Truncates distance/(2*r) instead of taking its ceiling. Test 0002 has distance sqrt(18), diameter 2, so it returns 2 rather than 3.",
+      "test": "0002"
+    },
+    "49981713": {
+      "kind": "wrong-answer",
+      "reason": "Operator precedence in ceil(distance/2*r) multiplies by r after division, rather than dividing by 2*r. For r=2,distance=4 it returns 4 rather than 1.",
+      "test": "0001"
+    },
+    "50595154": {
+      "kind": "wrong-answer",
+      "reason": "Uses half the squared distance as its distance surrogate and incorrect coordinate quotient/remainder branch formulas. On test 0005 (horizontal distance 20,r=9) its branch returns 4 rather than ceil(20/18)=2.",
+      "test": "0005"
+    }
+  },
+  "packageHash": "efb7c9449fa79bacb42a058270441286a2ab31d5e1cb28e7ddd563e74f5da1e7",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/92d2704604ab41f6a6d820883a8efa5c",
+  "reviewer": "devin-audit-session-92d2704604ab41f6a6d820883a8efa5c"
+}

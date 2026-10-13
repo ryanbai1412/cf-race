@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "74e3e487c78862839347f8cb343871f0803f3228683266abc02b71ad09228279",
+  "incorrectAnalysis": {
+    "219195973": {
+      "kind": "wrong-answer",
+      "reason": "Reverses the starting value rather than the target and never increments res inside the reverse-operation loop. On n=10,m=1 it reduces 10 to 1 and reports 0 instead of the required nine decrements.",
+      "test": "0002"
+    },
+    "219399057": {
+      "kind": "complexity",
+      "reason": "Tests x%y==2 instead of parity and otherwise increases x by 2 while x>y. For n=10,m=1 the condition is impossible, x increases forever, and the program exceeds the 2-second limit.",
+      "test": "0002"
+    },
+    "219399456": {
+      "kind": "wrong-answer",
+      "reason": "Returns abs(n-m), ignoring the doubling operation and the fact that increment is not an allowed operation. For 1 to 3 it reports 2 instead of the three-operation path 1->2->4->3.",
+      "test": "0005"
+    },
+    "219400521": {
+      "kind": "wrong-answer",
+      "reason": "Does not count the m//=2 reverse operation. For 4 to 6, reverse increment 6->3 plus the final decrement gives 2 operations, but the program reports 1.",
+      "test": "0001"
+    },
+    "219407964": {
+      "kind": "wrong-answer",
+      "reason": "Uses n+=1 and n//=2 as forward operations; the allowed operations are n*=2 and n-=1. For 10 to 1 it reports 5 illegal-operation steps instead of nine decrements.",
+      "test": "0002"
+    }
+  },
+  "packageHash": "bae25357a8c9074a122aa868269341d8ee231dc1782af97d556ff32dcc2b842c",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/964d15093b104af1b8a846ce7c048074",
+  "reviewer": "devin-audit-session-964d15093b104af1b8a846ce7c048074"
+}

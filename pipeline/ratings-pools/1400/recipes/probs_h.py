@@ -256,7 +256,8 @@ class P604B:
                 ("maxSize", "n=2k all 1e6 (answer 2e6)", J((100000, 50000), [10**6] * 100000)),
                 ("maxSize", "n=k=1e5/2 singles only", J((50000, 50000), sorted(r.randint(1, 10**6) for _ in range(50000)))),
                 ("adversarial", "largest single dominates pairs", "3 2\n1 1 100\n"),
-                ("adversarial", "pairing must match smallest with largest paired", "6 4\n1 2 3 4 50 60\n")]
+                ("adversarial", "largest single bell dominates the paired sums", "6 4\n1 2 3 4 50 60\n"),
+                ("adversarial", "pairs (1,10),(2,9) give 11; adjacent pairing gives 19", "6 4\n1 2 9 10 11 11\n")]
 
 
 @problem("637C", "n in [1,1000]; distinct six-digit codes (leading zeros allowed)", 0)
@@ -1581,7 +1582,7 @@ class P77A:
     def B(s):
         likes, xp = _p77(s)
         res = []
-        for sizes in permutations(range(1, 6), 3):
+        for sizes in product(range(1, 6), repeat=3):
             if sum(sizes) != 7:
                 continue
             for team_a in combinations(range(7), sizes[0]):
@@ -1631,7 +1632,8 @@ class P838A:
         rows = s.split("\n")
         n, m = map(int, rows[0].split())
         g = np.array([[c == "1" for c in rows[1 + i].strip()] for i in range(n)], dtype=np.int64)
-        N, M = 2 * n, 2 * m
+        K = max(n, m)
+        N, M = n + K, m + K
         P = np.zeros((N + 1, M + 1), dtype=np.int64)
         P[1:n + 1, 1:m + 1] = g.cumsum(0).cumsum(1)
         P[n + 1:, 1:m + 1] = P[n:n + 1, 1:m + 1]

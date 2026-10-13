@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "reviewer": "devin-audit-session-b93287be099a4932a2ab1620ce2cd515",
+  "reviewUrl": "https://staging.itsdev.in/sessions/b93287be099a4932a2ab1620ce2cd515",
+  "evidenceHash": "191e3b1172a788d552fcabac183cf228a1e48beeebd71b3340ee367a330eb769",
+  "packageHash": "510d08f6d8346065a7ee19870d140193ec772470dfd6a70fc1b221c862b79798",
+  "qualificationBasis": "generated",
+  "checks": {
+    "sourceAttribution": true,
+    "fullTests": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "noSpecialChecker": true,
+    "hashes": true,
+    "deterministicGeneration": true,
+    "independentOracle": true,
+    "generatedBasis": true,
+    "algorithmicallyWrong": true,
+    "inputConstraints": true
+  },
+  "incorrectAnalysis": {
+    "75330974": {
+      "reason": "Several digit expansions are wrong: 5->3, 6->532 and 7->3, where the correct expansions are 5, 53 and 7. On 0002 (a=555) it prints 333 instead of 555.",
+      "kind": "wrong-answer",
+      "test": "0002"
+    },
+    "76744710": {
+      "reason": "Its expansion rules are wrong: 8 becomes [7]+4*[2] (should be 7222), 6 and 9 are kept unexpanded, and the elif branch for 2 can never be reached. On 0003 (012345781234578) the extra 2s from each 8 make it print 777755333322222222222222 instead of 7777553333222222222222.",
+      "kind": "wrong-answer",
+      "test": "0003"
+    },
+    "77718434": {
+      "reason": "Its expansion table maps 4 to \"22\" (4! = 3!*2!*2!, so it should be 322). On 0001 (1234) it prints 3222 instead of 33222.",
+      "kind": "wrong-answer",
+      "test": "0001"
+    },
+    "78478281": {
+      "reason": "It reads the digit string as an integer and calls l.pop(i) while iterating with a fixed index range, so elements after each removed 0/1 are skipped and never expanded (an 8 stays as 8). It also never expands 9. On 0003 (012345781234578) it prints 8777553333222222222 instead of 7777553333222222222222.",
+      "kind": "wrong-answer",
+      "test": "0003"
+    },
+    "79357103": {
+      "reason": "It multiplies the digit factorials together and then greedily divides by 9!, 7!, 5!, 3!, 2!. When the remainder has no factor 2 but is >1, no branch applies and the while loop never ends. On 0003 the remainder gets stuck at 25 after the prefix 99972222222222222 (reproduced by an independent trace), so it times out. The greedy decomposition is also wrong because it outputs 9s.",
+      "kind": "complexity",
+      "test": "0003"
+    }
+  }
+}

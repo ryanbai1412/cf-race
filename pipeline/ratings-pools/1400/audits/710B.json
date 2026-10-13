@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "10c50b3c6a6424cc69dc9b0217f2b02912d24142ffc0a77f49e54b3f19165053",
+  "incorrectAnalysis": {
+    "20077159": {
+      "kind": "wrong-answer",
+      "reason": "Chooses the input coordinate nearest the arithmetic mean; minimizing sum of absolute distances instead requires the left median. Test 0003 selects 10 instead of 22.",
+      "test": "0003"
+    },
+    "20077452": {
+      "kind": "wrong-answer",
+      "reason": "Discards the result of sorted(a) and uses a[0] and a[n-1] as ternary-search bounds. In test 0004 these are 457 and 424, so the search never executes and prints its sentinel -1 instead of 64.",
+      "test": "0004"
+    },
+    "20080460": {
+      "kind": "wrong-answer",
+      "reason": "Uses sorted a[n//2], choosing the right median for even n. For coordinates 1,2,3,4 the required leftmost optimum is 2, not 3.",
+      "test": "0001"
+    },
+    "20082668": {
+      "kind": "wrong-answer",
+      "reason": "For odd n uses sorted x[n//2+1], one position to the right of the median. Test 0002 returns 6 rather than 2. Its even-n midpoint rule also violates the leftmost-optimum requirement.",
+      "test": "0002"
+    },
+    "20082729": {
+      "kind": "wrong-answer",
+      "reason": "For even n prints the floored arithmetic mean of all coordinates rather than the left median. Test 0003 returns 12 instead of 22.",
+      "test": "0003"
+    }
+  },
+  "packageHash": "885556d2abbb83ca4376dd303b81f4695034c383643c0cf11dbae934135c6d31",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/92d2704604ab41f6a6d820883a8efa5c",
+  "reviewer": "devin-audit-session-92d2704604ab41f6a6d820883a8efa5c"
+}

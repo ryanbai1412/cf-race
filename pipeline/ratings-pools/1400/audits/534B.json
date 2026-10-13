@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "c82af8c1890b05a0a56e168128546f6b3d78c5e0ddf3259dfa8ef3533b1893d7",
+  "incorrectAnalysis": {
+    "10695304": {
+      "kind": "wrong-answer",
+      "reason": "Splices acceleration and deceleration ramps with incorrect crossover indices, double-counting time slots and using an infeasible peak instead of the pointwise minimum envelope. For 5 6 / 4 2 it reports 38 rather than 26.",
+      "test": "0001"
+    },
+    "10725918": {
+      "kind": "wrong-answer",
+      "reason": "Restricts the profile to one peak reached with full d-sized steps and requires its computed ascent+descent duration to equal t-1. With t=2 and equal endpoints 87, no candidate satisfies that test, so it emits no answer despite the feasible distance 174.",
+      "test": "0003"
+    },
+    "12745599": {
+      "kind": "complexity",
+      "reason": "Allocates a 2000-by-11000 memo table (22 million entries) and recursively evaluates each reachable time/speed state with 2d+1 transitions instead of using the linear envelope. On 1 1 / 100 10 both sandbox reruns exceeded the 1-second CPU limit (SIGXCPU), even though 24600 was printed before process termination.",
+      "test": "0006"
+    },
+    "16063859": {
+      "kind": "wrong-answer",
+      "reason": "Accelerates until v1 reaches v2+d, fills remaining seconds with a plateau, and subtracts one correction instead of respecting the remaining deceleration budget at every second. For 100 10 / 10 10 the unique feasible ramp sums to 550, but it reports 830.",
+      "test": "0005"
+    },
+    "25489357": {
+      "kind": "wrong-answer",
+      "reason": "Uses an arithmetic progression from v1 plus a last-term adjustment without enforcing the endpoint speed bound. At t=2 the two speeds must simply sum to 174, but its formula returns 173 for 87 87 / 2 10.",
+      "test": "0003"
+    }
+  },
+  "packageHash": "fcf811a339f8c4c54048af692ab051fb61bb2b8ddbd02cf06120d7128e7fdf64",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/964d15093b104af1b8a846ce7c048074",
+  "reviewer": "devin-audit-session-964d15093b104af1b8a846ce7c048074"
+}

@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "df95890f2b0e23f24fa1115451ba96c0ff77bcab710e304b42cd31383ef91e85",
+  "incorrectAnalysis": {
+    "192580474": {
+      "kind": "wrong-answer",
+      "reason": "Concatenates the remaining digit-sum value as though it were a single digit, decrementing it per position instead of allocating digits 0..9. On m=2,s=15 its candidate 1514 has four digits and digit sum 11, not two digits summing to 15. This is a construction defect independent of the additional missing maximum-output token.",
+      "test": "0001"
+    },
+    "192671817": {
+      "kind": "wrong-answer",
+      "reason": "Both recursive searches begin with start=1 and reject sum_N<start, incorrectly rejecting the permitted one-digit number zero for m=1,s=0.",
+      "test": "0008"
+    },
+    "192780155": {
+      "kind": "wrong-answer",
+      "reason": "The greedy condition reqLen-1<=remainingSum reserves at least one unit per remaining digit, disallowing valid zero digits. On m=2,s=1 it builds 01 and rejects the case, although 10 is both extrema.",
+      "test": "0003"
+    },
+    "192783888": {
+      "kind": "wrong-answer",
+      "reason": "The minimum builder uses the same at-least-one-per-remaining-digit condition and then reverses its result, forcing nonzero internal digits. For m=3,s=10 it returns minimum 118 rather than 109; its maximum 910 is correct.",
+      "test": "0004"
+    },
+    "192867818": {
+      "kind": "wrong-answer",
+      "reason": "Unconditionally declares every s=0 case impossible, failing to special-case the valid m=1,s=0 number zero.",
+      "test": "0008"
+    }
+  },
+  "packageHash": "1c63ecd0807a7bae721a97e16ba5cf2ee7c5b7665047f2afcef105c2dc480276",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/92d2704604ab41f6a6d820883a8efa5c",
+  "reviewer": "devin-audit-session-92d2704604ab41f6a6d820883a8efa5c"
+}

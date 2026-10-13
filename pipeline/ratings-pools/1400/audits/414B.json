@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "d12019e587bdc22afcdf97316d067b5e82aabd2125dbc4bc2149ed71d36f85cf",
+  "incorrectAnalysis": {
+    "6327537": {
+      "kind": "wrong-answer",
+      "reason": "Counts divisibility chains without reduction modulo 1000000007. On valid test 0004 (1478 194), prints the unreduced 119790746150622968 instead of 312087753.",
+      "test": "0004"
+    },
+    "6327555": {
+      "kind": "wrong-answer",
+      "reason": "Reuses d, initialized to the modulus, as the innermost loop index. The final remainder is therefore modulo k-2 rather than 1000000007; on valid test 0002 (6 4), prints 1 instead of 39.",
+      "test": "0002"
+    },
+    "6335341": {
+      "kind": "complexity",
+      "reason": "Recursively enumerates every good sequence without memoization or aggregate DP. Exponentially many branches at n=1478,k=194 cause a genuine CPU timeout on valid test 0004.",
+      "test": "0004"
+    },
+    "6399662": {
+      "kind": "wrong-answer",
+      "reason": "Divisor-based DP computes the exact unreduced count and never takes modulo 1000000007. On valid test 0004, prints 119790746150622968 instead of 312087753.",
+      "test": "0004"
+    },
+    "9389859": {
+      "kind": "wrong-answer",
+      "reason": "Divisor-based DP omits the required modulo operation both in transitions and output. On valid test 0004, prints 119790746150622968 instead of 312087753.",
+      "test": "0004"
+    }
+  },
+  "packageHash": "5c00c451606e1e23ae4560fcee567c54966eca0e4b6c0728dc04264abbce159e",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/e26ded413f054717bad1a09e3511c9df",
+  "reviewer": "devin-audit-session-e26ded413f054717bad1a09e3511c9df"
+}

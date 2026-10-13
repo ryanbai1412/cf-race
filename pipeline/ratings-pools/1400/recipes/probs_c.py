@@ -409,7 +409,8 @@ class P652A:
     def G():
         return [("boundary", "reach in first afternoon exactly", "1 9\n1 1\n"), ("boundary", "a=b never progress", "1 100000\n1 1\n"),
                 ("maxSize", "net gain 12 per day over 1e5", "1 100000\n2 1\n"), ("adversarial", "missed by 1 first day then a<=b", "1 10\n1 1\n"),
-                ("adversarial", "slip under ground then reach", "1 100000\n100000 99999\n"), ("maxSize", "max heights instant", "99999 100000\n100000 100000\n")]
+                ("adversarial", "a huge: reaches during first afternoon (answer 0)", "1 100000\n100000 99999\n"),
+                ("adversarial", "night slip goes below ground, net +12/day still reaches", "1 100000\n10000 9999\n"), ("maxSize", "max heights instant", "99999 100000\n100000 100000\n")]
 
 
 @problem("675B", "one line n a b c d; 1<=n<=1e5; 1<=a,b,c,d<=n", 300)

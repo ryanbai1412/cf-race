@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "reviewer": "devin-audit-session-b93287be099a4932a2ab1620ce2cd515",
+  "reviewUrl": "https://staging.itsdev.in/sessions/b93287be099a4932a2ab1620ce2cd515",
+  "evidenceHash": "927d1f9d7dace072a13b7aeef6cedc166367aa2f2cdcef7c4795b8fb6d6ca779",
+  "packageHash": "8095e561cf7faf1a5538e52c4924fd4bda6fb7c92a1d69dd06ae678846d69451",
+  "qualificationBasis": "generated",
+  "checks": {
+    "sourceAttribution": true,
+    "fullTests": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "noSpecialChecker": true,
+    "hashes": true,
+    "deterministicGeneration": true,
+    "independentOracle": true,
+    "generatedBasis": true,
+    "algorithmicallyWrong": true,
+    "inputConstraints": true
+  },
+  "incorrectAnalysis": {
+    "35654409": {
+      "reason": "For a reply at distance d=s-a[s]<=k it adds min(n-s, d) new messages; the correct increment is min(n, s+k) - min(n, a[s]+k), so it overcounts when the parent window ends within k of n. On 0041 message 93536 (parent 92412, k=6475, n=100000) it adds 1124 instead of 1113 and prints 20967 instead of 20956.",
+      "kind": "wrong-answer",
+      "test": "0041"
+    },
+    "35669821": {
+      "reason": "Each message copies its parent's full list of disjoint intervals (NumRange.union copies _data) and length() rescans it, so a reply chain whose windows never merge costs O(n^2). Test 0046 (n=99976, k=1, a[i]=i-3) builds such a chain and exceeds the time limit with and without CRLF.",
+      "kind": "complexity",
+      "test": "0046"
+    },
+    "35675503": {
+      "reason": "When the parent is within k and the current window is clipped at n, it computes the increment as rast + upper_this + 1 - upper_last, which simplifies to 1, instead of n - (a[s]+k). On 0037 (n=10, k=3, message 8 replies to 4) it adds 1 instead of 3 and prints 8 instead of 10.",
+      "kind": "wrong-answer",
+      "test": "0037"
+    },
+    "35676676": {
+      "reason": "While walking up the reply chain, if an ancestor x has x-k<=0 but x>=left_bound, it adds left_bound-(x-k)-1 instead of left_bound-1, counting positions that are already covered. On 0041 message 6477 (parent 299, k=6475) this adds 6177 instead of 1 and prints 19128 instead of 12952.",
+      "kind": "wrong-answer",
+      "test": "0041"
+    },
+    "35684306": {
+      "reason": "It applies the boundary correction dp[i]-- whenever a[i]+k+1>i and a[i]+k+1>n, including when a[i]=0, so the message has no parent and nothing overlaps. On 0008 (n=2, k=2, a=[0,0]) it prints 2 1 instead of 2 2.",
+      "kind": "wrong-answer",
+      "test": "0008"
+    }
+  }
+}

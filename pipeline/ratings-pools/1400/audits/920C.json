@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "reviewer": "devin-audit-session-b93287be099a4932a2ab1620ce2cd515",
+  "reviewUrl": "https://staging.itsdev.in/sessions/b93287be099a4932a2ab1620ce2cd515",
+  "evidenceHash": "0031e872dae61fcbb1e96ef6fa308cccc782a2d91dd9c9a32a753a15c2842726",
+  "packageHash": "0673159b02b586426ded6bdd5903978d9c904f3fc71f024e238c09479ce7e562",
+  "qualificationBasis": "generated",
+  "checks": {
+    "sourceAttribution": true,
+    "fullTests": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "noSpecialChecker": true,
+    "hashes": true,
+    "deterministicGeneration": true,
+    "independentOracle": true,
+    "generatedBasis": true,
+    "algorithmicallyWrong": true,
+    "inputConstraints": true
+  },
+  "incorrectAnalysis": {
+    "34842556": {
+      "reason": "For a run of 1s that starts at swap i, it sorts arr[i+1..j] and leaves out position i, which is the leftmost element of the connected block. On 0072 (n=2, a=[2,1], s=1) it never sorts position 1 and prints NO instead of YES.",
+      "kind": "wrong-answer",
+      "test": "0072"
+    },
+    "34842779": {
+      "reason": "It sorts a block only when it sees s[i]=='0' for i<n. s has length n-1, so s[n-1] is the terminator, never '0', and the last block (ending at n) is never sorted. On 0072 (n=2, a=[2,1], s=1) it prints NO instead of YES.",
+      "kind": "wrong-answer",
+      "test": "0072"
+    },
+    "34843250": {
+      "reason": "In the final block (r reaches n-1) it calls only sort(a+l, a+r), and the r<n-1 branch is skipped, so the last element of the last block is never included in the sort. On 0072 (n=2, a=[2,1], s=1) it prints No instead of YES. The case difference is accepted by the YES/NO checker, and the cerr debug output goes to stderr only.",
+      "kind": "wrong-answer",
+      "test": "0072"
+    },
+    "34843309": {
+      "reason": "After sorting, it checks only the swap immediately left of each target position (s[i-1]). It never checks that every swap between the element's original and target positions is allowed. On 0014 (a=1 5 3 4 2, s=1101) value 5 must cross the forbidden swap 3-4, but it prints YES instead of NO.",
+      "kind": "wrong-answer",
+      "test": "0014"
+    },
+    "34843337": {
+      "reason": "It requires s[i]=='1' only when a[i] > sorted(a)[i], comparing the element at i with the sorted value instead of using the prefix maximum, so elements that must move right past a forbidden swap are missed. On 0003 (a=1 6 3 4 5 2, s=01101) value 6 must cross the forbidden swap 4-5, but it prints YES instead of NO.",
+      "kind": "wrong-answer",
+      "test": "0003"
+    }
+  }
+}

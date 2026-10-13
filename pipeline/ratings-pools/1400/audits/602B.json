@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "18651ec0721403372ad4766529455a5e319f5bde6cb8b61c4182c329346c605e",
+  "incorrectAnalysis": {
+    "14450998": {
+      "kind": "complexity",
+      "reason": "Recomputes min/max by scanning the remaining window after every left-boundary increment. A long nearly constant prefix followed by a third value causes quadratic rescanning; valid test 0021 exceeds the 2-second CPU limit.",
+      "test": "0021"
+    },
+    "14451385": {
+      "kind": "complexity",
+      "reason": "Calls a linear scan of the difference array for every starting index. This quadratic range search exceeds the 2-second CPU limit on the long almost-constant prefix in valid test 0021.",
+      "test": "0021"
+    },
+    "14456846": {
+      "kind": "complexity",
+      "reason": "Enumerates every start and repeatedly computes max/min of an expanding list, yielding cubic worst-case work. Valid test 0021 exceeds the 2-second CPU limit.",
+      "test": "0021"
+    },
+    "14457684": {
+      "kind": "complexity",
+      "reason": "Restarts the inner range scan at every starting index rather than maintaining a sliding window, giving quadratic work on long almost-constant ranges; valid test 0021 exceeds the 2-second CPU limit.",
+      "test": "0021"
+    },
+    "14467042": {
+      "kind": "wrong-answer",
+      "reason": "Tracks first/last positions of two remembered values and combines first-appearance gaps instead of maintaining a valid contiguous min/max window; replacing x with y on a third value can discard the value needed for the suffix. It reports 33 on valid maximum random-walk test 0033, whose independently computed answer is 29.",
+      "test": "0033"
+    }
+  },
+  "packageHash": "faea671136f408a4c83cec63700addad43b2564a56b55824acaf09418283543f",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/e26ded413f054717bad1a09e3511c9df",
+  "reviewer": "devin-audit-session-e26ded413f054717bad1a09e3511c9df"
+}

@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "4a9858750121e5883b536f10a94abbb1d1bed806de8a5e7631d892169a92773f",
+  "incorrectAnalysis": {
+    "6845814": {
+      "kind": "wrong-answer",
+      "reason": "Iterates days 1 through 3000 only, omitting the last legal harvest day 3001 for fruit ripening on day 3000. Valid test 0008 (one tree, v=10, day 3000, 30 fruit) returns 10 instead of 20.",
+      "test": "0008"
+    },
+    "6850840": {
+      "kind": "wrong-answer",
+      "reason": "Appends every tree day to an already constructed set of harvest days, then processes duplicate days again with a fresh daily limit, including out-of-order dates and expired leftovers. Valid test 0002 returns 90 although five 20-fruit trees on days 1..5 with v=10 permit only 60.",
+      "test": "0002"
+    },
+    "6852929": {
+      "kind": "wrong-answer",
+      "reason": "Ignores each tree ripening day and indexes fruit by input-row number; its transition also adds unclamped negative leftover amounts. Valid test 0003 returns -11606 instead of 10596.",
+      "test": "0003"
+    },
+    "6855572": {
+      "kind": "wrong-answer",
+      "reason": "Resets b_last before handling current fruit, but fails to retain that fruit when old leftovers exhaust daily capacity. The no-new-fruit branch also leaves stale carry unexpired. Valid test 0006 undercounts 15943 instead of 18465; the missing-carry defect alone gives 6 instead of 9 for v=3 and trees (1,6),(2,3).",
+      "test": "0006"
+    },
+    "6857892": {
+      "kind": "wrong-answer",
+      "reason": "Loops only through day 3000, omitting day 3001. On valid test 0008 (one tree ripening on day 3000, 30 fruit, v=10), returns 10 instead of 20.",
+      "test": "0008"
+    }
+  },
+  "packageHash": "5c0e678a5d14c8e10f6450d5c5bc03889b7c11836934ba1848bb6c5dc34e1d78",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/e26ded413f054717bad1a09e3511c9df",
+  "reviewer": "devin-audit-session-e26ded413f054717bad1a09e3511c9df"
+}
