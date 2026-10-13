@@ -123,6 +123,25 @@ class StatementNormalizationTests(unittest.TestCase):
         self.assertTrue(normalize_statement.has_attestation('2^{i - 1}', '2<sup class="upper-index">i - 1</sup>'))
         self.assertFalse(normalize_statement.has_attestation('2i - 1', '2<sup class="upper-index">i - 1</sup>'))
 
+    def test_readable_sections_exclude_navigation_samples_and_footer(self):
+        text = 'Navigation 10⁶\noutput\nstandard output\nDescription.\nInput\nn ≤ 10³\nOutput\nAn integer.\nExamples\nInput\n10⁶\nFooter 10⁶'
+        self.assertEqual(normalize_statement.readable_sections(text), {
+            'formatD': 'Description.', 'formatI': 'n ≤ 10³', 'formatO': 'An integer.'})
+        source = {'content': {'locale': 'en'}}
+        repairs, attestations = normalize_statement.repair_spec('235A')
+        with self.assertRaisesRegex(ValueError, 'required section'):
+            normalize_statement.verify_attestations(source, repairs, attestations, text)
+
+    def test_section_bound_capture_accepts_exact_input_power(self):
+        text = 'output\nstdout\nDescription.\nInput\nn ≤ 10⁶\nOutput\nAn integer.\nExamples\n0'
+        text = '\n' + text
+        source = {'schemaVersion': 2, 'content': {'locale': 'en', **normalize_statement.readable_sections(text)}}
+        repairs, attestations = normalize_statement.repair_spec('235A')
+        normalize_statement.verify_attestations(source, repairs, attestations, text)
+        source['content']['formatI'] = 'n ≤ 10³'
+        with self.assertRaisesRegex(ValueError, 'section extraction changed'):
+            normalize_statement.verify_attestations(source, repairs, attestations, text)
+
     def test_readable_capture_tampering_is_blocked(self):
         import hashlib
         capture = self.base / 'statement-sources' / '235A.public-source.txt'

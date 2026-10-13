@@ -46,7 +46,7 @@ MULTI_REPAIRS = {
     '407B': [('≤ 103)', '≤ 10<sup>3</sup>)', 1), ('(109 + 7)', '(10<sup>9</sup> + 7)', 1)],
     '525C': [('≤ 105)', '≤ 10<sup>5</sup>)', 1), ('≤ 106)', '≤ 10<sup>6</sup>)', 1)],
     '534C': [('≤ 2·105,', '≤ 2·10<sup>5</sup>,', 1), ('≤ 106)', '≤ 10<sup>6</sup>)', 1)],
-    '476C': [('≤ 107)', '≤ 10<sup>7</sup>)', 1), ('(109 + 7)', '(10<sup>9</sup> + 7)', 1)],
+    '476C': [('≤ 107)', '≤ 10<sup>7</sup>)', 1), ('(109 + 7)', '(10<sup>9</sup> + 7)', 2)],
     '735C': [('≤ 1018)', '≤ 10<sup>18</sup>)', 1)],
     '735D': [('≤ 2·109)', '≤ 2·10<sup>9</sup>)', 1)],
     '768B': [('&lt; 250,', '&lt; 2<sup>50</sup>,', 1), ('≤ 105,', '≤ 10<sup>5</sup>,', 1)],
@@ -77,6 +77,38 @@ def has_attestation(text, value):
     return exponent.isdigit() and base + exponent.translate(str.maketrans('0123456789', '⁰¹²³⁴⁵⁶⁷⁸⁹')) in text
 
 
+def readable_sections(text):
+    start = re.search(r'\noutput\n(?:standard output|stdout)\n', text)
+    if not start:
+        raise ValueError('readable statement body absent')
+    body = text[start.end():]
+    description, marker, rest = body.partition('\nInput\n')
+    inputs, output_marker, rest = rest.partition('\nOutput\n')
+    outputs, example_marker, _ = rest.partition('\nExamples\n')
+    if not marker or not output_marker or not example_marker:
+        raise ValueError('readable statement sections absent')
+    return {'formatD': description.strip(), 'formatI': inputs.strip(), 'formatO': outputs.strip()}
+
+
+def verify_attestations(source, repairs, attestations, captured=None):
+    sections = readable_sections(captured) if captured is not None else source['content']
+    if captured is not None and source.get('schemaVersion') == 2:
+        if any(source['content'].get(key) != text for key, text in sections.items()):
+            raise ValueError('public readable section extraction changed')
+    if source['content']['locale'] != 'en':
+        raise ValueError('original English constraint attestation absent')
+    if captured is None and 'formatD' not in sections and 'formatO' not in sections:
+        if any(not has_attestation(sections['formatI'], value) for value in attestations):
+            raise ValueError('original English constraint attestation absent')
+        return
+    for old, new, _ in repairs:
+        fields = ('formatI',) if any(s in old for s in ('≤', '&lt;', 'exceed', 'characters.')) else ('formatD', 'formatO')
+        for base, exponent in re.findall(r'(\d+)<sup>([^<]+)</sup>', new):
+            value = f'{base}<sup class="upper-index">{exponent}</sup>'
+            if not any(has_attestation(sections.get(field, ''), value) for field in fields):
+                raise ValueError('original English constraint attestation absent in required section')
+
+
 def normalize(pid):
     repairs, attestations = repair_spec(pid)
     package = BASE / 'packages' / pid
@@ -86,14 +118,17 @@ def normalize(pid):
         raise ValueError('changed package before documented normalization')
     source_path = BASE / 'statement-sources' / (pid + '.json')
     source = read_json(source_path)
+    captured_text = None
     if 'capturedTextSha256' in source:
         captured = (BASE / source['capturedTextPath']).read_bytes()
+        captured_text = captured.decode('utf-8')
+        recorded_text = source['content'].get('fullStatement', source['content']['formatI'])
         if (hashlib.sha256(captured).hexdigest() != source['capturedTextSha256']
-                or captured.decode('utf-8').rstrip('\n') != source['content']['formatI'].rstrip('\n')):
+                or captured_text.rstrip('\n') != recorded_text.rstrip('\n')):
             raise ValueError('public readable extraction attestation changed')
-    if (source['id'] != pid or source['content']['locale'] != 'en'
-            or any(not has_attestation(source['content']['formatI'], value) for value in attestations)):
+    if source['id'] != pid:
         raise ValueError('original English constraint attestation absent')
+    verify_attestations(source, repairs, attestations, captured_text)
     statement = package / 'statement.html'
     original = statement.read_bytes()
     text = original.decode('utf-8')
