@@ -6,7 +6,7 @@ import json
 
 from correction_replay import BASE
 from correction_triage import read
-from correction_probe import algorithmic_shape, tokens
+from correction_probe import problem_shape, tokens
 from pool_sandbox import run
 from pool_contract import write_json
 
@@ -34,7 +34,7 @@ def inspect(pid):
         normal = (result["compiled"] and len(result["runs"]) == 2 and
                   all(row["exitCode"] == 0 and not row["timeout"] and row["verdict"] == "WA"
                       for row in result["runs"]))
-        shapes = [algorithmic_shape(tokens(expected), tokens(output), outputs) for output in decoded]
+        shapes = [problem_shape(pid, tokens(expected), tokens(output), raw, outputs) for output in decoded]
         witnesses.append({"submissionId": sid, "sourceHash": source["sourceHash"],
                           "test": name, "inputHash": hashlib.sha256(raw).hexdigest(),
                           "expectedOutputHash": hashlib.sha256(expected).hexdigest(),

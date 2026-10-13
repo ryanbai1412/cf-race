@@ -39,6 +39,7 @@ def main():
         raise ValueError("no completed correction evidence")
     renewed = {}
     observations = read(HERE / "correction_source_observations.json")
+    proposed = read(HERE / "correction_replacements_batch02.json")
     for pid in ids:
         _, original = original_bytes(pid)
         package = BASE / "packages" / pid
@@ -53,8 +54,17 @@ def main():
             raise ValueError(f"recovery package/evidence binding mismatch: {pid}")
         witnesses = read(BASE / "review" / f"{pid}-witnesses.json")
         wrong = {str(r["submissionId"]): r for r in evidence["submissions"] if r["expected"] != "OK"}
-        notes = observations["defects"][pid]
-        if set(notes) != set(wrong) or {r["submissionId"] for r in witnesses} != set(wrong):
+        notes = observations["defects"].get(pid, {})
+        if pid in proposed:
+            candidate = proposed[pid]
+            for new in [candidate] + candidate.get("additionalReplacements", []):
+                new_id = new["submissionId"]
+                if (new_id not in wrong or new["sourceHash"] != wrong[new_id]["sourceHash"]
+                        or any(r["submissionId"] == new_id for r in original["submissions"])):
+                    raise ValueError(f"unbound replacement source: {pid}/{new_id}")
+                notes = {**notes, new_id: new["defect"]}
+        if (not notes or not set(notes) <= set(wrong)
+                or {r["submissionId"] for r in witnesses} != set(wrong)):
             raise ValueError(f"incomplete builder source observations/witnesses: {pid}")
         for witness in witnesses:
             if (not witness["potentialSemanticMismatch"]
@@ -62,9 +72,16 @@ def main():
                     or witness["inputHash"] != sha(package / "tests" / (witness["test"] + ".in"))
                     or witness["expectedOutputHash"] != sha(package / "tests" / (witness["test"] + ".out"))):
                 raise ValueError(f"unproven normally terminating semantic witness: {pid}")
+        if pid in proposed:
+            for new in [proposed[pid]] + proposed[pid].get("additionalReplacements", []):
+                if not any(w["submissionId"] == new["submissionId"] and w["test"] == new["test"]
+                           for w in witnesses):
+                    raise ValueError(f"wrong selected mathematical witness: {pid}")
         renewed[pid] = {"packageHash": evidence["packageHash"],
                         "priorEvidenceHash": review["priorEvidenceHash"],
                         "newEvidenceHash": digest(evidence),
+                        "builderSourceObservations": sorted(notes),
+                        "retainedSourceReferencesNeedingFreshReview": sorted(set(wrong) - set(notes)),
                         "freshIndependentDefectAudit": False}
     selected = list(files(BASE)) + [p for p in HERE.iterdir() if p.is_file() and p.suffix in (".py", ".json", ".md")]
     for pid in ids:

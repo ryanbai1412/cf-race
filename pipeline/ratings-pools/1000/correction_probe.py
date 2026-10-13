@@ -41,14 +41,47 @@ def algorithmic_shape(expected, actual, vocabulary=None):
         return "different rational value with expected fraction grammar"
     elif (len(expected) == len(actual) == 1
           and re.fullmatch(r"(?:\.[a-z])+", expected[0])
-          and re.fullmatch(r"(?:\.[a-z])+", actual[0])
-          and expected[0] != actual[0]):
+          and re.fullmatch(r"(?:\.[A-Za-z])+", actual[0])
+          and expected[0].lower() != actual[0].lower()):
         return "different dotted-consonant sequence"
     elif (len(expected) == len(actual) == 1 and vocabulary is not None
           and expected[0].lower() in vocabulary
           and actual[0].lower() in vocabulary
           and actual[0].lower() != expected[0].lower()):
         return "different complete answer word from the known output vocabulary"
+    return None
+
+
+def problem_shape(pid, expected, actual, raw, vocabulary=None):
+    basic = algorithmic_shape(expected, actual, vocabulary)
+    if basic:
+        return basic
+    if pid == "74A":
+        names = {line.split()[0].decode(errors="replace").lower()
+                 for line in raw.splitlines()[1:] if line.split()}
+        if (len(expected) == len(actual) == 1 and expected[0].lower() in names
+                and actual[0].lower() in names and expected[0] != actual[0]):
+            return "different participant winner from the actual input"
+    if pid not in ("583A", "660B", "118B") or expected == actual:
+        return None
+    if not expected or not actual or not all(re.fullmatch(r"\d+", word) for word in expected + actual):
+        return None
+    parameters = raw.splitlines()[0].split()
+    a, e = [int(word) for word in actual], [int(word) for word in expected]
+    if pid == "583A":
+        limit = int(parameters[0]) ** 2
+        if (all(1 <= value <= limit for value in a + e)
+                and a == sorted(set(a)) and e == sorted(set(e))):
+            return "different legal paving-day list; source review still required"
+    if pid == "660B":
+        m = int(parameters[1])
+        if sorted(e) == list(range(1, m + 1)) and all(1 <= value <= m for value in a):
+            return "different passenger order/cardinality; source review still required"
+    if pid == "118B":
+        n = int(parameters[0])
+        if (len(e) == (n + 1) ** 2 + n ** 2 and 0 <= n <= 9
+                and all(0 <= value <= n for value in a + e)):
+            return "different numeric geometry; source review still required"
     return None
 
 

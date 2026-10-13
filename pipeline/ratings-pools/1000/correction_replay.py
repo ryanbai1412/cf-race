@@ -115,7 +115,8 @@ def apply(pid, audit, replacement):
         expected = "AC" if source["expected"] == "OK" else "WA"
         if result["verdict"] != expected or not result["compiled"]:
             raise ValueError(f"unqualified replay {pid}/{source['submissionId']}: {result['verdict']}")
-        witness = replacements[source["submissionId"]]["test"] if source["submissionId"] in replacements else None
+        witness = (replacements[source["submissionId"]]["test"] if source["submissionId"] in replacements
+                   else replacement.get("retainedWitnessOverrides", {}).get(source["submissionId"]))
         if witness:
             case = next((r for r in result["runs"] if r["test"] == witness), None)
             if not case or case["verdict"] != "WA" or case["exitCode"] != 0 or case["timeout"]:
