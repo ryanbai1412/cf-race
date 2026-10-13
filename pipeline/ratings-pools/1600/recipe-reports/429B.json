@@ -1,0 +1,132 @@
+{
+  "aliases": [
+    "429/B",
+    "430/D"
+  ],
+  "baseCommit": "5b28d33",
+  "datasetCardsRead": {
+    "open-r1/codeforces": {
+      "sha256": "b9971cff0a797603b79d78f49129830b0a1a4b99d9860e392fba126a4ef4dc69",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md"
+    },
+    "open-r1/codeforces-submissions": {
+      "sha256": "8352430bd0fbc94cfe8762a9278c18a8494fca567a8aaf29a9e353c3f4627687",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md"
+    }
+  },
+  "extraCategories": {
+    "adversarial": 111,
+    "boundary": 19,
+    "maxSize": 7
+  },
+  "extraPairs": 137,
+  "extrasDigest": "afe9eb2b9279db421db274bcc97653e58df99c33e696f39951e69afaafdb53a0",
+  "extrasDigestNote": "pool_contract.digest(recipe_429B.extras(\"429B\"))",
+  "extrasMotivation": "Minimum 3x3 (all zeros/all max/single heavy cell at each position), thin 3xm and nx3 up to 1000, maximum 1000x1000 random/all-10^5/heavy-diagonal, border-ring grids that reward illegal border meetings, heavy middle row/column separating the two crossing orientations, fixed-seed small grids found by searching against mutants of selected WRONG_ANSWER sources (border meetings allowed, a single orientation, four-table sum minus 4a, dropped term/start-cell typos), fixed-seed random small (brute-checkable) and non-square medium grids for n/m index swaps.",
+  "generatedBasis": "Not claimed. Row has 10 of 30 official tests (official_tests_complete=false, validationBlockers incomplete-official-suite) plus 19 open-r1 generated tests not present in the input row; authored extras are supplementary and not a qualification.",
+  "id": "429B",
+  "independentChecks": {
+    "bruteChecks": {
+      "429B": 20983
+    },
+    "exhaustive3x3": "All 3^9 grids with values 0..2 checked against exhaustive path-pair brute.",
+    "flipDp": "Second implementation: one generic corner DP applied to row/column-flipped grids; equals oracle on all brute grids, 150 random grids up to 45x45, and every authored extra including 1000x1000 (unit test).",
+    "pathPairBrute": "Enumerate every down/right path (1,1)->(n,m) and up/right path (n,1)->(1,m) as bitmasks, keep pairs sharing exactly one cell, total = sum1+sum2-2*a[shared]; maximize. Statement-level definition, no interior/orientation assumption. Checked on 500 fixed-seed random grids with 3<=n,m<=6 (oracle and flip DP), every official test and sample, and every authored extra with n*m<=42 (unit test).",
+    "witness": "Optimal paths reconstructed from oracle tables and checked for legal moves, endpoints, exactly one common cell and exact total (150 random grids, all extras with n*m<=4000)."
+  },
+  "inputs": {
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "file": "inputs/429B.json",
+    "fileBytes": 71975,
+    "fileSha256": "df7c379ca291d9023ccf8afa29c954387aa458895c58feac8b4b3ecea4027661",
+    "manifestEntry": {
+      "bytes": 71975,
+      "sha256": "df7c379ca291d9023ccf8afa29c954387aa458895c58feac8b4b3ecea4027661"
+    },
+    "manifestMatches": true,
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "pinsMatchManifest": true,
+    "sourceRowHash": "da2895bd786df125b29c02499a42890528c4b1665d0c486e3d395d16dd3d9dbb",
+    "sourceRowHashMatches": true,
+    "sourceRowHashRecomputed": "da2895bd786df125b29c02499a42890528c4b1665d0c486e3d395d16dd3d9dbb",
+    "sourceShard": {
+      "bytes": 281027001,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00007-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "7e2117698a2a6c20e2047d0b478a77c58f9644ba25777911fa40145afacf18b2",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00007-of-00011.parquet"
+    }
+  },
+  "officialReview": {
+    "failures": [],
+    "note": "All 10 included official CRLF pairs and the sample parse within constraints and match both the oracle and the exhaustive path-pair brute. No malformed upstream pair or contradiction among supplied pairs. The 19 open-r1 generated tests are not in the input row and were not reviewed here; parent review() over the package will check them.",
+    "officialPairs": 10,
+    "officialTestsComplete": false,
+    "samples": 1,
+    "testsetSize": 30
+  },
+  "oracle": "Four O(nm) corner DPs (TL->cell, cell->BR, BL->cell, cell->TR); answer = max over 2<=i<=n-1, 2<=j<=m-1 of max(TL[i-1][j]+BR[i+1][j]+BL[i][j-1]+TR[i][j+1], TL[i][j-1]+BR[i][j+1]+BL[i+1][j]+TR[i-1][j]). Max answer 10^5*(2(n+m-1)-2)=399600000 fits 32-bit.",
+  "parse": "Line 1 exactly \"n m\" with 3<=n,m<=1000; exactly n further lines of exactly m tokens matching 0|[1-9][0-9]* separated by single spaces, each <=10^5. LF or CRLF line endings, optional single final terminator. Rejects signs, underscores, leading zeros, tabs, padding, blank/extra/missing lines, flattened or split rows.",
+  "rating": 1600,
+  "role": "recipe-author (not an independent audit, not a qualification, no signoff)",
+  "selectedSubmissions": {
+    "authorObservationsNonBinding": [
+      "63195804 prints constant \"Ola\"; 62219276 prints the parsed matrix (debug) before a greedy; 7653808 prints rounded total sum; 17297451 defines main() but its call is indented inside main (prints nothing). Parent auditor must judge these as non-algorithmic.",
+      "88877564 builds four tables with boy_start.copy() (shallow; all tables alias the same row lists) and loops meets over the border; 6723316 and 57367840 use four-table sums at every cell (overlapping paths); 125012463/125012854 drop a term in the second orientation; 45491862 uses tmp3[n-1][0] in the second orientation; 91947298 allocates m x m tables (IndexError or wrong when n != m); 94970378 recursive two-walker search; 52522425 doubles a single Iahub path value (r*2); 52523207 uses four-table sums at every cell. Extras include cases separating these ideas; author makes no claim on counted wrong sources.",
+      "TIME_LIMIT_EXCEEDED sources (52059535, 56953522, 62975625, 125013062, 150955484) read as correct O(nm) DPs in Python; TLE-only, not algorithmic counterexamples."
+    ],
+    "byVerdict": {
+      "OK": 12,
+      "TIME_LIMIT_EXCEEDED": 5,
+      "WRONG_ANSWER": 15
+    },
+    "count": 32,
+    "executed": false
+  },
+  "semantics": "First line n m (3<=n,m<=1000); then exactly n lines of m integers a[i][j], 0<=a[i][j]<=10^5 (public English statement shows 10<sup>5</sup>; pinned row flattened it to 105 and official test values 100000 confirm 10^5). Iahub walks (1,1)->(n,m) moving down/right, Iahubina walks (n,1)->(1,m) moving up/right; their paths share exactly one cell, which neither counts. Unique integer: maximum total of all other visited cells. The shared cell is necessarily interior (2<=i<=n-1, 2<=j<=m-1) and the paths cross it orthogonally, so answer = max over interior cells and both crossing orientations of four corner path DPs. Exhaustive enumeration of all path pairs with exactly one common cell cross-checks small grids; a flip-based second DP and reconstructed witness paths cross-check large ones.",
+  "statement": {
+    "attestation": "Original English input specification reads \"0 ≤ <i>a</i>[<i>i</i>][<i>j</i>] ≤ 10<sup class=\"upper-index\">5</sup>\".",
+    "committedCopy": "statement-sources/429B.recipe-author.original.html",
+    "committedCopyByteRange": [
+      36347,
+      40413
+    ],
+    "committedCopyNote": "Byte-exact <div class=\"problem-statement\"> element of the public body; page chrome omitted.",
+    "committedCopySha256": "c7db4e815960206230128962c096d609bf325a84fb0426b97aca9dcc68b579a9",
+    "corroboration": "Official tests 0009 contain value 100000 (out of range under a literal 105 bound). Bounds 3 ≤ n, m ≤ 1000 are plain text in both. Pinned description/output/note/example otherwise match the public statement text.",
+    "exclusionChecks": {
+      "customChecker": false,
+      "fileIO": false,
+      "floatingOutput": false,
+      "inputMode": "stdio",
+      "interactive": false,
+      "missingImageOrQuestion": false,
+      "multipleValidOutputs": false
+    },
+    "normalizationProposal": {
+      "MULTI_REPAIRS": {
+        "429B": [
+          [
+            "≤ 105)",
+            "≤ 10<sup>5</sup>)",
+            1
+          ]
+        ]
+      },
+      "attestationValue": "10<sup class=\"upper-index\">5</sup>",
+      "note": "Parent applies via normalize_statement.py with a statement-sources/429B.json attestation; author did not edit normalize_statement.py or any package. Pinned row bytes unchanged."
+    },
+    "otherFlattening": "None found: the only other numerals (3, 1000, 1, n, m indices) are literal.",
+    "pinnedInputFormat": "The first line of the input contains two integers n and m (3 ≤ n, m ≤ 1000). Each of the next n lines contains m integers: j-th number from i-th line denotes element a[i][j] (0 ≤ a[i][j] ≤ 105).",
+    "publicBodyBytes": 59352,
+    "publicBodySha256": "26355b42ec350e5318c4ba4d3d328ec57c6acd88f7de100eb5c83393dd0204fe",
+    "publicSourceUrl": "https://codeforces.me/problemset/problem/429/B?locale=en",
+    "transport": "Public HTTP GET (curl, browser user agent); no authentication."
+  },
+  "title": "Working out",
+  "validated": false
+}
