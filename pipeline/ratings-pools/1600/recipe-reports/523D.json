@@ -1,0 +1,643 @@
+{
+  "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
+  "brutePlan": {
+    "exhaustiveDomain": "n=1..5; choose distinct increasing arrivals from 1..5; each duration=1..3; k=1..n+2",
+    "expectedBruteChecks": 6386,
+    "expectedExhaustiveComparisons": 5886,
+    "randomComparisons": 500,
+    "randomSeed": 1600524
+  },
+  "datasetDocs": [
+    {
+      "sha256": "b9971cff0a797603b79d78f49129830b0a1a4b99d9860e392fba126a4ef4dc69",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md"
+    },
+    {
+      "sha256": "8352430bd0fbc94cfe8762a9278c18a8494fca567a8aaf29a9e353c3f4627687",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md"
+    }
+  ],
+  "generatedSuite": {
+    "categories": [
+      "boundary",
+      "adversarial",
+      "maxSize"
+    ],
+    "intendedCount": 160,
+    "maximumCase": "n=k=500000, s_i=i, m_i=1; expected e_i=i+1",
+    "otherBounds": "n=k=1, k=500000 with n=1, s=m=10^9, 40 serial 10^9-duration jobs exceed 32-bit output",
+    "runtimePairsCommitted": false,
+    "seed": 1600523
+  },
+  "id": "523D",
+  "inputProvenance": {
+    "archiveBytes": 4542856,
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "bytes": 42316,
+    "file": "inputs/523D.json",
+    "manifestSha256": "c5aa6b8341d4ab6814424de54e241e91390fdc4c079e7f1daa4379bf07075381",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "sha256": "11766819a18ebc794b60dfc2a03c4ca2ec12960a85784470187c8b163ca0e399",
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "sourceRowHash": "5c98be0ad6727cb010261b9feba61f043a1920d22ed177e919f90d2758237a50",
+    "sourceRowHashMethod": "pool_contract.digest(sourceRow)",
+    "upstreamFullShard": {
+      "bytes": 486411551,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00005-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "fd11e585063299408af6ebc747ee1b6e0529e69ba32eaabe7c18931b6a3d8763",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00005-of-00011.parquet"
+    },
+    "verification": "Per-file SHA256, length, sourceRow canonical digest and pins checked locally. Full upstream shard byte verification is the authenticated input producer provenance; this author did not independently re-download its 486411551 bytes. Imported statement/test/sample/submission bytes untouched."
+  },
+  "localChecks": {
+    "commands": [
+      "python3 -m unittest discover -s pipeline/ratings-pools/1600 -p test_recipe_523D.py -v",
+      "AST parse both owned Python files",
+      "git diff --check 5b28d33..HEAD"
+    ],
+    "externalProgramsExecuted": false,
+    "status": "not-run-yet"
+  },
+  "normalizationProposals": [
+    {
+      "applied": false,
+      "field": "input_format",
+      "occurrences": 1,
+      "old": "(1 ≤ n, k ≤ 5·105)",
+      "proposed": "(1 ≤ n, k ≤ 5·10<sup>5</sup>)",
+      "sourceFragment": "5·10<sup class=\"upper-index\">5</sup>"
+    },
+    {
+      "applied": false,
+      "field": "input_format",
+      "occurrences": 1,
+      "old": "(1 ≤ si, mi ≤ 109)",
+      "proposed": "(1 ≤ si, mi ≤ 10<sup>9</sup>)",
+      "sourceFragment": "10<sup class=\"upper-index\">9</sup>"
+    }
+  ],
+  "notIndependentAudit": true,
+  "notQualification": true,
+  "qualificationOutstanding": [
+    "Incomplete official suite requires generated-basis qualification by parent.",
+    "Execute generated suite against 5 actual accepted and 5 actual genuine wrong algorithms in the pinned sandbox; supplied set has only 3 WA-labelled sources.",
+    "Use a separate sixth accepted external oracle disjoint from 5 validators.",
+    "Later different-agent independent audit.",
+    "Max-size JSON payload may exceed the current 8 MiB generator stdout file limit; parent must account for this without weakening the true maximum case."
+  ],
+  "role": "recipe-author",
+  "schemaVersion": 1,
+  "selectedSourceInspection": {
+    "counts": {
+      "OK": 12,
+      "TIME_LIMIT_EXCEEDED": 9,
+      "WRONG_ANSWER": 3
+    },
+    "executionPerformed": false,
+    "limitations": "Static author inspection and self-authored mutation witnesses only, not external execution proof. Nine TLE-labelled sources are not genuine WA evidence; no CRLF/debug/presentation/TLE-only kill is counted.",
+    "sources": [
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "b58941fc11f2af3849304d1745048c9928da0d4154a65b06c98b65253a7641c4",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "b58941fc11f2af3849304d1745048c9928da0d4154a65b06c98b65253a7641c4",
+        "submissionId": "10274154",
+        "verdict": "OK"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "99042079843cb1dbf93e05bd0d062801499d41e650b32bb5b84c2fbd8e68ef73",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "99042079843cb1dbf93e05bd0d062801499d41e650b32bb5b84c2fbd8e68ef73",
+        "submissionId": "10274600",
+        "verdict": "OK"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "5e584a6671edf351976fe2ee87abe4ced4dc30ad65fae1a2d515ddc6f976347f",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "5e584a6671edf351976fe2ee87abe4ced4dc30ad65fae1a2d515ddc6f976347f",
+        "submissionId": "10274992",
+        "verdict": "OK"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "45ef1013386e26df256e4e69602e8e6b701fd2b21cb878311efce871ede76444",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "45ef1013386e26df256e4e69602e8e6b701fd2b21cb878311efce871ede76444",
+        "submissionId": "10275124",
+        "verdict": "OK"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "e7b358826287b76bbad201eb8a7159a9b5bd08a243d37de4b339276b3658db5a",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "e7b358826287b76bbad201eb8a7159a9b5bd08a243d37de4b339276b3658db5a",
+        "submissionId": "10275156",
+        "verdict": "OK"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "6f2d958fffdfea0d925d00f7997943da9820ba0ef91ce52fe83bb40f414f8e65",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "6f2d958fffdfea0d925d00f7997943da9820ba0ef91ce52fe83bb40f414f8e65",
+        "submissionId": "10275280",
+        "verdict": "OK"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "88a4b40ce19bd5d63d5af0ffcde814892b919c2a3b1df8c7534eda2452a10839",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "88a4b40ce19bd5d63d5af0ffcde814892b919c2a3b1df8c7534eda2452a10839",
+        "submissionId": "10275553",
+        "verdict": "OK"
+      },
+      {
+        "originalSourceField": "og_source",
+        "originalSourceSha256": "4709d1036b91327c7e4d4b5bbda77984ab59b86397fe1b4fa13960dde96043d0",
+        "provenance": {
+          "bytes": 73893557,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "selected_accepted/train-00000-of-00001.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "ec63c336172356318feb072f3adfa3d4a75e836c9b91f1b56285ad679951be2a",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/selected_accepted/train-00000-of-00001.parquet"
+        },
+        "sourceSha256": "e8187c74fe8e53a6c49a4849e82e196e8b1abd07097853327008d107a9de4e47",
+        "submissionId": "10275944",
+        "verdict": "OK"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "aa215e0702ffa7cf1686cde909e1cc72cd8e22f20e5bef5c8d28f139444982e5",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "aa215e0702ffa7cf1686cde909e1cc72cd8e22f20e5bef5c8d28f139444982e5",
+        "submissionId": "10276453",
+        "verdict": "OK"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "d55ae56683bf67b3ff4b7d09bd263bd82e1cc0adbfb908505c0e831065a32180",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "d55ae56683bf67b3ff4b7d09bd263bd82e1cc0adbfb908505c0e831065a32180",
+        "submissionId": "10276618",
+        "verdict": "OK"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "49c7f29257f22b92e57ddfbf4c784a6af100d5d65e63650a78590973e7d96c90",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "49c7f29257f22b92e57ddfbf4c784a6af100d5d65e63650a78590973e7d96c90",
+        "submissionId": "10276819",
+        "verdict": "OK"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "2acff92258568108e7bc5d8bb0154232ba4028f2127be7bc7403ed43a301560a",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "2acff92258568108e7bc5d8bb0154232ba4028f2127be7bc7403ed43a301560a",
+        "submissionId": "10276895",
+        "verdict": "OK"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "51538fc343b47b49464210662276b03dfb4c5615e17270d25310df89a4333ddc",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "51538fc343b47b49464210662276b03dfb4c5615e17270d25310df89a4333ddc",
+        "submissionId": "10291792",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "01cc9f3f80bd7542d22b11611b31a48d3db32c5401245cd02a3a5b8d4d7e1524",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "01cc9f3f80bd7542d22b11611b31a48d3db32c5401245cd02a3a5b8d4d7e1524",
+        "submissionId": "11440028",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "6faad591ff9920500cfdcb1f9b42979fd9dc754db307678c2d850680d25c17b7",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "6faad591ff9920500cfdcb1f9b42979fd9dc754db307678c2d850680d25c17b7",
+        "submissionId": "16662216",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "85094a665be7619d71a6bef357f44103147ae11e2ac35dbcb07b81081a9c4a89",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "85094a665be7619d71a6bef357f44103147ae11e2ac35dbcb07b81081a9c4a89",
+        "submissionId": "16662442",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "3aaefa50f969109d13491d7c19d55844f342ec2b5adcb49e5abe39c8d141af11",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "3aaefa50f969109d13491d7c19d55844f342ec2b5adcb49e5abe39c8d141af11",
+        "submissionId": "18344591",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "a80225722676127ab4752c415fddd547b8ecbdeb29cad3fcc6198903f2e59b4e",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "a80225722676127ab4752c415fddd547b8ecbdeb29cad3fcc6198903f2e59b4e",
+        "submissionId": "18359788",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "4b99d916906eea73f98dae542b2b528dc08a828ff6e1994ba63884238640a75e",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "4b99d916906eea73f98dae542b2b528dc08a828ff6e1994ba63884238640a75e",
+        "submissionId": "18361952",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "fb78222713273cedf0cb808209ea59bb2c8ddf837744e2ff8dc6b5afe5f97ecb",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "fb78222713273cedf0cb808209ea59bb2c8ddf837744e2ff8dc6b5afe5f97ecb",
+        "submissionId": "34661820",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "d85aca42f4ecd6aa9a9ee16159391181e2d9c8d480cce78e3902b5c890e3fd3b",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "d85aca42f4ecd6aa9a9ee16159391181e2d9c8d480cce78e3902b5c890e3fd3b",
+        "submissionId": "36925247",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "3eb6f956a715c97d47609216442fe8f7be2a303a5c4da9bccd313e066c82aa03",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "3eb6f956a715c97d47609216442fe8f7be2a303a5c4da9bccd313e066c82aa03",
+        "submissionId": "36930566",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "bf07319762e80f3b09fd8b49ca80e1161bd272cb89aaef6a09f3fe5581c97824",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "bf07319762e80f3b09fd8b49ca80e1161bd272cb89aaef6a09f3fe5581c97824",
+        "submissionId": "64087649",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "originalSourceField": "source",
+        "originalSourceSha256": "713e41c81a12ee85580b0ce01b81417d7370a1284cf97636fda200fe64091375",
+        "provenance": {
+          "bytes": 141682117,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00024-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "27a2ae1262cdec6955853b96357611f953cd88b9fa13926805d17d14b19eab9f",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00024-of-00036.parquet"
+        },
+        "sourceSha256": "713e41c81a12ee85580b0ce01b81417d7370a1284cf97636fda200fe64091375",
+        "submissionId": "97105579",
+        "verdict": "WRONG_ANSWER"
+      }
+    ],
+    "waTargets": [
+      {
+        "expectedTokens": [
+          13
+        ],
+        "fault": "Unused-server branch prints k+m instead of s+m.",
+        "staticallyPredictedWrongTokens": [
+          5
+        ],
+        "submissionId": "11440028",
+        "witnessInput": "1 2\n10 3\n"
+      },
+      {
+        "expectedTokens": [
+          101,
+          3,
+          4,
+          5
+        ],
+        "fault": "Assigns a batch cyclically to server indices, sorting only after each k uploads; cannot repeatedly reuse the earliest server.",
+        "staticallyPredictedWrongTokens": [
+          101,
+          3,
+          4,
+          102
+        ],
+        "submissionId": "18344591",
+        "witnessInput": "4 2\n1 100\n2 1\n3 1\n4 1\n"
+      },
+      {
+        "expectedTokens": [
+          2,
+          102
+        ],
+        "fault": "Once k jobs were assigned, uses release+m without max(release,s), even across idle gaps.",
+        "staticallyPredictedWrongTokens": [
+          2,
+          4
+        ],
+        "submissionId": "97105579",
+        "witnessInput": "2 1\n1 1\n100 2\n"
+      }
+    ]
+  },
+  "semantics": {
+    "arrival": [
+      1,
+      1000000000
+    ],
+    "customChecker": false,
+    "duration": [
+      1,
+      1000000000
+    ],
+    "floatingOutput": false,
+    "independentReference": "Scans arrival and release events chronologically, frees all servers completing now, appends arrivals to a FIFO deque, then assigns queued jobs to idle server identities. No heap and no call to answer. For k>=n the direct s+m formula independently covers the max-size case.",
+    "inputLayout": "One two-integer header, then exactly n two-integer rows; arrivals strictly increase. CRLF and LF accepted without changing source bytes.",
+    "interactive": false,
+    "k": [
+      1,
+      500000
+    ],
+    "largestPossibleCompletion": 500001000000000,
+    "n": [
+      1,
+      500000
+    ],
+    "oracle": "Min-heap of min(n,k) server release times, initially zero; for each job e=max(s,minRelease)+m; replace that heap entry and emit e. O(n log(min(n,k))) time, O(min(n,k)) scheduling state plus n output tokens.",
+    "stdio": true,
+    "uniqueOutput": "Servers identical, service is nonpreemptive FIFO, and idle servers start immediately. Choosing among idle/tied servers cannot change any completion time. Output times in upload order; whitespace token comparison is sufficient."
+  },
+  "statementAttestation": {
+    "attestedFragments": [
+      "5·10<sup class=\"upper-index\">5</sup>",
+      "10<sup class=\"upper-index\">9</sup>"
+    ],
+    "bodyBytes": 59792,
+    "bodySha256": "8cdcc6eba942b0e132b6e5bc2580451b04f2d3c1729e2d17fe88c1d0588fc79f",
+    "copyBytes": 4437,
+    "copyDescription": "Original full problem-statement div, byte-identical to the range above, plus one final LF file delimiter; attribution: Codeforces, VK Cup 2015 - Qualification Round 2. Full HTML body retained locally outside repository.",
+    "copyPath": "statement-sources/523D.recipe-author.original.html",
+    "copySha256": "bf13cedd3ba4936e68966cf486e9b935ddb09be5cee86ad188b6334f00a304db",
+    "elementByteRange": [
+      36417,
+      40853
+    ],
+    "elementRangeConvention": "zero-based half-open byte offsets",
+    "elementSha256": "8edd4d719f56f775b5e4b85e8a6df9d9b71c16ba77ac6f854e2e963d2e0bc444",
+    "fetchNote": "urllib default user agent returned 403; plain public curl GET succeeded. No CF API used.",
+    "fetchedVia": "public curl GET, no auth token or access bypass",
+    "locale": "en",
+    "originProblemUrl": "https://codeforces.com/problemset/problem/523/D?locale=en",
+    "url": "https://codeforces.me/problemset/problem/523/D?locale=en"
+  },
+  "status": "authored-pending-local-checks",
+  "upstreamReview": {
+    "failedPairs": null,
+    "fullOfficialTestCount": 68,
+    "officialComplete": false,
+    "officialPairs": [
+      {
+        "inputSha256": "092fb925c9b05dd1ad9d43b9b263a81c0f6b282903805d0283b43687d9464f67",
+        "name": "tests/0001",
+        "outputSha256": "21faffac64f499a32c2a28d6007fbb0980ecf24494c6648e0b9defed5a9d75af"
+      },
+      {
+        "inputSha256": "05a25b1ec624c8cf73e112f0ca6e0addfeb0b43ef69aafac3ada5037c6cbcf1a",
+        "name": "tests/0002",
+        "outputSha256": "035f9eeb38bf4c47b6cdcb3ef5d877519b0fcc7ec7566ec33302f87345d70a4b"
+      },
+      {
+        "inputSha256": "8f34e59642123f04c03abc17fb178a04e7cbe64073823f7f9a4f276d499327ec",
+        "name": "tests/0003",
+        "outputSha256": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b"
+      },
+      {
+        "inputSha256": "dc5f65f82542e511897f0ab7c21c7c641f116959beff118f9456191ca225b766",
+        "name": "tests/0004",
+        "outputSha256": "68061f72ee84575cfd055eff02618db2f471e3191808c1105eb1ec08ab0cf6d0"
+      },
+      {
+        "inputSha256": "2486b8b0739b88c8321d38a6ac1bc0ca0420b1c4606fb3df647360dd7923ad93",
+        "name": "tests/0005",
+        "outputSha256": "eac1ce2cb15525a90fadbb8f14d292b9ee282257326281f67eb8c62b6da801c9"
+      },
+      {
+        "inputSha256": "979069b766a2c8dde9f1c42416388248280307ab1957b82134a878d52cb0f3d9",
+        "name": "tests/0006",
+        "outputSha256": "3d6e455cc2eb6d3767de9f83045e6d49cbbee2727b3df8b8a85aee0ca0981a30"
+      },
+      {
+        "inputSha256": "dc688f152be9f88cbef93449b1e545b91740a7842d05574f96d5034a1c0102eb",
+        "name": "tests/0007",
+        "outputSha256": "f3f450351c81e07672b4d3fcb50de1eb61d6f2a11a18cd5d8d05d560355a8424"
+      },
+      {
+        "inputSha256": "675a6bdd894ff05fa8e5a49db2566dc86852aac8380a47cc0835ed328a17ec0e",
+        "name": "tests/0008",
+        "outputSha256": "87cdce4d1c944e615a8f65ab78eaecbf3969bd45a56526a11a4c0ec38e03cb04"
+      },
+      {
+        "inputSha256": "cb850c6f6d7e775f4fa760f44258134b785100ae55abcca5406c87dd8f3cc0fa",
+        "name": "tests/0009",
+        "outputSha256": "7868cd5cdadc8612a7a83d8fd7d9782d3350475d7500edc09d074c5ec8e94051"
+      },
+      {
+        "inputSha256": "cb6e4c454638b1eb336ebeb7ac03cb448c1046a2a93c2fd47436350454c18c53",
+        "name": "tests/0010",
+        "outputSha256": "1940805d114525a9807995c796d657e4fdfcb9df79a12bca1d4232bb92907812"
+      },
+      {
+        "inputSha256": "f20e23b48b3727222dc6f4fc5da0463258b2f077a221621a91329c15ee0e19b5",
+        "name": "tests/0011",
+        "outputSha256": "01e8d99ecbecd7bd6e7686005ecbea21539323d36c87206b0f6bc4492d08d388"
+      },
+      {
+        "inputSha256": "357b3a722646a88939c31bd9d92e234644dc951495dca0e3fe44ac5f6a35d285",
+        "name": "tests/0012",
+        "outputSha256": "8aa339d3b80cfe1914853dbc29f0fc0ede7fd3dea9486d971f3c9a9d9ebac052"
+      }
+    ],
+    "samplePairs": [
+      {
+        "inputSha256": "fefa6e253ce7a1766713acb6baaea7bb3d72b51e120e0958cccdd5cd624ad37f",
+        "name": "samples/0001",
+        "outputSha256": "8dffcb3a90e0aeced5694900ff2ae55192165d2eb3dce783425d30fe61440238"
+      },
+      {
+        "inputSha256": "90bd38078a1c8f10431dc05ace184c339aaa70e426b1e4928237fd698eb33a2f",
+        "name": "samples/0002",
+        "outputSha256": "d8727ef41351cefd37b30a62775a98f614e9de3f50a016f63b14f1426e6bb1ab"
+      }
+    ],
+    "status": "pending-local-checks",
+    "suppliedOfficialTestCount": 12,
+    "suppliedSampleCount": 2
+  },
+  "validatedProblemContribution": 0
+}
