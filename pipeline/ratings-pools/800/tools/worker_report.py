@@ -46,6 +46,9 @@ def main(workspace, logs, out):
             tail = log.read_text(errors="replace")[-400:]
             last = tail.strip().splitlines()[-1] if tail.strip() else ""
             row["status"], row["blocker"] = ("blocked", last) if '"blocked"' in last else ("in-progress", last)
+        upstream = load(ROOT / "diagnostics" / f"{pid}-upstream-constraints.json")
+        if upstream and upstream.get("violations"):
+            row["status"], row["upstreamViolations"] = "quarantined-upstream-constraints", len(upstream["violations"])
         row["validated"] = bool(validated.get(pid, {}).get("validated"))
         row["validationGap"] = validated.get(pid, {}).get("reason")
         counts[row["status"]] = counts.get(row["status"], 0) + 1

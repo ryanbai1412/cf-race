@@ -48,3 +48,21 @@ source compiles under v2 and then fails a pair. The history is kept in `state/ID
 Incomplete, gate not met: 271A (4 incorrect). 1657A: 5 accepted pass, but every public TLE-labelled source passes the whole suite quickly, so only 1 incorrect is confirmed. Its gate is not lowered.
 
 `generate`-stage oracle defect: 294A. The fixed public oracle has `int a[100]` indexed 1..n, so it overflows at n=100 on worker-generated test 0063. See `diagnostics/294A-oracle.json`.
+
+## Upstream constraint violations (generated basis)
+
+The foundation `generate` stage checks oracle outputs, not statement constraints on the open-r1 generated tests it
+packages. `tools/upstream_check.py` now runs every generated-basis recipe's `validate()` over all samples, official and
+open-r1 generated inputs (LF-normalized) before qualification, and `gen_qualify.py` stops on any violation.
+`tools/gencheck.py` previously skipped open-r1 generated tests (it read a non-existent `generated_tests` row key); fixed.
+
+Twelve candidates are quarantined. Every violation is in an open-r1 generated test, never an official one. Bytes are
+not repaired, dropped or truncated. Details are in `diagnostics/ID-upstream-constraints.json`.
+
+- Constraint violations (out-of-range values or wrong record count): 116A, 1657B, 262A, 32A, 447A, 609A, 686A, 884A,
+  897A, 984A. For 686A, three cases are concatenated in one file. This is why three public accepted multi-case
+  readers failed test 0014.
+- Whitespace-only (a trailing space after a zero count; it passes once lines are right-stripped): 469A, 615A. These are
+  kept quarantined under the strict lexical validator. An auditor may judge them acceptable for token comparison, but
+  that is a gate decision for the parent, not the worker.
+

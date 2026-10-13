@@ -54,6 +54,7 @@ def qualify(pid, workspace, cache, seed):
     out.mkdir(parents=True, exist_ok=True)
     log = {"id": pid}
     stage("pipeline/rated_pool.py", "prepare", "--rating", "800", "--id", pid, "--workspace", workspace, "--cache", cache)
+    log["upstreamConstraints"] = json.loads(stage(str(HERE / "upstream_check.py"), "--id", pid, "--workspace", workspace, "--cache", cache))
     stage(str(HERE / "build_generator.py"), "--id", pid, "--output", str(out / "generator.py"))
     s, h, n_accepted = pick_oracle(pid, workspace, cache)
     ext = "cpp" if kind(s["programmingLanguage"]) == "cpp" else "py"

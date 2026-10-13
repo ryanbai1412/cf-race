@@ -8,6 +8,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[2]))
 from checker import check
+from rated_pool import generated_tests
 
 
 def main(pid, state_root, gen_root):
@@ -17,7 +18,7 @@ def main(pid, state_root, gen_root):
     row = json.loads((Path(state_root) / pid / "source-row.json").read_text())
     failures, counts = [], {}
     for kind in ("examples", "official_tests", "generated_tests"):
-        group = row.get(kind)
+        group = generated_tests(row, str(Path.home() / ".cache" / "cf-race-pool"))[0] if kind == "generated_tests" else row.get(kind)
         if not isinstance(group, list):
             continue
         for i, t in enumerate(group):
