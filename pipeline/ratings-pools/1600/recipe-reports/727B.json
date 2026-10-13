@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 1,
+  "id": "727B",
+  "rating": 1600,
+  "role": "recipe-author-only",
+  "status": "authored-pending-local-checks",
+  "qualification": false,
+  "independentAudit": false,
+  "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
+  "branch": "devin/1791859380-727b-recipe-author",
+  "ownedPaths": [
+    "pipeline/ratings-pools/1600/recipe_727B.py",
+    "pipeline/ratings-pools/1600/test_recipe_727B.py",
+    "pipeline/ratings-pools/1600/recipe-reports/727B.json",
+    "pipeline/ratings-pools/1600/statement-sources/727B.recipe-author.original.html"
+  ],
+  "inputVerification": {
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "archiveBytes": 4542856,
+    "member": "inputs/727B.json",
+    "memberSha256": "37857c8ee4355c888093e4f52bf57fbf20adc1ac4487b1f8f76218fd96b539aa",
+    "memberBytes": 60331,
+    "sourceRowHash": "a180a11f8652476352eddb2b0f93ef7d4158b61718a39189fa14d1a2e17c46da",
+    "sourceRowHashMethod": "pool_contract.digest(sourceRow)",
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "upstreamShard": {
+      "bytes": 281027001,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00007-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "7e2117698a2a6c20e2047d0b478a77c58f9644ba25777911fa40145afacf18b2",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00007-of-00011.parquet"
+    },
+    "verificationScope": "Archive and assigned JSON SHA256 and canonical row digest verified locally. Full upstream LFS shard extraction provenance is supplied by the authenticated input, not independently re-downloaded by this author. Only727B and manifest read."
+  },
+  "documentationRead": [
+    "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
+    "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md"
+  ],
+  "publicStatement": {
+    "url": "https://codeforces.me/problemset/problem/727/B?locale=en",
+    "originalProblemUrl": "https://codeforces.com/problemset/problem/727/B?locale=en",
+    "attribution": "Codeforces, Technocup2017 EliminationRound1, B. Bill Total Value; unmodified public English HTML retrieved from codeforces.me mirror. Upstream datasets: open-r1, Penedo et al., CodeForces2025.",
+    "bodySha256": "6453daf3ef0a66cc35e7ed7dd962c7b0ed5264b339a10c17430f71023ffb2984",
+    "bodyBytes": 59578,
+    "savedPath": "pipeline/ratings-pools/1600/statement-sources/727B.recipe-author.original.html",
+    "problemStatementDivSha256": "d11820aa7f6c988d5ff767176d75d5b42127eb0f33a299359fb938ec11e2f994",
+    "problemStatementDivBytes": 4463,
+    "attestation": "10<sup class=\"upper-index\">6</sup> occurs in input-specification; output-specification requires exactly the same price format.",
+    "correctionProposals": [
+      {
+        "field": "input_format",
+        "old": "not greater than 106 dollars.",
+        "new": "not greater than 10<sup>6</sup> dollars.",
+        "occurrences": 1,
+        "reason": "Loss of exponent markup; public English input bound explicitly10^6. Proposal only; imported statement and package bytes unchanged."
+      }
+    ]
+  },
+  "constraints": {
+    "lineCount": 1,
+    "billLength": [
+      1,
+      1000
+    ],
+    "nameLength": [
+      1,
+      10
+    ],
+    "nameAlphabet": "ASCII lowercase a..z",
+    "priceCents": [
+      1,
+      100000000
+    ],
+    "dollarGrouping": "First group1..3digits with no extra leading zeros; remaining groups exactly3. Zero dollars only for positive fractional price.",
+    "fraction": "Absent for integer dollars, otherwise a final dot followed by exactly2digits01..99.",
+    "maximumDimensionCases": 4,
+    "maximumItems": 500,
+    "stdio": true,
+    "interactive": false,
+    "floatingPointRequired": false,
+    "customChecker": false,
+    "uniqueOutput": "Exactly one canonical total price string; thousand separators mandatory, positive fraction exactly2digits, no .00. Input grouping is disambiguated by final group length2 versus3."
+  },
+  "oracle": {
+    "method": "Linear scan parses canonical items; sum unbounded integer cents; group the total dollars right-to-left and append nonzero two-digit remainder.",
+    "time": "O(bill length)",
+    "space": "O(bill length)",
+    "independentReference": "Enumerate known exact-cent amounts and encode using Python comma formatting (not recipe formatter); compare total against arithmetic sum. Separate reference decodes base1000 groups, separately accumulates dollars/cents, and uses comma formatting. No floating point or downloaded program execution."
+  },
+  "authoredSuite": {
+    "plannedCount": 160,
+    "fixedSingles": 31,
+    "centCarryBoundaries": 27,
+    "repeatedPriceCases": 12,
+    "mixedCases": 6,
+    "maxLengthCases": 4,
+    "fixedSeedSmallCases": 50,
+    "fixedSeedLargeCases": 30,
+    "seeds": [
+      1600727,
+      7271600
+    ],
+    "status": "pending-local-checks"
+  },
+  "bruteChecks": {
+    "plannedAssertions": 1874,
+    "breakdown": {
+      "exhaustiveSingleCentAmounts1to1000": 1000,
+      "exhaustivePairsOver17AmountDomain": 289,
+      "exhaustiveTriplesOver5AmountDomain": 125,
+      "seededSmallBills": 300,
+      "independentGroupDecoderOnExtras": 160
+    },
+    "status": "pending-local-checks"
+  },
+  "upstreamReview": {
+    "status": "pending-local-checks",
+    "officialPairsSupplied": 23,
+    "samplesSupplied": 3,
+    "testsetSizeMetadata": 33,
+    "officialComplete": false,
+    "generatedTestsField": 8,
+    "generatedTestBodiesSupplied": false,
+    "fixtureDigest": "86f247d3bf53f0d3157a61911fda538cdae2ba085d09b616c7fbd07473bf4ce0",
+    "failedPairs": [],
+    "preservation": "No input/output/source/statement bytes repaired or replaced; unit fixtures contain the exact23 official input/output strings including CRLF and exact3 examples."
+  },
+  "sourceInspectionMotivations": [
+    {
+      "submissionId": "96146189",
+      "sourceSha256": "3efad0dff450168a054ce5de32bdc31f944f3c0f1997ba243430b26cae1de5b1",
+      "provenance": {
+        "bytes": 147585489,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00027-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00027-of-00036.parquet"
+      },
+      "inspection": "Price strings are accumulated in a set; repeated equal purchases are lost.",
+      "legalInput": "same0.01same0.01same0.01\n",
+      "expectedCanonicalOutput": "0.03\n",
+      "tracedWrongTotalCents": 1,
+      "execution": "not executed; hand inspection and self-authored defect model only; not qualification evidence"
+    },
+    {
+      "submissionId": "96285333",
+      "sourceSha256": "544a2a4a9b6cac9f20637892bd7d48693f22d92bc63339da30828d8f6ff3fdc0",
+      "provenance": {
+        "bytes": 147585489,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00027-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00027-of-00036.parquet"
+      },
+      "inspection": "After appending the last price, A.pop() unconditionally removes it.",
+      "legalInput": "a1b2\n",
+      "expectedCanonicalOutput": "3\n",
+      "tracedWrongTotalCents": 100,
+      "execution": "not executed; hand inspection and self-authored defect model only; not qualification evidence"
+    },
+    {
+      "submissionId": "78903680",
+      "sourceSha256": "b364ac09aae55505b4d97c7a6d3de8368f8e6da7e6cc7cf95db80a756431e2ba",
+      "provenance": {
+        "bytes": 147585489,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00027-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00027-of-00036.parquet"
+      },
+      "inspection": "toNumber treats a last group of length2 as cents even when there was no dot.",
+      "legalInput": "a10\n",
+      "expectedCanonicalOutput": "10\n",
+      "tracedWrongTotalCents": 10,
+      "execution": "not executed; hand inspection and self-authored defect model only; not qualification evidence"
+    }
+  ],
+  "limitations": [
+    "23supplied official pairs, testset metadata33 and official_tests_complete=false; absent tests must not be inferred.",
+    "generated_tests=8 is an integer count, not supplied generated pairs.",
+    "Parent must perform disjoint accepted-sixth-oracle/5AC/5genuineWA qualification in unchanged pinned sandbox plus later different-agent audit. This recipe and author checks do not count as independently validated.",
+    "Canonical-format differences, debug/presentation/CRLF differences, REs and TLE-only failures are not asserted as algorithmic qualification.",
+    "No downloaded public programs executed; no PR, merge, deployment, remote data/storage mutation, shared foundation registration or board action."
+  ],
+  "localChecks": {
+    "status": "pending-push-first-local-checks"
+  }
+}
