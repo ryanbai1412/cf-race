@@ -184,6 +184,26 @@ class ReplayTests(unittest.TestCase):
         self.assertEqual(result["sourceBindingsVerified"], 10)
         self.assertEqual(result["publicationApproved"], 0)
 
+    def test_current_primary_and_native_wrapper_audit_bindings(self):
+        entry = self.index["entries"][0]
+        for fields in ({"primaryVerdict": "VALIDATED", "primaryAuditHash": entry["auditHash"]},
+                       {"outcome": "TECHNICAL", "nativeAudit": {"auditHash": entry["auditHash"]}}):
+            row = {"id": entry["id"], "packageHash": entry["packageHash"],
+                   "evidenceHash": entry["evidenceHash"], **fields}
+            write_json(self.root / "primary.json", row)
+            entry["decision"] = {"path": "primary.json", "selector": [], "recordHash": digest(row)}
+            self.index["decisions"][0]["record"] = copy.deepcopy(entry["decision"])
+            self.assertEqual(self.run_replay()["technicalTotal"], 1)
+            if "primaryAuditHash" in row:
+                row["primaryAuditHash"] = "0" * 64
+            else:
+                row["nativeAudit"]["auditHash"] = "0" * 64
+            write_json(self.root / "primary.json", row)
+            entry["decision"]["recordHash"] = digest(row)
+            self.index["decisions"][0]["record"] = copy.deepcopy(entry["decision"])
+            with self.assertRaises(ValueError):
+                self.run_replay()
+
     def test_duplicate_technical_identity(self):
         self.index["entries"].append(copy.deepcopy(self.index["entries"][0]))
         with self.assertRaises(ValueError):

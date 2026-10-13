@@ -101,14 +101,16 @@ def decision_record(entry, root):
     if digest(record) != binding["recordHash"]:
         raise ValueError("current independent decision changed")
     if not (record.get("approved") is True or record.get("technicalState") == "qualified" or
-            record.get("status") == "technical-pass" or record.get("outcome") == "TECHNICAL"):
+            record.get("status") == "technical-pass" or record.get("outcome") == "TECHNICAL" or
+            record.get("primaryVerdict") == "VALIDATED"):
         raise ValueError("current independent decision excludes candidate")
     if record.get("id", entry["id"]) != entry["id"]:
         raise ValueError("decision identity mismatch")
     for key in ("packageHash", "evidenceHash"):
         if record.get(key) != entry[key]:
             raise ValueError("decision belongs to different content")
-    audit_hash = record.get("auditHash", record.get("auditDigest", digest(record)))
+    audit_hash = record.get("auditHash", record.get("auditDigest", record.get("primaryAuditHash",
+                            record.get("nativeAudit", {}).get("auditHash", digest(record)))))
     if audit_hash != entry["auditHash"]:
         raise ValueError("decision belongs to different audit")
     return record
