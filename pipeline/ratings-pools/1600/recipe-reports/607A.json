@@ -3,7 +3,7 @@
   "id": "607A",
   "rating": 1600,
   "role": "recipe-author",
-  "status": "authored; local checks pending first push",
+  "status": "authored; recipe checks passed; statement capture whitespace fix pending post-push check",
   "qualification": {
     "qualified": false,
     "independentAudit": false,
@@ -49,7 +49,7 @@
   "publicStatement": {
     "sourceUrl": "https://codeforces.me/problemset/problem/607/A?locale=en",
     "originalUrl": "https://codeforces.com/problemset/problem/607/A?locale=en",
-    "attribution": "Codeforces, 607/A Chain Reaction, original English statement served by public Codeforces mirror codeforces.me. HTML response saved verbatim; no authenticated proxy or bypass used.",
+    "attribution": "Codeforces, 607/A Chain Reaction, original English statement served by public Codeforces mirror codeforces.me. Full HTTP response body hash recorded separately; committed capture is the byte-identical complete problem-statement div plus one terminal LF, excluding unrelated webpage scaffolding. No authenticated proxy or bypass used.",
     "bodySha256": "c7fefb439c34abfb51209b4c4dcf6f35dfb166bd1957b220edea13113e1e2eef",
     "bytes": 59074,
     "path": "statement-sources/607A.recipe-author.original.html",
@@ -64,6 +64,12 @@
       "If a beacon is destroyed, it cannot be activated.",
       "strictly to the right",
       "No two beacons will have the same position"
+    ],
+    "capturedStatementSha256": "d50052ee980c502554ff249009a54dc1d7cb39e1ad3f001a6878579b5ab72a53",
+    "capturedStatementBytes": 4060,
+    "captureByteRangeInResponse": [
+      36076,
+      40135
     ]
   },
   "statementNormalization": {
@@ -135,7 +141,8 @@
       "All gaps exceed radius so no beacon is destroyed, even in reverse input order.",
       "Every activation deletes all earlier beacons, leaving exactly one survivor.",
       "Detached endpoint survives in addition to ceil(99999/2) dense-prefix survivors."
-    ]
+    ],
+    "actualCount": 160
   },
   "brutePlan": {
     "exhaustiveDomain": "Every nonempty subset of coordinates 0..5 with powers 1..4: sum C(6,n)*4^n = 15624 cases.",
@@ -229,8 +236,11 @@
     "note": "generated_tests is an integer count, not additional supplied input/output bytes. Eight official pairs, not 41, are available in the attachment."
   },
   "upstreamReview": {
-    "status": "pending post-push checks",
-    "failedPairs": null
+    "status": "passed",
+    "failedPairs": [],
+    "oracleMatchedPairs": 10,
+    "literalSimulationMatchedPairs": 10,
+    "officialAndSampleBytesPreserved": true
   },
   "sourceInspection": {
     "scope": "Static inspection only; no public-source execution, verdict replay, WA proof or qualification claim. Entire selectedSubmissions bytes remain bound by input file hash.",
@@ -264,7 +274,38 @@
     "unitMutants": "Own authored variants check omitted coordinate zero, exclusive radius, missing sort, no suffix deletion, and only-zero/one suffix deletion. They are defect motifs, not executions of original submissions."
   },
   "localChecks": {
-    "status": "pending; commit/push precedes final local validation"
+    "status": "targeted unittest and AST passed; whitespace correction awaiting post-push diff check",
+    "targetedUnittest": {
+      "command": "python -m unittest -v test_recipe_607A",
+      "testMethods": 14,
+      "result": "passed",
+      "seconds": 4.881
+    },
+    "bruteChecks": {
+      "returned": {
+        "607A": 16024
+      },
+      "exhaustiveComparisons": 15624,
+      "randomComparisons": 400,
+      "result": "passed"
+    },
+    "generatedNonmaximumLiteralComparisons": 156,
+    "generatedMaximumClosedFormComparisons": 4,
+    "generatedLayoutAndOraclePairs": 160,
+    "upstreamLiteralComparisons": 10,
+    "independentAnswerComparisonsInTheseSuites": 16194,
+    "astSyntax": {
+      "files": [
+        "recipe_607A.py",
+        "test_recipe_607A.py"
+      ],
+      "result": "passed"
+    },
+    "gitDiffCheck": {
+      "initialResult": "original full web page contained unrelated trailing whitespace",
+      "correction": "Keep complete original problem-statement div unchanged, excluding webpage scaffolding. Full response hash stays recorded; committed capture has its separate SHA256.",
+      "postCorrectionResult": "pending"
+    }
   },
   "integration": "No shared registrations, product/gate/foundation, packages, inventory, qualifications, evidence or audits changed. Parent owns integration and independent qualification."
 }
