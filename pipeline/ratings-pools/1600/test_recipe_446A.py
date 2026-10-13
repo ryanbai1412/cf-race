@@ -86,6 +86,9 @@ class Recipe446ATests(unittest.TestCase):
                     self.assertEqual(len(values), 100000)
                     maximums += 1
         self.assertEqual(maximums, 5)
+        self.assertEqual([int(case['output']) for case in cases
+                          if case['category'] == 'maxSize'],
+                         [100000, 2, 2, 100000, 50001])
         self.assertEqual(recipe.review('446A', list(enumerate(cases)), []), [])
 
     def test_brute_checks(self):
