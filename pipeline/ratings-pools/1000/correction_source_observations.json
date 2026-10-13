@@ -1,0 +1,48 @@
+{
+  "status": "Builder source-level observations, NOT independent audit or validation",
+  "reviewer": "devin-af005f714e22447094063818961cafbf",
+  "defects": {
+    "109A": {
+      "6923094": "Stops subtracting sevens as soon as the remainder is divisible by four, yielding sixteen fours for 64 instead of the smaller ten-digit solution.",
+      "8944899": "Greedily subtracts fours rather than minimizing the number of digits; for 64 emits sixteen fours, not the ten-digit minimum.",
+      "8945146": "The all-fours greedy remainder is checked before exploring sevens; rejects representable sum 485 with -1.",
+      "10773582": "range(0,n//4) excludes the only all-fours possibility for n=4.",
+      "11145770": "range(n//4) excludes the only all-fours possibility for n=4."
+    },
+    "165A": {
+      "79329453": "Counts a point whenever there are four collinear neighbours in total, not one neighbour in each direction; a 3x3 grid gives 9 rather than 1.",
+      "79667834": "Increments inside the neighbour loop once flags become true, counting the same supercentral point repeatedly; additionally omits final neighbour and adds one unconditionally.",
+      "80571842": "Horizontal-direction comparison uses the point's own x and y, not the neighbouring x; also mixes direction flags and neighbour counts.",
+      "80770575": "range(1,n) omits the first input point when checking neighbours, losing a required direction in the 25-point case.",
+      "81166796": "Requires equality of direction flags instead of all four flags being set, so a lone point with all-zero flags is counted."
+    },
+    "268B": {
+      "187085910": "Formula includes (n-2)^2 and computes 2 when n=1, where only one press is needed.",
+      "187085991": "Intended n=1 special case compares an integer against string '1', so the wrong general formula still returns 2.",
+      "187667445": "Models the count as 1+n(n-1), giving 13 rather than 14 for n=4.",
+      "187874882": "Models presses by factorial/permutation count, giving 2 rather than 3 for n=2.",
+      "187879940": "Uses the wrong second triangular term and gives 13 rather than 14 for n=4."
+    },
+    "560A": {
+      "12186944": "Multiplies coin denominations and returns product+1 instead of the least unrepresentable amount; coins {2} give 3 rather than 1.",
+      "12189052": "Returns min(coins)-1 rather than 1 when denomination 1 is absent.",
+      "12194399": "Tests whether character '1' occurs anywhere in the input line, rather than whether a coin denomination equals 1.",
+      "12196597": "Returns min(coins)-1 rather than 1 when denomination 1 is absent.",
+      "12203184": "Returns min(coins)-1 rather than 1 when denomination 1 is absent."
+    },
+    "680B": {
+      "72606565": "Pairs the left prefix without reversing it, so compared cities are not equidistant from the officer.",
+      "72608130": "Does not count the officer's central city; n=1 and one criminal yields zero.",
+      "73179693": "Tests fixed city t[a-1] instead of symmetric city t[a-i], incorrectly rejects all symmetric pairs in the alternating case.",
+      "74800564": "Counts only cities sampled at stride k-1, ignoring the equidistance rule and missing criminals in unsampled cities.",
+      "75200100": "After the symmetric sweep, c[:i] uses a negative index and recounts processed cities, returning seven rather than three."
+    },
+    "831A": {
+      "134626744": "Uses only the count and last index of non-increasing pairs, incorrectly rejects valid increasing-flat-decreasing input 1 5 5 5 4 2.",
+      "134627637": "Checks the presence of increasing/decreasing/constant transitions, not their order; accepts 1 2 1 2.",
+      "136875188": "Rejects increases after decreases but permits increases after a flat prefix, accepting invalid 5 5 6 6 1.",
+      "136576162": "Overwrites the answer at every adjacent pair, so a final descent masks an invalid earlier flat-then-increase transition. Earlier n=1 output O is retained but NOT counted as the algorithmic witness.",
+      "136585507": "Uses lexicographic string comparison for numeric values; rejects valid 5 7 11 11 2 1."
+    }
+  }
+}

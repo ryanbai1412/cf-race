@@ -1,0 +1,54 @@
+{
+  "109A": {
+    "submissionId": "11145770",
+    "sourceHash": "70f42aa00191a7fcdaf983a62c9cb96bbc63a1ae863ea1b779e4e9d1cc2a6d46",
+    "test": "0005",
+    "defect": "range(n // 4) omits the all-fours candidate: n=4 yields -1, not 4."
+  },
+  "165A": {
+    "submissionId": "81166796",
+    "sourceHash": "5736dd6137d4a02294047d9c20f5de16f32b446c1ecf53adb32a28b862b3f5e7",
+    "test": "0005",
+    "defect": "Horizontal checks are nested under equal x, so the algorithm counts a lone point as supercentral."
+  },
+  "268B": {
+    "submissionId": "187879940",
+    "sourceHash": "d3ae7c4447d0326bda5814dccb7fefa7c922357e10e18d8936c4ada11b3ebec5",
+    "test": "0003",
+    "defect": "The second triangular term uses (n-2)(n-1)/2 and gives 13 instead of 14 for n=4."
+  },
+  "560A": {
+    "submissionId": "12203184",
+    "sourceHash": "a10b517fa970f068a21fb3c1ccfebb8dd49063ea50c6c74c0b07287716e29278",
+    "test": "0004",
+    "defect": "For coin sets without denomination 1, returns min(coins)-1 rather than the mathematically smallest nonrepresentable amount 1."
+  },
+  "680B": {
+    "submissionId": "75200100",
+    "sourceHash": "737217668cb965f129cb1aab59677cc6a68553492b6535151ed12d82f38bfd43",
+    "test": "0001",
+    "defect": "After the symmetric sweep, c[:i] uses a negative index and counts already processed cities again: three crimes possible, reports seven."
+  },
+  "831A": {
+    "submissionId": "136875188",
+    "sourceHash": "8a1855771cd98619dac1a1d605aa227ff36340ef4a2b630107d443ff88cd5927",
+    "test": "0008",
+    "defect": "Rejects increasing-after-decrease but incorrectly allows a flat prefix before increase (5 5 6 6 1).",
+    "excludePreviouslyClaimed": ["134626734", "134627320"],
+    "exclusionReason": "Boolean-printing references are removed conservatively: 134627320's first failing output is logically correct True vs YES; the unchanged auditor's four-genuine claim is not treated as source proof.",
+    "additionalReplacements": [
+      {
+        "submissionId": "136576162",
+        "sourceHash": "8858f5a9b387c5ff09e2616af2301bf32eb5d0f27d0652aff6384fa79c3d95ea",
+        "test": "0008",
+        "defect": "Overwrites the answer from each local pair, so it accepts invalid plateau-then-increase sequence 5 5 6 6 1."
+      },
+      {
+        "submissionId": "136585507",
+        "sourceHash": "fbde2e8e9aa76961670dc2be6c14672abe02bf4ba21cb6a2513a97326b08e440",
+        "test": "0005",
+        "defect": "Compares numeric strings lexicographically instead of their integer values; rejects valid 5 7 11 11 2 1."
+      }
+    ]
+  }
+}
