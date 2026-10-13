@@ -1,0 +1,373 @@
+{
+  "baseCommit": "5b28d333",
+  "bruteChecks": 11186,
+  "bruteReference": "Independent 6k+-1 trial-division primality with arithmetic digit reversal enumerating 2..10^6-1; compared for every d in the full domain 1..11184 (exhaustive input space), plus count==11184 and palindromic-prime disjointness.",
+  "exclusionCheck": {
+    "customChecker": false,
+    "fileIO": false,
+    "floating": false,
+    "imageMissing": false,
+    "interactive": false,
+    "multipleValidOutputs": false,
+    "note": "Single integer output, unique; token comparison exact. Statement encipherment is the original puzzle design (April Fools contest), fully recoverable."
+  },
+  "extras": {
+    "categories": {
+      "adversarial": 106,
+      "boundary": 36,
+      "maxSize": 8
+    },
+    "count": 150,
+    "includes": "d=1..8 minima, d=11177..11184 legal maximum, last/first emirp around 10^2..10^6 and 2*10^5/5*10^5 caps, every leading-digit/length jump (no emirp starts with 2,4,5,6,8), first emirp after 40 palindromic primes, fixed-seed random fill.",
+    "motivation": "Selected WA sources: missing reversal!=p (17073907, 111508592, 206952895), only 11 excluded (25979358), search/sieve caps 1000/10^5/2*10^5 (11754605, 58253656, 116970986), 0-based index (36798457), wrong predicate (52564389, 111488247, 111492030).",
+    "note": "Input domain has only 11184 values; official suite already contains d=1..10 and 11182..11184. maxSize here means maximal d (largest search), not large input bytes.",
+    "seed": 171006
+  },
+  "failedUpstreamPairs": [],
+  "id": "171F",
+  "inputs": {
+    "archiveBytes": 4542856,
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "file": "inputs/171F.json",
+    "fileBytes": 97954,
+    "fileSha256": "b7ff8a5de20c6df8e467bf47b6958c8c719cf474c870637f661dec643c6b27c6",
+    "manifestEntry": {
+      "bytes": 97954,
+      "sha256": "b7ff8a5de20c6df8e467bf47b6958c8c719cf474c870637f661dec643c6b27c6"
+    },
+    "manifestMatches": true,
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "sourceRowHash": "60bd04cbabb1de8e413efec40dbd5b217a7df5ba00bd4a32660e2745b11a350b",
+    "sourceRowHashMatches": true,
+    "sourceRowHashRecomputed": "60bd04cbabb1de8e413efec40dbd5b217a7df5ba00bd4a32660e2745b11a350b",
+    "sourceShard": {
+      "bytes": 281027001,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00007-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "7e2117698a2a6c20e2047d0b478a77c58f9644ba25777911fa40145afacf18b2",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00007-of-00011.parquet"
+    }
+  },
+  "notAuditNotSignoffNotValidated": true,
+  "officialReview": {
+    "failures": [],
+    "lineEndings": "All 40 official tests use CRLF (input and output); parse accepts the single line via splitlines. Sample lacks trailing newline. Integer token problem, so CRLF does not change int parsing, but Python input() keeps \\r: int() tolerates it.",
+    "officialComplete": true,
+    "officialCount": 40,
+    "samples": 1
+  },
+  "oracle": "Sieve of Eratosthenes to 10^6, collect primes p with int(str(p)[::-1]) != p and prime; return list[d-1]. Exactly 11184 emirps < 10^6, and every 6-digit reversal is < 10^6.",
+  "recipeFiles": [
+    "pipeline/ratings-pools/1600/recipe_171F.py",
+    "pipeline/ratings-pools/1600/test_recipe_171F.py"
+  ],
+  "role": "recipe-author",
+  "selectedSubmissions": {
+    "count": 26,
+    "entries": [
+      {
+        "language": "GNU C++0x",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 40.0,
+        "sourceBytes": 1325,
+        "sourceSha256": "f2ab7f9564c597614b3e2b6517e1ffefb6144b1761343a0ae6b6e0e6bcb41457",
+        "submissionId": "1451099",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 40.0,
+        "sourceBytes": 1353,
+        "sourceSha256": "6d146899b0fc23969c2fecc5197439d2ee0923cdc02e6a1ca4ffb2a32d809ee0",
+        "submissionId": "1452069",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00035-of-00036.parquet",
+        "parquetSha256": "4fdaf008cd04a6626fffd9bdddd43c4d86f2d8b6309b813880c7198a0323686b",
+        "passedTestCount": 40.0,
+        "sourceBytes": 752,
+        "sourceSha256": "469a2a32a170778b95274a84d6f7d3fc381a38c86c652a45c4ebdd52d4c0a29f",
+        "submissionId": "1452652",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 40.0,
+        "sourceBytes": 595,
+        "sourceSha256": "c5aeaa4dfee6c1e1c015a4a1d48f9b6ef13474955ac738bdff17d6c3eee6512e",
+        "submissionId": "1453003",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++0x",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 40.0,
+        "sourceBytes": 650,
+        "sourceSha256": "ee10a0dcb8e7b28b840832c3e900de0072f1945da634434ce5cf1ed62482f284",
+        "submissionId": "1453021",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 40.0,
+        "sourceBytes": 1811,
+        "sourceSha256": "12c4bc996aa006a722dc232469a88a45a1b76a0d6822e0ebddc5f690e86989de",
+        "submissionId": "1453657",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 40.0,
+        "sourceBytes": 591,
+        "sourceSha256": "e9d3470277702b95e469b362312b3adc542fce16befdc12bb3a03aab22fe8417",
+        "submissionId": "1453762",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 40.0,
+        "sourceBytes": 1761,
+        "sourceSha256": "4bf95d18b11344bbb7d65ab618ede81ad6b8873d61fb7b91073dbdc8a102d03b",
+        "submissionId": "1453793",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 40.0,
+        "sourceBytes": 1746,
+        "sourceSha256": "7e910a4cd31a01ed989c4cdd3e11dada7deb98aad1dc427dee926feeceafbcce",
+        "submissionId": "1454024",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 40.0,
+        "sourceBytes": 1419,
+        "sourceSha256": "7d5bf010270c09b80ff978848685cb1a46ad9b9cf3dbe4499a07132e25e6b7f2",
+        "submissionId": "1454094",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 40.0,
+        "sourceBytes": 3091,
+        "sourceSha256": "83f54b1ce46353476a9cceadd4eb382abefa753a1d7820ce9ee2d1529f10a6ed",
+        "submissionId": "1454390",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 40.0,
+        "sourceBytes": 1398,
+        "sourceSha256": "56b6ece779971f2164eb76884743d5261a55b97300a93e9eb715d3376996e988",
+        "submissionId": "1454392",
+        "verdict": "OK"
+      },
+      {
+        "authorReadingNotExecuted": "Correct emirp test but loop stops at cur<1000, so any d>36 prints 1000-range value; search-cap bug.",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 10.0,
+        "sourceBytes": 632,
+        "sourceSha256": "1c566b5c60f73c7b4847611845eda638faf20c4c1ea896d1d1b45cde6332416b",
+        "submissionId": "11754605",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReadingNotExecuted": "Starts at 13 and never checks reversal!=cur, so palindromic primes (101,131,...) are counted from d=9.",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 8.0,
+        "sourceBytes": 250,
+        "sourceSha256": "f01c8b5db31d4977c7bf1a7b39ad05aaf73cbc7f52571622037d06e8e8938100",
+        "submissionId": "17073907",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReadingNotExecuted": "Sieve to 10^6 and reversal-prime test but only excludes palindrome 11 (v>11); counts 101 etc. as emirps.",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 8.0,
+        "sourceBytes": 452,
+        "sourceSha256": "2a0939d677321cd3f6d4513f784ba941111777ed5dcec5d4236ad0991f03123e",
+        "submissionId": "25979358",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReadingNotExecuted": "Hard-coded list of emirp/reversal pairs, then newlist[int(input())] uses 0-based index; off-by-one indexing.",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 0.0,
+        "sourceBytes": 43938,
+        "sourceSha256": "9a40b799812c79b50b77f03264f63699baa1b63b8d1a1c150ca66f135e84b406",
+        "submissionId": "36798457",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReadingNotExecuted": "Hard-coded primes up to 11177 and counts PALINDROMIC primes (p==reverse) instead of emirps; wrong predicate.",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 0.0,
+        "sourceBytes": 8327,
+        "sourceSha256": "3bbbbd9a1d7aadb8a7f91ebbf101992fda53452cf1537e1810ed2a051f8e02a9",
+        "submissionId": "52564389",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReadingNotExecuted": "Correct sieve-to-10^6 linear scan; CF verdict TLE only (not an algorithmic counterexample).",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 10.0,
+        "sourceBytes": 348,
+        "sourceSha256": "86dce0fa9eed118b6b19fbc8309250904cf7215107a0d3258eaeeb683902213f",
+        "submissionId": "58249583",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "authorReadingNotExecuted": "Correct trial-division search over odd numbers; CF verdict TLE only (not an algorithmic counterexample).",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 10.0,
+        "sourceBytes": 578,
+        "sourceSha256": "5c6472b95f07002c089094da9b0623a0d74def615a11de1931feff8e6ad53b85",
+        "submissionId": "58250185",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "authorReadingNotExecuted": "primes_sieve(100000) only clears odd multiples, so every even index stays True; arr[rev(i)] then accepts even reversals, e.g. 23 (rev 32) is counted, giving 23 for d=3 (expected 31), consistent with passedTestCount 2. Limit 10^5 also cannot reach d>1646.",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 2.0,
+        "sourceBytes": 386,
+        "sourceSha256": "dcbe97ec8dbf62afe9c2133684cebf1f0f231cb84419eaf45dfcbb374fb160cf",
+        "submissionId": "58253656",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReadingNotExecuted": "Counts numbers coprime to 2,3,5,7 from 13 with no primality/reversal test; wrong predicate.",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 2.0,
+        "sourceBytes": 244,
+        "sourceSha256": "508542e078892a3745036c41bcb4974865ea6f62ee1f90b98e9bfff2b22a6c5e",
+        "submissionId": "111488247",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReadingNotExecuted": "Divisibility by 2..9,11 only as primality and reversal test; composite numbers like 169=13^2 accepted; wrong predicate.",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 8.0,
+        "sourceBytes": 498,
+        "sourceSha256": "6d99f2a2e53c7dca0f635c0b41e93b45ca926f9c54e690bcc5fa862f1242f63d",
+        "submissionId": "111492030",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReadingNotExecuted": "Exact divisor-count primality for i and reversal but no reversal!=i check; palindromes counted (and O(n^2) slow).",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 8.0,
+        "sourceBytes": 441,
+        "sourceSha256": "e972e2995c508cdd32e31ce740e327d1445b36a78336ef545b859a599f195b29",
+        "submissionId": "111508592",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReadingNotExecuted": "Trial-division primes to 2*10^5 in a set, iterating set order (unsorted) and limit too small for large d; CF TLE.",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 0.0,
+        "sourceBytes": 470,
+        "sourceSha256": "5f3a004fd1f7afcd1aa991158dc7c7980f8cd222536b35ef06354274920e06b8",
+        "submissionId": "116970986",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "authorReadingNotExecuted": "Constant print('13'); not an implemented algorithm (format/constant program, not algorithmic proof).",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 1.0,
+        "sourceBytes": 11,
+        "sourceSha256": "d38a86e0e55ab0200896a0201d7bace51f529567d69ea2e71851644fd1830499",
+        "submissionId": "126272463",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReadingNotExecuted": "Trial-division primality but no reversal!=i check; counts palindromic primes from d=9.",
+        "language": "Python 3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "passedTestCount": 8.0,
+        "sourceBytes": 777,
+        "sourceSha256": "f2fea74d5e55c40300c557b8649c2dc9b39706bc512c22f3c303ef66bbea2488",
+        "submissionId": "206952895",
+        "verdict": "WRONG_ANSWER"
+      }
+    ],
+    "executed": false,
+    "note": "Author read sources only; no public program executed. Genuine-WA classification and sixth-oracle selection are left to parent qualification. 126272463 (constant output) and the three TLE verdicts are not algorithmic proof."
+  },
+  "semantics": "Statement is Caesar-shifted by 10 letters (q->a): one line with one integer d, 1<=d<=11184; output the d-th emirp, a prime whose decimal reversal is a different prime (palindromic primes excluded), as one integer. Exactly 11184 emirps lie below 10^6, so the 10^6 sieve covers every d and every reversal. Output is unique; independently checked over the whole input domain by trial-division enumeration.",
+  "sourceCorrectionProposal": null,
+  "statementAttestation": {
+    "agreement": "Original HTML description/input/output/sample text is byte-for-byte the same words as the pinned row (the only markup is tex-span <i>d</i>). Constraint 1 <= d <= 11184 is a literal number in the original; no superscript was lost.",
+    "bodyBytes": 57986,
+    "bodySha256": "e99d444e800ebbc300e9c9d30a78663396a12a694b35e27686294230059e8a6b",
+    "committedCopy": "pipeline/ratings-pools/1600/statement-sources/171F.recipe-author.original.html",
+    "decipherment": "Whole statement (title included) is a Caesar shift: plain = cipher + 10 (mod 26), e.g. ucyhf->emirp, q->a. Verified on every word.",
+    "decoded": {
+      "description": "an emirp is a prime number whose reverse is a different prime number. your task is to find the nth emirp.",
+      "input": "the input consists of a single integer n (1 ≤ n ≤ 11184) — the one-based index of the emirp to find.",
+      "output": "output a single number.",
+      "title": "emirp"
+    },
+    "problemStatementDivByteRange": [
+      37821,
+      39047
+    ],
+    "problemStatementDivSha256": "09347c6a618ef53aac3f582c04d723b3bdf2d03257914819268a7dfa9e2483b2",
+    "transport": "public HTTP GET, status 200, fetched 2026-10-13",
+    "url": "https://codeforces.me/problemset/problem/171/F?locale=en"
+  },
+  "statementNormalizationNeeded": "none"
+}
