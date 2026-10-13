@@ -38,6 +38,9 @@ Replay verifies the existing byte-bound decisions; it is not a fresh source-leve
 semantic endorsement, legal clearance, content publication or migration. Missing
 or empty content-bound publication approval must still reject every technical
 package. No production, database, Storage, deployment or board operations occur.
+The frozen snapshot's zero approval/publication fields describe this audit run,
+not queried live production telemetry. Replay grants no authorization and
+performs no publication; production status is not queried by this local tool.
 
 ## Prerequisites and public sources
 
