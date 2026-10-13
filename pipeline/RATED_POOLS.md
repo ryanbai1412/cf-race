@@ -342,8 +342,9 @@ entries, and rejection of empty publication approvals. Archives, source code,
 execution logs and the full index remain external artifacts, not bulk Git data.
 
 The metadata-only `rated-pools-combined.json` records the frozen 202-package
-snapshot and its private evidence archive's URL and SHA256. Download the archive
-with access to its attachment and save it as `rated-pools-combined-evidence.tar.gz`:
+snapshot and its evidence archive's SHA256 and sizes. The archive is a private
+session attachment; obtain access from the maintainer. It is not publicly hosted
+by this repository. Save it as `rated-pools-combined-evidence.tar.gz`:
 
 ```sh
 python3 -B pipeline/pool_combine.py extract rated-pools-combined-evidence.tar.gz restored \
