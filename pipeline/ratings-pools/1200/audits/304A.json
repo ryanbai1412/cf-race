@@ -22,6 +22,8 @@
     "extraTests": 203,
     "incorrect": 5,
     "samples": 2,
+    "semanticAlgorithmicallyWrong": 0,
+    "semanticSourcesReviewed": 5,
     "suppliedTests": 150
   },
   "evidenceHash": "4ba15e7858996cde3a5bc4cc774fe451e4d2cc221a5503d3211160d78e809b75",
@@ -11993,8 +11995,49 @@
         "inputHash": "876e13f4e07bb39705302c01f445ffd2d2c3b180a207e4d959d6b671c67da09b",
         "verdict": "TLE"
       },
-      "reason": "Quadratic enumeration of leg pairs with repeated square roots times out at the recorded test; no completed wrong answer is established.",
+      "reason": "Excluded as TLE-only. The recorded/LF executions produce no completed count, while completed supplied cases are AC. Floating-root arithmetic is not itself proof of a wrong count under these bounds.",
       "recordedTestVerdict": "TLE",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Excluded as TLE-only. The recorded/LF executions produce no completed count, while completed supplied cases are AC. Floating-root arithmetic is not itself proof of a wrong count under these bounds.",
+        "faultyLogic": "The leg-pair criterion describes the requested right triangles. The quadratic loops and repeated square roots time out at n=10000; no completed semantic counterexample is demonstrated.",
+        "faultySourceLines": [
+          {
+            "code": "from math import ceil,sqrt\nn=int(input())\namt=0\nfor a in range(1,n+1):\n    for b in range(a,n+1):\n        if (sqrt(a**2+b**2))==ceil((sqrt(a**2+b**2))) and (sqrt(a**2+b**2))<=n:\n            amt+=1\nprint(amt)",
+            "end": 8,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "Enumerates all leg pairs 1<=a<=b<=n, repeatedly computes sqrt(a*a+b*b), counts it when the root is an integer no greater than n, and prints the count.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": false,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/304A/counterexample-3714464-LF.json",
+            "sha256": "bc0f0e6d78f96a2ca523e81f4c4a7e67ad0e7a1ba030f58d54e8b299912278f3"
+          },
+          "recordedFailedTest": "0031",
+          "recordedFailedTestLFOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "recordedFailedTestLFVerdict": "TLE"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/304A/3714464.py",
+          "sha256": "cd9d756cd323664546162ef677926a7d82eff8fd71b3a0f94607728472dfb2c1"
+        },
+        "sourceHash": "cd9d756cd323664546162ef677926a7d82eff8fd71b3a0f94607728472dfb2c1",
+        "sourceLineCount": 8,
+        "sourceLines": [
+          {
+            "code": "from math import ceil,sqrt\nn=int(input())\namt=0\nfor a in range(1,n+1):\n    for b in range(a,n+1):\n        if (sqrt(a**2+b**2))==ceil((sqrt(a**2+b**2))) and (sqrt(a**2+b**2))<=n:\n            amt+=1\nprint(amt)",
+            "end": 8,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "cd9d756cd323664546162ef677926a7d82eff8fd71b3a0f94607728472dfb2c1",
       "test": "0031"
     },
@@ -12020,8 +12063,49 @@
         "inputHash": "83c02ac2d48c863dab2ccf6870455aadfc2cec073b8db269b517c879d76aa6d9",
         "verdict": "TLE"
       },
-      "reason": "Cubic enumeration of all a,b,c times out at the recorded test. Explicitly excluded complexity failure.",
+      "reason": "Excluded as a logically correct, TLE-only enumeration. Empty output after timeout is not a wrong integer, and no dormant routine, debug output or line-ending defect is involved.",
       "recordedTestVerdict": "TLE",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Excluded as a logically correct, TLE-only enumeration. Empty output after timeout is not a wrong integer, and no dormant routine, debug output or line-ending defect is involved.",
+        "faultyLogic": "The mathematical predicate and ordering are exactly the problem definition, but cubic enumeration is too slow at the recorded n=1000.",
+        "faultySourceLines": [
+          {
+            "code": "n = int(input())\ncount = 0\nfor a in range(1,n+1):\n    for b in range(a,n+1):\n        for c in range(b,n+1):\n            if a*a + b*b == c*c:\n                count = count + 1\nprint(count)",
+            "end": 8,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "Enumerates every ordered triple with 1<=a<=b<=c<=n, compares a*a+b*b with c*c exactly, and increments the count for equality.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": false,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/304A/counterexample-3761910-LF.json",
+            "sha256": "da05ac3baa104d7d2a4d7114049e2ff27f7f379d3541d193e5f12df2a383a7ae"
+          },
+          "recordedFailedTest": "0003",
+          "recordedFailedTestLFOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "recordedFailedTestLFVerdict": "TLE"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/304A/3761910.py",
+          "sha256": "0c392bf1d19c13b56844795e361fe5ac7af1f007cad64c6eaa5d06aa68131dfa"
+        },
+        "sourceHash": "0c392bf1d19c13b56844795e361fe5ac7af1f007cad64c6eaa5d06aa68131dfa",
+        "sourceLineCount": 8,
+        "sourceLines": [
+          {
+            "code": "n = int(input())\ncount = 0\nfor a in range(1,n+1):\n    for b in range(a,n+1):\n        for c in range(b,n+1):\n            if a*a + b*b == c*c:\n                count = count + 1\nprint(count)",
+            "end": 8,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "0c392bf1d19c13b56844795e361fe5ac7af1f007cad64c6eaa5d06aa68131dfa",
       "test": "0003"
     },
@@ -12047,8 +12131,49 @@
         "inputHash": "876e13f4e07bb39705302c01f445ffd2d2c3b180a207e4d959d6b671c67da09b",
         "verdict": "TLE"
       },
-      "reason": "Quadratic leg-pair enumeration with integer-square verification times out at the recorded test, rather than producing a completed wrong answer.",
+      "reason": "Excluded as TLE-only. LF and recorded large executions time out, not emit an incorrect number; small completed runs agree with the supplied answers. A hypothetical floating-root risk cannot be counted as observed algorithmic wrongness.",
       "recordedTestVerdict": "TLE",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Excluded as TLE-only. LF and recorded large executions time out, not emit an incorrect number; small completed runs agree with the supplied answers. A hypothetical floating-root risk cannot be counted as observed algorithmic wrongness.",
+        "faultyLogic": "The verified Pythagorean equality and c bound are appropriate; its quadratic Python enumeration times out at n=10000. No completed wrong count has been established.",
+        "faultySourceLines": [
+          {
+            "code": "n = int(input())\ncount = 0\nfor a in range(1,n+1):\n    for b in range(a,n+1):\n        c = int(math.sqrt(a*a + b*b));\n        if c*c == a*a + b*b and c <= n:\n            count = count + 1                \nprint(count)",
+            "end": 10,
+            "start": 3
+          }
+        ],
+        "implementedAlgorithm": "Enumerates all positive ordered leg pairs a<=b, computes an integer square-root candidate c, verifies c*c equals the leg-square sum and c<=n, then counts it.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": false,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/304A/counterexample-3761941-LF.json",
+            "sha256": "e11a1d1e279f85e72be513de97c4381a5cedf4d200de9cdd5539838b4042562b"
+          },
+          "recordedFailedTest": "0031",
+          "recordedFailedTestLFOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "recordedFailedTestLFVerdict": "TLE"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/304A/3761941.py",
+          "sha256": "8d9f9d32eb5877a84758335342df0f3b84f76a59fa857c839d02cac97e0ac71c"
+        },
+        "sourceHash": "8d9f9d32eb5877a84758335342df0f3b84f76a59fa857c839d02cac97e0ac71c",
+        "sourceLineCount": 10,
+        "sourceLines": [
+          {
+            "code": "import math\n\nn = int(input())\ncount = 0\nfor a in range(1,n+1):\n    for b in range(a,n+1):\n        c = int(math.sqrt(a*a + b*b));\n        if c*c == a*a + b*b and c <= n:\n            count = count + 1                \nprint(count)",
+            "end": 10,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "8d9f9d32eb5877a84758335342df0f3b84f76a59fa857c839d02cac97e0ac71c",
       "test": "0031"
     },
@@ -12074,8 +12199,49 @@
         "inputHash": "876e13f4e07bb39705302c01f445ffd2d2c3b180a207e4d959d6b671c67da09b",
         "verdict": "TLE"
       },
-      "reason": "Quadratic leg-pair enumeration plus binary search for c times out at the recorded test. Not qualifying algorithmic wrong-answer evidence.",
+      "reason": "Excluded as TLE-only, not placeholder or unexecuted-solution evidence: the search genuinely runs but does not finish the designated/LF test. No completed mathematical wrong output exists in the supplied reruns.",
       "recordedTestVerdict": "TLE",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Excluded as TLE-only, not placeholder or unexecuted-solution evidence: the search genuinely runs but does not finish the designated/LF test. No completed mathematical wrong output exists in the supplied reruns.",
+        "faultyLogic": "This exactly models a=i+1,b=j+1,c=md+1 with a<=b<=c<=n and Pythagorean equality. Its O(n^2 log n) search is too slow on the recorded maximum input; there is no demonstrated logical count error.",
+        "faultySourceLines": [
+          {
+            "code": "n = int(input())\nd = [];\nfor i in range (0, 10000):\n    d.append((i + 1) * (i + 1));\nres = 0;\nfor i in range (0, n):\n    for j in range (i, n):\n        ld = j; rd = n - 1;\n        while ld <= rd:\n            md = int((ld + rd) / 2);\n            if d[md] == d[i] + d[j]:\n                res = res + 1;\n                break;\n            else:\n                if d[md] > d[i] + d[j]:\n                    rd = md - 1;\n                else:\n                    ld = md + 1;\nprint (res)",
+            "end": 19,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "Precomputes squares 1^2 through 10000^2; enumerates square-array indices i<=j<n and binary-searches indices j..n-1 for d[i]+d[j], incrementing once if found.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": false,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/304A/counterexample-3762444-LF.json",
+            "sha256": "e9aad7c238269b41d5b10176e93abfbbedfc273e99239f37b3923d24c6917d68"
+          },
+          "recordedFailedTest": "0031",
+          "recordedFailedTestLFOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "recordedFailedTestLFVerdict": "TLE"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/304A/3762444.py",
+          "sha256": "49a21b49f1b84c20a8b855b692c80c36a6cb08bbf467feb17b269fed201453d8"
+        },
+        "sourceHash": "49a21b49f1b84c20a8b855b692c80c36a6cb08bbf467feb17b269fed201453d8",
+        "sourceLineCount": 19,
+        "sourceLines": [
+          {
+            "code": "n = int(input())\nd = [];\nfor i in range (0, 10000):\n    d.append((i + 1) * (i + 1));\nres = 0;\nfor i in range (0, n):\n    for j in range (i, n):\n        ld = j; rd = n - 1;\n        while ld <= rd:\n            md = int((ld + rd) / 2);\n            if d[md] == d[i] + d[j]:\n                res = res + 1;\n                break;\n            else:\n                if d[md] > d[i] + d[j]:\n                    rd = md - 1;\n                else:\n                    ld = md + 1;\nprint (res)",
+            "end": 19,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "49a21b49f1b84c20a8b855b692c80c36a6cb08bbf467feb17b269fed201453d8",
       "test": "0031"
     },
@@ -12101,8 +12267,49 @@
         "inputHash": "876e13f4e07bb39705302c01f445ffd2d2c3b180a207e4d959d6b671c67da09b",
         "verdict": "TLE"
       },
-      "reason": "Quadratic leg-pair enumeration with square-root testing times out at the recorded test. Excluded; no WA fabricated.",
+      "reason": "Excluded as TLE-only. Task construction, solve and printAnswer are called; commented diagnostics and unused imports do not cause the failure. The absence of output after timeout is not mathematical wrong-answer evidence.",
       "recordedTestVerdict": "TLE",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Excluded as TLE-only. Task construction, solve and printAnswer are called; commented diagnostics and unused imports do not cause the failure. The absence of output after timeout is not mathematical wrong-answer evidence.",
+        "faultyLogic": "The positive-leg Pythagorean predicate is appropriate; c<a+b is automatic for positive legs. Quadratic enumeration times out at n=10000, and no completed wrong count is demonstrated.",
+        "faultySourceLines": [
+          {
+            "code": "    def __init__(self):\n        self.n = int(input())\n        #self.peoples = ['' for _ in range(int(input()))]\n        #for i in range(len(self.peoples)):\n        #    self.peoples[i] = input()\n\n    def solve(self):\n        n = self.n\n        for a in range(1, n + 1):\n            for b in range(a, n + 1):\n                c = int((a**2 + b**2)**0.5)\n                if c**2 == a**2 + b**2 and c < (a + b) and c <= n:\n                    self.answer += 1\n\n    def printAnswer(self):\n        print(self.answer)\n        #for line in self.answer:\n        #    print(re.sub('[\\[\\],]', '', str(line)))\n\ntask = Task()\ntask.solve()\ntask.printAnswer()",
+            "end": 31,
+            "start": 10
+          }
+        ],
+        "implementedAlgorithm": "The instantiated Task enumerates leg pairs a<=b, computes c=int((a*a+b*b)**0.5), verifies square equality, the triangle inequality and c<=n, and counts qualifying pairs.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": false,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/304A/counterexample-3819419-LF.json",
+            "sha256": "7ab1253d817f8b466e8f715673b4a4cb18ab64de308644034c6ac64db4075edc"
+          },
+          "recordedFailedTest": "0031",
+          "recordedFailedTestLFOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "recordedFailedTestLFVerdict": "TLE"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/304A/3819419.py",
+          "sha256": "0a6a54f518dc539b7433d3e16a08665b6cf78c93dfb823cd31d5315f991a3ef8"
+        },
+        "sourceHash": "0a6a54f518dc539b7433d3e16a08665b6cf78c93dfb823cd31d5315f991a3ef8",
+        "sourceLineCount": 31,
+        "sourceLines": [
+          {
+            "code": "import math\nimport re\nfrom fractions import Fraction\nfrom collections import Counter\n\nclass Task:\n    n = 0\n    answer = 0\n    \n    def __init__(self):\n        self.n = int(input())\n        #self.peoples = ['' for _ in range(int(input()))]\n        #for i in range(len(self.peoples)):\n        #    self.peoples[i] = input()\n\n    def solve(self):\n        n = self.n\n        for a in range(1, n + 1):\n            for b in range(a, n + 1):\n                c = int((a**2 + b**2)**0.5)\n                if c**2 == a**2 + b**2 and c < (a + b) and c <= n:\n                    self.answer += 1\n\n    def printAnswer(self):\n        print(self.answer)\n        #for line in self.answer:\n        #    print(re.sub('[\\[\\],]', '', str(line)))\n\ntask = Task()\ntask.solve()\ntask.printAnswer()",
+            "end": 31,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "0a6a54f518dc539b7433d3e16a08665b6cf78c93dfb823cd31d5315f991a3ef8",
       "test": "0031"
     }
@@ -12118,15 +12325,29 @@
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
-    "Only 0/5 counted incorrect sources establish independently reproduced algorithmic wrong answers; excluded failures cannot qualify."
+    "Only 0/5 original counted counterexamples qualify as completed mathematical wrong answers under the stricter semantic rule; 0/5 sources have a genuine algorithmic defect somewhere in the unchanged included suite. Supplemental cases do not silently replace invalid original proofs."
   ],
   "reviewNotes": [
     "No package/evidence bytes were modified. Extra tests are external to the package.",
     "Independent extras use distinct brute-force/simulation methods, including corner/max cases; both package oracle and one counted accepted source pass all extra tests.",
     "Generator executions use a placeholder expected output; their WA checker status is immaterial. Exit status, no timeout, exact output hashes and generated pair bytes are verified.",
-    "No publication approval is granted by this audit. Only require_approval=False is evaluated."
+    "No publication approval is granted by this audit. Only require_approval=False is evaluated.",
+    "Stricter source-specific semantic review performed on the complete actual code of every one of the five incorrect sources; semanticReview carries full exact line excerpts, implemented algorithms, faulty logic, exclusions and mathematical derivations.",
+    "Original package/evidence/source/execution bytes and original archive remain unchanged. This pass reuses existing LF executions and included LF suite executions; no public program was executed again.",
+    "Parent reports its independent pinned upstream file/source/statement/API cross-check complete; downloadedUpstreamSources remains false because this child did not perform those downloads. No remaining upstream gap is asserted."
   ],
   "reviewUrl": "https://staging.itsdev.in/sessions/3f1eb4a7487f45f39f3bf20d015c0c1c",
   "reviewer": "devin-3f1eb4a7487f45f39f3bf20d015c0c1c",
-  "schemaVersion": 1
+  "schemaVersion": 1,
+  "semanticReviewSummary": {
+    "fullSourcesRead": 5,
+    "genuineAlgorithmicallyWrong": 0,
+    "newProgramExecutions": 0,
+    "oldAuditFileSHA256": "50ea3a1f0ad8bab526148146dbe7e3a9699b9cb1d62a9ee4dc1ffb3343538396",
+    "oldAuditHash": "4f0300ac67e21c877e579a0e2c39fd053e2b4e2c771008e99d565ca1953c6f06",
+    "originalArchiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+    "originalArchiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+    "policy": "Full-source manual review, actual executed algorithm, completed wrong mathematical answer after presentation exclusions; original qualification remains fail-closed and unchanged evidence is not repaired.",
+    "unchangedQualificationWrongCount": 0
+  }
 }

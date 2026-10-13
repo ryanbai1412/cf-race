@@ -20,6 +20,8 @@
     "extraTests": 459,
     "incorrect": 5,
     "samples": 2,
+    "semanticAlgorithmicallyWrong": 5,
+    "semanticSourcesReviewed": 5,
     "suppliedTests": 179
   },
   "evidenceHash": "e19bd49f7cd5249cb46c47f134c9210a579206b28b2a0a958677ea62276198c9",
@@ -14154,8 +14156,88 @@
         "inputHash": "595c420c96b1389da16c6f38326ab1e94283e55f49dbc4159736f8b25c488c07",
         "verdict": "WA"
       },
-      "reason": "Enumerates only solving both problems and omits solving neither or just one. At test 0003, x=0 is attainable by solving neither, but every enumerated two-problem sum is positive; outputs NO instead of YES.",
+      "reason": "Every candidate solves both problems. There are no candidates for solving just one problem or neither, so a feasible score of zero is rejected on this input.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "NO\n",
+          "actualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "constraints": "x=0 lies in 0..600; t=7,a=30,b=50,da=3,db=4 lie in 1..300. Last-minute scores 12 and 26 are nonnegative.",
+          "correctAnswer": "YES",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/203A/counterexample-4652377-LF.json",
+              "sha256": "627de96dfac073b1716d9ecd6c03457219411ed5d754e04d24bff243ab67d8a2"
+            },
+            "logPath": "proofs/203A-4652377.json",
+            "logSHA256": "07656ed588f6d7ada8594eb531b820de2bad03f9dcde4e2f522763eaeb8c3dfd",
+            "outputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+            "rawLogCopy": {
+              "path": "proofs/raw/203A/counterexample-4652377-LF.json",
+              "sha256": "627de96dfac073b1716d9ecd6c03457219411ed5d754e04d24bff243ab67d8a2"
+            },
+            "runTest": "0003-LF",
+            "sourceHash": "ca93d282da21ce83747202feae1d4044371cf67d875962e33d1b2ea86a68ac0d",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/203A/source-4652377.json",
+              "sha256": "518bf7f6e705c7873f21c65d9d3e9389408b41098a9901339d5591a89f2e89e9"
+            }
+          },
+          "inputSHA256": "595c420c96b1389da16c6f38326ab1e94283e55f49dbc4159736f8b25c488c07",
+          "mathematicalDerivation": "The problem expressly allows solving no problems, giving score 0 with zero submissions, hence YES. All two-problem scores here are at least (30-6*3)+(50-6*4)=38, so a search restricted to both problems cannot witness that allowed outcome.",
+          "originalInputSHA256": "e54cf157e56dd2bb6a7fe61d51371c4c71d3983947e4938949f351837db162f2",
+          "originalOutputSHA256": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "ca93d282da21ce83747202feae1d4044371cf67d875962e33d1b2ea86a68ac0d",
+          "test": "0003",
+          "validLF": "0 7 30 50 3 4\n"
+        },
+        "excludedNonAlgorithmicCauses": "The nested score search actually runs and the final conditional prints NO. There is no debug output, unrelated stub, dormant solver or parser failure; the LF proof completes normally and uses the problem-required YES/NO spelling.",
+        "faultyLogic": "Every candidate solves both problems. There are no candidates for solving just one problem or neither, so a feasible score of zero is rejected on this input.",
+        "faultySourceLines": [
+          {
+            "code": "x, t, a, b, da, db = readln()\nfor i in range(t):\n    for j in range(t):\n        if a - i * da + b - j * db == x:\n            da = -1\n            break\n    if da == -1:\n        break\nprint('YES' if da == -1 else 'NO')",
+            "end": 13,
+            "start": 5
+          }
+        ],
+        "implementedAlgorithm": "Reads the six contest parameters, enumerates independent submission minutes i,j in range(t), and accepts when the sum of the two decayed problem scores equals x. It uses da=-1 as a success flag and breaks both loops.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/203A/counterexample-4652377-LF.json",
+            "sha256": "627de96dfac073b1716d9ecd6c03457219411ed5d754e04d24bff243ab67d8a2"
+          },
+          "recordedFailedTest": "0003",
+          "recordedFailedTestLFOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/203A/4652377.py",
+          "sha256": "ca93d282da21ce83747202feae1d4044371cf67d875962e33d1b2ea86a68ac0d"
+        },
+        "sourceHash": "ca93d282da21ce83747202feae1d4044371cf67d875962e33d1b2ea86a68ac0d",
+        "sourceLineCount": 13,
+        "sourceLines": [
+          {
+            "code": "#!/usr/bin/python3\n\ndef readln(): return tuple(map(int, input().split()))\n\nx, t, a, b, da, db = readln()\nfor i in range(t):\n    for j in range(t):\n        if a - i * da + b - j * db == x:\n            da = -1\n            break\n    if da == -1:\n        break\nprint('YES' if da == -1 else 'NO')",
+            "end": 13,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "ca93d282da21ce83747202feae1d4044371cf67d875962e33d1b2ea86a68ac0d",
       "test": "0003"
     },
@@ -14181,8 +14263,88 @@
         "inputHash": "8fb8f68835c916915e5fe3397e3a5ebba696e14891f626ead33d4051fb477e0e",
         "verdict": "WA"
       },
-      "reason": "Treats gcd(da,db) divisibility as sufficient without bounding submission minutes or considering the allowed one/zero-problem scores. Test 0002 has t=4, first score in {100,95,90,85}, second in {5,4,3,2}; 10 is unattainable although 95 is divisible by gcd(5,1), so YES is wrong.",
+      "reason": "Divisibility is only an unbounded arithmetic condition, not membership in the finite score sets allowed by minutes 0..t-1. It also does not model choosing zero or one problem.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "YES\n",
+          "actualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+          "constraints": "x=10 lies in 0..600; t=4,a=100,b=5,da=5,db=1 lie in 1..300. Last-minute scores 85 and 2 are nonnegative.",
+          "correctAnswer": "NO",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/203A/counterexample-4681096-LF.json",
+              "sha256": "77f32d1e270bcb782fc9f0868b939f522283edd72b460076d7106ee51fd92daa"
+            },
+            "logPath": "proofs/203A-4681096.json",
+            "logSHA256": "25aaa8c56a695f63d1db5ef3bf28937f8cad0848ec7b08a2a621041ee053bb30",
+            "outputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+            "rawLogCopy": {
+              "path": "proofs/raw/203A/counterexample-4681096-LF.json",
+              "sha256": "77f32d1e270bcb782fc9f0868b939f522283edd72b460076d7106ee51fd92daa"
+            },
+            "runTest": "0002-LF",
+            "sourceHash": "ca431213670a1735fe0f06c0a82d3e8854ccb27ec2272ce0227bfaae82cadb00",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/203A/source-4681096.json",
+              "sha256": "e4065b7b419455c7808d5dc87fc3f1fa5ede8315769458020ca083c485c10e8a"
+            }
+          },
+          "inputSHA256": "8fb8f68835c916915e5fe3397e3a5ebba696e14891f626ead33d4051fb477e0e",
+          "mathematicalDerivation": "The allowed minutes are 0,1,2,3. Solving only A gives 100,95,90,85; only B gives 5,4,3,2; solving neither gives 0. Solving both gives at least 85+2=87. None gives 10, so the answer is NO.",
+          "originalInputSHA256": "a1d472c6b0332c46b30b2b887d0ad884a8591903803c3f7d22a58f1d074c856e",
+          "originalOutputSHA256": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "ca431213670a1735fe0f06c0a82d3e8854ccb27ec2272ce0227bfaae82cadb00",
+          "test": "0002",
+          "validLF": "10 4 100 5 5 1\n"
+        },
+        "excludedNonAlgorithmicCauses": "This input-dependent gcd test executes; n=95 and gcd(5,1)=1 make it print YES. The completed LF result is a wrong feasibility decision, not presentation, diagnostics or an unexecuted implementation.",
+        "faultyLogic": "Divisibility is only an unbounded arithmetic condition, not membership in the finite score sets allowed by minutes 0..t-1. It also does not model choosing zero or one problem.",
+        "faultySourceLines": [
+          {
+            "code": "def gcd(a, b):\n    c = a % b\n    return gcd(b, c) if c else b\n\nx, t, a, b, da, db = map(int, input().split())\nn = a + b - x\nprint('YES' if n % gcd(da, db) == 0 else 'NO')",
+            "end": 7,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "Computes n=a+b-x, recursively computes gcd(da,db), and answers YES exactly when n is divisible by that gcd.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/203A/counterexample-4681096-LF.json",
+            "sha256": "77f32d1e270bcb782fc9f0868b939f522283edd72b460076d7106ee51fd92daa"
+          },
+          "recordedFailedTest": "0002",
+          "recordedFailedTestLFOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/203A/4681096.py",
+          "sha256": "ca431213670a1735fe0f06c0a82d3e8854ccb27ec2272ce0227bfaae82cadb00"
+        },
+        "sourceHash": "ca431213670a1735fe0f06c0a82d3e8854ccb27ec2272ce0227bfaae82cadb00",
+        "sourceLineCount": 7,
+        "sourceLines": [
+          {
+            "code": "def gcd(a, b):\n    c = a % b\n    return gcd(b, c) if c else b\n\nx, t, a, b, da, db = map(int, input().split())\nn = a + b - x\nprint('YES' if n % gcd(da, db) == 0 else 'NO')",
+            "end": 7,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "ca431213670a1735fe0f06c0a82d3e8854ccb27ec2272ce0227bfaae82cadb00",
       "test": "0002"
     },
@@ -14208,8 +14370,88 @@
         "inputHash": "8fb8f68835c916915e5fe3397e3a5ebba696e14891f626ead33d4051fb477e0e",
         "verdict": "WA"
       },
-      "reason": "Searches an unbounded nonnegative reduction from a+b, ignoring each problem's t-1 minute bound. At test 0002, a+b-x=95 is divisible by db=1 and returns YES although no permitted score combination makes 10.",
+      "reason": "Neither subtraction count is bounded by t-1; when db=1 the loop is skipped and any nonnegative n is accepted even if the required minute for B is outside the contest.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "YES\n",
+          "actualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+          "constraints": "x=10 lies in 0..600; t=4,a=100,b=5,da=5,db=1 lie in 1..300. Last-minute scores 85 and 2 are nonnegative.",
+          "correctAnswer": "NO",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/203A/counterexample-4681169-LF.json",
+              "sha256": "4653929ba01ee1c6595118697bdadcbd92f90d820fbea42e25b56292b70a3500"
+            },
+            "logPath": "proofs/203A-4681169.json",
+            "logSHA256": "b4020072345f457c02ea5598495d7f22fa49c7d0d82e19ca3a04f465fbe5451b",
+            "outputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+            "rawLogCopy": {
+              "path": "proofs/raw/203A/counterexample-4681169-LF.json",
+              "sha256": "4653929ba01ee1c6595118697bdadcbd92f90d820fbea42e25b56292b70a3500"
+            },
+            "runTest": "0002-LF",
+            "sourceHash": "d417beda057cc970db6a03b55e5eeac058224185a2f40d344c6831b48e3e234b",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/203A/source-4681169.json",
+              "sha256": "3b8a028aca7762a30518a12214e92b61e03b2993c46dea50b12a297d574e74de"
+            }
+          },
+          "inputSHA256": "8fb8f68835c916915e5fe3397e3a5ebba696e14891f626ead33d4051fb477e0e",
+          "mathematicalDerivation": "The allowed minutes are 0,1,2,3. Solving only A gives 100,95,90,85; only B gives 5,4,3,2; solving neither gives 0. Solving both gives at least 85+2=87. None gives 10, so the answer is NO.",
+          "originalInputSHA256": "a1d472c6b0332c46b30b2b887d0ad884a8591903803c3f7d22a58f1d074c856e",
+          "originalOutputSHA256": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "d417beda057cc970db6a03b55e5eeac058224185a2f40d344c6831b48e3e234b",
+          "test": "0002",
+          "validLF": "10 4 100 5 5 1\n"
+        },
+        "excludedNonAlgorithmicCauses": "n=95 is already divisible by db=1, so the executed arithmetic branch returns YES. This is a finite-domain scoring error, not a timed-out loop, parser defect, debug prefix or constant unrelated answer.",
+        "faultyLogic": "Neither subtraction count is bounded by t-1; when db=1 the loop is skipped and any nonnegative n is accepted even if the required minute for B is outside the contest.",
+        "faultySourceLines": [
+          {
+            "code": "x, t, a, b, da, db = map(int, input().split())\nn = a + b - x\nwhile n % db: n -= da\nprint('YES' if n >= 0 else 'NO')",
+            "end": 4,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "Starts with reduction n=a+b-x, subtracts da until n is divisible by db, and accepts if the resulting reduction remains nonnegative.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/203A/counterexample-4681169-LF.json",
+            "sha256": "4653929ba01ee1c6595118697bdadcbd92f90d820fbea42e25b56292b70a3500"
+          },
+          "recordedFailedTest": "0002",
+          "recordedFailedTestLFOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/203A/4681169.py",
+          "sha256": "d417beda057cc970db6a03b55e5eeac058224185a2f40d344c6831b48e3e234b"
+        },
+        "sourceHash": "d417beda057cc970db6a03b55e5eeac058224185a2f40d344c6831b48e3e234b",
+        "sourceLineCount": 4,
+        "sourceLines": [
+          {
+            "code": "x, t, a, b, da, db = map(int, input().split())\nn = a + b - x\nwhile n % db: n -= da\nprint('YES' if n >= 0 else 'NO')",
+            "end": 4,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "d417beda057cc970db6a03b55e5eeac058224185a2f40d344c6831b48e3e234b",
       "test": "0002"
     },
@@ -14235,8 +14477,88 @@
         "inputHash": "595c420c96b1389da16c6f38326ab1e94283e55f49dbc4159736f8b25c488c07",
         "verdict": "WA"
       },
-      "reason": "Restricts its arithmetic search to solving both problems, omitting the valid choice to solve neither. At test 0003 the correct score-zero answer is YES, but its bounded reduction search returns NO.",
+      "reason": "It only searches reductions from the two-problem sum and never represents solving neither. Its shared decrement budget is also not the two independent minute ranges.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "NO\n",
+          "actualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "constraints": "x=0 lies in 0..600; t=7,a=30,b=50,da=3,db=4 lie in 1..300. Last-minute scores 12 and 26 are nonnegative.",
+          "correctAnswer": "YES",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/203A/counterexample-4681227-LF.json",
+              "sha256": "b2c71ca55318047213adab7aed2499504637d1a7e53139e14ddf8d2f4e35be75"
+            },
+            "logPath": "proofs/203A-4681227.json",
+            "logSHA256": "3c1fbee826173fa5f77d797907a53cdda87e9086269e040e76bcc8a854791a84",
+            "outputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+            "rawLogCopy": {
+              "path": "proofs/raw/203A/counterexample-4681227-LF.json",
+              "sha256": "b2c71ca55318047213adab7aed2499504637d1a7e53139e14ddf8d2f4e35be75"
+            },
+            "runTest": "0003-LF",
+            "sourceHash": "23a731515bc3c9fb7fbbd47045ed085624504ad07d57f3080d85a37a7eaa8498",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/203A/source-4681227.json",
+              "sha256": "2cef47011015eb560a04100f35946d42b12a01e5b7da481024688057cf4f2f64"
+            }
+          },
+          "inputSHA256": "595c420c96b1389da16c6f38326ab1e94283e55f49dbc4159736f8b25c488c07",
+          "mathematicalDerivation": "The problem expressly allows solving no problems, giving score 0 with zero submissions, hence YES. All two-problem scores here are at least (30-6*3)+(50-6*4)=38, so a search restricted to both problems cannot witness that allowed outcome.",
+          "originalInputSHA256": "e54cf157e56dd2bb6a7fe61d51371c4c71d3983947e4938949f351837db162f2",
+          "originalOutputSHA256": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "23a731515bc3c9fb7fbbd47045ed085624504ad07d57f3080d85a37a7eaa8498",
+          "test": "0003",
+          "validLF": "0 7 30 50 3 4\n"
+        },
+        "excludedNonAlgorithmicCauses": "For the zero-score input it changes n=80 to 76 then 72, reduces t to 5, and rejects because 72//3=24 exceeds 5. That executed score model, not missing execution or output formatting, gives the wrong NO.",
+        "faultyLogic": "It only searches reductions from the two-problem sum and never represents solving neither. Its shared decrement budget is also not the two independent minute ranges.",
+        "faultySourceLines": [
+          {
+            "code": "x, t, a, b, da, db = map(int, input().split())\nn = a + b - x\nif da < db: da, db = db, da\nwhile n % db and t > 0:\n    n -= da\n    t -= 1\nprint('YES' if n >= 0 and t >= n // db else 'NO')",
+            "end": 7,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "Forms a+b-x, orders the decrements, spends a shared t budget while subtracting the larger decrement to obtain divisibility by the smaller, then checks the remaining quotient against the residual budget.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/203A/counterexample-4681227-LF.json",
+            "sha256": "b2c71ca55318047213adab7aed2499504637d1a7e53139e14ddf8d2f4e35be75"
+          },
+          "recordedFailedTest": "0003",
+          "recordedFailedTestLFOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/203A/4681227.py",
+          "sha256": "23a731515bc3c9fb7fbbd47045ed085624504ad07d57f3080d85a37a7eaa8498"
+        },
+        "sourceHash": "23a731515bc3c9fb7fbbd47045ed085624504ad07d57f3080d85a37a7eaa8498",
+        "sourceLineCount": 7,
+        "sourceLines": [
+          {
+            "code": "x, t, a, b, da, db = map(int, input().split())\nn = a + b - x\nif da < db: da, db = db, da\nwhile n % db and t > 0:\n    n -= da\n    t -= 1\nprint('YES' if n >= 0 and t >= n // db else 'NO')",
+            "end": 7,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "23a731515bc3c9fb7fbbd47045ed085624504ad07d57f3080d85a37a7eaa8498",
       "test": "0003"
     },
@@ -14262,8 +14584,88 @@
         "inputHash": "8fb8f68835c916915e5fe3397e3a5ebba696e14891f626ead33d4051fb477e0e",
         "verdict": "WA"
       },
-      "reason": "Accepts a single-problem score from modular congruence alone without checking the minute range. At test 0002, (100-10)%5==0 but that requires minute 18 rather than 0..3; the source returns YES, expected NO.",
+      "reason": "The single-problem congruence branches have no minute-range or nonnegative-minute check. Here (100-10)%5=0 accepts a supposed A submission at minute 18, although the last legal minute is 3. Later branches also incorrectly use gcd(a,b) instead of the decrements.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "YES\n",
+          "actualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+          "constraints": "x=10 lies in 0..600; t=4,a=100,b=5,da=5,db=1 lie in 1..300. Last-minute scores 85 and 2 are nonnegative.",
+          "correctAnswer": "NO",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/203A/counterexample-4681378-LF.json",
+              "sha256": "4eb49df4c4ac20c27f0f7beea5ea94afe3deffd58fef1f1bceedd4799436e84d"
+            },
+            "logPath": "proofs/203A-4681378.json",
+            "logSHA256": "6ac90aff84d6cb5979ae123f8c0fb0adfaa9c02f7d5853dccc3b114da6e1e46f",
+            "outputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+            "rawLogCopy": {
+              "path": "proofs/raw/203A/counterexample-4681378-LF.json",
+              "sha256": "4eb49df4c4ac20c27f0f7beea5ea94afe3deffd58fef1f1bceedd4799436e84d"
+            },
+            "runTest": "0002-LF",
+            "sourceHash": "7b580481fa4c78eb4dfc6ddccda8346881ee3669bbae906850397494e5bc7ded",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/203A/source-4681378.json",
+              "sha256": "6912df1e0d95e460a94726b44538752122d6dbbadfb0f5f1986cf7221f7a8415"
+            }
+          },
+          "inputSHA256": "8fb8f68835c916915e5fe3397e3a5ebba696e14891f626ead33d4051fb477e0e",
+          "mathematicalDerivation": "The allowed minutes are 0,1,2,3. Solving only A gives 100,95,90,85; only B gives 5,4,3,2; solving neither gives 0. Solving both gives at least 85+2=87. None gives 10, so the answer is NO.",
+          "originalInputSHA256": "a1d472c6b0332c46b30b2b887d0ad884a8591903803c3f7d22a58f1d074c856e",
+          "originalOutputSHA256": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "7b580481fa4c78eb4dfc6ddccda8346881ee3669bbae906850397494e5bc7ded",
+          "test": "0002",
+          "validLF": "10 4 100 5 5 1\n"
+        },
+        "excludedNonAlgorithmicCauses": "The first single-problem branch really executes and prints YES before later logic. There is no diagnostic print or LF parsing issue; an out-of-range submission time is the demonstrated semantic defect.",
+        "faultyLogic": "The single-problem congruence branches have no minute-range or nonnegative-minute check. Here (100-10)%5=0 accepts a supposed A submission at minute 18, although the last legal minute is 3. Later branches also incorrectly use gcd(a,b) instead of the decrements.",
+        "faultySourceLines": [
+          {
+            "code": "x, t, a, b, da, db = map(int, input().split())\nif x == 0: print('YES')\nelse:\n    if (a - x) % da == 0: print('YES')\n    elif (b - x) % db == 0: print('YES')\n    elif a + b - t * (da + db) > x: print('NO')\n    else:\n        n = a + b - x\n        if n % gcd(a, b): print('NO')\n        else:\n            for i in range(1, t + 1):\n                if (n - i * da) % db == 0:\n                    n = -1\n                    break\n            print('YES' if n < 0 else 'NO')",
+            "end": 19,
+            "start": 5
+          }
+        ],
+        "implementedAlgorithm": "Accepts zero; then tries congruences for each single-problem score, a lower-bound rejection for both problems, and a gcd/reduction search for the two-problem sum.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/203A/counterexample-4681378-LF.json",
+            "sha256": "4eb49df4c4ac20c27f0f7beea5ea94afe3deffd58fef1f1bceedd4799436e84d"
+          },
+          "recordedFailedTest": "0002",
+          "recordedFailedTestLFOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/203A/4681378.py",
+          "sha256": "7b580481fa4c78eb4dfc6ddccda8346881ee3669bbae906850397494e5bc7ded"
+        },
+        "sourceHash": "7b580481fa4c78eb4dfc6ddccda8346881ee3669bbae906850397494e5bc7ded",
+        "sourceLineCount": 19,
+        "sourceLines": [
+          {
+            "code": "def gcd(a, b):\n    c = a % b\n    return gcd(b, c) if c else b\n\nx, t, a, b, da, db = map(int, input().split())\nif x == 0: print('YES')\nelse:\n    if (a - x) % da == 0: print('YES')\n    elif (b - x) % db == 0: print('YES')\n    elif a + b - t * (da + db) > x: print('NO')\n    else:\n        n = a + b - x\n        if n % gcd(a, b): print('NO')\n        else:\n            for i in range(1, t + 1):\n                if (n - i * da) % db == 0:\n                    n = -1\n                    break\n            print('YES' if n < 0 else 'NO')",
+            "end": 19,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "7b580481fa4c78eb4dfc6ddccda8346881ee3669bbae906850397494e5bc7ded",
       "test": "0002"
     }
@@ -14283,9 +14685,23 @@
     "No package/evidence bytes were modified. Extra tests are external to the package.",
     "Independent extras use distinct brute-force/simulation methods, including corner/max cases; both package oracle and one counted accepted source pass all extra tests.",
     "Generator executions use a placeholder expected output; their WA checker status is immaterial. Exit status, no timeout, exact output hashes and generated pair bytes are verified.",
-    "No publication approval is granted by this audit. Only require_approval=False is evaluated."
+    "No publication approval is granted by this audit. Only require_approval=False is evaluated.",
+    "Stricter source-specific semantic review performed on the complete actual code of every one of the five incorrect sources; semanticReview carries full exact line excerpts, implemented algorithms, faulty logic, exclusions and mathematical derivations.",
+    "Original package/evidence/source/execution bytes and original archive remain unchanged. This pass reuses existing LF executions and included LF suite executions; no public program was executed again.",
+    "Parent reports its independent pinned upstream file/source/statement/API cross-check complete; downloadedUpstreamSources remains false because this child did not perform those downloads. No remaining upstream gap is asserted."
   ],
   "reviewUrl": "https://staging.itsdev.in/sessions/3f1eb4a7487f45f39f3bf20d015c0c1c",
   "reviewer": "devin-3f1eb4a7487f45f39f3bf20d015c0c1c",
-  "schemaVersion": 1
+  "schemaVersion": 1,
+  "semanticReviewSummary": {
+    "fullSourcesRead": 5,
+    "genuineAlgorithmicallyWrong": 5,
+    "newProgramExecutions": 0,
+    "oldAuditFileSHA256": "d603b0b2e34b8143c34c840b2c8cbcd639cbc36ae967955a31d9e7b6bbbe1747",
+    "oldAuditHash": "60002063f4741334f21f37ca2c5671c8581324ff701af6bcfb32be63e59dd431",
+    "originalArchiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+    "originalArchiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+    "policy": "Full-source manual review, actual executed algorithm, completed wrong mathematical answer after presentation exclusions; original qualification remains fail-closed and unchanged evidence is not repaired.",
+    "unchangedQualificationWrongCount": 5
+  }
 }

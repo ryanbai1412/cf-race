@@ -20,6 +20,8 @@
     "extraTests": 429,
     "incorrect": 5,
     "samples": 2,
+    "semanticAlgorithmicallyWrong": 5,
+    "semanticSourcesReviewed": 5,
     "suppliedTests": 135
   },
   "evidenceHash": "8236c92db7f9c8ff636c0b15a9628bd1ff4d848ece073b96c26e0e7f640dcdcf",
@@ -10766,8 +10768,88 @@
         "inputHash": "8e4d40940b03b4c8cfff6a9f923d20cb5cbea070bd683cd7d2da2f97ae8f377d",
         "verdict": "WA"
       },
-      "reason": "For a uniform suffix blindly returns k-1 rather than the last differing prefix index plus one. Test 0008, n=5,k=3,[2,1,1,1,1], becomes uniform in one operation but returns two; its mean-equality test also cannot prove suffix uniformity.",
+      "reason": "Even a truly uniform suffix does not require removing the entire prefix: matching trailing prefix values are already compatible. Here only the first value differs and one deletion suffices, but k-1=2 is returned. Equality to the mean also does not establish all suffix values equal.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "2\n",
+          "actualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "constraints": "n=5,k=3 satisfy 1<=k<=n<=100000; each listed element is either 1 or 2, hence in 1..100000.",
+          "correctAnswer": "1",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/222A/counterexample-4363668-LF.json",
+              "sha256": "45f39c79b4c01a706a194af805fc9ad5c15a19a857afd7fd7bce3ca9f7d891e8"
+            },
+            "logPath": "proofs/222A-4363668.json",
+            "logSHA256": "68ecbefd0c01c4aa629217c8254e3c5582f8d23e83c8cbc251a66fdbfcbc05c3",
+            "outputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+            "rawLogCopy": {
+              "path": "proofs/raw/222A/counterexample-4363668-LF.json",
+              "sha256": "45f39c79b4c01a706a194af805fc9ad5c15a19a857afd7fd7bce3ca9f7d891e8"
+            },
+            "runTest": "0008-LF",
+            "sourceHash": "c16614e39c272bdd9c4eb99187f009fa29919f7af89ef78dd841036175e22589",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/222A/source-4363668.json",
+              "sha256": "a42c3f00d9b7d778982da65a3572e62c8252e4c667aedd082391e8ea1bd8bef7"
+            }
+          },
+          "inputSHA256": "8e4d40940b03b4c8cfff6a9f923d20cb5cbea070bd683cd7d2da2f97ae8f377d",
+          "mathematicalDerivation": "The initial sequence [2,1,1,1,1] is not uniform, so zero operations cannot suffice. Its k=3 element is 1; append 1 and delete the first 2, yielding [1,1,1,1,1] after one operation. Thus the minimum is exactly 1.",
+          "originalInputSHA256": "bfa2eb0f09f72fa79f1b1efa9569831d7e210fda97b1a0fca9a14a8b482a7594",
+          "originalOutputSHA256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "c16614e39c272bdd9c4eb99187f009fa29919f7af89ef78dd841036175e22589",
+          "test": "0008",
+          "validLF": "5 3\n2 1 1 1 1\n"
+        },
+        "excludedNonAlgorithmicCauses": "The mean test and prefix-length print execute with numeric LF input; there are no diagnostics or dead solver functions. The returned minimum operation count itself is wrong.",
+        "faultyLogic": "Even a truly uniform suffix does not require removing the entire prefix: matching trailing prefix values are already compatible. Here only the first value differs and one deletion suffices, but k-1=2 is returned. Equality to the mean also does not establish all suffix values equal.",
+        "faultySourceLines": [
+          {
+            "code": "n, k = map(int, f.readline().strip().split())\na = list(map(int, f.readline().strip().split()))\nif sum(a[k-1:])/len(a[k-1:]) == a[k-1]:\n    print(len(a[:k-1]))\nelse:\n    print(-1)",
+            "end": 9,
+            "start": 4
+          }
+        ],
+        "implementedAlgorithm": "Tests whether the suffix from position k has arithmetic mean equal to its first value; if so returns the full prefix length k-1, otherwise -1.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/222A/counterexample-4363668-LF.json",
+            "sha256": "45f39c79b4c01a706a194af805fc9ad5c15a19a857afd7fd7bce3ca9f7d891e8"
+          },
+          "recordedFailedTest": "0008",
+          "recordedFailedTestLFOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/222A/4363668.py",
+          "sha256": "c16614e39c272bdd9c4eb99187f009fa29919f7af89ef78dd841036175e22589"
+        },
+        "sourceHash": "c16614e39c272bdd9c4eb99187f009fa29919f7af89ef78dd841036175e22589",
+        "sourceLineCount": 9,
+        "sourceLines": [
+          {
+            "code": "import sys\nf = sys.stdin\n#f = open(\"input.txt\", \"r\")\nn, k = map(int, f.readline().strip().split())\na = list(map(int, f.readline().strip().split()))\nif sum(a[k-1:])/len(a[k-1:]) == a[k-1]:\n    print(len(a[:k-1]))\nelse:\n    print(-1)",
+            "end": 9,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "c16614e39c272bdd9c4eb99187f009fa29919f7af89ef78dd841036175e22589",
       "test": "0008"
     },
@@ -10793,8 +10875,88 @@
         "inputHash": "d511c7e6a368a92bfa2f029e07234346deb9462e39c502a9685a0fd4373f082d",
         "verdict": "WA"
       },
-      "reason": "Initializes c to k-1 and leaves it there if all prefix values already equal the target. The already uniform sequence [1,1,1,1,1] with k=3 at test 0009 requires zero operations, but outputs two.",
+      "reason": "If no prefix value differs, the scan never resets c to zero. An already uniform five-element sequence with k=3 therefore leaves c=2 and reports two operations.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "2\n",
+          "actualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "constraints": "n=5,k=3 are legal; exactly five values, all 1, lie in 1..100000.",
+          "correctAnswer": "0",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/222A/counterexample-4363980-LF.json",
+              "sha256": "fe596f3c368976761ade31f184a28d6e0a0d73e444a417bbd2e57b22292ef7db"
+            },
+            "logPath": "proofs/222A-4363980.json",
+            "logSHA256": "1449061ed1f86f29f2c9707df1d507e5db0b0676b25d00de4e95780bad08fdc6",
+            "outputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+            "rawLogCopy": {
+              "path": "proofs/raw/222A/counterexample-4363980-LF.json",
+              "sha256": "fe596f3c368976761ade31f184a28d6e0a0d73e444a417bbd2e57b22292ef7db"
+            },
+            "runTest": "0009-LF",
+            "sourceHash": "d9631c860fb2806a9be9e6d69705fafbd73bef657a95f1f002b3eb37295aee2e",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/222A/source-4363980.json",
+              "sha256": "1dfc90e6412c443eef7775b17e785bcd38d8dacab976fa615140175a8543c8ad"
+            }
+          },
+          "inputSHA256": "d511c7e6a368a92bfa2f029e07234346deb9462e39c502a9685a0fd4373f082d",
+          "mathematicalDerivation": "All five values are already 1 before any operation. Zero operations achieve the goal and no negative operation count is possible, so the minimum is 0.",
+          "originalInputSHA256": "16fa785ad94e531bb85b6794d88a5c96945ab8aa5d9daec6699bddadbd515622",
+          "originalOutputSHA256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "d9631c860fb2806a9be9e6d69705fafbd73bef657a95f1f002b3eb37295aee2e",
+          "test": "0009",
+          "validLF": "5 3\n1 1 1 1 1\n"
+        },
+        "excludedNonAlgorithmicCauses": "The scan completes and the suffix predicate passes; the numeric print is 2. This is incorrect initialization of the minimum removal count, not missing execution, debug output or LF parsing.",
+        "faultyLogic": "If no prefix value differs, the scan never resets c to zero. An already uniform five-element sequence with k=3 therefore leaves c=2 and reports two operations.",
+        "faultySourceLines": [
+          {
+            "code": "n, k = map(int, f.readline().strip().split())\nk -= 1\na = list(map(int, f.readline().strip().split()))\nc = k\nfor i in range(k,-1,-1):\n    if a[i] != a[k]:\n        c = i+1\n        break\nif sum(a[k:])/len(a[k:]) == a[k]:\n    print(len(a[:c]))\nelse:\n    print(-1)",
+            "end": 15,
+            "start": 4
+          }
+        ],
+        "implementedAlgorithm": "Uses zero-based k, scans backwards for the last prefix value differing from a[k], initializes c=k, and prints c if the suffix mean equals a[k], otherwise -1.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/222A/counterexample-4363980-LF.json",
+            "sha256": "fe596f3c368976761ade31f184a28d6e0a0d73e444a417bbd2e57b22292ef7db"
+          },
+          "recordedFailedTest": "0009",
+          "recordedFailedTestLFOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/222A/4363980.py",
+          "sha256": "d9631c860fb2806a9be9e6d69705fafbd73bef657a95f1f002b3eb37295aee2e"
+        },
+        "sourceHash": "d9631c860fb2806a9be9e6d69705fafbd73bef657a95f1f002b3eb37295aee2e",
+        "sourceLineCount": 15,
+        "sourceLines": [
+          {
+            "code": "import sys\nf = sys.stdin\n#f = open(\"input.txt\", \"r\")\nn, k = map(int, f.readline().strip().split())\nk -= 1\na = list(map(int, f.readline().strip().split()))\nc = k\nfor i in range(k,-1,-1):\n    if a[i] != a[k]:\n        c = i+1\n        break\nif sum(a[k:])/len(a[k:]) == a[k]:\n    print(len(a[:c]))\nelse:\n    print(-1)",
+            "end": 15,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "d9631c860fb2806a9be9e6d69705fafbd73bef657a95f1f002b3eb37295aee2e",
       "test": "0009"
     },
@@ -10820,8 +10982,88 @@
         "inputHash": "e10af96334f37d83e52216771db7343778fe8e8c49802a319595df3734903c32",
         "verdict": "WA"
       },
-      "reason": "Counts matching values backwards from k-1, rather than the number of prefix values that must be discarded. The single-element sequence at test 0003 is already uniform, yet returns one instead of zero.",
+      "reason": "It reports the number of matching values, not the number of positions that must be discarded. On a one-element already uniform sequence the loop counts one and returns 1 rather than 0.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1\n",
+          "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "constraints": "n=k=1 and the sole element 1 satisfy every bound.",
+          "correctAnswer": "0",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/222A/counterexample-4648734-LF.json",
+              "sha256": "33d6004476a0173ebec669f33dfcc8bc8299745b2630ea998ebf2f10b61b3392"
+            },
+            "logPath": "proofs/222A-4648734.json",
+            "logSHA256": "9084be949db772f75f4bc27b8ee228e67394f49b5cc05cf3b96c13f33411cc97",
+            "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+            "rawLogCopy": {
+              "path": "proofs/raw/222A/counterexample-4648734-LF.json",
+              "sha256": "33d6004476a0173ebec669f33dfcc8bc8299745b2630ea998ebf2f10b61b3392"
+            },
+            "runTest": "0003-LF",
+            "sourceHash": "743b85c7bc52d4cc55098af22dc8343424e2a202d2314aaec686e8cf96116a8c",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/222A/source-4648734.json",
+              "sha256": "cc8a3f22ed26c74322a0f30a7d94dabdbd23c443e906364f1e29773b0369082f"
+            }
+          },
+          "inputSHA256": "e10af96334f37d83e52216771db7343778fe8e8c49802a319595df3734903c32",
+          "mathematicalDerivation": "The sole value 1 is already equal to every sequence value; doing no append/delete operation suffices. The nonnegative minimum is therefore 0.",
+          "originalInputSHA256": "cd8b17a746cc0243a5b9513cd25fee8489e21f77fe31e492b0da64bc8cb8da5f",
+          "originalOutputSHA256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "743b85c7bc52d4cc55098af22dc8343424e2a202d2314aaec686e8cf96116a8c",
+          "test": "0003",
+          "validLF": "1 1\n1\n"
+        },
+        "excludedNonAlgorithmicCauses": "Its main top-level scan and print are executed. A completed LF integer 1 disagrees with the minimum, with no formatting-only effect or uncalled routine.",
+        "faultyLogic": "It reports the number of matching values, not the number of positions that must be discarded. On a one-element already uniform sequence the loop counts one and returns 1 rather than 0.",
+        "faultySourceLines": [
+          {
+            "code": "n, k = readln()\na = readln()\nif len(set(a[k - 1:])) == 1:\n    ans = 0\n    i = k - 1\n    while i >= 0 and a[i] == a[k - 1]:\n        i -= 1\n        ans += 1\n    print(ans)\nelse:\n    print(-1)",
+            "end": 15,
+            "start": 5
+          }
+        ],
+        "implementedAlgorithm": "Requires the suffix from k to be uniform, then walks backwards from k-1 (zero-based), counting values equal to the suffix value and prints that count.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/222A/counterexample-4648734-LF.json",
+            "sha256": "33d6004476a0173ebec669f33dfcc8bc8299745b2630ea998ebf2f10b61b3392"
+          },
+          "recordedFailedTest": "0003",
+          "recordedFailedTestLFOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/222A/4648734.py",
+          "sha256": "743b85c7bc52d4cc55098af22dc8343424e2a202d2314aaec686e8cf96116a8c"
+        },
+        "sourceHash": "743b85c7bc52d4cc55098af22dc8343424e2a202d2314aaec686e8cf96116a8c",
+        "sourceLineCount": 15,
+        "sourceLines": [
+          {
+            "code": "#!/usr/bin/python3\n\ndef readln(): return tuple(map(int, input().split()))\n\nn, k = readln()\na = readln()\nif len(set(a[k - 1:])) == 1:\n    ans = 0\n    i = k - 1\n    while i >= 0 and a[i] == a[k - 1]:\n        i -= 1\n        ans += 1\n    print(ans)\nelse:\n    print(-1)",
+            "end": 15,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "743b85c7bc52d4cc55098af22dc8343424e2a202d2314aaec686e8cf96116a8c",
       "test": "0003"
     },
@@ -10847,8 +11089,88 @@
         "inputHash": "e10af96334f37d83e52216771db7343778fe8e8c49802a319595df3734903c32",
         "verdict": "WA"
       },
-      "reason": "Checks c==1 before the n==1 base case and declares a one-element sequence impossible. Test 0003, n=k=1,[1], outputs -1 rather than zero; the method also fails to require a uniform suffix.",
+      "reason": "The impossibility branch c==1 precedes and masks the n==1 base case. With one matching element c stays 1 and it prints -1 even though the sequence is already uniform. More generally it does not require a uniform suffix.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "-1\n",
+          "actualOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+          "constraints": "n=k=1 and value 1 meet all input constraints.",
+          "correctAnswer": "0",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/222A/counterexample-7364362-LF.json",
+              "sha256": "26e48ac39e1562569eec64d34105f7497a207b95b297915fd3db2f10aee8a9c1"
+            },
+            "logPath": "proofs/222A-7364362.json",
+            "logSHA256": "22dd169b99245866271f2402bcaab8ccee43845208d524e9dc338fc1f7950749",
+            "outputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+            "rawLogCopy": {
+              "path": "proofs/raw/222A/counterexample-7364362-LF.json",
+              "sha256": "26e48ac39e1562569eec64d34105f7497a207b95b297915fd3db2f10aee8a9c1"
+            },
+            "runTest": "0003-LF",
+            "sourceHash": "d26a8c0acb3808a2db9323fc643bdfcd0b493abcb90f0e8037156cc66fd6c2c4",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/222A/source-7364362.json",
+              "sha256": "8ac3b9ce2c3d365795d47281efd5928d49d5087abe1de158357c6a3123cd2a11"
+            }
+          },
+          "inputSHA256": "e10af96334f37d83e52216771db7343778fe8e8c49802a319595df3734903c32",
+          "mathematicalDerivation": "The sequence contains one value 1 and is already uniform, so zero operations is feasible and minimal. The claimed impossibility -1 is false.",
+          "originalInputSHA256": "cd8b17a746cc0243a5b9513cd25fee8489e21f77fe31e492b0da64bc8cb8da5f",
+          "originalOutputSHA256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "d26a8c0acb3808a2db9323fc643bdfcd0b493abcb90f0e8037156cc66fd6c2c4",
+          "test": "0003",
+          "validLF": "1 1\n1\n"
+        },
+        "excludedNonAlgorithmicCauses": "The matching-index loop really executes and its branch order yields the mathematical claim of impossibility. The later n==1 branch is unreachable on this case, but the program is an executed input-dependent sequence algorithm, not an entirely unexecuted solution.",
+        "faultyLogic": "The impossibility branch c==1 precedes and masks the n==1 base case. With one matching element c stays 1 and it prints -1 even though the sequence is already uniform. More generally it does not require a uniform suffix.",
+        "faultySourceLines": [
+          {
+            "code": "c = 1\nkey = a[k-1]\ncount = []\n\nfor i in range(n):\n    if a[i] == key :\n        count.append(i)\n   \n\nfor i in range(len(count)-1):\n    if count[i+1] - count[i]  == 1 :\n        c += 1\n#print(c)\n\nif c == 1:\n    print(-1)\nelif n == 1 :\n    print(0)\nelse:\n    print(n - c)",
+            "end": 23,
+            "start": 4
+          }
+        ],
+        "implementedAlgorithm": "Collects all indices equal to a[k-1], counts adjacent index pairs plus one, then returns -1 for c=1, zero for n=1 in a later branch, or n-c otherwise.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/222A/counterexample-7364362-LF.json",
+            "sha256": "26e48ac39e1562569eec64d34105f7497a207b95b297915fd3db2f10aee8a9c1"
+          },
+          "recordedFailedTest": "0003",
+          "recordedFailedTestLFOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/222A/7364362.py",
+          "sha256": "d26a8c0acb3808a2db9323fc643bdfcd0b493abcb90f0e8037156cc66fd6c2c4"
+        },
+        "sourceHash": "d26a8c0acb3808a2db9323fc643bdfcd0b493abcb90f0e8037156cc66fd6c2c4",
+        "sourceLineCount": 23,
+        "sourceLines": [
+          {
+            "code": "n, k = map(int,input().split())\na = list(map(int,input().split()))\n\nc = 1\nkey = a[k-1]\ncount = []\n\nfor i in range(n):\n    if a[i] == key :\n        count.append(i)\n   \n\nfor i in range(len(count)-1):\n    if count[i+1] - count[i]  == 1 :\n        c += 1\n#print(c)\n\nif c == 1:\n    print(-1)\nelif n == 1 :\n    print(0)\nelse:\n    print(n - c)",
+            "end": 23,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "d26a8c0acb3808a2db9323fc643bdfcd0b493abcb90f0e8037156cc66fd6c2c4",
       "test": "0003"
     },
@@ -10874,8 +11196,88 @@
         "inputHash": "8e4d40940b03b4c8cfff6a9f923d20cb5cbea070bd683cd7d2da2f97ae8f377d",
         "verdict": "WA"
       },
-      "reason": "The Python expression --elements is unary negation twice and does not decrement elements. It therefore fails to remove matching trailing prefix values; test 0008 [2,1,1,1,1],k=3 outputs two rather than one.",
+      "reason": "Python --elements applies unary minus twice and leaves the counter unchanged. The matching trailing prefix value 1 is not removed from the counter; [2,1] retains length 2 instead of leaving one differing value.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "2\n",
+          "actualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "constraints": "n=5,k=3 satisfy 1<=k<=n<=100000; each listed element is either 1 or 2, hence in 1..100000.",
+          "correctAnswer": "1",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/222A/counterexample-7690937-LF.json",
+              "sha256": "c14785fbf609886ad5f6e4151ec43cc364085de7772ba3ed21beb418a542851c"
+            },
+            "logPath": "proofs/222A-7690937.json",
+            "logSHA256": "521f153c878cfdefe3fa6181d076186a7bf14c46a8e0b78167280c7d2a527666",
+            "outputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+            "rawLogCopy": {
+              "path": "proofs/raw/222A/counterexample-7690937-LF.json",
+              "sha256": "c14785fbf609886ad5f6e4151ec43cc364085de7772ba3ed21beb418a542851c"
+            },
+            "runTest": "0008-LF",
+            "sourceHash": "cb811adb39e62de48afc000d67f6fc4976605126c65302a677f4ed187dd88b22",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/222A/source-7690937.json",
+              "sha256": "d39f97bbd35627f6d076739d60b63345c5b972149e088d018951b1cace0d2b94"
+            }
+          },
+          "inputSHA256": "8e4d40940b03b4c8cfff6a9f923d20cb5cbea070bd683cd7d2da2f97ae8f377d",
+          "mathematicalDerivation": "The initial sequence [2,1,1,1,1] is not uniform, so zero operations cannot suffice. Its k=3 element is 1; append 1 and delete the first 2, yielding [1,1,1,1,1] after one operation. Thus the minimum is exactly 1.",
+          "originalInputSHA256": "bfa2eb0f09f72fa79f1b1efa9569831d7e210fda97b1a0fca9a14a8b482a7594",
+          "originalOutputSHA256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "cb811adb39e62de48afc000d67f6fc4976605126c65302a677f4ed187dd88b22",
+          "test": "0008",
+          "validLF": "5 3\n2 1 1 1 1\n"
+        },
+        "excludedNonAlgorithmicCauses": "The function-free code and matching-prefix loop execute; the erroneous Python expression is not a comment or uncalled routine. LF parsing succeeds and the standalone operation count 2 is mathematically wrong.",
+        "faultyLogic": "Python --elements applies unary minus twice and leaves the counter unchanged. The matching trailing prefix value 1 is not removed from the counter; [2,1] retains length 2 instead of leaving one differing value.",
+        "faultySourceLines": [
+          {
+            "code": "endOfList = set(integerList[parameters[1] - 1:])#elements after index(including index)\nstartOfList = integerList[:parameters[1] - 1]#elements from before index(not including it)\n\n#if there is more than one unique element after index, operation is impossible\nif(len(endOfList) != 1):\n    print(\"-1\")\nelse:\n    elements = len(startOfList)\n    for i in reversed(startOfList):\n        if i == integerList[parameters[1] - 1]:\n            --elements\n        else:\n            break\n\n    print(elements)",
+            "end": 21,
+            "start": 7
+          }
+        ],
+        "implementedAlgorithm": "Rejects a nonuniform suffix, then intends to trim matching values from the end of the prefix by decreasing an elements counter before printing it.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/222A/counterexample-7690937-LF.json",
+            "sha256": "c14785fbf609886ad5f6e4151ec43cc364085de7772ba3ed21beb418a542851c"
+          },
+          "recordedFailedTest": "0008",
+          "recordedFailedTestLFOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/222A/7690937.py",
+          "sha256": "cb811adb39e62de48afc000d67f6fc4976605126c65302a677f4ed187dd88b22"
+        },
+        "sourceHash": "cb811adb39e62de48afc000d67f6fc4976605126c65302a677f4ed187dd88b22",
+        "sourceLineCount": 21,
+        "sourceLines": [
+          {
+            "code": "import sys\n\n#input\nparameters = list(map(int,input().split(\" \")))\nintegerList = list(map(int, input().split(\" \")))\n\nendOfList = set(integerList[parameters[1] - 1:])#elements after index(including index)\nstartOfList = integerList[:parameters[1] - 1]#elements from before index(not including it)\n\n#if there is more than one unique element after index, operation is impossible\nif(len(endOfList) != 1):\n    print(\"-1\")\nelse:\n    elements = len(startOfList)\n    for i in reversed(startOfList):\n        if i == integerList[parameters[1] - 1]:\n            --elements\n        else:\n            break\n\n    print(elements)",
+            "end": 21,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "cb811adb39e62de48afc000d67f6fc4976605126c65302a677f4ed187dd88b22",
       "test": "0008"
     }
@@ -10895,9 +11297,23 @@
     "No package/evidence bytes were modified. Extra tests are external to the package.",
     "Independent extras use distinct brute-force/simulation methods, including corner/max cases; both package oracle and one counted accepted source pass all extra tests.",
     "Generator executions use a placeholder expected output; their WA checker status is immaterial. Exit status, no timeout, exact output hashes and generated pair bytes are verified.",
-    "No publication approval is granted by this audit. Only require_approval=False is evaluated."
+    "No publication approval is granted by this audit. Only require_approval=False is evaluated.",
+    "Stricter source-specific semantic review performed on the complete actual code of every one of the five incorrect sources; semanticReview carries full exact line excerpts, implemented algorithms, faulty logic, exclusions and mathematical derivations.",
+    "Original package/evidence/source/execution bytes and original archive remain unchanged. This pass reuses existing LF executions and included LF suite executions; no public program was executed again.",
+    "Parent reports its independent pinned upstream file/source/statement/API cross-check complete; downloadedUpstreamSources remains false because this child did not perform those downloads. No remaining upstream gap is asserted."
   ],
   "reviewUrl": "https://staging.itsdev.in/sessions/3f1eb4a7487f45f39f3bf20d015c0c1c",
   "reviewer": "devin-3f1eb4a7487f45f39f3bf20d015c0c1c",
-  "schemaVersion": 1
+  "schemaVersion": 1,
+  "semanticReviewSummary": {
+    "fullSourcesRead": 5,
+    "genuineAlgorithmicallyWrong": 5,
+    "newProgramExecutions": 0,
+    "oldAuditFileSHA256": "9510710d003018f0b9c5835a64a105325b915dc284fceb15fed31629b8a23d6d",
+    "oldAuditHash": "4c7467e90ebdf942d7ad63630b04dd6b8a5ff6de381665c0d10fa94ce51a1617",
+    "originalArchiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+    "originalArchiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+    "policy": "Full-source manual review, actual executed algorithm, completed wrong mathematical answer after presentation exclusions; original qualification remains fail-closed and unchanged evidence is not repaired.",
+    "unchangedQualificationWrongCount": 5
+  }
 }

@@ -23,6 +23,8 @@
     "extraTests": 86,
     "incorrect": 5,
     "samples": 2,
+    "semanticAlgorithmicallyWrong": 2,
+    "semanticSourcesReviewed": 5,
     "suppliedTests": 144
   },
   "evidenceHash": "4092f584d79c37a303a26aab0b003c877ed0eec1ef7d4629d08d43a5bb6eac41",
@@ -11475,8 +11477,49 @@
         "inputHash": "8f6646a2d3b54f43165015ba797b0b87c157f4db517a914d378c4f15841d2572",
         "verdict": "WA"
       },
-      "reason": "Prints the entire expanded playlist before answers. Its small recorded failed test has the correct answer suffix but a Python-list debug prefix, which is excluded. Large expansion can also cause resource failures, not qualifying WA evidence.",
+      "reason": "Excluded as debug/presentation output (with possible resource failure on larger inputs). For the recorded LF test the answer suffix is exactly 1,1; the preceding list is the only discrepancy. No mathematical miscomputation is demonstrated after removing that diagnostic.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Excluded as debug/presentation output (with possible resource failure on larger inputs). For the recorded LF test the answer suffix is exactly 1,1; the preceding list is the only discrepancy. No mathematical miscomputation is demonstrated after removing that diagnostic.",
+        "faultyLogic": "The expanded-array lookup is semantically correct but line 18 prints a Python-list diagnostic, and materializing up to 10^9 entries can exhaust resources.",
+        "faultySourceLines": [
+          {
+            "code": "tableautaille=input().split(\" \");\n\nn=int(tableautaille[0])\nm=int(tableautaille[1])\ntabfinal=[]\nfor i in range(n):\n\ttab=input().split(\" \")\n\tc=int(tab[0])\n\tt=int(tab[1])\n\ttabfinal+=[i+1]*(c*t)\nprint(tabfinal)\ntableau=input().split(\" \");\n\nfor i in range(m):\n\tprint(tabfinal[int(tableau[i])-1])",
+            "end": 22,
+            "start": 8
+          }
+        ],
+        "implementedAlgorithm": "Expands each song index into a per-minute array of length c*t, prints that entire array, then looks up each query at minute-1 and prints the selected index.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": false,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/302B/counterexample-14047801-LF.json",
+            "sha256": "fa496dd2e5d199b45f5bc6785b00f8833bda363962d03615afaa6210e57bb7c8"
+          },
+          "recordedFailedTest": "0001",
+          "recordedFailedTestLFOutputHash": "cbff1e3a9747b3763dd3f38889d230c16a4949006761ff89254fcdde7cf8f16d",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/302B/14047801.py",
+          "sha256": "0462045766895a3e0554252959a4c7b56c208c968652a91d8a1a6259bafd9350"
+        },
+        "sourceHash": "0462045766895a3e0554252959a4c7b56c208c968652a91d8a1a6259bafd9350",
+        "sourceLineCount": 22,
+        "sourceLines": [
+          {
+            "code": "# -*- coding: utf-8 -*-\n\"\"\"\nCreated on Tue Nov  3 20:30:05 2015\n\n@author: kevin\n\"\"\"\n\ntableautaille=input().split(\" \");\n\nn=int(tableautaille[0])\nm=int(tableautaille[1])\ntabfinal=[]\nfor i in range(n):\n\ttab=input().split(\" \")\n\tc=int(tab[0])\n\tt=int(tab[1])\n\ttabfinal+=[i+1]*(c*t)\nprint(tabfinal)\ntableau=input().split(\" \");\n\nfor i in range(m):\n\tprint(tabfinal[int(tableau[i])-1])",
+            "end": 22,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "0462045766895a3e0554252959a4c7b56c208c968652a91d8a1a6259bafd9350",
       "test": "0001"
     },
@@ -11502,8 +11545,88 @@
         "inputHash": "8f6646a2d3b54f43165015ba797b0b87c157f4db517a914d378c4f15841d2572",
         "verdict": "WA"
       },
-      "reason": "Initializes the track iterator with the n,m header, treating n*m as the first song duration and shifting real tracks. This is an incorrect input/playlist model and produces wrong song indices at the recorded counterexample.",
+      "reason": "The iterator starts at the n,m HEADER instead of the first song. That adds a fictitious n*m-duration song at index zero and shifts cumulative time boundaries. Here header 1,2 covers minute 1 and emits nonexistent song zero.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "0\n1\n",
+          "actualOutputHash": "82c1315e6c757f33c4a77ca58b2a184f5a88614470c05ec77f3d28918db6b8ae",
+          "constraints": "n=1,m=2 are legal; c=2,t=8 are positive and bounded; total duration 16<=1000000000; queries 1<16 are both within that duration.",
+          "correctAnswer": "1\n1",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/302B/counterexample-18159386-LF.json",
+              "sha256": "38188b6d55e59143022834e4883204d3ef8b1a0280d04a46e68b818d19dd7085"
+            },
+            "logPath": "proofs/302B-18159386.json",
+            "logSHA256": "40fdef029f713783aa2fd03e40678d5451429cbfc631a3bb6d716fb4494c31ea",
+            "outputHash": "82c1315e6c757f33c4a77ca58b2a184f5a88614470c05ec77f3d28918db6b8ae",
+            "rawLogCopy": {
+              "path": "proofs/raw/302B/counterexample-18159386-LF.json",
+              "sha256": "38188b6d55e59143022834e4883204d3ef8b1a0280d04a46e68b818d19dd7085"
+            },
+            "runTest": "0001-LF",
+            "sourceHash": "69eff95a92ca0a15f71767ae46e691277a70902d3f5502ac9bbfc8207943dc18",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/302B/source-18159386.json",
+              "sha256": "c0d0a21b64563652d7e16b141eb52f6bb2c3a6470b5c9e53369d8685aaf38cbf"
+            }
+          },
+          "inputSHA256": "8f6646a2d3b54f43165015ba797b0b87c157f4db517a914d378c4f15841d2572",
+          "mathematicalDerivation": "There is exactly one song, played c=2 times for t=8 minutes each, covering every minute 1..16. Queries at 1 and 16 therefore both refer to song 1. The source wrongly treats the header as a fictitious two-minute song and returns index 0 for minute 1.",
+          "originalInputSHA256": "94faac99f545ed3c175ac9e240a2f8922790a323bd4777fc46c756d01351f6ac",
+          "originalOutputSHA256": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "69eff95a92ca0a15f71767ae46e691277a70902d3f5502ac9bbfc8207943dc18",
+          "test": "0001",
+          "validLF": "1 2\n2 8\n1 16\n"
+        },
+        "excludedNonAlgorithmicCauses": "This is an executed parser/data-model bug miscomputing otherwise valid LF input, which the stricter rule permits as a source-specific algorithm defect. main is called, the program completes without a runtime exception, and zero is an actual answer, not an echoed diagnostic token.",
+        "faultyLogic": "The iterator starts at the n,m HEADER instead of the first song. That adds a fictitious n*m-duration song at index zero and shifts cumulative time boundaries. Here header 1,2 covers minute 1 and emits nonexistent song zero.",
+        "faultySourceLines": [
+          {
+            "code": "def main():\n    from sys import stdin\n    l = stdin.read().splitlines()\n    it, res, now = iter(enumerate(l)), [], 0\n    for v in map(int, l[-1].split()):\n        while now < v:\n            i, s = next(it)\n            c, t = map(int, s.split())\n            now += c * t\n        res.append(i)\n    print('\\n'.join(map(str, res)))\n\n\nif __name__ == '__main__':\n    main()",
+            "end": 15,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "The called main reads all lines, uses an enumerated iterator over EVERY line, treats each consumed two-integer line as a song duration, accumulates until each last-line query is covered, and emits the last line index.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/302B/counterexample-18159386-LF.json",
+            "sha256": "38188b6d55e59143022834e4883204d3ef8b1a0280d04a46e68b818d19dd7085"
+          },
+          "recordedFailedTest": "0001",
+          "recordedFailedTestLFOutputHash": "82c1315e6c757f33c4a77ca58b2a184f5a88614470c05ec77f3d28918db6b8ae",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/302B/18159386.py",
+          "sha256": "69eff95a92ca0a15f71767ae46e691277a70902d3f5502ac9bbfc8207943dc18"
+        },
+        "sourceHash": "69eff95a92ca0a15f71767ae46e691277a70902d3f5502ac9bbfc8207943dc18",
+        "sourceLineCount": 15,
+        "sourceLines": [
+          {
+            "code": "def main():\n    from sys import stdin\n    l = stdin.read().splitlines()\n    it, res, now = iter(enumerate(l)), [], 0\n    for v in map(int, l[-1].split()):\n        while now < v:\n            i, s = next(it)\n            c, t = map(int, s.split())\n            now += c * t\n        res.append(i)\n    print('\\n'.join(map(str, res)))\n\n\nif __name__ == '__main__':\n    main()",
+            "end": 15,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "69eff95a92ca0a15f71767ae46e691277a70902d3f5502ac9bbfc8207943dc18",
       "test": "0001"
     },
@@ -11529,8 +11652,49 @@
         "inputHash": "8f6646a2d3b54f43165015ba797b0b87c157f4db517a914d378c4f15841d2572",
         "verdict": "WA"
       },
-      "reason": "Prints n and m before the song answers. At the recorded failed test its answer suffix is correct and the extra header tokens cause WA. Debug/echoed-input output is explicitly excluded.",
+      "reason": "Excluded as debug/echoed-input output. On the LF case with one song lasting 16 minutes, both minute 1 and 16 correctly return song 1 after the header. Removing the two echoed header tokens leaves the exact mathematical answers; the output prefix alone does not qualify.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Excluded as debug/echoed-input output. On the LF case with one song lasting 16 minutes, both minute 1 and 16 correctly return song 1 after the header. Removing the two echoed header tokens leaves the exact mathematical answers; the output prefix alone does not qualify.",
+        "faultyLogic": "The pointer/end-time algorithm implements the playlist semantics, but line 6 echoes the input header ahead of otherwise correct answers. No mathematical index error is shown at the recorded case.",
+        "faultySourceLines": [
+          {
+            "code": "r = input().split(' ')\nn = int( r[ 0 ] )\nm = int( r[ 1 ] )\ns = []\nprint( n , m )\nfor i in range( 0 , n ):\n    r = input().split(' ')\n    s.append( int( r[ 0 ] ) * int( r[ 1 ] ) )\n    if i > 0:\n        s[ i ] += s[ i - 1 ]\n\nr = input().split(' ')\nct = 0\nfor i in range( 0 , m ):\n    v = int( r[ i ] )\n    while s[ ct ] < v :\n        ct += 1\n    print( ct + 1 )",
+            "end": 19,
+            "start": 2
+          }
+        ],
+        "implementedAlgorithm": "Constructs cumulative song end times, scans strictly increasing query minutes with a monotone current-song pointer, and prints that pointer plus one; before reading songs it also prints n,m.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": false,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/302B/counterexample-3702659-LF.json",
+            "sha256": "4b61a4ab6db86172b701027a06fc375bb757b7d69adc43103048c3dd690fa337"
+          },
+          "recordedFailedTest": "0001",
+          "recordedFailedTestLFOutputHash": "6cf004d160c9d9237e31ca6985e5df7379543d5d390518587a6c5800f2b124d6",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/302B/3702659.py",
+          "sha256": "73d695c57d0076fb98e4f9052bf65accb26146ea0fa5588848aaea7193504094"
+        },
+        "sourceHash": "73d695c57d0076fb98e4f9052bf65accb26146ea0fa5588848aaea7193504094",
+        "sourceLineCount": 19,
+        "sourceLines": [
+          {
+            "code": "#CF302B\nr = input().split(' ')\nn = int( r[ 0 ] )\nm = int( r[ 1 ] )\ns = []\nprint( n , m )\nfor i in range( 0 , n ):\n    r = input().split(' ')\n    s.append( int( r[ 0 ] ) * int( r[ 1 ] ) )\n    if i > 0:\n        s[ i ] += s[ i - 1 ]\n\nr = input().split(' ')\nct = 0\nfor i in range( 0 , m ):\n    v = int( r[ i ] )\n    while s[ ct ] < v :\n        ct += 1\n    print( ct + 1 )",
+            "end": 19,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "73d695c57d0076fb98e4f9052bf65accb26146ea0fa5588848aaea7193504094",
       "test": "0001"
     },
@@ -11556,8 +11720,49 @@
         "inputHash": "1c2573f2e0e592bcdda9ae586cd4c1bfeb2016eb5307034050fb796472175958",
         "verdict": "AC"
       },
-      "reason": "Its song-interval binary search is semantically sound but repeatedly concatenates the answer string. The builder-recorded test 0025 passes in this fresh run and LF rerun; other supplied tests time out. Neither the passing recorded case nor fresh TLE establishes a qualifying algorithmic wrong answer.",
+      "reason": "Excluded as timing/complexity-only. The original recorded test 0025 actually passes in the fresh suite and LF proof; other included large tests time out. The class solver IS called, diagnostics are commented, and there is no completed wrong song index to count.",
       "recordedTestVerdict": "AC",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Excluded as timing/complexity-only. The original recorded test 0025 actually passes in the fresh suite and LF proof; other included large tests time out. The class solver IS called, diagnostics are commented, and there is no completed wrong song index to count.",
+        "faultyLogic": "The boundary search is semantically appropriate for positive song durations and legal query minutes. Repeated concatenation of the growing attribute string can make large output construction quadratic and time out.",
+        "faultySourceLines": [
+          {
+            "code": "    def getData(self):\n        n, m = [int(x) for x in input().split(' ')]\n        for _ in range(n):\n            self.songs += [[int(x) for x in input().split(' ')]]\n        self.v = [int(x) for x in input().split(' ')]\n        #inFile = open('input.txt', 'r')\n        #inFile.readline().rstrip()\n        #self.childs = inFile.readline().rstrip()\n\n    def solve(self):\n        songs = self.songs\n        songsBeginTime = [1]\n        for i in range(0, len(songs)):\n            songsBeginTime += [songsBeginTime[-1] + songs[i][0] * songs[i][1]]\n        for x in self.v:\n            self.answer += str(self.findSong(songsBeginTime, x) + 1) + '\\n'\n\n    def findSong(self, songsBeginTime, x):\n        l, r = 0, len(songsBeginTime)\n        while l + 1 < r:\n            m = (l + r) // 2\n            if songsBeginTime[m] <= x:\n                l = m\n            else:\n                r = m\n\n        return l\n\n    def printAnswer(self):\n        print(self.answer)\n        #print(re.sub('[\\[\\],]', '', str(self.answer)))\n        #outFile = open('output.txt', 'w')\n        #outFile.write(self.answer)\n\ntask = Task()\ntask.getData()\ntask.solve()\ntask.printAnswer()",
+            "end": 47,
+            "start": 10
+          }
+        ],
+        "implementedAlgorithm": "The instantiated Task reads songs and queries, builds cumulative start times beginning at minute one, binary-searches the last start no greater than each query, and concatenates answer strings before printing.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": false,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/302B/counterexample-3749210-LF.json",
+            "sha256": "c55a05b4acc7f505ca5a378f553a9f45ec88c1247b2e9b510cb8cbd043249b99"
+          },
+          "recordedFailedTest": "0025",
+          "recordedFailedTestLFOutputHash": "723c2c3d96023f07db5aa2b168e76dd54bc7061339f841a44a894c8438b6a6bd",
+          "recordedFailedTestLFVerdict": "AC"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/302B/3749210.py",
+          "sha256": "351140a4cd55404e8751ce07417863b7fa02b9bf67ae0e19130b1fb7c992246e"
+        },
+        "sourceHash": "351140a4cd55404e8751ce07417863b7fa02b9bf67ae0e19130b1fb7c992246e",
+        "sourceLineCount": 47,
+        "sourceLines": [
+          {
+            "code": "import re\nimport itertools\nfrom collections import Counter, deque\n\nclass Task:\n    v = []\n    songs = []\n    answer = ''\n\t\n    def getData(self):\n        n, m = [int(x) for x in input().split(' ')]\n        for _ in range(n):\n            self.songs += [[int(x) for x in input().split(' ')]]\n        self.v = [int(x) for x in input().split(' ')]\n        #inFile = open('input.txt', 'r')\n        #inFile.readline().rstrip()\n        #self.childs = inFile.readline().rstrip()\n\n    def solve(self):\n        songs = self.songs\n        songsBeginTime = [1]\n        for i in range(0, len(songs)):\n            songsBeginTime += [songsBeginTime[-1] + songs[i][0] * songs[i][1]]\n        for x in self.v:\n            self.answer += str(self.findSong(songsBeginTime, x) + 1) + '\\n'\n\n    def findSong(self, songsBeginTime, x):\n        l, r = 0, len(songsBeginTime)\n        while l + 1 < r:\n            m = (l + r) // 2\n            if songsBeginTime[m] <= x:\n                l = m\n            else:\n                r = m\n\n        return l\n\n    def printAnswer(self):\n        print(self.answer)\n        #print(re.sub('[\\[\\],]', '', str(self.answer)))\n        #outFile = open('output.txt', 'w')\n        #outFile.write(self.answer)\n\ntask = Task()\ntask.getData()\ntask.solve()\ntask.printAnswer()",
+            "end": 47,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "351140a4cd55404e8751ce07417863b7fa02b9bf67ae0e19130b1fb7c992246e",
       "test": "0025"
     },
@@ -11583,8 +11788,88 @@
         "inputHash": "894a2985aea1e46ed78af77270589e0678dd3e42580171a8747e88e1a97c8429",
         "verdict": "WA"
       },
-      "reason": "When a query passes the current song end it advances only once and does not store an answer in that branch, leaving zero. This cannot handle jumps across songs; recorded completed answer is wrong.",
+      "reason": "A query beyond the current song leaves its answer unassigned at zero and advances at most once, even when multiple songs must be skipped. Thus minute 3 in the included playlist advances to song 2 but prints zero for that query.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1\n1\n0\n2\n0\n0\n4\n4\n4\n",
+          "actualOutputHash": "ca61cb0dce979c3acf8c74f189759f772b8b582ad0b2b7d73adc56e81ac14825",
+          "constraints": "n=4,m=9 are legal; each c,t is positive and<=1000000000, total duration 9<=1000000000, and query minutes 1..9 are strictly increasing within the playlist.",
+          "correctAnswer": "1\n1\n2\n2\n3\n4\n4\n4\n4",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/302B/counterexample-4752577-LF.json",
+              "sha256": "30ed4484533c4d911d059ac7d1a1b4dd669a529661e9e93113f68f5c24e22aa3"
+            },
+            "logPath": "proofs/302B-4752577.json",
+            "logSHA256": "6618ad62d9b826f542a9c342bcd938d77cccedec9baaa155da5c43eb8993bd0d",
+            "outputHash": "ca61cb0dce979c3acf8c74f189759f772b8b582ad0b2b7d73adc56e81ac14825",
+            "rawLogCopy": {
+              "path": "proofs/raw/302B/counterexample-4752577-LF.json",
+              "sha256": "30ed4484533c4d911d059ac7d1a1b4dd669a529661e9e93113f68f5c24e22aa3"
+            },
+            "runTest": "0002-LF",
+            "sourceHash": "c35a289f7485ae77bb3717b49007bce91739e2f0ad34945882b3acc1bbb880a3",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/302B/source-4752577.json",
+              "sha256": "83b4ef9808324d1533289e3ee1c40d35d058be5bad8cb9d983c196e5dcc03590"
+            }
+          },
+          "inputSHA256": "894a2985aea1e46ed78af77270589e0678dd3e42580171a8747e88e1a97c8429",
+          "mathematicalDerivation": "The four song durations are 1*2=2, 2*1=2, 1*1=1, and 2*2=4, giving end times 2,4,5,9. Thus minutes 1,2 are song 1; 3,4 song 2; 5 song 3; 6,7,8,9 song 4. In particular the source zeros at minutes 3,5,6 are mathematically invalid.",
+          "originalInputSHA256": "3464ced7f6b4f9dfaf9a3cbfd6e45ccf3d33ca481f6a6721d8c98f23a5a1c945",
+          "originalOutputSHA256": "84c69efe721589c1cce9ea4c12eb07283bcc954ae817979373034206557f9c51",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "c35a289f7485ae77bb3717b49007bce91739e2f0ad34945882b3acc1bbb880a3",
+          "test": "0002",
+          "validLF": "4 9\n1 2\n2 1\n1 1\n2 2\n1 2 3 4 5 6 7 8 9\n"
+        },
+        "excludedNonAlgorithmicCauses": "The end-time calculation and query loop execute normally; zero is an impossible song index in this problem. The incorrect answer vector is not a debug line, CRLF-only effect or runtime failure.",
+        "faultyLogic": "A query beyond the current song leaves its answer unassigned at zero and advances at most once, even when multiple songs must be skipped. Thus minute 3 in the included playlist advances to song 2 but prints zero for that query.",
+        "faultySourceLines": [
+          {
+            "code": "n, m = map(int, input().split())\nd, t = [0] * (n + 1), [0] * m\nfor i in range(1, n + 1):\n    a, b = map(int, input().split())\n    d[i] = d[i - 1] + a * b\ni = 1\nfor j, v in enumerate(map(int, input().split())):\n    if v > d[i]: i += 1      \n    else: t[j] = i\nprint('\\n'.join(str(i) for i in t))",
+            "end": 10,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "Builds cumulative song end times and initializes query answers to zero; at each query either advances the current song once if past its end, or assigns the current index in the else branch.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/302B/counterexample-4752577-LF.json",
+            "sha256": "30ed4484533c4d911d059ac7d1a1b4dd669a529661e9e93113f68f5c24e22aa3"
+          },
+          "recordedFailedTest": "0002",
+          "recordedFailedTestLFOutputHash": "ca61cb0dce979c3acf8c74f189759f772b8b582ad0b2b7d73adc56e81ac14825",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/302B/4752577.py",
+          "sha256": "c35a289f7485ae77bb3717b49007bce91739e2f0ad34945882b3acc1bbb880a3"
+        },
+        "sourceHash": "c35a289f7485ae77bb3717b49007bce91739e2f0ad34945882b3acc1bbb880a3",
+        "sourceLineCount": 10,
+        "sourceLines": [
+          {
+            "code": "n, m = map(int, input().split())\nd, t = [0] * (n + 1), [0] * m\nfor i in range(1, n + 1):\n    a, b = map(int, input().split())\n    d[i] = d[i - 1] + a * b\ni = 1\nfor j, v in enumerate(map(int, input().split())):\n    if v > d[i]: i += 1      \n    else: t[j] = i\nprint('\\n'.join(str(i) for i in t))",
+            "end": 10,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "c35a289f7485ae77bb3717b49007bce91739e2f0ad34945882b3acc1bbb880a3",
       "test": "0002"
     }
@@ -11600,15 +11885,29 @@
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
-    "Only 2/5 counted incorrect sources establish independently reproduced algorithmic wrong answers; excluded failures cannot qualify."
+    "Only 2/5 original counted counterexamples qualify as completed mathematical wrong answers under the stricter semantic rule; 2/5 sources have a genuine algorithmic defect somewhere in the unchanged included suite. Supplemental cases do not silently replace invalid original proofs."
   ],
   "reviewNotes": [
     "No package/evidence bytes were modified. Extra tests are external to the package.",
     "Independent extras use distinct brute-force/simulation methods, including corner/max cases; both package oracle and one counted accepted source pass all extra tests.",
     "Generator executions use a placeholder expected output; their WA checker status is immaterial. Exit status, no timeout, exact output hashes and generated pair bytes are verified.",
-    "No publication approval is granted by this audit. Only require_approval=False is evaluated."
+    "No publication approval is granted by this audit. Only require_approval=False is evaluated.",
+    "Stricter source-specific semantic review performed on the complete actual code of every one of the five incorrect sources; semanticReview carries full exact line excerpts, implemented algorithms, faulty logic, exclusions and mathematical derivations.",
+    "Original package/evidence/source/execution bytes and original archive remain unchanged. This pass reuses existing LF executions and included LF suite executions; no public program was executed again.",
+    "Parent reports its independent pinned upstream file/source/statement/API cross-check complete; downloadedUpstreamSources remains false because this child did not perform those downloads. No remaining upstream gap is asserted."
   ],
   "reviewUrl": "https://staging.itsdev.in/sessions/3f1eb4a7487f45f39f3bf20d015c0c1c",
   "reviewer": "devin-3f1eb4a7487f45f39f3bf20d015c0c1c",
-  "schemaVersion": 1
+  "schemaVersion": 1,
+  "semanticReviewSummary": {
+    "fullSourcesRead": 5,
+    "genuineAlgorithmicallyWrong": 2,
+    "newProgramExecutions": 0,
+    "oldAuditFileSHA256": "918f891df7dd614381d5db09a93b381a3654f2ce5a0109548b8a7e6da283714f",
+    "oldAuditHash": "3a13a742bc3d6ef567bc7f0c89e0745b70d52a5c333424be113878f721ec9cc8",
+    "originalArchiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+    "originalArchiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+    "policy": "Full-source manual review, actual executed algorithm, completed wrong mathematical answer after presentation exclusions; original qualification remains fail-closed and unchanged evidence is not repaired.",
+    "unchangedQualificationWrongCount": 2
+  }
 }

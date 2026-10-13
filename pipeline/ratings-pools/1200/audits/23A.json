@@ -22,6 +22,8 @@
     "extraTests": 258,
     "incorrect": 5,
     "samples": 3,
+    "semanticAlgorithmicallyWrong": 5,
+    "semanticSourcesReviewed": 5,
     "suppliedTests": 165
   },
   "evidenceHash": "495ad42da03c1d40ba2f1a991b54baae756da22e470dbaeafa5300c4068bbb57",
@@ -13085,8 +13087,88 @@
         "inputHash": "70b99d80930b0fb445b1eea7bd84361226efa999fad0bdbdb83fe273e3c6c252",
         "verdict": "WA"
       },
-      "reason": "Searches only prefixes and tests repeats starting from the end of the first occurrence, incorrectly limiting overlap. Its recorded completed output differs from the unique longest-repeated-substring length on the LF-normalized copy as well.",
+      "reason": "It never searches repeated substrings starting away from index zero. With kmmm, all longer prefixes contain the unique k, but mm occurs twice away from the prefix; the length-one search also counts the prefix occurrence itself.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1\n",
+          "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "constraints": "kmmm is nonempty, length 4<=100, and all characters are lowercase Latin letters.",
+          "correctAnswer": "2",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/23A/counterexample-14419297-LF.json",
+              "sha256": "3aa13750a3b442c7a0c384b1ad894ea65d44394d8172a14959aaf36be03a3b4f"
+            },
+            "logPath": "proofs/23A-14419297.json",
+            "logSHA256": "059df47fe67f85da1236dd4c07100bf690d5ac8564621df23c18c5abf42056f1",
+            "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+            "rawLogCopy": {
+              "path": "proofs/raw/23A/counterexample-14419297-LF.json",
+              "sha256": "3aa13750a3b442c7a0c384b1ad894ea65d44394d8172a14959aaf36be03a3b4f"
+            },
+            "runTest": "0004-LF",
+            "sourceHash": "feb4b6d84beb28307547a4404ea57f5acca22e70c966e814ce9dd400472b18de",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/23A/source-14419297.json",
+              "sha256": "e0f9b2c045696b63fcb07ac7ddf68e05485d1ce0744dd0e1ab700f8e167b690f"
+            }
+          },
+          "inputSHA256": "70b99d80930b0fb445b1eea7bd84361226efa999fad0bdbdb83fe273e3c6c252",
+          "mathematicalDerivation": "In kmmm, mm occurs at zero-based positions 1 and 2, with overlap allowed, so length 2 is feasible. The length-three substrings kmm and mmm differ; the entire string occurs once, so no longer repeat exists.",
+          "originalInputSHA256": "8fb05395b60b45aaf698c926f834782f0056b6f22fdb6face1994b66b723b389",
+          "originalOutputSHA256": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "feb4b6d84beb28307547a4404ea57f5acca22e70c966e814ce9dd400472b18de",
+          "test": "0004",
+          "validLF": "kmmm\n"
+        },
+        "excludedNonAlgorithmicCauses": "The active prefix search executes and prints 1 with LF input. Commented debug prints are inactive. Its restriction to prefixes and self-occurrence check, not diagnostics or CRLF, produce the wrong substring length.",
+        "faultyLogic": "It never searches repeated substrings starting away from index zero. With kmmm, all longer prefixes contain the unique k, but mm occurs twice away from the prefix; the length-one search also counts the prefix occurrence itself.",
+        "faultySourceLines": [
+          {
+            "code": "for letter in inp:\n    c= inp.count(letter)\n    sum +=c\n\nif sum == len(inp):\n    print(\"0\")\nelse:\n    for i in range(len(inp),0,-1):\n        stri=inp[0:i]\n        #print (\"stri \" + stri)\n        w=inp.index(stri)\n        new_str=inp[w+len(stri)-1:]\n        #print(\"new \" + new_str)\n        if stri in new_str:\n            print (len(stri))\n            break",
+            "end": 19,
+            "start": 4
+          }
+        ],
+        "implementedAlgorithm": "First detects whether all characters are distinct; otherwise tests only prefixes of decreasing length against a suffix beginning at the first occurrence plus length minus one.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/23A/counterexample-14419297-LF.json",
+            "sha256": "3aa13750a3b442c7a0c384b1ad894ea65d44394d8172a14959aaf36be03a3b4f"
+          },
+          "recordedFailedTest": "0004",
+          "recordedFailedTestLFOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/23A/14419297.py",
+          "sha256": "feb4b6d84beb28307547a4404ea57f5acca22e70c966e814ce9dd400472b18de"
+        },
+        "sourceHash": "feb4b6d84beb28307547a4404ea57f5acca22e70c966e814ce9dd400472b18de",
+        "sourceLineCount": 19,
+        "sourceLines": [
+          {
+            "code": "inp = input()\nsum =0\n\nfor letter in inp:\n    c= inp.count(letter)\n    sum +=c\n\nif sum == len(inp):\n    print(\"0\")\nelse:\n    for i in range(len(inp),0,-1):\n        stri=inp[0:i]\n        #print (\"stri \" + stri)\n        w=inp.index(stri)\n        new_str=inp[w+len(stri)-1:]\n        #print(\"new \" + new_str)\n        if stri in new_str:\n            print (len(stri))\n            break",
+            "end": 19,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "feb4b6d84beb28307547a4404ea57f5acca22e70c966e814ce9dd400472b18de",
       "test": "0004"
     },
@@ -13112,8 +13194,88 @@
         "inputHash": "ea1ee8507a04553bc2c99e0b08ec8696b69ba73ff0ad6f50bf10a9d10a32eb62",
         "verdict": "WA"
       },
-      "reason": "Starts the second-occurrence search at w+len(stri)-1, losing legitimate overlaps with smaller separation. The recorded counterexample remains WA after LF normalization.",
+      "reason": "Requiring another copy to start at least length-1 positions later wrongly limits overlap. On 100 identical letters, a candidate of length L is accepted only if L<=101-L, limiting the result to 50.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "50\n",
+          "actualOutputHash": "7ea9844ae84eccbf55e8330640865e36c43521e45a1baec24233327aab7e6595",
+          "constraints": "The included input has exactly 100 lowercase b letters followed by LF, meeting the nonempty length<=100 constraint.",
+          "correctAnswer": "99",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/23A/counterexample-14543705-LF.json",
+              "sha256": "cd8d995ce1c634bbd5e1f9aee95f37ca8d8bde474d6f33c9304efe065d2153c2"
+            },
+            "logPath": "proofs/23A-14543705.json",
+            "logSHA256": "0dc47f0a7410e671021a04ed947e428db33c83a786a0dd83bff9abb60fa83acf",
+            "outputHash": "7ea9844ae84eccbf55e8330640865e36c43521e45a1baec24233327aab7e6595",
+            "rawLogCopy": {
+              "path": "proofs/raw/23A/counterexample-14543705-LF.json",
+              "sha256": "cd8d995ce1c634bbd5e1f9aee95f37ca8d8bde474d6f33c9304efe065d2153c2"
+            },
+            "runTest": "0012-LF",
+            "sourceHash": "7a53f7dc4470dd518d131137dc5d0baca882d499919820673596026c7f1ef05a",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/23A/source-14543705.json",
+              "sha256": "cabec9ef5cdbfb56408e536dc21219e2b7af2c1e5a12f1c32cfa3a27e019fdc2"
+            }
+          },
+          "inputSHA256": "ea1ee8507a04553bc2c99e0b08ec8696b69ba73ff0ad6f50bf10a9d10a32eb62",
+          "mathematicalDerivation": "For a string of 100 b letters, a run of 99 b letters occurs at starts 0 and 1 and overlapping occurrences are explicitly allowed. Length 100 has only start 0, so the maximum repeat length is exactly 99.",
+          "originalInputSHA256": "ff37476dd0e0309650e50d7c98ab3ed679a3ca19fa9b371873a82f8397aaf44d",
+          "originalOutputSHA256": "8c1f1046219ddd216a023f792356ddf127fce372a72ec9b4cdac989ee5b0b455",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "7a53f7dc4470dd518d131137dc5d0baca882d499919820673596026c7f1ef05a",
+          "test": "0012",
+          "validLF": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\n"
+        },
+        "excludedNonAlgorithmicCauses": "The slice loops execute and print 50. All debug-looking print lines are commented out, and LF proof has no runtime failure; this is an overlap-model error rather than presentation.",
+        "faultyLogic": "Requiring another copy to start at least length-1 positions later wrongly limits overlap. On 100 identical letters, a candidate of length L is accepted only if L<=101-L, limiting the result to 50.",
+        "faultySourceLines": [
+          {
+            "code": "for letter in inp:\n    c = inp.count(letter)\n    sum +=c\n\nif sum == len(inp):\n    print(\"0\")\n    cd = 100\nelse:\n    for j in range(len(inp)):\n        for i in range(len(inp),0,-1):\n            stri = inp[j:i]\n            #print (\"stri \" + stri)\n            w = inp.index(stri)\n            new_str = inp[w+len(stri)-1:]\n            #print(\"new \" + new_str)\n            if stri in new_str:\n                lista.append(len(stri))\n\nif cd != 100:\n    print (max(lista))",
+            "end": 26,
+            "start": 7
+          }
+        ],
+        "implementedAlgorithm": "Enumerates slices inp[j:i], locates their first occurrence, and tests whether the same slice fits inside the suffix starting at first-index+length-1; outputs the maximum accepted slice length.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/23A/counterexample-14543705-LF.json",
+            "sha256": "cd8d995ce1c634bbd5e1f9aee95f37ca8d8bde474d6f33c9304efe065d2153c2"
+          },
+          "recordedFailedTest": "0012",
+          "recordedFailedTestLFOutputHash": "7ea9844ae84eccbf55e8330640865e36c43521e45a1baec24233327aab7e6595",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/23A/14543705.py",
+          "sha256": "7a53f7dc4470dd518d131137dc5d0baca882d499919820673596026c7f1ef05a"
+        },
+        "sourceHash": "7a53f7dc4470dd518d131137dc5d0baca882d499919820673596026c7f1ef05a",
+        "sourceLineCount": 26,
+        "sourceLines": [
+          {
+            "code": "inp = input()\nsum = 0\ncd = 0\n\nlista = list()\n\nfor letter in inp:\n    c = inp.count(letter)\n    sum +=c\n\nif sum == len(inp):\n    print(\"0\")\n    cd = 100\nelse:\n    for j in range(len(inp)):\n        for i in range(len(inp),0,-1):\n            stri = inp[j:i]\n            #print (\"stri \" + stri)\n            w = inp.index(stri)\n            new_str = inp[w+len(stri)-1:]\n            #print(\"new \" + new_str)\n            if stri in new_str:\n                lista.append(len(stri))\n\nif cd != 100:\n    print (max(lista))",
+            "end": 26,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "7a53f7dc4470dd518d131137dc5d0baca882d499919820673596026c7f1ef05a",
       "test": "0012"
     },
@@ -13139,8 +13301,88 @@
         "inputHash": "41a4400f6ae7ba67645add7a8e11134a361e96c2ac3baade9d60185f9a2462cb",
         "verdict": "WA"
       },
-      "reason": "Loops k only up to n-2, so the checked length n-k is never one. Recorded test 0005 is wzznz, whose longest repeat is the one-character z, but it returns zero; LF normalization remains WA.",
+      "reason": "range(1,n-1) never tries k=n-1, so length-one repeats are omitted. wzznz has repeated z but no repeated substring of length at least two, and the source falls through to zero.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "0\n",
+          "actualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "constraints": "wzznz consists of five lowercase Latin letters and is a legal nonempty string of length<=100.",
+          "correctAnswer": "1",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/23A/counterexample-15612401-LF.json",
+              "sha256": "6c72f85f30bbeedc9676e15e2a3b58ebd86e12fc2a1c2dae958ccffcdfe7dbd6"
+            },
+            "logPath": "proofs/23A-15612401.json",
+            "logSHA256": "9b53749ce00c3b0fa2d9b568d0a686a31afafd16be2ad774ff166a3ffd8f8600",
+            "outputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+            "rawLogCopy": {
+              "path": "proofs/raw/23A/counterexample-15612401-LF.json",
+              "sha256": "6c72f85f30bbeedc9676e15e2a3b58ebd86e12fc2a1c2dae958ccffcdfe7dbd6"
+            },
+            "runTest": "0005-LF",
+            "sourceHash": "3b4321cd278eca8fb3ab5d45dc1fa1b2fd302bfe970b0df65c755456816ba94e",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/23A/source-15612401.json",
+              "sha256": "ede8e6a0f01945dc4e1b2ddc032335c84f887f3165cf04edad279760177e5b91"
+            }
+          },
+          "inputSHA256": "41a4400f6ae7ba67645add7a8e11134a361e96c2ac3baade9d60185f9a2462cb",
+          "mathematicalDerivation": "z appears at positions 1,2,4, so length 1 repeats. The length-two substrings wz,zz,zn,nz are distinct; any longer repeated substring would imply a repeated length-two prefix, so none exists. The maximum is 1.",
+          "originalInputSHA256": "c95f6bb92dabb9a314f071c630ef8c22e49d11078921d4b549312155f4810c76",
+          "originalOutputSHA256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "3b4321cd278eca8fb3ab5d45dc1fa1b2fd302bfe970b0df65c755456816ba94e",
+          "test": "0005",
+          "validLF": "wzznz\n"
+        },
+        "excludedNonAlgorithmicCauses": "main is actually called and uses stdin, not the inactive file branch. The numeric LF output 0 is caused by the candidate-length range, not an unexecuted function, file error or CRLF character.",
+        "faultyLogic": "range(1,n-1) never tries k=n-1, so length-one repeats are omitted. wzznz has repeated z but no repeated substring of length at least two, and the source falls through to zero.",
+        "faultySourceLines": [
+          {
+            "code": "def main():\n    mode=\"filee\"\n    if mode==\"file\":f=open(\"test.txt\",\"r\")\n    get = lambda :[str(x) for x in (f.readline() if mode==\"file\" else input()).split()]\n    [g] = get()\n    n = len(g)\n    for k in range(1,n-1):\n        for j in range(k+1):\n            for i in range(j+1,k+1):\n                if g[j:n-k+j] == g[i:i+n-k]:\n                    print(n-k)\n                    return\n    print(0)\n    if mode==\"file\":f.close()\n\n\nif __name__==\"__main__\":\n    main()",
+            "end": 18,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "The called main uses mode=filee, hence reads standard input. It tries candidate lengths n-k for k in 1..n-2, compares pairs of corresponding slices, returns the first match, or prints zero.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/23A/counterexample-15612401-LF.json",
+            "sha256": "6c72f85f30bbeedc9676e15e2a3b58ebd86e12fc2a1c2dae958ccffcdfe7dbd6"
+          },
+          "recordedFailedTest": "0005",
+          "recordedFailedTestLFOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/23A/15612401.py",
+          "sha256": "3b4321cd278eca8fb3ab5d45dc1fa1b2fd302bfe970b0df65c755456816ba94e"
+        },
+        "sourceHash": "3b4321cd278eca8fb3ab5d45dc1fa1b2fd302bfe970b0df65c755456816ba94e",
+        "sourceLineCount": 18,
+        "sourceLines": [
+          {
+            "code": "def main():\n    mode=\"filee\"\n    if mode==\"file\":f=open(\"test.txt\",\"r\")\n    get = lambda :[str(x) for x in (f.readline() if mode==\"file\" else input()).split()]\n    [g] = get()\n    n = len(g)\n    for k in range(1,n-1):\n        for j in range(k+1):\n            for i in range(j+1,k+1):\n                if g[j:n-k+j] == g[i:i+n-k]:\n                    print(n-k)\n                    return\n    print(0)\n    if mode==\"file\":f.close()\n\n\nif __name__==\"__main__\":\n    main()",
+            "end": 18,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "3b4321cd278eca8fb3ab5d45dc1fa1b2fd302bfe970b0df65c755456816ba94e",
       "test": "0005"
     },
@@ -13166,8 +13408,88 @@
         "inputHash": "e804787d019da5f7b1ca4dcf1dbe9be1d3df1c7037f16310981e94002bd4718b",
         "verdict": "AC"
       },
-      "reason": "Recorded CRLF failed test produces WA but its LF-normalized byte-for-byte semantic copy passes. Python input() in this pinned environment retains the carriage return; the counted counterexample therefore does not establish algorithmic wrongness. Source has suspicious off-by-one search logic, but the counted evidence cannot be replaced without full revalidation.",
+      "reason": "Its ORIGINAL recorded ababa counterexample becomes AC under LF and is still excluded from the original qualification. However the already captured, included LF test 0047 (zz) proves a distinct real substring-search error without diagnostics, formatting or runtime failure.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "0",
+          "actualOutputHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "constraints": "zz is a nonempty lowercase Latin string of length 2<=100.",
+          "correctAnswer": "1",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/23A/source-28063478.json",
+              "sha256": "007827bdc1eb2ec7a350be0d3eaf7feb18252c4a10616400f952e008530b433d"
+            },
+            "logPath": "proofs/23A-28063478.json",
+            "logSHA256": "db3dbbcdbe4e0638419167e40bb74f8407765fad64f64b6ae0f903bef95f3f48",
+            "outputHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+            "rawLogCopy": {
+              "path": "proofs/raw/23A/source-28063478.json",
+              "sha256": "007827bdc1eb2ec7a350be0d3eaf7feb18252c4a10616400f952e008530b433d"
+            },
+            "runTest": "0047",
+            "sourceHash": "b18974bdfc737e354270e25b811ac9a4a36446281e37cfeec9358fa6f9d2ee5b",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/23A/source-28063478.json",
+              "sha256": "007827bdc1eb2ec7a350be0d3eaf7feb18252c4a10616400f952e008530b433d"
+            }
+          },
+          "inputSHA256": "dc5e6f7cab235dd4b0f3882320de1d3c090a2ab202fc2514b86346a4681b0000",
+          "mathematicalDerivation": "The one-letter substring z occurs at both positions 0 and 1 in zz. The full length-two string has only one occurrence, so the maximum repeat length is 1; the source emits 0 because its occurrence loop ignores position 1.",
+          "originalInputSHA256": "dc5e6f7cab235dd4b0f3882320de1d3c090a2ab202fc2514b86346a4681b0000",
+          "originalOutputSHA256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "role": "supplemental-only-does-not-replace-counted-evidence",
+          "sourceHash": "b18974bdfc737e354270e25b811ac9a4a36446281e37cfeec9358fa6f9d2ee5b",
+          "test": "0047",
+          "validLF": "zz\n"
+        },
+        "excludedNonAlgorithmicCauses": "Its ORIGINAL recorded ababa counterexample becomes AC under LF and is still excluded from the original qualification. However the already captured, included LF test 0047 (zz) proves a distinct real substring-search error without diagnostics, formatting or runtime failure.",
+        "faultyLogic": "It omits the last legal occurrence start n-length and artificially increments the found length. On zz, the candidate z is counted only at start zero and is not recognized as repeated, so res=-1 returns zero.",
+        "faultySourceLines": [
+          {
+            "code": "    string = input()\n    res = -1\n    for i in range(len(string)):\n        for j in range(i + 1, len(string)):\n            tmp = 0\n            buf = string[i:j]\n            for k in range(len(string) - len(buf)):\n                if buf == string[k:k + len(buf)]: tmp += 1\n            if tmp > 1: res = max(res, len(buf))\n    \n    return res + 1\n\nprint(solution(), end= \"\")",
+            "end": 15,
+            "start": 3
+          }
+        ],
+        "implementedAlgorithm": "The called solution enumerates candidate slices string[i:j], counts their occurrences at starts in range(n-length), tracks the maximum length with count>1, then returns that maximum plus one.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": false,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/23A/counterexample-28063478-LF.json",
+            "sha256": "00d8a40e0461d2c69ea9719d671aaa3c1225b52787f2416d0cb8496cf186eff5"
+          },
+          "recordedFailedTest": "0002",
+          "recordedFailedTestLFOutputHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+          "recordedFailedTestLFVerdict": "AC"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/23A/28063478.py",
+          "sha256": "b18974bdfc737e354270e25b811ac9a4a36446281e37cfeec9358fa6f9d2ee5b"
+        },
+        "sourceHash": "b18974bdfc737e354270e25b811ac9a4a36446281e37cfeec9358fa6f9d2ee5b",
+        "sourceLineCount": 15,
+        "sourceLines": [
+          {
+            "code": "def solution():\n    \n    string = input()\n    res = -1\n    for i in range(len(string)):\n        for j in range(i + 1, len(string)):\n            tmp = 0\n            buf = string[i:j]\n            for k in range(len(string) - len(buf)):\n                if buf == string[k:k + len(buf)]: tmp += 1\n            if tmp > 1: res = max(res, len(buf))\n    \n    return res + 1\n\nprint(solution(), end= \"\")",
+            "end": 15,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "b18974bdfc737e354270e25b811ac9a4a36446281e37cfeec9358fa6f9d2ee5b",
       "test": "0002"
     },
@@ -13193,8 +13515,88 @@
         "inputHash": "72d4df2c38fbc597aa5ea832baa8d09ed3ec77fc3107dcc9204a8500405cd992",
         "verdict": "WA"
       },
-      "reason": "Uses str.count(), which counts non-overlapping occurrences, and reports slice length plus one; it also replaces longest-length selection with a repeat-count threshold. The recorded test remains WA on LF input.",
+      "reason": "The nested range excludes the relevant length-two slice in zzz: i=0 but j ranges from 2 to 2 and never runs. It leaves length one even though zz overlaps at two starts. str.count also conflicts with allowed overlaps.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1\n",
+          "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "constraints": "zzz is three lowercase Latin letters, legal under length 1..100.",
+          "correctAnswer": "2",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/23A/counterexample-30291724-LF.json",
+              "sha256": "ef9376510c2c6cc35a31ac42b593cfe8e44b2d0b62eda5835a1394288795362b"
+            },
+            "logPath": "proofs/23A-30291724.json",
+            "logSHA256": "b00b315d5b92d2c7f5745ff11812047f3a2e1e5dfbabf22ae85de40745e15f06",
+            "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+            "rawLogCopy": {
+              "path": "proofs/raw/23A/counterexample-30291724-LF.json",
+              "sha256": "ef9376510c2c6cc35a31ac42b593cfe8e44b2d0b62eda5835a1394288795362b"
+            },
+            "runTest": "0003-LF",
+            "sourceHash": "854c90a2426d7b05787451db0ce126bf5217dd780371b61ca730241ae91cc88b",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/23A/source-30291724.json",
+              "sha256": "33f0e19ca31a75e8300fd0e1c595885093c45fa43fa8b4f49c234f69590def03"
+            }
+          },
+          "inputSHA256": "72d4df2c38fbc597aa5ea832baa8d09ed3ec77fc3107dcc9204a8500405cd992",
+          "mathematicalDerivation": "In zzz, zz occurs at starts 0 and 1 with overlap. The length-three string occurs once, so the maximum repeated substring length is exactly 2.",
+          "originalInputSHA256": "8032d68a2c19c422d73fb1f789c6efabb2f0a3167e1b6c76384488b138de7ff0",
+          "originalOutputSHA256": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "854c90a2426d7b05787451db0ce126bf5217dd780371b61ca730241ae91cc88b",
+          "test": "0003",
+          "validLF": "zzz\n"
+        },
+        "excludedNonAlgorithmicCauses": "The input-dependent repeated-character branch is executed; the bounded-loop error is not a globally unexecuted solver. There are no active diagnostics and the LF output 1 is a wrong length.",
+        "faultyLogic": "The nested range excludes the relevant length-two slice in zzz: i=0 but j ranges from 2 to 2 and never runs. It leaves length one even though zz overlaps at two starts. str.count also conflicts with allowed overlaps.",
+        "faultySourceLines": [
+          {
+            "code": "s = input()\nss_length = 1\ncount = 2\nif len(set(s)) == len(s):\n    print(0)\nelse:\n    for i in range(0, len(s)-2):\n        for j in range(i+2, int(len(s)-1)):\n            if s.count(s[i:j])>=count:\n                ss_length = (j - i) + 1\n                count = s.count(s[i:j])\n    print(ss_length)",
+            "end": 12,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "Returns zero for all-distinct characters; otherwise starts with length one and searches interior slices of length at least two, using str.count (nonoverlapping occurrence counts), storing slice length plus one.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/23A/counterexample-30291724-LF.json",
+            "sha256": "ef9376510c2c6cc35a31ac42b593cfe8e44b2d0b62eda5835a1394288795362b"
+          },
+          "recordedFailedTest": "0003",
+          "recordedFailedTestLFOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/23A/30291724.py",
+          "sha256": "854c90a2426d7b05787451db0ce126bf5217dd780371b61ca730241ae91cc88b"
+        },
+        "sourceHash": "854c90a2426d7b05787451db0ce126bf5217dd780371b61ca730241ae91cc88b",
+        "sourceLineCount": 12,
+        "sourceLines": [
+          {
+            "code": "s = input()\nss_length = 1\ncount = 2\nif len(set(s)) == len(s):\n    print(0)\nelse:\n    for i in range(0, len(s)-2):\n        for j in range(i+2, int(len(s)-1)):\n            if s.count(s[i:j])>=count:\n                ss_length = (j - i) + 1\n                count = s.count(s[i:j])\n    print(ss_length)",
+            "end": 12,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "854c90a2426d7b05787451db0ce126bf5217dd780371b61ca730241ae91cc88b",
       "test": "0003"
     }
@@ -13210,15 +13612,29 @@
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
-    "Only 4/5 counted incorrect sources establish independently reproduced algorithmic wrong answers; excluded failures cannot qualify."
+    "Only 4/5 original counted counterexamples qualify as completed mathematical wrong answers under the stricter semantic rule; 5/5 sources have a genuine algorithmic defect somewhere in the unchanged included suite. Supplemental cases do not silently replace invalid original proofs."
   ],
   "reviewNotes": [
     "No package/evidence bytes were modified. Extra tests are external to the package.",
     "Independent extras use distinct brute-force/simulation methods, including corner/max cases; both package oracle and one counted accepted source pass all extra tests.",
     "Generator executions use a placeholder expected output; their WA checker status is immaterial. Exit status, no timeout, exact output hashes and generated pair bytes are verified.",
-    "No publication approval is granted by this audit. Only require_approval=False is evaluated."
+    "No publication approval is granted by this audit. Only require_approval=False is evaluated.",
+    "Stricter source-specific semantic review performed on the complete actual code of every one of the five incorrect sources; semanticReview carries full exact line excerpts, implemented algorithms, faulty logic, exclusions and mathematical derivations.",
+    "Original package/evidence/source/execution bytes and original archive remain unchanged. This pass reuses existing LF executions and included LF suite executions; no public program was executed again.",
+    "Parent reports its independent pinned upstream file/source/statement/API cross-check complete; downloadedUpstreamSources remains false because this child did not perform those downloads. No remaining upstream gap is asserted."
   ],
   "reviewUrl": "https://staging.itsdev.in/sessions/3f1eb4a7487f45f39f3bf20d015c0c1c",
   "reviewer": "devin-3f1eb4a7487f45f39f3bf20d015c0c1c",
-  "schemaVersion": 1
+  "schemaVersion": 1,
+  "semanticReviewSummary": {
+    "fullSourcesRead": 5,
+    "genuineAlgorithmicallyWrong": 5,
+    "newProgramExecutions": 0,
+    "oldAuditFileSHA256": "32b3678fef026de50c6acac58116fe43c00701ce4d2e00a2d8db9cc82b4c3b7e",
+    "oldAuditHash": "b6860ee44464a5c66b84576878958c68f53bc5f7455447c6fe41f30c49f74f7d",
+    "originalArchiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+    "originalArchiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+    "policy": "Full-source manual review, actual executed algorithm, completed wrong mathematical answer after presentation exclusions; original qualification remains fail-closed and unchanged evidence is not repaired.",
+    "unchangedQualificationWrongCount": 4
+  }
 }

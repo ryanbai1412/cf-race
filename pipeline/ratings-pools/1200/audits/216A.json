@@ -20,6 +20,8 @@
     "extraTests": 128,
     "incorrect": 5,
     "samples": 1,
+    "semanticAlgorithmicallyWrong": 5,
+    "semanticSourcesReviewed": 5,
     "suppliedTests": 165
   },
   "evidenceHash": "4776173aeb9f37502058d5e108436bdbe44348e676634dd7e02c0aa90f6c13f5",
@@ -13069,8 +13071,88 @@
         "inputHash": "96c671dff08033e909e8744500506f9033e60dfcef58d9aa7b9d49e7499f1b35",
         "verdict": "WA"
       },
-      "reason": "Uses twice the sum of side lengths as the floor area. Test 0002 has sides 2,2,2 and seven tiles (one center and six surrounding), but outputs 12.",
+      "reason": "It substitutes a perimeter-like length for the number of tiles covering the hexagonal floor; a=2,b=2,c=2 becomes 12 rather than seven tiles.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "12\n",
+          "actualOutputHash": "a1fb50e6c86fae1679ef3351296fd6713411a08cf8dd1790a4fd05fae8688164",
+          "constraints": "a=b=c=2 satisfy 2<=a,b,c<=1000.",
+          "correctAnswer": "7",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/216A/counterexample-3734222-LF.json",
+              "sha256": "60356eb9af212bd19959d3eda310da1e732607b7652e40c344cdde27e3e8a150"
+            },
+            "logPath": "proofs/216A-3734222.json",
+            "logSHA256": "f06589c9dc1bb2d23e7ac559a0887171fbc0acb75bff39e0dbbad6ee19ce6bcf",
+            "outputHash": "a1fb50e6c86fae1679ef3351296fd6713411a08cf8dd1790a4fd05fae8688164",
+            "rawLogCopy": {
+              "path": "proofs/raw/216A/counterexample-3734222-LF.json",
+              "sha256": "60356eb9af212bd19959d3eda310da1e732607b7652e40c344cdde27e3e8a150"
+            },
+            "runTest": "0002-LF",
+            "sourceHash": "7f3d01b9c95243a4743c6b3f612a44e9b9f21d04e028f99467cc60e4e7e05271",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/216A/source-3734222.json",
+              "sha256": "eebd24833b872509d326470d1617b067aa6c9f55d9fa0f0ef58ecb33a3c10ed0"
+            }
+          },
+          "inputSHA256": "96c671dff08033e909e8744500506f9033e60dfcef58d9aa7b9d49e7499f1b35",
+          "mathematicalDerivation": "Tile centers form an axial-lattice hexagon with edge-step lengths A=B=C=1. Its lattice-coordinate area is AB+BC+CA=3 and boundary lattice count is 2(A+B+C)=6. Pick counting gives total centers area+boundary/2+1=3+3+1=7 (one central tile and six neighbors).",
+          "originalInputSHA256": "a534ee27bd038b8190da4d26e8ce0193ff2bb276192ca03d6d24649fff9c7317",
+          "originalOutputSHA256": "7902699be42c8a8e46fbbb4501726517e86b22c56a189f7625a6da49081b2451",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "7f3d01b9c95243a4743c6b3f612a44e9b9f21d04e028f99467cc60e4e7e05271",
+          "test": "0002",
+          "validLF": "2 2 2\n"
+        },
+        "excludedNonAlgorithmicCauses": "The expression depends on this problem's side lengths and is an executed, albeit wrong, geometric formula. It is not a constant-output placeholder or unrelated task; the single LF integer output is 12 with no diagnostics.",
+        "faultyLogic": "It substitutes a perimeter-like length for the number of tiles covering the hexagonal floor; a=2,b=2,c=2 becomes 12 rather than seven tiles.",
+        "faultySourceLines": [
+          {
+            "code": "print( 2*sum( list(map(int,input().split())) ) )",
+            "end": 1,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "Reads all three side tile counts and prints twice their sum as the tile count.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/216A/counterexample-3734222-LF.json",
+            "sha256": "60356eb9af212bd19959d3eda310da1e732607b7652e40c344cdde27e3e8a150"
+          },
+          "recordedFailedTest": "0002",
+          "recordedFailedTestLFOutputHash": "a1fb50e6c86fae1679ef3351296fd6713411a08cf8dd1790a4fd05fae8688164",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/216A/3734222.py",
+          "sha256": "7f3d01b9c95243a4743c6b3f612a44e9b9f21d04e028f99467cc60e4e7e05271"
+        },
+        "sourceHash": "7f3d01b9c95243a4743c6b3f612a44e9b9f21d04e028f99467cc60e4e7e05271",
+        "sourceLineCount": 1,
+        "sourceLines": [
+          {
+            "code": "print( 2*sum( list(map(int,input().split())) ) )",
+            "end": 1,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "7f3d01b9c95243a4743c6b3f612a44e9b9f21d04e028f99467cc60e4e7e05271",
       "test": "0002"
     },
@@ -13096,8 +13178,88 @@
         "inputHash": "b81790dc9adf854c158bd26e86f8003271802090bdc71cf3f101a5a3777a517e",
         "verdict": "WA"
       },
-      "reason": "Computes only from a and c, discarding b, and counts c//a iterations rather than the hexagonal area. At test 0003, 7,8,13 gives 40 instead of 224.",
+      "reason": "The floor area must depend on all three dimensions; this formula discards b and does not count the hexagon's tile centers. Here x=13//7=1 and s=26+14=40.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "40\n",
+          "actualOutputHash": "673650f936cb3b0a2f93ce09d81be10748b1b203c19e8176b4eefc1964a0cf3a",
+          "constraints": "a=7,b=8,c=13 all lie in 2..1000.",
+          "correctAnswer": "224",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/216A/counterexample-3734256-LF.json",
+              "sha256": "bc06dbe68ffeb89f9743d978496ba89223ebe96d55b4e7ceaef7769377c62193"
+            },
+            "logPath": "proofs/216A-3734256.json",
+            "logSHA256": "a11ebe01c12a0be5d2b7489f1218b1dea89aeddd9288afdeab02062cf8c5e8f6",
+            "outputHash": "673650f936cb3b0a2f93ce09d81be10748b1b203c19e8176b4eefc1964a0cf3a",
+            "rawLogCopy": {
+              "path": "proofs/raw/216A/counterexample-3734256-LF.json",
+              "sha256": "bc06dbe68ffeb89f9743d978496ba89223ebe96d55b4e7ceaef7769377c62193"
+            },
+            "runTest": "0003-LF",
+            "sourceHash": "9d7f1ec9edfba4127a21e8faf9836182c95cd44c913b2f5a948b0501be8720f7",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/216A/source-3734256.json",
+              "sha256": "67263ba22342fe3fb76c2746167372ea905c69ba154b46a3d14e7682b9d7f685"
+            }
+          },
+          "inputSHA256": "b81790dc9adf854c158bd26e86f8003271802090bdc71cf3f101a5a3777a517e",
+          "mathematicalDerivation": "For tile-center edge steps A=a-1=6,B=b-1=7,C=c-1=12, the six lattice vertices are (0,0),(6,0),(6,7),(-6,19),(-12,19),(-12,12). Shoelace area is AB+BC+CA=42+84+72=198; boundary count is 2*(6+7+12)=50. Interior plus boundary tile centers are 198+50/2+1=224.",
+          "originalInputSHA256": "6e0ac36185d59b35fbe4a9cced181112ab0f2c5a68a1185c78037c76dc7a2e0d",
+          "originalOutputSHA256": "84a5092e4a5b6fe968fd523fb2fc917dbffae44105f82b6b94c8ed5b9a800223",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "9d7f1ec9edfba4127a21e8faf9836182c95cd44c913b2f5a948b0501be8720f7",
+          "test": "0003",
+          "validLF": "7 8 13\n"
+        },
+        "excludedNonAlgorithmicCauses": "The loop and numeric formula execute normally and emit 40, not a constant stub or a presentation-only discrepancy. Missing dimension b is the source-specific geometric error.",
+        "faultyLogic": "The floor area must depend on all three dimensions; this formula discards b and does not count the hexagon's tile centers. Here x=13//7=1 and s=26+14=40.",
+        "faultySourceLines": [
+          {
+            "code": "a,b,c=map(int,input().split())\nx=c//a\ns=2*c\nfor _ in range(x):\n    s+=(c+1)\nprint(s)",
+            "end": 6,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "Sets x=c//a, starts s=2*c, and adds c+1 exactly x times; prints s. Although b is parsed, it is never used.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/216A/counterexample-3734256-LF.json",
+            "sha256": "bc06dbe68ffeb89f9743d978496ba89223ebe96d55b4e7ceaef7769377c62193"
+          },
+          "recordedFailedTest": "0003",
+          "recordedFailedTestLFOutputHash": "673650f936cb3b0a2f93ce09d81be10748b1b203c19e8176b4eefc1964a0cf3a",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/216A/3734256.py",
+          "sha256": "9d7f1ec9edfba4127a21e8faf9836182c95cd44c913b2f5a948b0501be8720f7"
+        },
+        "sourceHash": "9d7f1ec9edfba4127a21e8faf9836182c95cd44c913b2f5a948b0501be8720f7",
+        "sourceLineCount": 6,
+        "sourceLines": [
+          {
+            "code": "a,b,c=map(int,input().split())\nx=c//a\ns=2*c\nfor _ in range(x):\n    s+=(c+1)\nprint(s)",
+            "end": 6,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "9d7f1ec9edfba4127a21e8faf9836182c95cd44c913b2f5a948b0501be8720f7",
       "test": "0003"
     },
@@ -13123,8 +13285,88 @@
         "inputHash": "96c671dff08033e909e8744500506f9033e60dfcef58d9aa7b9d49e7499f1b35",
         "verdict": "WA"
       },
-      "reason": "Uses the perimeter expression 2*(a+b+c) instead of the number of floor tiles; at test 0002, 2,2,2 outputs 12 rather than 7.",
+      "reason": "It counts twice the side-length sum rather than the floor's tiles. On the smallest regular hexagon it returns 12 rather than seven.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "12\n",
+          "actualOutputHash": "a1fb50e6c86fae1679ef3351296fd6713411a08cf8dd1790a4fd05fae8688164",
+          "constraints": "a=b=c=2 satisfy 2<=a,b,c<=1000.",
+          "correctAnswer": "7",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/216A/counterexample-4389974-LF.json",
+              "sha256": "a0e2d3c0c96eec1a257d4d03d5134f45990d0bb1dacb29613fec8b674216d2b5"
+            },
+            "logPath": "proofs/216A-4389974.json",
+            "logSHA256": "8df01d9685b48e672332590ed4bba5a40940ba564b35d01caae517b1fbf66cb4",
+            "outputHash": "a1fb50e6c86fae1679ef3351296fd6713411a08cf8dd1790a4fd05fae8688164",
+            "rawLogCopy": {
+              "path": "proofs/raw/216A/counterexample-4389974-LF.json",
+              "sha256": "a0e2d3c0c96eec1a257d4d03d5134f45990d0bb1dacb29613fec8b674216d2b5"
+            },
+            "runTest": "0002-LF",
+            "sourceHash": "ca8206d43d5c070b7f6bab285f2352a060f8e1f0d22f894bc5293a3aaa26f56a",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/216A/source-4389974.json",
+              "sha256": "0fc63652443cfbf257c57ebd5d2646f91d5d790543121b1284cc7e73b88132a0"
+            }
+          },
+          "inputSHA256": "96c671dff08033e909e8744500506f9033e60dfcef58d9aa7b9d49e7499f1b35",
+          "mathematicalDerivation": "Tile centers form an axial-lattice hexagon with edge-step lengths A=B=C=1. Its lattice-coordinate area is AB+BC+CA=3 and boundary lattice count is 2(A+B+C)=6. Pick counting gives total centers area+boundary/2+1=3+3+1=7 (one central tile and six neighbors).",
+          "originalInputSHA256": "a534ee27bd038b8190da4d26e8ce0193ff2bb276192ca03d6d24649fff9c7317",
+          "originalOutputSHA256": "7902699be42c8a8e46fbbb4501726517e86b22c56a189f7625a6da49081b2451",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "ca8206d43d5c070b7f6bab285f2352a060f8e1f0d22f894bc5293a3aaa26f56a",
+          "test": "0002",
+          "validLF": "2 2 2\n"
+        },
+        "excludedNonAlgorithmicCauses": "The active input and perimeter formula run under LF. Comments do not execute or introduce file/runtime failures; the wrong integer is not a debug prefix, constant answer or spelling issue.",
+        "faultyLogic": "It counts twice the side-length sum rather than the floor's tiles. On the smallest regular hexagon it returns 12 rather than seven.",
+        "faultySourceLines": [
+          {
+            "code": "import sys\n#f = sys.stdin\n#f = open(\"input.txt\", \"r\")\na, b, c = map(int, input().split())\nprint((a+b+c)*2)",
+            "end": 5,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "Parses a,b,c and prints 2*(a+b+c); the commented file-open lines are inactive.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/216A/counterexample-4389974-LF.json",
+            "sha256": "a0e2d3c0c96eec1a257d4d03d5134f45990d0bb1dacb29613fec8b674216d2b5"
+          },
+          "recordedFailedTest": "0002",
+          "recordedFailedTestLFOutputHash": "a1fb50e6c86fae1679ef3351296fd6713411a08cf8dd1790a4fd05fae8688164",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/216A/4389974.py",
+          "sha256": "ca8206d43d5c070b7f6bab285f2352a060f8e1f0d22f894bc5293a3aaa26f56a"
+        },
+        "sourceHash": "ca8206d43d5c070b7f6bab285f2352a060f8e1f0d22f894bc5293a3aaa26f56a",
+        "sourceLineCount": 5,
+        "sourceLines": [
+          {
+            "code": "import sys\n#f = sys.stdin\n#f = open(\"input.txt\", \"r\")\na, b, c = map(int, input().split())\nprint((a+b+c)*2)",
+            "end": 5,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "ca8206d43d5c070b7f6bab285f2352a060f8e1f0d22f894bc5293a3aaa26f56a",
       "test": "0002"
     },
@@ -13150,8 +13392,88 @@
         "inputHash": "b81790dc9adf854c158bd26e86f8003271802090bdc71cf3f101a5a3777a517e",
         "verdict": "WA"
       },
-      "reason": "Adds an unjustified parity-based central tile after summing layers. Test 0003 has 7+8+13 even, so it adds one and outputs 225, although independent lattice-point counting gives 224.",
+      "reason": "Original sum parity is not the condition for an additional tile after these shells. For 7,8,13 its shell terms 50,44,38,32,26,20,14 already total 224; even sum 28 adds a spurious one.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "225\n",
+          "actualOutputHash": "e675d6284d97cda6201b109e88e0315a3a6d1993f5bc16b0b241782a5f89a297",
+          "constraints": "a=7,b=8,c=13 all lie in 2..1000.",
+          "correctAnswer": "224",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/216A/counterexample-4390462-LF.json",
+              "sha256": "110dd734af1bad8cc3faffa3182c7e3996ac987ef14df7857ef201b5579b662b"
+            },
+            "logPath": "proofs/216A-4390462.json",
+            "logSHA256": "3c509b0820c019565d6af8d5cbe14e6fa2e6091e29cdbd444a208f71fb05e00d",
+            "outputHash": "e675d6284d97cda6201b109e88e0315a3a6d1993f5bc16b0b241782a5f89a297",
+            "rawLogCopy": {
+              "path": "proofs/raw/216A/counterexample-4390462-LF.json",
+              "sha256": "110dd734af1bad8cc3faffa3182c7e3996ac987ef14df7857ef201b5579b662b"
+            },
+            "runTest": "0003-LF",
+            "sourceHash": "428d2be9b740710e5cc86063a17d6008a41b422b5d82d54e98b42231e2f3bf29",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/216A/source-4390462.json",
+              "sha256": "edfd573cadf7ebeee0681496824de1b24c3aeca676ccf6b3c0b617483f36b1f5"
+            }
+          },
+          "inputSHA256": "b81790dc9adf854c158bd26e86f8003271802090bdc71cf3f101a5a3777a517e",
+          "mathematicalDerivation": "For tile-center edge steps A=a-1=6,B=b-1=7,C=c-1=12, the six lattice vertices are (0,0),(6,0),(6,7),(-6,19),(-12,19),(-12,12). Shoelace area is AB+BC+CA=42+84+72=198; boundary count is 2*(6+7+12)=50. Interior plus boundary tile centers are 198+50/2+1=224.",
+          "originalInputSHA256": "6e0ac36185d59b35fbe4a9cced181112ab0f2c5a68a1185c78037c76dc7a2e0d",
+          "originalOutputSHA256": "84a5092e4a5b6fe968fd523fb2fc917dbffae44105f82b6b94c8ed5b9a800223",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "428d2be9b740710e5cc86063a17d6008a41b422b5d82d54e98b42231e2f3bf29",
+          "test": "0003",
+          "validLF": "7 8 13\n"
+        },
+        "excludedNonAlgorithmicCauses": "All shell calculations and the parity branch execute, producing the standalone integer 225. The defect is an incorrect geometric residual rule, not debug output, a dormant solution or CRLF handling.",
+        "faultyLogic": "Original sum parity is not the condition for an additional tile after these shells. For 7,8,13 its shell terms 50,44,38,32,26,20,14 already total 224; even sum 28 adds a spurious one.",
+        "faultySourceLines": [
+          {
+            "code": "a = [int(i) for i in input().split()]\na.sort()\nt = sum(a)%2\ncount = sum(a)*2-6\nwhile a[0] > 1:\n    a = [i-1 for i in a]\n    count += sum(a)*2-6\nif t:\n    print(count)\nelse:\n    print(count+1)",
+            "end": 14,
+            "start": 4
+          }
+        ],
+        "implementedAlgorithm": "Sorts the three sides, adds successive shell terms 2*sum(sides)-6 while decrementing all sides to minimum one, and adds an extra central tile exactly when the original side sum is even.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/216A/counterexample-4390462-LF.json",
+            "sha256": "110dd734af1bad8cc3faffa3182c7e3996ac987ef14df7857ef201b5579b662b"
+          },
+          "recordedFailedTest": "0003",
+          "recordedFailedTestLFOutputHash": "e675d6284d97cda6201b109e88e0315a3a6d1993f5bc16b0b241782a5f89a297",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/216A/4390462.py",
+          "sha256": "428d2be9b740710e5cc86063a17d6008a41b422b5d82d54e98b42231e2f3bf29"
+        },
+        "sourceHash": "428d2be9b740710e5cc86063a17d6008a41b422b5d82d54e98b42231e2f3bf29",
+        "sourceLineCount": 14,
+        "sourceLines": [
+          {
+            "code": "import sys\n#f = sys.stdin\n#f = open(\"input.txt\", \"r\")\na = [int(i) for i in input().split()]\na.sort()\nt = sum(a)%2\ncount = sum(a)*2-6\nwhile a[0] > 1:\n    a = [i-1 for i in a]\n    count += sum(a)*2-6\nif t:\n    print(count)\nelse:\n    print(count+1)",
+            "end": 14,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "428d2be9b740710e5cc86063a17d6008a41b422b5d82d54e98b42231e2f3bf29",
       "test": "0003"
     },
@@ -13177,8 +13499,88 @@
         "inputHash": "afb86ce935e279702ed1aba6b984d47ebbe189411a29e7b6e3a6de6b0d2af8b5",
         "verdict": "WA"
       },
-      "reason": "After peeling the shortest side it adds a center only when all sides are equal, omitting the remaining nonsymmetric interior. Test 0004, sides 14,7,75, yields 1176 instead of 1578.",
+      "reason": "A nonsymmetric residual can contain more than one interior tile; stopping at the shortest side and adding no residual loses area. On 14,7,75 it sums 186,180,174,168,162,156,150 to 1176, leaving 402 legitimate tiles uncounted.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1176\n",
+          "actualOutputHash": "2ed7e92ae38fd190db546c9a842a46d5b92bda2e7b7dab1a641de6961c5d0aaf",
+          "constraints": "a=14,b=7,c=75 all lie in 2..1000.",
+          "correctAnswer": "1578",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/216A/counterexample-4390480-LF.json",
+              "sha256": "c83e23591ca7d86291113f59bfd9bda5f28661b68e5f6ce126cf4fbb7d586733"
+            },
+            "logPath": "proofs/216A-4390480.json",
+            "logSHA256": "3229aa6d75b3a599c8723746c07384e60ed7d526c0711cc7a1b83c17d7b86f8c",
+            "outputHash": "2ed7e92ae38fd190db546c9a842a46d5b92bda2e7b7dab1a641de6961c5d0aaf",
+            "rawLogCopy": {
+              "path": "proofs/raw/216A/counterexample-4390480-LF.json",
+              "sha256": "c83e23591ca7d86291113f59bfd9bda5f28661b68e5f6ce126cf4fbb7d586733"
+            },
+            "runTest": "0004-LF",
+            "sourceHash": "f4b95d393ee5cf6c02948235d96cd353a9adaddf05c483a264937121ae8e0aef",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/216A/source-4390480.json",
+              "sha256": "c7fbfc7bb62f1fd0cd6aacfaa2bf9fa8a9cbbba7afe71cfd4cfec5b5ccddd4f9"
+            }
+          },
+          "inputSHA256": "afb86ce935e279702ed1aba6b984d47ebbe189411a29e7b6e3a6de6b0d2af8b5",
+          "mathematicalDerivation": "The tile-center hexagon has edge steps A=13,B=6,C=74. Its lattice-coordinate area is AB+BC+CA=78+444+962=1484 and boundary count is 2*(13+6+74)=186. Counting lattice centers by Pick gives 1484+186/2+1=1578; these centers correspond one-to-one to floor tiles.",
+          "originalInputSHA256": "716fc0838a4732788e771b8b16fe57247633918ef2076a3de308d871dae94f86",
+          "originalOutputSHA256": "c6437e0ba0560952cb942343f521c60fc3f2247dd1aebf95460c1a070b263051",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "f4b95d393ee5cf6c02948235d96cd353a9adaddf05c483a264937121ae8e0aef",
+          "test": "0004",
+          "validLF": "14 7 75\n"
+        },
+        "excludedNonAlgorithmicCauses": "The active peel loop runs and emits 1176 without diagnostics. Its equal-sides-only residual criterion is a genuine area algorithm error, not a placeholder or file-open failure (the file lines are comments).",
+        "faultyLogic": "A nonsymmetric residual can contain more than one interior tile; stopping at the shortest side and adding no residual loses area. On 14,7,75 it sums 186,180,174,168,162,156,150 to 1176, leaving 402 legitimate tiles uncounted.",
+        "faultySourceLines": [
+          {
+            "code": "a = [int(i) for i in input().split()]\na.sort()\nt = a.count(a[0]) == len(a)\ncount = sum(a)*2-6\nwhile a[0] > 1:\n    a = [i-1 for i in a]\n    count += sum(a)*2-6\nif t:\n    print(count+1)\nelse:\n    print(count)",
+            "end": 14,
+            "start": 4
+          }
+        ],
+        "implementedAlgorithm": "Peels sorted side triples using shell terms 2*sum(sides)-6, stops at minimum side one, and adds one center only if all original side lengths were equal.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/216A/counterexample-4390480-LF.json",
+            "sha256": "c83e23591ca7d86291113f59bfd9bda5f28661b68e5f6ce126cf4fbb7d586733"
+          },
+          "recordedFailedTest": "0004",
+          "recordedFailedTestLFOutputHash": "2ed7e92ae38fd190db546c9a842a46d5b92bda2e7b7dab1a641de6961c5d0aaf",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/216A/4390480.py",
+          "sha256": "f4b95d393ee5cf6c02948235d96cd353a9adaddf05c483a264937121ae8e0aef"
+        },
+        "sourceHash": "f4b95d393ee5cf6c02948235d96cd353a9adaddf05c483a264937121ae8e0aef",
+        "sourceLineCount": 14,
+        "sourceLines": [
+          {
+            "code": "import sys\n#f = sys.stdin\n#f = open(\"input.txt\", \"r\")\na = [int(i) for i in input().split()]\na.sort()\nt = a.count(a[0]) == len(a)\ncount = sum(a)*2-6\nwhile a[0] > 1:\n    a = [i-1 for i in a]\n    count += sum(a)*2-6\nif t:\n    print(count+1)\nelse:\n    print(count)",
+            "end": 14,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "f4b95d393ee5cf6c02948235d96cd353a9adaddf05c483a264937121ae8e0aef",
       "test": "0004"
     }
@@ -13198,9 +13600,23 @@
     "No package/evidence bytes were modified. Extra tests are external to the package.",
     "Independent extras use distinct brute-force/simulation methods, including corner/max cases; both package oracle and one counted accepted source pass all extra tests.",
     "Generator executions use a placeholder expected output; their WA checker status is immaterial. Exit status, no timeout, exact output hashes and generated pair bytes are verified.",
-    "No publication approval is granted by this audit. Only require_approval=False is evaluated."
+    "No publication approval is granted by this audit. Only require_approval=False is evaluated.",
+    "Stricter source-specific semantic review performed on the complete actual code of every one of the five incorrect sources; semanticReview carries full exact line excerpts, implemented algorithms, faulty logic, exclusions and mathematical derivations.",
+    "Original package/evidence/source/execution bytes and original archive remain unchanged. This pass reuses existing LF executions and included LF suite executions; no public program was executed again.",
+    "Parent reports its independent pinned upstream file/source/statement/API cross-check complete; downloadedUpstreamSources remains false because this child did not perform those downloads. No remaining upstream gap is asserted."
   ],
   "reviewUrl": "https://staging.itsdev.in/sessions/3f1eb4a7487f45f39f3bf20d015c0c1c",
   "reviewer": "devin-3f1eb4a7487f45f39f3bf20d015c0c1c",
-  "schemaVersion": 1
+  "schemaVersion": 1,
+  "semanticReviewSummary": {
+    "fullSourcesRead": 5,
+    "genuineAlgorithmicallyWrong": 5,
+    "newProgramExecutions": 0,
+    "oldAuditFileSHA256": "c569e5d1168fa2ceb38a85ab3436c56aa2556fd54dd2288d459b32c2ce953c74",
+    "oldAuditHash": "5d2c78e47c7a2db9bb49329ed774ae2113a543c99acc290e70bc02fb6d71dcf9",
+    "originalArchiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+    "originalArchiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+    "policy": "Full-source manual review, actual executed algorithm, completed wrong mathematical answer after presentation exclusions; original qualification remains fail-closed and unchanged evidence is not repaired.",
+    "unchangedQualificationWrongCount": 5
+  }
 }

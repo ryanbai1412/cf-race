@@ -20,6 +20,8 @@
     "extraTests": 278,
     "incorrect": 5,
     "samples": 2,
+    "semanticAlgorithmicallyWrong": 5,
+    "semanticSourcesReviewed": 5,
     "suppliedTests": 144
   },
   "evidenceHash": "3a195b79b2938b91e933c0fabc2e15d844ad285119b13ce9374f74fb2d531a57",
@@ -11459,8 +11461,88 @@
         "inputHash": "73f8f7cdf7940551fb7e42516a44672ef37e63251f0b4fbaf00f483800f06441",
         "verdict": "WA"
       },
-      "reason": "Flips each of the first min(n,k) elements once and ignores repeated flips and parity when k>n. At test 0003 all 17 values are positive and k=27; it makes all negative (-82366) rather than retaining positives except one smallest sign change (81852).",
+      "reason": "It assumes each of the first k distinct positions must be flipped once. With k>n it negates all 17 positive entries and ignores the need to choose repeated flips optimally, returning -82366.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "-82366\n",
+          "actualOutputHash": "e77ff5eb092e1ddb7193a447a3e18ad57fa7285e69d34dd91e2c90fe0735ecee",
+          "constraints": "n=17,k=27 lie in 1..100000; the 17 incomes are sorted nondecreasing, all positive and at most 9343<=10000.",
+          "correctAnswer": "81852",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/262B/counterexample-59968027-LF.json",
+              "sha256": "82c1f21efb6b5fffd9b147c163e5c705c49d14ace51e799dcc3eeb4702dd09f9"
+            },
+            "logPath": "proofs/262B-59968027.json",
+            "logSHA256": "4774cf6941177651a5177c5ef01f55686b348b59f364ef6415575ea059151ac7",
+            "outputHash": "e77ff5eb092e1ddb7193a447a3e18ad57fa7285e69d34dd91e2c90fe0735ecee",
+            "rawLogCopy": {
+              "path": "proofs/raw/262B/counterexample-59968027-LF.json",
+              "sha256": "82c1f21efb6b5fffd9b147c163e5c705c49d14ace51e799dcc3eeb4702dd09f9"
+            },
+            "runTest": "0003-LF",
+            "sourceHash": "68a401597c5b225c08f2991403a7810c071691a029d88b81c524b6219e7ccb40",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/262B/source-59968027.json",
+              "sha256": "e0658a24306a9f313c93cf8b21a0adce0df2cdf01272ccec0cc45d9361d4e009"
+            }
+          },
+          "inputSHA256": "73f8f7cdf7940551fb7e42516a44672ef37e63251f0b4fbaf00f483800f06441",
+          "mathematicalDerivation": "The positive incomes sum to 82366. After an odd number 27 of sign flips, at least one nonzero entry must have odd flip parity and end negative. The smallest magnitude is 257, so losing at least 2*257=514 is unavoidable. Flip 257 once and perform 13 cancelling pairs of flips on any entry: exactly 27 changes yield 82366-514=81852, attaining that upper bound.",
+          "originalInputSHA256": "a4c57b5dea1742e21786c60eeb14b43101fac84173297fabd1989afc037c9ca2",
+          "originalOutputSHA256": "f175e942b1a10d86b00e9368be735181750e2712b28385de2631432eb432231e",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "68a401597c5b225c08f2991403a7810c071691a029d88b81c524b6219e7ccb40",
+          "test": "0003",
+          "validLF": "17 27\n257 320 676 1136 2068 2505 2639 4225 4951 5786 7677 7697 7851 8337 8429 8469 9343\n"
+        },
+        "excludedNonAlgorithmicCauses": "The sum loop executes and emits a single signed integer under LF. This is an incorrect exact-k optimization, not diagnostics, runtime failure or an unrelated/constant-output routine.",
+        "faultyLogic": "It assumes each of the first k distinct positions must be flipped once. With k>n it negates all 17 positive entries and ignores the need to choose repeated flips optimally, returning -82366.",
+        "faultySourceLines": [
+          {
+            "code": "n, k = (map(int,input().split()))\na = list(map(int,input().split()))\nsum = 0\n\nfor i in range(0, n):\n    if i < k:\n        sum -= a[i]\n    else:\n        sum += a[i]\n\n\nprint(sum)",
+            "end": 12,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "Visits each sorted income once, negates it if its index is below k, and sums the resulting values.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/262B/counterexample-59968027-LF.json",
+            "sha256": "82c1f21efb6b5fffd9b147c163e5c705c49d14ace51e799dcc3eeb4702dd09f9"
+          },
+          "recordedFailedTest": "0003",
+          "recordedFailedTestLFOutputHash": "e77ff5eb092e1ddb7193a447a3e18ad57fa7285e69d34dd91e2c90fe0735ecee",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/262B/59968027.py",
+          "sha256": "68a401597c5b225c08f2991403a7810c071691a029d88b81c524b6219e7ccb40"
+        },
+        "sourceHash": "68a401597c5b225c08f2991403a7810c071691a029d88b81c524b6219e7ccb40",
+        "sourceLineCount": 12,
+        "sourceLines": [
+          {
+            "code": "n, k = (map(int,input().split()))\na = list(map(int,input().split()))\nsum = 0\n\nfor i in range(0, n):\n    if i < k:\n        sum -= a[i]\n    else:\n        sum += a[i]\n\n\nprint(sum)",
+            "end": 12,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "68a401597c5b225c08f2991403a7810c071691a029d88b81c524b6219e7ccb40",
       "test": "0003"
     },
@@ -11486,8 +11568,88 @@
         "inputHash": "3180a7f6aaf5dce09f72db5d103ee825a25bd15ec9044a0053a2083abe3620a0",
         "verdict": "WA"
       },
-      "reason": "The k<=negativeCount adjustment loop includes index negativeCount and subtracts twice a value that should already be positive. For test 0001 [-1,-1,1],k=2, it incorrectly subtracts 2 from the optimal sum 3 and outputs 1.",
+      "reason": "The adjustment includes index negativeCount, the first nonnegative entry, and subtracts signed values with the wrong sign for unflipped negatives. On [-1,-1,1], k=2, the inclusive loop subtracts 2*1 from the correct absolute sum 3.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1\n",
+          "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "constraints": "n=3,k=2 are legal; the three values -1,-1,1 are nondecreasing and have magnitudes<=10000.",
+          "correctAnswer": "3",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/262B/counterexample-59969757-LF.json",
+              "sha256": "1a16e9dbc465819e1310ec3049fdd7418e8f8e098806d464dd3a3a6b6e7ba24e"
+            },
+            "logPath": "proofs/262B-59969757.json",
+            "logSHA256": "110b6dbc2f634e6bf7992b062659d46bdd0cacfdf2ef3a79d4eab586c9573e74",
+            "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+            "rawLogCopy": {
+              "path": "proofs/raw/262B/counterexample-59969757-LF.json",
+              "sha256": "1a16e9dbc465819e1310ec3049fdd7418e8f8e098806d464dd3a3a6b6e7ba24e"
+            },
+            "runTest": "0001-LF",
+            "sourceHash": "98b56af34854f2f7362a587ac9e8ed9e3814941f6216b0779597cb6cac638ef5",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/262B/source-59969757.json",
+              "sha256": "99855463cdcf683a74ca7223ab00ddd62d8af350d0f95a493809cba5cfd2e54d"
+            }
+          },
+          "inputSHA256": "3180a7f6aaf5dce09f72db5d103ee825a25bd15ec9044a0053a2083abe3620a0",
+          "mathematicalDerivation": "Flip each of the two -1 entries once, using exactly two operations, to obtain [1,1,1] with total 3. No arrangement can exceed the sum of magnitudes 3, so this is optimal.",
+          "originalInputSHA256": "23bcd4e8ed058d64e33e0340fb29f414342d0c5810775ba46d5c7531c44ccba0",
+          "originalOutputSHA256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "98b56af34854f2f7362a587ac9e8ed9e3814941f6216b0779597cb6cac638ef5",
+          "test": "0001",
+          "validLF": "3 2\n-1 -1 1\n"
+        },
+        "excludedNonAlgorithmicCauses": "This selected LF case completes and outputs 1, rather than hitting the separate possible out-of-range errors on other cases. The inclusive correction is a demonstrated numerical optimization error with no presentation diagnostics.",
+        "faultyLogic": "The adjustment includes index negativeCount, the first nonnegative entry, and subtracts signed values with the wrong sign for unflipped negatives. On [-1,-1,1], k=2, the inclusive loop subtracts 2*1 from the correct absolute sum 3.",
+        "faultySourceLines": [
+          {
+            "code": "for i in range(0, n):\n    if(abs(a[i]) < leastAbsoulute):\n        leastAbsoulute = abs(a[i])\n    if(a[i] < 0):\n        negativeCount+=1\n    sum += abs(a[i])\n\nif k <= negativeCount:  #that means you need to convert the most k negative numbers\n    for i in range(k, negativeCount+1):    #since we already sumed the absoulute of all value we need to\n        sum -= 2 * a[i]                    #subtract the values tat should have stayed negative (k --> firstNeg)\nelse:   #that means all negative numbers will be converted\n    if (k - negativeCount)%2 != 0:     #if the no remaining conversions that must be made are even do nothing as (if he picks a pos number and keeps converting it) \n            sum -= 2*leastAbsoulute     #if it's odd then convert the least aboulute value (ie. subtract the least absoulutevalue from sum)\n\n\nprint(sum)",
+            "end": 22,
+            "start": 7
+          }
+        ],
+        "implementedAlgorithm": "Starts with the sum of absolute values, counts negative entries and the minimum magnitude; if k is no greater than the negative count, adjusts entries from index k through negativeCount inclusive, otherwise handles residual odd parity.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/262B/counterexample-59969757-LF.json",
+            "sha256": "1a16e9dbc465819e1310ec3049fdd7418e8f8e098806d464dd3a3a6b6e7ba24e"
+          },
+          "recordedFailedTest": "0001",
+          "recordedFailedTestLFOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/262B/59969757.py",
+          "sha256": "98b56af34854f2f7362a587ac9e8ed9e3814941f6216b0779597cb6cac638ef5"
+        },
+        "sourceHash": "98b56af34854f2f7362a587ac9e8ed9e3814941f6216b0779597cb6cac638ef5",
+        "sourceLineCount": 22,
+        "sourceLines": [
+          {
+            "code": "n, k = (map(int,input().split()))\na = list(map(int,input().split()))\nsum = 0\nnegativeCount = 0\nleastAbsoulute=10000\n\nfor i in range(0, n):\n    if(abs(a[i]) < leastAbsoulute):\n        leastAbsoulute = abs(a[i])\n    if(a[i] < 0):\n        negativeCount+=1\n    sum += abs(a[i])\n\nif k <= negativeCount:  #that means you need to convert the most k negative numbers\n    for i in range(k, negativeCount+1):    #since we already sumed the absoulute of all value we need to\n        sum -= 2 * a[i]                    #subtract the values tat should have stayed negative (k --> firstNeg)\nelse:   #that means all negative numbers will be converted\n    if (k - negativeCount)%2 != 0:     #if the no remaining conversions that must be made are even do nothing as (if he picks a pos number and keeps converting it) \n            sum -= 2*leastAbsoulute     #if it's odd then convert the least aboulute value (ie. subtract the least absoulutevalue from sum)\n\n\nprint(sum)",
+            "end": 22,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "98b56af34854f2f7362a587ac9e8ed9e3814941f6216b0779597cb6cac638ef5",
       "test": "0001"
     },
@@ -11513,8 +11675,88 @@
         "inputHash": "73f8f7cdf7940551fb7e42516a44672ef37e63251f0b4fbaf00f483800f06441",
         "verdict": "WA"
       },
-      "reason": "Only flips negative numbers and ignores the remaining odd operation budget. At test 0003 every value is positive with k=27, so it outputs 82366 but exactly an odd number of flips requires a 514 loss, giving 81852.",
+      "reason": "It ignores residual operations and thus exact-k parity; it also prioritizes small-magnitude negatives due to descending order. With all incomes positive it makes no changes and prints the unattainable unchanged sum 82366 despite odd k=27.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "82366\n",
+          "actualOutputHash": "609e2fe6e0e5d74c2ffb67922c5a074233807be5c12e8570ae24a7148c502d80",
+          "constraints": "n=17,k=27 lie in 1..100000; the 17 incomes are sorted nondecreasing, all positive and at most 9343<=10000.",
+          "correctAnswer": "81852",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/262B/counterexample-61430849-LF.json",
+              "sha256": "3c06ad01ea70f417e5e664c07246184439861ff3929c2345627b1f36ef5581d4"
+            },
+            "logPath": "proofs/262B-61430849.json",
+            "logSHA256": "2492a186671bcde512c78065f144e15e4f669a30bfb47433905bd933fe8785fc",
+            "outputHash": "609e2fe6e0e5d74c2ffb67922c5a074233807be5c12e8570ae24a7148c502d80",
+            "rawLogCopy": {
+              "path": "proofs/raw/262B/counterexample-61430849-LF.json",
+              "sha256": "3c06ad01ea70f417e5e664c07246184439861ff3929c2345627b1f36ef5581d4"
+            },
+            "runTest": "0003-LF",
+            "sourceHash": "7a382f5fb84c5f53ff61a7db01a192aa5f3288187cdc237cc0a725b09a76c245",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/262B/source-61430849.json",
+              "sha256": "8370e2915c8612441010f102722412be3e028d881bb08dc149a27c4d1041adcb"
+            }
+          },
+          "inputSHA256": "73f8f7cdf7940551fb7e42516a44672ef37e63251f0b4fbaf00f483800f06441",
+          "mathematicalDerivation": "The positive incomes sum to 82366. After an odd number 27 of sign flips, at least one nonzero entry must have odd flip parity and end negative. The smallest magnitude is 257, so losing at least 2*257=514 is unavoidable. Flip 257 once and perform 13 cancelling pairs of flips on any entry: exactly 27 changes yield 82366-514=81852, attaining that upper bound.",
+          "originalInputSHA256": "a4c57b5dea1742e21786c60eeb14b43101fac84173297fabd1989afc037c9ca2",
+          "originalOutputSHA256": "f175e942b1a10d86b00e9368be735181750e2712b28385de2631432eb432231e",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "7a382f5fb84c5f53ff61a7db01a192aa5f3288187cdc237cc0a725b09a76c245",
+          "test": "0003",
+          "validLF": "17 27\n257 320 676 1136 2068 2505 2639 4225 4951 5786 7677 7697 7851 8337 8429 8469 9343\n"
+        },
+        "excludedNonAlgorithmicCauses": "main is called and the summation executes. This is not a dormant correct solution or output-only fault: the returned total violates the necessary parity consequence of exactly 27 flips.",
+        "faultyLogic": "It ignores residual operations and thus exact-k parity; it also prioritizes small-magnitude negatives due to descending order. With all incomes positive it makes no changes and prints the unattainable unchanged sum 82366 despite odd k=27.",
+        "faultySourceLines": [
+          {
+            "code": "def main():\n    n, k = map(int, input().split())\n    inc = list(map(int, input().split()))\n    ans = 0\n\n    inc.sort(reverse=True)\n    \n    for i in inc:\n        if i < 0 and k:\n            k -= 1\n            i = -i\n        ans += i\n\n    print(ans)\n\nif __name__ == \"__main__\":\n    main()",
+            "end": 19,
+            "start": 3
+          }
+        ],
+        "implementedAlgorithm": "The called main sorts incomes descending, flips negative entries encountered while k remains, sums them, and immediately prints the total.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/262B/counterexample-61430849-LF.json",
+            "sha256": "3c06ad01ea70f417e5e664c07246184439861ff3929c2345627b1f36ef5581d4"
+          },
+          "recordedFailedTest": "0003",
+          "recordedFailedTestLFOutputHash": "609e2fe6e0e5d74c2ffb67922c5a074233807be5c12e8570ae24a7148c502d80",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/262B/61430849.py",
+          "sha256": "7a382f5fb84c5f53ff61a7db01a192aa5f3288187cdc237cc0a725b09a76c245"
+        },
+        "sourceHash": "7a382f5fb84c5f53ff61a7db01a192aa5f3288187cdc237cc0a725b09a76c245",
+        "sourceLineCount": 19,
+        "sourceLines": [
+          {
+            "code": "#!/usr/bin/env python3\n\ndef main():\n    n, k = map(int, input().split())\n    inc = list(map(int, input().split()))\n    ans = 0\n\n    inc.sort(reverse=True)\n    \n    for i in inc:\n        if i < 0 and k:\n            k -= 1\n            i = -i\n        ans += i\n\n    print(ans)\n\nif __name__ == \"__main__\":\n    main()",
+            "end": 19,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "7a382f5fb84c5f53ff61a7db01a192aa5f3288187cdc237cc0a725b09a76c245",
       "test": "0003"
     },
@@ -11540,8 +11782,88 @@
         "inputHash": "326378fb356e74dec203dc26dc726a7c3fe9fe798dae710cf2341c5b92ae3f96",
         "verdict": "WA"
       },
-      "reason": "Its abs(k-b)+(1 if b else 0) parity and special selected-element handling incorrectly preserve a negative value despite an available zero. Test 0010 [-1,0],k=2 can flip -1 and spend the remaining operation on zero for sum 1, but returns -1.",
+      "reason": "Its artificial parity variable chooses the original negative entry unchanged when k=2,b=1. For [-1,0], op=2, ans starts -1, that entry is zeroed in the remaining sum, and it returns -1 instead of using the zero for the spare flip.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "-1\n",
+          "actualOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+          "constraints": "n=2,k=2 lie in 1..100000; [-1,0] is nondecreasing and within the magnitude bound.",
+          "correctAnswer": "1",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/262B/counterexample-61434232-LF.json",
+              "sha256": "002de9c8fba1d10e21f11593a88a34ca086d9d0ec62289162d92ab62b82ffef5"
+            },
+            "logPath": "proofs/262B-61434232.json",
+            "logSHA256": "2d6e258252c6f4764ac05a16573fd18c07c22cf9102596e94804c23cca6bff8e",
+            "outputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+            "rawLogCopy": {
+              "path": "proofs/raw/262B/counterexample-61434232-LF.json",
+              "sha256": "002de9c8fba1d10e21f11593a88a34ca086d9d0ec62289162d92ab62b82ffef5"
+            },
+            "runTest": "0010-LF",
+            "sourceHash": "77c49519d806411395e28edf90067831de10077cbc0b6bc3e24b85feb8b7c1ba",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/262B/source-61434232.json",
+              "sha256": "a4cb1f6d65c98baecd702b3af498484d05ccabe42ee8bdd7df46cb6e25b0c99f"
+            }
+          },
+          "inputSHA256": "326378fb356e74dec203dc26dc726a7c3fe9fe798dae710cf2341c5b92ae3f96",
+          "mathematicalDerivation": "Flip -1 to 1 once, and flip zero once; exactly two operations give sum 1. The sum of absolute values is 1, so no larger sum is possible.",
+          "originalInputSHA256": "2643bb2f7769176deaa5e53f85ce0b6c5cc75297c96ca509dd2c720cd0fbdd23",
+          "originalOutputSHA256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "77c49519d806411395e28edf90067831de10077cbc0b6bc3e24b85feb8b7c1ba",
+          "test": "0010",
+          "validLF": "2 2\n-1 0\n"
+        },
+        "excludedNonAlgorithmicCauses": "The heuristic and both sums execute in the called main; the LF integer -1 is an incorrect optimum, not formatting, debug output or a runtime-only failure.",
+        "faultyLogic": "Its artificial parity variable chooses the original negative entry unchanged when k=2,b=1. For [-1,0], op=2, ans starts -1, that entry is zeroed in the remaining sum, and it returns -1 instead of using the zero for the spare flip.",
+        "faultySourceLines": [
+          {
+            "code": "def main():\n    n, k = map(int, input().split())\n    inc = list(map(int, input().split()))\n    b = sum(1 for i in inc if i < 0)\n    op = abs(k-b) + (1 if b else 0)\n\n    if op & 1:\n        ans = -inc[0]\n        inc[0] = 0\n    else:\n        ans = inc[max(0,b-1)]\n        inc[max(0,b-1)] = 0\n\n    ans += sum(map(lambda x: -x, inc[0:min(b, k)]))\n    ans += sum(inc[min(b,k):])\n\n    print(ans)\n\nif __name__ == \"__main__\":\n    main()",
+            "end": 22,
+            "start": 3
+          }
+        ],
+        "implementedAlgorithm": "Counts negatives b, derives op=abs(k-b)+(1 if b else 0), removes and specially signs one selected income based on op parity, then flips a prefix and sums the rest.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/262B/counterexample-61434232-LF.json",
+            "sha256": "002de9c8fba1d10e21f11593a88a34ca086d9d0ec62289162d92ab62b82ffef5"
+          },
+          "recordedFailedTest": "0010",
+          "recordedFailedTestLFOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/262B/61434232.py",
+          "sha256": "77c49519d806411395e28edf90067831de10077cbc0b6bc3e24b85feb8b7c1ba"
+        },
+        "sourceHash": "77c49519d806411395e28edf90067831de10077cbc0b6bc3e24b85feb8b7c1ba",
+        "sourceLineCount": 22,
+        "sourceLines": [
+          {
+            "code": "#!/usr/bin/env python3\n\ndef main():\n    n, k = map(int, input().split())\n    inc = list(map(int, input().split()))\n    b = sum(1 for i in inc if i < 0)\n    op = abs(k-b) + (1 if b else 0)\n\n    if op & 1:\n        ans = -inc[0]\n        inc[0] = 0\n    else:\n        ans = inc[max(0,b-1)]\n        inc[max(0,b-1)] = 0\n\n    ans += sum(map(lambda x: -x, inc[0:min(b, k)]))\n    ans += sum(inc[min(b,k):])\n\n    print(ans)\n\nif __name__ == \"__main__\":\n    main()",
+            "end": 22,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "77c49519d806411395e28edf90067831de10077cbc0b6bc3e24b85feb8b7c1ba",
       "test": "0010"
     },
@@ -11567,8 +11889,88 @@
         "inputHash": "326378fb356e74dec203dc26dc726a7c3fe9fe798dae710cf2341c5b92ae3f96",
         "verdict": "WA"
       },
-      "reason": "Chooses min(2*inc[b-1],-2*inc[b]) for an odd leftover, which selects the greater loss rather than the least absolute value. At test 0010 [-1,0],k=2 it subtracts 2 instead of zero and outputs -1 instead of 1.",
+      "reason": "In the mixed-sign branch it adds min(2*lastNegative,-2*firstNonnegative), choosing the larger loss instead of the larger sum adjustment. For [-1,0], the candidate adjustments are -2 and 0, but it chooses -2 and lowers 1 to -1.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "-1\n",
+          "actualOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+          "constraints": "n=2,k=2 are legal and the two values -1,0 form the required nondecreasing bounded sequence.",
+          "correctAnswer": "1",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/262B/counterexample-61444106-LF.json",
+              "sha256": "3843c63c452f9829c83b647437a16e24cfd5f8c2c3112e11815cc7bea5fcff4a"
+            },
+            "logPath": "proofs/262B-61444106.json",
+            "logSHA256": "f5b46d47815d7b6e9c49a78116e716008b76df8343165d4618dfb93c97de2cc2",
+            "outputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+            "rawLogCopy": {
+              "path": "proofs/raw/262B/counterexample-61444106-LF.json",
+              "sha256": "3843c63c452f9829c83b647437a16e24cfd5f8c2c3112e11815cc7bea5fcff4a"
+            },
+            "runTest": "0010-LF",
+            "sourceHash": "764d568d49723eccfabb7827b6e126ca0a5281929a9be06d5aa8370a0701508d",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/262B/source-61444106.json",
+              "sha256": "91114edf7f6149dad14dfa8f56c0fc1eb3dce33c155bcdfb1289ca6d7c6d551c"
+            }
+          },
+          "inputSHA256": "326378fb356e74dec203dc26dc726a7c3fe9fe798dae710cf2341c5b92ae3f96",
+          "mathematicalDerivation": "Flip -1 once to get 1 and spend the second operation on zero. This obtains the absolute-sum upper bound 1 after exactly two flips, so the maximum is 1.",
+          "originalInputSHA256": "2643bb2f7769176deaa5e53f85ce0b6c5cc75297c96ca509dd2c720cd0fbdd23",
+          "originalOutputSHA256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "764d568d49723eccfabb7827b6e126ca0a5281929a9be06d5aa8370a0701508d",
+          "test": "0010",
+          "validLF": "2 2\n-1 0\n"
+        },
+        "excludedNonAlgorithmicCauses": "The parsed-income loop and parity correction execute without diagnostics or LF errors. Choosing the worse mathematical adjustment is the demonstrated real optimization defect.",
+        "faultyLogic": "In the mixed-sign branch it adds min(2*lastNegative,-2*firstNonnegative), choosing the larger loss instead of the larger sum adjustment. For [-1,0], the candidate adjustments are -2 and 0, but it chooses -2 and lowers 1 to -1.",
+        "faultySourceLines": [
+          {
+            "code": "    for i in map(int, input().split()):\n        inc.append(i)\n        b += i < 0\n\n    ans = sum(map(lambda x: -x, inc[:min(b, k)]))\n    ans += sum(inc[min(b, k):])\n\n    if k > b and ((k - b) & 1):\n        if b == n:\n            ans += 2*inc[b-1]\n        elif b and b < n:\n            ans += min(2*inc[b-1], -2*inc[b])\n        else:\n            ans += -2*abs(inc[0])\n\n    print(ans)\n\nif __name__ == \"__main__\":\n    main()",
+            "end": 25,
+            "start": 7
+          }
+        ],
+        "implementedAlgorithm": "The called main flips up to k negative entries in the sorted prefix, then corrects leftover odd parity using neighboring negative/nonnegative magnitudes.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/262B/counterexample-61444106-LF.json",
+            "sha256": "3843c63c452f9829c83b647437a16e24cfd5f8c2c3112e11815cc7bea5fcff4a"
+          },
+          "recordedFailedTest": "0010",
+          "recordedFailedTestLFOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/262B/61444106.py",
+          "sha256": "764d568d49723eccfabb7827b6e126ca0a5281929a9be06d5aa8370a0701508d"
+        },
+        "sourceHash": "764d568d49723eccfabb7827b6e126ca0a5281929a9be06d5aa8370a0701508d",
+        "sourceLineCount": 25,
+        "sourceLines": [
+          {
+            "code": "#!/usr/bin/env python3\n\ndef main():\n    n, k = map(int, input().split())\n    inc, b = [], 0\n\n    for i in map(int, input().split()):\n        inc.append(i)\n        b += i < 0\n\n    ans = sum(map(lambda x: -x, inc[:min(b, k)]))\n    ans += sum(inc[min(b, k):])\n\n    if k > b and ((k - b) & 1):\n        if b == n:\n            ans += 2*inc[b-1]\n        elif b and b < n:\n            ans += min(2*inc[b-1], -2*inc[b])\n        else:\n            ans += -2*abs(inc[0])\n\n    print(ans)\n\nif __name__ == \"__main__\":\n    main()",
+            "end": 25,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "764d568d49723eccfabb7827b6e126ca0a5281929a9be06d5aa8370a0701508d",
       "test": "0010"
     }
@@ -11588,9 +11990,23 @@
     "No package/evidence bytes were modified. Extra tests are external to the package.",
     "Independent extras use distinct brute-force/simulation methods, including corner/max cases; both package oracle and one counted accepted source pass all extra tests.",
     "Generator executions use a placeholder expected output; their WA checker status is immaterial. Exit status, no timeout, exact output hashes and generated pair bytes are verified.",
-    "No publication approval is granted by this audit. Only require_approval=False is evaluated."
+    "No publication approval is granted by this audit. Only require_approval=False is evaluated.",
+    "Stricter source-specific semantic review performed on the complete actual code of every one of the five incorrect sources; semanticReview carries full exact line excerpts, implemented algorithms, faulty logic, exclusions and mathematical derivations.",
+    "Original package/evidence/source/execution bytes and original archive remain unchanged. This pass reuses existing LF executions and included LF suite executions; no public program was executed again.",
+    "Parent reports its independent pinned upstream file/source/statement/API cross-check complete; downloadedUpstreamSources remains false because this child did not perform those downloads. No remaining upstream gap is asserted."
   ],
   "reviewUrl": "https://staging.itsdev.in/sessions/3f1eb4a7487f45f39f3bf20d015c0c1c",
   "reviewer": "devin-3f1eb4a7487f45f39f3bf20d015c0c1c",
-  "schemaVersion": 1
+  "schemaVersion": 1,
+  "semanticReviewSummary": {
+    "fullSourcesRead": 5,
+    "genuineAlgorithmicallyWrong": 5,
+    "newProgramExecutions": 0,
+    "oldAuditFileSHA256": "65483565ba6664c73dacf22a89fa7330612210dacae6c3ffea28cff8149b03fd",
+    "oldAuditHash": "0e245967c79bb9a98f66d61cd28d1d8517b32981a20542b86f22b997016409a8",
+    "originalArchiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+    "originalArchiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+    "policy": "Full-source manual review, actual executed algorithm, completed wrong mathematical answer after presentation exclusions; original qualification remains fail-closed and unchanged evidence is not repaired.",
+    "unchangedQualificationWrongCount": 5
+  }
 }

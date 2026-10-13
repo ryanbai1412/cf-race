@@ -22,6 +22,8 @@
     "extraTests": 218,
     "incorrect": 5,
     "samples": 2,
+    "semanticAlgorithmicallyWrong": 1,
+    "semanticSourcesReviewed": 5,
     "suppliedTests": 177
   },
   "evidenceHash": "ab95015fa3d4aca281ff20d8835c77a2c15ec84733ce4811cc0aa17a343b77e9",
@@ -14027,8 +14029,93 @@
         "inputHash": "cb3649dcb57bfd010baea16dd2b47fe97ec8acbdbda9979af7662243c5e3551b",
         "verdict": "WA"
       },
-      "reason": "Once it finds the first x, later values are bounded by x<=n instead of x+y<=n. At its recorded counterexample it emits values beyond n-y. It also incorrectly excludes the allowed quotient 100000. This is a real arithmetic-bound error.",
+      "reason": "The continuation must bound x+y by n, equivalently x<=n-y, not x<=n. For y=10,k=6,n=40 it appends 32 and 38 after 26 even though their totals 42 and 48 exceed 40.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "2 8 14 20 26 32 38 \n",
+          "actualOutputHash": "2a8c7491663aef32c7826e2f2119fcd51aeac877ee1574b469101f3fefbbcb01",
+          "constraints": "y=10,k=6,n=40 lie in 1..1000000000 and floor(n/k)=6<=100000.",
+          "correctAnswer": "2 8 14 20 26",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/239A/counterexample-13203294-LF.json",
+              "sha256": "db035622e6b0e2dc972ad2e81b5847c0f8664921520b609e1a46de00a0ecd50c"
+            },
+            "logPath": "proofs/239A-13203294.json",
+            "logSHA256": "bda55321d7e8fd8c6ef88969ad043580635873421c9cdb58239662ddcd030420",
+            "outputHash": "2a8c7491663aef32c7826e2f2119fcd51aeac877ee1574b469101f3fefbbcb01",
+            "rawLogCopy": {
+              "path": "proofs/raw/239A/counterexample-13203294-LF.json",
+              "sha256": "db035622e6b0e2dc972ad2e81b5847c0f8664921520b609e1a46de00a0ecd50c"
+            },
+            "runTest": "0002-LF",
+            "sourceHash": "8807217465e5373cf6b69ec92aa36dccf5891a09861b7d5a18f7b97dca5d3746",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/239A/source-13203294.json",
+              "sha256": "0a039bd72248d848ba5e8002a24cb0dad87019f69c1e4fd8a24ae07a06e487a5"
+            }
+          },
+          "inputSHA256": "cb3649dcb57bfd010baea16dd2b47fe97ec8acbdbda9979af7662243c5e3551b",
+          "mathematicalDerivation": "The allowed totals are multiples of six strictly above y=10 and at most 40: 12,18,24,30,36. Subtracting 10 yields exactly 2,8,14,20,26. Totals 42 and 48 corresponding to source outputs 32 and 38 are inadmissible.",
+          "originalInputSHA256": "3192c15164ad6fd71fd9fad9d619623996c8c2ea4d2f0330559af14fadf8cb86",
+          "originalOutputSHA256": "abb097282c7335724d53ffab3c429c89335c701f91255a7041201bbbbc45730d",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "8807217465e5373cf6b69ec92aa36dccf5891a09861b7d5a18f7b97dca5d3746",
+          "test": "0002",
+          "validLF": "10 6 40\n"
+        },
+        "excludedNonAlgorithmicCauses": "The scan and progression execute normally; spaces versus line breaks do not matter to the token checker. The two extra integers violate the mathematical potato-total bound, not a debug/presentation convention.",
+        "faultyLogic": "The continuation must bound x+y by n, equivalently x<=n-y, not x<=n. For y=10,k=6,n=40 it appends 32 and 38 after 26 even though their totals 42 and 48 exceed 40.",
+        "faultySourceLines": [
+          {
+            "code": "for x in range(1,n-y+1):\n    if (x+y)//k >=100000:\n        break\n\n    if (x+y)%k == 0:\n        xl.append(x)\n        xf = x\n        break\n\nwhile xf!=-1:\n    xf += k\n    if xf > n:\n        break\n    xl.append(xf)",
+            "end": 21,
+            "start": 8
+          },
+          {
+            "code": "if len(xl)==0:\n    print(-1)\nelse:\n    ans = \"\"\n    for k in xl:\n        ans+= str(k)+\" \"\n    print(ans)",
+            "end": 29,
+            "start": 23
+          }
+        ],
+        "implementedAlgorithm": "Scans for the first positive x with (x+y) divisible by k, prematurely rejects quotients >=100000, then extends the list by adding k while bounding the new x by n.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/239A/counterexample-13203294-LF.json",
+            "sha256": "db035622e6b0e2dc972ad2e81b5847c0f8664921520b609e1a46de00a0ecd50c"
+          },
+          "recordedFailedTest": "0002",
+          "recordedFailedTestLFOutputHash": "2a8c7491663aef32c7826e2f2119fcd51aeac877ee1574b469101f3fefbbcb01",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/239A/13203294.py",
+          "sha256": "8807217465e5373cf6b69ec92aa36dccf5891a09861b7d5a18f7b97dca5d3746"
+        },
+        "sourceHash": "8807217465e5373cf6b69ec92aa36dccf5891a09861b7d5a18f7b97dca5d3746",
+        "sourceLineCount": 29,
+        "sourceLines": [
+          {
+            "code": "a = input().split()\ny = int(a[0])\nk = int(a[1])\nn = int(a[2])\n\nxl = []\nxf = -1\nfor x in range(1,n-y+1):\n    if (x+y)//k >=100000:\n        break\n\n    if (x+y)%k == 0:\n        xl.append(x)\n        xf = x\n        break\n\nwhile xf!=-1:\n    xf += k\n    if xf > n:\n        break\n    xl.append(xf)\n\nif len(xl)==0:\n    print(-1)\nelse:\n    ans = \"\"\n    for k in xl:\n        ans+= str(k)+\" \"\n    print(ans)",
+            "end": 29,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "8807217465e5373cf6b69ec92aa36dccf5891a09861b7d5a18f7b97dca5d3746",
       "test": "0002"
     },
@@ -14054,8 +14141,49 @@
         "inputHash": "856af90dff67d11713c5f4d681f5819425d41c43223ab523b63ccdb15ad102eb",
         "verdict": "TLE"
       },
-      "reason": "Scans every candidate x up to n-y instead of jumping by k. Recorded failure is TLE, with no algorithmic wrong answer established there; complexity failures are excluded by this audit's explicit rules.",
+      "reason": "Excluded: recorded and LF executions are TLE, not completed wrong mathematical answers. The source is a real exhaustive potato solver, not a debug/format failure or placeholder.",
       "recordedTestVerdict": "TLE",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Excluded: recorded and LF executions are TLE, not completed wrong mathematical answers. The source is a real exhaustive potato solver, not a debug/format failure or placeholder.",
+        "faultyLogic": "The mathematical membership and bounds are correct; scanning all candidates instead of jumping by K requires up to roughly one billion iterations. The designated large case times out.",
+        "faultySourceLines": [
+          {
+            "code": "Y, K, N = int(data[0]), int(data[1]), int(data[2])\n\nanswer = []\nfor i in range(1, (N-Y)+1):\n    if (i + Y) % K == 0:\n        answer.append(i)\n\n\nif len(answer) == 0:\n    print('-1')\nelse:\n    print(\" \".join(map(str, answer)))",
+            "end": 14,
+            "start": 3
+          }
+        ],
+        "implementedAlgorithm": "Enumerates every x from 1 through N-Y, appends exactly those satisfying (x+Y)%K==0, and prints the ascending list or -1.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": false,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/239A/counterexample-15012029-LF.json",
+            "sha256": "9dcbb95f575214dda17181af80ae4a8705307de7a7b6a1a25d6b4af287d69267"
+          },
+          "recordedFailedTest": "0004",
+          "recordedFailedTestLFOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "recordedFailedTestLFVerdict": "TLE"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/239A/15012029.py",
+          "sha256": "f2df26d214d902dfe1e8f66bdd031d3f7f0327eb2f9518df043b0f57a4fabbe4"
+        },
+        "sourceHash": "f2df26d214d902dfe1e8f66bdd031d3f7f0327eb2f9518df043b0f57a4fabbe4",
+        "sourceLineCount": 14,
+        "sourceLines": [
+          {
+            "code": "data = input().split()\n\nY, K, N = int(data[0]), int(data[1]), int(data[2])\n\nanswer = []\nfor i in range(1, (N-Y)+1):\n    if (i + Y) % K == 0:\n        answer.append(i)\n\n\nif len(answer) == 0:\n    print('-1')\nelse:\n    print(\" \".join(map(str, answer)))",
+            "end": 14,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "f2df26d214d902dfe1e8f66bdd031d3f7f0327eb2f9518df043b0f57a4fabbe4",
       "test": "0004"
     },
@@ -14081,8 +14209,49 @@
         "inputHash": "856af90dff67d11713c5f4d681f5819425d41c43223ab523b63ccdb15ad102eb",
         "verdict": "TLE"
       },
-      "reason": "Scans all integers y+1..n and filters multiples. Recorded failure is TLE, not a completed incorrect answer; excluded.",
+      "reason": "Excluded as TLE-only. The large recorded case has no completed LF output; runtime exhaustion cannot be promoted to an algorithmically wrong list.",
       "recordedTestVerdict": "TLE",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Excluded as TLE-only. The large recorded case has no completed LF output; runtime exhaustion cannot be promoted to an algorithmically wrong list.",
+        "faultyLogic": "No logical membership defect is demonstrated; the full interval scan can be near 10^9 iterations even though there are at most 100000 answers.",
+        "faultySourceLines": [
+          {
+            "code": "y,k,n=map(int,input().split())\nl=[]\nfor x in range(y+1,n+1):\n    if x%k==0: l+=[str(x-y)]\nif len(l)==0: print(-1)\nelse: print(\" \".join(l))",
+            "end": 6,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "Enumerates possible totals z=y+1..n, retains multiples of k and emits z-y in ascending order or -1.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": false,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/239A/counterexample-20382519-LF.json",
+            "sha256": "0ce555f3dde78f82838c0142ed997522e5aee08940ee0944818fb9144a49ace8"
+          },
+          "recordedFailedTest": "0004",
+          "recordedFailedTestLFOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "recordedFailedTestLFVerdict": "TLE"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/239A/20382519.py",
+          "sha256": "aca11091b1693bc04ad7687d8bda24937f1c24204f461112fae038d2be791a6e"
+        },
+        "sourceHash": "aca11091b1693bc04ad7687d8bda24937f1c24204f461112fae038d2be791a6e",
+        "sourceLineCount": 6,
+        "sourceLines": [
+          {
+            "code": "y,k,n=map(int,input().split())\nl=[]\nfor x in range(y+1,n+1):\n    if x%k==0: l+=[str(x-y)]\nif len(l)==0: print(-1)\nelse: print(\" \".join(l))",
+            "end": 6,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "aca11091b1693bc04ad7687d8bda24937f1c24204f461112fae038d2be791a6e",
       "test": "0004"
     },
@@ -14108,8 +14277,49 @@
         "inputHash": "91ad73dfaf1e1060e4bd45a52abd204140e9d787bc586c445ee212cef0c24527",
         "verdict": "TLE"
       },
-      "reason": "Linearly searches for the first divisible integer before stepping by k. Recorded failure is TLE, so it cannot count as algorithmic wrong-answer evidence.",
+      "reason": "Excluded because the recorded/LF failures are timeouts in the first-multiple search. There is no completed wrong list, diagnostic output or unrelated computation.",
       "recordedTestVerdict": "TLE",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Excluded because the recorded/LF failures are timeouts in the first-multiple search. There is no completed wrong list, diagnostic output or unrelated computation.",
+        "faultyLogic": "Its progression is logically valid, but finding the first multiple by unit increments can cost almost k iterations (up to 10^9). The selected case scans from 500000001 to 1000000000.",
+        "faultySourceLines": [
+          {
+            "code": "y,k,n=map(int,input().split())\nl=[]\nxx=0\nfor x in range(y+1,n+1):\n    if x%k==0:\n        xx=x\n        break\nelse: print(-1); exit()\nfor x in range(xx,n+1,k):\n    l+=[str(x-y)]\nprint(\" \".join(l))",
+            "end": 12,
+            "start": 2
+          }
+        ],
+        "implementedAlgorithm": "Scans totals from y+1 until the first multiple of k; if none exists prints -1 and exits. Otherwise enumerates later multiples by stepping k and subtracts y.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": false,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/239A/counterexample-20382617-LF.json",
+            "sha256": "9e3c82baadccd63c3d290181bb8ccfb601ce50584c82e0019ba88794f30ed537"
+          },
+          "recordedFailedTest": "0030",
+          "recordedFailedTestLFOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "recordedFailedTestLFVerdict": "TLE"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/239A/20382617.py",
+          "sha256": "f3206e7b65149e3937a88474bbcb22af19fe7fbaada2e71ee73a87de61e32f21"
+        },
+        "sourceHash": "f3206e7b65149e3937a88474bbcb22af19fe7fbaada2e71ee73a87de61e32f21",
+        "sourceLineCount": 12,
+        "sourceLines": [
+          {
+            "code": "from sys import *\ny,k,n=map(int,input().split())\nl=[]\nxx=0\nfor x in range(y+1,n+1):\n    if x%k==0:\n        xx=x\n        break\nelse: print(-1); exit()\nfor x in range(xx,n+1,k):\n    l+=[str(x-y)]\nprint(\" \".join(l))",
+            "end": 12,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "f3206e7b65149e3937a88474bbcb22af19fe7fbaada2e71ee73a87de61e32f21",
       "test": "0030"
     },
@@ -14135,8 +14345,49 @@
         "inputHash": "f0b3ad0fd38ce50042b7f8736c30a64dff5385c38f823132648210bfde2fe8ee",
         "verdict": "TLE"
       },
-      "reason": "Increments xx by k from zero until it exceeds y; recorded failure is TLE, without a completed incorrect answer. Excluded rather than counting a complexity defect.",
+      "reason": "Excluded as TLE-only: y=1000000000,k=1,n=1 causes about a billion additions before any output. A mathematically correct but unfinished computation is not genuine wrong-answer evidence.",
       "recordedTestVerdict": "TLE",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Excluded as TLE-only: y=1000000000,k=1,n=1 causes about a billion additions before any output. A mathematically correct but unfinished computation is not genuine wrong-answer evidence.",
+        "faultyLogic": "The progression defines the correct positive x values. The preliminary loop can need y/k+1 steps even when n<y already implies no answers.",
+        "faultySourceLines": [
+          {
+            "code": "y,k,n=map(int,input().split())\nl=[]\nxx=0\nwhile xx<=y:\n    xx+=k\nfor x in range(xx,n+1,k):\n    l+=[str(x-y)]\nif l==[]: print(-1)\nelse: print(\" \".join(l))",
+            "end": 9,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "Repeatedly adds k from zero until reaching the first multiple strictly greater than y, then emits multiples through n minus y, or -1.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": false,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/239A/counterexample-20382673-LF.json",
+            "sha256": "2d2c17733557e3599495f84924e742827a0bbd501968fcae4bdeac11fe82ad6c"
+          },
+          "recordedFailedTest": "0043",
+          "recordedFailedTestLFOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "recordedFailedTestLFVerdict": "TLE"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/239A/20382673.py",
+          "sha256": "0d5204ea20c361e4a10f843ac98567bd88a1a0c2430b19c072817affb790a8e0"
+        },
+        "sourceHash": "0d5204ea20c361e4a10f843ac98567bd88a1a0c2430b19c072817affb790a8e0",
+        "sourceLineCount": 9,
+        "sourceLines": [
+          {
+            "code": "y,k,n=map(int,input().split())\nl=[]\nxx=0\nwhile xx<=y:\n    xx+=k\nfor x in range(xx,n+1,k):\n    l+=[str(x-y)]\nif l==[]: print(-1)\nelse: print(\" \".join(l))",
+            "end": 9,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "0d5204ea20c361e4a10f843ac98567bd88a1a0c2430b19c072817affb790a8e0",
       "test": "0043"
     }
@@ -14152,15 +14403,29 @@
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
-    "Only 1/5 counted incorrect sources establish independently reproduced algorithmic wrong answers; excluded failures cannot qualify."
+    "Only 1/5 original counted counterexamples qualify as completed mathematical wrong answers under the stricter semantic rule; 1/5 sources have a genuine algorithmic defect somewhere in the unchanged included suite. Supplemental cases do not silently replace invalid original proofs."
   ],
   "reviewNotes": [
     "No package/evidence bytes were modified. Extra tests are external to the package.",
     "Independent extras use distinct brute-force/simulation methods, including corner/max cases; both package oracle and one counted accepted source pass all extra tests.",
     "Generator executions use a placeholder expected output; their WA checker status is immaterial. Exit status, no timeout, exact output hashes and generated pair bytes are verified.",
-    "No publication approval is granted by this audit. Only require_approval=False is evaluated."
+    "No publication approval is granted by this audit. Only require_approval=False is evaluated.",
+    "Stricter source-specific semantic review performed on the complete actual code of every one of the five incorrect sources; semanticReview carries full exact line excerpts, implemented algorithms, faulty logic, exclusions and mathematical derivations.",
+    "Original package/evidence/source/execution bytes and original archive remain unchanged. This pass reuses existing LF executions and included LF suite executions; no public program was executed again.",
+    "Parent reports its independent pinned upstream file/source/statement/API cross-check complete; downloadedUpstreamSources remains false because this child did not perform those downloads. No remaining upstream gap is asserted."
   ],
   "reviewUrl": "https://staging.itsdev.in/sessions/3f1eb4a7487f45f39f3bf20d015c0c1c",
   "reviewer": "devin-3f1eb4a7487f45f39f3bf20d015c0c1c",
-  "schemaVersion": 1
+  "schemaVersion": 1,
+  "semanticReviewSummary": {
+    "fullSourcesRead": 5,
+    "genuineAlgorithmicallyWrong": 1,
+    "newProgramExecutions": 0,
+    "oldAuditFileSHA256": "9efbbbec3c3cb3568fc40ae7a90f8725f0b9bdb432b9554161ae93e5bd0b2b1e",
+    "oldAuditHash": "c62c59bd338bda6e5523de483b4cd0ddbbdd800e606da73a155709cca6cdedd6",
+    "originalArchiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+    "originalArchiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+    "policy": "Full-source manual review, actual executed algorithm, completed wrong mathematical answer after presentation exclusions; original qualification remains fail-closed and unchanged evidence is not repaired.",
+    "unchangedQualificationWrongCount": 1
+  }
 }
