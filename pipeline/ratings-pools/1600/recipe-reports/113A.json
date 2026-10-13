@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "id": "113A",
+  "role": "recipe-author",
+  "status": "authored-pending-targeted-checks",
+  "qualificationPerformed": false,
+  "independentAuditPerformed": false,
+  "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
+  "branch": "devin/1791856054-113a-recipe",
+  "ownedPaths": [
+    "pipeline/ratings-pools/1600/recipe_113A.py",
+    "pipeline/ratings-pools/1600/test_recipe_113A.py",
+    "pipeline/ratings-pools/1600/recipe-reports/113A.json",
+    "pipeline/ratings-pools/1600/statement-sources/113A.recipe-author.original.html"
+  ],
+  "inputIntegrity": {
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "archiveBytes": 4542856,
+    "manifestPath": "inputs/MANIFEST.json",
+    "filePath": "inputs/113A.json",
+    "fileBytes": 83882,
+    "fileSha256": "8f435e99410e1f72a69823ad0c58fd1e9842e3a4e0db48b9be35989e36e8344b",
+    "sourceRowHash": "fd39961a601f7bd4cccde39c5e535722297c76e4af148994327c8f61944f45cf",
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "officialPairListHash": "4e020935f723abd35d62ec3157c6a91f6bf74d028baab3d3b0c709efff005131",
+    "samplePairListHash": "8ed7d5c9ff0c02101ce1ee9d8a0669df888ba40e3ab0a8e0959dbfc72e6ae621",
+    "selectedSubmissionListHash": "f2ce5191c2293098f24633b63b26bd7e573f12f92ab297f4880d5fc848c1e8c8",
+    "verification": "Archive SHA256 matched; input bytes/sha matched the manifest; pins matched; pool_contract.digest(sourceRow) matched sourceRowHash. Read only 113A and manifest archive entries.",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "upstreamShard": {
+      "path": "data/train-00007-of-00011.parquet",
+      "sha256": "7e2117698a2a6c20e2047d0b478a77c58f9644ba25777911fa40145afacf18b2",
+      "bytes": 281027001,
+      "verificationScope": "Authenticated attachment carries parent-extracted row and provenance from full byte-hash-verified LFS shard; author verified the attachment and canonical row digest, did not refetch full shard."
+    },
+    "originalBytesModified": false
+  },
+  "documentationRead": [
+    "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
+    "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md",
+    "pipeline/ratings-pools/1600/normalize_statement.py"
+  ],
+  "statementAttestation": {
+    "originalProblemUrl": "https://codeforces.com/problemset/problem/113/A?locale=en",
+    "sourceUrl": "https://codeforces.me/problemset/problem/113/A?locale=en",
+    "attribution": "Grammar Lessons, Codeforces Beta Round 86 (Div. 1), Codeforces / Mike Mirzayanov; public English statement mirrored on codeforces.me.",
+    "transport": "Public unauthenticated HTTP GET; exact raw response-body bytes retained; no proxy authentication or access bypass.",
+    "bodyPath": "statement-sources/113A.recipe-author.original.html",
+    "bodySha256": "74af906da671481b10fd0405107e8be14b970cbf216dc2dc97f473d13043eae5",
+    "bodyBytes": 60464,
+    "locale": "en",
+    "inputConstraintExcerpt": "The overall number of characters (including letters and spaces) does not exceed <span class=\"tex-span\">10<sup class=\"upper-index\">5</sup></span>.",
+    "semanticsConfirmed": [
+      "Exactly one nonempty lowercase Latin word line; exactly one space between consecutive words and no other spaces.",
+      "The whole word may consist solely of one of the six endings.",
+      "A sentence is either exactly one valid language word or one statement.",
+      "A statement is zero or more adjectives, exactly one noun, zero or more verbs, all one gender."
+    ],
+    "accessLimitations": "codeforces.com returned HTTP 403; mirror.codeforces.com timed out. cf-p.vercel.app returned its proxy landing/access page, not a statement, and was not used. Public codeforces.me HTML supplies original English sections and explicit exponent markup."
+  },
+  "normalizationProposal": {
+    "field": "input_format",
+    "old": "does not exceed 105.",
+    "replacement": "does not exceed 10<sup>5</sup>.",
+    "occurrences": 1,
+    "attestation": "10<sup class=\"upper-index\">5</sup> in the English input specification of the SHA-bound public HTML.",
+    "applied": false,
+    "scope": "Parent may normalize derived statement after preserving original; this author changes no imported statement/sample/test/source bytes."
+  },
+  "constraints": {
+    "inputMode": "stdio",
+    "lineCount": 1,
+    "totalLettersAndSpaces": [1, 100000],
+    "alphabet": "a-z and a single ASCII space between words",
+    "lineTerminator": "Absent (samples), LF or CRLF accepted; terminator excluded from character budget; no other whitespace accepted.",
+    "output": "Exactly one token YES or NO; unique answer, no floating or custom checker.",
+    "maximumWordCount": 50000
+  },
+  "oracle": {
+    "efficient": "For every word recognize only its final ending. Reject unknown endings and mixed gender. A single recognized word is YES. Otherwise require nondecreasing adjective/noun/verb phase and exactly one noun. O(total input characters), O(number of words) parsed data, O(1) oracle auxiliary space.",
+    "independentReference": "Three directly encoded whole-sentence regular grammars: one valid word, masculine adjective* noun verb*, feminine adjective* noun verb*. Uses fullmatch on the complete text, never calls suffix classification or phase logic.",
+    "plannedBruteDomains": [
+      "Exhaust all lengths 1..5 over six suffix-only valid words plus invalid a (19607 sequences).",
+      "Exhaust all one-word strings of lengths 1..4 over aeilnorst (7380 words).",
+      "500 small fixed-seed random prefix/type/invalid-ending sequences (seed 1131600).",
+      "All 160 generated cases, including legal maximum-size cases, checked by the independent whole-sentence grammars."
+    ],
+    "executedCrossCheckedAssertions": null
+  },
+  "generatedSuite": {
+    "plannedCount": 160,
+    "seeds": [1600113, 1131600],
+    "coverage": "Six single-ending words and minimum invalid word; exhaustive 49 two-word combinations; both genders with 0..3 adjectives/verbs; late/multiple/missing noun, mixed gender, invalid early/middle/final words, internal endings, proper ending prefixes; fixed-seed small random sequences; twelve exactly-100000-character cases including 50000-word maximum.",
+    "countsByCategory": null,
+    "qualificationStatus": "Authored cases only. No 5AC/5-genuine-WA or sixth external oracle execution and no independent signoff."
+  },
+  "sourceMotivatedCoverage": [
+    {
+      "submissionId": "15383440",
+      "sourceSha256": "1f376bf0814f79a1d59c19e250022c90373b670a423040a9610193a31ddb5507",
+      "sourceLines": [24, 26],
+      "observation": "re.match(r'1*23*', words) accepts a prefix, without an end anchor. Suite includes a valid adjective/noun/verb prefix followed by an adjective.",
+      "executionPerformed": false
+    },
+    {
+      "submissionId": "22654372",
+      "sourceSha256": "37b38c5af43109001b5a7ce4cc631669141c8087a719c0fc8b0a50666a5e27f3",
+      "sourceLines": [8, 28],
+      "observation": "First word must be adjective/noun; no single-verb exception, and no final check requiring noun phase. Suite includes each single verb and multiple adjective-only words.",
+      "executionPerformed": false
+    },
+    {
+      "submissionId": "28185385",
+      "sourceSha256": "30796a230af21b1129dcd6389c78eea71f86ee3b084a106d8db4252726c40eda",
+      "sourceLines": [13, 32],
+      "observation": "Loops check matching-gender endings, not noun count or part order. Suite exhausts two-word types and has missing/multiple nouns and reversed order.",
+      "executionPerformed": false
+    },
+    {
+      "submissionId": "28637296",
+      "sourceSha256": "e4f05bf0cf5fb75de6ac5325d95ae2945683991d1ca9a61a0c631d27e1faa46c",
+      "sourceLines": [4, 8],
+      "observation": "d is overwritten on each word; earlier invalid words can be hidden by a later valid suffix. Suite places invalid words before a valid grammatical tail.",
+      "executionPerformed": false
+    }
+  ],
+  "upstreamReview": {
+    "status": "pending-targeted-checks",
+    "advertisedOfficialTestsetSize": 360,
+    "suppliedOfficialPairCount": 309,
+    "suppliedSamplePairCount": 3,
+    "officialTestsComplete": false,
+    "externalGeneratedPairCountAdvertised": 9,
+    "externalGeneratedPairsReviewed": 0,
+    "externalGeneratedGap": "Attachment has metadata only for the separately stored generated-tests parquet; no pairs were fetched or invented.",
+    "failures": null
+  },
+  "localChecks": {
+    "status": "pending-push-first",
+    "commands": [
+      "python3 -m unittest discover -s pipeline/ratings-pools/1600 -p test_recipe_113A.py -v",
+      "python3 AST parse of recipe_113A.py and test_recipe_113A.py",
+      "git diff --check 5b28d33..HEAD"
+    ]
+  },
+  "handoff": "Parent integrates without author editing registration/foundation files. Incomplete official suite requires generated-basis qualification with five actual AC, five actual genuine algorithmic WA, disjoint accepted sixth oracle, then different-agent audit. This recipe does not add a genuinely independently validated problem or attest parent identity."
+}
