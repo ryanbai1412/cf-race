@@ -157,8 +157,9 @@ def main():
     args = parser.parse_args()
     selected = [args.id] if args.id else args.ids or IDS
     if args.stage == 'build':
-        checks = {pid: count for module in MODULES for pid,count in module.brute_checks().items()}
-        write_json(BASE / 'brute-report.json', {'recipeHashes': {m.__name__: sha_file(Path(m.__file__)) for m in MODULES}, 'checks': checks,
+        selected_modules = tuple(module for module in MODULES if any(pid in module.IDS for pid in selected))
+        checks = {pid: count for module in selected_modules for pid,count in module.brute_checks().items()}
+        write_json(BASE / 'brute-report.json', {'recipeHashes': {m.__name__: sha_file(Path(m.__file__)) for m in selected_modules}, 'checks': checks,
                                              'status': 'passed', 'validatedCount': 0})
         for pid in selected:
             try:
