@@ -11711,7 +11711,41 @@
         "verdict": "TLE"
       },
       "kind": "timeout",
-      "reason": "Repaints every cell in the selected row/column on each query, giving excessive O(k*max(n,m)) work. Counted counterexample is timeout only.",
+      "reason": "The direct assignments implement overwrite semantics correctly, but take O(k*max(n,m)) time and exceed the counted CPU bound on a large operation sequence.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "LF-0020 has timeout=true, exit -24 and empty output. This is not a wrong color grid. The line!=None check does not alter valid row output; no diagnostics or line-ending issue provides algorithmic evidence.",
+        "executionBinding": {
+          "exitCode": -24,
+          "originalLfLogPath": "fresh/631B/lf-16503524.json",
+          "originalLfLogSha256": "a957b76f4b16cb66e579ee22adac269ed3f90ed3cd00b50d87e7db36a982477d",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sourceHash": "7371ebf8d6b31f2915cd4b8aef9fda0097292caf6f1f1beccbdb72fe23961a00",
+          "sourceHashBearingReceiptPath": "semantic/proofs/631B/16503524.json",
+          "sourceHashBearingReceiptSha256": "18333bad57131fac7f8e96b690c5979c0ddb03157eeb839197ebd6fa8f46327d",
+          "timeout": true,
+          "verdict": "TLE"
+        },
+        "faultyLogic": "The direct assignments implement overwrite semantics correctly, but take O(k*max(n,m)) time and exceed the counted CPU bound on a large operation sequence.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Allocates a zero grid, reads all paint queries, and applies each operation by assigning every cell in the chosen row or column; prints the final grid.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "7371ebf8d6b31f2915cd4b8aef9fda0097292caf6f1f1beccbdb72fe23961a00",
+        "sourceLineCount": 26,
+        "sourceLines": [
+          {
+            "code": "def doit(n, m, k, queries, table):\n\tfor query in queries:\n\t\tif query[0] == 1:\n\t\t\tfor i in range(m):\n\t\t\t\ttable[query[1]-1][i] = query[2]\n\t\telif query[0] == 2:\n\t\t\tfor i in range(n):\n\t\t\t\ttable[i][query[1]-1] = query[2]\n\t\n\tfor line in table:\n\t\tif line != None:\n\t\t\tprint(\" \".join(map(str, line)))",
+            "end": 12,
+            "start": 1
+          },
+          {
+            "code": "if __name__ == '__main__':\n\targs = list(map(int, input().split()))\n\tn = args[0]\n\tm = args[1]\n\tk = args[2]\n\tqueries = []\n\ttable = [[0 for x in range(m)] for x in range(n)]\n\t\n\tfor i in range(k):\n\t\tqueries.append(list(map(int, input().split())))\n\t\n\tdoit(n, m, k, queries, table)",
+            "end": 26,
+            "start": 15
+          }
+        ]
+      },
       "sourceHash": "7371ebf8d6b31f2915cd4b8aef9fda0097292caf6f1f1beccbdb72fe23961a00",
       "test": "0020"
     },
@@ -11735,7 +11769,55 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Column updates iterate range(m), not range(n); in the recorded 5x3 case row 4 remains zero even though both outer columns must be painted.",
+      "reason": "The column branch uses range(m) instead of range(n), so only the first m rows receive a column update when n>m. In the 5x3 counted grid, row 4 stays entirely zero instead of having painted outer columns.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1 1 1\n1 0 1\n1 1 1\n0 0 0\n1 1 1",
+          "actualAnswerAfterRemovingDiagnostics": "1 1 1\n1 0 1\n1 1 1\n0 0 0\n1 1 1",
+          "constraintsExplanation": "n=5, m=3, k=5, n*m=15; all query types, row/column indices and colors obey the statement bounds.",
+          "correctAnswer": "1 1 1\n1 0 1\n1 1 1\n1 0 1\n1 1 1",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0002",
+          "lfExecutionLogPath": "fresh/631B/lf-16508247.json",
+          "lfExecutionLogSha256": "f38c1ff226e7fba4eaeb23f80c9ff5c6ca52f9c8e3f4e8a8b73cb6578257ba10",
+          "lfExecutionOutputHash": "215c072ceea32716fc176ce139386a214a17cb69acd2121e5e09553b8adc1bc7",
+          "mathematicalDerivation": "Rows 1,3,5 are painted color 1, then columns 1 and 3 are painted color 1 in all five rows. Rows 2 and 4 therefore equal [1,0,1], and the three directly painted rows equal [1,1,1]. The source incorrectly leaves row 4 [0,0,0] because its column loop stops after three rows.",
+          "mathematicalTracePath": "semantic/math-traces/631B-0002.json",
+          "originalIncludedInputPath": "1200/packages/631B/tests/0002.in",
+          "originalInputSha256": "0b6dd81a7069d9bf0bb365d658f91bf869d42a74c0349ef94ad9cce909c68235",
+          "sourceHash": "3dca40e5cf7a85038a1accf3ce2d5dd2df42c51af8ebfbaeddd286b2a581ddef",
+          "sourceHashBearingReceiptPath": "semantic/proofs/631B/16508247.json",
+          "sourceHashBearingReceiptSha256": "e99fedf90a71d88be5928ca32aa6080c7e54c981a9a5d3148895e15d62afac27",
+          "validLF": "5 3 5\n1 1 1\n1 3 1\n1 5 1\n2 1 1\n2 3 1\n",
+          "validLFInputSha256": "440e3197f263b716b8a86e33157e3c78bed526b04d0193e2cfe0709aa86bb038"
+        },
+        "excludedNonAlgorithmicCauses": "The LF output has all five rows and normal exit. Its fourth-row numeric cells are wrong (0 instead of 1 in columns 1 and 3), not just whitespace or row count. The active dimension bound is the cause; no CRLF/debug/TLE explanation applies.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/631B/lf-16508247.json",
+          "originalLfLogSha256": "f38c1ff226e7fba4eaeb23f80c9ff5c6ca52f9c8e3f4e8a8b73cb6578257ba10",
+          "outputHash": "215c072ceea32716fc176ce139386a214a17cb69acd2121e5e09553b8adc1bc7",
+          "sourceHash": "3dca40e5cf7a85038a1accf3ce2d5dd2df42c51af8ebfbaeddd286b2a581ddef",
+          "sourceHashBearingReceiptPath": "semantic/proofs/631B/16508247.json",
+          "sourceHashBearingReceiptSha256": "e99fedf90a71d88be5928ca32aa6080c7e54c981a9a5d3148895e15d62afac27",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "The column branch uses range(m) instead of range(n), so only the first m rows receive a column update when n>m. In the 5x3 counted grid, row 4 stays entirely zero instead of having painted outer columns.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Allocates n distinct zero rows, parses each query, repaints an entire row for type 1 or an entire column for type 2, then prints all rows.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "3dca40e5cf7a85038a1accf3ce2d5dd2df42c51af8ebfbaeddd286b2a581ddef",
+        "sourceLineCount": 13,
+        "sourceLines": [
+          {
+            "code": "n,m,k=[int(x) for x in input().split()]\na=[[0] * m for i in range(n)]\nfor i in range(k):\n    t,r,q=[int(x) for x in input().split()]\n    r-=1\n    if t==1:\n        for w in range(m):\n            a[r][w]=q\n    else:\n        for w in range(m):\n            a[w][r]=q\nfor row in a:\n    print(' '.join([str(elem) for elem in row]))",
+            "end": 13,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "3dca40e5cf7a85038a1accf3ce2d5dd2df42c51af8ebfbaeddd286b2a581ddef",
       "test": "0002"
     },
@@ -11769,7 +11851,36 @@
         "verdict": "AC"
       },
       "kind": "timeout",
-      "reason": "Applies each operation literally to all selected cells rather than retaining last row/column timestamps. Fresh full rerun passes the builder-counted test 0020 but first times out on 0022. Neither a timeout nor a now-passing counted pair proves algorithmic WA; do not change the counted evidence silently.",
+      "reason": "The cell assignment semantics is correct but the implementation is O(k*max(n,m)). The original designated test 0020 actually passes in both fresh full and LF reruns; another included test 0022 times out. Neither is a mathematical WA.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Counted LF-0020 is AC with the correct complete grid. A later original full-run timeout is performance-only and cannot replace the designated proof. Its Invalid operation exception is unreachable on valid types 1/2; no counted runtime or debug defect is asserted.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/631B/lf-16559601.json",
+          "originalLfLogSha256": "d3355e0322203ca5b61a0970b7f6a3bbe15346577d883d5d104bb47bc65b137c",
+          "outputHash": "9310c3239f8fdc620e7be9c1038251f1853f5f33349d7d0ebe5c27c81ea4c084",
+          "sourceHash": "dfa491591c294a0ad69e039daf3f6ca2448586188599d324098412e1e40e30e8",
+          "sourceHashBearingReceiptPath": "semantic/proofs/631B/16559601.json",
+          "sourceHashBearingReceiptSha256": "c2169787442b23606dcf2cd9c926b32d3c1c9a87da57030a1e5e144f9b749698",
+          "timeout": false,
+          "verdict": "AC"
+        },
+        "faultyLogic": "The cell assignment semantics is correct but the implementation is O(k*max(n,m)). The original designated test 0020 actually passes in both fresh full and LF reruns; another included test 0022 times out. Neither is a mathematical WA.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Keeps a distinct zero row for every row, executes each row or column operation by visiting all its cells through paint_row/paint_col, and prints the full final table.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "dfa491591c294a0ad69e039daf3f6ca2448586188599d324098412e1e40e30e8",
+        "sourceLineCount": 25,
+        "sourceLines": [
+          {
+            "code": "def paint_row(arr, r, a):\n    for c in range(len(arr[r])):\n        arr[r][c] = a\n\n\ndef paint_col(arr, c, a):\n    for r in range(len(arr)):\n        arr[r][c] = a\n\n\nif __name__ == '__main__':\n    n, m, k = map(int, input().split())\n    arr = [['0' for c in range(m)] for r in range(n)]\n\n    for _ in range(k):\n        o, i, a = input().split()\n        if o == '1':\n            paint_row(arr, int(i)-1, a)\n        elif o == '2':\n            paint_col(arr, int(i)-1, a)\n        else:\n            raise ValueError(\"Invalid operation: {!r}\".format(o))\n\n    for row in arr:\n        print(' '.join(row))",
+            "end": 25,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "dfa491591c294a0ad69e039daf3f6ca2448586188599d324098412e1e40e30e8",
       "test": "0020"
     },
@@ -11793,7 +11904,55 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Operation timestamps start at zero, tying the first column update with every untouched row timestamp; tie is resolved toward rows. For 1x2 with one column-2 paint, returns 0 0 instead of 0 1000000000.",
+      "reason": "Untouched lines have timestamp 0, colliding with the first real operation timestamp 0. An initial column paint ties an untouched row, and the else branch returns untouched row color 0.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "0 0",
+          "actualAnswerAfterRemovingDiagnostics": "0 0",
+          "constraintsExplanation": "n=1, m=2, k=1, n*m=2; all query types, row/column indices and colors obey the statement bounds.",
+          "correctAnswer": "0 1000000000",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0009",
+          "lfExecutionLogPath": "fresh/631B/lf-16560711.json",
+          "lfExecutionLogSha256": "6973099e4af98e65f87dd4b087274478469f7c20a01a3045fcc6a28e6b27cd9f",
+          "lfExecutionOutputHash": "f9665edc456bca578b920d07452974316bfb8899b8b7051dd267a4b015c1aecb",
+          "mathematicalDerivation": "The 1x2 sheet starts [0,0]. Its sole operation paints column 2 color 1000000000, so final grid is [0,1000000000]. A real paint must be newer than an untouched row. Source timestamps tie at 0 and wrongly select row color 0 for the painted cell.",
+          "mathematicalTracePath": "semantic/math-traces/631B-0009.json",
+          "originalIncludedInputPath": "1200/packages/631B/tests/0009.in",
+          "originalInputSha256": "9ef7f4e629a3742964178179fe510c7a5144c52bd68fa06dfcc89f3fd0ed80cd",
+          "sourceHash": "9350c8455cea7f449de1d22eb1b72f37e3538c085adb35bdf972cc14244a35a9",
+          "sourceHashBearingReceiptPath": "semantic/proofs/631B/16560711.json",
+          "sourceHashBearingReceiptSha256": "b4bb763baab9ecef837b0a1c537b9cad36e8c8147fd3b980399a7eb938c09765",
+          "validLF": "1 2 1\n2 2 1000000000\n",
+          "validLFInputSha256": "0bc745bab93f2e2c59c57f977144e53067bfe62c7434f25549c4ba800087c84a"
+        },
+        "excludedNonAlgorithmicCauses": "main is explicitly called and the LF log prints a normal complete 1x2 grid 0 0. The missing color 1000000000 is a numeric cell error after valid parsing, not trailing spaces, debug output or a runtime/CRLF issue.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/631B/lf-16560711.json",
+          "originalLfLogSha256": "6973099e4af98e65f87dd4b087274478469f7c20a01a3045fcc6a28e6b27cd9f",
+          "outputHash": "f9665edc456bca578b920d07452974316bfb8899b8b7051dd267a4b015c1aecb",
+          "sourceHash": "9350c8455cea7f449de1d22eb1b72f37e3538c085adb35bdf972cc14244a35a9",
+          "sourceHashBearingReceiptPath": "semantic/proofs/631B/16560711.json",
+          "sourceHashBearingReceiptSha256": "b4bb763baab9ecef837b0a1c537b9cad36e8c8147fd3b980399a7eb938c09765",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "Untouched lines have timestamp 0, colliding with the first real operation timestamp 0. An initial column paint ties an untouched row, and the else branch returns untouched row color 0.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Stores the latest color and timestamp for each row and column, using zero-based operation times; for each cell chooses the column only when its timestamp is strictly greater than the row timestamp.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "9350c8455cea7f449de1d22eb1b72f37e3538c085adb35bdf972cc14244a35a9",
+        "sourceLineCount": 26,
+        "sourceLines": [
+          {
+            "code": "def main():\n    n, m, k = map(int, input().split())\n\n    rows = [(0, 0)] * n\n    cols = [(0, 0)] * m\n    for i in range(0, k):\n        op, rc, a = map(int, input().split())\n        if op == 1:\n            rows[rc - 1] = (a, i)\n        else:\n            cols[rc - 1] = (a, i)\n\n    for i in range(0, n):\n        for j in range(0, m):\n            row = rows[i]\n            col = cols[j]\n            if row[1] < col[1]:\n                print(col[0], end=' ')\n            else:\n                print(row[0], end=' ')\n        print()\n\nmain()",
+            "end": 26,
+            "start": 4
+          }
+        ]
+      },
       "sourceHash": "9350c8455cea7f449de1d22eb1b72f37e3538c085adb35bdf972cc14244a35a9",
       "test": "0009"
     },
@@ -11816,8 +11975,37 @@
         "timeout": false,
         "verdict": "WA"
       },
-      "kind": "wrong-answer",
-      "reason": "Prints range(c) rows rather than r, so a valid 5x3 input emits only three rows. Initial rows are aliased as well. Incorrect dimension/shape computation is algorithmic, not a whitespace defect.",
+      "kind": "format-only",
+      "reason": "On the counted 5x3 input the computed values for all five rows are correct: the two still-aliased untouched rows both need [1,0,1]. The observed failure is solely truncating output to three rows via range(c). Aliasing can miscompute different inputs, but that uncounted defect is not proved here.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Conservatively reclassified as dimension-output-only: LF prints the first three mathematically correct rows but omits rows 4 and 5. The designated case proves no wrong computed cell after disregarding the output-loop presentation defect. No new aliasing counterexample is substituted.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/631B/lf-16560789.json",
+          "originalLfLogSha256": "0a7405b7c5afb26552d9e3d6972ca8be895cdb7dacdd57efb16b2a8b07cc2e32",
+          "outputHash": "6276be4a14eee86f83c74516030c30e3fb4a24c4da652424f3356e4f07dfb639",
+          "sourceHash": "b2c469f2d80cc99ef76d300f706b16a6398dd9f45f621591a093d80e2ac612d2",
+          "sourceHashBearingReceiptPath": "semantic/proofs/631B/16560789.json",
+          "sourceHashBearingReceiptSha256": "fcf1d2ed8b2a47d3ce197739d1f16376db08abcd662a1dd12ccb1b3fc2a41309",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "On the counted 5x3 input the computed values for all five rows are correct: the two still-aliased untouched rows both need [1,0,1]. The observed failure is solely truncating output to three rows via range(c). Aliasing can miscompute different inputs, but that uncounted defect is not proved here.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Creates initially aliased zero rows with [[0]*c]*r, replaces a selected row on row paint, mutates each row on column paint, then prints only c rows rather than r rows.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "b2c469f2d80cc99ef76d300f706b16a6398dd9f45f621591a093d80e2ac612d2",
+        "sourceLineCount": 14,
+        "sourceLines": [
+          {
+            "code": "r,c,k=map(int,input().split())\na=[['0']*c]*r\n\nfor i in range(k):\n    s,n,color=map(int,input().split())\n    if s==1:\n        a[n-1]=[str(color)]*c\n    if s==2:\n        for j in range(r):\n            a[j][n-1]=str(color)\n            \n\nfor i in range(c):\n    print(' '.join(a[i]))",
+            "end": 14,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "b2c469f2d80cc99ef76d300f706b16a6398dd9f45f621591a093d80e2ac612d2",
       "test": "0002"
     }
@@ -14370,12 +14558,22 @@
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
-    "16503524: timeout: Repaints every cell in the selected row/column on each query, giving excessive O(k*max(n,m)) work. Counted counterexample is timeout only.",
-    "16559601: timeout: Applies each operation literally to all selected cells rather than retaining last row/column timestamps. Fresh full rerun passes the builder-counted test 0020 but first times out on 0022. Neither a timeout nor a now-passing counted pair proves algorithmic WA; do not change the counted evidence silently."
+    "16503524: timeout: The direct assignments implement overwrite semantics correctly, but take O(k*max(n,m)) time and exceed the counted CPU bound on a large operation sequence.",
+    "16559601: timeout: The cell assignment semantics is correct but the implementation is O(k*max(n,m)). The original designated test 0020 actually passes in both fresh full and LF reruns; another included test 0022 times out. Neither is a mathematical WA.",
+    "16560789: format-only: On the counted 5x3 input the computed values for all five rows are correct: the two still-aliased untouched rows both need [1,0,1]. The observed failure is solely truncating output to three rows via range(c). Aliasing can miscompute different inputs, but that uncounted defect is not proved here."
   ],
   "reviewUrl": "https://staging.itsdev.in/sessions/9cabeccbc762495b8866ac872dfd4fea",
   "reviewer": "devin-9cabeccbc762495b8866ac872dfd4fea",
   "schemaVersion": 1,
+  "sourceSemanticReview": {
+    "designatedWrongSourceCount": 5,
+    "fullSourcesRead": 5,
+    "genuineAlgorithmicallyWrongCount": 2,
+    "newPublicProgramExecutions": 0,
+    "originalProofsReused": true,
+    "parentFinalVerificationPending": true,
+    "reviewUrl": "https://staging.itsdev.in/sessions/9cabeccbc762495b8866ac872dfd4fea"
+  },
   "sourceVerification": {
     "apiRating": 1200,
     "apiSnapshotHash": "064c4396494cd7a813222335d396816a314d39fad3d9c8680726ab784458b7e0",
@@ -14383,6 +14581,11 @@
     "bundledProvenanceAndSourceHashesVerified": true,
     "independentlyDownloadedStatementAndSubmissionBytes": false,
     "nestedArchiveHash": "0be5ab7e7cbd3019a0cf4d3cde6667602de7eb18b9beb4baa38ad20a84e03427",
-    "pending": "Parent independently crosschecks pinned Hugging Face statement/submission bytes and API identities across batches."
+    "parentReportedUpstreamVerification": {
+      "complete": true,
+      "independentlyReplicatedByThisChild": false,
+      "performedBy": "parent",
+      "scope": "67 pinned files, 600 submission bytes/rows, 60 statement rows, 38 generated suites and frozen API; parent reported exact matches."
+    }
   }
 }

@@ -10854,7 +10854,36 @@
         "verdict": "WA"
       },
       "kind": "line-ending-artifact",
-      "reason": "Compares unstripped input to halfplus; CRLF makes all comparisons false. Counted all-halfplus case returns 30, but LF returns the correct 55. Branch simplification may be wrong elsewhere; not the counted proof.",
+      "reason": "It compares unstripped buyer lines to halfplus. CRLF makes the equality fail and chooses a different formula. For the counted all-halfplus LF sequence the active all-halfplus formula returns the correct 55. The coarse case split may be wrong elsewhere, but is not proved by this counted sequence.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "LF-0002 is AC with integer 55, exit 0. The original WA is CRLF-only at this counted test; neither a broader unproved formula defect nor a numeric diff on the original bytes qualifies.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/632A/lf-16447957.json",
+          "originalLfLogSha256": "c9e726204ea551c4116d8a927bf61e0de82a508ef5ca1977b777d7c18f624915",
+          "outputHash": "4c82a221b575ce7fe118b2e8cdf0764bf4ef570a3017e80b6d3438af9095f376",
+          "sourceHash": "800e04343e9d31a63fda2ecc451970307f0aa754041657ad015997866bceea04",
+          "sourceHashBearingReceiptPath": "semantic/proofs/632A/16447957.json",
+          "sourceHashBearingReceiptSha256": "37a36bddd98421f9e92e6755f1d65f0e9e15fb48a01da5daa313c2a435c23969",
+          "timeout": false,
+          "verdict": "AC"
+        },
+        "faultyLogic": "It compares unstripped buyer lines to halfplus. CRLF makes the equality fail and chooses a different formula. For the counted all-halfplus LF sequence the active all-halfplus formula returns the correct 55. The coarse case split may be wrong elsewhere, but is not proved by this counted sequence.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Counts halfplus buyers and records whether the first buyer is halfplus, then chooses one of three closed-form revenue expressions based only on all-halfplus, first-halfplus, or neither.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "800e04343e9d31a63fda2ecc451970307f0aa754041657ad015997866bceea04",
+        "sourceLineCount": 24,
+        "sourceLines": [
+          {
+            "code": "for i in range(int(x[0])):\n\tz=input()\n\ty.append(z)\n\n\tif z=='halfplus':\n\t\ta+=1\n\t\tif i==0:\n\t\t\tw=1\n\nhalf=int(x[1])/2\n\nif a==(i+1):\n\t\n\tprint(int(int(x[1])*((2**int(x[0]))-1)-(int(x[0])*half)))\nelif w==1:\n\t\n\tprint(int(int(x[1])*(2**(int(x[0])-1)+1)-(int(x[0])-1)*half))\nelse :\n\t\n\tprint(int(int(x[1])*((2**(int(x[0])-1)))-(int(x[0])-1)*half))",
+            "end": 24,
+            "start": 5
+          }
+        ]
+      },
       "sourceHash": "800e04343e9d31a63fda2ecc451970307f0aa754041657ad015997866bceea04",
       "test": "0002"
     },
@@ -10878,7 +10907,36 @@
         "verdict": "WA"
       },
       "kind": "line-ending-artifact",
-      "reason": "Despite its upstream TLE label, the fresh counted failure is WA 20 on CRLF. Unstripped buyer strings fail half comparisons; LF-normalized counted case returns the correct 15. No counted algorithmic WA.",
+      "reason": "Unstripped half/halfplus strings fail parity-condition comparisons on CRLF input, accepting an incorrect candidate. For the counted LF two-buyer sequence the first valid candidate is 2 apples and the correct revenue 15. Enumeration may be too slow on larger cases, but the recorded LF case is correct.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Its upstream TLE label is not itself proof. Existing LF-0001 is AC and prints 15, while original CRLF yielded 20; only the line-ending artifact explains this counted difference. Commented start prints do not execute.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/632A/lf-16461355.json",
+          "originalLfLogSha256": "0a68cbf23e47e30ee2c4eaf127f886c00deeb9ecd374d188e0bcd70344a401a7",
+          "outputHash": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f",
+          "sourceHash": "bd8bbf8b05d9da3d60d2f9c88b1701928d5556c92a58b60343b68de2e64708db",
+          "sourceHashBearingReceiptPath": "semantic/proofs/632A/16461355.json",
+          "sourceHashBearingReceiptSha256": "a2c7dac54ed2e497e1e224c99b572673261664206994ac618badbdcd4276da61",
+          "timeout": false,
+          "verdict": "AC"
+        },
+        "faultyLogic": "Unstripped half/halfplus strings fail parity-condition comparisons on CRLF input, accepting an incorrect candidate. For the counted LF two-buyer sequence the first valid candidate is 2 apples and the correct revenue 15. Enumeration may be too slow on larger cases, but the recorded LF case is correct.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Guesses an initial apple count, repeatedly simulates the buyer parity pattern until exactly n buyers exhaust the apples, and sums price times half the pre-sale count for each buyer.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "bd8bbf8b05d9da3d60d2f9c88b1701928d5556c92a58b60343b68de2e64708db",
+        "sourceLineCount": 37,
+        "sourceLines": [
+          {
+            "code": "n, p = map(int, input().split())\n\nb = []\nfor i in range(n):\n    r = input()\n    b.append(r)\n\nstart = 0\n\nif b[0] == 'half':\n    if n%2==0: start = n\n    else: start = n+1\nelse:\n    if n%2: start = n\n    else: start = n+1\n\n#print(start)\nearned=0\nwhile True:\n    earned = 0\n    temp = start\n    tr = 0\n    for i in b:\n        if i == 'half' and temp%2 == 1: break\n        if i == 'halfplus' and temp%2==0: break\n        \n        earned += (temp - temp/2) * p\n        temp //= 2\n        tr += 1\n        if temp == 0: break\n    \n    if tr!=len(b): start += 1\n    \n    else: break\n\n#print(start)\nprint(int(earned))",
+            "end": 37,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "bd8bbf8b05d9da3d60d2f9c88b1701928d5556c92a58b60343b68de2e64708db",
       "test": "0001"
     },
@@ -10902,7 +10960,36 @@
         "verdict": "WA"
       },
       "kind": "line-ending-artifact",
-      "reason": "Uses len(buyer)!=4 to identify halfplus. CR retained on half gives length 5 and is misclassified. Counted output 30 becomes the correct 15 on LF.",
+      "reason": "len(i)!=4 treats a retained CR on half as a gift. On LF-0001 the length test distinguishes half from halfplus and this recorded sequence gives the correct 15; no mathematical error in that sequence is proved.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Counted LF output is AC integer 15. The CRLF half line has length 5 and is misclassified, so the original output 30 is line-ending-only here. Other possible reverse-recurrence defects are not counted without new designated evidence.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/632A/lf-16463085.json",
+          "originalLfLogSha256": "9c162097a76ba389654127d5179c45590ac614b98fc79512fe32c8ea8ad9a906",
+          "outputHash": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f",
+          "sourceHash": "e7464dba1d6b30480dacace4cf076e863a204ae90d55bd4f70087e0fbced7b53",
+          "sourceHashBearingReceiptPath": "semantic/proofs/632A/16463085.json",
+          "sourceHashBearingReceiptSha256": "8e585fae2fd796bd67d225356634c1546e9fbead677bb42439293d41fdf6fb8e",
+          "timeout": false,
+          "verdict": "AC"
+        },
+        "faultyLogic": "len(i)!=4 treats a retained CR on half as a gift. On LF-0001 the length test distinguishes half from halfplus and this recorded sequence gives the correct 15; no mathematical error in that sequence is proved.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Processes buyers backwards from zero apples, uses buyer-string length to identify gifts, updates apples and revenue with half-price arithmetic, doubles the retained apple count at each backward step, and casts the total revenue to int.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "e7464dba1d6b30480dacace4cf076e863a204ae90d55bd4f70087e0fbced7b53",
+        "sourceLineCount": 25,
+        "sourceLines": [
+          {
+            "code": "n, p = map(int, input().split())\n\nb = []\nfor i in range(n):\n    r = input()\n    b.append(r)\n\n#print(start)\nearned=0\napples = 0\n\nfor i in b[::-1]:\n\n    if len(i) != 4:\n        apples += 1\n        earned += apples/2.0 * p\n\n    earned += apples//2 * p   \n    apples *= 2\n    \n    \n\n\n#print(start-1)\nprint(int(earned))",
+            "end": 25,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "e7464dba1d6b30480dacace4cf076e863a204ae90d55bd4f70087e0fbced7b53",
       "test": "0001"
     },
@@ -10926,7 +11013,36 @@
         "verdict": "WA"
       },
       "kind": "format-only",
-      "reason": "Unstripped half comparisons are CRLF-sensitive; LF-normalized counted case computes the correct numeric value but prints 15.0 instead of integer 15. Counting this decimal-format difference as algorithmic wrongness is invalid.",
+      "reason": "On valid LF buyer lines the reverse recurrence implements this counted sale correctly, but Python / makes c a float and print emits 15.0. CRLF also misclassifies half, but the remaining LF discrepancy is only decimal presentation.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "The LF mathematical value is exactly 15, equal to the correct integer revenue. A token checker rejecting 15.0 is numeric-format-only, not algorithmically wrong. No diagnostic-stripped rerun or alternate arithmetic proof is claimed.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/632A/lf-17150145.json",
+          "originalLfLogSha256": "d4056e374442582e0c02de5075b6f69a088be819d92cc9bdbb566e99a15c4589",
+          "outputHash": "39d58423edb09d65a37fed2ac5b84cfd0d17b3583decb0c640bb4fee26bbe13a",
+          "sourceHash": "d419411b7289002e42ee5eef4517b9ef34f7cc2cab3fb061887ccf0b29db89f0",
+          "sourceHashBearingReceiptPath": "semantic/proofs/632A/17150145.json",
+          "sourceHashBearingReceiptSha256": "69068873025e9d93254260cdf8213e7f57b63f55af37469dbfd77531486a164d",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "On valid LF buyer lines the reverse recurrence implements this counted sale correctly, but Python / makes c a float and print emits 15.0. CRLF also misclassifies half, but the remaining LF discrepancy is only decimal presentation.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Maps each buyer to a Boolean half flag, processes them in reverse with x=2*x or 2*x+1, and accumulates p*x/2 as the amount paid for half of the pre-sale apples.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "d419411b7289002e42ee5eef4517b9ef34f7cc2cab3fb061887ccf0b29db89f0",
+        "sourceLineCount": 19,
+        "sourceLines": [
+          {
+            "code": "import re\na = re.split(' ', input())\np = int(a[1])\nbuyers = []\nfor i in range(0, int(a[0])):\n    if (input() == 'half'):\n        buyers.append(True)\n    else:\n        buyers.append(False)\n\nc = 0\nx = 0\nfor i in range(len(buyers)-1, -1, -1):\n    if (buyers[i] == False):\n        x = 2*x + 1\n    else:\n        x = 2*x\n    c += p*x/2\nprint(c)",
+            "end": 19,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "d419411b7289002e42ee5eef4517b9ef34f7cc2cab3fb061887ccf0b29db89f0",
       "test": "0001"
     },
@@ -10950,7 +11066,55 @@
         "verdict": "WA"
       },
       "kind": "wrong-answer",
-      "reason": "Computes geometric sales by shifting total initial value, losing each odd buyer free-half adjustment. Three halfplus buyers at price 10 produce 60 rather than 55, unchanged under LF.",
+      "reason": "Shifting the original value is not the sequence of pre-sale remaining-apple values once gifts have removed half apples. For three halfplus buyers at price 10 it computes 70//2 + 70//4 + 70//8 = 35+17+8=60 instead of summing actual paid halves 35+15+5.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "60",
+          "actualAnswerAfterRemovingDiagnostics": "60",
+          "constraintsExplanation": "n=3, even price p=10, valid half/halfplus lines. Backward reconstruction starts with positive 7 apples and ends at zero after all buyers.",
+          "correctAnswer": "55",
+          "diagnosticRemoval": "None: genuine counted proof has no diagnostic output; source is unchanged.",
+          "includedTest": "0002",
+          "lfExecutionLogPath": "fresh/632A/lf-32285472.json",
+          "lfExecutionLogSha256": "8cc61c669eaa4e8a788f4c62b42190383b4a3df615068032abb501bf82f8bf33",
+          "lfExecutionOutputHash": "95cf32708a31caa478a0e9141103ac567d85e5186e697e7e0c81f75589999e31",
+          "mathematicalDerivation": "Reconstruct backwards from zero apples: the final halfplus buyer starts with 1, the preceding halfplus buyer with 3, and the first with 7. At price 10 the paid halves are 0.5*10=5, 1.5*10=15 and 3.5*10=35; the gifted halves are unpaid. Total revenue is 55. Shifting initial monetary value 70 instead of using remaining counts gives 60.",
+          "mathematicalTracePath": "semantic/math-traces/632A-0002.json",
+          "originalIncludedInputPath": "1200/packages/632A/tests/0002.in",
+          "originalInputSha256": "fbecc2bd5bb344f0cb86310c89b683109c307331e9729bf8f5911adb4b302c80",
+          "sourceHash": "ccb26db177b7d51b849228ea29a9b021421e003130a0523fc940d3cf5caca8c5",
+          "sourceHashBearingReceiptPath": "semantic/proofs/632A/32285472.json",
+          "sourceHashBearingReceiptSha256": "6385c48820566b40af5233f0ebf6ea9487514c94913936104de94feea05bac76",
+          "validLF": "3 10\nhalfplus\nhalfplus\nhalfplus\n",
+          "validLFInputSha256": "c9fd6af9b89954136dc41b9590897e887987fbcb24b2165cf99002074802f173"
+        },
+        "excludedNonAlgorithmicCauses": "All three lines execute and depend on the actual buyer flags; this is a specific binary/geometric-sale algorithm, not constant output. LF output 60 is a sole integer with exit 0. Testing for s is unchanged by CRLF, and no debug, numeric formatting or runtime artifact accounts for the wrong payment calculation.",
+        "executionBinding": {
+          "exitCode": 0,
+          "originalLfLogPath": "fresh/632A/lf-32285472.json",
+          "originalLfLogSha256": "8cc61c669eaa4e8a788f4c62b42190383b4a3df615068032abb501bf82f8bf33",
+          "outputHash": "95cf32708a31caa478a0e9141103ac567d85e5186e697e7e0c81f75589999e31",
+          "sourceHash": "ccb26db177b7d51b849228ea29a9b021421e003130a0523fc940d3cf5caca8c5",
+          "sourceHashBearingReceiptPath": "semantic/proofs/632A/32285472.json",
+          "sourceHashBearingReceiptSha256": "6385c48820566b40af5233f0ebf6ea9487514c94913936104de94feea05bac76",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "faultyLogic": "Shifting the original value is not the sequence of pre-sale remaining-apple values once gifts have removed half apples. For three halfplus buyers at price 10 it computes 70//2 + 70//4 + 70//8 = 35+17+8=60 instead of summing actual paid halves 35+15+5.",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Encodes halfplus occurrences as bits of an initial apple-value number s, multiplies by price, and sums s shifted right by 1,2,...,n as the successive payments.",
+        "reviewMethod": "Independent manual full-code, active-control-flow and counted-input semantic review; mathematical derivation authored per source/case, not inferred from a token mismatch.",
+        "sourceHash": "ccb26db177b7d51b849228ea29a9b021421e003130a0523fc940d3cf5caca8c5",
+        "sourceLineCount": 3,
+        "sourceLines": [
+          {
+            "code": "n, p = map(int, input().split())\ns = sum(1 << i for i in range(n) if 's' in input()) * p\nprint(sum(s >> i + 1 for i in range(n)))",
+            "end": 3,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "ccb26db177b7d51b849228ea29a9b021421e003130a0523fc940d3cf5caca8c5",
       "test": "0002"
     }
@@ -16372,14 +16536,23 @@
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
-    "16447957: line-ending-artifact: Compares unstripped input to halfplus; CRLF makes all comparisons false. Counted all-halfplus case returns 30, but LF returns the correct 55. Branch simplification may be wrong elsewhere; not the counted proof.",
-    "16461355: line-ending-artifact: Despite its upstream TLE label, the fresh counted failure is WA 20 on CRLF. Unstripped buyer strings fail half comparisons; LF-normalized counted case returns the correct 15. No counted algorithmic WA.",
-    "16463085: line-ending-artifact: Uses len(buyer)!=4 to identify halfplus. CR retained on half gives length 5 and is misclassified. Counted output 30 becomes the correct 15 on LF.",
-    "17150145: format-only: Unstripped half comparisons are CRLF-sensitive; LF-normalized counted case computes the correct numeric value but prints 15.0 instead of integer 15. Counting this decimal-format difference as algorithmic wrongness is invalid."
+    "16447957: line-ending-artifact: It compares unstripped buyer lines to halfplus. CRLF makes the equality fail and chooses a different formula. For the counted all-halfplus LF sequence the active all-halfplus formula returns the correct 55. The coarse case split may be wrong elsewhere, but is not proved by this counted sequence.",
+    "16461355: line-ending-artifact: Unstripped half/halfplus strings fail parity-condition comparisons on CRLF input, accepting an incorrect candidate. For the counted LF two-buyer sequence the first valid candidate is 2 apples and the correct revenue 15. Enumeration may be too slow on larger cases, but the recorded LF case is correct.",
+    "16463085: line-ending-artifact: len(i)!=4 treats a retained CR on half as a gift. On LF-0001 the length test distinguishes half from halfplus and this recorded sequence gives the correct 15; no mathematical error in that sequence is proved.",
+    "17150145: format-only: On valid LF buyer lines the reverse recurrence implements this counted sale correctly, but Python / makes c a float and print emits 15.0. CRLF also misclassifies half, but the remaining LF discrepancy is only decimal presentation."
   ],
   "reviewUrl": "https://staging.itsdev.in/sessions/9cabeccbc762495b8866ac872dfd4fea",
   "reviewer": "devin-9cabeccbc762495b8866ac872dfd4fea",
   "schemaVersion": 1,
+  "sourceSemanticReview": {
+    "designatedWrongSourceCount": 5,
+    "fullSourcesRead": 5,
+    "genuineAlgorithmicallyWrongCount": 1,
+    "newPublicProgramExecutions": 0,
+    "originalProofsReused": true,
+    "parentFinalVerificationPending": true,
+    "reviewUrl": "https://staging.itsdev.in/sessions/9cabeccbc762495b8866ac872dfd4fea"
+  },
   "sourceVerification": {
     "apiRating": 1200,
     "apiSnapshotHash": "064c4396494cd7a813222335d396816a314d39fad3d9c8680726ab784458b7e0",
@@ -16387,6 +16560,11 @@
     "bundledProvenanceAndSourceHashesVerified": true,
     "independentlyDownloadedStatementAndSubmissionBytes": false,
     "nestedArchiveHash": "ea8a553b5c79f0320490e6d4ac929c3bb03e19cb9babb71a0ad288138178c62e",
-    "pending": "Parent independently crosschecks pinned Hugging Face statement/submission bytes and API identities across batches."
+    "parentReportedUpstreamVerification": {
+      "complete": true,
+      "independentlyReplicatedByThisChild": false,
+      "performedBy": "parent",
+      "scope": "67 pinned files, 600 submission bytes/rows, 60 statement rows, 38 generated suites and frozen API; parent reported exact matches."
+    }
   }
 }
