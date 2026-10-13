@@ -20,30 +20,258 @@
     "20138356": {
       "kind": "crlf-artifact-not-counted",
       "reason": "shifts every character; on its failedTest that is coincidentally correct, WA only from shifting '\\r'",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "binding": "bindings/708A-20138356.json",
+        "excludedNonAlgorithmicCauses": "CRLF artifact on the recorded failedTest: LF-normalized 0001 gives the expected 'bncdenqbdr' (AC, archive/708A/sub-20138356-lf.json); raw WA only because input() keeps '\\r', which line 5 shifts into an extra letter. Not counted; see extraCapturedCase.",
+        "extraCapturedCase": {
+          "actual": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          "expected": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "input": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "log": "archive/708A/sub-20138356.json",
+          "notCounted": true,
+          "note": "LF-only authored input where the source is wrong; recorded failedTest/counted evidence unchanged.",
+          "outputHash": "d37e0cfc8352f1e11ea52b7b0463702397c99db54ca4618df8011ac8c8f0a5a1",
+          "test": "0019"
+        },
+        "faultyLogic": "Wrong in general (shifting any 'a' or anything after an 'a' is suboptimal), but for 'codeforces' (no 'a') shifting the whole string is optimal.",
+        "implementedAlgorithm": "Shifts every character of the line (the whole string as the substring).",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/708A/sub-20138356.json",
+          "fullRunLogSha256": "f91d653915386f0f8ba4ee78a93b4bba9adf19d5a72c6b1386531fd9717bab51",
+          "outputHash": "0702cdff3d823be4686b31a232c53f24a33ab3b85b28485edf940af462b2f704",
+          "path": "archive/708A/sub-20138356-lf.json",
+          "sha256": "75fb7b6488f24a3479104c714f00634445a6e8d71fde7b5d90efe35a370bf6cf",
+          "sourceFile": "archive/708A/source-20138356.txt",
+          "sourceFileSha256": "ce169ef838872b7bea895d52d5372b12d64d791c58580e6e61921573bee6e473",
+          "verdict": "AC"
+        },
+        "sourceHash": "ce169ef838872b7bea895d52d5372b12d64d791c58580e6e61921573bee6e473",
+        "sourceLines": [
+          {
+            "code": "st = input()\nst1 = \"\"\nlength = len(st)\nfor i in range(0, length):\n    st1 += str(chr(((ord(st[i])-98) % 26)+97))\nprint(st1)",
+            "end": 6,
+            "start": 1
+          }
+        ]
+      },
       "test": "0001"
     },
     "20138577": {
       "kind": "wrong-answer",
       "reason": "never handles the all-a string (must turn last a into z); a -> a, correct z (also on LF input)",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/708A-20138577.json",
+        "counterexample": {
+          "actualAnswer": "a\n",
+          "actualOutputSha256": "87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7",
+          "constraints": "|s|=1, lowercase.",
+          "correctAnswer": "z",
+          "derivation": "Lexicographic minimum after shifting exactly one non-empty substring: skip the leading 'a's (shifting 'a' gives 'z', worse); shift the maximal following run of non-'a' letters; if the whole string is 'a's, the only choice that hurts least is shifting just the last character to 'z'. 'a': the only substring is 'a' -> 'z'.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "8e4621379786ef42a4fec155cd525c291dd7db3c1fde3478522f4f61c03fd1bd",
+          "packageExpectedOutput": "z",
+          "test": "0006",
+          "validLFInput": "a\n",
+          "validLFInputSha256": "87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7"
+        },
+        "excludedNonAlgorithmicCauses": "None: LF-normalized output is still 'a'.",
+        "faultyLogic": "When the string is all 'a' no character is shifted at all (others stays False), violating 'exactly one non-empty substring'.",
+        "implementedAlgorithm": "Copies leading 'a's, shifts the first non-'a' run, appends the rest at the next 'a'.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/708A/sub-20138577.json",
+          "fullRunLogSha256": "7d9ae6659c0e8f4a062cc086ccffa950b08686b1cd269041cbb4058cd38bd0ce",
+          "outputHash": "87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7",
+          "path": "archive/708A/sub-20138577-lf.json",
+          "sha256": "ca9b598e5511af74105095ce9f1f7606079c3618181e86656893e0b8414f8b89",
+          "sourceFile": "archive/708A/source-20138577.txt",
+          "sourceFileSha256": "7b5029a3cc3415a9ff89c77b82afa56efb4c50c21eb6c34d5c2eae1e0a85a35e",
+          "verdict": "WA"
+        },
+        "sourceHash": "7b5029a3cc3415a9ff89c77b82afa56efb4c50c21eb6c34d5c2eae1e0a85a35e",
+        "sourceLines": [
+          {
+            "code": "st = input()\nst1 = \"\"\nothers = False\nlength = len(st)\nfor i in range(0, length):\n    if st[i] == 'a':\n        if others is True:\n            st1 += st[i:length]\n            break\n        st1 += str(st[i])\n    else:\n        others = True\n        st1 += str(chr(ord(st[i]) - 1))\nprint(st1)",
+            "end": 14,
+            "start": 1
+          }
+        ]
+      },
       "test": "0006"
     },
     "20190640": {
       "kind": "crlf-artifact-not-counted",
       "reason": "correct algorithm; WA on 0006 only because the CR is shifted",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "binding": "bindings/708A-20190640.json",
+        "excludedNonAlgorithmicCauses": "CRLF artifact on the recorded failedTest 0006: LF-normalized gives 'z' (AC); raw WA because '\\r' is treated as a non-'a' letter and shifted to '\\x0c'. Not counted.",
+        "extraCapturedCase": {
+          "actual": "zzzz",
+          "expected": "aaaz",
+          "input": "aaaa\n",
+          "log": "archive/708A/sub-20190640.json",
+          "notCounted": true,
+          "note": "LF-only authored input where the source is wrong; recorded failedTest/counted evidence unchanged.",
+          "outputHash": "6dedb1cd0d2d36816c016f10a145e673cb2a5d84b16e55bc609b373f601445cb",
+          "test": "0033"
+        },
+        "faultyLogic": "Correct on its recorded failedTest ('a' -> 'z'); for all-'a' strings of length>=2 line 18 shifts everything (e.g. 'aa' -> 'zz' instead of 'az'), see extraCapturedCase.",
+        "implementedAlgorithm": "Skips leading 'a's; if all are 'a' shifts the whole string, else shifts the maximal non-'a' run.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/708A/sub-20190640.json",
+          "fullRunLogSha256": "0e3e6ce86633a0e43d80233bcb127559fd6294439ebe302d021b8bdcbc65d096",
+          "outputHash": "c865f6c5ab8d1b0bcd383a5e1e3879d22681c96bf462c269b7581d523fbe70ab",
+          "path": "archive/708A/sub-20190640-lf.json",
+          "sha256": "e66459ea34bf606da29f109d19a99661336b0a77cf3d6a327f3b637a87f99eb5",
+          "sourceFile": "archive/708A/source-20190640.txt",
+          "sourceFileSha256": "ccecd197ce93647f6e339dc15faa916bf68d3a158a39312070dea0b854536bda",
+          "verdict": "AC"
+        },
+        "sourceHash": "ccecd197ce93647f6e339dc15faa916bf68d3a158a39312070dea0b854536bda",
+        "sourceLines": [
+          {
+            "code": "def shl(s, be, en):\n    t = s[:be];\n    for i in range(be, en):\n        if s[i]=='a':\n            t += 'z'\n        else:\n            t += chr(ord(s[i])-1)\n    return t+s[en:]\n\ns = input()\ni = 0\nL = len(s)\nwhile i<L and s[i]=='a':\n    i += 1\nif i==L:\n    print(shl(s,0,L))\n    sys.exit()\n    \nj = i+1\nwhile j<L and s[j]!='a':\n    j += 1\nprint(shl(s,i,j))",
+            "end": 24,
+            "start": 3
+          }
+        ]
+      },
       "test": "0006"
     },
     "20222597": {
       "kind": "wrong-answer",
       "reason": "starts shifting after the first 'a' (s.find('a')) instead of at the first non-a; babbbabaababbaa -> baaaaabaababbaa, correct aabbbabaababbaa",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/708A-20222597.json",
+        "counterexample": {
+          "actualAnswer": "baaaaabaababbaa\n",
+          "actualOutputSha256": "9f777b7b25f8235fd4c2cb10f3b5bea13b24858d2ea820d2e9deda57d17ce114",
+          "constraints": "|s|=15, lowercase.",
+          "correctAnswer": "aabbbabaababbaa",
+          "derivation": "Lexicographic minimum after shifting exactly one non-empty substring: skip the leading 'a's (shifting 'a' gives 'z', worse); shift the maximal following run of non-'a' letters; if the whole string is 'a's, the only choice that hurts least is shifting just the last character to 'z'. 'babbbabaababbaa': shift the leading 'b' only (next char is 'a') -> 'aabbbabaababbaa'. Source keeps 'ba' and shifts 'bbb' -> 'baaaaabaababbaa'.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "1d185cb532388aeb31393ea420bbb9bbe3d4acb1a26c8c2f9b82b39800a267fe",
+          "packageExpectedOutput": "aabbbabaababbaa",
+          "test": "0003",
+          "validLFInput": "babbbabaababbaa\n",
+          "validLFInputSha256": "d3c39a314cd25e2ee9926c42fbdf5f344a80cf904818e8f34135e5166f4635ee"
+        },
+        "excludedNonAlgorithmicCauses": "None: same wrong string on LF input.",
+        "faultyLogic": "Lines 2-4 start shifting after the first 'a' instead of at the first non-'a' character, so leading non-'a' letters before the first 'a' are never shifted.",
+        "implementedAlgorithm": "i=s.find('a'); keeps s[0..i] unchanged and shifts from i+1 up to the next 'a'.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/708A/sub-20222597.json",
+          "fullRunLogSha256": "be9caad4afa95deef404ccf2f3ce1204ba43d0f039521a63aac5ec426fe6a039",
+          "outputHash": "9f777b7b25f8235fd4c2cb10f3b5bea13b24858d2ea820d2e9deda57d17ce114",
+          "path": "archive/708A/sub-20222597-lf.json",
+          "sha256": "97a97184285fdb828d73de486df07524318ab9d43f335356c698469850b32bd8",
+          "sourceFile": "archive/708A/source-20222597.txt",
+          "sourceFileSha256": "49fcd502e196840c24cb9606e79fed41a39d8b6f52299e1e68267eac66349fb7",
+          "verdict": "WA"
+        },
+        "sourceHash": "49fcd502e196840c24cb9606e79fed41a39d8b6f52299e1e68267eac66349fb7",
+        "sourceLines": [
+          {
+            "code": "s = input()\ni = s.find(\"a\")\nres = s[0:i+1]\nfor j in range(i + 1, len(s)):\n    if s[j] == \"a\":\n        res += s[j:]\n        break\n    res += chr(ord(s[j]) - 1)\nprint(res)",
+            "end": 9,
+            "start": 1
+          }
+        ]
+      },
       "test": "0003"
     },
     "20222712": {
       "kind": "wrong-answer",
       "reason": "all-a string left unchanged instead of last a -> z; a -> a, correct z (also on LF input)",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/708A-20222712.json",
+        "counterexample": {
+          "actualAnswer": "a\n",
+          "actualOutputSha256": "87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7",
+          "constraints": "|s|=1.",
+          "correctAnswer": "z",
+          "derivation": "Lexicographic minimum after shifting exactly one non-empty substring: skip the leading 'a's (shifting 'a' gives 'z', worse); shift the maximal following run of non-'a' letters; if the whole string is 'a's, the only choice that hurts least is shifting just the last character to 'z'. 'a' -> 'z'.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "8e4621379786ef42a4fec155cd525c291dd7db3c1fde3478522f4f61c03fd1bd",
+          "packageExpectedOutput": "z",
+          "test": "0006",
+          "validLFInput": "a\n",
+          "validLFInputSha256": "87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7"
+        },
+        "excludedNonAlgorithmicCauses": "None: LF output still 'a'.",
+        "faultyLogic": "All-'a' strings are returned unchanged (and a leading 'aa' prefix stops shifting immediately), so no substring is shifted.",
+        "implementedAlgorithm": "Keeps an 'a' only at index 0, shifts letters until the first 'a' after index 0, then appends the rest.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/708A/sub-20222712.json",
+          "fullRunLogSha256": "e455b11c22871549408c24f795ad47f4f6769e5e0d6b8dacd7616dfe17e64c49",
+          "outputHash": "87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7",
+          "path": "archive/708A/sub-20222712-lf.json",
+          "sha256": "c5148191b6227ccfcf3b2520e4ee44e62ea46a6e03ea9132ba12d22cc0a042a8",
+          "sourceFile": "archive/708A/source-20222712.txt",
+          "sourceFileSha256": "494869000d1db5ff3f3502e5fe2b6edcba9ffc7ad4b06940cedf4b07b11cb904",
+          "verdict": "WA"
+        },
+        "sourceHash": "494869000d1db5ff3f3502e5fe2b6edcba9ffc7ad4b06940cedf4b07b11cb904",
+        "sourceLines": [
+          {
+            "code": "s = input()\nres = \"\"\nfor j in range(0, len(s)):\n    if s[j] == \"a\":\n        if j == 0:\n            res += \"a\"\n        else:\n            res += s[j:]\n            break\n    else:\n        res += chr(ord(s[j]) - 1)\nprint(res)",
+            "end": 12,
+            "start": 1
+          }
+        ]
+      },
       "test": "0006"
     }
   },
   "packageHash": "779445cd55186f5f2c76cda610b99ce994a910e32a4ad722ba4d1cde46485e2b",
+  "previousAuditDigest": "d7273cdfa44f308b8ee88c47a94ab5f78ea2f3034665b2dec23072c5d8fc8484",
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
@@ -54,6 +282,8 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4",
   "reviewer": "devin-21803116a99741d7a7672cde5aff36d4 (independent rating1200 auditor, https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4)",
   "schemaVersion": 1,
+  "semanticReviewArchive": "rating1200-semantic-645B-9C.tar.gz (see README)",
+  "semanticReviewPerformed": "Source-specific semantic re-review: the auditor read the full code of each of the 5 designated-wrong sources, wrote the implemented algorithm/fault from that code, cited exact source lines, and derived each correct answer from the problem semantics. Counterexamples bind to unchanged executionVersion2 LF execution logs in the original archive.",
   "verification": {
     "archiveFilesAllMatchProvenance": true,
     "archiveSha256": "c1a81021a150e9823d1b3c4a80e8c53b3208e6fd116124c4214d0da7842a0cda",

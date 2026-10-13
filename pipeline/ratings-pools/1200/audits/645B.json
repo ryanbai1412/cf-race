@@ -20,30 +20,266 @@
     "17837082": {
       "kind": "wrong-answer",
       "reason": "assumes every swap adds exactly n-1 inversions when k<n/2 (k*(n-1)); the i-th outer swap adds 2(n-2i)+1, so it undercounts for k>=2. 100000 2 -> 199998, correct 399990",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/645B-17837082.json",
+        "counterexample": {
+          "actualAnswer": "199998\n",
+          "actualOutputSha256": "b512f68cc84343dc5fc269252325f53739592a7941c1482fbac331df6cfeacb3",
+          "constraints": "1<=n,k<=1e5: n=100000, k=2.",
+          "correctAnswer": "399990",
+          "derivation": "Maximum messiness with at most k swaps: s=min(k,floor(n/2)) swaps of positions (i,n+1-i) are optimal; the i-th such swap adds 2(n-2i)+1 inversions, so the answer is sum_{i=1..s}(2(n-2i)+1)=C(n,2)-C(n-2s,2); after floor(n/2) swaps the array is fully reversed (C(n,2), the absolute maximum) and further swaps are optional (\"no more than k\"). n=100000,k=2: s=2, (2*99998+1)+(2*99996+1)=199997+199993=399990.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "22f4110e0c36007b461b34319da7c9320d74a0ef593c56ab72454db4f7052ea1",
+          "packageExpectedOutput": "399990",
+          "test": "0003",
+          "validLFInput": "100000 2\n",
+          "validLFInputSha256": "f8f9dc24b96ffd9aa584cd581bb52226bc499577b19fb53e00f68afbcd6753ef"
+        },
+        "excludedNonAlgorithmicCauses": "None: plain numeric formula error; no debug/format/CRLF dependence (same wrong value on LF input).",
+        "faultyLogic": "Line 9: the i-th outer swap adds 2(n-2i)+1 inversions (first swap 2n-3), not n-1, so for 2<=k<n/2 the value k*(n-1) undercounts.",
+        "implementedAlgorithm": "Reads n,k; if k>=n//2 prints C(n,2) (full reversal), otherwise prints k*(n-1), i.e. assumes every swap adds exactly n-1 inversions.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/645B/sub-17837082.json",
+          "fullRunLogSha256": "eaf52487b7ed1d75e0f750eb2f689befd5ee884fb69335337777c1bd263dc1e6",
+          "outputHash": "b512f68cc84343dc5fc269252325f53739592a7941c1482fbac331df6cfeacb3",
+          "path": "archive/645B/sub-17837082-lf.json",
+          "sha256": "42a09f186307e2da6167c6fdc09aa9fe511f1dd67d7ccf4aaef86064a9bd70fa",
+          "sourceFile": "archive/645B/source-17837082.txt",
+          "sourceFileSha256": "9b3f14835e6adbe2cd873123e170ab911b4516cfffd0f7884be833ae62a7888f",
+          "verdict": "WA"
+        },
+        "sourceHash": "9b3f14835e6adbe2cd873123e170ab911b4516cfffd0f7884be833ae62a7888f",
+        "sourceLines": [
+          {
+            "code": "def solver(n, k):\n\tif k >= n // 2:\n\t\treturn n * (n - 1) // 2\n\telse:\n\t\treturn k * (n - 1)",
+            "end": 9,
+            "start": 5
+          }
+        ]
+      },
       "test": "0003"
     },
     "34796076": {
       "kind": "wrong-answer",
       "reason": "min(C(n,2), 6k-2) ignores n entirely for k<n/2; 100000 2 -> 10, correct 399990",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/645B-34796076.json",
+        "counterexample": {
+          "actualAnswer": "10\n",
+          "actualOutputSha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+          "constraints": "n=100000, k=2 within 1..1e5.",
+          "correctAnswer": "399990",
+          "derivation": "Maximum messiness with at most k swaps: s=min(k,floor(n/2)) swaps of positions (i,n+1-i) are optimal; the i-th such swap adds 2(n-2i)+1 inversions, so the answer is sum_{i=1..s}(2(n-2i)+1)=C(n,2)-C(n-2s,2); after floor(n/2) swaps the array is fully reversed (C(n,2), the absolute maximum) and further swaps are optional (\"no more than k\"). n=100000,k=2 -> 399990.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "22f4110e0c36007b461b34319da7c9320d74a0ef593c56ab72454db4f7052ea1",
+          "packageExpectedOutput": "399990",
+          "test": "0003",
+          "validLFInput": "100000 2\n",
+          "validLFInputSha256": "f8f9dc24b96ffd9aa584cd581bb52226bc499577b19fb53e00f68afbcd6753ef"
+        },
+        "excludedNonAlgorithmicCauses": "None: formula error, identical on LF input.",
+        "faultyLogic": "Line 4: the per-swap gain depends on n (2(n-2i)+1); 6k-2 is the answer only for n=2k+1-like tiny cases (e.g. sample 5 2 -> 10) and is independent of n otherwise.",
+        "implementedAlgorithm": "Prints min(C(n,2), 4k+2(k-1)) = min(C(n,2), 6k-2).",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/645B/sub-34796076.json",
+          "fullRunLogSha256": "27916dbc59c792a2bfaabda546305b36c2f845c8e058b5e86ade6ae4f1fb41df",
+          "outputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+          "path": "archive/645B/sub-34796076-lf.json",
+          "sha256": "2bbcbb0e62ad895938327b7fb5822afc83867bd4896857477afa35507ace6b8a",
+          "sourceFile": "archive/645B/source-34796076.txt",
+          "sourceFileSha256": "d577d527b6bf1a726ba7eca84d9e5f15ce9cd480ae70a0603de4acdae7ab7819",
+          "verdict": "WA"
+        },
+        "sourceHash": "d577d527b6bf1a726ba7eca84d9e5f15ce9cd480ae70a0603de4acdae7ab7819",
+        "sourceLines": [
+          {
+            "code": "def c2(n):\n    return n*(n-1)//2\nn,k=map(int,input().split())\nprint(min(c2(n),4*k+2*(k-1)))",
+            "end": 4,
+            "start": 1
+          }
+        ]
+      },
       "test": "0003"
     },
     "77650103": {
       "kind": "wrong-answer",
       "reason": "closed form 2nk-2k^2-k is applied without capping k at floor(n/2), so for k>n/2 it drops below C(n,2); 100000 50001 -> 4999949997, correct 4999950000",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/645B-77650103.json",
+        "counterexample": {
+          "actualAnswer": "4999949997\n",
+          "actualOutputSha256": "9c88768947e102f0a9c441dfb5c95c9850cff8349a9a0df2dd3697d0d90a3bc0",
+          "constraints": "n=100000, k=50001 within 1..1e5.",
+          "correctAnswer": "4999950000",
+          "derivation": "Maximum messiness with at most k swaps: s=min(k,floor(n/2)) swaps of positions (i,n+1-i) are optimal; the i-th such swap adds 2(n-2i)+1 inversions, so the answer is sum_{i=1..s}(2(n-2i)+1)=C(n,2)-C(n-2s,2); after floor(n/2) swaps the array is fully reversed (C(n,2), the absolute maximum) and further swaps are optional (\"no more than k\"). n=100000,k=50001>50000: s=50000, full reversal, C(100000,2)=4999950000; source gives 2*1e5*50001-2*50001^2-50001=4999949997.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "7380f95250e857126257dade069527e5c55fba7347dc20100fd7593484c3cc61",
+          "packageExpectedOutput": "4999950000",
+          "test": "0013",
+          "validLFInput": "100000 50001\n",
+          "validLFInputSha256": "182c5e65345a7b5f3be6b0ca408d787114dcb9a26b49d8d1a33d149428eb32f3"
+        },
+        "excludedNonAlgorithmicCauses": "None: missing cap on k is algorithmic; same wrong value on LF input.",
+        "faultyLogic": "k is never capped at floor(n/2) (lines 3-9 use raw k): for k>floor(n/2) the closed form keeps subtracting and drops below the maximum C(n,2).",
+        "implementedAlgorithm": "Computes w=nk-k(k+1)/2, w1=(n-2k)k, w2=k(k-1)/2 and prints max(0,w+w1+w2)=2nk-2k^2-k, which equals sum_{i=1..k}(2(n-2i)+1).",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/645B/sub-77650103.json",
+          "fullRunLogSha256": "dc29255782e7392526b30ff059bdd5e6813dda65b5023ea27d9f8bd8c1a94fa0",
+          "outputHash": "9c88768947e102f0a9c441dfb5c95c9850cff8349a9a0df2dd3697d0d90a3bc0",
+          "path": "archive/645B/sub-77650103-lf.json",
+          "sha256": "6070725c99c08140de779ef04f4ad48d47a8d036b607bb1039ed38fcdd9adcbc",
+          "sourceFile": "archive/645B/source-77650103.txt",
+          "sourceFileSha256": "2de0f52674ded32ffefea80f38189ff5c859c80bef0744cfdbbd9c5c9f6c7ce4",
+          "verdict": "WA"
+        },
+        "sourceHash": "2de0f52674ded32ffefea80f38189ff5c859c80bef0744cfdbbd9c5c9f6c7ce4",
+        "sourceLines": [
+          {
+            "code": "n,k = map(int,input().split())\n\nw = n*k - ( (k * ( k+1 ))//2 )\n\nw1 = ( n - k*2 )*k\n\nw2 = (k * (k-1))//2\n\nprint( max(0,w+w1+w2) )",
+            "end": 9,
+            "start": 1
+          }
+        ]
+      },
       "test": "0013"
     },
     "88057976": {
       "kind": "wrong-answer",
       "reason": "computes C(2s+1,2) with s=min(n/2,k), i.e. inversions of a length-(2s+1) block only, ignoring the remaining n-2s elements; 100000 2 -> 10, correct 399990",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/645B-88057976.json",
+        "counterexample": {
+          "actualAnswer": "10\n",
+          "actualOutputSha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+          "constraints": "n=100000, k=2.",
+          "correctAnswer": "399990",
+          "derivation": "Maximum messiness with at most k swaps: s=min(k,floor(n/2)) swaps of positions (i,n+1-i) are optimal; the i-th such swap adds 2(n-2i)+1 inversions, so the answer is sum_{i=1..s}(2(n-2i)+1)=C(n,2)-C(n-2s,2); after floor(n/2) swaps the array is fully reversed (C(n,2), the absolute maximum) and further swaps are optional (\"no more than k\"). n=100000,k=2 -> 399990; source gives p=4 -> 10.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "22f4110e0c36007b461b34319da7c9320d74a0ef593c56ab72454db4f7052ea1",
+          "packageExpectedOutput": "399990",
+          "test": "0003",
+          "validLFInput": "100000 2\n",
+          "validLFInputSha256": "f8f9dc24b96ffd9aa584cd581bb52226bc499577b19fb53e00f68afbcd6753ef"
+        },
+        "excludedNonAlgorithmicCauses": "None: formula error, same on LF input.",
+        "faultyLogic": "Lines 3-4 ignore the n-2s untouched middle elements: each outer swap also creates inversions with every element between the swapped positions.",
+        "implementedAlgorithm": "p=2*min(n//2,k); prints p(p+1)/2, i.e. the inversion count of reversing a block of only p+1 elements.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/645B/sub-88057976.json",
+          "fullRunLogSha256": "5351e46351f2959cb8a8029dddd7eeda2a88e0687e2b54118e49432c52d4f0d4",
+          "outputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+          "path": "archive/645B/sub-88057976-lf.json",
+          "sha256": "a08ee04a6df8a56df0f6745af04347c09c458d21b015231dcb3a1fe0f8040d1d",
+          "sourceFile": "archive/645B/source-88057976.txt",
+          "sourceFileSha256": "09d361701548ec8147f43f9b2b0d340c1938f12dade084bd02643a702a22281b",
+          "verdict": "WA"
+        },
+        "sourceHash": "09d361701548ec8147f43f9b2b0d340c1938f12dade084bd02643a702a22281b",
+        "sourceLines": [
+          {
+            "code": "p=n//2\np=min(p,k)*2\nres=(p*(p+1))//2\nprint(res)",
+            "end": 5,
+            "start": 2
+          }
+        ]
+      },
       "test": "0003"
     },
     "88707326": {
       "kind": "wrong-answer",
       "reason": "when k>floor(n/2) subtracts a spurious parity term (r-b)%2 from the full reversal; n=1 k=1 -> -1, correct 0",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/645B-88707326.json",
+        "counterexample": {
+          "actualAnswer": "-1\n",
+          "actualOutputSha256": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+          "constraints": "n=1, k=1 within bounds.",
+          "correctAnswer": "0",
+          "derivation": "Maximum messiness with at most k swaps: s=min(k,floor(n/2)) swaps of positions (i,n+1-i) are optimal; the i-th such swap adds 2(n-2i)+1 inversions, so the answer is sum_{i=1..s}(2(n-2i)+1)=C(n,2)-C(n-2s,2); after floor(n/2) swaps the array is fully reversed (C(n,2), the absolute maximum) and further swaps are optional (\"no more than k\"). n=1: no pair (i,j) exists so messiness is 0 for any k; source: r=0,f=0,l=0, (0-1)%2=1 -> -1.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "2b0f5fbcc0989e147be531c252d960cdf037cd28b8357c6a9d1cb2b6208eea2e",
+          "packageExpectedOutput": "0",
+          "test": "0004",
+          "validLFInput": "1 1\n",
+          "validLFInputSha256": "3f11ad6bbc7ecca0b2416b713dee77f1a635c00aaeaa946e14cde1c2bfae56d5"
+        },
+        "excludedNonAlgorithmicCauses": "None: wrong case analysis; same value on LF input.",
+        "faultyLogic": "Line 10 subtracts a spurious parity correction when k>floor(n/2); since at most k swaps are allowed, surplus swaps are simply not used and the answer stays C(n,2)-C(n-2r,2).",
+        "implementedAlgorithm": "r=min(k,n//2); f=C(n,2) (gh(n-1)); l=C(n-2r,2) (gh(n-1-2r)); prints f-l if k<=r else f-l-((r-k)%2).",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/645B/sub-88707326.json",
+          "fullRunLogSha256": "f3fa8c3fab0d7f6bb8c93ba5237d01b54f77850663acb997f2d2ce72cdca2b68",
+          "outputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+          "path": "archive/645B/sub-88707326-lf.json",
+          "sha256": "037749cfcfed09dce78bd1c88153146968fde2f0871f2070212d867eae5c5845",
+          "sourceFile": "archive/645B/source-88707326.txt",
+          "sourceFileSha256": "60badb54033cd242df5232b502a80015cc43f7f35ebd081b65c2636dc6377841",
+          "verdict": "WA"
+        },
+        "sourceHash": "60badb54033cd242df5232b502a80015cc43f7f35ebd081b65c2636dc6377841",
+        "sourceLines": [
+          {
+            "code": "def gh(w):\n    return (w*(w+1))//2\na,b=map(int,input().split())\nz=a-1\nr=min(b,a//2)\nf=gh(z)\nk=max(0,z-2*r)\nl=gh(k)\nif b<=r:print(f-l)\nelse:print(f-l-(r-b)%2)",
+            "end": 10,
+            "start": 1
+          }
+        ]
+      },
       "test": "0004"
     }
   },
   "packageHash": "55495b2a1502e82466cc99146a375665cfd12d89523f1be094d8af1ac1b206de",
+  "previousAuditDigest": "de4c9672bafbf751c342ca422821214f631e133b4173376491ff62311a643a73",
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [],
@@ -51,6 +287,8 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4",
   "reviewer": "devin-21803116a99741d7a7672cde5aff36d4 (independent rating1200 auditor, https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4)",
   "schemaVersion": 1,
+  "semanticReviewArchive": "rating1200-semantic-645B-9C.tar.gz (see README)",
+  "semanticReviewPerformed": "Source-specific semantic re-review: the auditor read the full code of each of the 5 designated-wrong sources, wrote the implemented algorithm/fault from that code, cited exact source lines, and derived each correct answer from the problem semantics. Counterexamples bind to unchanged executionVersion2 LF execution logs in the original archive.",
   "verification": {
     "archiveFilesAllMatchProvenance": true,
     "archiveSha256": "939ee8ac4612c5abf77ed835be4edde976ff434d04ffd9bc80b28e9374590537",

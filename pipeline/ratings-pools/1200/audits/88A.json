@@ -20,30 +20,264 @@
     "68091624": {
       "kind": "wrong-answer",
       "reason": "broken rotation logic and the minor branch repeats the major condition; C E G -> strange, correct major",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/88A-68091624.json",
+        "counterexample": {
+          "actualAnswer": "strange\n",
+          "actualOutputSha256": "eb99579e0243b8fd8d7da5674d75cafe1a64435157c3f19de5d65c73842bb2ea",
+          "constraints": "three valid notes.",
+          "correctAnswer": "major",
+          "derivation": "Notes are indices 0..11 (C,C#,D,D#,E,F,F#,G,G#,A,B,H). The triad is major iff some note r of the set has {r, r+4, r+7} (mod 12) equal to the set, minor iff {r, r+3, r+7}. C E G = {0,4,7}: r=C gives {0,4,7} -> major. Source: x=1,y=5,z=8, |z-x|=7!=3 -> strange.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "e547f14c2db88a4e74e082a32a1b1877f4099f718b5196b41a6068817c9cfe56",
+          "packageExpectedOutput": "major",
+          "test": "0001",
+          "validLFInput": "C E G\n",
+          "validLFInputSha256": "3d80ed33ba2c2ad9eee796975a3fbe2588debb86e70f39c6a509d8a21868a3bf"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input.",
+        "faultyLogic": "Line 26 requires root-to-fifth = 3 instead of third-to-fifth = 3 (root-to-fifth = 7); line 28 duplicates the major condition so 'minor' can never be printed; the reordering (lines 15-25) does not enumerate rotations.",
+        "implementedAlgorithm": "Maps notes to 1..12, reorders the three values ad hoc depending on which is largest, then tests major as |y-x|==4 and |z-x|==3 and minor with the identical condition.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/88A/sub-68091624.json",
+          "fullRunLogSha256": "d56bdf034c3f7eb0c009e31eef502508738237adc09c2c3eca6ef50d3a0c30e0",
+          "outputHash": "eb99579e0243b8fd8d7da5674d75cafe1a64435157c3f19de5d65c73842bb2ea",
+          "path": "archive/88A/sub-68091624-lf.json",
+          "sha256": "5106ac9dd71870885627966207df2dcac06b5c48caad827cd25bb672d1720b8f",
+          "sourceFile": "archive/88A/source-68091624.txt",
+          "sourceFileSha256": "7b8ed2ff1104002a41a70704369760097a14731c4bde787c9a8beca5fe940174",
+          "verdict": "WA"
+        },
+        "sourceHash": "7b8ed2ff1104002a41a70704369760097a14731c4bde787c9a8beca5fe940174",
+        "sourceLines": [
+          {
+            "code": "a=['C',\"C#\",'D',\"D#\",'E','F',\"F#\",'G',\"G#\",'A','B','H']\nm={}\nfor i in range(12):\n    m[a[i]]=i+1\ns=input().split()\nx=m[s[0]]\ny=m[s[1]]\nz=m[s[2]]\nif(y>=x and y>=z):\n    if(x>=z):\n        x,y,z=y,(11+z),(11+x)\n    else:\n        x,y,z=y,(12+x),(12+z)\nelif(x>=y and x>=z):\n    if(y<=z):\n        x,y,z=y,z,x\nelif(z>=x and z>=y):\n    if(x>=y):\n        x,y,z=z,(12+x),(12+y)\nif(abs(y-x)==4 and abs(z-x)==3):\n    print(\"major\")\nelif(abs(y-x)==4 and abs(z-x)==3):\n    print(\"minor\")\nelse:\n    print(\"strange\")",
+            "end": 31,
+            "start": 7
+          }
+        ]
+      },
       "test": "0001"
     },
     "69861318": {
       "kind": "wrong-answer",
       "reason": "note list has 13 entries (extra 'A#'), so indices/distances are wrong and only the given order is tried; C# B F -> strange, correct minor",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/88A-69861318.json",
+        "counterexample": {
+          "actualAnswer": "strange\n",
+          "actualOutputSha256": "eb99579e0243b8fd8d7da5674d75cafe1a64435157c3f19de5d65c73842bb2ea",
+          "constraints": "three valid notes.",
+          "correctAnswer": "minor",
+          "derivation": "Notes are indices 0..11 (C,C#,D,D#,E,F,F#,G,G#,A,B,H). The triad is major iff some note r of the set has {r, r+4, r+7} (mod 12) equal to the set, minor iff {r, r+3, r+7}. C# B F = {1,10,5}: r=B(10): 10+3=1 (C#), 10+7=5 (F) -> minor. Source: a=1, c=5!=8 -> strange.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "72a6f602ee067b53699191fd7f5b671f0d36d3ac746efc2a3ccefd3dc390cb8c",
+          "packageExpectedOutput": "minor",
+          "test": "0002",
+          "validLFInput": "C# B F\n",
+          "validLFInputSha256": "62651bf9462b4ad8ff38e2bba59bdf572b443c943eee0c879cc0ba9c234a80a5"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input.",
+        "faultyLogic": "Line 1 adds a non-existent note 'A#' shifting B and H by one (and making wrap by 12 inconsistent); lines 6-22 only try the given order as root position.",
+        "implementedAlgorithm": "Uses a 13-entry note list including 'A#'; takes input order as (root, third, fifth) and checks c==a+7 and b==a+3/a+4 mod 12.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/88A/sub-69861318.json",
+          "fullRunLogSha256": "cf73a187ee082ca46998ec17c20779160bc836ae7c4641151227636bc9c6a0c0",
+          "outputHash": "eb99579e0243b8fd8d7da5674d75cafe1a64435157c3f19de5d65c73842bb2ea",
+          "path": "archive/88A/sub-69861318-lf.json",
+          "sha256": "e71f249c503aa7964db22b2954477e423f484224a89b0f21a182b2ac37525832",
+          "sourceFile": "archive/88A/source-69861318.txt",
+          "sourceFileSha256": "910f4f92c804cb41246d77f4c827af69a1edc6b1a88574d4c5f59f0dc6216fc8",
+          "verdict": "WA"
+        },
+        "sourceHash": "910f4f92c804cb41246d77f4c827af69a1edc6b1a88574d4c5f59f0dc6216fc8",
+        "sourceLines": [
+          {
+            "code": "spirit = [\"C\",\"C#\",\"D\",\"D#\",\"E\",\"F\",\"F#\",\"G\",\"G#\",\"A\",\"A#\",\"B\",\"H\"]\nx,y,z = input().split()\na = spirit.index(x)\nb = spirit.index(y)\nc = spirit.index(z)\nb1 = a + 3\nif b1 > 11:\n    b1 = b1 - 12\nb2 = a + 4\nif b2 > 11:\n    b2 = b2 - 12\nc1 = a + 7\nif c1 > 11:\n    c1 = c1 - 12\nif c != c1:\n    print(\"strange\")\nelif b == b1:\n    print(\"minor\")\nelif b == b2:\n    print(\"major\")\nelse:\n    print(\"strange\")",
+            "end": 22,
+            "start": 1
+          }
+        ]
+      },
       "test": "0002"
     },
     "75334307": {
       "kind": "debug-output-only-not-counted",
       "reason": "prints [0, 4, 7] then the correct 'major'",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "binding": "bindings/88A-75334307.json",
+        "diagnosticCopy": {
+          "log": "archive/quirk-removal/88A-75334307.json",
+          "logSha256": "1397a18c88d4858252c2becf2f071af3bc11248ddd12f9a240c37e2e132f2026",
+          "markedDiagnosticCopy": true,
+          "originalSourceUnchanged": true,
+          "patchedSha256": "9e0a13671aa3aeeacc689b0d93382345d788a87004479a12c2061fed8cf711dc",
+          "patchedSource": "archive/quirk-removal/88A-75334307.patched.py",
+          "verdicts": [
+            "AC",
+            "AC"
+          ]
+        },
+        "excludedNonAlgorithmicCauses": "Debug-output-only on recorded failedTest 0001: audit copy without line 8 is AC raw and LF (quirk-removal/88A-75334307.json). Not counted.",
+        "faultyLogic": "On its failedTest the decision is correct; line 8 print(c) is debug output preceding 'major'.",
+        "implementedAlgorithm": "Sorts the three indices; checks major/minor on the sorted order and two wrapped variants; line 8 prints the sorted list.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/88A/sub-75334307.json",
+          "fullRunLogSha256": "e702a17cb34d3ee7a87cfa1b52d9093244d88596941ce95450f145a5e868bc2c",
+          "outputHash": "fb7a517afc02f897f2279dfc52390a9d825a546e5130d7eee8b78fb827ddde93",
+          "path": "archive/88A/sub-75334307-lf.json",
+          "sha256": "6e9561ad9511427bfb265aae04784b69fc220a28b689b1c99b5bdb3cf6bc2804",
+          "sourceFile": "archive/88A/source-75334307.txt",
+          "sourceFileSha256": "36c77497d11c8b1c368925c4ef70f3e185c9cdd0d783ce1f25eeb1a9acd7f836",
+          "verdict": "WA"
+        },
+        "sourceHash": "36c77497d11c8b1c368925c4ef70f3e185c9cdd0d783ce1f25eeb1a9acd7f836",
+        "sourceLines": [
+          {
+            "code": "a=[ \"C\", \"C#\", \"D\", \"D#\", \"E\", \"F\", \"F#\", \"G\", \"G#\", \"A\", \"B\", \"H\"]\nd,e,f=map(str,input().split())\nc=[]\nc.append(a.index(d))\nc.append(a.index(e))\nc.append(a.index(f))\nc.sort()\nprint(c)\nif c[1]-c[0]==4 and c[2]-c[1]==3:\n    print(\"major\")\nelif c[1]-c[0]==3 and c[2]-c[1]==4:\n    print(\"minor\")\nelif c[1]-c[0]==4 and len(a)-c[2]+c[0]==3:\n    print(\"minor\")\nelif c[1]-c[0]==3 and len(a)-c[2]+c[0]==4:\n    print(\"major\")\nelse:\n    print(\"strange\")",
+            "end": 18,
+            "start": 1
+          }
+        ]
+      },
       "test": "0001"
     },
     "83366444": {
       "kind": "wrong-answer",
       "reason": "and/or precedence error lets a single wrap distance satisfy the major test; D# C G# -> minor, correct major",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/88A-83366444.json",
+        "counterexample": {
+          "actualAnswer": "minor\n",
+          "actualOutputSha256": "87eed31aa3e996edbb6b9b6387d2e0aebcbc7dccbf5dfeffbde5f502c6faaa12",
+          "constraints": "three valid notes.",
+          "correctAnswer": "major",
+          "derivation": "Notes are indices 0..11 (C,C#,D,D#,E,F,F#,G,G#,A,B,H). The triad is major iff some note r of the set has {r, r+4, r+7} (mod 12) equal to the set, minor iff {r, r+3, r+7}. D# C G# = {3,0,8}: r=G#(8): 8+4=0 (C), 8+7=3 (D#) -> major. Source: ordering (D#,G#,C) has d2=0-8=-8 -> minor branch true -> prints minor.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "b45e3d6133ffef428e9a156dc18ce0dc84002347d4d6c0f52c891b8f66a9b83d",
+          "packageExpectedOutput": "major",
+          "test": "0018",
+          "validLFInput": "D# C G#\n",
+          "validLFInputSha256": "2e06318413a8e4549c77a2f858662918f05b3e5ff7aa25f11d7421bce8a48abf"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input.",
+        "faultyLogic": "Operator precedence on lines 7-8 / 12-13: 'A and B or C' means a lone d2==-9 (resp. d2==-8) satisfies the condition regardless of d1, so a wrong ordering triggers the wrong verdict first.",
+        "implementedAlgorithm": "Tries all 6 orderings; prints major if (d1 in {4,-8}) and d2==3 or d2==-9, minor if (d1 in {3,-9}) and d2==4 or d2==-8.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/88A/sub-83366444.json",
+          "fullRunLogSha256": "acb293ab20a899ea5fbddb0ee855a617a611da730776d474511eae044ea1fcc5",
+          "outputHash": "87eed31aa3e996edbb6b9b6387d2e0aebcbc7dccbf5dfeffbde5f502c6faaa12",
+          "path": "archive/88A/sub-83366444-lf.json",
+          "sha256": "8de277b329bf31108ebd5add67c3e4edbb8ba09a8ecf58e8c6fc5f62f473bd9b",
+          "sourceFile": "archive/88A/source-83366444.txt",
+          "sourceFileSha256": "321cbc46e4d1ba4401e693df87c17d3662c98b64cb886316483ad8b12843356e",
+          "verdict": "WA"
+        },
+        "sourceHash": "321cbc46e4d1ba4401e693df87c17d3662c98b64cb886316483ad8b12843356e",
+        "sourceLines": [
+          {
+            "code": "perm = permutations([a,b,c])\ndone =0\nfor i in perm:\n    if( (l.index(i[1])-l.index(i[0])==4 or l.index(i[1])-l.index(i[0])==-8) and\n        l.index(i[2])-l.index(i[1])==3 or l.index(i[2])-l.index(i[1])==-9):\n        print(\"major\")\n        done=1\n        break\n    elif ( (l.index(i[1])-l.index(i[0])==3 or l.index(i[1])-l.index(i[0])==-9) and\n        l.index(i[2])-l.index(i[1])==4 or l.index(i[2])-l.index(i[1])==-8):\n        print(\"minor\")\n        done=1\n        break\nif(done==0):\n    print(\"strange\")",
+            "end": 18,
+            "start": 4
+          }
+        ]
+      },
       "test": "0018"
     },
     "87961335": {
       "kind": "wrong-answer",
       "reason": "classifies by comparing two circular distances of the input order only; D# B F# -> major, correct minor",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/88A-87961335.json",
+        "counterexample": {
+          "actualAnswer": "major\n",
+          "actualOutputSha256": "9a538b453014bbd8789c48be683c0618a68ba8e4a12f820a89c815634b9a375f",
+          "constraints": "three valid notes.",
+          "correctAnswer": "minor",
+          "derivation": "Notes are indices 0..11 (C,C#,D,D#,E,F,F#,G,G#,A,B,H). The triad is major iff some note r of the set has {r, r+4, r+7} (mod 12) equal to the set, minor iff {r, r+3, r+7}. D# B F# = {3,10,6}: r=D#(3): 3+3=6 (F#), 3+7=10 (B) -> minor. Source: h=min(19,7,5)=5, i=min(8,4,16)=4 -> major.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "d79c15c2a0401844e3fc5f1cf06d093af35ba386d96fb25894fb22c46f7f6dfe",
+          "packageExpectedOutput": "minor",
+          "test": "0006",
+          "validLFInput": "D# B F#\n",
+          "validLFInputSha256": "fe634e919dcaf118f6049f4150865c24f33de55ef2df938d3148e67bf0cd533d"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input.",
+        "faultyLogic": "Lines 6-13 depend only on input order and undirected distances; chord quality depends on directed intervals from the root over the set.",
+        "implementedAlgorithm": "Computes undirected circular distance h between the 1st and 2nd input notes and i between the 2nd and 3rd; prints major if h>i, minor if h<i, else strange.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/88A/sub-87961335.json",
+          "fullRunLogSha256": "bbbeaf3371a0f7ada70d934c064320596ff289586f48f8423b2f41a3dede2f96",
+          "outputHash": "9a538b453014bbd8789c48be683c0618a68ba8e4a12f820a89c815634b9a375f",
+          "path": "archive/88A/sub-87961335-lf.json",
+          "sha256": "2e01230e78a7c0d1ee6e1ff89eeffcfc015ea52cbe77879151b0a1f7e3c86a4f",
+          "sourceFile": "archive/88A/source-87961335.txt",
+          "sourceFileSha256": "e97e1e0fab77e6392905aa3188ee932483df6b83de5eebe8c38f82341e8d5edc",
+          "verdict": "WA"
+        },
+        "sourceHash": "e97e1e0fab77e6392905aa3188ee932483df6b83de5eebe8c38f82341e8d5edc",
+        "sourceLines": [
+          {
+            "code": "l=[\"C\", \"C#\", \"D\", \"D#\", \"E\", \"F\", \"F#\", \"G\", \"G#\", \"A\", \"B\", \"H\"]\na,b,c=map(str,input().split())\ne=l.index(a)\nf=l.index(b)\ng=l.index(c)\nh=min(abs((12-e)+f),abs(e-f),abs((12-f)+e))\ni=min(abs((12-f)+g),abs(g-f),abs((12-g)+f))\nif(h>i):\n    print(\"major\")\nelif(h<i):\n    print(\"minor\")\nelse:\n    print(\"strange\")",
+            "end": 13,
+            "start": 1
+          }
+        ]
+      },
       "test": "0006"
     }
   },
   "packageHash": "5403956dfde0ffee043e6544933901d70c13edd6f24ad0b1de4fd97bd7661a8c",
+  "previousAuditDigest": "3768708d0fecaf271fd452f91718b58b2a2e68f12b7ad8c8ce655443e77430bd",
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
@@ -53,6 +287,8 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4",
   "reviewer": "devin-21803116a99741d7a7672cde5aff36d4 (independent rating1200 auditor, https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4)",
   "schemaVersion": 1,
+  "semanticReviewArchive": "rating1200-semantic-645B-9C.tar.gz (see README)",
+  "semanticReviewPerformed": "Source-specific semantic re-review: the auditor read the full code of each of the 5 designated-wrong sources, wrote the implemented algorithm/fault from that code, cited exact source lines, and derived each correct answer from the problem semantics. Counterexamples bind to unchanged executionVersion2 LF execution logs in the original archive.",
   "verification": {
     "archiveFilesAllMatchProvenance": true,
     "archiveSha256": "a128f24dc3101976c72462c3303ad8625317edd3fdd08a33f857dc3b91c72b9e",

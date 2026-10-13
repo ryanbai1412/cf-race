@@ -20,30 +20,222 @@
     "22350661": {
       "kind": "complexity-only-not-counted",
       "reason": "TLE on 0035 (1000x1000)",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "binding": "bindings/729B-22350661.json",
+        "excludedNonAlgorithmicCauses": "TLE-only (fresh rerun: single TLE on 0035 with correct output). Not counted.",
+        "faultyLogic": "Logically correct; output on 0035 ('0') equals the expected answer, but repeated list slicing makes it exceed the 1 s CPU limit on 1000x1000.",
+        "implementedAlgorithm": "Rows: index() scans add zeros before the first actor x1, between actors x2, after the last x1; columns: +1 per zero (+1 more after the first actor) minus the trailing zeros after the last actor (or all n when the column has none).",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/729B/sub-22350661.json",
+          "fullRunLogSha256": "40b57c1549a0afef039f3a99838a553fe95ebd3d8a7587f6cfb233e0fc0a6868",
+          "outputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "path": "archive/729B/sub-22350661-lf.json",
+          "sha256": "ec58056a4a2332f227c421f397c41c07e2e20e578d491bba6a2ae4853418f8b3",
+          "sourceFile": "archive/729B/source-22350661.txt",
+          "sourceFileSha256": "5c4850c9990449875ac8c3f038c24c73e576dc0bbc08c64d577a164907dde2e7",
+          "verdict": "TLE"
+        },
+        "sourceHash": "5c4850c9990449875ac8c3f038c24c73e576dc0bbc08c64d577a164907dde2e7",
+        "sourceLines": [
+          {
+            "code": "for i in range(n):\n    state = 0\n    last = -1\n    try:\n        j = matrix[i][(last + 1):].index('1') + last + 1\n    except ValueError:\n        j = -1\n    while j != -1:\n        if state == 0:\n            state = 1\n            cnt += (j - last - 1)\n        else:\n            cnt += (j - last - 1) * 2\n        last = j\n        try:\n            j = matrix[i][(last + 1):].index('1') + last + 1\n        except ValueError:\n            j = -1\n    if last != -1:\n        cnt += (m - last - 1)\n\nfor i in range(m):\n    state = 0\n    last = -1\n    for j in range(n):\n        if matrix[j][i] == '1':\n            if state == 0:\n                state = 1\n            last = j\n        else:\n            cnt += (1 + state)\n    cnt -= (n - last - 1)\n\nprint(cnt)",
+            "end": 40,
+            "start": 7
+          }
+        ]
+      },
       "test": "0035"
     },
     "22353538": {
       "kind": "wrong-answer",
       "reason": "per row only adds the zeros between the first two actors (inner loop breaks at the second actor) and ignores later gaps; failedTest 0007 -> 3, correct 4",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/729B-22353538.json",
+        "counterexample": {
+          "actualAnswer": "3\n",
+          "actualOutputSha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+          "constraints": "n=10, m=20, at least one actor.",
+          "correctAnswer": "4",
+          "derivation": "For an empty cell, each of the 4 directions is good iff some actor lies in that direction. Per row/column: an empty cell before the first actor or after the last scores 1 for that line, strictly between the first and last actor scores 2. Test 0007 (10x20, all actors except row 2 column 5): that cell has actors left, right, up, down -> 4. Source: row 2 counts it once (after the 2nd actor), column 5 counts it twice -> 3.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "0e9e95a0748187c0d41d78c4b5e0021c0c15a65bb90905ab57f7d783582dff6a",
+          "packageExpectedOutput": "4",
+          "test": "0007",
+          "validLFInput": "10 20\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n",
+          "validLFInputSha256": "3530b9e820cc4fcb3819160ea495f7f7ea1ae9ee2576e68e18040b584b4f862c"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input.",
+        "faultyLogic": "Lines 16-28 (rows) and 39-51 (columns) only handle the gap between the first two actors; zeros between later actor pairs (2nd/3rd, ...) are counted once instead of twice.",
+        "implementedAlgorithm": "Per row (and per column): zeros before the first actor x1, zeros between the first and second actor x2, then every remaining zero after the second actor x1.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/729B/sub-22353538.json",
+          "fullRunLogSha256": "f310a7fcb330e07a38072243d899dc0d5eafabd109ba3a951d6dcd88dc5ef498",
+          "outputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+          "path": "archive/729B/sub-22353538-lf.json",
+          "sha256": "85929b077d1a4d4a26406e0b076779188cdf9986c7e2e749b4645903c97c9559",
+          "sourceFile": "archive/729B/source-22353538.txt",
+          "sourceFileSha256": "e7aaaae6b7ad95173b52cf2ffd940e3b3471d443219ec620493f287c2a6fd099",
+          "verdict": "WA"
+        },
+        "sourceHash": "e7aaaae6b7ad95173b52cf2ffd940e3b3471d443219ec620493f287c2a6fd099",
+        "sourceLines": [
+          {
+            "code": "for i in range(n):\n    p, k = 0, 0\n    for j in range(m):\n        if l[i][j] == 0:\n            p += 1\n        elif l[i][j] == 1:\n            ans += p\n            p = 0\n            k = 1\n            break\n    for j in range(j + 1, m):\n        if l[i][j] == 0:\n            p += 1\n        elif l[i][j] == 1:\n            ans += p * 2\n            p = 0\n            break\n    if k == 1:\n        for j in range(j + 1, m):\n            if l[i][j] == 0:\n                p += 1\n    if k == 1:\n        ans += p\nfor j in range(m):\n    k, p = 0, 0\n    for i in range(n):\n        if l[i][j] == 0:\n            p += 1\n        elif l[i][j] == 1:\n            ans += p\n            p = 0\n            k = 1\n            break\n    for i in range(i + 1, n):\n        if l[i][j] == 0:\n            p += 1\n        elif l[i][j] == 1:\n            ans += p * 2\n            p = 0\n            break\n    if k == 1:\n        for i in range(i + 1, n):\n            if l[i][j] == 0:\n                p += 1\n    if k == 1:\n        ans += p\nprint(ans)",
+            "end": 52,
+            "start": 6
+          }
+        ]
+      },
       "test": "0007"
     },
     "22354856": {
       "kind": "complexity-only-not-counted",
       "reason": "TLE on 0035 (O(nm(n+m)) scan)",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "binding": "bindings/729B-22354856.json",
+        "excludedNonAlgorithmicCauses": "TLE-only on 0035; no wrong output observed. Not counted.",
+        "faultyLogic": "Logically correct; O(nm(n+m)) worst case, TLE on 0035 (1000x1000).",
+        "implementedAlgorithm": "For every actor, walks in each direction counting empty cells until the next actor; each empty cell is counted once per direction by the nearest actor on that side.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/729B/sub-22354856.json",
+          "fullRunLogSha256": "048456b18b4b1147ad09b7cafe4b2a29995db6be6d553d434a63b029700c477c",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "archive/729B/sub-22354856-lf.json",
+          "sha256": "1e388bbc484addb4cdeb82bb9cb8fb62cda5e46f58b02cf18d13cc31aa7ee09c",
+          "sourceFile": "archive/729B/source-22354856.txt",
+          "sourceFileSha256": "7c604fe9236f70d77c4280ff77ec803fdf0d1d5db45a4abe5a1ab284d25469b0",
+          "verdict": "TLE"
+        },
+        "sourceHash": "7c604fe9236f70d77c4280ff77ec803fdf0d1d5db45a4abe5a1ab284d25469b0",
+        "sourceLines": [
+          {
+            "code": "def is_sverhy(mass, i, j):\n\tk = 0;\n\tfor g in range(i, -1, -1):\n\t\tif mass[g][j] == 0:\n\t\t\tk+=1;\n\t\tif g != i and mass[g][j] == 1:\n\t\t\treturn k;\n\treturn k;\n\ndef is_snizy(mass, i, j, n):\n\tk = 0;\n\tfor g in range(i, n):\n\t\tif mass[g][j] == 0:\n\t\t\tk+=1\n\t\tif g != i and mass[g][j] == 1:\n\t\t\treturn k;\n\treturn k;\n\ndef is_sprava(mass, i, j, m):\n\tk = 0;\n\tfor g in range(j, m):\n\t\tif mass[i][g] == 0:\n\t\t\tk+=1;\n\t\tif g != j and mass[i][g] == 1:\n\t\t\treturn k;\n\treturn k;\n\ndef is_sleva(mass, i, j):\n\tk = 0;\n\tfor g in range(j, -1, -1):\n\t\tif mass[i][g] == 0:\n\t\t\tk+=1;\n\t\tif g != j and mass[i][g] == 1:\n\t\t\treturn k;\n\treturn k;\n\nn, m = map(int, input().split())\n\nmass = []\nfor i in range(n):\n\trow = list(map(int, input().split()))\n\tmass.append(row)\n\nk = 0;\nfor i in range(n):\n\tfor j in range(m):\n\t\tif mass[i][j] == 1:\n\t\t\tk+=is_sverhy(mass, i, j)\n\t\t\tk+=is_snizy(mass, i, j, n)\n\t\t\tk+=is_sprava(mass, i, j, m)\n\t\t\tk+=is_sleva(mass, i, j)\n\nprint(k);",
+            "end": 53,
+            "start": 1
+          }
+        ]
+      },
       "test": "0035"
     },
     "22367552": {
       "kind": "complexity-only-not-counted",
       "reason": "TLE on 0019 (O(nm(n+m)) scan)",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "binding": "bindings/729B-22367552.json",
+        "excludedNonAlgorithmicCauses": "TLE-only. Not counted.",
+        "faultyLogic": "Direct brute force of the definition; correct but O(nm(n+m)), TLE on 0019.",
+        "implementedAlgorithm": "For every empty cell scans the 4 directions for an actor (getRight/Left/Up/Down) and adds 1 per direction found.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/729B/sub-22367552.json",
+          "fullRunLogSha256": "a6b110945cc556491851fb7beb6999232cc261eed39d6b9e3c38d61802eb8757",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "archive/729B/sub-22367552-lf.json",
+          "sha256": "0ff2c3778e19f6995f8552d36f4eec451c65e4c7c93f194b142fd289642d4a08",
+          "sourceFile": "archive/729B/source-22367552.txt",
+          "sourceFileSha256": "316d91954f30d5c81f37529c43ee32b9b7cd84e6f12afd3c29099e0b92fb1ec0",
+          "verdict": "TLE"
+        },
+        "sourceHash": "316d91954f30d5c81f37529c43ee32b9b7cd84e6f12afd3c29099e0b92fb1ec0",
+        "sourceLines": [
+          {
+            "code": "def getRight(i, j):\n    global plan\n    for k in range(j+1,len(plan[0])):\n        if plan[i][k] == '1':\n            return 1\n            break\n    return 0\n\n\n# In[58]:\n\ndef getLeft(i,j):\n    global plan\n    for k in range(j-1,-1,-1):\n        if plan[i][k] == '1':\n            return 1\n            break\n    return 0\n\n\n# In[59]:\n\ndef getUp(i,j):\n    global plan\n    for k in range(i-1,-1,-1):\n        if plan[k][j] == '1':\n            return 1\n            break\n    return 0\n\n\n# In[60]:\n\ndef getDown(i,j):\n    global plan\n    ls = []\n    for k in range(i+1,len(plan)):\n        if plan[k][j] == '1':\n            return 1\n            break\n    return 0\n\n\n# In[61]:\n\ncount = 0\nfor i in range(n):\n    for j in range(m):\n        if plan[i][j] == '0':\n            count += getRight(i,j)\n            count += getLeft(i,j)\n            count += getUp(i,j)\n            count += getDown(i,j)\n\n\n# In[62]:\n\nprint(count)",
+            "end": 75,
+            "start": 18
+          }
+        ]
+      },
       "test": "0019"
     },
     "22367981": {
       "kind": "no-output-not-counted",
       "reason": "prints nothing (bare notebook expression); AC with print(count)",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "binding": "bindings/729B-22367981.json",
+        "diagnosticCopy": {
+          "log": "archive/quirk-removal/729B-22367981.json",
+          "logSha256": "482780599c2568005c0a55fe4c9f6a9fc7d3ebe75d4686cac61fb01aab59ce20",
+          "markedDiagnosticCopy": true,
+          "originalSourceUnchanged": true,
+          "patchedSha256": "83dd08eb5f9f9c1caca170bb15613af41f4f43a26dbd7b014795eef5cfd6abb9",
+          "patchedSource": "archive/quirk-removal/729B-22367981.patched.py",
+          "verdicts": [
+            "AC",
+            "AC"
+          ]
+        },
+        "excludedNonAlgorithmicCauses": "Unexecuted output (no print): output empty on 0001; audit copy with print(count) is AC (quirk-removal/729B-22367981.json). Not counted.",
+        "faultyLogic": "Logically correct, but the final Jupyter cell (line 72) is the bare expression 'count', which prints nothing outside a notebook.",
+        "implementedAlgorithm": "Per row and per column (via zip): single actor -> all zeros x1; >=2 actors -> zeros before first x1, between x2, after last x1. Correct counting.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/729B/sub-22367981.json",
+          "fullRunLogSha256": "49c89876f2e6884e91563bee32537a4295fb628b7b21a58ffd98fe0ec2d02d6c",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "archive/729B/sub-22367981-lf.json",
+          "sha256": "0ab01f81e83fa54a48e8f454d31a83172ed95301185c5b9ac3fe975741ac911c",
+          "sourceFile": "archive/729B/source-22367981.txt",
+          "sourceFileSha256": "3bb51eb818203a183460875bcd3779b4f7739d27b4509c88250b9e4684ace40e",
+          "verdict": "WA"
+        },
+        "sourceHash": "3bb51eb818203a183460875bcd3779b4f7739d27b4509c88250b9e4684ace40e",
+        "sourceLines": [
+          {
+            "code": "count = 0\nfor each in plan:\n    if each.count('1') == 1:\n        count += each.count('0')\n    elif each.count('1') > 1:\n        l = findLeft(each)\n        r = findRight(each)\n        count += each[:l].count('0')+2*each[l+1:r].count('0') + each[r+1:].count('0')\n\n\nfor each in plan2:\n    if each.count('1') == 1:\n        count += each.count('0')\n    elif each.count('1') > 1:\n        l = findLeft(each)\n        r = findRight(each)\n        count += each[:l].count('0')+2*each[l+1:r].count('0') + each[r+1:].count('0')\n\n\n# In[126]:\n\ncount",
+            "end": 72,
+            "start": 51
+          }
+        ]
+      },
       "test": "0001"
     }
   },
   "packageHash": "a120424c6d988ea79b88859b34777e376f2ed39e200503a7d49d9f3369cc0eed",
+  "previousAuditDigest": "c21b73765c14c097d60d6cc858883e3b1a44b094528d7bbd92712f5bb15cb647",
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
@@ -54,6 +246,8 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4",
   "reviewer": "devin-21803116a99741d7a7672cde5aff36d4 (independent rating1200 auditor, https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4)",
   "schemaVersion": 1,
+  "semanticReviewArchive": "rating1200-semantic-645B-9C.tar.gz (see README)",
+  "semanticReviewPerformed": "Source-specific semantic re-review: the auditor read the full code of each of the 5 designated-wrong sources, wrote the implemented algorithm/fault from that code, cited exact source lines, and derived each correct answer from the problem semantics. Counterexamples bind to unchanged executionVersion2 LF execution logs in the original archive.",
   "verification": {
     "archiveFilesAllMatchProvenance": true,
     "archiveSha256": "7daa141058866059e9ec9eadcfdda4f4d05afbb1887594e0318900a05e4eb9f8",

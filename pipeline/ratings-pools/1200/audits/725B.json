@@ -20,30 +20,266 @@
     "21790348": {
       "kind": "wrong-answer",
       "reason": "left-side seat order reversed (a:6,b:5,c:4 instead of a:4,b:5,c:6) and row parsed from a single digit; 4a -> 13, correct 11",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/725B-21790348.json",
+        "counterexample": {
+          "actualAnswer": "13\n",
+          "actualOutputSha256": "1a252402972f6057fa53cc172b52b9ffca698e18311facd0f3b06ecaaef79e17",
+          "constraints": "n=4 in 1..1e18, seat in a..f.",
+          "correctAnswer": "11",
+          "derivation": "Rows are served in blocks of 4: attendants serve (1,3), move 1, serve (2,4), move 3, then repeat 16 seconds later. For row n: block=(n-1)//4 contributes 16*block; offset (n-1)%4 in {1,3} (rows 2,4 of the block) adds 6 serving + 1 moving = 7; seat order f,e,d,a,b,c adds 1..6. '4a': block 0, offset 3 -> +7, seat a is 4th -> 11; source gives 0+7+6=13.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "b6820659a8e4a4386e1ed18c3db173d792634a8729953d5369760030b736e137",
+          "packageExpectedOutput": "11",
+          "test": "0003",
+          "validLFInput": "4a\n",
+          "validLFInputSha256": "e828fa5d22763ee740ee69d07bc54222f2592e04b81ad9cc8e72f46d98656ec5"
+        },
+        "excludedNonAlgorithmicCauses": "None: row 4 is a single digit, so the failure is the seat order; same on LF input.",
+        "faultyLogic": "Line 7 reverses the left-side order: within a row the left side is served window to aisle, a(4), b(5), c(6), not a:6,b:5,c:4. (Line 5 single-digit row parsing is an additional defect, irrelevant for this counterexample.)",
+        "implementedAlgorithm": "Parses row as the first character only; seat weights a:6,b:5,c:4,d:3,e:2,f:1; time = 16*z + 7*[n even] + k.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/725B/sub-21790348.json",
+          "fullRunLogSha256": "581a4a8fb49d1bdabc6419565d316763c547f3c6ed18fb686b51a3ddf9dcd208",
+          "outputHash": "1a252402972f6057fa53cc172b52b9ffca698e18311facd0f3b06ecaaef79e17",
+          "path": "archive/725B/sub-21790348-lf.json",
+          "sha256": "f7dcc994e93e22e0d59216ea44170970657eb590175540eb7eb234316c6294fe",
+          "sourceFile": "archive/725B/source-21790348.txt",
+          "sourceFileSha256": "44d3ce6844238b87c23de2862786eb5cd1feb6cccada2e793043b018daf818b0",
+          "verdict": "WA"
+        },
+        "sourceHash": "44d3ce6844238b87c23de2862786eb5cd1feb6cccada2e793043b018daf818b0",
+        "sourceLines": [
+          {
+            "code": "n = int(str[0])\ns = str[1]\ndict = {'a': 6, 'b': 5 , 'c' : 4, 'd':3, 'e':2, 'f':1}\nk = dict.setdefault(s)\nb = 0\n\nif n%2 == 0:\n    b = 1\nelse:\n    b = 0\n\nif n%4>0:\n    z = n//4\nelse:\n    z = n//4 - 1\n    \ntime = z*16 +  b*7 + k",
+            "end": 21,
+            "start": 5
+          }
+        ]
+      },
       "test": "0003"
     },
     "22120306": {
       "kind": "wrong-answer",
       "reason": "reads only the first character as the row (int(t[0])) and t[1] as the seat, so any multi-digit row (n up to 1e18) is misparsed; 1000000000000000000d -> 0, correct 3999999999999999994",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/725B-22120306.json",
+        "counterexample": {
+          "actualAnswer": "0\n",
+          "actualOutputSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "constraints": "n=1e18 (max), seat d.",
+          "correctAnswer": "3999999999999999994",
+          "derivation": "Rows are served in blocks of 4: attendants serve (1,3), move 1, serve (2,4), move 3, then repeat 16 seconds later. For row n: block=(n-1)//4 contributes 16*block; offset (n-1)%4 in {1,3} (rows 2,4 of the block) adds 6 serving + 1 moving = 7; seat order f,e,d,a,b,c adds 1..6. n=1e18, seat d: block=(1e18-1)//4=249999999999999999 -> 3999999999999999984, offset 3 -> +7, d -> +3: 3999999999999999994. Source parses row 1 and seat '0' (find -> 0) -> 0.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "47e5940eaadf1498a7b3190a93262feb58b0d7e818a0ba348569bc69543d67af",
+          "packageExpectedOutput": "3999999999999999994",
+          "test": "0007",
+          "validLFInput": "1000000000000000000d\n",
+          "validLFInputSha256": "3118f1458e05e24af3fc2f276b034ca41b67fb2046c050dc5caf56597aa2c82f"
+        },
+        "excludedNonAlgorithmicCauses": "Parser defect counted with source-specific explanation; not CRLF (LF output also 0).",
+        "faultyLogic": "Lines 3-4: only the first character is the row and the second character is taken as the seat. Parser defect that miscomputes valid data (source-specific): the statement allows 1<=n<=1e18 written in decimal directly followed by the seat letter, but the program reads only the first character as the row and the second character as the seat, so every multi-digit row is mis-modelled. This is a semantic misreading of the input format, not a line-ending or runtime artefact.",
+        "implementedAlgorithm": "n=int(t[0])-1, seat=t[1]; time = index in '0fedabc' + 7*[n%4 in {1,3}] + 16*(n//4) (formula otherwise correct for single-digit rows).",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/725B/sub-22120306.json",
+          "fullRunLogSha256": "d2d489a2031e3b4da68482be2c67b2abb4034a25862466e1ce18d05fbeeef8f3",
+          "outputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "path": "archive/725B/sub-22120306-lf.json",
+          "sha256": "16a3e69c9e86c7b8b533d91ed70d6e4f205ae48425b2a786d69473efadd1fda9",
+          "sourceFile": "archive/725B/source-22120306.txt",
+          "sourceFileSha256": "f345a428e673d93b9110d4e3ab13b475999bb31836bf2e37776537c0533c3468",
+          "verdict": "WA"
+        },
+        "sourceHash": "f345a428e673d93b9110d4e3ab13b475999bb31836bf2e37776537c0533c3468",
+        "sourceLines": [
+          {
+            "code": "m='0fedabc'\nt=input()\nn=int(t[0])-1\ns=t[1]\nk1=m.find(s)\nk2=(7 if n%4==1 or n%4==3 else 0)\nk3=16*(n//4)\nprint(k1+k2+k3)",
+            "end": 8,
+            "start": 1
+          }
+        ]
+      },
       "test": "0007"
     },
     "24506000": {
       "kind": "wrong-answer",
       "reason": "single-digit row assumption (int(ns[0]), seat ns[1]); 1000000000000000000d parsed as row 1 seat \"0\" -> 0, correct 3999999999999999994",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/725B-24506000.json",
+        "counterexample": {
+          "actualAnswer": "0\n",
+          "actualOutputSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "constraints": "n=1e18, seat d.",
+          "correctAnswer": "3999999999999999994",
+          "derivation": "Rows are served in blocks of 4: attendants serve (1,3), move 1, serve (2,4), move 3, then repeat 16 seconds later. For row n: block=(n-1)//4 contributes 16*block; offset (n-1)%4 in {1,3} (rows 2,4 of the block) adds 6 serving + 1 moving = 7; seat order f,e,d,a,b,c adds 1..6. -> 3999999999999999994; source: row 1, seat '0' matches no branch -> 0.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "47e5940eaadf1498a7b3190a93262feb58b0d7e818a0ba348569bc69543d67af",
+          "packageExpectedOutput": "3999999999999999994",
+          "test": "0007",
+          "validLFInput": "1000000000000000000d\n",
+          "validLFInputSha256": "3118f1458e05e24af3fc2f276b034ca41b67fb2046c050dc5caf56597aa2c82f"
+        },
+        "excludedNonAlgorithmicCauses": "Parser defect counted with source-specific explanation; LF output 0.",
+        "faultyLogic": "Lines 2-3 read a single-digit row and take the next character as the seat. Parser defect that miscomputes valid data (source-specific): the statement allows 1<=n<=1e18 written in decimal directly followed by the seat letter, but the program reads only the first character as the row and the second character as the seat, so every multi-digit row is mis-modelled. This is a semantic misreading of the input format, not a line-ending or runtime artefact.",
+        "implementedAlgorithm": "n=int(ns[0]), s=ns[1]; computes d*6+r with block corrections, then adds seat offset f..c = 1..6.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/725B/sub-24506000.json",
+          "fullRunLogSha256": "6554ecdbb3c4e17e420bda7f65507231a488fa09f8bf7ce2f3da3eb2ec750d52",
+          "outputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "path": "archive/725B/sub-24506000-lf.json",
+          "sha256": "ba178accbd1c77b3bf7fbeab26b17e4c1aead8c0fcec1d5dd6b042db064af2d7",
+          "sourceFile": "archive/725B/source-24506000.txt",
+          "sourceFileSha256": "9dfdcb92b35dbad3e61d2aed45bba2b4aaa44b63d217ca9dcb62a57be17f22c5",
+          "verdict": "WA"
+        },
+        "sourceHash": "9dfdcb92b35dbad3e61d2aed45bba2b4aaa44b63d217ca9dcb62a57be17f22c5",
+        "sourceLines": [
+          {
+            "code": "ns = input()\nn = int(ns[0])\ns = ns[1]\n\n# 1/3, 2/4, +3 5/7, 6/8, +3, 9/11, 10/12, +3 13/15, 14/16\nr = n - 1\nif n % 4 == 0 or (n + 1) % 4 == 0:\n  d = int(n / 2) - 1\n  r = n - 3\nelse:\n  d = int(n / 2)\nt = d * 6 + r\nif s == \"f\":\n  t += 1\nelif s == \"e\":\n  t += 2\nelif s == \"d\":\n  t += 3\nelif s == \"a\":\n  t += 4\nelif s == \"b\":\n  t += 5\nelif s == \"c\":\n  t += 6\n\nprint(t)",
+            "end": 26,
+            "start": 1
+          }
+        ]
+      },
       "test": "0007"
     },
     "24508502": {
       "kind": "wrong-answer",
       "reason": "single-digit row assumption (int(s[0])-1, seat=ord(s[1])-97); 1000000000000000000d -> -45, correct 3999999999999999994",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/725B-24508502.json",
+        "counterexample": {
+          "actualAnswer": "-45\n",
+          "actualOutputSha256": "5be300ec49928c621b14fa6df9e25fcb4c468a873be93a8c6cb6be5a6d9f4ce2",
+          "constraints": "n=1e18, seat d.",
+          "correctAnswer": "3999999999999999994",
+          "derivation": "Rows are served in blocks of 4: attendants serve (1,3), move 1, serve (2,4), move 3, then repeat 16 seconds later. For row n: block=(n-1)//4 contributes 16*block; offset (n-1)%4 in {1,3} (rows 2,4 of the block) adds 6 serving + 1 moving = 7; seat order f,e,d,a,b,c adds 1..6. -> 3999999999999999994; source: row 0, seat ord('0')-97=-49 -> +4 -> -45.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "47e5940eaadf1498a7b3190a93262feb58b0d7e818a0ba348569bc69543d67af",
+          "packageExpectedOutput": "3999999999999999994",
+          "test": "0007",
+          "validLFInput": "1000000000000000000d\n",
+          "validLFInputSha256": "3118f1458e05e24af3fc2f276b034ca41b67fb2046c050dc5caf56597aa2c82f"
+        },
+        "excludedNonAlgorithmicCauses": "Parser defect counted with source-specific explanation; LF output -45.",
+        "faultyLogic": "Lines 20-21 read one-digit rows and treat the second character as the seat. Parser defect that miscomputes valid data (source-specific): the statement allows 1<=n<=1e18 written in decimal directly followed by the seat letter, but the program reads only the first character as the row and the second character as the seat, so every multi-digit row is mis-modelled. This is a semantic misreading of the input format, not a line-ending or runtime artefact.",
+        "implementedAlgorithm": "row=int(s[0])-1, seat=ord(s[1])-97 mapped to serving order; time = 16*row_set + 7*row_mod + seat.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/725B/sub-24508502.json",
+          "fullRunLogSha256": "03729a10db41ceda473c63df49beb5435320ab3fedf98fe88c62786219c9d6f2",
+          "outputHash": "5be300ec49928c621b14fa6df9e25fcb4c468a873be93a8c6cb6be5a6d9f4ce2",
+          "path": "archive/725B/sub-24508502-lf.json",
+          "sha256": "ca4789790907367443282221c1fa055b3898f986f902a340b3d94299425f088b",
+          "sourceFile": "archive/725B/source-24508502.txt",
+          "sourceFileSha256": "0881298193d0fb03b18999be1060f66c517364c1f54389d5db9fff76711bb703",
+          "verdict": "WA"
+        },
+        "sourceHash": "0881298193d0fb03b18999be1060f66c517364c1f54389d5db9fff76711bb703",
+        "sourceLines": [
+          {
+            "code": "s = get_str()\n\nrow = int(s[0]) - 1\nseat = (ord(s[1]) - ord('a'))\n\nif seat > 2:\n    seat = 6 - seat\nelse:\n    seat += 4\n\nrow_set = int(row / 4)\nrow_i = row % 4\nif row_i == 0 or row_i == 2:\n    row_mod = 0\nelse:\n    row_mod = 1\n\nprnt(row_set, row_mod, seat)\n\nprint(16*row_set + 7*row_mod + seat)",
+            "end": 37,
+            "start": 18
+          }
+        ]
+      },
       "test": "0007"
     },
     "49106733": {
       "kind": "wrong-answer",
       "reason": "single-digit row assumption (n=int(s[0]), ch=s[1]); 1000000000000000000d -> 0, correct 3999999999999999994",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "binding": "bindings/725B-49106733.json",
+        "counterexample": {
+          "actualAnswer": "0\n",
+          "actualOutputSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "constraints": "n=1e18, seat d.",
+          "correctAnswer": "3999999999999999994",
+          "derivation": "Rows are served in blocks of 4: attendants serve (1,3), move 1, serve (2,4), move 3, then repeat 16 seconds later. For row n: block=(n-1)//4 contributes 16*block; offset (n-1)%4 in {1,3} (rows 2,4 of the block) adds 6 serving + 1 moving = 7; seat order f,e,d,a,b,c adds 1..6. -> 3999999999999999994; source: row 1, seat '0' -> 0.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": true,
+          "originalTestSha256": "47e5940eaadf1498a7b3190a93262feb58b0d7e818a0ba348569bc69543d67af",
+          "packageExpectedOutput": "3999999999999999994",
+          "test": "0007",
+          "validLFInput": "1000000000000000000d\n",
+          "validLFInputSha256": "3118f1458e05e24af3fc2f276b034ca41b67fb2046c050dc5caf56597aa2c82f"
+        },
+        "excludedNonAlgorithmicCauses": "Parser defect counted with source-specific explanation; LF output 0.",
+        "faultyLogic": "Lines 6-7 read a one-digit row and take the second character as seat. Parser defect that miscomputes valid data (source-specific): the statement allows 1<=n<=1e18 written in decimal directly followed by the seat letter, but the program reads only the first character as the row and the second character as the seat, so every multi-digit row is mis-modelled. This is a semantic misreading of the input format, not a line-ending or runtime artefact.",
+        "implementedAlgorithm": "n=int(s[0]), ch=s[1]; ans = (n-1)//4*16 + 7*[n%4 in {0,2}] + seat offset.",
+        "lfExecutionLog": {
+          "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+          "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "fullRunLog": "archive/725B/sub-49106733.json",
+          "fullRunLogSha256": "8b549ed06c3c6e7b3b202ec0517e87b7b3c2320679d99bbc906e0488cf894a4e",
+          "outputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "path": "archive/725B/sub-49106733-lf.json",
+          "sha256": "9eb4516c6be8e048ff19bda0e9a5ae10254021cacd33f13c5988748b81c5abe5",
+          "sourceFile": "archive/725B/source-49106733.txt",
+          "sourceFileSha256": "3d057955aa3539d6d90bd87c753f3febf482aaed9f133d59e120be15d3dcfd7d",
+          "verdict": "WA"
+        },
+        "sourceHash": "3d057955aa3539d6d90bd87c753f3febf482aaed9f133d59e120be15d3dcfd7d",
+        "sourceLines": [
+          {
+            "code": "    s = input()\n    n = int(s[0])\n    ch = s[1]\n    ans = (n - 1) // 4 * 16\n    n %= 4\n    if n == 0 or n == 2:\n        ans += 7\n    if ch == 'a':\n        ans += 4\n    if ch == 'b':\n        ans += 5\n    if ch == 'c':\n        ans += 6\n    if ch == 'd':\n        ans += 3\n    if ch == 'e':\n        ans += 2\n    if ch == 'f':\n        ans += 1\n    print(str(ans))",
+            "end": 24,
+            "start": 5
+          }
+        ]
+      },
       "test": "0007"
     }
   },
   "packageHash": "59086f05faf35b61514e280540f23dc0c6a57ae9cac6ba5ac121f21ca12f0ec2",
+  "previousAuditDigest": "b1275df1de3ff7e66b0a18e571576bc54f08a1b7a69f5c41f8afe47017122abb",
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [],
@@ -51,6 +287,8 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4",
   "reviewer": "devin-21803116a99741d7a7672cde5aff36d4 (independent rating1200 auditor, https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4)",
   "schemaVersion": 1,
+  "semanticReviewArchive": "rating1200-semantic-645B-9C.tar.gz (see README)",
+  "semanticReviewPerformed": "Source-specific semantic re-review: the auditor read the full code of each of the 5 designated-wrong sources, wrote the implemented algorithm/fault from that code, cited exact source lines, and derived each correct answer from the problem semantics. Counterexamples bind to unchanged executionVersion2 LF execution logs in the original archive.",
   "verification": {
     "archiveFilesAllMatchProvenance": true,
     "archiveSha256": "e1d71aeb8f82d67300a26b686fa5277fa4084c70b036516f75a1153ea2a2f4fe",
