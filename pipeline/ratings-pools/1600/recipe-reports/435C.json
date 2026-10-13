@@ -1,0 +1,390 @@
+{
+  "checks": {
+    "bruteChecks": {
+      "435C": 0
+    },
+    "commands": [
+      "python3 -c json.load (report)",
+      "git diff --check"
+    ],
+    "note": "No recipe or unit test authored (exclusion), so there are no brute_checks or unittest assertions to report. The scratch review compared 43 official outputs and 2 attested sample files against the derived image.",
+    "unittestAssertionCalls": 0,
+    "unittestMethods": 0
+  },
+  "exclusion": {
+    "category": "whitespace-exact-checker",
+    "excluded": true,
+    "reasons": [
+      "The original statement requires a whitespace-exact checker: 'Note that in this problem the checker checks your answer taking spaces into consideration. Do not print any extra characters.' Every output line must contain exactly sum(a_i) characters from {'/', '\\\\', ' '}. The repo judge and pipeline/checker.py compare whitespace-split tokens (docs/JUDGE_API.md 'Token-based comparison'), so a token comparison would be falsely unique: it accepts images with wrong column positions, missing leading or trailing padding, or extra space columns.",
+      "Selected public CF WRONG_ANSWER sources would pass a token checker even though they fail CF's whitespace check. They were inspected, not executed. 49683913 (WA, passedTestCount 0) builds the correct image but trims each row after its last non-space character, so it drops the required trailing spaces. 151394193 (WA, passedTestCount 0) writes columns 1..S of 1001-wide rows, so every row gets an extra leading space and is padded to 1001 characters. Neither output differs from the correct image in its token sequence. Using those verdicts as algorithmic WA evidence, or treating token-AC as faithful, would be wrong.",
+      "The upstream test bytes cannot back an exact checker either. 15 of the 43 pinned official outputs (all of the LF-stored large cases) are missing the leading spaces of line 1 (listed in officialReview.malformedOrContradictoryPairs), so a correct program fails them under exact comparison. The pinned row's examples have lost all spaces and line structure. The statement itself says the sample answers cannot be copied and links to assets.codeforces.com/rounds/435/{1,2}.txt.",
+      "Any trustworthy package would need a custom whitespace-exact checker plus authored, re-derived expected outputs to replace the corrupted official bytes. This author task forbids both rewriting imported test bytes to fit a solver and making token comparison falsely unique, so the recipe is excluded instead of authored. No recipe_435C.py or test_recipe_435C.py was written."
+    ],
+    "reversal": "Feasible only if the parent decides to add a whitespace-exact checker contract (specialJudge/custom checker) and accepts authored expected outputs in place of the 15 malformed official outputs. The derivation used here (rows y = max..min+1; up-segment k of edge i puts '/' at column x_i+k in row y_i+k, down-segment puts '\\\\' at column x_i+k in row y_i-k) reproduces the other 28 official outputs exactly, and both attached sample answer files byte-for-byte."
+  },
+  "files": {},
+  "id": "435C",
+  "inputs": {
+    "archiveBytes": 4542856,
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "file": "inputs/435C.json",
+    "fileBytes": 5886927,
+    "fileSha256": "5e351b8ac8b503559a3ae822913e7c4ccace6e67bc67c0fe429d34f4e16824dd",
+    "manifestEntryMatches": true,
+    "manifestSha256": "c5aa6b8341d4ab6814424de54e241e91390fdc4c079e7f1daa4379bf07075381",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "sourceRowHash": "1d386c8439950f4bc0b8e7ae7b55f6deb0a24001a459fa286a903db41ad1af11",
+    "sourceRowHashRecomputed": "1d386c8439950f4bc0b8e7ae7b55f6deb0a24001a459fa286a903db41ad1af11",
+    "sourceShard": {
+      "bytes": 281027001,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00007-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "7e2117698a2a6c20e2047d0b478a77c58f9644ba25777911fa40145afacf18b2",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00007-of-00011.parquet"
+    }
+  },
+  "notAnAudit": true,
+  "officialReview": {
+    "allInputsWithinConstraints": true,
+    "exactMatchCount": 28,
+    "exactMatchIndices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      29,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      41,
+      42
+    ],
+    "inputLineEndings": "All 43 official inputs are CRLF with a trailing CRLF.",
+    "malformedOrContradictoryPairs": [
+      {
+        "defect": "Line 1 of the stored output is missing its 29 leading spaces (stored length 971, required 1000); every other line is byte-identical to the derived image.",
+        "inputSha256": "53fca0b1e2ccd6e0eb7d56a4d7f342ae57a96dcb9868c045f155bc286242e6aa",
+        "lineEndings": "input CRLF, output LF",
+        "n": 100,
+        "officialIndex": 7,
+        "outputBytes": 45016,
+        "outputLines": 45,
+        "outputSha256": "cd6947a301c81a99f6189ac12aa499f9d624334bf5a9c6b78063d51d602cabd1",
+        "sumA": 1000,
+        "tokenEqualToDerivedImage": true
+      },
+      {
+        "defect": "Line 1 of the stored output is missing its 477 leading spaces (stored length 523, required 1000); every other line is byte-identical to the derived image.",
+        "inputSha256": "36d258d78166ca46f6bfa3cd781bfc6d9fea7ad1bc4b373f60d9a508e117a6c7",
+        "lineEndings": "input CRLF, output LF",
+        "n": 2,
+        "officialIndex": 8,
+        "outputBytes": 522045,
+        "outputLines": 522,
+        "outputSha256": "184defe957425c6127d4aca9d68e26fc7953175d7ecc66eb9cd5700215406546",
+        "sumA": 1000,
+        "tokenEqualToDerivedImage": true
+      },
+      {
+        "defect": "Line 1 of the stored output is missing its 327 leading spaces (stored length 673, required 1000); every other line is byte-identical to the derived image.",
+        "inputSha256": "97ed471ef1d6e4904830646ba086ccb1714bf693f33941481120f638a9895940",
+        "lineEndings": "input CRLF, output LF",
+        "n": 3,
+        "officialIndex": 9,
+        "outputBytes": 341014,
+        "outputLines": 341,
+        "outputSha256": "a283532fd9952bf99840264d5e74c810ce9459abeac7fbd8e8a72dd3581eedcb",
+        "sumA": 1000,
+        "tokenEqualToDerivedImage": true
+      },
+      {
+        "defect": "Line 1 of the stored output is missing its 763 leading spaces (stored length 237, required 1000); every other line is byte-identical to the derived image.",
+        "inputSha256": "8dc632900c312c6226737dbe67978009f519c73194816bd4806b174c262d3cde",
+        "lineEndings": "input CRLF, output LF",
+        "n": 4,
+        "officialIndex": 10,
+        "outputBytes": 263501,
+        "outputLines": 264,
+        "outputSha256": "be60e3871d184dd1763bdb35552a420eeb6169e69904341906de5227c8c69fc1",
+        "sumA": 1000,
+        "tokenEqualToDerivedImage": true
+      },
+      {
+        "defect": "Line 1 of the stored output is missing its 197 leading spaces (stored length 803, required 1000); every other line is byte-identical to the derived image.",
+        "inputSha256": "e517250e19af0cffed2906740a69c7d3b0d28593138af84c662aa5385491c484",
+        "lineEndings": "input CRLF, output LF",
+        "n": 5,
+        "officialIndex": 11,
+        "outputBytes": 213016,
+        "outputLines": 213,
+        "outputSha256": "cdf634b5fc2b0ed74f32d20f21ac6192f92242d6b8e7746e2aed974612a80f94",
+        "sumA": 1000,
+        "tokenEqualToDerivedImage": true
+      },
+      {
+        "defect": "Line 1 of the stored output is missing its 847 leading spaces (stored length 153, required 1000); every other line is byte-identical to the derived image.",
+        "inputSha256": "02122a2e4f2953627f7c1ced38f4813772ac781f63fc191643795422721a0bd0",
+        "lineEndings": "input CRLF, output LF",
+        "n": 6,
+        "officialIndex": 12,
+        "outputBytes": 178332,
+        "outputLines": 179,
+        "outputSha256": "a739d89067e6931ff6f4b09962671afbc665b34b5642b1af84f3d4cf8eec3c0e",
+        "sumA": 1000,
+        "tokenEqualToDerivedImage": true
+      },
+      {
+        "defect": "Line 1 of the stored output is missing its 153 leading spaces (stored length 847, required 1000); every other line is byte-identical to the derived image.",
+        "inputSha256": "e37ea3c981bb952b41e46417f3829030dac240733cb57e9a3340780839cb2619",
+        "lineEndings": "input CRLF, output LF",
+        "n": 7,
+        "officialIndex": 13,
+        "outputBytes": 160007,
+        "outputLines": 160,
+        "outputSha256": "525088757922234e77f7862f6e506e4afd1f817eb65dd99ebe4b732988f25a22",
+        "sumA": 1000,
+        "tokenEqualToDerivedImage": true
+      },
+      {
+        "defect": "Line 1 of the stored output is missing its 631 leading spaces (stored length 368, required 999); every other line is byte-identical to the derived image.",
+        "inputSha256": "6cd0b7a91cbe5b54b6f0770d0ef38181cabf541a30b1fd0cc0e3ecc9896b38c8",
+        "lineEndings": "input CRLF, output LF",
+        "n": 8,
+        "officialIndex": 14,
+        "outputBytes": 164369,
+        "outputLines": 165,
+        "outputSha256": "5294c5fbd06ed9688703f52ab6a8f9ead9b09b912329d3476d838c03106cfdb6",
+        "sumA": 999,
+        "tokenEqualToDerivedImage": true
+      },
+      {
+        "defect": "Line 1 of the stored output is missing its 997 leading spaces (stored length 1, required 998); every other line is byte-identical to the derived image.",
+        "inputSha256": "a48b2c1e7c382a2146f91578cdaef85fae42aa5c66043f9252b9288ef6451550",
+        "lineEndings": "input CRLF, output LF",
+        "n": 9,
+        "officialIndex": 15,
+        "outputBytes": 141860,
+        "outputLines": 143,
+        "outputSha256": "05ed256b271fb3982b543c37516dc2f39a71118b5d591ebbcb8236851e6879d6",
+        "sumA": 998,
+        "tokenEqualToDerivedImage": true
+      },
+      {
+        "defect": "Line 1 of the stored output is missing its 499 leading spaces (stored length 501, required 1000); every other line is byte-identical to the derived image.",
+        "inputSha256": "a567c1587e47b94fe17004ced7386aa6244ae9cf226d634500280c3e76412157",
+        "lineEndings": "input CRLF, output LF",
+        "n": 2,
+        "officialIndex": 27,
+        "outputBytes": 500001,
+        "outputLines": 500,
+        "outputSha256": "cf15ee58cd7b3312f4ce2a0ade2ad5bc3e7e91152d5d561d3f8e7d3b91f91ac0",
+        "sumA": 1000,
+        "tokenEqualToDerivedImage": true
+      },
+      {
+        "defect": "Line 1 of the stored output is missing its 999 leading spaces (stored length 1, required 1000); every other line is byte-identical to the derived image.",
+        "inputSha256": "b663e60605c647247b8b48d8f8d35ee69e75d0a87a0ecd60636b2a5c3dec9412",
+        "lineEndings": "input CRLF, output LF",
+        "n": 3,
+        "officialIndex": 28,
+        "outputBytes": 499501,
+        "outputLines": 500,
+        "outputSha256": "9618945c060a6714177f2b6bfb3640ce8f8de579d162153efaafa41575e4fda9",
+        "sumA": 1000,
+        "tokenEqualToDerivedImage": true
+      },
+      {
+        "defect": "Line 1 of the stored output is missing its 601 leading spaces (stored length 2, required 603); every other line is byte-identical to the derived image.",
+        "inputSha256": "a6ab2d732b82889c5943f7d09534b6a6e9dade84a9bd05389cb3d034dccc183a",
+        "lineEndings": "input CRLF, output LF",
+        "n": 6,
+        "officialIndex": 30,
+        "outputBytes": 360591,
+        "outputLines": 598,
+        "outputSha256": "9c1ce4fd341e47dd6d54defc7bb11302c97068e0ef60104070901b65ef5d3d5b",
+        "sumA": 603,
+        "tokenEqualToDerivedImage": true
+      },
+      {
+        "defect": "Line 1 of the stored output is missing its 13 leading spaces (stored length 714, required 727); every other line is byte-identical to the derived image.",
+        "inputSha256": "4165ae72472b18bf3dce9eec6b28ccb1a3c256f38be7a6d2882aaacbdf6d39c1",
+        "lineEndings": "input CRLF, output LF",
+        "n": 123,
+        "officialIndex": 31,
+        "outputBytes": 27651,
+        "outputLines": 38,
+        "outputSha256": "738f6d9d60e7e8e12ae388b69675e619ce2924d93bb65f69a5eb8269e21be202",
+        "sumA": 727,
+        "tokenEqualToDerivedImage": true
+      },
+      {
+        "defect": "Line 1 of the stored output is missing its 419 leading spaces (stored length 400, required 819); every other line is byte-identical to the derived image.",
+        "inputSha256": "d26189c4b4d7df812a94fbf5fae74ada06599b86c5c87ecdb1ebb63f0d19d74d",
+        "lineEndings": "input CRLF, output LF",
+        "n": 23,
+        "officialIndex": 32,
+        "outputBytes": 53701,
+        "outputLines": 66,
+        "outputSha256": "283f67af112051e21dd74e074a5e0e66c2eb0f7cabda6057f32cbb6308520d2c",
+        "sumA": 819,
+        "tokenEqualToDerivedImage": true
+      },
+      {
+        "defect": "Line 1 of the stored output is missing its 998 leading spaces (stored length 2, required 1000); every other line is byte-identical to the derived image.",
+        "inputSha256": "3c04ef2115b5180f011d1b2842972d10874872e4642557581c1790857b92b7a1",
+        "lineEndings": "input CRLF, output LF",
+        "n": 2,
+        "officialIndex": 40,
+        "outputBytes": 999001,
+        "outputLines": 999,
+        "outputSha256": "0dc6daf09dbdbd91db588ce3da7be54215b0358eba0cede4bab892d6fc65a1a5",
+        "sumA": 1000,
+        "tokenEqualToDerivedImage": true
+      }
+    ],
+    "officialComplete": false,
+    "officialTestsInRow": 43,
+    "openR1GeneratedTests": "Row reports generated_tests=9 as a count only; generated test bytes are not in this input and were not reviewed.",
+    "reviewMethod": "Inspection-only scratch script (not committed, per exclusion rule): regex-validated layout and ranges, then compared to an independently derived image. No public program executed.",
+    "samples": [
+      {
+        "defect": "Stored sample output has no spaces and splits every character onto its own line; neither exact- nor token-equal to the attested answer file.",
+        "index": 0,
+        "inputSha256": "1d58ff046e33483735c25b0146c41d53699937084b8bba7244729e56c5b3e603",
+        "malformed": true,
+        "outputSha256": "ef021ba897895cf4c48f9f2706a3a25907f8facaafd9d5546c58019792e28cde"
+      },
+      {
+        "defect": "Stored sample output has no spaces and splits every character onto its own line; neither exact- nor token-equal to the attested answer file.",
+        "index": 1,
+        "inputSha256": "faf41042999bdb7a1590933b392e0580bd441e7687d52da12e8be9c6b2b77ca3",
+        "malformed": true,
+        "outputSha256": "159e915a35bfe5e6367f795ffce4bbbdabee438108f1b41bf6d8d1aab0d02f31"
+      }
+    ],
+    "testsetSize": 46,
+    "tokenCheckerBlindCount": 39,
+    "tokenCheckerBlindNote": "For 39 of 43 official tests, stripping every line's leading/trailing spaces from the correct image yields a wrong image with the same tokens. The 4 single-line cases are the exceptions.",
+    "tokenMatchCount": 43
+  },
+  "problem": {
+    "aliases": [
+      "435/C"
+    ],
+    "constraints": {
+      "a_i": [
+        1,
+        1000
+      ],
+      "n": [
+        2,
+        1000
+      ],
+      "output": "max|y_i-y_j| lines of exactly sum(a_i) characters each in {'/','\\\\',' '}",
+      "sumA": "<= 1000"
+    },
+    "contest": "Codeforces Round 249 (Div. 2)",
+    "customChecker": true,
+    "customCheckerNote": "Statement mandates space-sensitive comparison; incompatible with the token checker.",
+    "fileIO": false,
+    "floatingOutput": false,
+    "inputMode": "stdio",
+    "interactive": false,
+    "memoryLimitMB": 256.0,
+    "multipleValidOutputs": false,
+    "rating": 1600,
+    "sourceId": "435/C",
+    "statementComplete": "Full pinned description/input_format/output_format/note read; no image or omitted question. The polyline formula is TeX-rendered on the public page and present in the row as $$...$$.",
+    "tags": [
+      "implementation"
+    ],
+    "timeLimitSeconds": 1.0,
+    "title": "Cardiogram"
+  },
+  "role": "recipe-author",
+  "selectedSubmissionsReview": {
+    "count": 22,
+    "executed": false,
+    "notes": {
+      "10655983": "WA@test1: joins row characters with ' ' -> token-detectable, but the failure is spacing/presentation.",
+      "151394193": "WA@test1: extra leading space column and rows padded to 1001 chars -> token-equal, presentation-only under a token checker.",
+      "35804389": "WA, passedTestCount 3: not analyzed in depth and not relied on.",
+      "49683913": "WA@test1: correct image, rows trimmed (no trailing spaces) -> token-equal, presentation-only under a token checker.",
+      "6748973": "WA@test9: prints max(a_i) rows instead of max|y_i-y_j| (row-count logic error).",
+      "6759031": "WA, passedTestCount 3: not analyzed in depth and not relied on.",
+      "TLE": "6750200, 7252781, 15625641, 42486935 are TIME_LIMIT_EXCEEDED Python; not algorithmic evidence."
+    },
+    "verdicts": {
+      "OK": 12,
+      "TIME_LIMIT_EXCEEDED": 4,
+      "WRONG_ANSWER": 6
+    }
+  },
+  "semantics": "n (2..1000), a_1..a_n (1..1000, sum<=1000). Draw the polyline (0,0),(a1,a1),(a1+a2,a1-a2),... as an ASCII image with one '/' or '\\\\' per unit x step. The output is unique but must be compared whitespace-exactly (statement note), so it is excluded under the token checker.",
+  "sourceCorrectionProposal": {
+    "needed": false,
+    "note": "No flattened superscripts: the bounds 1000 are literal in the public statement (no <sup> elements in the statement div). No proposed edits to statement fields. The examples field in the row is malformed (spaces and line breaks lost). The correct sample answers are the attached assets files; their LF bytes equal official tests 0 and 1 after CRLF->LF."
+  },
+  "statementAttestation": {
+    "attestedSentence": "Note that in this problem the checker checks your answer taking spaces into consideration. Do not print any extra characters.",
+    "bodyBytes": 59513,
+    "bodySha256": "0e06c6cdf0b9b133633bc0a30f6d79a9d26294957f5c9140c935c83b5d1eb6b0",
+    "capturedAt": "2026-10-13T02:14:52Z",
+    "copy": null,
+    "copyNote": "No statement copy committed: the exclusion path commits only this report. The sample answer files have meaningful trailing spaces, which would fail git diff --check.",
+    "locale": "en",
+    "problemStatementDiv": {
+      "bodyByteRange": [
+        35804,
+        40574
+      ],
+      "bytes": 4770,
+      "sha256": "108fbfa228b0c061462f30d6be49837471f29be3460846dfac37e142884eab7c"
+    },
+    "sampleAnswerFiles": [
+      {
+        "bytes": 65,
+        "equalsDerivedImage": true,
+        "equalsOfficialTest0OutputLF": true,
+        "requestedUrl": "http://assets.codeforces.com/rounds/435/1.txt (301 -> https)",
+        "sha256": "fc59aa8d78954f387ba5ea9c0fb89b1d5151468761ea02f3f6e25ddeefc0e229",
+        "url": "https://assets.codeforces.com/rounds/435/1.txt"
+      },
+      {
+        "bytes": 40,
+        "equalsDerivedImage": true,
+        "equalsOfficialTest1OutputLF": true,
+        "requestedUrl": "http://assets.codeforces.com/rounds/435/2.txt (301 -> https)",
+        "sha256": "6e25a7837f9d5e689f4dfac1d700cec0e03825e82aa95f130d50dfff46b9e7ae",
+        "url": "https://assets.codeforces.com/rounds/435/2.txt"
+      }
+    ],
+    "sourceUrl": "https://codeforces.me/problemset/problem/435/C?locale=en",
+    "transport": "Public unauthenticated HTTP GET (curl, browser User-Agent), HTTP 200; raw response body unchanged."
+  },
+  "statusNote": "Recipe author exclusion only. Not a qualification, audit, or signoff.",
+  "validated": false
+}
