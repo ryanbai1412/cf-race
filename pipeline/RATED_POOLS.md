@@ -341,15 +341,21 @@ source bytes and attribution, canonical IDs, exact ratings, duplicate/omitted
 entries, and rejection of empty publication approvals. Archives, source code,
 execution logs and the full index remain external artifacts, not bulk Git data.
 
+The metadata-only `rated-pools-combined.json` records the frozen 202-package
+snapshot and its private evidence archive's URL and SHA256. Download the archive
+with access to its attachment and save it as `rated-pools-combined-evidence.tar.gz`:
+
 ```sh
-python3 -B pipeline/pool_combine.py extract proof.tar.gz restored \
-  --sha256 EXPECTED_ARCHIVE_SHA256 --output extraction.json
-python3 -B pipeline/pool_combine.py replay restored/snapshot.json \
+python3 -B pipeline/pool_combine.py extract rated-pools-combined-evidence.tar.gz restored \
+  --sha256 f42954c061dc6e2bb46c9865e796dbbcacf261c9a3cd7ce1010b2aec22783848 \
+  --output extraction.json
+python3 -B pipeline/pool_combine.py replay pipeline/rated-pools-combined.json \
   --root restored --output combined-replay.json
 python3 -B -m unittest discover -s pipeline -p 'test_pool_combine.py' -v
 ```
 
-Use the archive's documented snapshot path and expected SHA256. Replay executes
+For subsequent archives use their own SHA256, snapshot and independent current
+decisions; never transfer a signoff to different bytes. Replay executes
 no public programs and makes no remote writes. Its technical counts reconstruct
 hash-pinned reviewed evidence; they are not a fresh source-semantic audit, legal clearance,
 or content-bound publication approval. Rejected, held and provisional entries
@@ -359,3 +365,5 @@ a separate operator-approved step through the existing upload gates.
 Replay report schema v2 describes only its own actions and explicitly records
 `publicationStatusQueried: false`; it does not query current approvals or the
 production database and must not be used as live publication telemetry.
+The frozen descriptor's zero publication fields are snapshot facts, not live
+production telemetry either.
