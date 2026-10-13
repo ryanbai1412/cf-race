@@ -3,7 +3,7 @@
   "id": "727B",
   "rating": 1600,
   "role": "recipe-author-only",
-  "status": "authored-pending-local-checks",
+  "status": "authored-local-checks-passed",
   "qualification": false,
   "independentAudit": false,
   "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
@@ -59,7 +59,10 @@
         "occurrences": 1,
         "reason": "Loss of exponent markup; public English input bound explicitly10^6. Proposal only; imported statement and package bytes unchanged."
       }
-    ]
+    ],
+    "savedSha256": "d2567208a4929a1d4a4dc5144c26a144a49e69bb0b10c49f3b891a1ceca8a0e2",
+    "savedBytes": 4464,
+    "savedScope": "Exact full problem-statement div bytes extracted from public response, plus one file-final LF; no statement content, input, sample, output or price bound bytes rewritten. Surrounding site chrome omitted because its original trailing spaces fail diff --check."
   },
   "constraints": {
     "lineCount": 1,
@@ -105,7 +108,13 @@
       1600727,
       7271600
     ],
-    "status": "pending-local-checks"
+    "status": "checked",
+    "count": 160,
+    "categoryCounts": {
+      "boundary": 58,
+      "adversarial": 98,
+      "maxSize": 4
+    }
   },
   "bruteChecks": {
     "plannedAssertions": 1874,
@@ -116,10 +125,11 @@
       "seededSmallBills": 300,
       "independentGroupDecoderOnExtras": 160
     },
-    "status": "pending-local-checks"
+    "status": "passed",
+    "assertions": 1874
   },
   "upstreamReview": {
-    "status": "pending-local-checks",
+    "status": "checked-all-supplied-pairs",
     "officialPairsSupplied": 23,
     "samplesSupplied": 3,
     "testsetSizeMetadata": 33,
@@ -191,6 +201,18 @@
     "No downloaded public programs executed; no PR, merge, deployment, remote data/storage mutation, shared foundation registration or board action."
   ],
   "localChecks": {
-    "status": "pending-push-first-local-checks"
+    "status": "functional-checks-passed-diff-check-rerun-pending",
+    "unittestCommand": "python3 -m unittest discover -s pipeline/ratings-pools/1600 -p test_recipe_727B.py -v",
+    "unitMethodsPassed": 10,
+    "independentBruteAssertions": 1874,
+    "exhaustiveLexicalCandidates": 1092,
+    "generatedPairsIndependentlyChecked": 160,
+    "officialAndSamplePairsChecked": 26,
+    "astSyntax": "passed",
+    "reportJson": "passed",
+    "inputFixturesPreserved": "passed-exact23official-and3sample-strings",
+    "sourceRowHash": "passed-pool_contract.digest",
+    "publicStatementDivPreserved": "unchanged raw div; saved SHA recorded",
+    "diffCheck": "initial full public site HTML had trailing whitespace in chrome; omitted surrounding chrome without rewriting the full statement div; rerun pending"
   }
 }
