@@ -1,0 +1,162 @@
+[
+  {
+    "code": "#include <iostream>\n#include<bits/stdc++.h>\nusing namespace std;\n\n#define rep(i,n) for(i=0;i<n;i++)\n#define ll long long\n#define elif else if\n#define pii pair<int,int>\n#define mp make_pair\n#define pb push_back\nint main() {\n     int n,m,i,j,k,ans=0;\n    cin>>n;\n    vector<int>v;\n    rep(i,n)\n    {\n        cin>>m;\n        if(m)\n        v.pb(i);\n    }\n    for(i=0;i<v.size();i++)\n    {\n        if(i==0)\n        {\n            k=v[i];\n            ans=1;\n            continue;\n        }\n        ans+=min(2,v[i]-k);\n        k=v[i];\n    }\n    cout<<ans<<\"\\n\";\n    return 0;\n}",
+    "expected": "OK",
+    "language": "GNU C++",
+    "source": {
+      "bytes": 139386582,
+      "dataset": "open-r1/codeforces-submissions",
+      "path": "data/train-00023-of-00036.parquet",
+      "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+      "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00023-of-00036.parquet"
+    },
+    "sourceHash": "a725044210fe168c2fd380d7e5bf151c31c60846e0ea6ffd8866ee033bfca2e0",
+    "submissionId": "7701475",
+    "url": "https://codeforces.com/contest/465/submission/7701475"
+  },
+  {
+    "code": "#include<vector>\n#include<iostream>\n#include<stdio.h>\n#include<bitset>\n#include<algorithm>\n#include<functional>\n#include<numeric>\n#include<utility>\n#include<sstream>\n#include<iostream>\n#include<iomanip>\n#include<cstdio>\n#include<cmath>\n#include<math.h>\n#include<cstdlib>\n#include<ctime>\n#include<cstring>\n#include<climits>\n#include<sstream>\n#include<string>\n#include<set>\n#include<map>\n#include<utility>\n#include<stack>\n#include<queue>\n#include<deque>\n#include<list>\n#include<bitset>\n#define ll long long\n\n#define FL(i,a,b) for(ll i=a;i<b;i++)\n#define FOR(i,n) for(ll i=0;i<n;i++)\n#define SORTF(x) sort(x.begin(),x.end(),func);\n#define SORT(x) sort(x.begin(),x.end())\n#define pb(x) push_back(x)\n#define SET(v, val) memset(v, val, sizeof(v)) ;\n#define RSORT(v) { SORT(v) ; REVERSE(v) ; }\n#define ALL(v) v.begin(),v.end()\n#define REVERSE(v) { reverse(ALL(v)) ; }\n#define UNIQUE(v) unique((v).begin(), (v).end())\n#define RUNIQUE(v) { SORT(v) ; (v).resize(UNIQUE(v) - (v).begin()) ; }\n#define fill(x,n) memset(x,n,sizeof(x))\nusing namespace std;\n\nint main()\n{\n    ll n;\n    cin >> n;\n    ll a[n];\n    vector<ll> d;\n    FOR(i,n) \n    {\n        cin >> a[i];\n        if(a[i] == 1)\n            d.push_back(i);\n    }\n\n    \n    if(d.size() >= 1){\n        ll ans=1;\n        FL(i,1,d.size())\n        {\n            if(d[i] - d[i-1] >= 2)\n            {\n                ans = ans+2;\n            }\n            else{\n                ans = ans+1;\n            }\n        }\n        cout << ans << endl;\n    }\n    else{\n        cout << \"0\" << endl;\n    }\n\n\n    return 0;\n}",
+    "expected": "OK",
+    "language": "GNU C++",
+    "source": {
+      "bytes": 139386582,
+      "dataset": "open-r1/codeforces-submissions",
+      "path": "data/train-00023-of-00036.parquet",
+      "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+      "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00023-of-00036.parquet"
+    },
+    "sourceHash": "f43e963476590590d4cc5ddf9ac746eeb67217095637195db97281eddc565e8a",
+    "submissionId": "7701634",
+    "url": "https://codeforces.com/contest/465/submission/7701634"
+  },
+  {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\ntypedef long long LL;\nstruct _ { ios_base::Init i; _() { cin.sync_with_stdio(0); cin.tie(0); } } _;\n\nint a[1000];\n\nint main()\n{\n\tint n;\n\tcin >> n;\n\tfor (int i = 0; i < n; ++i)\n\t\tcin >> a[i];\n\n\tint curs = 0, ans = 0;\n\tfor (int i = 0; i < n; ++i)\n\t\tif (a[i] == 0)\n\t\t{\n\t\t\tif (curs != 0)\n\t\t\t{\n\t\t\t\tans += curs + 1;\n\t\t\t\tcurs = 0;\n\t\t\t}\n\t\t}\n\t\telse\n\t\t\t++curs;\n\n\tif (curs != 0)\n\t{\n\t\tans += curs + 1;\n\t\tcurs = 0;\n\t}\n\n\tif (ans != 0)\n\t\t--ans;\n\n\tcout << ans << endl;\n\n\treturn 0;\n}",
+    "expected": "OK",
+    "language": "GNU C++0x",
+    "source": {
+      "bytes": 139386582,
+      "dataset": "open-r1/codeforces-submissions",
+      "path": "data/train-00023-of-00036.parquet",
+      "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+      "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00023-of-00036.parquet"
+    },
+    "sourceHash": "58cf2d61cbfb4065a5661f6520a62c20d56e6d1fd32b163bcb15bd60455c068f",
+    "submissionId": "7701665",
+    "url": "https://codeforces.com/contest/465/submission/7701665"
+  },
+  {
+    "code": "#include<stdio.h>\n\nint main(){\n    int n;\n    scanf(\"%d\",&n);\n    int ans=0;\n    int pre=0;\n    int x;\n    for(int i=0;i<n;i++){\n        scanf(\"%d\",&x);\n        if(x==1){\n            if(pre==0)ans++;\n            ans++;\n        }\n        pre=x;\n    }\n    if(ans>0)ans--;\n    printf(\"%d\\n\",ans);\n}",
+    "expected": "OK",
+    "language": "GNU C++",
+    "source": {
+      "bytes": 139386582,
+      "dataset": "open-r1/codeforces-submissions",
+      "path": "data/train-00023-of-00036.parquet",
+      "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+      "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00023-of-00036.parquet"
+    },
+    "sourceHash": "d5d7a2672ed1c88c812218d37f9f434ce4158093c5541b21554f6c91c89d40cf",
+    "submissionId": "7701680",
+    "url": "https://codeforces.com/contest/465/submission/7701680"
+  },
+  {
+    "code": "#include <stdio.h>\n#include <iostream>\n#include <fstream>\n#include <algorithm>\n#include <vector>\n#include <string>\n#include <queue>\n#include <map>\n#include <set>\n#include <cmath>\n#include <sstream>\n#include <stack>\n#include <string.h>\n#include <list>\n#include <time.h>\n\n#define pb push_back\n#define mp make_pair\n#define X first\n#define Y second\n#define PI 3.14159265358979\n#define forn(i, n) for(int i = 0; i < n; ++i)\n#define ALL(x) x.begin(), x.end()\n#define L(s) (int)((s).size())\n#define sz(s) (int)((s).size())\n#define ms(x) memset(x,0,sizeof(x))\n#define ms1(x) memset(x,-1,sizeof(x))\n#define del(y,x) erase(y.begin()+x)\n\ntypedef long long ll;\nusing namespace std;\ntypedef pair<int,int> pii;\nconst int INF = 2147483647;\nconst ll LLINF = 9223372036854775807LL;\nconst int ST = 100010;\nconst int ST1 = 1000010;\nconst ll MOD = 1000000007;\n\nll ABS(ll a) {\n    if(a<0)\n        return a*(-1);\n    else\n        return a;\n}\n\nint mas[ST];\nint main() {\n#ifdef _DEBUG\n    freopen(\"input.txt\", \"r\", stdin);\n    freopen(\"output.txt\", \"w\", stdout);\n#endif\n\tint n;\n\tcin >> n;\n\tint ans = 0;\n\tfor(int i = 0;i < n;i++){\n\t\tcin >> mas[i];\n\t}\n\n\tint s = 0;\n\tfor(int i = 0;i < n;i++){\n\t\tif(mas[i]==1){\n\t\t\tans++;\n\t\t\tif(mas[i+1]==0)\n\t\t\t\tans++;\n\t\t}\n\t}\n\tans--;\n\tans = max(ans,0);\n\tcout << ans;\n    return 0;\n}",
+    "expected": "OK",
+    "language": "MS C++",
+    "source": {
+      "bytes": 139386582,
+      "dataset": "open-r1/codeforces-submissions",
+      "path": "data/train-00023-of-00036.parquet",
+      "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+      "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00023-of-00036.parquet"
+    },
+    "sourceHash": "bcc96523227162e99860655dcc332ae6558247df0af19af34274406addaaaf68",
+    "submissionId": "7701780",
+    "url": "https://codeforces.com/contest/465/submission/7701780"
+  },
+  {
+    "code": "n=int(input())\nv=list(int(x) for x in input().split())\nc=0\nfor i in range(n-1):\n    if v[i]:\n        c+=1\n        if not v[i+1]:\n            c+=1\nif v[n-1]:\n    c+=1\nelse:\n    if v[n-2] and (1 in v):\n        c-=1\nprint(c)",
+    "expected": "WRONG_ANSWER",
+    "language": "Python 3",
+    "source": {
+      "bytes": 139386582,
+      "dataset": "open-r1/codeforces-submissions",
+      "path": "data/train-00023-of-00036.parquet",
+      "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+      "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00023-of-00036.parquet"
+    },
+    "sourceHash": "be7dda1407daf80341421fc4fd4beaeaac8b7c034c29f4716d3068f04405ae9e",
+    "submissionId": "7703376",
+    "url": "https://codeforces.com/contest/465/submission/7703376"
+  },
+  {
+    "code": "n = int(input())\nar = list(map(int, input().split()))\ni = 0\nsum = 0\nc = False\nwhile i < n:\n    if ar[i] == 1:\n        c = False\n        while i < n and ar[i] == 1:\n            sum += 1\n            #print(i, sum, 1)\n            i += 1\n        if i + 1 < n and ar[i + 1] != 1:\n            sum += 1\n            #print(i, sum, 2)\n    if i + 1 < n and ar[i + 1] == 1 and i > 0 and ar[i - 1] == 1 and ar[i] == 0:\n        i += 1\n        sum += 1\n        #print(i, sum, 3)\n        c = True\n    if i < n and ar[i] == 0:\n        i += 1\nind = 0\nfor i in ar:\n    if i != 0:\n        ind = 1\nif ind == 0:\n    print(0)\nelse:\n    print(sum)",
+    "expected": "WRONG_ANSWER",
+    "language": "Python 3",
+    "source": {
+      "bytes": 139386582,
+      "dataset": "open-r1/codeforces-submissions",
+      "path": "data/train-00023-of-00036.parquet",
+      "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+      "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00023-of-00036.parquet"
+    },
+    "sourceHash": "99cf5b77d5f768c9ffb8b80eb977569c9d9f4baef3231ec3d3cd24ae1c0cbe95",
+    "submissionId": "7707647",
+    "url": "https://codeforces.com/contest/465/submission/7707647"
+  },
+  {
+    "code": "n = int(input())\nans = 0\nop = False\nfor s in input().split():\n    if s == '1' and op:\n        ans += 1\n    elif s == '0' and op:\n        op = False\n        ans += 1\n    elif s == '1' and not op:\n        op = True\n        ans += 1\nprint(ans - (not op and ans))",
+    "expected": "WRONG_ANSWER",
+    "language": "Python 3",
+    "source": {
+      "bytes": 139386582,
+      "dataset": "open-r1/codeforces-submissions",
+      "path": "data/train-00023-of-00036.parquet",
+      "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+      "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00023-of-00036.parquet"
+    },
+    "sourceHash": "fec7ea807fbc55bcee38b9a2f0687590ec11d22c6f1502b59481f2928b6c4f31",
+    "submissionId": "7718481",
+    "url": "https://codeforces.com/contest/465/submission/7718481"
+  },
+  {
+    "code": "n=int(input())\ni=sum(list(map(int, input().split())))\n\nprint(i if i == 0 else i+1)",
+    "expected": "WRONG_ANSWER",
+    "language": "Python 3",
+    "source": {
+      "bytes": 139386582,
+      "dataset": "open-r1/codeforces-submissions",
+      "path": "data/train-00023-of-00036.parquet",
+      "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+      "sha256": "fcc40ddaeb89da7f964d34905eb1b8fd8575f14a85b0cf1651e8ab6a34b83dbc",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00023-of-00036.parquet"
+    },
+    "sourceHash": "13912677948b5ac4d87db2caa00735b03dc432b68eab21e53728f34566645257",
+    "submissionId": "53192298",
+    "url": "https://codeforces.com/contest/465/submission/53192298"
+  },
+  {
+    "code": "#!/usr/bin/env python3\n\nn = int(input())\n\nletters = [int(x) for x in input().split()]\n\ncount = 0\n\n# this for-loop strips all the leading zeroes off the list . \nfor x, y in enumerate(letters):\n\tif y == 1:\n\t\tletters = letters[x:]\n\t\tbreak\n\nsteps = 0 # no of steps that the user takes to read all the unread emails.\ngap = 0\nmailList = True # We start at list of letters. \nfor x in range(len(letters)):\n\tif letters[x] == 1:\n\t\tif mailList == False:\n\t\t\tsteps += 2\n\t\t\tcontinue\n\t\telse:\n\t\t\tsteps += 1\n\t\t\tcontinue\n\tif letters[x] == 0:\n\t\tmailList = False\n\t\tcontinue\n\t\nprint(steps)",
+    "expected": "WRONG_ANSWER",
+    "language": "Python 3",
+    "source": {
+      "bytes": 8181241,
+      "dataset": "open-r1/codeforces-submissions",
+      "path": "selected_incorrect/train-00000-of-00001.parquet",
+      "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+      "sha256": "d2f9c6992fd58bceec9b8f131f5b51ab339c89a733771d2e606aaf08ae0b6748",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/selected_incorrect/train-00000-of-00001.parquet"
+    },
+    "sourceHash": "fb81de9c2c660d7bfd2cc5e900670bbe4c3083e63903e486a045573344fbf5df",
+    "submissionId": "7736795",
+    "url": "https://codeforces.com/contest/465/submission/7736795"
+  }
+]

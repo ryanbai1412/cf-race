@@ -18,6 +18,7 @@ from pool_sandbox import COMPILER_FLAGS, EXECUTION_VERSION, IMAGE, kind, run
 from pool_sources import PINS, sha_file
 
 BASE = HERE / "repair-batch04" / "1000"
+REPO = HERE.parents[2]
 EXCLUDED = "7730183"
 REPLACEMENT = "7736795"
 ORACLE = "6068285"
