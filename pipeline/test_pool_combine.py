@@ -1,4 +1,5 @@
 import copy
+import gzip
 import hashlib
 import io
 import json
@@ -67,6 +68,13 @@ class ArchiveTests(unittest.TestCase):
         with self.assertRaises(OSError):
             self.unpack(path)
         self.assertFalse((self.root / "restored").exists())
+
+    def test_expansion_after_tar_terminator_is_bounded(self):
+        path = self.archive(["safe"])
+        raw = gzip.decompress(path.read_bytes()) + b"x" * 20000
+        path.write_bytes(gzip.compress(raw))
+        with self.assertRaises(ValueError):
+            self.unpack(path, max_bytes=1024)
 
     def test_duplicate_member(self):
         with self.assertRaises(ValueError):
