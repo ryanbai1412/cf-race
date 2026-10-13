@@ -1,0 +1,36 @@
+{
+  "adversarial": [
+    {
+      "reason": "column then row on same cell (row wins)",
+      "test": "0032"
+    },
+    {
+      "reason": "repainting the same row many times",
+      "test": "0033"
+    }
+  ],
+  "boundary": [
+    {
+      "reason": "1x1 one op",
+      "test": "0030"
+    },
+    {
+      "reason": "nm=1e5 as 1 x 1e5 is invalid (m<=5000): use 20 x 5000",
+      "test": "0031"
+    }
+  ],
+  "checkerSemantics": "n x m table of integers; unique, exact token comparison.",
+  "inputConstraints": "Every supplied pair (29 upstream supplementary + 116 authored) was executed by the independently authored oracle (independent-oracle-session https://staging.itsdev.in/sessions/a29a084de7a749e4931503129fb1c3fe), which strictly validates all statement constraints and exits nonzero on violation, and reproduced the expected output under the problem limits in the bounded sandbox (qualification/oracle.json). Authored inputs come from pipeline/problems/631B/recipe.py cases().",
+  "maxSize": [
+    {
+      "reason": "5000 x 20, k=1e5",
+      "test": "0034"
+    },
+    {
+      "reason": "316 x 316, k=1e5",
+      "test": "0035"
+    }
+  ],
+  "packageHash": "0dd897f50755d5a2e89b6a6ec80760813fecd1b53f91d3b2f972a63fc3ab0fe2",
+  "statementComplete": "Legend (later paint overrides), input (n,m<=5000, nm<=1e5, k<=1e5), output present."
+}

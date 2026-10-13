@@ -94,7 +94,7 @@ def run(pid):
     oracle = read_json(ORACLES)[pid]
     recipe = load(pid)
     generator = build(pid)
-    language = "GNU G++17 7.3.0" if oracle["file"].endswith(".cpp") else "Python 3"
+    language = "GNU C++17 7.3.0" if oracle["file"].endswith(".cpp") else "Python 3"
     gen = cli("generate", pid, ["--generator-source", str(generator), "--generator-author", GENERATOR_AUTHOR,
                                 "--seed", str(SEED), "--oracle-source", str(PIPELINE / "problems" / pid / oracle["file"]),
                                 "--oracle-language", language, "--oracle-author", oracle["author"],

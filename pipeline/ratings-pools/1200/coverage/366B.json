@@ -1,0 +1,40 @@
+{
+  "adversarial": [
+    {
+      "reason": "tie must pick smallest index",
+      "test": "0033"
+    }
+  ],
+  "boundary": [
+    {
+      "reason": "n=k=1",
+      "test": "0031"
+    },
+    {
+      "reason": "k=n (min element index)",
+      "test": "0032"
+    }
+  ],
+  "checkerSemantics": "Single task index; ties broken by smallest index, so unique; exact token comparison.",
+  "inputConstraints": "Every supplied pair (30 upstream supplementary + 116 authored) was executed by the independently authored oracle (independent-oracle-session https://staging.itsdev.in/sessions/6df3b1aecd144341b47364542915b70a), which strictly validates all statement constraints and exits nonzero on violation, and reproduced the expected output under the problem limits in the bounded sandbox (qualification/oracle.json). Authored inputs come from pipeline/problems/366B/recipe.py cases().",
+  "maxSize": [
+    {
+      "reason": "n=1e5 k=1",
+      "test": "0034"
+    },
+    {
+      "reason": "n=1e5 k=1e5",
+      "test": "0035"
+    },
+    {
+      "reason": "n=1e5 k=2 all 1000 (tie)",
+      "test": "0036"
+    },
+    {
+      "reason": "n=1e5 k=400",
+      "test": "0037"
+    }
+  ],
+  "packageHash": "97cda0a9c4e9abea729353a5500a94e5dd3e726d7e7c566fa423d5e417afec65",
+  "statementComplete": "Legend (told off every k-th task cyclically), input (1<=k<=n<=1e5, k|n, 1<=ai<=1e3), output present."
+}

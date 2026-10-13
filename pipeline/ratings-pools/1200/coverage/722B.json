@@ -1,0 +1,36 @@
+{
+  "adversarial": [
+    {
+      "reason": "y counts as vowel",
+      "test": "0034"
+    },
+    {
+      "reason": "off by one",
+      "test": "0035"
+    }
+  ],
+  "boundary": [
+    {
+      "reason": "n=1 consonant only, p=0",
+      "test": "0032"
+    },
+    {
+      "reason": "n=1 single vowel y",
+      "test": "0033"
+    }
+  ],
+  "checkerSemantics": "YES/NO; unique, exact token comparison.",
+  "inputConstraints": "Every supplied pair (31 upstream supplementary + 116 authored) was executed by the independently authored oracle (independent-oracle-session https://staging.itsdev.in/sessions/a29a084de7a749e4931503129fb1c3fe), which strictly validates all statement constraints and exits nonzero on violation, and reproduced the expected output under the problem limits in the bounded sandbox (qualification/oracle.json). Authored inputs come from pipeline/problems/722B/recipe.py cases().",
+  "maxSize": [
+    {
+      "reason": "n=100 lines of 100 vowels",
+      "test": "0036"
+    },
+    {
+      "reason": "n=100 random lines length 100",
+      "test": "0037"
+    }
+  ],
+  "packageHash": "e82bc74debfde61cadc24666a9b140fd1c74d71b64def1190dd781b13fa71ee5",
+  "statementComplete": "Legend (syllable = exactly one vowel aeiouy; consonant-only words ignored), input (1<=n<=100, 0<=pi<=100, lines<=100 chars, single spaces), output present."
+}
