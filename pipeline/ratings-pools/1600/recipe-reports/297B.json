@@ -1,0 +1,609 @@
+{
+  "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
+  "datasetDocumentation": {
+    "notes": "Selected accepted sources are public-test-selected, not independent oracle proof. Source rows can contain incomplete official suites. No CF API, authenticated proxy, or bypass used.",
+    "readBeforeFurtherRequests": true,
+    "urls": [
+      "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
+      "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md"
+    ]
+  },
+  "id": "297B",
+  "independentAuthorChecks": {
+    "bruteMethod": "All ordered Alice/Bob arrays with lengths1..3 and k1..3; enumerate every nondecreasing integer weight vector in1..n+m+1 and directly sum weights, not sorted ranks. A single positive suffix jump bounds a finite witness, proving this finite grid represents existential real weights. Random/suite checks independently use signed Counter counts and descending suffix sums.",
+    "expectedAssertions": 2486,
+    "expectedBreakdown": {
+      "authoredPairsCompressedSuffixReference": 160,
+      "exhaustiveLiteralWeights": 1726,
+      "randomCompressedSuffixReference": 600
+    },
+    "randomSeed": 2971600,
+    "status": "pending until after initial push"
+  },
+  "inputProvenance": {
+    "archiveBytes": 4542856,
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "file": "inputs/297B.json",
+    "fileBytes": 44179,
+    "fileSha256": "2a3aafb3b6982814b8248b25ed50047352a2c91c4a667211455fff738e6e136a",
+    "manifestSha256": "c5aa6b8341d4ab6814424de54e241e91390fdc4c079e7f1daa4379bf07075381",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "sourceRowHash": "866be1ed23f3cdb5344bfc47fd66733175e282f2b87d57131e44a1085c2a4e67",
+    "upstreamShard": {
+      "bytes": 337144355,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00008-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "f138b6d3ff6b7ba5de9ace08eb34146ca3ca19d68d2adbb92b239a2721ce2c4d",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00008-of-00011.parquet"
+    },
+    "verification": "archive, per-file size/SHA256, pins and pool_contract.digest(sourceRow) match; full upstream shard verification is supplied provenance, not repeated here"
+  },
+  "normalizationProposal": {
+    "applied": false,
+    "note": "Parent may integrate these replacements using normalize_statement.py attestation standard. No original statement/sample/test/public-source bytes or expected outputs rewritten.",
+    "originalFieldSha256": "fc3c5471027849b813492d3fb11311c638a95da3c74a43fcaea823c51012795d",
+    "repairs": [
+      {
+        "count": 1,
+        "meaning": "1<=n,m<=100000; attested by upper-index5 in original English input specification",
+        "new": "≤ 10<sup>5</sup>,",
+        "old": "≤ 105,"
+      },
+      {
+        "count": 1,
+        "meaning": "1<=k<=1000000000; attested by upper-index9 in original English input specification",
+        "new": "≤ 10<sup>9</sup>)",
+        "old": "≤ 109)"
+      }
+    ],
+    "targetSourceField": "input_format"
+  },
+  "parentIntegrationRequired": [
+    "Import recipe module into parent integration without altering original bytes.",
+    "Integrate externally attested exponent normalization separately.",
+    "Incomplete official suite requires generated-basis qualification: five actual AC plus five genuine algorithmically WA programs, separate accepted sixth oracle disjoint from validators, and later different-agent audit. No such qualification or parent identity/signoff provided here."
+  ],
+  "publicSourceInspection": {
+    "excludedFromAlgorithmicProof": [
+      "No source was run or counted as a killed wrong algorithm. Wrong-problem/debug-output sources and TLE verdicts are not author validation evidence."
+    ],
+    "executed": false,
+    "motivationOnly": [
+      "4411735 first-occurrence count initialization motivates singleton and multiplicity cases",
+      "5290497 cancellation followed by a max-only count motivates common-maximum dominated-tail cases",
+      "86327715 species-sum criterion motivates equal-sum and lower-sum YES cases",
+      "Unsorted-last-element and rank-dominance direction mistakes motivate permutation/dominance cases"
+    ],
+    "readSubmissionIds": [
+      "4411735",
+      "5290497",
+      "86327715",
+      "106053832",
+      "165644197",
+      "165694140"
+    ],
+    "sourceBindings": [
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "562634e45693f9c4e83fa69fb5ddde25be1b6396a5195ff82f7e10d2661397d8",
+        "submissionId": "3564958",
+        "verdict": "OK"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "d349e0ab44cf45e9bbbf312ea57fd59f195dfec87bd973e96434e6809015b6e0",
+        "submissionId": "3564977",
+        "verdict": "OK"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "a50f7b9e720e5a9ab65d2f3e83f50ff4fa4c7f1371392c5b6c5a684513c38761",
+        "submissionId": "3565016",
+        "verdict": "OK"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "bfb9d1a184d5d2beab696b3740880e1e674a28d26bc89cc01292702d361f96ea",
+        "submissionId": "3565044",
+        "verdict": "OK"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "8d63e88f4bebe595eb5d003af1aa0ff8c211fd05683468e3787363ee5aad20e7",
+        "submissionId": "3565061",
+        "verdict": "OK"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "be61efb29a6ef8b6539c28f73c30a2302546ce0d43f9ed4a63040282e98c758d",
+        "submissionId": "3565129",
+        "verdict": "OK"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "f6a6892d793d8cc353b72c1acec33046cf4e573daacbd673f065062da886c3c2",
+        "submissionId": "3565165",
+        "verdict": "OK"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "05b32ab8d35d393132714366a5ca6adb55d1e22b0f0b43b9185f69ce289fd311",
+        "submissionId": "3565226",
+        "verdict": "OK"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "33c984e4e059f8672c7e854f8201002d75410fe5396847c5423b5cd9c9edabe7",
+        "submissionId": "3565232",
+        "verdict": "OK"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "924b2491bd369bbd642cb977eb2e6f77de5f5b77b963f8de98b7c9ff4c8324e6",
+        "submissionId": "3565248",
+        "verdict": "OK"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "f06daf852b5e53c2b0a7d45b2951a7d3c3b0e1896cc63a20bd2055a98082a628",
+        "submissionId": "3565271",
+        "verdict": "OK"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "0999b6ba14605dafdb0fa447d7259cbb3bda718d6a5ccedbaaee91a87b94a572",
+        "submissionId": "3565273",
+        "verdict": "OK"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "6abdbac679771e93395afd7c3f4a0c363b5e1f8a1fba4b7e8ef42278585f7668",
+        "submissionId": "4411735",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "549e5aead4abafb4c4323467ccda9f7240d8e557bbe79133e0c717dcc8b84bbd",
+        "submissionId": "5184287",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "520ff0a13fdefe3dce9f17e278cec001012dfa442e5a96a749bfc11e2dfabd83",
+        "submissionId": "5184512",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "a01495e60e9f7ae6662caeedd946327fd1774ea40fb059d62027fdae363f772f",
+        "submissionId": "5290497",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "432a1d84653ae3d9b7fcf3efe70ae6918489382bb2ce8b67132c51a5adaf373e",
+        "submissionId": "5290550",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "bb180fa7fa87f0865a299f89f20c6705492947536f4fca51209d870ebd882ad3",
+        "submissionId": "19590087",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "2d044f1544d156590854fdf78a6551a9d7d8b921150c32d02dc01c0569340276",
+        "submissionId": "68339367",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "f045346c3da9996c27b6bcdbdba101f27163fed47a5f7b838b33bd76645a83f8",
+        "submissionId": "70034346",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "db1944db86b2c1127a176d12036783dd0e840904f16c54af4ae1b0e29595fa63",
+        "submissionId": "86327010",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "c41b9bad55b6e1d51d3e307691dd8b195eda1c0077ebe043a23bd15b814ee53c",
+        "submissionId": "86327715",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "48a689dea4e9998e774fe3451c4cf4ba604fc66741a852c1f03890289dde7e21",
+        "submissionId": "86329618",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "c2d9234cd4d0f08365b3d64d3aba982ec643fb07b65b3bba7b1e8731fac7c96e",
+        "submissionId": "106053832",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "e79d14f4d5fb30a9525a02fe2bf98860afe99d3d915cdebc893d383e306d0b33",
+        "submissionId": "165644197",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "746d284722af87364e71a0b4f135c8a463e3c13b2243b0bb8b08f9c201d943d4",
+        "submissionId": "165694140",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "d9f013858c9441edbd87cf4b7646c0786c9d51e7821597bb3ab7593d7546d0fe",
+        "submissionId": "165794438",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "faa2bac1d089040ffe5e5deb07c372ef12e4e10b28091a59ed07b9656017e630",
+        "submissionId": "165796997",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "provenance": {
+          "bytes": 150601982,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00022-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00022-of-00036.parquet"
+        },
+        "sourceSha256": "893fadf0797f2bd5acc8550f1cf552747d3253cdfd976cbad8d7b40aa593f252",
+        "submissionId": "165889846",
+        "verdict": "WRONG_ANSWER"
+      }
+    ]
+  },
+  "qualification": "not performed; recipe authoring is not independent validation or audit signoff",
+  "role": "recipe-author",
+  "semantics": {
+    "efficientOracle": "If n>m choose every weight1. Otherwise sort both species arrays descending and return YES if some Alice rank exceeds the corresponding Bob rank. O((n+m)log(n+m)) time, O(n+m) space, independent of k.",
+    "input": "Exactly three nonempty lines: n m k; n Alice species; m Bob species. n,m1..100000,k1..1000000000; each species1..k; duplicates permitted. stdio, noninteractive.",
+    "output": "One unique decision token YES/NO. Existential positive nondecreasing real species weights do not make output multiple-valid or floating. No custom checker supplied or needed.",
+    "proof": "Write w1>0 and increments dt=w_t-w_(t-1)>=0. Weight difference is (n-m)w1 + sum_{t=2..k}dt*(Alice count>=t minus Bob count>=t). A positive suffix is sufficient: base1 and a single jump n+m make the difference positive. Without a positive suffix no nonnegative increment can make a positive difference. For n<=m, all descending Alice ranks <= matching Bob ranks give an injective weight-dominating pairing. A violating rank j yields threshold Alice[j] with at least j Alice fish but fewer than j Bob fish. This establishes exact equivalence and strict-equality NO."
+  },
+  "statementSource": {
+    "attribution": "Original Codeforces English problem 297B Fish Weight (alias298D), reproduced by public codeforces.me mirror. Full page fetched without authentication; unchanged problem-statement element retained.",
+    "byteRangeEndExclusive": 41101,
+    "byteRangeStartInclusive": 37170,
+    "copyBytes": 3931,
+    "copyPath": "statement-sources/297B.recipe-author.original.html",
+    "copySha256": "633620056b0b4cbf0037e5795e37a03c249ae1b210b12f7d073445d2be0f1d63",
+    "formatIHtml": "<div class=\"input-specification\"><div class=\"section-title\">Input</div><p>The first line contains three integers <span class=\"tex-span\"><i>n</i>, <i>m</i>, <i>k</i></span> <span class=\"tex-span\">(1 ≤ <i>n</i>, <i>m</i> ≤ 10<sup class=\"upper-index\">5</sup>, 1 ≤ <i>k</i> ≤ 10<sup class=\"upper-index\">9</sup>)</span> — the number of fish caught by Alice and Bob respectively, and the number of fish species.</p><p>The second line contains <span class=\"tex-span\"><i>n</i></span> integers each from 1 to <span class=\"tex-span\"><i>k</i></span>, the list of fish type caught by Alice. The third line contains <span class=\"tex-span\"><i>m</i></span> integers each from 1 to <span class=\"tex-span\"><i>k</i></span>, the list of fish type caught by Bob.</p><p>Note that one may have caught more than one fish for a same species.</p></div>",
+    "fullBodyBytes": 60040,
+    "fullBodySha256": "9a92af91715845bcec90e971c22082c6e354dbedbbe373d35e54280e1e51d1c1",
+    "inputConstraintAttestations": [
+      "10<sup class=\"upper-index\">5</sup>",
+      "10<sup class=\"upper-index\">9</sup>"
+    ],
+    "retrievedAt": "2026-10-13",
+    "url": "https://codeforces.me/problemset/problem/297/B?locale=en"
+  },
+  "status": "authored-pending-local-checks",
+  "suite": {
+    "coverage": [
+      "minimum n=m=k=1 and strict equality",
+      "duplicates and fish counts versus distinct species",
+      "existential weights versus summing species labels",
+      "common maxima with dominated tails",
+      "intermediate suffix surplus despite lower maximum",
+      "unsorted/permuted equal multisets",
+      "unused species and sparse labels near10^9",
+      "five legal dimension-limit cases including n=m=100000,k=10^9"
+    ],
+    "expectedAuthoredPairs": 160,
+    "generatedRuntimeDataCommitted": false,
+    "maximumCases": 5,
+    "seed": 1600297
+  },
+  "upstreamPairs": {
+    "advertisedGeneratedCount": 17,
+    "advertisedTestsetSize": 62,
+    "bindings": [
+      {
+        "inputSha256": "fa78dde921274b17c8ddd32a9448c86a0bafa2f5c825bd55d0c7d2681c9c1c27",
+        "name": "official/1",
+        "outputSha256": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005"
+      },
+      {
+        "inputSha256": "b1560d25a869c2b4b7480c237bdad0e0509e38dde77d299720e2f0f9780196c0",
+        "name": "official/2",
+        "outputSha256": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5"
+      },
+      {
+        "inputSha256": "89d8e0bc1a8f4b85b9fd32199fd0c6d9ec4fe342234df66a9066b328d0f0c726",
+        "name": "official/3",
+        "outputSha256": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005"
+      },
+      {
+        "inputSha256": "9cf8c63fa8ff0ec2049cab4d2c8313898fca64abaeda4f54065eb66ca123d70f",
+        "name": "official/4",
+        "outputSha256": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005"
+      },
+      {
+        "inputSha256": "326224c84a3b771974e1006c93ac715137b248ec902310e02adcf56dbd7272cd",
+        "name": "official/5",
+        "outputSha256": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5"
+      },
+      {
+        "inputSha256": "37fdfe2440c65ad9419956325c48d727da57f87fff0c3c1e47e4b5875943b084",
+        "name": "official/6",
+        "outputSha256": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5"
+      },
+      {
+        "inputSha256": "1de9223153ab9bf4ed9674b08f720c7feb3addb3fa5fba8638a59618f3f345fb",
+        "name": "official/7",
+        "outputSha256": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5"
+      },
+      {
+        "inputSha256": "a85582be3dc9e7250050f94a3e396786367244918bb75600115708f4fccc8eda",
+        "name": "official/8",
+        "outputSha256": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5"
+      },
+      {
+        "inputSha256": "e7a29c5025ceb65d0b54bbbcb8b1c19de73460c4cae125a8e2ca36a0e388821b",
+        "name": "official/9",
+        "outputSha256": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005"
+      },
+      {
+        "inputSha256": "3f01db7ba918d96c6fe5dba66fbaf5c089ff0dc501d70185075bb612629f7b07",
+        "name": "official/10",
+        "outputSha256": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5"
+      },
+      {
+        "inputSha256": "4796c3ddb4aaab90b8a367508fb781a64d9fd7c2cf10c4e330fc142b78a51423",
+        "name": "official/11",
+        "outputSha256": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005"
+      },
+      {
+        "inputSha256": "16f2d4aad99fcda84b98fb14e4cdec83657f5be699b3842beebffec30ce35c65",
+        "name": "official/12",
+        "outputSha256": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005"
+      },
+      {
+        "inputSha256": "47985eeda38690de705d3bf3963543ce7bbb674e8343a58ffb2a5b9975fe0bba",
+        "name": "official/13",
+        "outputSha256": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005"
+      },
+      {
+        "inputSha256": "f3126332c34a757bba23bc2cdbaaa928df17dcc3d786bb23c21e85f91ce94e1e",
+        "name": "sample/1",
+        "outputSha256": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297"
+      },
+      {
+        "inputSha256": "9071f8f9bde0cf65a6e70443e070cfa971e98ab4be167450cb658a22a4955083",
+        "name": "sample/2",
+        "outputSha256": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a"
+      }
+    ],
+    "malformedPairs": null,
+    "notSupplied": "Remaining advertised official tests and17 open-r1 generated pairs are not in this input; no source/API expansion performed.",
+    "officialComplete": false,
+    "oracleContradictions": null,
+    "reviewStatus": "pending until after initial push",
+    "suppliedOfficialCount": 13,
+    "suppliedSampleCount": 2
+  },
+  "validation": {
+    "commands": [
+      "RECIPE_297B_INPUT=<pinned inputs/297B.json> python3 -m unittest discover -s pipeline/ratings-pools/1600 -p test_recipe_297B.py -v",
+      "AST parse recipe_297B.py and test_recipe_297B.py",
+      "git diff --check 5b28d33..HEAD"
+    ],
+    "publicProgramsExecuted": false,
+    "status": "pending until after initial push"
+  }
+}
