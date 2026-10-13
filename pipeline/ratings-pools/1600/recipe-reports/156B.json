@@ -1,7 +1,7 @@
 {
   "id": "156B",
   "role": "recipe-author-only",
-  "status": "authored-pending-local-checks",
+  "status": "recipe-authored-local-checks-passed-not-qualified",
   "qualification": "Not performed. This report is not an audit, signoff, parent identity attestation, or validated-problem count.",
   "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
   "inputIntegrity": {
@@ -63,12 +63,18 @@
     "complexity": "O(n) time and O(n) memory, exact integers",
     "independentReference": "Materialize the boolean truth vector separately for every possible criminal by interpreting each signed statement, retain vectors with exactly m truths, and classify columns using all/any. This does not use histogram/candidate logic.",
     "brutePlan": "Every signed assignment for n=1..4 and every m=0..n, checking all feasible instances; 300 fixed-seed additional n=5..40 cases. Independent truth tables also check every small authored pair and each supplied official/sample pair.",
-    "bruteAssertionCount": null
+    "bruteAssertionCount": 11650,
+    "exhaustiveFeasibleAssertionCount": 11350,
+    "fixedSeedRandomAssertionCount": 300,
+    "countMeaning": "One assertion per feasible small instance comparing efficient oracle with independently materialized truth-table classifications. Does not include repeated runs, parser tests, additional supplied/generated pair checks, or independently validated problems."
   },
   "authoredCoverage": {
-    "requestedCases": 150,
+    "authoredCases": 150,
     "randomSeed": 1561601,
-    "categories": ["boundary", "adversarial", "maxSize"],
+    "categoryCounts": {"boundary": 26, "adversarial": 120, "maxSize": 4},
+    "fixedSeedSmallRandomCases": 108,
+    "smallPairsIndependentlyBruteCompared": 146,
+    "canonicalSuiteSha256": "d4107e365a59a96f9c54ac231bd9440de58d2e6e7f8505eea1291c645b6c5fde",
     "maxSizeCases": 4,
     "maxSizeDimensions": "n=100000; unique criminal, all-candidate self-denial, balanced sign cancellation, and partial candidate membership with all three output labels",
     "smallCoverage": "Exhaustive feasible n=1..2 inputs; m=0/n, repeated targets, self-reference, unmentioned candidates, one/two/all candidates, mixed signs, and fixed-seed random small cases.",
@@ -79,8 +85,8 @@
     "selectedCount": 19,
     "verdictCounts": {"OK": 12, "WRONG_ANSWER": 2, "TIME_LIMIT_EXCEEDED": 5},
     "coverageMotivationsOnly": [
-      {"submissionId": "72577648", "observation": "Unique-candidate branch prints Truth only for x==criminal, marking every negative statement Lie even when it denies an innocent target.", "authoredWitnessInput": "3 3\n+1\n-2\n-3\n", "mathematicalOutput": "Truth\nTruth\nTruth\n"},
-      {"submissionId": "159445718", "observation": "Counts distinct positive/negative targets using sets, discarding repeated speakers; also enumerates criminals to 100000 rather than n.", "authoredWitnessInput": "3 3\n+1\n+1\n-2\n", "mathematicalOutput": "Truth\nTruth\nTruth\n"}
+      {"submissionId": "72577648", "sourceSha256": "95f0ae7da58d9b2b03a16bbe8e6f2f943ea1d4319dc4b5bb634d9dd48ac5db9e", "observation": "Unique-candidate branch prints Truth only for x==criminal, marking every negative statement Lie even when it denies an innocent target.", "authoredWitnessInput": "3 3\n+1\n-2\n-3\n", "mathematicalOutput": "Truth\nTruth\nTruth\n"},
+      {"submissionId": "159445718", "sourceSha256": "f3159e20bfe7add85d219944a021ca59181a943f678abd875be5c1ee774422da", "observation": "Counts distinct positive/negative targets using sets, discarding repeated speakers; also enumerates criminals to 100000 rather than n.", "authoredWitnessInput": "3 3\n+1\n+1\n-2\n", "mathematicalOutput": "Truth\nTruth\nTruth\n"}
     ],
     "limitation": "Static observations motivate tests, not execution evidence or algorithmic-WA attestations. The five TLE sources cannot be counted as algorithmic proof from timing kills. Only two selected WRONG_ANSWER sources are available here; parent qualification needs additional genuine-WA coverage."
   },
@@ -93,11 +99,18 @@
     "generatedTestsField": 8,
     "generatedPairsProvided": 0,
     "countDiscrepancy": "Inventory/testset size 97 is not the number of supplied official pairs. Only the actual 44 pairs and 3 examples can be reviewed from this attachment. generated_tests is the integer 8, not eight embedded pairs.",
-    "reviewStatus": "pending-local-checks",
-    "failedPairs": null
+    "reviewStatus": "All 44 supplied official pairs and 3 samples satisfy strict constraints/layout and match the efficient oracle and the separate literal brute; CRLF bytes unchanged.",
+    "failedPairs": []
   },
   "localChecks": {
-    "status": "pending-after-first-push",
+    "status": "passed-after-first-push",
+    "unittestMethods": 12,
+    "unittestSkipped": 0,
+    "bruteChecks": {"156B": 11650},
+    "astFilesPassed": ["recipe_156B.py", "test_recipe_156B.py"],
+    "reportJsonPassed": true,
+    "gitDiffCheckPassed": true,
+    "generatedInputLayoutAndOutputs": "All 150 checked, including four legal n=100000 cases; all 146 small pairs additionally matched the independent brute. Repeated extras calls produced identical suites.",
     "commands": [
       "RECIPE_156B_INPUT=/home/ubuntu/156b-author-input/inputs/156B.json python3 -m unittest discover -s pipeline/ratings-pools/1600 -p test_recipe_156B.py -v",
       "python3 AST parse of recipe_156B.py and test_recipe_156B.py",
