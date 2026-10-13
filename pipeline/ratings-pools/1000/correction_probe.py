@@ -53,6 +53,11 @@ def algorithmic_shape(expected, actual, vocabulary=None):
 
 
 def problem_shape(pid, expected, actual, raw, vocabulary=None):
+    if pid == "336A" and len(expected) == len(actual) == 4:
+        if all(re.fullmatch(r"[+-]?\d+", word) for word in expected + actual):
+            e, a = [int(word) for word in expected], [int(word) for word in actual]
+            if {tuple(e[:2]), tuple(e[2:])} == {tuple(a[:2]), tuple(a[2:])}:
+                return None
     basic = algorithmic_shape(expected, actual, vocabulary)
     if basic:
         return basic
@@ -62,6 +67,24 @@ def problem_shape(pid, expected, actual, raw, vocabulary=None):
         if (len(expected) == len(actual) == 1 and expected[0].lower() in names
                 and actual[0].lower() in names and expected[0] != actual[0]):
             return "different participant winner from the actual input"
+    if pid == "400A":
+        def layouts(words):
+            result, index = [], 0
+            for _ in range(int(raw.splitlines()[0])):
+                if index >= len(words) or not words[index].isdigit():
+                    return None
+                count = int(words[index]); index += 1
+                if not 0 <= count <= 6 or index + count > len(words):
+                    return None
+                dims = words[index:index + count]; index += count
+                allowed = {"1x12", "2x6", "3x4", "4x3", "6x2", "12x1"}
+                if len(set(dims)) != count or not set(dims) <= allowed:
+                    return None
+                result.append(set(dims))
+            return result if index == len(words) else None
+        e, a = layouts(expected), layouts(actual)
+        if e is not None and a is not None and e != a:
+            return "different legal card dimensions; source review still required"
     if pid not in ("583A", "660B", "118B") or expected == actual:
         return None
     if not expected or not actual or not all(re.fullmatch(r"\d+", word) for word in expected + actual):
@@ -134,7 +157,7 @@ def probe(pid, audit, limit, stop_after):
                 continue
             output = base64.b64decode(outcome["output"])
             expected, actual = tokens(test["output"]), tokens(output)
-            shape = algorithmic_shape(expected, actual, vocabulary)
+            shape = problem_shape(pid, expected, actual, test["input"], vocabulary)
             if shape:
                 hits.append({"submissionId": str(row["submission_id"]),
                              "sourceHash": hashlib.sha256(row["source"].encode()).hexdigest(),

@@ -47,8 +47,8 @@ def get_code(pid, old, replacement):
 
 def apply(pid, audit, replacement):
     finding = audit["problems"][pid]
-    if finding["approved"] or finding["algorithmicIncorrectKilled"] != 4:
-        raise ValueError(f"expected an audit-held, four-genuine-reference package: {pid}")
+    if finding["approved"] or pid not in audit["excludedIds"]:
+        raise ValueError(f"expected an audit-held package: {pid}")
     package, original = original_bytes(pid)
     for key, name in (("harnessHash", "pool_harness.py"), ("checkerHash", "checker.py"),
                       ("runnerHash", "pool_sandbox.py")):

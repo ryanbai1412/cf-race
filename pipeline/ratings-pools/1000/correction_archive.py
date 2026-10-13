@@ -39,7 +39,12 @@ def main():
         raise ValueError("no completed correction evidence")
     renewed = {}
     observations = read(HERE / "correction_source_observations.json")
-    proposed = read(HERE / "correction_replacements_batch02.json")
+    proposed = {}
+    for path in sorted(HERE.glob("correction_replacements_batch*.json")):
+        rows = read(path)
+        if set(proposed) & set(rows):
+            raise ValueError("duplicate problem between correction batches")
+        proposed.update(rows)
     for pid in ids:
         _, original = original_bytes(pid)
         package = BASE / "packages" / pid
