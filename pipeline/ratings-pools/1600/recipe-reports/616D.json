@@ -1,0 +1,486 @@
+{
+  "id": "616D",
+  "role": "recipe-author",
+  "notAnAudit": true,
+  "validated": false,
+  "statusNote": "Recipe author exclusion only. Not a qualification, audit, or signoff.",
+  "semantics": "n, k (1 <= k <= n <= 5*10^5), a_1..a_n (0 <= a_i <= 10^6). Print l r of ANY longest segment with at most k distinct values; several longest segments may exist and every one is accepted.",
+  "exclusion": {
+    "excluded": true,
+    "category": "multiple-valid-outputs",
+    "reasons": [
+      "The original statement says 'Find any longest k-good segment' and 'If there are several longest segments you can print any of them.' Codeforces judges 616D with a checker that accepts every longest k-good segment. pipeline/checker.py and the repo judge compare whitespace-split tokens against one stored answer, and run_pool.py writes checkerSemantics '... Token comparison is appropriate; no floating/multiple-answer/special checker.' That claim would be false for 616D.",
+      "The stored answers are not unique even in the pinned official suite. 4 of the 12 pinned official tests (0-based indices [2, 7, 8, 11]; 1-based tests 3, 8, 9, 12) and sample 3 have more than one longest segment. For example, official test 3 / sample 3 ('3 1 / 1 2 3') accepts 1 1, 2 2 and 3 3, but only '1 1' is stored. Official tests 8, 9 and 12 accept both 1 4 and 2 5, but only '1 4' is stored.",
+      "Pinned CF-accepted sources choose different tie-breaks, so a token checker would reject real AC programs. They were inspected, not executed. 15291461 (OK, passedTestCount 29) keeps ans = max(ans, mp(i - s + 1, mp(s + 1, i + 1))) at source line 83, so it picks the lexicographically largest (l, r) among the longest segments. Tracing it by hand gives '3 3' on official test 3 and '2 5' on official tests 8, 9 and 12, which are token-unequal to the stored '1 1' and '1 4'. 15290743 (OK) updates only on a strict improvement (line 53: if (i-l+1>resr-resl+1)), so it keeps the earliest right end and matches the stored answers. Both are correct, and the problem has no canonical answer.",
+      "If we forced a unique answer (for example the leftmost one), the token comparison would be falsely unique: correct programs with another tie-break would be scored WA, and those 'WA' verdicts are tie-break differences, not algorithmic proof. The task's exclusion rule for multiple-valid-output / custom-checker problems applies, so no recipe_616D.py or test_recipe_616D.py was written."
+    ],
+    "reversal": "Feasible only if the parent adds an audited custom-checker contract for 616D. The checker would parse l r, require 1 <= l <= r <= n, require at most k distinct values in a[l..r], and require r-l+1 to equal the optimum from a two-pointer oracle. The official/generated stored outputs would then serve only as length witnesses. Every pinned official output and sample is a valid longest segment (see officialReview), so no test bytes would need rewriting."
+  },
+  "files": {},
+  "inputs": {
+    "archiveBytes": 4542856,
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "file": "inputs/616D.json",
+    "fileBytes": 52258,
+    "fileSha256": "f78a43be68226659abcafcc99d7a1e1512709dee3c0e43750a94aea9f9a7c9d9",
+    "manifestEntryMatches": true,
+    "manifestSha256": "c5aa6b8341d4ab6814424de54e241e91390fdc4c079e7f1daa4379bf07075381",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "sourceRowHash": "6a8a796a46ba08783b5075b1a485327e12357bd53cbce0970e639fa938abc948",
+    "sourceRowHashRecomputed": "6a8a796a46ba08783b5075b1a485327e12357bd53cbce0970e639fa938abc948",
+    "sourceShard": {
+      "bytes": 176416778,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00004-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "279d1384d6f5160a6eafd019955d009cc4d74527b8e26466338413af44450e2c",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00004-of-00011.parquet"
+    }
+  },
+  "problem": {
+    "aliases": [
+      "616/D"
+    ],
+    "sourceId": "616/D",
+    "title": "Longest k-Good Segment",
+    "contest": "Educational Codeforces Round 5",
+    "rating": 1600,
+    "tags": [
+      "binary search",
+      "data structures",
+      "two pointers"
+    ],
+    "timeLimitSeconds": 1.0,
+    "memoryLimitMB": 256.0,
+    "inputMode": "stdio",
+    "interactive": false,
+    "fileIO": false,
+    "floatingOutput": false,
+    "multipleValidOutputs": true,
+    "customChecker": true,
+    "customCheckerNote": "Any longest k-good segment is accepted; the pinned row has generated_checker=None, so no audited checker is available.",
+    "constraints": {
+      "n": [
+        1,
+        500000
+      ],
+      "k": "1 <= k <= n",
+      "a_i": [
+        0,
+        1000000
+      ],
+      "output": "two integers l r, 1 <= l <= r <= n"
+    },
+    "statementComplete": "Full pinned description/input_format/output_format read; note is None. No image, and no question is omitted. Matches the public statement apart from the flattened superscripts."
+  },
+  "statementAttestation": {
+    "sourceUrl": "https://codeforces.me/problemset/problem/616/D?locale=en",
+    "locale": "en",
+    "transport": "Public unauthenticated HTTP GET (curl, browser User-Agent), HTTP 200; raw response body unchanged.",
+    "bodyBytes": 58732,
+    "bodySha256": "5f4770cf9dfd38452e0caac9e8063214dcdde3156ef43fc704950f0ac84abdd9",
+    "problemStatementDiv": {
+      "bodyByteRange": [
+        36311,
+        39793
+      ],
+      "bytes": 3482,
+      "sha256": "e6d76a8e8ba6831dc30ea1b52e9ae7f7b910c1fc74673acbc44953d6faea1347"
+    },
+    "attestedSentences": [
+      "Find any longest k-good segment.",
+      "If there are several longest segments you can print any of them."
+    ],
+    "attestedBounds": [
+      "1 ≤ k ≤ n ≤ 5·10<sup class=\"upper-index\">5</sup>",
+      "0 ≤ a<sub class=\"lower-index\">i</sub> ≤ 10<sup class=\"upper-index\">6</sup>"
+    ],
+    "copy": null,
+    "copyNote": "No statement copy committed: the exclusion path commits only this report."
+  },
+  "sourceCorrectionProposal": {
+    "needed": true,
+    "note": "The upstream input_format flattens superscripts. The public statement div has '5·10<sup class=\"upper-index\">5</sup>' and '10<sup class=\"upper-index\">6</sup>'. Any future package would need these exact edits to the input_format, and nothing else changes.",
+    "edits": [
+      {
+        "field": "input_format",
+        "from": "1 ≤ k ≤ n ≤ 5·105",
+        "to": "1 ≤ k ≤ n ≤ 5·10^5"
+      },
+      {
+        "field": "input_format",
+        "from": "0 ≤ ai ≤ 106",
+        "to": "0 ≤ a_i ≤ 10^6"
+      }
+    ],
+    "applied": false
+  },
+  "officialReview": {
+    "reviewMethod": "Inspection-only scratch script (not committed, per exclusion rule): token-parsed each input, checked n/k/a_i ranges and arity, and enumerated every longest k-good segment by O(n^2) brute force.",
+    "officialTestsInRow": 12,
+    "testsetSize": 29,
+    "officialComplete": false,
+    "inputLineEndings": "All 12 official inputs and outputs are CRLF with a trailing CRLF; the row examples are LF without a trailing newline.",
+    "allInputsWithinConstraints": true,
+    "allStoredOutputsValidLongest": true,
+    "malformedOrContradictoryPairs": [],
+    "nonUniqueAnswerOfficialIndices": [
+      2,
+      7,
+      8,
+      11
+    ],
+    "nonUniqueAnswerSampleIndices": [
+      2
+    ],
+    "openR1GeneratedTests": "Row reports generated_tests=18 as a count only; generated test bytes are not in this input and were not reviewed.",
+    "tests": [
+      {
+        "index": 0,
+        "inputSha256": "e8b4deb0d394f8db435a9e2314974ae6698a73304d0305f25ecf1f8876631f0d",
+        "outputSha256": "b3d0ba2bed57dc7e7c622d32e5583ccb058d50a8ff7003af01310037c080b718",
+        "withinConstraints": true,
+        "storedOutput": [
+          1,
+          5
+        ],
+        "storedOutputIsValidLongest": true,
+        "longestLength": 5,
+        "allValidAnswers": [
+          [
+            1,
+            5
+          ]
+        ],
+        "validAnswerCount": 1
+      },
+      {
+        "index": 1,
+        "inputSha256": "e4fa3663e757ad8fd10a4d085f907ba44a9cf06f9c21057920e7603356e0b1b9",
+        "outputSha256": "e0d369ea188977f1dca048b00dd5540ce0508a1eb4b6cda3ebd328312b6ba652",
+        "withinConstraints": true,
+        "storedOutput": [
+          3,
+          7
+        ],
+        "storedOutputIsValidLongest": true,
+        "longestLength": 5,
+        "allValidAnswers": [
+          [
+            3,
+            7
+          ]
+        ],
+        "validAnswerCount": 1
+      },
+      {
+        "index": 2,
+        "inputSha256": "651b6e929d63112114909a6b2dd5ae902b415c028f3357bfe35834248dec7ed5",
+        "outputSha256": "2b0f5fbcc0989e147be531c252d960cdf037cd28b8357c6a9d1cb2b6208eea2e",
+        "withinConstraints": true,
+        "storedOutput": [
+          1,
+          1
+        ],
+        "storedOutputIsValidLongest": true,
+        "longestLength": 1,
+        "allValidAnswers": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "validAnswerCount": 3
+      },
+      {
+        "index": 3,
+        "inputSha256": "0958afc325f10f3354e6d33ad4e9fe3df76d80266b3e2fc3a8465b8bb6b058b3",
+        "outputSha256": "2b0f5fbcc0989e147be531c252d960cdf037cd28b8357c6a9d1cb2b6208eea2e",
+        "withinConstraints": true,
+        "storedOutput": [
+          1,
+          1
+        ],
+        "storedOutputIsValidLongest": true,
+        "longestLength": 1,
+        "allValidAnswers": [
+          [
+            1,
+            1
+          ]
+        ],
+        "validAnswerCount": 1
+      },
+      {
+        "index": 4,
+        "inputSha256": "6037faf220f572e051e7a10394c805035309e6a7366f478a024909f6063e49db",
+        "outputSha256": "b3d0ba2bed57dc7e7c622d32e5583ccb058d50a8ff7003af01310037c080b718",
+        "withinConstraints": true,
+        "storedOutput": [
+          1,
+          5
+        ],
+        "storedOutputIsValidLongest": true,
+        "longestLength": 5,
+        "allValidAnswers": [
+          [
+            1,
+            5
+          ]
+        ],
+        "validAnswerCount": 1
+      },
+      {
+        "index": 5,
+        "inputSha256": "d82cad6673b7a4054e968e37c99b76aebc2f0325ea83c09bf7e9bd1de9ce79fb",
+        "outputSha256": "67a1b8d1ddf071a423c03c012d1026437f65ba17577d397d986ee66045dc36bc",
+        "withinConstraints": true,
+        "storedOutput": [
+          4,
+          10
+        ],
+        "storedOutputIsValidLongest": true,
+        "longestLength": 7,
+        "allValidAnswers": [
+          [
+            4,
+            10
+          ]
+        ],
+        "validAnswerCount": 1
+      },
+      {
+        "index": 6,
+        "inputSha256": "4a18f0c56755071b2680ff35860397e55c6555e2e97871e0864c2d636afb70a2",
+        "outputSha256": "a0af56c86edbccbc9c06da9854cb1a20117f712f44e81e06f4cf6d11cd63cdb7",
+        "withinConstraints": true,
+        "storedOutput": [
+          4,
+          6
+        ],
+        "storedOutputIsValidLongest": true,
+        "longestLength": 3,
+        "allValidAnswers": [
+          [
+            4,
+            6
+          ]
+        ],
+        "validAnswerCount": 1
+      },
+      {
+        "index": 7,
+        "inputSha256": "a6fd3148b3852dfd746ff98c87b9f9e0c506d940fb0b26eadf0e9b29ff3dbc85",
+        "outputSha256": "f2efb760341c2aa3a18bf13648da6cfc01371e47b176e62e1a557585ec32e8ad",
+        "withinConstraints": true,
+        "storedOutput": [
+          1,
+          4
+        ],
+        "storedOutputIsValidLongest": true,
+        "longestLength": 4,
+        "allValidAnswers": [
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            5
+          ]
+        ],
+        "validAnswerCount": 2
+      },
+      {
+        "index": 8,
+        "inputSha256": "b04e26e95dc1c70e511e600db03b7ef03f85fc23a541e32f3e2a6bd1e15c1d1d",
+        "outputSha256": "f2efb760341c2aa3a18bf13648da6cfc01371e47b176e62e1a557585ec32e8ad",
+        "withinConstraints": true,
+        "storedOutput": [
+          1,
+          4
+        ],
+        "storedOutputIsValidLongest": true,
+        "longestLength": 4,
+        "allValidAnswers": [
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            5
+          ]
+        ],
+        "validAnswerCount": 2
+      },
+      {
+        "index": 9,
+        "inputSha256": "0564e0cdb02dd11a770c6d2412257906a0c708524027f20e232dd59730f53033",
+        "outputSha256": "01d16d3fc9baf02b7e1f16368d22e0d2b71cc96ac27eb8aa6f752c70ad323a70",
+        "withinConstraints": true,
+        "storedOutput": [
+          1,
+          2
+        ],
+        "storedOutputIsValidLongest": true,
+        "longestLength": 2,
+        "allValidAnswers": [
+          [
+            1,
+            2
+          ]
+        ],
+        "validAnswerCount": 1
+      },
+      {
+        "index": 10,
+        "inputSha256": "8502644f8b2847a67abf8da9e11a32edc10dd119dd46541d0b0a62c22ebc83f6",
+        "outputSha256": "01d16d3fc9baf02b7e1f16368d22e0d2b71cc96ac27eb8aa6f752c70ad323a70",
+        "withinConstraints": true,
+        "storedOutput": [
+          1,
+          2
+        ],
+        "storedOutputIsValidLongest": true,
+        "longestLength": 2,
+        "allValidAnswers": [
+          [
+            1,
+            2
+          ]
+        ],
+        "validAnswerCount": 1
+      },
+      {
+        "index": 11,
+        "inputSha256": "16d130f1a54d9abbe986fc0ec1ee013bf9ac596f1f6d88548191317703318a6d",
+        "outputSha256": "f2efb760341c2aa3a18bf13648da6cfc01371e47b176e62e1a557585ec32e8ad",
+        "withinConstraints": true,
+        "storedOutput": [
+          1,
+          4
+        ],
+        "storedOutputIsValidLongest": true,
+        "longestLength": 4,
+        "allValidAnswers": [
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            5
+          ]
+        ],
+        "validAnswerCount": 2
+      }
+    ],
+    "samples": [
+      {
+        "index": 0,
+        "inputSha256": "fa7f8be4600caf051577d2587978c3ac769f5c3d902183a70d0818dd720328cd",
+        "outputSha256": "68bc23b5950dfa4317f4c8cd5612ec059857fbaae30824d6a86270174f5e9fcb",
+        "withinConstraints": true,
+        "storedOutput": [
+          1,
+          5
+        ],
+        "storedOutputIsValidLongest": true,
+        "longestLength": 5,
+        "allValidAnswers": [
+          [
+            1,
+            5
+          ]
+        ],
+        "validAnswerCount": 1
+      },
+      {
+        "index": 1,
+        "inputSha256": "8a7b3698ca8ce7c3f38dc03abf9770dfa8015e2f66958921ae89f73ce63def99",
+        "outputSha256": "202a2574485b24b97441634b6810c456fdb76614f02bbb1317f000a0fd248467",
+        "withinConstraints": true,
+        "storedOutput": [
+          3,
+          7
+        ],
+        "storedOutputIsValidLongest": true,
+        "longestLength": 5,
+        "allValidAnswers": [
+          [
+            3,
+            7
+          ]
+        ],
+        "validAnswerCount": 1
+      },
+      {
+        "index": 2,
+        "inputSha256": "ff2afb413a51be2da4053a537a50a7e3a7393226ce2c38f8a5e75631cf03f806",
+        "outputSha256": "020a7c91e30725bb191818987340dec6040aff93923840de685e1e1d7b3d071a",
+        "withinConstraints": true,
+        "storedOutput": [
+          1,
+          1
+        ],
+        "storedOutputIsValidLongest": true,
+        "longestLength": 1,
+        "allValidAnswers": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "validAnswerCount": 3
+      }
+    ]
+  },
+  "selectedSubmissionsReview": {
+    "count": 32,
+    "executed": false,
+    "verdicts": {
+      "OK": 12,
+      "WRONG_ANSWER": 14,
+      "TIME_LIMIT_EXCEEDED": 6
+    },
+    "notes": {
+      "15291461": "OK@29: two-pointer plus map, ties broken toward the lexicographically largest (l, r). It prints valid answers that differ from the stored ones on official tests 3, 8, 9 and 12 (hand trace, not executed).",
+      "15290743": "OK@29: two-pointer, strict improvement, matches the stored tie-break.",
+      "TLE": "The 6 Python TIME_LIMIT_EXCEEDED sources are not algorithmic evidence.",
+      "WA": "The 14 Python WRONG_ANSWER sources were not analyzed in depth. Under a token checker their recorded failures cannot be told apart from tie-break differences without a custom checker, so they are not relied on."
+    }
+  },
+  "checks": {
+    "bruteChecks": {
+      "616D": 0
+    },
+    "unittestAssertionCalls": 0,
+    "unittestMethods": 0,
+    "commands": [
+      "python3 -c json.load (report)",
+      "git diff --check"
+    ],
+    "note": "No recipe or unit test authored (exclusion), so there are no brute_checks or unittest assertions to report. The scratch review enumerated all longest segments for the 12 official tests and 3 samples."
+  }
+}
