@@ -1,0 +1,668 @@
+{
+  "approved": true,
+  "baseCommit": "d11faff5231965a95044873c99042e2bec7bae2d",
+  "bundleSha256": "fd7665582d7f84a4af7e83ac2c4de81621b65e26d2b9a00c078e054eb54e47d1",
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceFileSha256": "a4c0648486c317bf189034423f75dc046410e408beaa7c7294b3ef6a61607e62",
+  "evidenceHash": "23e65418b56fef51ca5e154c4ee651798941c8ce0a16dcc097f7fa025f0f7490",
+  "generationMode": "extensive",
+  "id": "812A",
+  "incorrectAnalysis": {
+    "27486459": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "0030: correct YES, actual 'NO'. Part0 p=1, part1 l=1. Part1's left turn reaches part 1-1 = 0, whose pedestrian light is green: YES. The code only checks part0's own lanes (all 0), so it prints NO.",
+      "kind": "wrong-answer",
+      "reason": "Ignores cars from OTHER parts whose lane leads into the part (left of i+1, straight of i+2, right of i+3).",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "NO",
+          "actualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "constraints": "Four lines of four values l s r p, each 0 or 1, parts in counter-clockwise order.",
+          "correctAnswer": "YES",
+          "derivation": "Part0 p=1, part1 l=1. Part1's left turn reaches part 1-1 = 0, whose pedestrian light is green: YES. The code only checks part0's own lanes (all 0), so it prints NO.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "normalExit": true,
+          "packageInputSha256": "43cd16982eea0dac42d3d333727f141755cb045606539a0b7e1fb3093d421681",
+          "proof": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "output": "NO\n",
+            "outputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+            "path": "archive/812A/sub-27486459-lf-0030.json",
+            "receipt": {
+              "sourceFileSha256": "58c50cc0fc8a8a32050df920b7c913032e99ef41490d16c99d413c9e54050238",
+              "sourceHash": "58c50cc0fc8a8a32050df920b7c913032e99ef41490d16c99d413c9e54050238",
+              "sourcePath": "archive/812A/source-27486459.txt",
+              "summaryPath": "archive/812A/summary.json",
+              "summarySha256": "08baa9a11e4bd65fbcaf778a0c0200a9a2f76f6c8e249efc2e0dd2739ebe5ad9"
+            },
+            "sha256": "31ca419c302d81652058e192f3ecca54de3290b4cc999a272a836989aa591b19",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "sameAsEvidenceFailedTest": true,
+          "test": "0030",
+          "validLFInput": "0 0 0 1\n1 0 0 0\n0 0 0 0\n0 0 0 0\n",
+          "validLFInputSha256": "966527e20125ddce873d467e5ce20bcbd69ff3c008f48b73aa5929855367ccb4",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Token output; LF rerun same; no diagnostics; normal exit.",
+        "faultyLogic": "Ignores cars from OTHER parts whose lane leads into the part (left of i+1, straight of i+2, right of i+3).",
+        "implementedAlgorithm": "For each part: YES if its p is green and any of its own l,s,r is green.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": 0,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "NO\n",
+          "outputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "path": "archive/812A/sub-27486459-lf-0030.json",
+          "receipt": {
+            "sourceFileSha256": "58c50cc0fc8a8a32050df920b7c913032e99ef41490d16c99d413c9e54050238",
+            "sourceHash": "58c50cc0fc8a8a32050df920b7c913032e99ef41490d16c99d413c9e54050238",
+            "sourcePath": "archive/812A/source-27486459.txt",
+            "summaryPath": "archive/812A/summary.json",
+            "summarySha256": "08baa9a11e4bd65fbcaf778a0c0200a9a2f76f6c8e249efc2e0dd2739ebe5ad9"
+          },
+          "sha256": "31ca419c302d81652058e192f3ecca54de3290b4cc999a272a836989aa591b19",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "problemSemantics": "From the statement note (sample 1): a left-turning car of part i reaches part i-1, straight reaches i+2, right reaches i+1 (0-based, mod 4). An accident is possible iff some part X has p=1 and either a lane of X itself or a lane of another part whose destination is X is green.",
+        "recordedFailedTest": "0030",
+        "sourceHash": "58c50cc0fc8a8a32050df920b7c913032e99ef41490d16c99d413c9e54050238",
+        "sourceLines": [
+          {
+            "code": "for i in range(4):\n    a = list(map(int, input().split()))\n    if a[-1] == 1 and 1 in a[:3]:\n        print('YES')\n        exit()\nprint('NO')",
+            "end": 6,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0030"
+    },
+    "27487564": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "0021: correct NO, actual 'YES'. Lines: part1 r=1, part2 l=1, part3 p=1, part4 p=1. Part3 is reached by part2 right (0), part1 straight (0), part4 left (0), and its own lanes are 0. Part4 is reached by part3 right (0), part2 straight (0), part1 left (0), and its own lanes are 0. So NO. The code fires l2[0]=1 for part3: YES.",
+      "kind": "wrong-answer",
+      "reason": "Line 11 (part 3) lists l2[0] (part 2 left, which reaches part 1) instead of l4[0] (part 4 left, which reaches part 3).",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "YES",
+          "actualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+          "constraints": "Four lines of four values l s r p, each 0 or 1, parts in counter-clockwise order.",
+          "correctAnswer": "NO",
+          "derivation": "Lines: part1 r=1, part2 l=1, part3 p=1, part4 p=1. Part3 is reached by part2 right (0), part1 straight (0), part4 left (0), and its own lanes are 0. Part4 is reached by part3 right (0), part2 straight (0), part1 left (0), and its own lanes are 0. So NO. The code fires l2[0]=1 for part3: YES.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "normalExit": true,
+          "packageInputSha256": "cdc28d81ba1c09b8f4b7c4ff598679be0c999011f228c5ee022ec8c2d7b890b1",
+          "proof": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "output": "YES\n",
+            "outputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+            "path": "archive/812A/sub-27487564-lf-0021.json",
+            "receipt": {
+              "sourceFileSha256": "5c9153baa45ce6d8c50568a112aa669eed5791ccd00fe3859ece9e8db0329e53",
+              "sourceHash": "5c9153baa45ce6d8c50568a112aa669eed5791ccd00fe3859ece9e8db0329e53",
+              "sourcePath": "archive/812A/source-27487564.txt",
+              "summaryPath": "archive/812A/summary.json",
+              "summarySha256": "08baa9a11e4bd65fbcaf778a0c0200a9a2f76f6c8e249efc2e0dd2739ebe5ad9"
+            },
+            "sha256": "a24ae38d617400e7b9c182b35340938c95028f4a9f0013aa68d155a9bc8731f7",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "sameAsEvidenceFailedTest": true,
+          "test": "0021",
+          "validLFInput": "0 0 1 0\n1 0 0 0\n0 0 0 1\n0 0 0 1\n",
+          "validLFInputSha256": "c226f5614c7cc5f58d5c204e70a9f6aa10da022b748de12a4added50ba079883",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Token output; LF rerun same; no diagnostics; normal exit.",
+        "faultyLogic": "Line 11 (part 3) lists l2[0] (part 2 left, which reaches part 1) instead of l4[0] (part 4 left, which reaches part 3).",
+        "implementedAlgorithm": "Hand-written per-part conflict lists for p1..p4 (input lines l1..l4).",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": 0,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "YES\n",
+          "outputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+          "path": "archive/812A/sub-27487564-lf-0021.json",
+          "receipt": {
+            "sourceFileSha256": "5c9153baa45ce6d8c50568a112aa669eed5791ccd00fe3859ece9e8db0329e53",
+            "sourceHash": "5c9153baa45ce6d8c50568a112aa669eed5791ccd00fe3859ece9e8db0329e53",
+            "sourcePath": "archive/812A/source-27487564.txt",
+            "summaryPath": "archive/812A/summary.json",
+            "summarySha256": "08baa9a11e4bd65fbcaf778a0c0200a9a2f76f6c8e249efc2e0dd2739ebe5ad9"
+          },
+          "sha256": "a24ae38d617400e7b9c182b35340938c95028f4a9f0013aa68d155a9bc8731f7",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "problemSemantics": "From the statement note (sample 1): a left-turning car of part i reaches part i-1, straight reaches i+2, right reaches i+1 (0-based, mod 4). An accident is possible iff some part X has p=1 and either a lane of X itself or a lane of another part whose destination is X is green.",
+        "recordedFailedTest": "0021",
+        "sourceHash": "5c9153baa45ce6d8c50568a112aa669eed5791ccd00fe3859ece9e8db0329e53",
+        "sourceLines": [
+          {
+            "code": "if l1[-1]:\n    if sum(l1[:-1]) or l4[2] or l2[0] or l3[1]: print(\"YES\"); exit()\nif l2[-1]:\n    if sum(l2[:-1]) or l1[2] or l4[1] or l3[0]: print(\"YES\"); exit()\nif l3[-1]:\n    if sum(l3[:-1]) or l2[2] or l1[1] or l2[0]: print(\"YES\"); exit()\nif l4[-1]:\n    if sum(l4[:-1]) or l3[2] or l2[1] or l1[0]: print(\"YES\"); exit()\nprint(\"NO\")",
+            "end": 14,
+            "start": 6
+          }
+        ]
+      },
+      "test": "0021"
+    },
+    "27487598": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "0023: correct YES, actual 'NO'. Part3 has l=1, s=1, p=1, so its own cars hit its pedestrians: YES. p1=0 makes line 11's first term 0, the other terms are 0, so it prints NO.",
+      "kind": "wrong-answer",
+      "reason": "Line 11 (part 3 block) tests p1 & (l3|s3|r3) instead of p3 & (...), so part 3's own-lane conflict is never detected.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "NO",
+          "actualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "constraints": "Four lines of four values l s r p, each 0 or 1, parts in counter-clockwise order.",
+          "correctAnswer": "YES",
+          "derivation": "Part3 has l=1, s=1, p=1, so its own cars hit its pedestrians: YES. p1=0 makes line 11's first term 0, the other terms are 0, so it prints NO.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "normalExit": true,
+          "packageInputSha256": "a1a52180873a5d1aaa32db02e72086f96961c5ad10e875f0e813e6f76554cf77",
+          "proof": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "output": "NO\n",
+            "outputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+            "path": "archive/812A/sub-27487598-lf-0023.json",
+            "receipt": {
+              "sourceFileSha256": "c871a5b0333fcbe83be96e601dc49d820a8a487ae444351aea0d0c013132a3b7",
+              "sourceHash": "c871a5b0333fcbe83be96e601dc49d820a8a487ae444351aea0d0c013132a3b7",
+              "sourcePath": "archive/812A/source-27487598.txt",
+              "summaryPath": "archive/812A/summary.json",
+              "summarySha256": "08baa9a11e4bd65fbcaf778a0c0200a9a2f76f6c8e249efc2e0dd2739ebe5ad9"
+            },
+            "sha256": "6640362ec24bcff37c482ebf4cf2ff85dc7a20a94f6bc6ce1f681fcdde6a5380",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "sameAsEvidenceFailedTest": true,
+          "test": "0023",
+          "validLFInput": "1 0 0 0\n1 1 0 0\n1 1 0 1\n0 0 1 0\n",
+          "validLFInputSha256": "7bb7035f6354c9c59d77ff068bff7bf9c3d56bab9990eacf3d8a8c0093347fbc",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Token output; LF rerun same; no diagnostics; normal exit.",
+        "faultyLogic": "Line 11 (part 3 block) tests p1 & (l3|s3|r3) instead of p3 & (...), so part 3's own-lane conflict is never detected.",
+        "implementedAlgorithm": "Four bitwise conflict expressions, one per part, using r->next, s->opposite, l->previous.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": 0,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "NO\n",
+          "outputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "path": "archive/812A/sub-27487598-lf-0023.json",
+          "receipt": {
+            "sourceFileSha256": "c871a5b0333fcbe83be96e601dc49d820a8a487ae444351aea0d0c013132a3b7",
+            "sourceHash": "c871a5b0333fcbe83be96e601dc49d820a8a487ae444351aea0d0c013132a3b7",
+            "sourcePath": "archive/812A/source-27487598.txt",
+            "summaryPath": "archive/812A/summary.json",
+            "summarySha256": "08baa9a11e4bd65fbcaf778a0c0200a9a2f76f6c8e249efc2e0dd2739ebe5ad9"
+          },
+          "sha256": "6640362ec24bcff37c482ebf4cf2ff85dc7a20a94f6bc6ce1f681fcdde6a5380",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "problemSemantics": "From the statement note (sample 1): a left-turning car of part i reaches part i-1, straight reaches i+2, right reaches i+1 (0-based, mod 4). An accident is possible iff some part X has p=1 and either a lane of X itself or a lane of another part whose destination is X is green.",
+        "recordedFailedTest": "0023",
+        "sourceHash": "c871a5b0333fcbe83be96e601dc49d820a8a487ae444351aea0d0c013132a3b7",
+        "sourceLines": [
+          {
+            "code": "if (p1 & (l1 | s1 | r1)) | (r1 & p2) | (s1 & p3) | (l1 & p4):\n    print (\"YES\")\nelif (p2 & (l2 | s2 | r2)) | (r2 & p3) | (s2 & p4) | (l2 & p1):\n    print (\"YES\")\nelif (p1 & (l3 | s3 | r3)) | (r3 & p4) | (s3 & p1) | (l3 & p2):\n    print (\"YES\")\nelif (p4 & (l4 | s4 | r4)) | (r4 & p1) | (s4 & p2) | (l4 & p3):\n    print (\"YES\")\nelse:\n    print (\"NO\")",
+            "end": 16,
+            "start": 7
+          }
+        ]
+      },
+      "test": "0023"
+    },
+    "27487614": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "0028: correct YES, actual 'NO'. Part0 s=1 and p=1: its own straight lane crosses its own crossing, so YES. The code only checks data[0][l]=0 for the own part, and the others are 0, so NO.",
+      "kind": "wrong-answer",
+      "reason": "Omits the part's own straight and right lanes.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "NO",
+          "actualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "constraints": "Four lines of four values l s r p, each 0 or 1, parts in counter-clockwise order.",
+          "correctAnswer": "YES",
+          "derivation": "Part0 s=1 and p=1: its own straight lane crosses its own crossing, so YES. The code only checks data[0][l]=0 for the own part, and the others are 0, so NO.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "normalExit": true,
+          "packageInputSha256": "4e4c36e6d058099c6657d14ce2a2a94004870ecc42f5d890d6df5c4de6cbd554",
+          "proof": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "output": "NO\n",
+            "outputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+            "path": "archive/812A/sub-27487614-lf-0028.json",
+            "receipt": {
+              "sourceFileSha256": "2231977d6656593f25401c120f50756b8a0a3fcffebf30ebf00bdfb540c5117d",
+              "sourceHash": "2231977d6656593f25401c120f50756b8a0a3fcffebf30ebf00bdfb540c5117d",
+              "sourcePath": "archive/812A/source-27487614.txt",
+              "summaryPath": "archive/812A/summary.json",
+              "summarySha256": "08baa9a11e4bd65fbcaf778a0c0200a9a2f76f6c8e249efc2e0dd2739ebe5ad9"
+            },
+            "sha256": "7ba46b443d8e2d573fe5c29dc925cbb54ea5645b39d03c84c3a89ba21d731c47",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "sameAsEvidenceFailedTest": true,
+          "test": "0028",
+          "validLFInput": "0 1 0 1\n0 0 0 0\n0 0 0 0\n0 0 0 0\n",
+          "validLFInputSha256": "1fe8f4a12e89eef303532f36cc0cb6a8fa6e0727b388e112db326ee0c049da3b",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Token output; LF rerun same; no diagnostics; normal exit.",
+        "faultyLogic": "Omits the part's own straight and right lanes.",
+        "implementedAlgorithm": "For a green pedestrian of part i, checks the left of i+1, straight of i+2, right of i+3, and the OWN left only.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": 0,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "NO\n",
+          "outputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "path": "archive/812A/sub-27487614-lf-0028.json",
+          "receipt": {
+            "sourceFileSha256": "2231977d6656593f25401c120f50756b8a0a3fcffebf30ebf00bdfb540c5117d",
+            "sourceHash": "2231977d6656593f25401c120f50756b8a0a3fcffebf30ebf00bdfb540c5117d",
+            "sourcePath": "archive/812A/source-27487614.txt",
+            "summaryPath": "archive/812A/summary.json",
+            "summarySha256": "08baa9a11e4bd65fbcaf778a0c0200a9a2f76f6c8e249efc2e0dd2739ebe5ad9"
+          },
+          "sha256": "7ba46b443d8e2d573fe5c29dc925cbb54ea5645b39d03c84c3a89ba21d731c47",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "problemSemantics": "From the statement note (sample 1): a left-turning car of part i reaches part i-1, straight reaches i+2, right reaches i+1 (0-based, mod 4). An accident is possible iff some part X has p=1 and either a lane of X itself or a lane of another part whose destination is X is green.",
+        "recordedFailedTest": "0028",
+        "sourceHash": "2231977d6656593f25401c120f50756b8a0a3fcffebf30ebf00bdfb540c5117d",
+        "sourceLines": [
+          {
+            "code": "for i in range(0, 4):\n    pval = data[i][p]\n    if pval == 1 and (pval == data[(i + 1) % 4][l] or pval == data[(i + 2) % 4][s] or pval == data[(i + 3) % 4][r] or pval == data[i][l]):\n        print(\"YES\")\n        exit()\nprint(\"NO\")",
+            "end": 13,
+            "start": 8
+          }
+        ]
+      },
+      "test": "0028"
+    },
+    "27487893": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "0023: correct YES, actual 'NO'. Part3 (0-based 2) has l=1, s=1, p=1, so its own lanes conflict: YES. Destinations marked are 3, 0, 3, 1, 0 and 0, never 2, so it prints NO.",
+      "kind": "wrong-answer",
+      "reason": "Never marks a part's own lanes as conflicting with its own pedestrian crossing.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "NO",
+          "actualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "constraints": "Four lines of four values l s r p, each 0 or 1, parts in counter-clockwise order.",
+          "correctAnswer": "YES",
+          "derivation": "Part3 (0-based 2) has l=1, s=1, p=1, so its own lanes conflict: YES. Destinations marked are 3, 0, 3, 1, 0 and 0, never 2, so it prints NO.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "normalExit": true,
+          "packageInputSha256": "a1a52180873a5d1aaa32db02e72086f96961c5ad10e875f0e813e6f76554cf77",
+          "proof": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "output": "NO\n",
+            "outputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+            "path": "archive/812A/sub-27487893-lf-0023.json",
+            "receipt": {
+              "sourceFileSha256": "575720c754d7402f0ff33d4af177d4971a3b2ade1f1729383f8f9d6c89065bfb",
+              "sourceHash": "575720c754d7402f0ff33d4af177d4971a3b2ade1f1729383f8f9d6c89065bfb",
+              "sourcePath": "archive/812A/source-27487893.txt",
+              "summaryPath": "archive/812A/summary.json",
+              "summarySha256": "08baa9a11e4bd65fbcaf778a0c0200a9a2f76f6c8e249efc2e0dd2739ebe5ad9"
+            },
+            "sha256": "04adbe0b945ec9eb437862921eb90e682054fd0c52de935e46437d2277313bb3",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "sameAsEvidenceFailedTest": true,
+          "test": "0023",
+          "validLFInput": "1 0 0 0\n1 1 0 0\n1 1 0 1\n0 0 1 0\n",
+          "validLFInputSha256": "7bb7035f6354c9c59d77ff068bff7bf9c3d56bab9990eacf3d8a8c0093347fbc",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Token output; LF rerun same; no diagnostics; normal exit.",
+        "faultyLogic": "Never marks a part's own lanes as conflicting with its own pedestrian crossing.",
+        "implementedAlgorithm": "Marks v[target] for every green lane using a destination table x (l->i-1, s->i+2, r->i+1), then YES iff some part has p and v.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": 0,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "NO\n",
+          "outputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "path": "archive/812A/sub-27487893-lf-0023.json",
+          "receipt": {
+            "sourceFileSha256": "575720c754d7402f0ff33d4af177d4971a3b2ade1f1729383f8f9d6c89065bfb",
+            "sourceHash": "575720c754d7402f0ff33d4af177d4971a3b2ade1f1729383f8f9d6c89065bfb",
+            "sourcePath": "archive/812A/source-27487893.txt",
+            "summaryPath": "archive/812A/summary.json",
+            "summarySha256": "08baa9a11e4bd65fbcaf778a0c0200a9a2f76f6c8e249efc2e0dd2739ebe5ad9"
+          },
+          "sha256": "04adbe0b945ec9eb437862921eb90e682054fd0c52de935e46437d2277313bb3",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "problemSemantics": "From the statement note (sample 1): a left-turning car of part i reaches part i-1, straight reaches i+2, right reaches i+1 (0-based, mod 4). An accident is possible iff some part X has p=1 and either a lane of X itself or a lane of another part whose destination is X is green.",
+        "recordedFailedTest": "0023",
+        "sourceHash": "575720c754d7402f0ff33d4af177d4971a3b2ade1f1729383f8f9d6c89065bfb",
+        "sourceLines": [
+          {
+            "code": "    p = [False]*4\n    v = [False]*4\n    x = [[3,2,1],[0,3,2],[1,0,3],[2,1,0]]\n    for i in range(4):\n        a,b,c,d = map(int,sys.stdin.readline().split())\n        if d!=0:\n            p[i] = True\n        if a!=0:\n            v[x[i][0]] = True\n        if b!=0:\n            v[x[i][1]] = True\n        if c!=0:\n            v[x[i][2]] = True\n\n    ans = False\n    for i in range(4):\n        ans = ans or (v[i] and p[i])\n    if ans:\n        print(\"YES\")\n    else:\n        print(\"NO\")",
+            "end": 25,
+            "start": 5
+          }
+        ]
+      },
+      "test": "0023"
+    }
+  },
+  "packageHash": "9209a854d3d4be2eed38118b18866ba62b120edcc02553c23a5fab922315dbb6",
+  "qualificationBasis": "generated",
+  "rating": 1200,
+  "reviewUrl": "https://staging.itsdev.in/sessions/5e1f99ced59a4a219ae81a8e70c05226",
+  "reviewer": "devin-5e1f99ced59a4a219ae81a8e70c05226",
+  "sandbox": {
+    "capDrop": "ALL",
+    "compilerFlags": [
+      "-O2",
+      "-std=c++17",
+      "-DONLINE_JUDGE"
+    ],
+    "executionVersion": 2,
+    "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+    "network": "none",
+    "nonRoot": true,
+    "readOnly": true,
+    "runner": "pipeline/pool_sandbox.run"
+  },
+  "semanticReview": {
+    "acceptedSourcesRead": 5,
+    "genuineAlgorithmicWrong": 5,
+    "method": "Full code of every accepted and designated-wrong source read by hand; per-source algorithm, fault, exact lines; counted counterexamples derived by hand from the statement, checked against the package answer and an independent brute force, and bound to the normal-exit LF sandbox log.",
+    "performed": true,
+    "sourcesReviewed": 5
+  },
+  "verified": {
+    "downloadedSourceVerification": "bundled provenance/state hashes only; pinned upstream download cross-check performed by parent",
+    "extraTests": {
+      "cornerMax": 0,
+      "count": 1000,
+      "programs": [
+        {
+          "nonAC": 0,
+          "program": "oracle",
+          "sourceHash": "65de58cb0bd8d714b6d4a1316821e610da9825a731b148aea4197b624fbd64a6",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "27486477",
+          "sourceHash": "10cfee5630b43d0f1d22f324191dcacefcaae66f96d10797d97c79e89e38190d",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "27486522",
+          "sourceHash": "56239a9b5d1a7499cfded175da84a13e55e51f25065fc03345786f3f927b9537",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "27486541",
+          "sourceHash": "05d829a710241890fcf9c0478839110528d21cd1a15a33cb5ff3b4c3a6a0ffab",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "27486562",
+          "sourceHash": "e34e2fb032a43b580db2ed73cd6d6f4f613aab7f9c16cedb77daf761cf1614e8",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "27486564",
+          "sourceHash": "1200df101019bbfe96f38e3905a5ce05556d4d2b1e2b6abf51b135718dae2bfd",
+          "verdict": "AC"
+        }
+      ],
+      "smallBrute": 1000,
+      "testsHash": "d31cfe869864d06c474e0b503656d916139ffb5185620a9fa9fa07efea37c8d5"
+    },
+    "generator": {
+      "identical": true,
+      "matchesRecorded": true,
+      "outputHashes": [
+        "bdbee0985a0e877b7c5645a843b7dcb25911d632bde067c683ec574add53b542",
+        "bdbee0985a0e877b7c5645a843b7dcb25911d632bde067c683ec574add53b542"
+      ],
+      "pairs": 121,
+      "pairsEqualPackageAuthored": true,
+      "pairsHash": "fa55612e56981eaafd2df898c2edc2569844e08ffd78f27af3a7129c55cda549",
+      "runs": 2
+    },
+    "inputConstraints": "Independent validator: every supplied test and sample input (official, open-r1 generated, worker-generated) satisfies the statement constraints and format.",
+    "oracle": {
+      "packageTests": 214,
+      "sourceHash": "65de58cb0bd8d714b6d4a1316821e610da9825a731b148aea4197b624fbd64a6",
+      "testsRun": 217,
+      "verdict": "AC"
+    },
+    "submissions": [
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "GNU C++11",
+        "logSha256": "c504e88aa55006480bc6dd8a38eb4133f9e8ab4f5a19e7e9a5ec717c04e00844",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "10cfee5630b43d0f1d22f324191dcacefcaae66f96d10797d97c79e89e38190d",
+        "submissionId": "27486477"
+      },
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "C++14 (GCC 6-32)",
+        "logSha256": "8a8186b6f588f63228e0e15616033f3010b7b53e5d537f32e2404326fcf556dd",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "56239a9b5d1a7499cfded175da84a13e55e51f25065fc03345786f3f927b9537",
+        "submissionId": "27486522"
+      },
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "GNU C++11",
+        "logSha256": "dfbabcd4c2f7901a0f4c9fb0ad59c98f3770d8c4a7f1bae6670836e5193ae61c",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "05d829a710241890fcf9c0478839110528d21cd1a15a33cb5ff3b4c3a6a0ffab",
+        "submissionId": "27486541"
+      },
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "GNU C++11",
+        "logSha256": "0c05df722d00d2f53a848aaf9658352499379427b15767f9563283a2e18759bb",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "e34e2fb032a43b580db2ed73cd6d6f4f613aab7f9c16cedb77daf761cf1614e8",
+        "submissionId": "27486562"
+      },
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "C++14 (GCC 6-32)",
+        "logSha256": "ae62497b0bd3714c3475795316336c9dd3f3dc24d3d1a4ec34c6c4f2126c1600",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "1200df101019bbfe96f38e3905a5ce05556d4d2b1e2b6abf51b135718dae2bfd",
+        "submissionId": "27486564"
+      },
+      {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0030",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "logSha256": "19edabf69f464f491777a656e921a6f0b649c98e2afd8a5ec8ae721bd4bdfc3c",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0030",
+        "recordedVerdict": "WA",
+        "sourceHash": "58c50cc0fc8a8a32050df920b7c913032e99ef41490d16c99d413c9e54050238",
+        "submissionId": "27486459"
+      },
+      {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0021",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "logSha256": "9cda2fdad41bddd7b33ac957581949508e8df8c1a3e7ab54c084580d381b7a03",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0021",
+        "recordedVerdict": "WA",
+        "sourceHash": "5c9153baa45ce6d8c50568a112aa669eed5791ccd00fe3859ece9e8db0329e53",
+        "submissionId": "27487564"
+      },
+      {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0023",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "logSha256": "083535b6c543ee999685fb92e04a481ef2cba0f73ec0c7b10d79a95cc0ab2369",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0023",
+        "recordedVerdict": "WA",
+        "sourceHash": "c871a5b0333fcbe83be96e601dc49d820a8a487ae444351aea0d0c013132a3b7",
+        "submissionId": "27487598"
+      },
+      {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0028",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "logSha256": "2fb3e70089896a1adb2be1de3788bf248b6630626ed405d161d50a6c67ff22a1",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0028",
+        "recordedVerdict": "WA",
+        "sourceHash": "2231977d6656593f25401c120f50756b8a0a3fcffebf30ebf00bdfb540c5117d",
+        "submissionId": "27487614"
+      },
+      {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0023",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "logSha256": "b7ed3442f2370d81f66ec772b3ed2a73bb43677a77953212ab84cd39591bd90b",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0023",
+        "recordedVerdict": "WA",
+        "sourceHash": "575720c754d7402f0ff33d4af177d4971a3b2ade1f1729383f8f9d6c89065bfb",
+        "submissionId": "27487893"
+      }
+    ]
+  }
+}

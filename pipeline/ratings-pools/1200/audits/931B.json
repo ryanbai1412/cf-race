@@ -1,0 +1,597 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "57c5185646a3c10cc23af367a1847ef54a2e30c7970073eb7d5fc504a6bab9e3",
+  "genuineAlgorithmicIncorrect": 5,
+  "id": "931B",
+  "incorrectAnalysis": {
+    "35913323": {
+      "kind": "wrong-answer",
+      "reason": "Lines 38-42: the stop condition b-a==1 means 'adjacent ids', not 'same pair of the current round', and x-=x/2 is ceil(x/2), not the parent index x/2; ids 0 and 3 in n=4 never become adjacent in the right round. Proof: included LF test 0010 -> '3', correct 'Final!'.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "3",
+          "actualOutputSha256": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+          "alternateToRecordedFailedTest": false,
+          "constraints": "n=4 power of two, 1<=a,b<=4, a!=b",
+          "correctAnswer": "Final!",
+          "derivation": "Teams a,b (0-indexed a-1,b-1) meet in round r = smallest r with (a-1)>>r == (b-1)>>r; if r == log2(n) print Final!, else r. n=4,a=1,b=4: 0>>1=0 vs 3>>1=1 differ, 0>>2==3>>2 -> r=2=log2(4) -> Final!. Source prints 3.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.0016789999999999722,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+            "path": "archive/931B/sub-35913323-lf.json",
+            "sha256": "d90704d91a376bba8eb7bc55c4c03e3cfabcd0ef32d8eff5f6bc4f1f799ebfd9",
+            "sourceBinding": "log produced by tools/rerun.py from 931B/sources (sha256 4b4419c5f59cc7dbfb7a6704e49ab5f6abf216d92e8ddaed5bd2df678458a27f == evidence sourceHash); logs do not embed source text",
+            "test": "0010",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "LF-normalized audit copy of the recorded failedTest",
+          "originalTestSha256": "d9c70776240d9b226da8f84d9643fe960d0b56c7002f436fe08efcbd181e0251",
+          "packageExpectedOutput": "Final!",
+          "test": "0010",
+          "validLFInput": "4 1 4\n",
+          "validLFInputFile": "931B/counterexamples/35913323-0010.in",
+          "validLFInputSha256": "e89abf08182cdfcd7a620e291f1753da8f85f174ada53aec96007bd9be30b1a9"
+        },
+        "excludedNonAlgorithmicCauses": "None: same output on LF input; normal exit.",
+        "faultyLogic": "Lines 38-42: the stop condition b-a==1 means 'adjacent ids', not 'same pair of the current round', and x-=x/2 is ceil(x/2), not the parent index x/2; ids 0 and 3 in n=4 never become adjacent in the right round.",
+        "implementedAlgorithm": "0-indexed, swaps so a<b, repeatedly applies a-=a/2, b-=b/2 (n/=2) until b-a==1, then prints Final! if n==2 else i+1.",
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/931B/source-35913323.txt",
+          "sha256": "4b4419c5f59cc7dbfb7a6704e49ab5f6abf216d92e8ddaed5bd2df678458a27f"
+        },
+        "sourceHash": "4b4419c5f59cc7dbfb7a6704e49ab5f6abf216d92e8ddaed5bd2df678458a27f",
+        "sourceLines": [
+          {
+            "code": "void $main(int testNo) {\n    int n, a, b;\n    cin >> n >> a >> b;\n    --a;\n    --b;\n    if (a >b ) swap(a, b);\n    int i=0;\n    while (true) {\n        if (b -a == 1) {\n            break;\n        }\n        a -= a/2;\n        b -= b/2;\n        n /= 2;\n        ++i;\n    }\n    if (n == 2) {\n        cout << \"Final!\";\n    } else {\n        cout << i + 1;\n    }",
+            "end": 50,
+            "start": 30
+          }
+        ]
+      },
+      "test": "0010"
+    },
+    "35913387": {
+      "kind": "wrong-answer",
+      "reason": "Lines 26-37: rounds are counted the wrong way: halving n moves toward EARLIER rounds, so x should decrease, but it increments (x++). Proof: included LF test 0020 -> '3', correct '1'.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "3\n",
+          "actualOutputSha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+          "alternateToRecordedFailedTest": false,
+          "constraints": "n=8",
+          "correctAnswer": "1",
+          "derivation": "Teams a,b (0-indexed a-1,b-1) meet in round r = smallest r with (a-1)>>r == (b-1)>>r; if r == log2(n) print Final!, else r. n=8,a=8,b=7: 7>>1==6>>1 -> round 1. Source: a=7,b=8 not split at 4; x=log2(8)-1=2; fold to 3,4, n=4, not split at 2, x=3; fold to 1,2, n=2, split -> prints 3.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.0018489999999999895,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+            "path": "archive/931B/sub-35913387-lf.json",
+            "sha256": "042ad6dd931f37dab7be90f8d81093fcaf2cdd61dfa8eb45f4650f79411ec515",
+            "sourceBinding": "log produced by tools/rerun.py from 931B/sources (sha256 e6e4cafb8420816839b15633061e50034d435d4b126dc882ea7689a1f976a3d5 == evidence sourceHash); logs do not embed source text",
+            "test": "0020",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "LF-normalized audit copy of the recorded failedTest",
+          "originalTestSha256": "b21629367fcc0e4e223a6fe60c5f8fe48a7825d49f745fcb09e02afaeaa91842",
+          "packageExpectedOutput": "1",
+          "test": "0020",
+          "validLFInput": "8 8 7\n",
+          "validLFInputFile": "931B/counterexamples/35913387-0020.in",
+          "validLFInputSha256": "c477ae74e6c5ae4c5ac038cc04694f110dcd3a3f71b1f316c44c3c2111990c79"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input.",
+        "faultyLogic": "Lines 26-37: rounds are counted the wrong way: halving n moves toward EARLIER rounds, so x should decrease, but it increments (x++).",
+        "implementedAlgorithm": "Swaps a<b; Final! if a<=n/2<b; otherwise x starts at log2(n)-1 and the loop folds both into the lower half while incrementing x each time n halves until they are split by n/2.",
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/931B/source-35913387.txt",
+          "sha256": "e6e4cafb8420816839b15633061e50034d435d4b126dc882ea7689a1f976a3d5"
+        },
+        "sourceHash": "e6e4cafb8420816839b15633061e50034d435d4b126dc882ea7689a1f976a3d5",
+        "sourceLines": [
+          {
+            "code": "int solve()\n{\n    int n;\n    if (!(cin >> n))\n        return 1;\n    int a, b;\n    cin >> a >> b;\n    if (a > b)\n        swap(a, b);\n    if (a <= n / 2 && b > n / 2)\n    {\n        cout << \"Final!\" << endl;\n        return 0;\n    }\n    int i = 0;\n    while ((1 << i) != n)\n        i++;\n    int x = i - 1;\n    while (true)\n    {\n        if (a > n / 2)\n            a -= n / 2, b -= n / 2;\n        n /= 2;\n        if (a <= n / 2 && b > n / 2)\n        {\n            cout << x << endl;\n            return 0;\n        }\n        x++;\n    }\n    return 0;\n}",
+            "end": 40,
+            "start": 9
+          }
+        ]
+      },
+      "test": "0020"
+    },
+    "35913411": {
+      "kind": "wrong-answer",
+      "reason": "Line 8 tests id adjacency (a+1==b) instead of membership in the same pair, and line 9 halves 1-indexed ids (should use (x-1)>>1). Proof: included LF test 0010 -> '3', correct 'Final!'.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "3\n",
+          "actualOutputSha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+          "alternateToRecordedFailedTest": false,
+          "constraints": "n=4",
+          "correctAnswer": "Final!",
+          "derivation": "Teams a,b (0-indexed a-1,b-1) meet in round r = smallest r with (a-1)>>r == (b-1)>>r; if r == log2(n) print Final!, else r. n=4,a=1,b=4 -> Final!. Source: 1,4 -> 0,2 -> 0,1 stop with cnt=3, 8!=4 -> prints 3.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.0016269999999999896,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+            "path": "archive/931B/sub-35913411-lf.json",
+            "sha256": "93ff81d7878a8c44b646034c891173d5593a5a0f797d4bb7463b82b04f42cd6e",
+            "sourceBinding": "log produced by tools/rerun.py from 931B/sources (sha256 6c9f1d063fa574ee86676d05110916f4a6c50320d172757044ab837606b787e5 == evidence sourceHash); logs do not embed source text",
+            "test": "0010",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "LF-normalized audit copy of the recorded failedTest",
+          "originalTestSha256": "d9c70776240d9b226da8f84d9643fe960d0b56c7002f436fe08efcbd181e0251",
+          "packageExpectedOutput": "Final!",
+          "test": "0010",
+          "validLFInput": "4 1 4\n",
+          "validLFInputFile": "931B/counterexamples/35913411-0010.in",
+          "validLFInputSha256": "e89abf08182cdfcd7a620e291f1753da8f85f174ada53aec96007bd9be30b1a9"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input.",
+        "faultyLogic": "Line 8 tests id adjacency (a+1==b) instead of membership in the same pair, and line 9 halves 1-indexed ids (should use (x-1)>>1).",
+        "implementedAlgorithm": "Swaps a<b (1-indexed), cnt=1, while a+1!=b do a>>=1,b>>=1,cnt++; prints Final! if 2^cnt==n.",
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/931B/source-35913411.txt",
+          "sha256": "6c9f1d063fa574ee86676d05110916f4a6c50320d172757044ab837606b787e5"
+        },
+        "sourceHash": "6c9f1d063fa574ee86676d05110916f4a6c50320d172757044ab837606b787e5",
+        "sourceLines": [
+          {
+            "code": "void solve(){\n    int n, a, b; cin >> n >> a >> b; if (a > b) swap(a, b);\n    int cnt = 1;\n    while (a  + 1!= b)\n        a >>= 1, b >>= 1, cnt++;\n    if ((1 << cnt) == n)\n        cout << \"Final!\";\n    else\n        cout << cnt << endl;\n}",
+            "end": 14,
+            "start": 5
+          }
+        ]
+      },
+      "test": "0010"
+    },
+    "35913429": {
+      "kind": "wrong-answer",
+      "reason": "Lines 37-43 check the pair before the size test of lines 56-57, so for n=2 the only (final) match returns round 1 instead of Final!; the round-1 match IS the Final when n=2. Proof: included LF test 0065 -> '1', correct 'Final!'. Recorded failedTest 0007 is not used as proof (incorrectAnalysis.test kept equal to evidence.failedTest as the contract requires).",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1",
+          "actualOutputSha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+          "alternateToRecordedFailedTest": true,
+          "constraints": "n=2,a=1,b=2",
+          "correctAnswer": "Final!",
+          "derivation": "For n=2 there is exactly one round, which is the Final, so the answer is Final!. Source prints 1.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.0016130000000000588,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+            "path": "archive/931B/sub-35913429.json",
+            "sha256": "a753142474c9c9ac60a4d413fdf957f2fa144f361537cc399976bf2d84eec527",
+            "sourceBinding": "log produced by tools/rerun.py from 931B/sources (sha256 27e253b942ebe775c38771cbef60d870ae6b6c81720d9aa5642b1104395b68bd == evidence sourceHash); logs do not embed source text",
+            "test": "0065",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "included package test is already LF",
+          "originalTestSha256": "5eb6d903bb68d63aeabbc0dadca8c807b25fee3343298d8f22d634c375701391",
+          "packageExpectedOutput": "Final!",
+          "test": "0065",
+          "validLFInput": "2 1 2\n",
+          "validLFInputFile": "931B/counterexamples/35913429-0065.in",
+          "validLFInputSha256": "5eb6d903bb68d63aeabbc0dadca8c807b25fee3343298d8f22d634c375701391"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input; correct on n>=4.",
+        "faultyLogic": "Lines 37-43 check the pair before the size test of lines 56-57, so for n=2 the only (final) match returns round 1 instead of Final!; the round-1 match IS the Final when n=2.",
+        "implementedAlgorithm": "Simulates the bracket on a vector: each round pairs v[i],v[i+1], returns the round number if (a,b) is a pair, otherwise advances a or b (or the left element); stops with Final! once 2 teams remain.",
+        "recordedFailedTestNonQualifying": {
+          "freshRawVerdict": "WA",
+          "lfNormalizedVerdict": "WA",
+          "test": "0007",
+          "why": "None: same on LF input; correct on n>=4."
+        },
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/931B/source-35913429.txt",
+          "sha256": "27e253b942ebe775c38771cbef60d870ae6b6c81720d9aa5642b1104395b68bd"
+        },
+        "sourceHash": "27e253b942ebe775c38771cbef60d870ae6b6c81720d9aa5642b1104395b68bd",
+        "sourceLines": [
+          {
+            "code": "    ll n, a, b;\n    cin >> n >> a >> b;\n\n    vector <ll> v;\n    for (ll i = 1; i <= n; i++)\n        v.pb(i);\n\n    ll ans = 1;\n\n    for (;;) {\n        vector <ll> v1;\n        for (ll i = 0; i < v.size(); i++) {\n            if (i % 2)\n                continue;\n            if (v[i] == a && v[i + 1] == b || v[i] == b && v[i + 1] == a)\n                return cout << ans, 0;\n\n            if (v[i] == a || v[i + 1] == a)\n                v1.pb(a);\n            else\n                if (v[i] == b || v[i + 1] == b)\n                    v1.pb(b);\n                else\n                    v1.pb(v[i]);\n\n        }\n        sort(ALL(v1));\n        v = v1;\n        if (v1.size() == 2)\n            break;\n        ans++;\n    }\n\n    cout << \"Final!\";",
+            "end": 61,
+            "start": 28
+          }
+        ]
+      },
+      "test": "0007"
+    },
+    "35913523": {
+      "kind": "wrong-answer",
+      "reason": "Line 24: |a-b|<=1 treats adjacent ids from different pairs (e.g. 2 and 3) as meeting this round; also the n==2 check happens before the meeting check. Proof: included LF test 0012 -> '1', correct 'Final!'.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1",
+          "actualOutputSha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+          "alternateToRecordedFailedTest": false,
+          "constraints": "n=4",
+          "correctAnswer": "Final!",
+          "derivation": "Teams a,b (0-indexed a-1,b-1) meet in round r = smallest r with (a-1)>>r == (b-1)>>r; if r == log2(n) print Final!, else r. n=4,a=2,b=3: 1>>1=0 vs 2>>1=1 -> r=2 -> Final!. Source: |2-3|<=1 -> prints 1.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.0019299999999999873,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+            "path": "archive/931B/sub-35913523-lf.json",
+            "sha256": "8da82d287b938ddd9f4917637c0f67a540c85d302ae7c74549663a1d1fcca459",
+            "sourceBinding": "log produced by tools/rerun.py from 931B/sources (sha256 e79e054d679050ab9bb0cc99fcedfb700f629de5bb335cda59c22fdd49fc7f54 == evidence sourceHash); logs do not embed source text",
+            "test": "0012",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "LF-normalized audit copy of the recorded failedTest",
+          "originalTestSha256": "58da6a25011eafcccd34636386e819e8d6bd40002c4039e84358d6bf7720efb2",
+          "packageExpectedOutput": "Final!",
+          "test": "0012",
+          "validLFInput": "4 2 3\n",
+          "validLFInputFile": "931B/counterexamples/35913523-0012.in",
+          "validLFInputSha256": "bb780c57a4f21def6bc0bbec40f2d943c3e05bf201a688110f56518395d75d01"
+        },
+        "excludedNonAlgorithmicCauses": "None: same on LF input.",
+        "faultyLogic": "Line 24: |a-b|<=1 treats adjacent ids from different pairs (e.g. 2 and 3) as meeting this round; also the n==2 check happens before the meeting check.",
+        "implementedAlgorithm": "Maps ids to the next round via ceil(x/2) (lines 29-36) and stops when |a-b|<=1, printing Final! if n==2 else ans.",
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/931B/source-35913523.txt",
+          "sha256": "e79e054d679050ab9bb0cc99fcedfb700f629de5bb335cda59c22fdd49fc7f54"
+        },
+        "sourceHash": "e79e054d679050ab9bb0cc99fcedfb700f629de5bb335cda59c22fdd49fc7f54",
+        "sourceLines": [
+          {
+            "code": "    int n,a,b;\n    cin>>n>>a>>b;\n    int ans = 1;\n    while (true)\n    {\n        if (n == 2)\n        {\n            cout<<\"Final!\";\n            return 0;\n        }\n        if (abs(a-b)<=1)\n        {\n            cout<<ans;\n            return 0;\n        }\n        if (a % 2 == 0)\n            a = (a-2)/2 + 1;\n        else if (a % 2 == 1)\n            a = (a-1)/2 + 1;\n        if (b % 2 == 0)\n            b = (b-2)/2 + 1;\n        else if (b % 2 == 1)\n            b = (b-1)/2 + 1;\n        ans ++;\n        n /=2;\n    }",
+            "end": 39,
+            "start": 14
+          }
+        ]
+      },
+      "test": "0012"
+    }
+  },
+  "packageHash": "fa0a5429fa38b392da9c568a2da66bea179b1eeeb0d6204e5e8fe0e77c27e198",
+  "preAuditBaseline": "no prior audit file existed for this ID at builder head d11faff5",
+  "qualificationBasis": "generated",
+  "rating": 1200,
+  "reasons": [],
+  "referenceAlgorithm": "round = bit_length((a-1) xor (b-1)); Final! if it equals log2(n)",
+  "reviewUrl": "https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4",
+  "reviewer": "devin-21803116a99741d7a7672cde5aff36d4 (independent rating1200 auditor, https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4)",
+  "schemaVersion": 1,
+  "semanticReviewPerformed": "Source-specific semantic review of all 5 designated-wrong sources from the start (full code read by hand, exact lines, mathematical derivation, normal-exit LF proof bound to fresh executionVersion2 sandbox logs).",
+  "verification": {
+    "archiveFilesAllMatchProvenance": true,
+    "archiveSha256": "d6511ffabcac4598e172cd28184d068b14efc0ba3b83d0a62adcc32682034559",
+    "auditorExtraTests": {
+      "accepted": {
+        "35913237": "AC",
+        "35913247": "AC",
+        "35913248": "AC",
+        "35913249": "AC",
+        "35913252": "AC"
+      },
+      "count": 566,
+      "expectedFrom": "auditor-authored brute force/exhaustive enumeration (tools/extra.py), not the generator formula",
+      "oracle": "AC",
+      "testsJsonSha256": "1fca1b3aa090d129a1f9dccd1ebf044f32d74567b5403f1d57d11c7cd4b9d954"
+    },
+    "bruteVsPackage": {
+      "checked": 192,
+      "constraintViolations": [],
+      "crlfInputs": 64,
+      "mismatches": []
+    },
+    "builderBranchCommit": "d11faff5231965a95044873c99042e2bec7bae2d",
+    "bundleSha256": "fd7665582d7f84a4af7e83ac2c4de81621b65e26d2b9a00c078e054eb54e47d1",
+    "coverageClaims": {
+      "adversarial": [
+        {
+          "reason": "n=4 1 3 final",
+          "test": "0068"
+        },
+        {
+          "reason": "n=8 4 5 final",
+          "test": "0069"
+        }
+      ],
+      "boundary": [
+        {
+          "reason": "n=2",
+          "test": "0065"
+        },
+        {
+          "reason": "n=256 final",
+          "test": "0066"
+        },
+        {
+          "reason": "n=256 round 1",
+          "test": "0067"
+        }
+      ],
+      "checkerSemantics": "Round number or Final!; unique, exact token comparison.",
+      "inputConstraints": "Every supplied pair (64 upstream supplementary + 125 authored) was executed by the independently authored oracle (independent-oracle-session https://staging.itsdev.in/sessions/3011a3d955904fe19fe60af0a71a9713), which strictly validates all statement constraints and exits nonzero on violation, and reproduced the expected output under the problem limits in the bounded sandbox (qualification/oracle.json). Authored inputs come from pipeline/problems/931B/recipe.py cases().",
+      "maxSize": [
+        {
+          "reason": "n=256 128 129",
+          "test": "0070"
+        }
+      ],
+      "packageHash": "fa0a5429fa38b392da9c568a2da66bea179b1eeeb0d6204e5e8fe0e77c27e198",
+      "statementComplete": "Legend (play-off by sorted ids), input (2<=n<=256 power of two, 1<=a,b<=n, a!=b), output present."
+    },
+    "generator": {
+      "authoredInPackage": 125,
+      "count": 125,
+      "distinct": 125,
+      "equalsPackageAuthored": true,
+      "hashes": [
+        "f486641d473a7c35c41bae6a894331edc7b59626ed1fb2e01cb95e7082fd2343",
+        "f486641d473a7c35c41bae6a894331edc7b59626ed1fb2e01cb95e7082fd2343"
+      ],
+      "identical": true,
+      "matchesRecorded": true,
+      "pairsDigest": "950a148a274700d97fda62144879ed32104d611b24176d97c0a94b3e35409715",
+      "pairsDigestMatches": true
+    },
+    "manifestEqualsEvidenceAndProvenanceFiles": true,
+    "oracle": {
+      "byteExact": 125,
+      "compiled": true,
+      "failedTest": null,
+      "hashesMatchRecorded": true,
+      "maxCpu": 0.04629700000000003,
+      "seconds": 5.7,
+      "testsRun": 192,
+      "verdict": "AC"
+    },
+    "sandbox": {
+      "compilerFlags": [
+        "-O2",
+        "-std=c++17",
+        "-DONLINE_JUDGE"
+      ],
+      "executionVersion": 2,
+      "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+      "network": "none",
+      "runner": "pipeline/pool_sandbox.run (read-only, nonroot 65534, cap-drop ALL, no-new-privileges)"
+    },
+    "sourceVerification": "bundled state/ID/sources code sha256 == evidence sourceHash == batch3 proof manifest; upstream pinned bytes verified separately by parent (upstream-verification.json bd5533e5...), not re-downloaded here",
+    "submissions": {
+      "35913237": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "5f8470076e4636a46798d74eae9817fc331864ac82bd9cd6525838d5bc9f971b",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/931B/sub-35913237.json",
+          "sha256": "3948cdf7e50bccdff2ddf53a0c14425dc5e00b655f6dcffbdd22c7cbb017de79"
+        },
+        "language": "C++14 (GCC 6-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "f3258479c37ff31252ad0b28c8f4ba04ce4f03cc34795e9c0f0455446cf8eb8e",
+        "verdictMatches": true
+      },
+      "35913247": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "5eb2702f3797d08546f1e9e8bde185804579e96595eca97ed8b24ac275d1a4c1",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/931B/sub-35913247.json",
+          "sha256": "a85d6fee2f085e523f86341fcf10163a83c4430c6df26a53c0a4d43b40d97f5a"
+        },
+        "language": "C++17 (GCC 7-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "e20531ca8b0adb77f205b8ed55e938b0eb3c9a6134c895b90764438d97277784",
+        "verdictMatches": true
+      },
+      "35913248": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "5f8470076e4636a46798d74eae9817fc331864ac82bd9cd6525838d5bc9f971b",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/931B/sub-35913248.json",
+          "sha256": "b1d42294251520116a0dab9d44cada3637c509d3891939e9e963911663a16186"
+        },
+        "language": "C++14 (GCC 6-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "53aa83b50557bdfc214bf916d76b7d219473848dac7b3513a1d15fb9958882b7",
+        "verdictMatches": true
+      },
+      "35913249": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "5f8470076e4636a46798d74eae9817fc331864ac82bd9cd6525838d5bc9f971b",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/931B/sub-35913249.json",
+          "sha256": "f81674e290fbe039de348700b9ee16c3e34d1e14fabae21e2a300645d2d4fdf1"
+        },
+        "language": "C++14 (GCC 6-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "faf67979084067f4dc1a5537bc59aed8301114780e16593650d3c054fe883982",
+        "verdictMatches": true
+      },
+      "35913252": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "5eb2702f3797d08546f1e9e8bde185804579e96595eca97ed8b24ac275d1a4c1",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/931B/sub-35913252.json",
+          "sha256": "253b7afda13232c31f18d64ce2f68451817d14b52c489db37da0ee7151945e60"
+        },
+        "language": "C++17 (GCC 7-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "6fdd8c2e5e6e35e6b6658c4130ef53cc34509be562a931ae9940790a42c607bc",
+        "verdictMatches": true
+      },
+      "35913323": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0010",
+        "freshOutcomeDigest": "3dc691e57b8aaddf8873edafa660af7e95fa7dec3e69c4171a49cfd310e51220",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/931B/sub-35913323.json",
+          "sha256": "5ca4c9b812fc19887ba264d7b0bb59b9e22fc7d6c697cdb30936fa8289c6ea0c"
+        },
+        "language": "C++14 (GCC 6-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0010",
+        "recordedVerdict": "WA",
+        "sourceHash": "4b4419c5f59cc7dbfb7a6704e49ab5f6abf216d92e8ddaed5bd2df678458a27f",
+        "verdictMatches": true
+      },
+      "35913387": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0020",
+        "freshOutcomeDigest": "2f41f8d8792e827be9a8f83d1a223522e112a4e59e0baaca2297b63b3272bff8",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/931B/sub-35913387.json",
+          "sha256": "b9fdb052656f8978d031e43e23cdcbd2bc1b0902b86b966050d6e09f7dea265b"
+        },
+        "language": "C++14 (GCC 6-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0020",
+        "recordedVerdict": "WA",
+        "sourceHash": "e6e4cafb8420816839b15633061e50034d435d4b126dc882ea7689a1f976a3d5",
+        "verdictMatches": true
+      },
+      "35913411": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0010",
+        "freshOutcomeDigest": "48c112242969cce28b77b4437df4c11039f8c959f259c367b9a666b2b6d9711f",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/931B/sub-35913411.json",
+          "sha256": "267682cffae0bdd106ba828934ba53e37a60aa2aaf9f40eb6043d04bfd8f9a45"
+        },
+        "language": "C++14 (GCC 6-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0010",
+        "recordedVerdict": "WA",
+        "sourceHash": "6c9f1d063fa574ee86676d05110916f4a6c50320d172757044ab837606b787e5",
+        "verdictMatches": true
+      },
+      "35913429": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0007",
+        "freshOutcomeDigest": "e6af0e7b638937863019deb16cc41fc3ffacb96ef41587233f6403b609f40145",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/931B/sub-35913429.json",
+          "sha256": "a753142474c9c9ac60a4d413fdf957f2fa144f361537cc399976bf2d84eec527"
+        },
+        "language": "C++14 (GCC 6-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0007",
+        "recordedVerdict": "WA",
+        "sourceHash": "27e253b942ebe775c38771cbef60d870ae6b6c81720d9aa5642b1104395b68bd",
+        "verdictMatches": true
+      },
+      "35913523": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0012",
+        "freshOutcomeDigest": "9d66d76f82cee19c1ec0e9289560a20956abff130c7686b1a8640ee3964b9739",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/931B/sub-35913523.json",
+          "sha256": "59b40cbc6fc5374a2ec3720a2facc24c3d18979735e656672b7ac685fc3df2d6"
+        },
+        "language": "C++14 (GCC 6-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0012",
+        "recordedVerdict": "WA",
+        "sourceHash": "e79e054d679050ab9bb0cc99fcedfb700f629de5bb335cda59c22fdd49fc7f54",
+        "verdictMatches": true
+      }
+    }
+  }
+}

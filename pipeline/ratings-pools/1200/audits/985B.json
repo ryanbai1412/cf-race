@@ -1,0 +1,1179 @@
+{
+  "approved": false,
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "c8cf04815992baa767ca332382728f8d5ff708b32bc2df8951a55775917bb8d6",
+  "genuineAlgorithmicIncorrect": 3,
+  "id": "985B",
+  "incorrectAnalysis": {
+    "38505928": {
+      "kind": "debug-output-not-counted",
+      "reason": "Debug/presentation output on every test (list repr precedes the verdict). Not counted under conservative policy. Lines 5, 11, 15 are debug prints; the decimal-sum model also suffers from carries.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Debug/presentation output on every test (list repr precedes the verdict). Not counted under conservative policy.",
+        "faultyLogic": "Lines 5, 11, 15 are debug prints; the decimal-sum model also suffers from carries.",
+        "implementedAlgorithm": "Prints the row list, sums rows as decimal integers, prints intermediate totals, then checks digit patterns.",
+        "normalExitLFWrongTestsInFullRun": [
+          "0060",
+          "0061",
+          "0062",
+          "0063",
+          "0064",
+          "0065",
+          "0066",
+          "0067",
+          "0068",
+          "0069",
+          "0070",
+          "0071",
+          "0072",
+          "0073",
+          "0074",
+          "0075",
+          "0076",
+          "0077",
+          "0078",
+          "0079",
+          "0080",
+          "0081",
+          "0082",
+          "0083",
+          "0084",
+          "0085",
+          "0086",
+          "0087",
+          "0088",
+          "0089",
+          "0090",
+          "0091",
+          "0092",
+          "0093",
+          "0094",
+          "0095",
+          "0096",
+          "0097",
+          "0098",
+          "0099",
+          "0100",
+          "0101",
+          "0102",
+          "0103",
+          "0104",
+          "0105",
+          "0106",
+          "0107",
+          "0108",
+          "0109",
+          "0110",
+          "0111",
+          "0112",
+          "0113",
+          "0114",
+          "0115",
+          "0116",
+          "0117",
+          "0118",
+          "0119",
+          "0120",
+          "0121",
+          "0122",
+          "0123",
+          "0124",
+          "0125",
+          "0126",
+          "0127",
+          "0128",
+          "0129",
+          "0130",
+          "0131",
+          "0132",
+          "0133",
+          "0134",
+          "0135",
+          "0136",
+          "0137",
+          "0138",
+          "0139",
+          "0140",
+          "0141",
+          "0142",
+          "0143",
+          "0144",
+          "0145",
+          "0146",
+          "0147",
+          "0148",
+          "0149",
+          "0150",
+          "0151",
+          "0152",
+          "0153",
+          "0154",
+          "0155",
+          "0156",
+          "0157",
+          "0158",
+          "0159",
+          "0160",
+          "0161",
+          "0162",
+          "0163",
+          "0164",
+          "0165",
+          "0166",
+          "0167",
+          "0168",
+          "0169",
+          "0170",
+          "0171",
+          "0172",
+          "0173",
+          "0174",
+          "0175",
+          "0176"
+        ],
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/985B/source-38505928.txt",
+          "sha256": "5cf650e43bf5f6832d6cc534c1ef3ebcd98ccadaf1d189f41e2a393ffde4e253"
+        },
+        "sourceHash": "5cf650e43bf5f6832d6cc534c1ef3ebcd98ccadaf1d189f41e2a393ffde4e253",
+        "sourceLines": [
+          {
+            "code": "n, m = map(int, input().strip().split(\" \"))\narr = [0 for i in range(n)]\nfor i in range(n):\n    arr[i] = str(input())\nprint(arr)\n\ntotal = int(arr[0])\nflag = 0\nfor i in range(1,n):\n    total = total + int(arr[i])\nprint(total,\"#\")\n\nfor i in range(n):\n    temp = total - int(arr[i])\n    print(temp,i)\n    if str(temp).find('0') == -1 and len(str(temp)) == m:\n        print(\"YES\")\n        flag = 1\n        break\nif flag==0:\n    print(\"NO\")",
+            "end": 21,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0001"
+    },
+    "38505935": {
+      "kind": "wrong-answer",
+      "reason": "Lines 9-11 mark a switch indispensable even when the lamp is also covered by another switch; only lamps with cover count 1 make a switch indispensable. Proof: included LF test 0006 -> 'NO', correct 'YES'.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "NO\n",
+          "actualOutputSha256": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "alternateToRecordedFailedTest": false,
+          "constraints": "1<=n,m<=2000",
+          "correctAnswer": "YES",
+          "derivation": "YES iff some switch i has every lamp it covers covered by at least one other switch (cover count >= 2 on all its lamps). Test 0006 rows 1010/0100/1101: lamp counts 2,2,1,1; switch 2 covers only lamp 2 (also covered by switch 3) -> YES. Source: first covering switch of lamps 1..4 is 1,2,1,3 -> every switch marked -> NO.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.011779999999999999,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+            "path": "archive/985B/sub-38505935-lf.json",
+            "sha256": "a337618dde646fbb743e15a277cc9e80008f6ad79016f7fac11e9ad18915ab3c",
+            "sourceBinding": "log produced by tools/rerun.py from 985B/sources (sha256 35558d969f9ceddcb5294d2153f051b51bd8effa59917190ece082c3f97ac44f == evidence sourceHash); logs do not embed source text",
+            "test": "0006",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "LF-normalized audit copy of the recorded failedTest",
+          "originalTestSha256": "ad7e46a561ff4c88e3e5155d299231891ca57f2c1fe8bb12913d341915f9b8c1",
+          "packageExpectedOutput": "YES",
+          "test": "0006",
+          "validLFInput": "3 4\n1010\n0100\n1101\n",
+          "validLFInputFile": "985B/counterexamples/38505935-0006.in",
+          "validLFInputSha256": "e34804d8d396177d990bc6182c7ea74adca0c2d66a58458123809669c31e7e96"
+        },
+        "excludedNonAlgorithmicCauses": "None: LF WA, normal exit.",
+        "faultyLogic": "Lines 9-11 mark a switch indispensable even when the lamp is also covered by another switch; only lamps with cover count 1 make a switch indispensable.",
+        "implementedAlgorithm": "Transposes; for each lamp marks the FIRST switch that covers it as indispensable; YES if some switch is never marked.",
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/985B/source-38505935.txt",
+          "sha256": "35558d969f9ceddcb5294d2153f051b51bd8effa59917190ece082c3f97ac44f"
+        },
+        "sourceHash": "35558d969f9ceddcb5294d2153f051b51bd8effa59917190ece082c3f97ac44f",
+        "sourceLines": [
+          {
+            "code": "n, m = map(int,input().split())\nbuls = [True]*n\nmat = [\"\"]*m\nfor i in range(n):\n    s = input()\n    for j in range(m):\n        mat[j] += s[j]\n# print(mat)\nfor i in range(m):\n    if (sum(int(z) for z in mat[i])):\n        buls[mat[i].find('1')] = False\nprint(\"YES\" if sum(buls) else \"NO\")",
+            "end": 12,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0006"
+    },
+    "38506052": {
+      "kind": "placeholder-random-not-counted",
+      "reason": "Placeholder/unrelated random output; not a genuine algorithm. Not counted. Placeholder unrelated to the problem; output is nondeterministic (94 output-hash differences between fresh rerun and evidence).",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Placeholder/unrelated random output; not a genuine algorithm. Not counted.",
+        "faultyLogic": "Placeholder unrelated to the problem; output is nondeterministic (94 output-hash differences between fresh rerun and evidence).",
+        "implementedAlgorithm": "Reads the input and prints YES or NO at random (random.randint).",
+        "normalExitLFWrongTestsInFullRun": [
+          "0061",
+          "0065",
+          "0066",
+          "0068",
+          "0071",
+          "0075",
+          "0076",
+          "0077",
+          "0079",
+          "0082",
+          "0084",
+          "0088",
+          "0091",
+          "0092",
+          "0093",
+          "0094",
+          "0098",
+          "0103",
+          "0104",
+          "0105",
+          "0107",
+          "0110",
+          "0112",
+          "0115",
+          "0118",
+          "0122",
+          "0124",
+          "0126",
+          "0129",
+          "0130",
+          "0132",
+          "0133",
+          "0135",
+          "0136",
+          "0137",
+          "0139",
+          "0141",
+          "0142",
+          "0143",
+          "0146",
+          "0147",
+          "0149",
+          "0150",
+          "0151",
+          "0153",
+          "0156",
+          "0158",
+          "0159",
+          "0161",
+          "0165",
+          "0166",
+          "0167",
+          "0170",
+          "0171",
+          "0174"
+        ],
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/985B/source-38506052.txt",
+          "sha256": "32095dad7d2aadc132a32c6cf35d1e0506dde42332c466391ec6703330b266fa"
+        },
+        "sourceHash": "32095dad7d2aadc132a32c6cf35d1e0506dde42332c466391ec6703330b266fa",
+        "sourceLines": [
+          {
+            "code": "import random\nn, m = [int(i) for i in input().strip().split()]\nfor i in range(n):\n    a = input()\nif random.randint(0, m)%2==0:\n    print(\"YES\")\nelse:\n    print(\"NO\")",
+            "end": 8,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0001"
+    },
+    "38506412": {
+      "kind": "wrong-answer",
+      "reason": "Lines 28-32: temp -= sets[i] removes lamps of switch i even when other switches also cover them, so the union of the other n-1 switches is computed wrongly. Proof: included LF test 0006 -> 'NO', correct 'YES'.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "NO\n",
+          "actualOutputSha256": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "alternateToRecordedFailedTest": false,
+          "constraints": "valid",
+          "correctAnswer": "YES",
+          "derivation": "YES iff some switch i has every lamp it covers covered by at least one other switch (cover count >= 2 on all its lamps). Test 0006 (rows 1010/0100/1101): skipping switch 2 leaves lamps 1,3 (switch 1) and 1,2,4 (switch 3) on -> YES. Source prints NO.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.012229999999999998,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+            "path": "archive/985B/sub-38506412-lf.json",
+            "sha256": "369769108677a7f7d573b8788cf217f8db45163ee79b8c7028bb3082b7e3e8b4",
+            "sourceBinding": "log produced by tools/rerun.py from 985B/sources (sha256 34eb61a7700c2a2285d15d9bdd7d5c91c73261807be1b1eb08c5bdcffef256d9 == evidence sourceHash); logs do not embed source text",
+            "test": "0006",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "LF-normalized audit copy of the recorded failedTest",
+          "originalTestSha256": "ad7e46a561ff4c88e3e5155d299231891ca57f2c1fe8bb12913d341915f9b8c1",
+          "packageExpectedOutput": "YES",
+          "test": "0006",
+          "validLFInput": "3 4\n1010\n0100\n1101\n",
+          "validLFInputFile": "985B/counterexamples/38506412-0006.in",
+          "validLFInputSha256": "e34804d8d396177d990bc6182c7ea74adca0c2d66a58458123809669c31e7e96"
+        },
+        "excludedNonAlgorithmicCauses": "None: CF label TLE but sandbox normal-exit WA on LF input.",
+        "faultyLogic": "Lines 28-32: temp -= sets[i] removes lamps of switch i even when other switches also cover them, so the union of the other n-1 switches is computed wrongly.",
+        "implementedAlgorithm": "Maintains a running set: removes the lamps of switch i and re-adds those of switch i-1 between iterations; YES if the set equals all lamps.",
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/985B/source-38506412.txt",
+          "sha256": "34eb61a7700c2a2285d15d9bdd7d5c91c73261807be1b1eb08c5bdcffef256d9"
+        },
+        "sourceHash": "34eb61a7700c2a2285d15d9bdd7d5c91c73261807be1b1eb08c5bdcffef256d9",
+        "sourceLines": [
+          {
+            "code": "temp = set()\n\nfor i in range(n):\n    if i == 0:\n        for j in range(1, n):\n            for k in sets[j]:\n                temp |= {k}\n    else:\n        for k in sets[i - 1]:\n            temp |= {k}\n        for k in sets[i]:\n            temp -= {k}\n    #print(temp)\n    if temp == alll:\n        print(\"YES\")\n        break\n\nelse:\n    print(\"NO\")",
+            "end": 39,
+            "start": 21
+          }
+        ]
+      },
+      "test": "0006"
+    },
+    "38506479": {
+      "kind": "wrong-answer",
+      "reason": "Lines 7-11 require every lamp to be covered EXACTLY once by the other switches; counts >=2 (and decimal carries) are rejected. Proof: included LF test 0006 -> 'NO', correct 'YES'.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "NO\n",
+          "actualOutputSha256": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "alternateToRecordedFailedTest": false,
+          "constraints": "valid",
+          "correctAnswer": "YES",
+          "derivation": "YES iff some switch i has every lamp it covers covered by at least one other switch (cover count >= 2 on all its lamps). Test 0006: without switch 2 the per-lamp counts are 2,1,1,1 (all on) -> YES. Source sums rows as decimals 1010+100+1101=2211; subtracting each row gives 1201, 2111, 1110, none equal 1111 -> NO.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.012147999999999999,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+            "path": "archive/985B/sub-38506479-lf.json",
+            "sha256": "03b0f897c4b7eaf923ea77b9d48abac22b9c6f0cea6cbb72fb7306039024c451",
+            "sourceBinding": "log produced by tools/rerun.py from 985B/sources (sha256 8907c91cf804c480d90bfd4527e4ef55869100cc3fd8b31af7a18cdf96d441b3 == evidence sourceHash); logs do not embed source text",
+            "test": "0006",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "LF-normalized audit copy of the recorded failedTest",
+          "originalTestSha256": "ad7e46a561ff4c88e3e5155d299231891ca57f2c1fe8bb12913d341915f9b8c1",
+          "packageExpectedOutput": "YES",
+          "test": "0006",
+          "validLFInput": "3 4\n1010\n0100\n1101\n",
+          "validLFInputFile": "985B/counterexamples/38506479-0006.in",
+          "validLFInputSha256": "e34804d8d396177d990bc6182c7ea74adca0c2d66a58458123809669c31e7e96"
+        },
+        "excludedNonAlgorithmicCauses": "None: LF WA, normal exit.",
+        "faultyLogic": "Lines 7-11 require every lamp to be covered EXACTLY once by the other switches; counts >=2 (and decimal carries) are rejected.",
+        "implementedAlgorithm": "Reads each row as a decimal integer, sums them, YES if total minus one row equals 11...1 (m ones).",
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/985B/source-38506479.txt",
+          "sha256": "8907c91cf804c480d90bfd4527e4ef55869100cc3fd8b31af7a18cdf96d441b3"
+        },
+        "sourceHash": "8907c91cf804c480d90bfd4527e4ef55869100cc3fd8b31af7a18cdf96d441b3",
+        "sourceLines": [
+          {
+            "code": "n, m = map(int, input().strip().split())\n\nA = []\nfor i in range(n):\n\tA.append(int(input()))\n\ns = sum(A)\nnu = int('1'*m)\nflag = False\nfor i in range(n):\n\tif (s - A[i]) == nu:\n\t\tflag = True\n\t\tbreak\n\nif flag:\n\tprint(\"YES\")\nelse:\n\tprint(\"NO\")",
+            "end": 18,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0006"
+    }
+  },
+  "packageHash": "822a14902053b2cde70205a6ae94191b1c3d8bdca0f3d085c6632feeaaef9b84",
+  "preAuditBaseline": "no prior audit file existed for this ID at builder head d11faff5",
+  "qualificationBasis": "generated",
+  "rating": 1200,
+  "reasons": [
+    "only 3 of 5 counted incorrect sources are genuine algorithmic wrong answers (need 5)",
+    "38505928: debug-output-not-counted: Debug/presentation output on every test (list repr precedes the verdict). Not counted under conservative policy.",
+    "38506052: placeholder-random-not-counted: Placeholder/unrelated random output; not a genuine algorithm. Not counted."
+  ],
+  "referenceAlgorithm": "YES iff some switch covers only lamps with cover count >= 2",
+  "reviewUrl": "https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4",
+  "reviewer": "devin-21803116a99741d7a7672cde5aff36d4 (independent rating1200 auditor, https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4)",
+  "schemaVersion": 1,
+  "semanticReviewPerformed": "Source-specific semantic review of all 5 designated-wrong sources from the start (full code read by hand, exact lines, mathematical derivation, normal-exit LF proof bound to fresh executionVersion2 sandbox logs).",
+  "verification": {
+    "archiveFilesAllMatchProvenance": true,
+    "archiveSha256": "0d12fd136b1216c3d7b178b45e054b83eaec9dbc32aba280b984781374c05b09",
+    "auditorExtraTests": {
+      "accepted": {
+        "38486465": "AC",
+        "38486666": "AC",
+        "38486774": "AC",
+        "38486818": "AC",
+        "38486838": "AC"
+      },
+      "count": 445,
+      "expectedFrom": "auditor-authored brute force/exhaustive enumeration (tools/extra.py), not the generator formula",
+      "oracle": "AC",
+      "testsJsonSha256": "361f12661cd2bffd36ff406ed1fbe183866f507da81040021fa2bc8966ae3e15"
+    },
+    "bruteVsPackage": {
+      "checked": 178,
+      "constraintViolations": [],
+      "crlfInputs": 59,
+      "mismatches": []
+    },
+    "builderBranchCommit": "d11faff5231965a95044873c99042e2bec7bae2d",
+    "bundleSha256": "fd7665582d7f84a4af7e83ac2c4de81621b65e26d2b9a00c078e054eb54e47d1",
+    "coverageClaims": {
+      "adversarial": [
+        {
+          "reason": "identity (NO)",
+          "test": "0072"
+        },
+        {
+          "reason": "extra zero switch",
+          "test": "0073"
+        }
+      ],
+      "boundary": [
+        {
+          "reason": "n=m=1 (NO)",
+          "test": "0070"
+        },
+        {
+          "reason": "n=2 duplicate",
+          "test": "0071"
+        }
+      ],
+      "checkerSemantics": "YES/NO; unique, exact token comparison.",
+      "inputConstraints": "Every supplied pair (69 upstream supplementary + 107 authored) was executed by the independently authored oracle (independent-oracle-session https://staging.itsdev.in/sessions/3011a3d955904fe19fe60af0a71a9713), which strictly validates all statement constraints and exits nonzero on violation, and reproduced the expected output under the problem limits in the bounded sandbox (qualification/oracle.json). Authored inputs come from pipeline/problems/985B/recipe.py cases().",
+      "maxSize": [
+        {
+          "reason": "2000x2000 identity-ish (NO)",
+          "test": "0074"
+        },
+        {
+          "reason": "2000x300 random dense",
+          "test": "0075"
+        },
+        {
+          "reason": "1x2000 all ones",
+          "test": "0076"
+        }
+      ],
+      "packageHash": "822a14902053b2cde70205a6ae94191b1c3d8bdca0f3d085c6632feeaaef9b84",
+      "statementComplete": "Legend (ignore one switch, still all lamps on), input (1<=n,m<=2000, 0/1 matrix, all switches cover all lamps), output present."
+    },
+    "generator": {
+      "authoredInPackage": 107,
+      "count": 107,
+      "distinct": 107,
+      "equalsPackageAuthored": true,
+      "hashes": [
+        "22e75b53975feded65ac0bab07fee280fd2fd5939dedc583481a9be410e13c02",
+        "22e75b53975feded65ac0bab07fee280fd2fd5939dedc583481a9be410e13c02"
+      ],
+      "identical": true,
+      "matchesRecorded": true,
+      "pairsDigest": "9d774a852da89dadc50aa5eceae1357dfd60cdf0387b59a48dbd155d9c2d8df2",
+      "pairsDigestMatches": true
+    },
+    "manifestEqualsEvidenceAndProvenanceFiles": true,
+    "oracle": {
+      "byteExact": 107,
+      "compiled": true,
+      "failedTest": null,
+      "hashesMatchRecorded": true,
+      "maxCpu": 0.11975799999999998,
+      "seconds": 5.6,
+      "testsRun": 178,
+      "verdict": "AC"
+    },
+    "sandbox": {
+      "compilerFlags": [
+        "-O2",
+        "-std=c++17",
+        "-DONLINE_JUDGE"
+      ],
+      "executionVersion": 2,
+      "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+      "network": "none",
+      "runner": "pipeline/pool_sandbox.run (read-only, nonroot 65534, cap-drop ALL, no-new-privileges)"
+    },
+    "sourceVerification": "bundled state/ID/sources code sha256 == evidence sourceHash == batch3 proof manifest; upstream pinned bytes verified separately by parent (upstream-verification.json bd5533e5...), not re-downloaded here",
+    "submissions": {
+      "38486465": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "861b2c236ae195a919efff3a6ca4662465d6d8851fc5e0e44734edf4769a765f",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/985B/sub-38486465.json",
+          "sha256": "978378a2317117ee9aa32568b3059a0d4e9ceefe7e258a835b02a924c657edcc"
+        },
+        "language": "C++14 (GCC 6-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "f127bfdd5ab01ac607979a326654070189c4d12145ea8c9af6084e4472933984",
+        "verdictMatches": true
+      },
+      "38486666": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "156d202c20b3bc06c3702a1595a45c64d2005f901cbcae37d5fae337a121aadc",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/985B/sub-38486666.json",
+          "sha256": "dc284c0d8364ce2b84b0983dad19a6cbf32ae033937eb7a0dde67ab2abcbd8dc"
+        },
+        "language": "C++17 (GCC 7-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "4ff84419475e174d52822eda783bee17efe18a15189bad78dc41fb6dc2e467c7",
+        "verdictMatches": true
+      },
+      "38486774": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "861b2c236ae195a919efff3a6ca4662465d6d8851fc5e0e44734edf4769a765f",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/985B/sub-38486774.json",
+          "sha256": "8d5e24b505a7e9029561737d433b758ea506580cb0882f00b529cce9edee2a02"
+        },
+        "language": "C++14 (GCC 6-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "0966d149454a879730ec8cc1dcfe8b2f8ca41ed3e3e67cf39295dbea49b6e59f",
+        "verdictMatches": true
+      },
+      "38486818": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "861b2c236ae195a919efff3a6ca4662465d6d8851fc5e0e44734edf4769a765f",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/985B/sub-38486818.json",
+          "sha256": "61fdeaf4ee6cea5ec36bd5d784ad3b160a86265e76bf132e89215ca3e9897e60"
+        },
+        "language": "GNU C++11",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "79d6ada7ed9283a97a97f2c11056d910376d8dae3e89991656d00d3cfb67b188",
+        "verdictMatches": true
+      },
+      "38486838": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "861b2c236ae195a919efff3a6ca4662465d6d8851fc5e0e44734edf4769a765f",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/985B/sub-38486838.json",
+          "sha256": "19710870e857e0ac7f55cf2d8d422de40303366764ffc91374ec4808535133ce"
+        },
+        "language": "C++17 (GCC 7-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "10813f16dcb72a61eae42d7c9de1a72f0c876024dbf7aa9a48efff7b31160c70",
+        "verdictMatches": true
+      },
+      "38505928": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0001",
+        "freshOutcomeDigest": "75090d06c68a44a8e76cda62172a9669bf5a22148a469ca90e0299e54c8b9db8",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/985B/sub-38505928.json",
+          "sha256": "ef3150c8841cf2769f8bb524f995535f066425bd5e85fc1f5b5f6d00d914a13b"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0001",
+        "recordedVerdict": "WA",
+        "sourceHash": "5cf650e43bf5f6832d6cc534c1ef3ebcd98ccadaf1d189f41e2a393ffde4e253",
+        "verdictMatches": true
+      },
+      "38505935": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0006",
+        "freshOutcomeDigest": "b897a319a3fd6d71692862f3eca09568f0c2f0a38b671a2c2a40f6b9a6e5cb6d",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/985B/sub-38505935.json",
+          "sha256": "bd1605494658e4913708884833019ebc99f80a8a9a3dba8a300358a3280304d5"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0006",
+        "recordedVerdict": "WA",
+        "sourceHash": "35558d969f9ceddcb5294d2153f051b51bd8effa59917190ece082c3f97ac44f",
+        "verdictMatches": true
+      },
+      "38506052": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0002",
+        "freshOutcomeDigest": "b2266fba32e6c01a4e5210d41f172c72f2ae978a8a00d9c60322b0ed1b941ed0",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/985B/sub-38506052.json",
+          "sha256": "33b99fed554cea32b615f5768d1f8ef9aca86da3d5f0d7ab4608b9672a1f4497"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [
+          [
+            "0001",
+            "AC"
+          ],
+          [
+            "0004",
+            "WA"
+          ],
+          [
+            "0005",
+            "WA"
+          ],
+          [
+            "0006",
+            "AC"
+          ],
+          [
+            "0007",
+            "WA"
+          ],
+          [
+            "0010",
+            "WA"
+          ],
+          [
+            "0011",
+            "AC"
+          ],
+          [
+            "0012",
+            "WA"
+          ],
+          [
+            "0013",
+            "WA"
+          ],
+          [
+            "0014",
+            "WA"
+          ],
+          [
+            "0015",
+            "AC"
+          ],
+          [
+            "0020",
+            "AC"
+          ],
+          [
+            "0021",
+            "AC"
+          ],
+          [
+            "0022",
+            "WA"
+          ],
+          [
+            "0023",
+            "AC"
+          ],
+          [
+            "0024",
+            "WA"
+          ],
+          [
+            "0027",
+            "WA"
+          ],
+          [
+            "0029",
+            "WA"
+          ],
+          [
+            "0030",
+            "AC"
+          ],
+          [
+            "0031",
+            "WA"
+          ],
+          [
+            "0034",
+            "AC"
+          ],
+          [
+            "0036",
+            "AC"
+          ],
+          [
+            "0039",
+            "AC"
+          ],
+          [
+            "0041",
+            "WA"
+          ],
+          [
+            "0043",
+            "WA"
+          ],
+          [
+            "0044",
+            "WA"
+          ],
+          [
+            "0052",
+            "WA"
+          ],
+          [
+            "0053",
+            "AC"
+          ],
+          [
+            "0054",
+            "WA"
+          ],
+          [
+            "0055",
+            "WA"
+          ],
+          [
+            "0056",
+            "AC"
+          ],
+          [
+            "0057",
+            "WA"
+          ],
+          [
+            "0058",
+            "AC"
+          ],
+          [
+            "0060",
+            "AC"
+          ],
+          [
+            "0063",
+            "AC"
+          ],
+          [
+            "0064",
+            "AC"
+          ],
+          [
+            "0066",
+            "WA"
+          ],
+          [
+            "0067",
+            "AC"
+          ],
+          [
+            "0068",
+            "WA"
+          ],
+          [
+            "0070",
+            "AC"
+          ],
+          [
+            "0073",
+            "AC"
+          ],
+          [
+            "0074",
+            "AC"
+          ],
+          [
+            "0078",
+            "AC"
+          ],
+          [
+            "0081",
+            "AC"
+          ],
+          [
+            "0085",
+            "AC"
+          ],
+          [
+            "0086",
+            "AC"
+          ],
+          [
+            "0087",
+            "AC"
+          ],
+          [
+            "0090",
+            "AC"
+          ],
+          [
+            "0092",
+            "WA"
+          ],
+          [
+            "0093",
+            "WA"
+          ],
+          [
+            "0094",
+            "WA"
+          ],
+          [
+            "0096",
+            "AC"
+          ],
+          [
+            "0097",
+            "AC"
+          ],
+          [
+            "0098",
+            "WA"
+          ],
+          [
+            "0099",
+            "AC"
+          ],
+          [
+            "0101",
+            "AC"
+          ],
+          [
+            "0103",
+            "WA"
+          ],
+          [
+            "0104",
+            "WA"
+          ],
+          [
+            "0106",
+            "AC"
+          ],
+          [
+            "0107",
+            "WA"
+          ],
+          [
+            "0108",
+            "AC"
+          ],
+          [
+            "0110",
+            "WA"
+          ],
+          [
+            "0111",
+            "AC"
+          ],
+          [
+            "0116",
+            "AC"
+          ],
+          [
+            "0119",
+            "AC"
+          ],
+          [
+            "0120",
+            "AC"
+          ],
+          [
+            "0121",
+            "AC"
+          ],
+          [
+            "0123",
+            "AC"
+          ],
+          [
+            "0125",
+            "AC"
+          ],
+          [
+            "0129",
+            "WA"
+          ],
+          [
+            "0132",
+            "WA"
+          ],
+          [
+            "0137",
+            "WA"
+          ],
+          [
+            "0140",
+            "AC"
+          ],
+          [
+            "0141",
+            "WA"
+          ],
+          [
+            "0143",
+            "WA"
+          ],
+          [
+            "0145",
+            "AC"
+          ],
+          [
+            "0149",
+            "WA"
+          ],
+          [
+            "0150",
+            "WA"
+          ],
+          [
+            "0152",
+            "AC"
+          ],
+          [
+            "0154",
+            "AC"
+          ],
+          [
+            "0155",
+            "AC"
+          ],
+          [
+            "0156",
+            "WA"
+          ],
+          [
+            "0157",
+            "AC"
+          ],
+          [
+            "0159",
+            "WA"
+          ],
+          [
+            "0161",
+            "WA"
+          ],
+          [
+            "0162",
+            "AC"
+          ],
+          [
+            "0163",
+            "AC"
+          ],
+          [
+            "0165",
+            "WA"
+          ],
+          [
+            "0166",
+            "WA"
+          ],
+          [
+            "0169",
+            "AC"
+          ],
+          [
+            "0172",
+            "AC"
+          ],
+          [
+            "0173",
+            "AC"
+          ],
+          [
+            "0174",
+            "WA"
+          ],
+          [
+            "0175",
+            "AC"
+          ]
+        ],
+        "perTestVerdictMismatches": [
+          "0001",
+          "0004",
+          "0005",
+          "0006",
+          "0007",
+          "0010",
+          "0011",
+          "0012",
+          "0013",
+          "0014",
+          "0015",
+          "0020",
+          "0021",
+          "0022",
+          "0023",
+          "0024",
+          "0027",
+          "0029",
+          "0030",
+          "0031",
+          "0034",
+          "0036",
+          "0039",
+          "0041",
+          "0043",
+          "0044",
+          "0052",
+          "0053",
+          "0054",
+          "0055",
+          "0056",
+          "0057",
+          "0058",
+          "0060",
+          "0063",
+          "0064",
+          "0066",
+          "0067",
+          "0068",
+          "0070",
+          "0073",
+          "0074",
+          "0078",
+          "0081",
+          "0085",
+          "0086",
+          "0087",
+          "0090",
+          "0092",
+          "0093",
+          "0094",
+          "0096",
+          "0097",
+          "0098",
+          "0099",
+          "0101",
+          "0103",
+          "0104",
+          "0106",
+          "0107",
+          "0108",
+          "0110",
+          "0111",
+          "0116",
+          "0119",
+          "0120",
+          "0121",
+          "0123",
+          "0125",
+          "0129",
+          "0132",
+          "0137",
+          "0140",
+          "0141",
+          "0143",
+          "0145",
+          "0149",
+          "0150",
+          "0152",
+          "0154",
+          "0155",
+          "0156",
+          "0157",
+          "0159",
+          "0161",
+          "0162",
+          "0163",
+          "0165",
+          "0166",
+          "0169",
+          "0172",
+          "0173",
+          "0174",
+          "0175"
+        ],
+        "recordedFailedTest": "0001",
+        "recordedVerdict": "WA",
+        "sourceHash": "32095dad7d2aadc132a32c6cf35d1e0506dde42332c466391ec6703330b266fa",
+        "verdictMatches": false
+      },
+      "38506412": {
+        "expected": "TIME_LIMIT_EXCEEDED",
+        "freshFailedTest": "0006",
+        "freshOutcomeDigest": "c3b90f051aa67d0f5bef174bcfac151aeb67584a76e4382c2ecf51c90627fa08",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/985B/sub-38506412.json",
+          "sha256": "0ba02ab132d3fa9574582dd279267a6753a48a220bbf8a7acc191e000d8e27ef"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0006",
+        "recordedVerdict": "WA",
+        "sourceHash": "34eb61a7700c2a2285d15d9bdd7d5c91c73261807be1b1eb08c5bdcffef256d9",
+        "verdictMatches": true
+      },
+      "38506479": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0006",
+        "freshOutcomeDigest": "30787c711c5ea6675794a1095e7c2686979dc1e7df0d06d5c1d5d317bad38293",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/985B/sub-38506479.json",
+          "sha256": "ba7cbfac95bc8967caf7c12a84f5f8bdc294533cdc2f0baa40e6ba3e6de54239"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0006",
+        "recordedVerdict": "WA",
+        "sourceHash": "8907c91cf804c480d90bfd4527e4ef55869100cc3fd8b31af7a18cdf96d441b3",
+        "verdictMatches": true
+      }
+    }
+  }
+}

@@ -1,0 +1,684 @@
+{
+  "approved": false,
+  "baseCommit": "d11faff5231965a95044873c99042e2bec7bae2d",
+  "bundleSha256": "fd7665582d7f84a4af7e83ac2c4de81621b65e26d2b9a00c078e054eb54e47d1",
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceFileSha256": "75c7616529f74e8f0470a661a1e474d6f81ce31648a4eb47a21e343b56ffb9b9",
+  "evidenceHash": "9a2bd4ab9ea3255774254727d859cd177f4502155dba3dcd21579a5f140db062",
+  "generationMode": "extensive",
+  "id": "817A",
+  "incorrectAnalysis": {
+    "27796278": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "0002: correct NO, actual 'yes'. 1 1 3 6 / 1 5: dx=2 and x=1 give 2 x-steps; dy=5 and y=5 give 1 y-step. Each move changes both coordinates, so the step counts must have equal parity; 2 and 1 differ, so NO. Both divisibility tests pass, so the code prints yes (= YES).",
+      "kind": "wrong-answer",
+      "reason": "Omits the required equal parity of the horizontal and vertical step counts (dx/x and dy/y). Lowercase yes/no is an additional, incidental presentation defect.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "yes",
+          "actualOutputHash": "5040625b1fb6fa4af07226683f6e6003b29e5e70b16f8cfb24be7a752393f0ee",
+          "constraints": "-10^5<=x1,y1,x2,y2<=10^5 and 1<=x,y<=10^5.",
+          "correctAnswer": "NO",
+          "derivation": "1 1 3 6 / 1 5: dx=2 and x=1 give 2 x-steps; dy=5 and y=5 give 1 y-step. Each move changes both coordinates, so the step counts must have equal parity; 2 and 1 differ, so NO. Both divisibility tests pass, so the code prints yes (= YES).",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "normalExit": true,
+          "packageInputSha256": "99fd7f3530ee097e489a11033c0c63dabefa49db6eb51aae5df71cf58a9d65b9",
+          "proof": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "output": "yes\n",
+            "outputHash": "5040625b1fb6fa4af07226683f6e6003b29e5e70b16f8cfb24be7a752393f0ee",
+            "path": "archive/817A/sub-27796278-lf-0002.json",
+            "receipt": {
+              "sourceFileSha256": "0f6ca96d55acf9aa343aa0b069d9a539cbe6b9a08daa25ba70701bebc809b725",
+              "sourceHash": "0f6ca96d55acf9aa343aa0b069d9a539cbe6b9a08daa25ba70701bebc809b725",
+              "sourcePath": "archive/817A/source-27796278.txt",
+              "summaryPath": "archive/817A/summary.json",
+              "summarySha256": "f66ef2bfd957a6d6208036a5439a128160037661061b5f02a806c6f774eb992c"
+            },
+            "sha256": "dcd66f6ab59ad98e17b955a0400e0fa3c936510979730cdd102864f12c557b73",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "sameAsEvidenceFailedTest": true,
+          "test": "0002",
+          "validLFInput": "1 1 3 6\n1 5\n",
+          "validLFInputSha256": "a198fd057031b219f3b971a0e124186e4c219f5a59a1d789209f1de2a2df2431",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Counted on the boolean, not on case: on included test 0002 the case-normalized observed answer YES contradicts the mathematical NO, because of the missing parity check, in the unchanged source with a normal-exit LF log.",
+        "faultyLogic": "Omits the required equal parity of the horizontal and vertical step counts (dx/x and dy/y). Lowercase yes/no is an additional, incidental presentation defect.",
+        "implementedAlgorithm": "Prints yes iff (x1-x2)%a==0 and (y1-y2)%b==0 (lines 3-6), lowercase.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": 0,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "yes\n",
+          "outputHash": "5040625b1fb6fa4af07226683f6e6003b29e5e70b16f8cfb24be7a752393f0ee",
+          "path": "archive/817A/sub-27796278-lf-0002.json",
+          "receipt": {
+            "sourceFileSha256": "0f6ca96d55acf9aa343aa0b069d9a539cbe6b9a08daa25ba70701bebc809b725",
+            "sourceHash": "0f6ca96d55acf9aa343aa0b069d9a539cbe6b9a08daa25ba70701bebc809b725",
+            "sourcePath": "archive/817A/source-27796278.txt",
+            "summaryPath": "archive/817A/summary.json",
+            "summarySha256": "f66ef2bfd957a6d6208036a5439a128160037661061b5f02a806c6f774eb992c"
+          },
+          "sha256": "dcd66f6ab59ad98e17b955a0400e0fa3c936510979730cdd102864f12c557b73",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "problemSemantics": "Each move changes x by +-x and y by +-y simultaneously, so after k moves dx = (sum of k signs)*x and dy = (sum of k signs)*y. Reachable iff dx%x==0, dy%y==0 and dx/x and dy/y have the same parity.",
+        "recordedFailedTest": "0002",
+        "sourceHash": "0f6ca96d55acf9aa343aa0b069d9a539cbe6b9a08daa25ba70701bebc809b725",
+        "sourceLines": [
+          {
+            "code": "[x1,y1,x2,y2]=[int(_) for _ in input().split()]\n[a,b]=[int(_) for _ in input().split()]\nif (x1-x2)%a==0 and (y1-y2)%b==0:\n    print(\"yes\")\nelse:\n    print(\"no\")",
+            "end": 6,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0002"
+    },
+    "27796689": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "0005: correct YES, actual 'NO'. 2 -5 -8 8 / 2 1: dx=10, dy=13, so 5 x-steps and 13 y-steps, both odd: YES. The code compares (10%4)%2 = 0 with (13%2)%2 = 1 and prints NO.",
+      "kind": "wrong-answer",
+      "reason": "Compares the parity of dx mod 2a instead of the parity of the step count dx/a.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "NO",
+          "actualOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+          "constraints": "-10^5<=x1,y1,x2,y2<=10^5 and 1<=x,y<=10^5.",
+          "correctAnswer": "YES",
+          "derivation": "2 -5 -8 8 / 2 1: dx=10, dy=13, so 5 x-steps and 13 y-steps, both odd: YES. The code compares (10%4)%2 = 0 with (13%2)%2 = 1 and prints NO.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "normalExit": true,
+          "packageInputSha256": "9afe2efe1a81effa1fcb680d0df490933b0b28eae9d0890c9aa132a43a270808",
+          "proof": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "output": "NO",
+            "outputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+            "path": "archive/817A/sub-27796689-lf-0005.json",
+            "receipt": {
+              "sourceFileSha256": "625eee9e3efa578908da6379d87cd1b14cf593b8bbfbc22c9bb73a8a66758aff",
+              "sourceHash": "625eee9e3efa578908da6379d87cd1b14cf593b8bbfbc22c9bb73a8a66758aff",
+              "sourcePath": "archive/817A/source-27796689.txt",
+              "summaryPath": "archive/817A/summary.json",
+              "summarySha256": "f66ef2bfd957a6d6208036a5439a128160037661061b5f02a806c6f774eb992c"
+            },
+            "sha256": "21e1477a1269d1908848f90eaef6f942acae608b48a278160701415db928d700",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "sameAsEvidenceFailedTest": true,
+          "test": "0005",
+          "validLFInput": "2 -5 -8 8\n2 1\n",
+          "validLFInputSha256": "305000fce8a6e325fec9686a7005e3ca82d31060b09fae88a29840aaa4f6afd0",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Token output (no trailing newline, which the token checker ignores); LF rerun same; normal exit.",
+        "faultyLogic": "Compares the parity of dx mod 2a instead of the parity of the step count dx/a.",
+        "implementedAlgorithm": "dx,dy absolute differences; NO if not divisible; otherwise compares (dx % (2a)) % 2 with (dy % (2b)) % 2.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": 0,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "NO",
+          "outputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+          "path": "archive/817A/sub-27796689-lf-0005.json",
+          "receipt": {
+            "sourceFileSha256": "625eee9e3efa578908da6379d87cd1b14cf593b8bbfbc22c9bb73a8a66758aff",
+            "sourceHash": "625eee9e3efa578908da6379d87cd1b14cf593b8bbfbc22c9bb73a8a66758aff",
+            "sourcePath": "archive/817A/source-27796689.txt",
+            "summaryPath": "archive/817A/summary.json",
+            "summarySha256": "f66ef2bfd957a6d6208036a5439a128160037661061b5f02a806c6f774eb992c"
+          },
+          "sha256": "21e1477a1269d1908848f90eaef6f942acae608b48a278160701415db928d700",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "problemSemantics": "Each move changes x by +-x and y by +-y simultaneously, so after k moves dx = (sum of k signs)*x and dy = (sum of k signs)*y. Reachable iff dx%x==0, dy%y==0 and dx/x and dy/y have the same parity.",
+        "recordedFailedTest": "0005",
+        "sourceHash": "625eee9e3efa578908da6379d87cd1b14cf593b8bbfbc22c9bb73a8a66758aff",
+        "sourceLines": [
+          {
+            "code": "x, y = abs(x2 - x1), abs(y2 - y1)\n\nif x % a or y % b:\n    stdout.write('NO')\nelif (x % (2 * a)) % 2 == (y % (2 * b)) % 2:\n    stdout.write('YES')\nelse:\n    stdout.write('NO')",
+            "end": 14,
+            "start": 7
+          }
+        ]
+      },
+      "test": "0005"
+    },
+    "27796939": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "0002: correct NO, actual 'YES'. 1 1 3 6 / 1 5: dx=2 gives 2 x-steps, dy=5 gives 1 y-step; the parities differ, so NO. Both divisibility tests pass, so it prints YES.",
+      "kind": "wrong-answer",
+      "reason": "Omits the parity condition on step counts.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "YES",
+          "actualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+          "constraints": "-10^5<=x1,y1,x2,y2<=10^5 and 1<=x,y<=10^5.",
+          "correctAnswer": "NO",
+          "derivation": "1 1 3 6 / 1 5: dx=2 gives 2 x-steps, dy=5 gives 1 y-step; the parities differ, so NO. Both divisibility tests pass, so it prints YES.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "normalExit": true,
+          "packageInputSha256": "99fd7f3530ee097e489a11033c0c63dabefa49db6eb51aae5df71cf58a9d65b9",
+          "proof": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "output": "YES\n",
+            "outputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+            "path": "archive/817A/sub-27796939-lf-0002.json",
+            "receipt": {
+              "sourceFileSha256": "8dea9cc558892a124f76d9f5aa05ac587becdb82805b0f3b586847b612d724e1",
+              "sourceHash": "8dea9cc558892a124f76d9f5aa05ac587becdb82805b0f3b586847b612d724e1",
+              "sourcePath": "archive/817A/source-27796939.txt",
+              "summaryPath": "archive/817A/summary.json",
+              "summarySha256": "f66ef2bfd957a6d6208036a5439a128160037661061b5f02a806c6f774eb992c"
+            },
+            "sha256": "57721b3265252bf04d3879b3f74b65116a3bf1c64c4c2237dd2dacf6c90f0744",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "sameAsEvidenceFailedTest": true,
+          "test": "0002",
+          "validLFInput": "1 1 3 6\n1 5\n",
+          "validLFInputSha256": "a198fd057031b219f3b971a0e124186e4c219f5a59a1d789209f1de2a2df2431",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Token output YES/NO; LF rerun same; normal exit.",
+        "faultyLogic": "Omits the parity condition on step counts.",
+        "implementedAlgorithm": "YES iff (x1-x2)%x==0 and (y1-y2)%y==0.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": 0,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "YES\n",
+          "outputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+          "path": "archive/817A/sub-27796939-lf-0002.json",
+          "receipt": {
+            "sourceFileSha256": "8dea9cc558892a124f76d9f5aa05ac587becdb82805b0f3b586847b612d724e1",
+            "sourceHash": "8dea9cc558892a124f76d9f5aa05ac587becdb82805b0f3b586847b612d724e1",
+            "sourcePath": "archive/817A/source-27796939.txt",
+            "summaryPath": "archive/817A/summary.json",
+            "summarySha256": "f66ef2bfd957a6d6208036a5439a128160037661061b5f02a806c6f774eb992c"
+          },
+          "sha256": "57721b3265252bf04d3879b3f74b65116a3bf1c64c4c2237dd2dacf6c90f0744",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "problemSemantics": "Each move changes x by +-x and y by +-y simultaneously, so after k moves dx = (sum of k signs)*x and dy = (sum of k signs)*y. Reachable iff dx%x==0, dy%y==0 and dx/x and dy/y have the same parity.",
+        "recordedFailedTest": "0002",
+        "sourceHash": "8dea9cc558892a124f76d9f5aa05ac587becdb82805b0f3b586847b612d724e1",
+        "sourceLines": [
+          {
+            "code": "x1, y1, x2, y2 = map(int, input().split())\nx, y = map(int, input().split())\nif (x1 - x2) % x == 0 and (y1 - y2) % y == 0:\n  print (\"YES\")\nelse:\n  print (\"NO\")",
+            "end": 6,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0002"
+    },
+    "27797665": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "0005: correct YES, actual 'NO'. 2 -5 -8 8 / 2 1: correct YES (5 and 13 steps, both odd). The code compares 13 != -10, then |13%2| = 1 with |-10%4| = 2, and prints NO.",
+      "kind": "wrong-answer",
+      "reason": "Unrelated invariant: it compares residues mod 2y and 2x instead of divisibility plus step-count parity.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "NO",
+          "actualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "constraints": "-10^5<=x1,y1,x2,y2<=10^5 and 1<=x,y<=10^5.",
+          "correctAnswer": "YES",
+          "derivation": "2 -5 -8 8 / 2 1: correct YES (5 and 13 steps, both odd). The code compares 13 != -10, then |13%2| = 1 with |-10%4| = 2, and prints NO.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "normalExit": true,
+          "packageInputSha256": "9afe2efe1a81effa1fcb680d0df490933b0b28eae9d0890c9aa132a43a270808",
+          "proof": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "output": "NO\n",
+            "outputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+            "path": "archive/817A/sub-27797665-lf-0005.json",
+            "receipt": {
+              "sourceFileSha256": "ff2e963b771533b942f7c8484f8cfcd3952b1cef36401a6e6c4582837bbd9624",
+              "sourceHash": "ff2e963b771533b942f7c8484f8cfcd3952b1cef36401a6e6c4582837bbd9624",
+              "sourcePath": "archive/817A/source-27797665.txt",
+              "summaryPath": "archive/817A/summary.json",
+              "summarySha256": "f66ef2bfd957a6d6208036a5439a128160037661061b5f02a806c6f774eb992c"
+            },
+            "sha256": "f78e1b86dda0d2b1a6524000da82a22708b89ddf5fee81f041683ff13304fc46",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "sameAsEvidenceFailedTest": true,
+          "test": "0005",
+          "validLFInput": "2 -5 -8 8\n2 1\n",
+          "validLFInputSha256": "305000fce8a6e325fec9686a7005e3ca82d31060b09fae88a29840aaa4f6afd0",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Token output; LF rerun same; normal exit.",
+        "faultyLogic": "Unrelated invariant: it compares residues mod 2y and 2x instead of divisibility plus step-count parity.",
+        "implementedAlgorithm": "YES iff (d-b)==(c-a) or |(d-b)%(2y)| == |(c-a)%(2x)|.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": 0,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "NO\n",
+          "outputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "path": "archive/817A/sub-27797665-lf-0005.json",
+          "receipt": {
+            "sourceFileSha256": "ff2e963b771533b942f7c8484f8cfcd3952b1cef36401a6e6c4582837bbd9624",
+            "sourceHash": "ff2e963b771533b942f7c8484f8cfcd3952b1cef36401a6e6c4582837bbd9624",
+            "sourcePath": "archive/817A/source-27797665.txt",
+            "summaryPath": "archive/817A/summary.json",
+            "summarySha256": "f66ef2bfd957a6d6208036a5439a128160037661061b5f02a806c6f774eb992c"
+          },
+          "sha256": "f78e1b86dda0d2b1a6524000da82a22708b89ddf5fee81f041683ff13304fc46",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "problemSemantics": "Each move changes x by +-x and y by +-y simultaneously, so after k moves dx = (sum of k signs)*x and dy = (sum of k signs)*y. Reachable iff dx%x==0, dy%y==0 and dx/x and dy/y have the same parity.",
+        "recordedFailedTest": "0005",
+        "sourceHash": "ff2e963b771533b942f7c8484f8cfcd3952b1cef36401a6e6c4582837bbd9624",
+        "sourceLines": [
+          {
+            "code": "val1 = (d-b)\nval2 = (c-a)\nif val1==val2 or abs(val1%(2*y))==abs(val2%(2*x)):\n\tprint(\"YES\")\nelse:\n\tprint(\"NO\")",
+            "end": 8,
+            "start": 3
+          }
+        ]
+      },
+      "test": "0005"
+    },
+    "27797920": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "0005: correct YES, actual 'NO'. 2 -5 -8 8 / 2 1: correct YES. x1 - x2//x%2 = 2 - ((-4)%2) = 2, while (y1-y2)//y%2 = (-13)%2 = 1. 2 != 1, so it prints NO.",
+      "kind": "wrong-answer",
+      "reason": "Operator precedence: x1 - x2//x%2 parses as x1 - ((x2//x)%2), not ((x1-x2)//x)%2.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "NO",
+          "actualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "constraints": "-10^5<=x1,y1,x2,y2<=10^5 and 1<=x,y<=10^5.",
+          "correctAnswer": "YES",
+          "derivation": "2 -5 -8 8 / 2 1: correct YES. x1 - x2//x%2 = 2 - ((-4)%2) = 2, while (y1-y2)//y%2 = (-13)%2 = 1. 2 != 1, so it prints NO.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "normalExit": true,
+          "packageInputSha256": "9afe2efe1a81effa1fcb680d0df490933b0b28eae9d0890c9aa132a43a270808",
+          "proof": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "output": "NO\n",
+            "outputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+            "path": "archive/817A/sub-27797920-lf-0005.json",
+            "receipt": {
+              "sourceFileSha256": "ec012d7e15e269e8d5855731852db8aeb7ec4e68b69cc7873fcbf2a37d4bdcbb",
+              "sourceHash": "ec012d7e15e269e8d5855731852db8aeb7ec4e68b69cc7873fcbf2a37d4bdcbb",
+              "sourcePath": "archive/817A/source-27797920.txt",
+              "summaryPath": "archive/817A/summary.json",
+              "summarySha256": "f66ef2bfd957a6d6208036a5439a128160037661061b5f02a806c6f774eb992c"
+            },
+            "sha256": "2ce4e8164647cb190ba5d41172ab62b681a5e4578b6b0917991437f78ea1a4dc",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "sameAsEvidenceFailedTest": true,
+          "test": "0005",
+          "validLFInput": "2 -5 -8 8\n2 1\n",
+          "validLFInputSha256": "305000fce8a6e325fec9686a7005e3ca82d31060b09fae88a29840aaa4f6afd0",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Token output; LF rerun same; normal exit.",
+        "faultyLogic": "Operator precedence: x1 - x2//x%2 parses as x1 - ((x2//x)%2), not ((x1-x2)//x)%2.",
+        "implementedAlgorithm": "Divisibility checks, then compares x1 - x2//x%2 with (y1-y2)//y%2.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": 0,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "NO\n",
+          "outputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+          "path": "archive/817A/sub-27797920-lf-0005.json",
+          "receipt": {
+            "sourceFileSha256": "ec012d7e15e269e8d5855731852db8aeb7ec4e68b69cc7873fcbf2a37d4bdcbb",
+            "sourceHash": "ec012d7e15e269e8d5855731852db8aeb7ec4e68b69cc7873fcbf2a37d4bdcbb",
+            "sourcePath": "archive/817A/source-27797920.txt",
+            "summaryPath": "archive/817A/summary.json",
+            "summarySha256": "f66ef2bfd957a6d6208036a5439a128160037661061b5f02a806c6f774eb992c"
+          },
+          "sha256": "2ce4e8164647cb190ba5d41172ab62b681a5e4578b6b0917991437f78ea1a4dc",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "problemSemantics": "Each move changes x by +-x and y by +-y simultaneously, so after k moves dx = (sum of k signs)*x and dy = (sum of k signs)*y. Reachable iff dx%x==0, dy%y==0 and dx/x and dy/y have the same parity.",
+        "recordedFailedTest": "0005",
+        "sourceHash": "ec012d7e15e269e8d5855731852db8aeb7ec4e68b69cc7873fcbf2a37d4bdcbb",
+        "sourceLines": [
+          {
+            "code": "x1,y1,x2,y2=map(int,input().split())\nx,y=map(int,input().split())\nif (x1-x2)%x==0 and (y1-y2)%y==0 and x1-x2//x%2==(y1 - y2)//y%2:\n    print(\"YES\")\nelse:\n    print(\"NO\")",
+            "end": 6,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0005"
+    }
+  },
+  "packageHash": "9ae2ee66e3b7a936ad022e9e1ee2935110ad5b7219458324dfa4292298c665f2",
+  "qualificationBasis": "generated",
+  "rating": 1200,
+  "reclassification": {
+    "previousAuditFileSha256": "b673ef6cfefa48e6d95ea04e13b67255e29ea295058847460e9934130f413d37",
+    "reason": "Parent primary read: the case-mismatched source also has a genuine boolean fault on its unchanged included failedTest; reclassified from excluded to counted with source-specific proof. Package bytes unchanged."
+  },
+  "reviewUrl": "https://staging.itsdev.in/sessions/5e1f99ced59a4a219ae81a8e70c05226",
+  "reviewer": "devin-5e1f99ced59a4a219ae81a8e70c05226",
+  "sandbox": {
+    "capDrop": "ALL",
+    "compilerFlags": [
+      "-O2",
+      "-std=c++17",
+      "-DONLINE_JUDGE"
+    ],
+    "executionVersion": 2,
+    "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+    "network": "none",
+    "nonRoot": true,
+    "readOnly": true,
+    "runner": "pipeline/pool_sandbox.run"
+  },
+  "semanticReview": {
+    "acceptedSourcesRead": 5,
+    "genuineAlgorithmicWrong": 5,
+    "method": "Full code of every accepted and designated-wrong source read by hand; per-source algorithm, fault, exact lines; counted counterexamples derived by hand from the statement, checked against the package answer and an independent brute force, and bound to the normal-exit LF sandbox log.",
+    "performed": true,
+    "sourcesReviewed": 5
+  },
+  "verified": {
+    "downloadedSourceVerification": "bundled provenance/state hashes only; pinned upstream download cross-check performed by parent",
+    "extraTests": {
+      "cornerMax": 40,
+      "count": 490,
+      "programs": [
+        {
+          "nonAC": 0,
+          "program": "oracle",
+          "sourceHash": "6d67535a375d0eb635dd4d87ccb1fc5563edc5a06a59ccf25208f0ef5819f94b",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "27796232",
+          "sourceHash": "e70bd7b2a8a2baa6afb90fcff707841f43b982e1d33739ad474f35779090eef1",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "27796245",
+          "sourceHash": "7e8d50c5babd2fd6f6319606aa141f60e89ad5349b4afabb7ff693cf471556f7",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "27796261",
+          "sourceHash": "6481b5a24a4099bf3e4f07ca242d8f961d40079b56dc84577fc800cf26e8ab90",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "27796262",
+          "sourceHash": "844012bb97e89143df57c04f95d5f2b17b1769c69a1d4ae68ccc99083fce515b",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "27796263",
+          "sourceHash": "716961438bf916e39436a5c38eae9177b28231a9ee6c5087659396c09505d6e0",
+          "verdict": "AC"
+        }
+      ],
+      "smallBrute": 450,
+      "testsHash": "e7dbe56f9dd75fcf20ff1304379549e837e04c39eb406abd44d2a9e8c8d79792"
+    },
+    "generator": {
+      "identical": true,
+      "matchesRecorded": true,
+      "outputHashes": [
+        "12e6b0dcb0913ff6f05e03561b1ae25eb0ec62f60e801e1cb16a5b6e5f07532f",
+        "12e6b0dcb0913ff6f05e03561b1ae25eb0ec62f60e801e1cb16a5b6e5f07532f"
+      ],
+      "pairs": 121,
+      "pairsEqualPackageAuthored": true,
+      "pairsHash": "4c68f8d920d6ff5a3e38b6f9986c5dee160e0bbf789653be38b349a95fe6f384",
+      "runs": 2
+    },
+    "inputConstraints": "Independent validator: every supplied test and sample input (official, open-r1 generated, worker-generated) satisfies the statement constraints and format.",
+    "oracle": {
+      "packageTests": 182,
+      "sourceHash": "6d67535a375d0eb635dd4d87ccb1fc5563edc5a06a59ccf25208f0ef5819f94b",
+      "testsRun": 184,
+      "verdict": "AC"
+    },
+    "submissions": [
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "GNU C++11",
+        "logSha256": "ed229edac581fcd4157ba15bd652da83e183db76a8ef53fadf1566ea7bd44b07",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "e70bd7b2a8a2baa6afb90fcff707841f43b982e1d33739ad474f35779090eef1",
+        "submissionId": "27796232"
+      },
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "C++14 (GCC 6-32)",
+        "logSha256": "e00972cd715ff8c1d4c3668f4d74401776c16760c4d048d84711d4ef4ba94e5e",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "7e8d50c5babd2fd6f6319606aa141f60e89ad5349b4afabb7ff693cf471556f7",
+        "submissionId": "27796245"
+      },
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "GNU C++11",
+        "logSha256": "58f1a1212298caa16af751a2b6d7274c10dc4b7e011a1965b01987817b44ce8d",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "6481b5a24a4099bf3e4f07ca242d8f961d40079b56dc84577fc800cf26e8ab90",
+        "submissionId": "27796261"
+      },
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "C++14 (GCC 6-32)",
+        "logSha256": "33395bd2e432e9370334a074c56d1661ad20630a4f98a50bfa15fe4ce8b4ae88",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "844012bb97e89143df57c04f95d5f2b17b1769c69a1d4ae68ccc99083fce515b",
+        "submissionId": "27796262"
+      },
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "GNU C++11",
+        "logSha256": "335e0d4a2aefc34afef54aa408230119ea646c40d7bf500bdc70b10aad9692d4",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "716961438bf916e39436a5c38eae9177b28231a9ee6c5087659396c09505d6e0",
+        "submissionId": "27796263"
+      },
+      {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0002",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "logSha256": "e9c24899afd321a92ae7b82a651d547aefa3ff7334cad483be6f3206b1ab3a40",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0002",
+        "recordedVerdict": "WA",
+        "sourceHash": "0f6ca96d55acf9aa343aa0b069d9a539cbe6b9a08daa25ba70701bebc809b725",
+        "submissionId": "27796278"
+      },
+      {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0005",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "logSha256": "74c5337c234aaee0f84bf518ee1c60b74e6069d6044e76809135503212c0d22e",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0005",
+        "recordedVerdict": "WA",
+        "sourceHash": "625eee9e3efa578908da6379d87cd1b14cf593b8bbfbc22c9bb73a8a66758aff",
+        "submissionId": "27796689"
+      },
+      {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0002",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "logSha256": "d50edce1901d9afcf214c43a567e86932caf7c583e7dfc3b28b53fcdd97fd4b9",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0002",
+        "recordedVerdict": "WA",
+        "sourceHash": "8dea9cc558892a124f76d9f5aa05ac587becdb82805b0f3b586847b612d724e1",
+        "submissionId": "27796939"
+      },
+      {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0005",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "logSha256": "663a2e92d63caf2d11ca7c2231b050a28740dbd3cb6b3a2d4d9ef2aaadd2c8a0",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0005",
+        "recordedVerdict": "WA",
+        "sourceHash": "ff2e963b771533b942f7c8484f8cfcd3952b1cef36401a6e6c4582837bbd9624",
+        "submissionId": "27797665"
+      },
+      {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0005",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "logSha256": "cf78b2ba984b9842ee1123a869dd0f70fd0d1b8523da0b0eb0823efd2ae1fd49",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0005",
+        "recordedVerdict": "WA",
+        "sourceHash": "ec012d7e15e269e8d5855731852db8aeb7ec4e68b69cc7873fcbf2a37d4bdcbb",
+        "submissionId": "27797920"
+      }
+    ]
+  },
+  "warnings": [
+    "Accepted 27796232 declares int x[0] and writes x[0], x[1] (out of bounds, undefined behaviour). In this pinned sandbox (executionVersion 2, -O2) it gave AC on all 182 package tests and all extra tests, so no runtime contradiction was observed. The acceptance is layout-dependent; the parent may hold 817A on this runtime risk."
+  ],
+  "parentDecision": {
+    "reviewer": "devin-4f9e83a9b1ff45288014bd469b4fa8ad",
+    "state": "held",
+    "reason": "Accepted reference27796232 declares int x[0] and writes/reads x[0]/x[1]; undefined behavior; passing tests does not establish validity",
+    "sampleContradictions": []
+  },
+  "reasons": [
+    "Accepted reference27796232 declares int x[0] and writes/reads x[0]/x[1]; undefined behavior; passing tests does not establish validity"
+  ]
+}

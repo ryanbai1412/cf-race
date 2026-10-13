@@ -1,0 +1,678 @@
+{
+  "approved": true,
+  "baseCommit": "d11faff5231965a95044873c99042e2bec7bae2d",
+  "bundleSha256": "fd7665582d7f84a4af7e83ac2c4de81621b65e26d2b9a00c078e054eb54e47d1",
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceFileSha256": "644359bbdc8ac4ac72a12597e59c10a4289dcb88cd4b3426ae6c497a81865132",
+  "evidenceHash": "88486bfde010e663065a24fe17f00167bb47f3796208a871e3f441f56206ee75",
+  "generationMode": "extensive",
+  "id": "79A",
+  "incorrectAnalysis": {
+    "14550209": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "0019: correct Ciel, actual 'Hanako'. 4 26: Ciel pays (2,2), leaving (2,24). Hanako pays (0,22), leaving (2,2). Ciel pays (2,2), leaving (0,0). Hanako cannot pay, so Ciel wins. The code removes x=2 during Hanako's turn and never restores it, so Ciel faces (0,2) and loses.",
+      "kind": "wrong-answer",
+      "reason": "The exchange loop (lines 22-24) gives back hundreds by decrementing a and paying 10 more tens, but never returns the coins to x. The pile permanently loses those 100-yen coins.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "Hanako",
+          "actualOutputHash": "320ee1ea4eb6fbf88708a6ef994740ce2e3b57ea46db1cc604db099d67c067b8",
+          "constraints": "0<=x,y<=10^6 (one line of two integers).",
+          "correctAnswer": "Ciel",
+          "derivation": "4 26: Ciel pays (2,2), leaving (2,24). Hanako pays (0,22), leaving (2,2). Ciel pays (2,2), leaving (0,0). Hanako cannot pay, so Ciel wins. The code removes x=2 during Hanako's turn and never restores it, so Ciel faces (0,2) and loses.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "normalExit": true,
+          "packageInputSha256": "e607d79e6bd6e89a5dbf03c9e402fdda132da95b4fa3e6082cadeeb540cdfc43",
+          "proof": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "output": "Hanako\n",
+            "outputHash": "320ee1ea4eb6fbf88708a6ef994740ce2e3b57ea46db1cc604db099d67c067b8",
+            "path": "archive/79A/sub-14550209-lf-0019.json",
+            "receipt": {
+              "sourceFileSha256": "ee5a91b1df920867fbe50423d3b6f7e0cee635b0587634c0a94c1b8b79573864",
+              "sourceHash": "ee5a91b1df920867fbe50423d3b6f7e0cee635b0587634c0a94c1b8b79573864",
+              "sourcePath": "archive/79A/source-14550209.txt",
+              "summaryPath": "archive/79A/summary.json",
+              "summarySha256": "c468d8930b6cf574dd1c49208b4c88fdf8a5ec4ef174d7f9c0ad56da7ae69d21"
+            },
+            "sha256": "cbfc0556df8b7b7d2545a08790ddd19fcf5f45ed9e9bb0c4cfd3f8bc469f2774",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "sameAsEvidenceFailedTest": true,
+          "test": "0019",
+          "validLFInput": "4 26\n",
+          "validLFInputSha256": "080f8de7d185589709fff8582b1d7b796155ae088ed709aaf3d7e67b849f03a4",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Token output; LF rerun same; no diagnostics; normal exit.",
+        "faultyLogic": "The exchange loop (lines 22-24) gives back hundreds by decrementing a and paying 10 more tens, but never returns the coins to x. The pile permanently loses those 100-yen coins.",
+        "implementedAlgorithm": "Ciel: take a = min(2,x) hundreds and b = min(22-10a, y) tens, losing if the total < 22. Hanako: take the same max-hundreds payment, then exchange hundreds for tens while possible.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": 0,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "Hanako\n",
+          "outputHash": "320ee1ea4eb6fbf88708a6ef994740ce2e3b57ea46db1cc604db099d67c067b8",
+          "path": "archive/79A/sub-14550209-lf-0019.json",
+          "receipt": {
+            "sourceFileSha256": "ee5a91b1df920867fbe50423d3b6f7e0cee635b0587634c0a94c1b8b79573864",
+            "sourceHash": "ee5a91b1df920867fbe50423d3b6f7e0cee635b0587634c0a94c1b8b79573864",
+            "sourcePath": "archive/79A/source-14550209.txt",
+            "summaryPath": "archive/79A/summary.json",
+            "summarySha256": "c468d8930b6cf574dd1c49208b4c88fdf8a5ec4ef174d7f9c0ad56da7ae69d21"
+          },
+          "sha256": "cbfc0556df8b7b7d2545a08790ddd19fcf5f45ed9e9bb0c4cfd3f8bc469f2774",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "problemSemantics": "Each turn removes exactly 220 yen: (2 hundreds, 2 tens), (1, 12) or (0, 22). Ciel picks the option with the most 100-yen coins; Hanako picks the one with the most 10-yen coins. The first player who cannot pay loses. Deterministic simulation gives the winner.",
+        "recordedFailedTest": "0019",
+        "sourceHash": "ee5a91b1df920867fbe50423d3b6f7e0cee635b0587634c0a94c1b8b79573864",
+        "sourceLines": [
+          {
+            "code": "while True:\n    # Ciel prefers large coins.\n    a = min(2, x)\n    x -= a\n    b = min(22 - 10 * a, y)\n    y -= b\n    if 10 * a + b < 22:\n        print('Hanako')\n        break\n\n    # Hanaka prefers small coins. \n    # Start by maximizing the number of large coins.\n    a = min(2, x)\n    x -= a\n    b = min(22 - 10 * a, y)\n    y -= b\n    if 10 * a + b < 22:\n        print('Ciel')\n        break\n    # Exchange large coins for small.\n    while a > 0 and y >= 10:\n        a -= 1\n        y -= 10",
+            "end": 24,
+            "start": 2
+          }
+        ]
+      },
+      "test": "0019"
+    },
+    "14550319": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "0012: correct Hanako, actual 'Ciel'. 3 1: Ciel needs (2,2), (1,12) or (0,22); y=1 makes all impossible, so Ciel loses: Hanako. All strip steps remove 0, and 10*3+1 = 31 >= 22 prints Ciel.",
+      "kind": "wrong-answer",
+      "reason": "Uses total value 10x+y >= 22 as \"Ciel can move\" and wins, ignoring exact-payment feasibility and the subsequent play.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "Ciel",
+          "actualOutputHash": "dddb62f0ff41bc260816c136a6e2375d876911c64721110b68dad9754dacef73",
+          "constraints": "0<=x,y<=10^6 (one line of two integers).",
+          "correctAnswer": "Hanako",
+          "derivation": "3 1: Ciel needs (2,2), (1,12) or (0,22); y=1 makes all impossible, so Ciel loses: Hanako. All strip steps remove 0, and 10*3+1 = 31 >= 22 prints Ciel.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "normalExit": true,
+          "packageInputSha256": "d6d552d76c9cc42c6727bb6d54b6ac7a069d037d10a192166cc8dcc55a8d5e63",
+          "proof": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "output": "Ciel\n",
+            "outputHash": "dddb62f0ff41bc260816c136a6e2375d876911c64721110b68dad9754dacef73",
+            "path": "archive/79A/sub-14550319-lf-0012.json",
+            "receipt": {
+              "sourceFileSha256": "a32d6404ad76cef79cf3d975e67535c650bbd4c1a22ed9efd6f14bab908704fd",
+              "sourceHash": "a32d6404ad76cef79cf3d975e67535c650bbd4c1a22ed9efd6f14bab908704fd",
+              "sourcePath": "archive/79A/source-14550319.txt",
+              "summaryPath": "archive/79A/summary.json",
+              "summarySha256": "c468d8930b6cf574dd1c49208b4c88fdf8a5ec4ef174d7f9c0ad56da7ae69d21"
+            },
+            "sha256": "0b47e5905abdfeff54b6eb3563eb4220f56ecf3525230421e71a843e072d8b18",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "sameAsEvidenceFailedTest": true,
+          "test": "0012",
+          "validLFInput": "3 1\n",
+          "validLFInputSha256": "a279f0fe018bb1305d69ee251cd2a29919d20c910b86e3730fc1b857dd3c573a",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Token output; LF rerun same; no diagnostics; normal exit.",
+        "faultyLogic": "Uses total value 10x+y >= 22 as \"Ciel can move\" and wins, ignoring exact-payment feasibility and the subsequent play.",
+        "implementedAlgorithm": "Strips several fixed multi-round coin patterns (2/24, 3/14, 4/4, 1/34, 0/44), then prints Ciel iff 10x+y >= 22.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": 0,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "Ciel\n",
+          "outputHash": "dddb62f0ff41bc260816c136a6e2375d876911c64721110b68dad9754dacef73",
+          "path": "archive/79A/sub-14550319-lf-0012.json",
+          "receipt": {
+            "sourceFileSha256": "a32d6404ad76cef79cf3d975e67535c650bbd4c1a22ed9efd6f14bab908704fd",
+            "sourceHash": "a32d6404ad76cef79cf3d975e67535c650bbd4c1a22ed9efd6f14bab908704fd",
+            "sourcePath": "archive/79A/source-14550319.txt",
+            "summaryPath": "archive/79A/summary.json",
+            "summarySha256": "c468d8930b6cf574dd1c49208b4c88fdf8a5ec4ef174d7f9c0ad56da7ae69d21"
+          },
+          "sha256": "0b47e5905abdfeff54b6eb3563eb4220f56ecf3525230421e71a843e072d8b18",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "problemSemantics": "Each turn removes exactly 220 yen: (2 hundreds, 2 tens), (1, 12) or (0, 22). Ciel picks the option with the most 100-yen coins; Hanako picks the one with the most 10-yen coins. The first player who cannot pay loses. Deterministic simulation gives the winner.",
+        "recordedFailedTest": "0012",
+        "sourceHash": "a32d6404ad76cef79cf3d975e67535c650bbd4c1a22ed9efd6f14bab908704fd",
+        "sourceLines": [
+          {
+            "code": "c = min(x // 2, y // 24)\nx -= 2 * c\ny -= 24 * c\n\nc = min(x // 3, y // 14)\nx -= 3 * c\ny -= 14 * c\n\nc = min(x // 4, y // 4)\nx -= 4 * c\ny -= 4 * c\n\nc = min(x, y // 34)\nx -= 1 * c\ny -= 34 * c\n\nc = y // 44\ny -= 44 * c\n\nif 10 * x + y >= 22:\n    print('Ciel')\nelse:\n    print('Hanako')",
+            "end": 25,
+            "start": 3
+          }
+        ]
+      },
+      "test": "0012"
+    },
+    "14851242": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "0004: correct Ciel, actual 'Hanako'. 1000 1000: Ciel wins (see the 4875255 derivation: after 41 rounds (918,16), the play reaches Hanako unable to pay). The code reaches line 24 with c100=918, c10=16: tmp=0, and 10*(16-(220-91800)//10) = 91740 >= 220, so it prints Hanako.",
+      "kind": "wrong-answer",
+      "reason": "The else-branch formula is not derived from the game: tmp is always <= 0 and (220-100*c100)//10 becomes a huge negative number, so the condition is satisfied for many Ciel wins.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "Hanako",
+          "actualOutputHash": "320ee1ea4eb6fbf88708a6ef994740ce2e3b57ea46db1cc604db099d67c067b8",
+          "constraints": "0<=x,y<=10^6 (one line of two integers).",
+          "correctAnswer": "Ciel",
+          "derivation": "1000 1000: Ciel wins (see the 4875255 derivation: after 41 rounds (918,16), the play reaches Hanako unable to pay). The code reaches line 24 with c100=918, c10=16: tmp=0, and 10*(16-(220-91800)//10) = 91740 >= 220, so it prints Hanako.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "normalExit": true,
+          "packageInputSha256": "d0d5bbd5788e758a5c8076844a33da57a6948310bd6d1b55a8d6b5fadf51a3fa",
+          "proof": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "output": "Hanako\n",
+            "outputHash": "320ee1ea4eb6fbf88708a6ef994740ce2e3b57ea46db1cc604db099d67c067b8",
+            "path": "archive/79A/sub-14851242-lf-0004.json",
+            "receipt": {
+              "sourceFileSha256": "689245731b33c0a1526f93552a70aae2fc83a86db8074274a0c24bd42c0dccbb",
+              "sourceHash": "689245731b33c0a1526f93552a70aae2fc83a86db8074274a0c24bd42c0dccbb",
+              "sourcePath": "archive/79A/source-14851242.txt",
+              "summaryPath": "archive/79A/summary.json",
+              "summarySha256": "c468d8930b6cf574dd1c49208b4c88fdf8a5ec4ef174d7f9c0ad56da7ae69d21"
+            },
+            "sha256": "e5d07098922b31b96380fa73ea2c8aea31f44fb77361778b4508242d505103cb",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "sameAsEvidenceFailedTest": true,
+          "test": "0004",
+          "validLFInput": "1000 1000\n",
+          "validLFInputSha256": "b58139719b50c0ffc85e1301b1e1f8d30c902eb21738a1f40705a74c172fa2de",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Token output; LF rerun same; no diagnostics; normal exit.",
+        "faultyLogic": "The else-branch formula is not derived from the game: tmp is always <= 0 and (220-100*c100)//10 becomes a huge negative number, so the condition is satisfied for many Ciel wins.",
+        "implementedAlgorithm": "Removes full 2/24 rounds, then a closed-form case analysis with tmp = min(c100-2, 0) and a cross-term (220-100*c100)//10.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": 0,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "Hanako\n",
+          "outputHash": "320ee1ea4eb6fbf88708a6ef994740ce2e3b57ea46db1cc604db099d67c067b8",
+          "path": "archive/79A/sub-14851242-lf-0004.json",
+          "receipt": {
+            "sourceFileSha256": "689245731b33c0a1526f93552a70aae2fc83a86db8074274a0c24bd42c0dccbb",
+            "sourceHash": "689245731b33c0a1526f93552a70aae2fc83a86db8074274a0c24bd42c0dccbb",
+            "sourcePath": "archive/79A/source-14851242.txt",
+            "summaryPath": "archive/79A/summary.json",
+            "summarySha256": "c468d8930b6cf574dd1c49208b4c88fdf8a5ec4ef174d7f9c0ad56da7ae69d21"
+          },
+          "sha256": "e5d07098922b31b96380fa73ea2c8aea31f44fb77361778b4508242d505103cb",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "problemSemantics": "Each turn removes exactly 220 yen: (2 hundreds, 2 tens), (1, 12) or (0, 22). Ciel picks the option with the most 100-yen coins; Hanako picks the one with the most 10-yen coins. The first player who cannot pay loses. Deterministic simulation gives the winner.",
+        "recordedFailedTest": "0004",
+        "sourceHash": "689245731b33c0a1526f93552a70aae2fc83a86db8074274a0c24bd42c0dccbb",
+        "sourceLines": [
+          {
+            "code": "full_moves = min([c100 // 2, c10 // 24])\n\nc100 -= full_moves * 2\nc10 -= full_moves * 24\n\n\nif c100 < 2 and 100 * c100 + 10 * c10 < 220:\n    print(player_two)\nelif c100 < 2 and 100 * c100 + 10 * c10 >= 220:\n    c10 -= (220 - 100 * c100) // 10\n    c100 = 0\n    if (c10 // 220) % 2 == 1:\n        print(player_two)\n    else:\n        print(player_one)\nelse:\n    tmp = min([c100-2, 0])\n    if 100 * c100 + 10 * c10 >= 220 and tmp * 100 + 10 * (c10 - (220 - \\\n                100 * c100) // 10) >= 220:\n        print(player_two)\n    elif 100 * c100 + 10 * c10 >= 220:\n        print(player_one)\n    else:\n        print(player_two)",
+            "end": 30,
+            "start": 7
+          }
+        ]
+      },
+      "test": "0004"
+    },
+    "4825716": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "0002: correct Hanako, actual 'Ciel'. 3 22: Ciel pays (2,2), leaving (1,20). Hanako pays (1,12), since 22 tens are unavailable, leaving (0,8). Ciel cannot pay, so Hanako wins. The code: f(3,22) = (0,30), then f(0,30) = (-2,28), which is negative, so it returns 1 and prints Ciel.",
+      "kind": "wrong-answer",
+      "reason": "f uses max instead of min, so it removes all 100-yen coins at once and can ADD tens. Hanako's turn also calls f (Ciel's greedy) instead of a tens-first move.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "Ciel",
+          "actualOutputHash": "dddb62f0ff41bc260816c136a6e2375d876911c64721110b68dad9754dacef73",
+          "constraints": "0<=x,y<=10^6 (one line of two integers).",
+          "correctAnswer": "Hanako",
+          "derivation": "3 22: Ciel pays (2,2), leaving (1,20). Hanako pays (1,12), since 22 tens are unavailable, leaving (0,8). Ciel cannot pay, so Hanako wins. The code: f(3,22) = (0,30), then f(0,30) = (-2,28), which is negative, so it returns 1 and prints Ciel.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "normalExit": true,
+          "packageInputSha256": "54801025e1df35fb283f740580f8cb35c9a69238ae10e826824cb698963efcd1",
+          "proof": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "output": "Ciel\n",
+            "outputHash": "dddb62f0ff41bc260816c136a6e2375d876911c64721110b68dad9754dacef73",
+            "path": "archive/79A/sub-4825716-lf-0002.json",
+            "receipt": {
+              "sourceFileSha256": "7a384960a1e8016690c8f3d73264deeea4252f6e3145e5dbd2fd843a18fb81d5",
+              "sourceHash": "7a384960a1e8016690c8f3d73264deeea4252f6e3145e5dbd2fd843a18fb81d5",
+              "sourcePath": "archive/79A/source-4825716.txt",
+              "summaryPath": "archive/79A/summary.json",
+              "summarySha256": "c468d8930b6cf574dd1c49208b4c88fdf8a5ec4ef174d7f9c0ad56da7ae69d21"
+            },
+            "sha256": "53323ba49f70b831c81781dab598a273b5a55643975bdc51016ca6f5a343e422",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "sameAsEvidenceFailedTest": true,
+          "test": "0002",
+          "validLFInput": "3 22\n",
+          "validLFInputSha256": "10054e129c18681894598af612e64299bfbcde494547dd92cab6d9c923d3d6ee",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Token output; LF rerun same; no diagnostics; g is an unexecuted helper and is not the counted logic.",
+        "faultyLogic": "f uses max instead of min, so it removes all 100-yen coins at once and can ADD tens. Hanako's turn also calls f (Ciel's greedy) instead of a tens-first move.",
+        "implementedAlgorithm": "Removes k = min(x//2, y//24) full rounds, then repeatedly applies f twice per round. f(a,b) uses k = max(a,2) and returns (a-k, b-22+10k). g (lines 5-8) is never called. The last line indexes the name list with the 0/1 result.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": 0,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "Ciel\n",
+          "outputHash": "dddb62f0ff41bc260816c136a6e2375d876911c64721110b68dad9754dacef73",
+          "path": "archive/79A/sub-4825716-lf-0002.json",
+          "receipt": {
+            "sourceFileSha256": "7a384960a1e8016690c8f3d73264deeea4252f6e3145e5dbd2fd843a18fb81d5",
+            "sourceHash": "7a384960a1e8016690c8f3d73264deeea4252f6e3145e5dbd2fd843a18fb81d5",
+            "sourcePath": "archive/79A/source-4825716.txt",
+            "summaryPath": "archive/79A/summary.json",
+            "summarySha256": "c468d8930b6cf574dd1c49208b4c88fdf8a5ec4ef174d7f9c0ad56da7ae69d21"
+          },
+          "sha256": "53323ba49f70b831c81781dab598a273b5a55643975bdc51016ca6f5a343e422",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "problemSemantics": "Each turn removes exactly 220 yen: (2 hundreds, 2 tens), (1, 12) or (0, 22). Ciel picks the option with the most 100-yen coins; Hanako picks the one with the most 10-yen coins. The first player who cannot pay loses. Deterministic simulation gives the winner.",
+        "recordedFailedTest": "0002",
+        "sourceHash": "7a384960a1e8016690c8f3d73264deeea4252f6e3145e5dbd2fd843a18fb81d5",
+        "sourceLines": [
+          {
+            "code": "def f(a, b):\n    k = max(a, 2)\n    return a - k, b - 22 + 10 * k",
+            "end": 3,
+            "start": 1
+          },
+          {
+            "code": "def g(a, b):\n    b -= 2\n    k = max(b // 10, 2)\n    return a - 2 + k, b - 10 * k",
+            "end": 8,
+            "start": 5
+          },
+          {
+            "code": "def main():\n    a, b = map(int, input().split())\n    k = min(a // 2, b // 24)\n    a -= k * 2\n    b -= 24 * k\n    while a > 0:\n        a, b = f(a, b)\n        if a < 0 or b < 0: return 0\n        a, b = f(a, b)\n        if a < 0 or b < 0: return 1\n    if a == 0: return (b // 22) % 2\n\nprint(['Hanako', 'Ciel'][main()])",
+            "end": 22,
+            "start": 10
+          }
+        ]
+      },
+      "test": "0002"
+    },
+    "4875255": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "0004: correct Ciel, actual 'Hanako'. 1000 1000: 41 rounds of (2,2)+(0,22) leave (918,16). Ciel pays (2,2), leaving (916,14). Hanako pays (1,12), leaving (915,2). Ciel pays (2,2), leaving (913,0). Hanako cannot pay, so Ciel wins. The code lets Hanako pay 20+200 with y=0 (y becomes -20) and keeps going until it reports Hanako.",
+      "kind": "wrong-answer",
+      "reason": "Never checks that the chosen payment is affordable (Ciel's y-=20 and Hanako's fallback x-=200 can go negative), and it stops on total value < 220 instead of \"no exact payment possible\".",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "Hanako",
+          "actualOutputHash": "320ee1ea4eb6fbf88708a6ef994740ce2e3b57ea46db1cc604db099d67c067b8",
+          "constraints": "0<=x,y<=10^6 (one line of two integers).",
+          "correctAnswer": "Ciel",
+          "derivation": "1000 1000: 41 rounds of (2,2)+(0,22) leave (918,16). Ciel pays (2,2), leaving (916,14). Hanako pays (1,12), leaving (915,2). Ciel pays (2,2), leaving (913,0). Hanako cannot pay, so Ciel wins. The code lets Hanako pay 20+200 with y=0 (y becomes -20) and keeps going until it reports Hanako.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "normalExit": true,
+          "packageInputSha256": "d0d5bbd5788e758a5c8076844a33da57a6948310bd6d1b55a8d6b5fadf51a3fa",
+          "proof": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "output": "Hanako\n",
+            "outputHash": "320ee1ea4eb6fbf88708a6ef994740ce2e3b57ea46db1cc604db099d67c067b8",
+            "path": "archive/79A/sub-4875255-lf-0004.json",
+            "receipt": {
+              "sourceFileSha256": "6c363d3c2b8d23f2ec56c7327fc1d7d744473cf801152ddaeb2e8ff690e753e3",
+              "sourceHash": "6c363d3c2b8d23f2ec56c7327fc1d7d744473cf801152ddaeb2e8ff690e753e3",
+              "sourcePath": "archive/79A/source-4875255.txt",
+              "summaryPath": "archive/79A/summary.json",
+              "summarySha256": "c468d8930b6cf574dd1c49208b4c88fdf8a5ec4ef174d7f9c0ad56da7ae69d21"
+            },
+            "sha256": "bb1004498b3b3cec6b3b08501fd90a842868b592382ab66eb417a8953b3ba8ff",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "sameAsEvidenceFailedTest": true,
+          "test": "0004",
+          "validLFInput": "1000 1000\n",
+          "validLFInputSha256": "b58139719b50c0ffc85e1301b1e1f8d30c902eb21738a1f40705a74c172fa2de",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Token output; LF rerun same; no diagnostics; normal exit.",
+        "faultyLogic": "Never checks that the chosen payment is affordable (Ciel's y-=20 and Hanako's fallback x-=200 can go negative), and it stops on total value < 220 instead of \"no exact payment possible\".",
+        "implementedAlgorithm": "Converts to yen; loops while x+y >= 220. Ciel: if x>=200 pay 200 from x and 20 from y; elif x==100 pay 100+120; else 220 from y. Hanako: 220 from y; elif y>=120 pay 120+100; else 20+200. The loser is whoever moves when the loop ends.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": 0,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "Hanako\n",
+          "outputHash": "320ee1ea4eb6fbf88708a6ef994740ce2e3b57ea46db1cc604db099d67c067b8",
+          "path": "archive/79A/sub-4875255-lf-0004.json",
+          "receipt": {
+            "sourceFileSha256": "6c363d3c2b8d23f2ec56c7327fc1d7d744473cf801152ddaeb2e8ff690e753e3",
+            "sourceHash": "6c363d3c2b8d23f2ec56c7327fc1d7d744473cf801152ddaeb2e8ff690e753e3",
+            "sourcePath": "archive/79A/source-4875255.txt",
+            "summaryPath": "archive/79A/summary.json",
+            "summarySha256": "c468d8930b6cf574dd1c49208b4c88fdf8a5ec4ef174d7f9c0ad56da7ae69d21"
+          },
+          "sha256": "bb1004498b3b3cec6b3b08501fd90a842868b592382ab66eb417a8953b3ba8ff",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "problemSemantics": "Each turn removes exactly 220 yen: (2 hundreds, 2 tens), (1, 12) or (0, 22). Ciel picks the option with the most 100-yen coins; Hanako picks the one with the most 10-yen coins. The first player who cannot pay loses. Deterministic simulation gives the winner.",
+        "recordedFailedTest": "0004",
+        "sourceHash": "6c363d3c2b8d23f2ec56c7327fc1d7d744473cf801152ddaeb2e8ff690e753e3",
+        "sourceLines": [
+          {
+            "code": "x, y = readln()\nx *= 100\ny *= 10\n_ = 0\nwhile x + y >= 220:\n    if _ == 0:\n        if x >= 200:\n            x -= 200\n            y -= 20\n        elif x == 100:\n            x -= 100\n            y -= 120\n        else:\n            y -= 220\n    else:\n        if y >= 220:\n            y -= 220\n        elif y >= 120:\n            y -= 120\n            x -= 100\n        else:\n            y -= 20\n            x -= 200\n    _ = ( _ + 1) % 2\nprint('Hanako' if not _ else 'Ciel')",
+            "end": 27,
+            "start": 3
+          }
+        ]
+      },
+      "test": "0004"
+    }
+  },
+  "packageHash": "44b808f995e292f0b696cd29490f9cc158a8d8ff26716802a7bf8b70bf1285fe",
+  "qualificationBasis": "generated",
+  "rating": 1200,
+  "reviewUrl": "https://staging.itsdev.in/sessions/5e1f99ced59a4a219ae81a8e70c05226",
+  "reviewer": "devin-5e1f99ced59a4a219ae81a8e70c05226",
+  "sandbox": {
+    "capDrop": "ALL",
+    "compilerFlags": [
+      "-O2",
+      "-std=c++17",
+      "-DONLINE_JUDGE"
+    ],
+    "executionVersion": 2,
+    "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+    "network": "none",
+    "nonRoot": true,
+    "readOnly": true,
+    "runner": "pipeline/pool_sandbox.run"
+  },
+  "semanticReview": {
+    "acceptedSourcesRead": 5,
+    "genuineAlgorithmicWrong": 5,
+    "method": "Full code of every accepted and designated-wrong source read by hand; per-source algorithm, fault, exact lines; counted counterexamples derived by hand from the statement, checked against the package answer and an independent brute force, and bound to the normal-exit LF sandbox log.",
+    "performed": true,
+    "sourcesReviewed": 5
+  },
+  "verified": {
+    "downloadedSourceVerification": "bundled provenance/state hashes only; pinned upstream download cross-check performed by parent",
+    "extraTests": {
+      "cornerMax": 25,
+      "count": 430,
+      "programs": [
+        {
+          "nonAC": 0,
+          "program": "oracle",
+          "sourceHash": "803d5bf0d9c910db7fb91ea160988efe906c1454919d9c9ad2373513c5d3dde1",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "415424",
+          "sourceHash": "469ac33b566a0f54179468e7f97581e677ced87c0947c7f357356bcac24853ae",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "415425",
+          "sourceHash": "f2b59ccfc33a1ee814198c52d6c23c56d8e9bd9588d05de820b0a730b34f1c3e",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "415426",
+          "sourceHash": "49ac1a261738901c868c7bd6c6bcfd256d735365a1745c0afa1898fed4e0a47d",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "415433",
+          "sourceHash": "34b922080acf2c3e4c1bfadcb6e924e61a9774b532536535004cdacd22c574de",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "415434",
+          "sourceHash": "0c723b85f15cfb7a8cd02621efff51c4aa2dc1c1c628f5ace9ec4b2c6edd35fa",
+          "verdict": "AC"
+        }
+      ],
+      "smallBrute": 405,
+      "testsHash": "b14993086d4e8aab137bfabb4f55b6374a297ec9712840ee85e24e968e29f6b4"
+    },
+    "generator": {
+      "identical": true,
+      "matchesRecorded": true,
+      "outputHashes": [
+        "27512940f20c3931a007fafb90d04a8135752da94ab9c013f10de93d077557f4",
+        "27512940f20c3931a007fafb90d04a8135752da94ab9c013f10de93d077557f4"
+      ],
+      "pairs": 112,
+      "pairsEqualPackageAuthored": true,
+      "pairsHash": "515362aec42b4d9f4b64461e84ba538dba1ae4cd23bd2597daf7ba729afa8fa8",
+      "runs": 2
+    },
+    "inputConstraints": "Independent validator: every supplied test and sample input (official, open-r1 generated, worker-generated) satisfies the statement constraints and format.",
+    "oracle": {
+      "packageTests": 211,
+      "sourceHash": "803d5bf0d9c910db7fb91ea160988efe906c1454919d9c9ad2373513c5d3dde1",
+      "testsRun": 213,
+      "verdict": "AC"
+    },
+    "submissions": [
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "GNU C++",
+        "logSha256": "f4396e9022f6e905be5e79364632874014b6e863f8b76ee72a749ec72201c1b6",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "469ac33b566a0f54179468e7f97581e677ced87c0947c7f357356bcac24853ae",
+        "submissionId": "415424"
+      },
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "GNU C++",
+        "logSha256": "ac33b12a10429ea04314f40132b4773cdb91415364238b161c28f95d67b66d80",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "f2b59ccfc33a1ee814198c52d6c23c56d8e9bd9588d05de820b0a730b34f1c3e",
+        "submissionId": "415425"
+      },
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "GNU C++",
+        "logSha256": "c615171252ef422c5e8982f4d1e6f83e040f9cb9e33c8340c13ae517d687a8b1",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "49ac1a261738901c868c7bd6c6bcfd256d735365a1745c0afa1898fed4e0a47d",
+        "submissionId": "415426"
+      },
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "MS C++",
+        "logSha256": "cd4159829c653a612e525563c2a79124399a8047f8307a9775d7f3fb7091a4d6",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "34b922080acf2c3e4c1bfadcb6e924e61a9774b532536535004cdacd22c574de",
+        "submissionId": "415433"
+      },
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "GNU C++",
+        "logSha256": "9eeebea98151ccb0626a0a511d4b17902659af872a5c28bc6ecb93f10d217fb6",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "0c723b85f15cfb7a8cd02621efff51c4aa2dc1c1c628f5ace9ec4b2c6edd35fa",
+        "submissionId": "415434"
+      },
+      {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0002",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "logSha256": "5804eb98a56cd2b2970ea784f3829262c31b2cd9f510d4f146391ab33047944e",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0002",
+        "recordedVerdict": "WA",
+        "sourceHash": "7a384960a1e8016690c8f3d73264deeea4252f6e3145e5dbd2fd843a18fb81d5",
+        "submissionId": "4825716"
+      },
+      {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0004",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "logSha256": "1239cd0459a8d9b4bb3bccc31e75941e1ae200b5f41fe3f865d4939f88072d0e",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0004",
+        "recordedVerdict": "WA",
+        "sourceHash": "6c363d3c2b8d23f2ec56c7327fc1d7d744473cf801152ddaeb2e8ff690e753e3",
+        "submissionId": "4875255"
+      },
+      {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0019",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "logSha256": "2a4faee03b4e05bf2481e3859fd66cbc4156d37c77cb01ffe77ff8da8cc0f7bb",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0019",
+        "recordedVerdict": "WA",
+        "sourceHash": "ee5a91b1df920867fbe50423d3b6f7e0cee635b0587634c0a94c1b8b79573864",
+        "submissionId": "14550209"
+      },
+      {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0012",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "logSha256": "29306354b401065396c7d318c2dc21b69504e4c647961b4c56a3445ed53dfd0a",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0012",
+        "recordedVerdict": "WA",
+        "sourceHash": "a32d6404ad76cef79cf3d975e67535c650bbd4c1a22ed9efd6f14bab908704fd",
+        "submissionId": "14550319"
+      },
+      {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0004",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "logSha256": "3309c60f460d7b476bf17e6ac610c99b5f2292ad69ce804aad6fd0e109d21342",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0004",
+        "recordedVerdict": "WA",
+        "sourceHash": "689245731b33c0a1526f93552a70aae2fc83a86db8074274a0c24bd42c0dccbb",
+        "submissionId": "14851242"
+      }
+    ]
+  }
+}

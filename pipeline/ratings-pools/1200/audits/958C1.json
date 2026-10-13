@@ -1,0 +1,623 @@
+{
+  "approved": false,
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "68637d32d6e2877005e75caa87fbabb11d2e13dbe7dc55d71203f97e9e093a5b",
+  "genuineAlgorithmicIncorrect": 2,
+  "id": "958C1",
+  "incorrectAnalysis": {
+    "37313889": {
+      "kind": "complexity-only-not-counted",
+      "reason": "TLE-only (fresh rerun: TLE, no normal-exit wrong output on any LF test). Not counted. Logically correct, O(n^2) slicing; TLE from test 0010 (n=1e5).",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "TLE-only (fresh rerun: TLE, no normal-exit wrong output on any LF test). Not counted.",
+        "faultyLogic": "Logically correct, O(n^2) slicing; TLE from test 0010 (n=1e5).",
+        "implementedAlgorithm": "Tries every split i in 0..n-2 with sum of slices: correct maximization.",
+        "normalExitLFWrongTestsInFullRun": [],
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/958C1/source-37313889.txt",
+          "sha256": "b426201b97dcbd6d4e156a194a595103a37081c7ed22f950c17d67852936a10d"
+        },
+        "sourceHash": "b426201b97dcbd6d4e156a194a595103a37081c7ed22f950c17d67852936a10d",
+        "sourceLines": [
+          {
+            "code": "n, m = [int(x) for x in input().split(' ')]\nnumbers = [int(x) for x in input().split(' ')]\n\nmax_res = 0\nfor i in range(n-1):\n\ttmp_a = numbers[:i+1]\n\ttmp_b = numbers[i+1:]\n\ttmp_sum = (sum(tmp_a) % m) + (sum(tmp_b) % m)\n\tif tmp_sum > max_res:\n\t\tmax_res = tmp_sum\n\nprint(max_res)",
+            "end": 12,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0010"
+    },
+    "37316294": {
+      "kind": "wrong-answer",
+      "reason": "Line 5 range(1,n-1) omits the split after n-1 elements, and for n=2 there is no split at all (prints 0). Proof: included LF test 0003 -> '0', correct '2'.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "0\n",
+          "actualOutputSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "alternateToRecordedFailedTest": false,
+          "constraints": "2<=N<=1e5, 2<=p<=1e4",
+          "correctAnswer": "2",
+          "derivation": "S = max over split positions i in 1..n-1 of (prefix_i mod p) + ((total-prefix_i) mod p); every split has both parts non-empty. Test 0003 '2 2 / 9 9': only split 9|9 scores 1+1=2. Source: range(1,1) is empty -> prints 0.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.013041999999999998,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+            "path": "archive/958C1/sub-37316294-lf.json",
+            "sha256": "e27afedb900a47d0713681ffd8719ad7456d5f5e8d74aeabb2871c3638190497",
+            "sourceBinding": "log produced by tools/rerun.py from 958C1/sources (sha256 cbf07ddf3a7a94e75e3b7c88c8e1a146c1e53939b8669b3595f9ecc50795f7d8 == evidence sourceHash); logs do not embed source text",
+            "test": "0003",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "LF-normalized audit copy of the recorded failedTest",
+          "originalTestSha256": "82ee7278b35b505b0c9184f309d35fd4f92936fb266d3089d34006abefaa60cb",
+          "packageExpectedOutput": "2",
+          "test": "0003",
+          "validLFInput": "2 2\n9 9\n",
+          "validLFInputFile": "958C1/counterexamples/37316294-0003.in",
+          "validLFInputSha256": "302fd3d0889a2e4895543788c1630e9c625c4997c1c9747ff4de7c5cc5b10d28"
+        },
+        "excludedNonAlgorithmicCauses": "None: wrong range, normal exit, LF WA. (Its only output-hash difference vs evidence is on TLE test 0008 where both runs are TLE.)",
+        "faultyLogic": "Line 5 range(1,n-1) omits the split after n-1 elements, and for n=2 there is no split at all (prints 0).",
+        "implementedAlgorithm": "Loops i in range(1,n-1) and takes max of prefix/suffix scores.",
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/958C1/source-37316294.txt",
+          "sha256": "cbf07ddf3a7a94e75e3b7c88c8e1a146c1e53939b8669b3595f9ecc50795f7d8"
+        },
+        "sourceHash": "cbf07ddf3a7a94e75e3b7c88c8e1a146c1e53939b8669b3595f9ecc50795f7d8",
+        "sourceLines": [
+          {
+            "code": "s = input().split()\nn, p = int(s[0]), int(s[1])\ncl = list(map(int, input().split()))\nmx = 0\nfor i in range(1, n-1):\n  x = sum(cl[:i])%p + sum(cl[i:])%p\n  if x>mx:\n    mx = x\n  \nprint(mx)",
+            "end": 10,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0003"
+    },
+    "37316966": {
+      "kind": "complexity-only-not-counted",
+      "reason": "TLE-only. Not counted. Logically correct, O(n^2); TLE.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "TLE-only. Not counted.",
+        "faultyLogic": "Logically correct, O(n^2); TLE.",
+        "implementedAlgorithm": "Prefix via sum(cl[:i]) for each i in 1..n-1 with total precomputed: correct.",
+        "normalExitLFWrongTestsInFullRun": [],
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/958C1/source-37316966.txt",
+          "sha256": "8b288d30b2f984ab9e09a6f810b7064568ac5dec9d7591f192ad542948a1cd81"
+        },
+        "sourceHash": "8b288d30b2f984ab9e09a6f810b7064568ac5dec9d7591f192ad542948a1cd81",
+        "sourceLines": [
+          {
+            "code": "s = input().split()\nn, p = int(s[0]), int(s[1])\ncl = list(map(int, input().split()))\nmx = 0\nsm = sum(cl)\nfor i in range(1, n):\n  x = sum(cl[:i])\n  y = x%p + (sm-x)%p\n  if y>mx:\n    mx = y\n  \nprint(mx)",
+            "end": 12,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0010"
+    },
+    "37317471": {
+      "kind": "wrong-answer",
+      "reason": "Line 27: range(1,n-1) skips the last split and is empty for n=2, leaving max_S=-1. Proof: included LF test 0003 -> '-1', correct '2'.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "-1\n",
+          "actualOutputSha256": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+          "alternateToRecordedFailedTest": false,
+          "constraints": "valid",
+          "correctAnswer": "2",
+          "derivation": "S = max over split positions i in 1..n-1 of (prefix_i mod p) + ((total-prefix_i) mod p); every split has both parts non-empty. Test 0003 '2 2 / 9 9' -> 2. Source: loop empty, max_S stays -1 -> prints -1.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.012676,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+            "path": "archive/958C1/sub-37317471-lf.json",
+            "sha256": "54b6d8eefd1140018aae88312930cb343c8ea8d70f59b7c013f3220ebc4fb219",
+            "sourceBinding": "log produced by tools/rerun.py from 958C1/sources (sha256 0ee556d5a587f8cda09af4a3c0ab2fce0b5150a9ee58eade81f5ac304cfd28bd == evidence sourceHash); logs do not embed source text",
+            "test": "0003",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "LF-normalized audit copy of the recorded failedTest",
+          "originalTestSha256": "82ee7278b35b505b0c9184f309d35fd4f92936fb266d3089d34006abefaa60cb",
+          "packageExpectedOutput": "2",
+          "test": "0003",
+          "validLFInput": "2 2\n9 9\n",
+          "validLFInputFile": "958C1/counterexamples/37317471-0003.in",
+          "validLFInputSha256": "302fd3d0889a2e4895543788c1630e9c625c4997c1c9747ff4de7c5cc5b10d28"
+        },
+        "excludedNonAlgorithmicCauses": "None: normal exit, LF WA.",
+        "faultyLogic": "Line 27: range(1,n-1) skips the last split and is empty for n=2, leaving max_S=-1.",
+        "implementedAlgorithm": "Fenwick tree prefix sums; for i in range(1,n-1) uses s1 = prefix through index i-1.",
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/958C1/source-37317471.txt",
+          "sha256": "0ee556d5a587f8cda09af4a3c0ab2fce0b5150a9ee58eade81f5ac304cfd28bd"
+        },
+        "sourceHash": "0ee556d5a587f8cda09af4a3c0ab2fce0b5150a9ee58eade81f5ac304cfd28bd",
+        "sourceLines": [
+          {
+            "code": "def getS(a, n, p):\n  BITTree = construct(a, n)\n  S, max_S = 0, -1\n  for i in range(1, n - 1):\n    s1, s2 = getSum(BITTree, i - 1), getSum(BITTree, n - 1)\n    S = (s1)%p + (s2 - s1)%p\n    if S > max_S: max_S = S\n  return max_S\n\n\nn, p = [int(i) for i in input().split()]\na = [int(i) for i in input().split()]\nprint(getS(a, n, p))",
+            "end": 36,
+            "start": 24
+          }
+        ]
+      },
+      "test": "0003"
+    },
+    "37317877": {
+      "kind": "debug-output-not-counted",
+      "reason": "Debug output on every test (e.g. '16 9' before '16'); per conservative policy debug-containing sources are not counted without a separate diagnostic-copy decision. Not counted. Line 4 is a debug print emitted before the answer; additionally d is never reset (line 9) and the initial k is not a valid split.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Debug output on every test (e.g. '16 9' before '16'); per conservative policy debug-containing sources are not counted without a separate diagnostic-copy decision. Not counted.",
+        "faultyLogic": "Line 4 is a debug print emitted before the answer; additionally d is never reset (line 9) and the initial k is not a valid split.",
+        "implementedAlgorithm": "Line 3 initializes k as score of (all but max element) + max element (not a contiguous split); line 4 prints a debug pair; then O(n^2) loop accumulates d without reset.",
+        "normalExitLFWrongTestsInFullRun": [
+          "0007",
+          "0029",
+          "0030",
+          "0031",
+          "0034",
+          "0035",
+          "0036",
+          "0037",
+          "0038",
+          "0039",
+          "0040",
+          "0041",
+          "0042",
+          "0043",
+          "0044",
+          "0045",
+          "0046",
+          "0047",
+          "0048",
+          "0049",
+          "0050",
+          "0051",
+          "0052",
+          "0053",
+          "0054",
+          "0055",
+          "0056",
+          "0057",
+          "0058",
+          "0059",
+          "0060",
+          "0061",
+          "0062",
+          "0063",
+          "0064",
+          "0065",
+          "0066",
+          "0067",
+          "0068",
+          "0069",
+          "0070",
+          "0071",
+          "0072",
+          "0073",
+          "0074",
+          "0075",
+          "0076",
+          "0077",
+          "0078",
+          "0079",
+          "0080",
+          "0081",
+          "0082",
+          "0083",
+          "0084",
+          "0085",
+          "0086",
+          "0087",
+          "0088",
+          "0089",
+          "0090",
+          "0091",
+          "0092",
+          "0093",
+          "0094",
+          "0095",
+          "0096",
+          "0097",
+          "0098",
+          "0099",
+          "0100",
+          "0101",
+          "0102",
+          "0103",
+          "0104",
+          "0105",
+          "0106",
+          "0107",
+          "0108",
+          "0109",
+          "0110",
+          "0111",
+          "0112",
+          "0113",
+          "0114",
+          "0115",
+          "0116",
+          "0117",
+          "0118",
+          "0119",
+          "0120",
+          "0121",
+          "0122",
+          "0123",
+          "0124",
+          "0125",
+          "0126",
+          "0127",
+          "0128",
+          "0129",
+          "0130",
+          "0131",
+          "0132",
+          "0133",
+          "0134",
+          "0135",
+          "0136",
+          "0137",
+          "0138",
+          "0139",
+          "0140",
+          "0141",
+          "0142",
+          "0143",
+          "0144",
+          "0145",
+          "0146",
+          "0147",
+          "0148"
+        ],
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/958C1/source-37317877.txt",
+          "sha256": "685e0027aad494dd89d8ac3ae0574be7d52b2b9690fc44b884bab23ec6d86a6b"
+        },
+        "sourceHash": "685e0027aad494dd89d8ac3ae0574be7d52b2b9690fc44b884bab23ec6d86a6b",
+        "sourceLines": [
+          {
+            "code": "n,m=map(int,input().split())\na=list(map(int,input().split()))\ns,k,l,d=len(a)-1,((sum(a)-max(a)) % m)+(max(a) % m),0,0\nprint(k,((sum(a)-max(a))))\nfor i in range(len(a)):\n    p=l\n    l=(p+a[i])%m\n    for j in range(i+1,len(a)):\n        d=d+a[j]\n    if k < l + (d % m):k=l + (d % m)\nprint(k)",
+            "end": 11,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0001"
+    }
+  },
+  "packageHash": "ee027b5e1a9a88169a3309ba2b7e8b7ef2c6241946920c3e82efd0beb6118f3d",
+  "preAuditBaseline": "no prior audit file existed for this ID at builder head d11faff5",
+  "qualificationBasis": "generated",
+  "rating": 1200,
+  "reasons": [
+    "only 2 of 5 counted incorrect sources are genuine algorithmic wrong answers (need 5)",
+    "37313889: complexity-only-not-counted: TLE-only (fresh rerun: TLE, no normal-exit wrong output on any LF test). Not counted.",
+    "37316966: complexity-only-not-counted: TLE-only. Not counted.",
+    "37317877: debug-output-not-counted: Debug output on every test (e.g. '16 9' before '16'); per conservative policy debug-containing sources are not counted without a separate diagnostic-copy decision. Not counted."
+  ],
+  "referenceAlgorithm": "max over split i in 1..n-1 of prefix_i mod p + (total - prefix_i) mod p",
+  "reviewUrl": "https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4",
+  "reviewer": "devin-21803116a99741d7a7672cde5aff36d4 (independent rating1200 auditor, https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4)",
+  "schemaVersion": 1,
+  "semanticReviewPerformed": "Source-specific semantic review of all 5 designated-wrong sources from the start (full code read by hand, exact lines, mathematical derivation, normal-exit LF proof bound to fresh executionVersion2 sandbox logs).",
+  "verification": {
+    "archiveFilesAllMatchProvenance": true,
+    "archiveSha256": "17e26c39d4aa7c10a83f88d79461c90d410e477013771fd63ffa74ab1f878fdc",
+    "auditorExtraTests": {
+      "accepted": {
+        "37310655": "AC",
+        "37310677": "AC",
+        "37310687": "AC",
+        "37310712": "AC",
+        "37310718": "AC"
+      },
+      "count": 1013,
+      "expectedFrom": "auditor-authored brute force/exhaustive enumeration (tools/extra.py), not the generator formula",
+      "oracle": "AC",
+      "testsJsonSha256": "ff4c93d1055314cf9e034a907b547dac6e61f154df914cc82f78410d760e66e1"
+    },
+    "bruteVsPackage": {
+      "checked": 150,
+      "constraintViolations": [],
+      "crlfInputs": 6,
+      "mismatches": []
+    },
+    "builderBranchCommit": "d11faff5231965a95044873c99042e2bec7bae2d",
+    "bundleSha256": "fd7665582d7f84a4af7e83ac2c4de81621b65e26d2b9a00c078e054eb54e47d1",
+    "coverageClaims": {
+      "adversarial": [
+        {
+          "reason": "sample 2",
+          "test": "0031"
+        }
+      ],
+      "boundary": [
+        {
+          "reason": "n=2 p=2",
+          "test": "0029"
+        },
+        {
+          "reason": "p=1e4 n=2",
+          "test": "0030"
+        }
+      ],
+      "checkerSemantics": "Single integer; unique, exact token comparison.",
+      "inputConstraints": "Every supplied pair (28 upstream supplementary + 120 authored) was executed by the independently authored oracle (independent-oracle-session https://staging.itsdev.in/sessions/81d487cdde024236b76797c1d414e352), which strictly validates all statement constraints and exits nonzero on violation, and reproduced the expected output under the problem limits in the bounded sandbox (qualification/oracle.json). Authored inputs come from pipeline/problems/958C1/recipe.py cases().",
+      "maxSize": [
+        {
+          "reason": "n=1e5 max values",
+          "test": "0032"
+        },
+        {
+          "reason": "n=1e5 random",
+          "test": "0033"
+        }
+      ],
+      "packageHash": "ee027b5e1a9a88169a3309ba2b7e8b7ef2c6241946920c3e82efd0beb6118f3d",
+      "statementComplete": "Legend (split into prefix/suffix, maximise sum of scores mod p; examples confirm cover), input (2<=N<=1e5, 2<=p<=1e4, 1<=ai<=1e6), output present."
+    },
+    "generator": {
+      "authoredInPackage": 120,
+      "count": 120,
+      "distinct": 120,
+      "equalsPackageAuthored": true,
+      "hashes": [
+        "8f3e33e8441d41f985eb3f980fe41f62ade20d07d643396a0980527eb9add94c",
+        "8f3e33e8441d41f985eb3f980fe41f62ade20d07d643396a0980527eb9add94c"
+      ],
+      "identical": true,
+      "matchesRecorded": true,
+      "pairsDigest": "0f68fb9303005fa3c968546667dbdb5a209a8ec6269fafc55e227482b923d151",
+      "pairsDigestMatches": true
+    },
+    "manifestEqualsEvidenceAndProvenanceFiles": true,
+    "oracle": {
+      "byteExact": 120,
+      "compiled": true,
+      "failedTest": null,
+      "hashesMatchRecorded": true,
+      "maxCpu": 0.20088299999999976,
+      "seconds": 14.9,
+      "testsRun": 150,
+      "verdict": "AC"
+    },
+    "sandbox": {
+      "compilerFlags": [
+        "-O2",
+        "-std=c++17",
+        "-DONLINE_JUDGE"
+      ],
+      "executionVersion": 2,
+      "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+      "network": "none",
+      "runner": "pipeline/pool_sandbox.run (read-only, nonroot 65534, cap-drop ALL, no-new-privileges)"
+    },
+    "sourceVerification": "bundled state/ID/sources code sha256 == evidence sourceHash == batch3 proof manifest; upstream pinned bytes verified separately by parent (upstream-verification.json bd5533e5...), not re-downloaded here",
+    "submissions": {
+      "37310655": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "45a74900ffb9f6de86f3d3639ee12022b45c8f31f4b76fcd5256369bdc022bdc",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/958C1/sub-37310655.json",
+          "sha256": "885d8b189885b7cb4db8d2d955b891ede93696d6600ab23a27dc92f942344560"
+        },
+        "language": "GNU C++",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "aacd0ce9b21ef7f766e226ad89a4c6c20486dd835189ecf6bda42b2a276ffee8",
+        "verdictMatches": true
+      },
+      "37310677": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "45a74900ffb9f6de86f3d3639ee12022b45c8f31f4b76fcd5256369bdc022bdc",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/958C1/sub-37310677.json",
+          "sha256": "e4ce8c6e3ac0f81f641101e0cb1cf2dd45e70b84129c8222d1417b4fee538bf1"
+        },
+        "language": "C++14 (GCC 6-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "f59b5adc66d770a8ff66cd374bc74c9a8c4dd3d146765a9e8d2ae931ae1e11d2",
+        "verdictMatches": true
+      },
+      "37310687": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "95ab83815b20e5f30d3a7a9d5fd5dd687577bb0171e1627940e62937ece336a6",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/958C1/sub-37310687.json",
+          "sha256": "3dfa01a6b2838e828bafeaedfa543bd23335958a7e9da195b2fba75507840b06"
+        },
+        "language": "GNU C++11",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "6cd4d0b145415bf50dfc01422a940db7588897e8c87102b70667967e480c6bc5",
+        "verdictMatches": true
+      },
+      "37310712": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "45a74900ffb9f6de86f3d3639ee12022b45c8f31f4b76fcd5256369bdc022bdc",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/958C1/sub-37310712.json",
+          "sha256": "fcf7a539e295f9fe924afe8a35ecc938252830a9ee0388d7c44b840eb80607fa"
+        },
+        "language": "C++14 (GCC 6-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "824ef53734b6ce25d92df6d50e758afb6a8e145fe602c4559f9d8af83e45e752",
+        "verdictMatches": true
+      },
+      "37310718": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "45a74900ffb9f6de86f3d3639ee12022b45c8f31f4b76fcd5256369bdc022bdc",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/958C1/sub-37310718.json",
+          "sha256": "10150129fe9832c158145aa7e5e9792c593320523b4169070194437bf72da254"
+        },
+        "language": "C++17 (GCC 7-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "31c16ea1897cecd323dea327e1b6d123dea53d24eadf5b2d26894e2c3493d44d",
+        "verdictMatches": true
+      },
+      "37313889": {
+        "expected": "TIME_LIMIT_EXCEEDED",
+        "freshFailedTest": "0010",
+        "freshOutcomeDigest": "05c4907f9939d6c054517d3beaedb69bd58b0eb2cba6081001a19bc336db4e52",
+        "freshVerdict": "TLE",
+        "fullRunLog": {
+          "path": "archive/958C1/sub-37313889.json",
+          "sha256": "0ec1a55b3ecbbf86f95a3805bfc3e04ff1bf13511634c8bcc95589cae786fe66"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0010",
+        "recordedVerdict": "TLE",
+        "sourceHash": "b426201b97dcbd6d4e156a194a595103a37081c7ed22f950c17d67852936a10d",
+        "verdictMatches": true
+      },
+      "37316294": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0003",
+        "freshOutcomeDigest": "84de07e69602cbebcdad487e8e36bfd63db85d51f3eef04073c4ae84adc49fab",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/958C1/sub-37316294.json",
+          "sha256": "395444cec06a28c5cd88c021fc328723eb2c4d5b87587320fed7ff6c538ad433"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [
+          [
+            "0008",
+            "TLE"
+          ]
+        ],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0003",
+        "recordedVerdict": "WA",
+        "sourceHash": "cbf07ddf3a7a94e75e3b7c88c8e1a146c1e53939b8669b3595f9ecc50795f7d8",
+        "verdictMatches": true
+      },
+      "37316966": {
+        "expected": "TIME_LIMIT_EXCEEDED",
+        "freshFailedTest": "0010",
+        "freshOutcomeDigest": "05c4907f9939d6c054517d3beaedb69bd58b0eb2cba6081001a19bc336db4e52",
+        "freshVerdict": "TLE",
+        "fullRunLog": {
+          "path": "archive/958C1/sub-37316966.json",
+          "sha256": "9dc46b3551bc30d6fce54a9706fb90124dfd08d8ceff50922ba61ceef1813a87"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0010",
+        "recordedVerdict": "TLE",
+        "sourceHash": "8b288d30b2f984ab9e09a6f810b7064568ac5dec9d7591f192ad542948a1cd81",
+        "verdictMatches": true
+      },
+      "37317471": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0003",
+        "freshOutcomeDigest": "ce5eadca2d850baa6c2c93315cc8263ef0e79b03cb95c9204b75903e61cf93d4",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/958C1/sub-37317471.json",
+          "sha256": "6c7aa423aad993180997964849e24feee62e28faa73434a4e660c7e30e2c4263"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0003",
+        "recordedVerdict": "WA",
+        "sourceHash": "0ee556d5a587f8cda09af4a3c0ab2fce0b5150a9ee58eade81f5ac304cfd28bd",
+        "verdictMatches": true
+      },
+      "37317877": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0001",
+        "freshOutcomeDigest": "cb7d24b57baa290343ed83ac045cbaf47b78b7a8fc9842988f82745a94cd5643",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/958C1/sub-37317877.json",
+          "sha256": "9e346c9e7de17f49e8a0ebb6b6599fd8b4b1d77d7c1a29d0608b06ad3b054644"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [
+          [
+            "0009",
+            "TLE"
+          ]
+        ],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0001",
+        "recordedVerdict": "WA",
+        "sourceHash": "685e0027aad494dd89d8ac3ae0574be7d52b2b9690fc44b884bab23ec6d86a6b",
+        "verdictMatches": true
+      }
+    }
+  }
+}

@@ -1,0 +1,539 @@
+{
+  "approved": false,
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "2a1fbad0b3f37a2fb5a73492f2ff16f7f32ffc090517e33d189f56bce70daeff",
+  "genuineAlgorithmicIncorrect": 3,
+  "id": "990B",
+  "incorrectAnalysis": {
+    "39103339": {
+      "kind": "wrong-answer",
+      "reason": "Lines 18-20: r is not reset when the duplicate group is not swallowable, so its duplicates are subtracted later from another group. Proof: included LF test 0007 -> '3', correct '4'.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "3\n",
+          "actualOutputSha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+          "alternateToRecordedFailedTest": false,
+          "constraints": "1<=n<=2e5, K<=1e6",
+          "correctAnswer": "4",
+          "derivation": "Answer = number of bacteria i for which no a_j satisfies a_i < a_j <= a_i + K (those are exactly the ones that cannot be swallowed; all others can be eaten in increasing order). Test 0007 '9 2 / 1 6 1 5 5 8 6 8 7': sorted 1,1,5,5,6,6,7,8,8; the two 1s (nothing in (1,3]) and the two 8s survive, 5s/6s/7 are eaten -> 4. Source prints 3.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.015829,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+            "path": "archive/990B/sub-39103339-lf.json",
+            "sha256": "707f35157be9ac3cccd403e4c04fa479fc47397f6c5667848d7b860fb0e81f3f",
+            "sourceBinding": "log produced by tools/rerun.py from 990B/sources (sha256 71ff290d1dc53d43e772cfa29bf331880f00f61aa4d701e6233b7eca5990dd65 == evidence sourceHash); logs do not embed source text",
+            "test": "0007",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "LF-normalized audit copy of the recorded failedTest",
+          "originalTestSha256": "b360dbe2d7f35234ce1b35a5fcdf5cf4fb128f2673e990e42c8edc3147700f68",
+          "packageExpectedOutput": "4",
+          "test": "0007",
+          "validLFInput": "9 2\n1 6 1 5 5 8 6 8 7\n",
+          "validLFInputFile": "990B/counterexamples/39103339-0007.in",
+          "validLFInputSha256": "0dadd0b8c62b3c6659380a7c2a548e607aa2d9cd145ac59f9d9237c77a82bfd3"
+        },
+        "excludedNonAlgorithmicCauses": "None: LF WA normal exit.",
+        "faultyLogic": "Lines 18-20: r is not reset when the duplicate group is not swallowable, so its duplicates are subtracted later from another group.",
+        "implementedAlgorithm": "Two pointers over the sorted array with r counting duplicates of the current value; subtracts 1+r when a[i] can swallow a[i-1].",
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/990B/source-39103339.txt",
+          "sha256": "71ff290d1dc53d43e772cfa29bf331880f00f61aa4d701e6233b7eca5990dd65"
+        },
+        "sourceHash": "71ff290d1dc53d43e772cfa29bf331880f00f61aa4d701e6233b7eca5990dd65",
+        "sourceLines": [
+          {
+            "code": "n, k = map(int, input().split())\na = sorted(list(map(int, input().split())))\nans = n\ni = 1\nj = 0\nr = 0\nwhile i < n:\n    if a[i] == a[j]:\n        i += 1\n        r += 1\n    else:\n        if a[i] <= a[i - 1] + k and a[i - 1] != 0:\n            ans -= 1\n            ans -= r\n            r = 0\n            i += 1\n            j = i - 1\n        else:\n            i += 1\n            j += 1\nprint(ans)",
+            "end": 21,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0007"
+    },
+    "39103348": {
+      "kind": "complexity-only-not-counted",
+      "reason": "TLE-only. Not counted. Logically correct, O(n^2); TLE on 0023.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "TLE-only. Not counted.",
+        "faultyLogic": "Logically correct, O(n^2); TLE on 0023.",
+        "implementedAlgorithm": "For each sorted element, linearly searches a strictly larger element within K: correct.",
+        "normalExitLFWrongTestsInFullRun": [],
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/990B/source-39103348.txt",
+          "sha256": "f6f2b90662133e7aa9c8d394dd4628ef34f6ba994e8784befb788032b163e0e8"
+        },
+        "sourceHash": "f6f2b90662133e7aa9c8d394dd4628ef34f6ba994e8784befb788032b163e0e8",
+        "sourceLines": [
+          {
+            "code": "n, k = list(map(int, input().split()))\nlst = sorted([int(_) for _ in input().split()])\nfor i in range(0, n - 1):\n    for j in range(i + 1, n):\n        if lst[i] < lst[j] and lst[i] + k >= lst[j]:\n            lst[i] = 0\n            break\nprint(len([int(p) for p in lst if p != 0]))",
+            "end": 8,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0023"
+    },
+    "39103401": {
+      "kind": "complexity-only-not-counted",
+      "reason": "TLE-only. Not counted. Recorded failure only TLE (0024); no normal-exit LF wrong output in the full log.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "TLE-only. Not counted.",
+        "faultyLogic": "Recorded failure only TLE (0024); no normal-exit LF wrong output in the full log.",
+        "implementedAlgorithm": "Distinct values with counts; for each new value removes previous values within K.",
+        "normalExitLFWrongTestsInFullRun": [],
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/990B/source-39103401.txt",
+          "sha256": "0623470f4b26b7dce426012f1b4259fee3639c6fdac5df756e8d1a9e211febac"
+        },
+        "sourceHash": "0623470f4b26b7dce426012f1b4259fee3639c6fdac5df756e8d1a9e211febac",
+        "sourceLines": [
+          {
+            "code": "n, k = map(int, input().split())\nd = list(map(int, input().split()))\no = {}\nfor e in d:\n    if e in o:\n        o[e] += 1\n    else:\n        o[e] = 1\nl = list(o.copy())\nl.sort()\np = []\nfor e in l.copy():\n    for j in p.copy():\n        if e - j <= k:\n            l.remove(j)\n            p.remove(j)\n            n -= o[j]\n        else:\n            break\n    p.append(e)\n    p = sorted(p)[::-1]\nprint(n)",
+            "end": 22,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0024"
+    },
+    "39103573": {
+      "kind": "wrong-answer",
+      "reason": "Lines 19-24: c (group size) is not reset when a duplicate group is not swallowable, carrying into the next group; lines 8-29 never advance i when val2-val1>K (infinite loop on 0001). Proof: included LF test 0103 -> '2', correct '3'. Recorded failedTest 0001 is not used as proof (incorrectAnalysis.test kept equal to evidence.failedTest as the contract requires).",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "2\n",
+          "actualOutputSha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "alternateToRecordedFailedTest": true,
+          "constraints": "valid",
+          "correctAnswer": "3",
+          "derivation": "Answer = number of bacteria i for which no a_j satisfies a_i < a_j <= a_i + K (those are exactly the ones that cannot be swallowed; all others can be eaten in increasing order). '7 1 / 7 2 5 5 2 5 6': sorted 2,2,5,5,5,6,7: 2s survive (no 3), 5s eaten by 6, 6 eaten by 7, 7 survives -> 3. Source prints 2.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.012988000000018651,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+            "path": "archive/990B/sub-39103573.json",
+            "sha256": "5be5b655672a2ab0571d40d797a4ec6492f4832e6c069b88a2cab6f5f084ae18",
+            "sourceBinding": "log produced by tools/rerun.py from 990B/sources (sha256 f5fe8b4606c0cf8ee2a25af2b7216d2b08aca06f46ff6715bebe700418d1462f == evidence sourceHash); logs do not embed source text",
+            "test": "0103",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "included package test is already LF",
+          "originalTestSha256": "b2512842b2551937fd72e33a990b8855d3e7a8cb14df27141f60298b2e57c193",
+          "packageExpectedOutput": "3",
+          "test": "0103",
+          "validLFInput": "7 1\n7 2 5 5 2 5 6\n",
+          "validLFInputFile": "990B/counterexamples/39103573-0103.in",
+          "validLFInputSha256": "b2512842b2551937fd72e33a990b8855d3e7a8cb14df27141f60298b2e57c193"
+        },
+        "excludedNonAlgorithmicCauses": "Recorded failedTest 0001 is TLE (non-termination), not counted; counted on alternate included LF test 0103 with normal exit.",
+        "faultyLogic": "Lines 19-24: c (group size) is not reset when a duplicate group is not swallowable, carrying into the next group; lines 8-29 never advance i when val2-val1>K (infinite loop on 0001).",
+        "implementedAlgorithm": "Sorted scan counting swallowable elements; duplicate groups counted via c.",
+        "recordedFailedTestNonQualifying": {
+          "freshRawVerdict": "TLE",
+          "lfNormalizedVerdict": "TLE",
+          "test": "0001",
+          "why": "Recorded failedTest 0001 is TLE (non-termination), not counted; counted on alternate included LF test 0103 with normal exit."
+        },
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/990B/source-39103573.txt",
+          "sha256": "f5fe8b4606c0cf8ee2a25af2b7216d2b08aca06f46ff6715bebe700418d1462f"
+        },
+        "sourceHash": "f5fe8b4606c0cf8ee2a25af2b7216d2b08aca06f46ff6715bebe700418d1462f",
+        "sourceLines": [
+          {
+            "code": "n, K = map(int, input().split())\narray = list(map(int, input().split()))\n\narray.sort()\ncount = 0;\ni = 0;\nc = 1;\nwhile (i < len(array)- 1):\n    val1 = array[i]\n    val2 = array[i+1]\n    #print (val1, val2)\n    if (val1 == val2):\n        j = i;\n        #print (\"condition 1\")\n        while (j < len(array)-1 and array[j] == array[j+1]):\n            j = j + 1;\n            c = c + 1;\n        #print (\"j = \", j)\n        k = j + 1;\n        if (k < len(array) and array[k] - array[j] <= K):\n            #print (\"cond true \", c)\n            count = count + c\n            c = 1;\n        i = k;\n        #print (\"new i = \", i)\n    elif (val2 > val1 and val2 - val1 <= K):\n        count = count+1;\n        #print (val2, val1)\n        i = i + 1\n\nprint(n - count)",
+            "end": 31,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0001"
+    },
+    "39103968": {
+      "kind": "wrong-answer",
+      "reason": "Line 9 widens the window by eat[i] (number already eaten), which is not in the rules (K is constant). Proof: included LF test 0013 -> '6', correct '7'.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "6\n",
+          "actualOutputSha256": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+          "alternateToRecordedFailedTest": false,
+          "constraints": "valid",
+          "correctAnswer": "7",
+          "derivation": "Answer = number of bacteria i for which no a_j satisfies a_i < a_j <= a_i + K (those are exactly the ones that cannot be swallowed; all others can be eaten in increasing order). Test 0013 '10 1 / 6 3 1 3 6 4 1 3 6 4': sorted 1,1,3,3,3,4,4,6,6,6; 1s survive (no 2), 3s eaten by 4, 4s survive (no 5), 6s survive -> 2+2+3=7. Source prints 6.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.013363,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+            "path": "archive/990B/sub-39103968-lf.json",
+            "sha256": "065a75e865dcd236b051e5da52ceddb05e91fbf23ed7f3bc50bc0e1ffd18b913",
+            "sourceBinding": "log produced by tools/rerun.py from 990B/sources (sha256 64eedd28f3c6f92143385993dfcfc16c718f5a60d1b9a75c551df6b35d16f339 == evidence sourceHash); logs do not embed source text",
+            "test": "0013",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "LF-normalized audit copy of the recorded failedTest",
+          "originalTestSha256": "ac412eb799c47e8a972613aa3d05dedf463567f631e70c533769cddb8e468107",
+          "packageExpectedOutput": "7",
+          "test": "0013",
+          "validLFInput": "10 1\n6 3 1 3 6 4 1 3 6 4\n",
+          "validLFInputFile": "990B/counterexamples/39103968-0013.in",
+          "validLFInputSha256": "2df2c5b394129cd9c9ca930ba0fa138223471a75f27b0190d42b06a0ab0ec36b"
+        },
+        "excludedNonAlgorithmicCauses": "None: CF TLE label but normal-exit LF WA on 0013.",
+        "faultyLogic": "Line 9 widens the window by eat[i] (number already eaten), which is not in the rules (K is constant).",
+        "implementedAlgorithm": "For each bacterium i, eats every remaining j with j < a[i] <= j+k+eat[i].",
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/990B/source-39103968.txt",
+          "sha256": "64eedd28f3c6f92143385993dfcfc16c718f5a60d1b9a75c551df6b35d16f339"
+        },
+        "sourceHash": "64eedd28f3c6f92143385993dfcfc16c718f5a60d1b9a75c551df6b35d16f339",
+        "sourceLines": [
+          {
+            "code": "n, k = [int(i) for i in input().split()]\na = [int(i) for i in input().split()]\nlines = [[] for i in range(n)]\neat = [0] * n\nf = [i for i in a]\nfor i in range(n):\n\teaten = []\n\tfor j in f:\n\t\tif (j < a[i] <= j + k + eat[i]):\n\t\t\teat[i] += 1\n\t\t\teaten.append(j)\n\tfor j in eaten:\n\t\tf.remove(j)\n\t\t\t\n\nprint(len(f))",
+            "end": 16,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0013"
+    }
+  },
+  "packageHash": "b97414fc65c0e839722b921f67c2b45c1c2b7694a7a47e0e61edae9f114c65b0",
+  "preAuditBaseline": "no prior audit file existed for this ID at builder head d11faff5",
+  "qualificationBasis": "generated",
+  "rating": 1200,
+  "reasons": [
+    "only 3 of 5 counted incorrect sources are genuine algorithmic wrong answers (need 5)",
+    "39103348: complexity-only-not-counted: TLE-only. Not counted.",
+    "39103401: complexity-only-not-counted: TLE-only. Not counted."
+  ],
+  "referenceAlgorithm": "count bacteria with no a_j in (a_i, a_i+K]",
+  "reviewUrl": "https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4",
+  "reviewer": "devin-21803116a99741d7a7672cde5aff36d4 (independent rating1200 auditor, https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4)",
+  "schemaVersion": 1,
+  "semanticReviewPerformed": "Source-specific semantic review of all 5 designated-wrong sources from the start (full code read by hand, exact lines, mathematical derivation, normal-exit LF proof bound to fresh executionVersion2 sandbox logs).",
+  "verification": {
+    "archiveFilesAllMatchProvenance": true,
+    "archiveSha256": "fe2784d86c6814c4b341d63c4bb8d35820a83445488d081d10dc111a60144146",
+    "auditorExtraTests": {
+      "accepted": {
+        "39090119": "AC",
+        "39090246": "AC",
+        "39090407": "AC",
+        "39090459": "AC",
+        "39090464": "AC"
+      },
+      "count": 3765,
+      "expectedFrom": "auditor-authored brute force/exhaustive enumeration (tools/extra.py), not the generator formula",
+      "oracle": "AC",
+      "testsJsonSha256": "c2cea125a8c6d58c090f10fba02f39c71eec5c3b393ea5dc35d510bb98d25fc9"
+    },
+    "bruteVsPackage": {
+      "checked": 151,
+      "constraintViolations": [],
+      "crlfInputs": 18,
+      "mismatches": []
+    },
+    "builderBranchCommit": "d11faff5231965a95044873c99042e2bec7bae2d",
+    "bundleSha256": "fd7665582d7f84a4af7e83ac2c4de81621b65e26d2b9a00c078e054eb54e47d1",
+    "coverageClaims": {
+      "adversarial": [
+        {
+          "reason": "equal sizes cannot swallow",
+          "test": "0033"
+        },
+        {
+          "reason": "chain step K",
+          "test": "0034"
+        }
+      ],
+      "boundary": [
+        {
+          "reason": "n=1",
+          "test": "0031"
+        },
+        {
+          "reason": "K=1e6 all distinct",
+          "test": "0032"
+        }
+      ],
+      "checkerSemantics": "Single integer; unique, exact token comparison.",
+      "inputConstraints": "Every supplied pair (30 upstream supplementary + 118 authored) was executed by the independently authored oracle (independent-oracle-session https://staging.itsdev.in/sessions/a29a084de7a749e4931503129fb1c3fe), which strictly validates all statement constraints and exits nonzero on violation, and reproduced the expected output under the problem limits in the bounded sandbox (qualification/oracle.json). Authored inputs come from pipeline/problems/990B/recipe.py cases().",
+      "maxSize": [
+        {
+          "reason": "n=2e5 all equal",
+          "test": "0035"
+        },
+        {
+          "reason": "n=2e5 random K=1",
+          "test": "0036"
+        },
+        {
+          "reason": "n=2e5 random K=1e6",
+          "test": "0037"
+        }
+      ],
+      "packageHash": "b97414fc65c0e839722b921f67c2b45c1c2b7694a7a47e0e61edae9f114c65b0",
+      "statementComplete": "Legend (i swallows j if aj < ai <= aj + K), input (1<=n<=2e5, 1<=K<=1e6, 1<=ai<=1e6), output present."
+    },
+    "generator": {
+      "authoredInPackage": 118,
+      "count": 118,
+      "distinct": 118,
+      "equalsPackageAuthored": true,
+      "hashes": [
+        "d2a91f5e6155194e5bfdb8fbca0d08b1e945ea5d0337ef876acd5fc6b3eb6c8e",
+        "d2a91f5e6155194e5bfdb8fbca0d08b1e945ea5d0337ef876acd5fc6b3eb6c8e"
+      ],
+      "identical": true,
+      "matchesRecorded": true,
+      "pairsDigest": "ce5f095a542e598a1c89d1e917b4be4a169678d73800cc6f9df7a9d2582f44c6",
+      "pairsDigestMatches": true
+    },
+    "manifestEqualsEvidenceAndProvenanceFiles": true,
+    "oracle": {
+      "byteExact": 130,
+      "compiled": true,
+      "failedTest": null,
+      "hashesMatchRecorded": true,
+      "maxCpu": 0.32778300000000027,
+      "seconds": 17.0,
+      "testsRun": 151,
+      "verdict": "AC"
+    },
+    "sandbox": {
+      "compilerFlags": [
+        "-O2",
+        "-std=c++17",
+        "-DONLINE_JUDGE"
+      ],
+      "executionVersion": 2,
+      "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+      "network": "none",
+      "runner": "pipeline/pool_sandbox.run (read-only, nonroot 65534, cap-drop ALL, no-new-privileges)"
+    },
+    "sourceVerification": "bundled state/ID/sources code sha256 == evidence sourceHash == batch3 proof manifest; upstream pinned bytes verified separately by parent (upstream-verification.json bd5533e5...), not re-downloaded here",
+    "submissions": {
+      "39090119": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "1cd78464cfe730ad14d28575f76290b5f958771c3762c470bd0f49dabc81432e",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/990B/sub-39090119.json",
+          "sha256": "dad5d8f352cfc3a11b4eda4967745e74deb6dcb2e241871036ce50bb80524990"
+        },
+        "language": "C++14 (GCC 6-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "e775efe7201faee307b8822fdc01687fe3e4091e9d155f52272448b86af34811",
+        "verdictMatches": true
+      },
+      "39090246": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "ee58cfd6e8410014af42bc9f794641c003a77294200447c67acacbb8e1550215",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/990B/sub-39090246.json",
+          "sha256": "a06d4d2612a6a78537d850733a5c35038c044da8d97c18f7cfda81df7740a223"
+        },
+        "language": "C++14 (GCC 6-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "5dc5a78e128bd52d731a59a95cec5d930f48ceed4a938487fdfadca652f01f77",
+        "verdictMatches": true
+      },
+      "39090407": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "ee58cfd6e8410014af42bc9f794641c003a77294200447c67acacbb8e1550215",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/990B/sub-39090407.json",
+          "sha256": "081168c90254dc9ce47f29598302922f39d84a76db7e5516c1ae7df7c8305d8a"
+        },
+        "language": "C++17 (GCC 7-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "27a9539123099a356b085d6ecce3fa14355d3ed60e11496898e0677a4fd3b0ff",
+        "verdictMatches": true
+      },
+      "39090459": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "ee58cfd6e8410014af42bc9f794641c003a77294200447c67acacbb8e1550215",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/990B/sub-39090459.json",
+          "sha256": "4384e2865ebf664a9a75a6f8745a76ae818d2d1e7862bbddb195de376ab0fcd9"
+        },
+        "language": "GNU C++11",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "eda7dac32cec69bbada5364f989d2b31e01e77153be76e328daab18f87656d40",
+        "verdictMatches": true
+      },
+      "39090464": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "ee58cfd6e8410014af42bc9f794641c003a77294200447c67acacbb8e1550215",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/990B/sub-39090464.json",
+          "sha256": "8bdc06a3b352efdb0b6762c07276e3379636ce2496c55dafa8b272270bbc0080"
+        },
+        "language": "C++17 (GCC 7-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "cf5d2e7f6e54e27fe01aaeecccd8560b46a129799e060d379081edb0e5a24a52",
+        "verdictMatches": true
+      },
+      "39103339": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0007",
+        "freshOutcomeDigest": "2726bbed314359a0ca569fcb1a9c8f590ea60ca594edd9c7d5128b6a20159257",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/990B/sub-39103339.json",
+          "sha256": "8440d303409e08d97c6e852410071b35d424c026a6a91f7143d8e31ec1734ed2"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0007",
+        "recordedVerdict": "WA",
+        "sourceHash": "71ff290d1dc53d43e772cfa29bf331880f00f61aa4d701e6233b7eca5990dd65",
+        "verdictMatches": true
+      },
+      "39103348": {
+        "expected": "TIME_LIMIT_EXCEEDED",
+        "freshFailedTest": "0023",
+        "freshOutcomeDigest": "f3a8242cf5a4253068f37903bd3fefa64b86160c63e45c44446b962e0e3646b4",
+        "freshVerdict": "TLE",
+        "fullRunLog": {
+          "path": "archive/990B/sub-39103348.json",
+          "sha256": "92d681e0320c9cf1b3937e8c757d028fda70a9e8cfba9f3749bb1e64a22d21c0"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0023",
+        "recordedVerdict": "TLE",
+        "sourceHash": "f6f2b90662133e7aa9c8d394dd4628ef34f6ba994e8784befb788032b163e0e8",
+        "verdictMatches": true
+      },
+      "39103401": {
+        "expected": "TIME_LIMIT_EXCEEDED",
+        "freshFailedTest": "0024",
+        "freshOutcomeDigest": "8cce8ca922e298eca18faf346e6b85e5b35afe8d3dcfae430efb172e09f463da",
+        "freshVerdict": "TLE",
+        "fullRunLog": {
+          "path": "archive/990B/sub-39103401.json",
+          "sha256": "5e620bc4678eb29b4b8bd44a72a5c57956116e50fadc1c9a4d6e38c7a2534e8c"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0024",
+        "recordedVerdict": "TLE",
+        "sourceHash": "0623470f4b26b7dce426012f1b4259fee3639c6fdac5df756e8d1a9e211febac",
+        "verdictMatches": true
+      },
+      "39103573": {
+        "expected": "TIME_LIMIT_EXCEEDED",
+        "freshFailedTest": "0001",
+        "freshOutcomeDigest": "2515df91c0e6f9cb8d28da984299fbd598c8c535fda5947e9f605d760f09ced9",
+        "freshVerdict": "TLE",
+        "fullRunLog": {
+          "path": "archive/990B/sub-39103573.json",
+          "sha256": "5be5b655672a2ab0571d40d797a4ec6492f4832e6c069b88a2cab6f5f084ae18"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0001",
+        "recordedVerdict": "TLE",
+        "sourceHash": "f5fe8b4606c0cf8ee2a25af2b7216d2b08aca06f46ff6715bebe700418d1462f",
+        "verdictMatches": true
+      },
+      "39103968": {
+        "expected": "TIME_LIMIT_EXCEEDED",
+        "freshFailedTest": "0013",
+        "freshOutcomeDigest": "74e5685bf7f8b7afd4ec63a29561cca5fd4e77d7e6644861a61435b93cade798",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/990B/sub-39103968.json",
+          "sha256": "e8ac06f250b86fe1fe6d193fb7f00c5a284365a1471fe2b55d0892bd294ce302"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0013",
+        "recordedVerdict": "WA",
+        "sourceHash": "64eedd28f3c6f92143385993dfcfc16c718f5a60d1b9a75c551df6b35d16f339",
+        "verdictMatches": true
+      }
+    }
+  }
+}

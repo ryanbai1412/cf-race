@@ -1,0 +1,617 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "d999d7f886d232a83b37498d3fb0dbb4775362034c2f992f48c1cb8d8997f6d9",
+  "genuineAlgorithmicIncorrect": 5,
+  "id": "960A",
+  "incorrectAnalysis": {
+    "37056628": {
+      "kind": "wrong-answer",
+      "reason": "Lines 7-11 ignore contiguity/order after the first occurrence, so letters may reappear later (e.g. an 'a' after the c-block). Proof: included LF test 0057 -> 'YES', correct 'NO'. Recorded failedTest 0001 is not used as proof (incorrectAnalysis.test kept equal to evidence.failedTest as the contract requires).",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "YES\n",
+          "actualOutputSha256": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+          "alternateToRecordedFailedTest": true,
+          "constraints": "1<=|s|<=5000 lowercase",
+          "correctAnswer": "NO",
+          "derivation": "Valid iff s = a^x b^y c^z with x,y,z>=1 and z==x or z==y. 'abcac': after the c-block an 'a' appears, so it is not a^x b^y c^z -> NO. Source: q='abc', a=2,c=2 -> YES.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.020576000000000066,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+            "path": "archive/960A/sub-37056628.json",
+            "sha256": "1276b7e65fdf148f820e968c630fb9e75a43d7d74867b8dfc3d8e39454e55cb0",
+            "sourceBinding": "log produced by tools/rerun.py from 960A/sources (sha256 26c178cbebce127f4d9da72905d9b0e8fddf0d1cc10b871c1e83bc2a3fce74a9 == evidence sourceHash); logs do not embed source text",
+            "test": "0057",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "included package test is already LF",
+          "originalTestSha256": "c430d8106d242c3f5187212c9bb12ac7f1ef931beeca834c4b616e49d99fe647",
+          "packageExpectedOutput": "NO",
+          "test": "0057",
+          "validLFInput": "abcac\n",
+          "validLFInputFile": "960A/counterexamples/37056628-0057.in",
+          "validLFInputSha256": "c430d8106d242c3f5187212c9bb12ac7f1ef931beeca834c4b616e49d99fe647"
+        },
+        "excludedNonAlgorithmicCauses": "Recorded failedTest 0001 is a CRLF artifact (the '\\r' joins q); counted on alternate included LF test 0057.",
+        "faultyLogic": "Lines 7-11 ignore contiguity/order after the first occurrence, so letters may reappear later (e.g. an 'a' after the c-block).",
+        "implementedAlgorithm": "Builds the distinct letters in first-occurrence order; YES if that is 'abc' and count(c)==count(a) or count(b).",
+        "recordedFailedTestNonQualifying": {
+          "freshRawVerdict": "WA",
+          "lfNormalizedVerdict": "AC",
+          "test": "0001",
+          "why": "Recorded failedTest 0001 is a CRLF artifact (the '\\r' joins q); counted on alternate included LF test 0057."
+        },
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/960A/source-37056628.txt",
+          "sha256": "26c178cbebce127f4d9da72905d9b0e8fddf0d1cc10b871c1e83bc2a3fce74a9"
+        },
+        "sourceHash": "26c178cbebce127f4d9da72905d9b0e8fddf0d1cc10b871c1e83bc2a3fce74a9",
+        "sourceLines": [
+          {
+            "code": "s = input()\na = 0\nb = 0\nc = 0\nq = ''\nse = set()\nfor i in range(len(s)):\n    if s[i] not in se:\n        se.add(s[i])\n        q += s[i]\nif q == 'abc':\n    for i in range(len(s)):\n        if s[i] == 'a':\n            a += 1\n        if s[i] == 'b':\n            b += 1\n        if s[i] == 'c':\n            c += 1\n    if a == c or c == b:\n        print('YES')\n    else:\n        print('NO')\nelse:\n    print('NO')",
+            "end": 24,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0001"
+    },
+    "37057899": {
+      "kind": "wrong-answer",
+      "reason": "Line 7 uses re.match without a full-string anchor, so trailing characters after the c-block are accepted. Proof: included LF test 0021 -> 'YES', correct 'NO'.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "YES\n",
+          "actualOutputSha256": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+          "alternateToRecordedFailedTest": false,
+          "constraints": "valid",
+          "correctAnswer": "NO",
+          "derivation": "Valid iff s = a^x b^y c^z with x,y,z>=1 and z==x or z==y. 'abca': trailing 'a' -> NO. Source: prefix 'abc' matches re.match and a=2,b=1,c=1 so c==b -> YES.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.04965,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+            "path": "archive/960A/sub-37057899-lf.json",
+            "sha256": "3144e7b99d6a3d10a8e545507383abc77839da62e58c24b732074b4d027699ca",
+            "sourceBinding": "log produced by tools/rerun.py from 960A/sources (sha256 55aec43238f27464e9d08f78aa833151aff9196a48d8fcd4db52c1b657fc4b2b == evidence sourceHash); logs do not embed source text",
+            "test": "0021",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "LF-normalized audit copy of the recorded failedTest",
+          "originalTestSha256": "df21a985c65a406d8aa2414c9535128661f40b9e08f22e94e295b61b95070223",
+          "packageExpectedOutput": "NO",
+          "test": "0021",
+          "validLFInput": "abca\n",
+          "validLFInputFile": "960A/counterexamples/37057899-0021.in",
+          "validLFInputSha256": "51dac229955c68ea502d1c351541ec5e869c139f0abca018e1f70b4ec3d1aab3"
+        },
+        "excludedNonAlgorithmicCauses": "None: LF WA on recorded failedTest.",
+        "faultyLogic": "Line 7 uses re.match without a full-string anchor, so trailing characters after the c-block are accepted.",
+        "implementedAlgorithm": "re.match(r'a+b+c+') (prefix match) and count(c) equals count(a) or count(b).",
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/960A/source-37057899.txt",
+          "sha256": "55aec43238f27464e9d08f78aa833151aff9196a48d8fcd4db52c1b657fc4b2b"
+        },
+        "sourceHash": "55aec43238f27464e9d08f78aa833151aff9196a48d8fcd4db52c1b657fc4b2b",
+        "sourceLines": [
+          {
+            "code": "def Judge():\n    a = s.count('a')\n    b = s.count('b')\n    c = s.count('c')\n    if re.match(r'a+b+c+', s) and (a == c or b == c):\n        return 1\n    else:\n        return 0\n\ns = input()\nprint(\"YES\" if Judge() else \"NO\")",
+            "end": 13,
+            "start": 3
+          }
+        ]
+      },
+      "test": "0021"
+    },
+    "37060714": {
+      "kind": "wrong-answer",
+      "reason": "Lines 19-29 never check that the string ends after the c-run (and the c-run is measured, not the rest). Proof: included LF test 0010 -> 'YES', correct 'NO'.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "YES\n",
+          "actualOutputSha256": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+          "alternateToRecordedFailedTest": false,
+          "constraints": "valid",
+          "correctAnswer": "NO",
+          "derivation": "Valid iff s = a^x b^y c^z with x,y,z>=1 and z==x or z==y. 'aabcbcaca': characters follow the first c-run -> NO. Source na=2,nb=1,nc=1 -> YES.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.012185999999999999,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+            "path": "archive/960A/sub-37060714-lf.json",
+            "sha256": "ae97f7d6704085bf8b6b3aa003ec71d2fc0b6b9f716e769dfd125d700bc7164e",
+            "sourceBinding": "log produced by tools/rerun.py from 960A/sources (sha256 0b9044ec4b3312a05e8d70ad7bbf689a8ad0d08558e5d34033d6c8215e690e43 == evidence sourceHash); logs do not embed source text",
+            "test": "0010",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "LF-normalized audit copy of the recorded failedTest",
+          "originalTestSha256": "13b1c4593f0d60a3735a87d75594b7f976fbe0e2b8f7483542358428d037a766",
+          "packageExpectedOutput": "NO",
+          "test": "0010",
+          "validLFInput": "aabcbcaca\n",
+          "validLFInputFile": "960A/counterexamples/37060714-0010.in",
+          "validLFInputSha256": "1e07346fe24736577c0909ab13df93f746f16f8dc28824a7bb35b8a12c54bca4"
+        },
+        "excludedNonAlgorithmicCauses": "None: LF WA on recorded failedTest.",
+        "faultyLogic": "Lines 19-29 never check that the string ends after the c-run (and the c-run is measured, not the rest).",
+        "implementedAlgorithm": "Counts the leading a-run, b-run and c-run with lstrip, YES if nc==na or nc==nb.",
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/960A/source-37060714.txt",
+          "sha256": "0b9044ec4b3312a05e8d70ad7bbf689a8ad0d08558e5d34033d6c8215e690e43"
+        },
+        "sourceHash": "0b9044ec4b3312a05e8d70ad7bbf689a8ad0d08558e5d34033d6c8215e690e43",
+        "sourceLines": [
+          {
+            "code": "def main():\n    s = input()\n    if not s.startswith('a'):\n        print('NO')\n    else:\n        na = 1\n        while na < len(s) and s[na] == 'a':\n            na += 1\n        s = s.lstrip('a')\n\n        if not s.startswith('b'):\n            print('NO')\n        else:\n            nb = 1\n            while nb < len(s) and s[nb] == 'b':\n                nb += 1\n            s = s.lstrip('b')\n\n            if not s.startswith('c'):\n                print('NO')\n            else:\n                nc = 1\n                while nc < len(s) and s[nc] == 'c':\n                    nc += 1\n\n                if nc == na or nc == nb:\n                    print('YES')\n                else:\n                    print('NO')",
+            "end": 29,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0010"
+    },
+    "37060746": {
+      "kind": "wrong-answer",
+      "reason": "Line 4 operator precedence: `A and B or C` lets count(b)==count(c) alone print YES for strings not of the form a^x b^y c^z. Proof: included LF test 0110 -> 'YES', correct 'NO'. Recorded failedTest 0001 is not used as proof (incorrectAnalysis.test kept equal to evidence.failedTest as the contract requires).",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "YES\n",
+          "actualOutputSha256": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+          "alternateToRecordedFailedTest": true,
+          "constraints": "valid",
+          "correctAnswer": "NO",
+          "derivation": "Valid iff s = a^x b^y c^z with x,y,z>=1 and z==x or z==y. 'aaaabbbcbbcccc' is not a^x b^y c^z (b after c) -> NO. Source: b=5,c=5 -> YES.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.04814900000000055,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+            "path": "archive/960A/sub-37060746.json",
+            "sha256": "de3ff1ab95a5f7973d606fdee6124073a2d35faf8aec4d44f6f379922f5deb87",
+            "sourceBinding": "log produced by tools/rerun.py from 960A/sources (sha256 4dd1c546b787542e33d39fa615d29bdbdda59033c9a0e2b9fe7e94119037ecf5 == evidence sourceHash); logs do not embed source text",
+            "test": "0110",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "included package test is already LF",
+          "originalTestSha256": "386eba3f3e85eb9994b000e7c3cbaf6b8b04e015beddcbb2de767a61bb3454d6",
+          "packageExpectedOutput": "NO",
+          "test": "0110",
+          "validLFInput": "aaaabbbcbbcccc\n",
+          "validLFInputFile": "960A/counterexamples/37060746-0110.in",
+          "validLFInputSha256": "386eba3f3e85eb9994b000e7c3cbaf6b8b04e015beddcbb2de767a61bb3454d6"
+        },
+        "excludedNonAlgorithmicCauses": "Recorded failedTest 0001 is CRLF-only; counted on alternate included LF test 0110.",
+        "faultyLogic": "Line 4 operator precedence: `A and B or C` lets count(b)==count(c) alone print YES for strings not of the form a^x b^y c^z.",
+        "implementedAlgorithm": "YES if (regex full match and count a==count c) or count b == count c.",
+        "recordedFailedTestNonQualifying": {
+          "freshRawVerdict": "WA",
+          "lfNormalizedVerdict": "AC",
+          "test": "0001",
+          "why": "Recorded failedTest 0001 is CRLF-only; counted on alternate included LF test 0110."
+        },
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/960A/source-37060746.txt",
+          "sha256": "4dd1c546b787542e33d39fa615d29bdbdda59033c9a0e2b9fe7e94119037ecf5"
+        },
+        "sourceHash": "4dd1c546b787542e33d39fa615d29bdbdda59033c9a0e2b9fe7e94119037ecf5",
+        "sourceLines": [
+          {
+            "code": "import re\ns=input()\ntry:\n    print('YES' if re.match(r'aa*bb*cc*',s).group(0)==s and s.count('a')==s.count('c') or s.count('b')==s.count('c') else 'NO')\nexcept:\n    print('NO')",
+            "end": 6,
+            "start": 1
+          }
+        ]
+      },
+      "test": "0001"
+    },
+    "37062288": {
+      "kind": "wrong-answer",
+      "reason": "Lines 9-15/19-25: in mode 'a' a 'c' is counted as a 'b' (and in mode 'b' an 'a' as 'c'), so out-of-order letters pass. Proof: included LF test 0078 -> 'YES', correct 'NO'. Recorded failedTest 0001 is not used as proof (incorrectAnalysis.test kept equal to evidence.failedTest as the contract requires).",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "YES\n",
+          "actualOutputSha256": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+          "alternateToRecordedFailedTest": true,
+          "constraints": "valid",
+          "correctAnswer": "NO",
+          "derivation": "Valid iff s = a^x b^y c^z with x,y,z>=1 and z==x or z==y. 'aaaaacbbccc': 'c' before any 'b' -> NO. Source: a=5, 'c' counted as b, b=3, c=3 -> YES.",
+          "executionLog": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "cpuSeconds": 0.011546000000000056,
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "outputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+            "path": "archive/960A/sub-37062288.json",
+            "sha256": "ecfb4eae57a94006e769a0979caf653c381451a47e7dc1430b73598c140d6b1c",
+            "sourceBinding": "log produced by tools/rerun.py from 960A/sources (sha256 2a3eb352d6a1a492f106098e53d0d70dfed15d07ddd4e2b27c9a1dece10de16d == evidence sourceHash); logs do not embed source text",
+            "test": "0078",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "includedInPackage": true,
+          "lfMode": "included package test is already LF",
+          "originalTestSha256": "27c38f42905aa5c329977b9201ccc98b72e74c4568dc94a33087395be41c39d8",
+          "packageExpectedOutput": "NO",
+          "test": "0078",
+          "validLFInput": "aaaaacbbccc\n",
+          "validLFInputFile": "960A/counterexamples/37062288-0078.in",
+          "validLFInputSha256": "27c38f42905aa5c329977b9201ccc98b72e74c4568dc94a33087395be41c39d8"
+        },
+        "excludedNonAlgorithmicCauses": "Recorded failedTest 0001 is CRLF-only; counted on alternate included LF test 0078.",
+        "faultyLogic": "Lines 9-15/19-25: in mode 'a' a 'c' is counted as a 'b' (and in mode 'b' an 'a' as 'c'), so out-of-order letters pass.",
+        "implementedAlgorithm": "State machine a->b->c counting letters; a transition consumes the first non-matching character and counts it as the next letter without checking it.",
+        "recordedFailedTestNonQualifying": {
+          "freshRawVerdict": "WA",
+          "lfNormalizedVerdict": "AC",
+          "test": "0001",
+          "why": "Recorded failedTest 0001 is CRLF-only; counted on alternate included LF test 0078."
+        },
+        "reviewMethod": "auditor read the full source by hand; prose is source-specific, not generated from diffs",
+        "sourceFile": {
+          "path": "archive/960A/source-37062288.txt",
+          "sha256": "2a3eb352d6a1a492f106098e53d0d70dfed15d07ddd4e2b27c9a1dece10de16d"
+        },
+        "sourceHash": "2a3eb352d6a1a492f106098e53d0d70dfed15d07ddd4e2b27c9a1dece10de16d",
+        "sourceLines": [
+          {
+            "code": "for x in s:\n  if mode == \"a\":\n    if x != \"a\":\n      if aCount == 0:\n        print(\"NO\")\n        exit()\n      else:\n        mode = \"b\"\n        bCount += 1\n    else:\n      aCount += 1\n  elif mode == \"b\":\n    if x != \"b\":\n      if bCount == 0:\n        print(\"NO\")\n        exit()\n      else:\n        mode = \"c\"\n        cCount += 1\n    else:\n      bCount += 1\n  elif mode == \"c\":\n    if x != \"c\":\n      print(\"NO\")\n      exit()\n    else:\n      cCount += 1\n\nif bCount == 0 or cCount == 0:\n  print(\"NO\")\n  exit()\nif cCount == aCount or cCount == bCount:\n  print(\"YES\")\n  exit()\nelse:\n  print(\"NO\")\n  exit()",
+            "end": 43,
+            "start": 7
+          }
+        ]
+      },
+      "test": "0001"
+    }
+  },
+  "packageHash": "5c2dc243660ea6e643f6ef550d15ef390ddaf38959c75e0e1eb401ae128e55d4",
+  "preAuditBaseline": "no prior audit file existed for this ID at builder head d11faff5",
+  "qualificationBasis": "generated",
+  "rating": 1200,
+  "reasons": [],
+  "referenceAlgorithm": "YES iff s = a^x b^y c^z (x,y,z>=1) and z==x or z==y",
+  "reviewUrl": "https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4",
+  "reviewer": "devin-21803116a99741d7a7672cde5aff36d4 (independent rating1200 auditor, https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4)",
+  "schemaVersion": 1,
+  "semanticReviewPerformed": "Source-specific semantic review of all 5 designated-wrong sources from the start (full code read by hand, exact lines, mathematical derivation, normal-exit LF proof bound to fresh executionVersion2 sandbox logs).",
+  "verification": {
+    "archiveFilesAllMatchProvenance": true,
+    "archiveSha256": "39be27190696a94ddcc2ee4c066b7a56497430a5bf9f426bb961b3e01990e339",
+    "auditorExtraTests": {
+      "accepted": {
+        "37055314": "AC",
+        "37055321": "AC",
+        "37055325": "AC",
+        "37055328": "AC",
+        "37055329": "AC"
+      },
+      "count": 3284,
+      "expectedFrom": "auditor-authored brute force/exhaustive enumeration (tools/extra.py), not the generator formula",
+      "oracle": "AC",
+      "testsJsonSha256": "22f99479ff70f2ae1cfd1828f84918d98309bd33db3fba541bf2bd03b9d727e0"
+    },
+    "bruteVsPackage": {
+      "checked": 179,
+      "constraintViolations": [],
+      "crlfInputs": 42,
+      "mismatches": []
+    },
+    "builderBranchCommit": "d11faff5231965a95044873c99042e2bec7bae2d",
+    "bundleSha256": "fd7665582d7f84a4af7e83ac2c4de81621b65e26d2b9a00c078e054eb54e47d1",
+    "coverageClaims": {
+      "adversarial": [
+        {
+          "reason": "no c",
+          "test": "0055"
+        },
+        {
+          "reason": "no a",
+          "test": "0056"
+        },
+        {
+          "reason": "out of order",
+          "test": "0057"
+        }
+      ],
+      "boundary": [
+        {
+          "reason": "single c",
+          "test": "0052"
+        },
+        {
+          "reason": "abc",
+          "test": "0053"
+        },
+        {
+          "reason": "a",
+          "test": "0054"
+        }
+      ],
+      "checkerSemantics": "YES/NO; unique, exact token comparison.",
+      "inputConstraints": "Every supplied pair (51 upstream supplementary + 125 authored) was executed by the independently authored oracle (independent-oracle-session https://staging.itsdev.in/sessions/a29a084de7a749e4931503129fb1c3fe), which strictly validates all statement constraints and exits nonzero on violation, and reproduced the expected output under the problem limits in the bounded sandbox (qualification/oracle.json). Authored inputs come from pipeline/problems/960A/recipe.py cases().",
+      "maxSize": [
+        {
+          "reason": "len 5000 valid",
+          "test": "0058"
+        },
+        {
+          "reason": "len 5000 invalid",
+          "test": "0059"
+        }
+      ],
+      "packageHash": "5c2dc243660ea6e643f6ef550d15ef390ddaf38959c75e0e1eb401ae128e55d4",
+      "statementComplete": "Legend (a^x b^y c^z with z equal to x or y, x,y>=1), input (1<=|S|<=5000 over abc), output present."
+    },
+    "generator": {
+      "authoredInPackage": 125,
+      "count": 125,
+      "distinct": 125,
+      "equalsPackageAuthored": true,
+      "hashes": [
+        "9893e86b8b9e3618956efdd589b31bdaf24520e8bf0fdfd1724e8a54a1e22490",
+        "9893e86b8b9e3618956efdd589b31bdaf24520e8bf0fdfd1724e8a54a1e22490"
+      ],
+      "identical": true,
+      "matchesRecorded": true,
+      "pairsDigest": "e1ce205256a4cfdbea538252ceae5726af0448d0c109c942d39e26dd7a8543cf",
+      "pairsDigestMatches": true
+    },
+    "manifestEqualsEvidenceAndProvenanceFiles": true,
+    "oracle": {
+      "byteExact": 125,
+      "compiled": true,
+      "failedTest": null,
+      "hashesMatchRecorded": true,
+      "maxCpu": 0.14279399999999987,
+      "seconds": 17.5,
+      "testsRun": 179,
+      "verdict": "AC"
+    },
+    "sandbox": {
+      "compilerFlags": [
+        "-O2",
+        "-std=c++17",
+        "-DONLINE_JUDGE"
+      ],
+      "executionVersion": 2,
+      "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+      "network": "none",
+      "runner": "pipeline/pool_sandbox.run (read-only, nonroot 65534, cap-drop ALL, no-new-privileges)"
+    },
+    "sourceVerification": "bundled state/ID/sources code sha256 == evidence sourceHash == batch3 proof manifest; upstream pinned bytes verified separately by parent (upstream-verification.json bd5533e5...), not re-downloaded here",
+    "submissions": {
+      "37055314": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "4dce05311d017a2727617cf670e4f8e2d4825a3315e947a97111afe03f15cfca",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/960A/sub-37055314.json",
+          "sha256": "a8bb2a694bbc2159becb1ae487264d3cee5cc79b8b039a4e75ac5fb463523d35"
+        },
+        "language": "C++14 (GCC 6-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "a9df82d0b5b10de964b8706c73940fe22d20f34e4be9f8541e29060cd23d863b",
+        "verdictMatches": true
+      },
+      "37055321": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "e2654e0bb11e16b797ae233d1773cebe516fe6b53069c5622d19646443434fc3",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/960A/sub-37055321.json",
+          "sha256": "d956c7f1c774648d5d6cdcc9f8eb40b465a6a3fc46ecffb0b8744cf08c743e25"
+        },
+        "language": "C++14 (GCC 6-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "8e8f1c6127edfe348ce21195a2d0ddefef2083a1f0b4e74f2e5db757a7d422ab",
+        "verdictMatches": true
+      },
+      "37055325": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "e2654e0bb11e16b797ae233d1773cebe516fe6b53069c5622d19646443434fc3",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/960A/sub-37055325.json",
+          "sha256": "02b8408ede49d8648d0042c95a7a0705252e822b6721e34101e9b4e352ea70e7"
+        },
+        "language": "GNU C++11",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "853a4c68a3e7043be62e181b39b2fb6c5b7cd61d0a281c6951e10c5dd94d11de",
+        "verdictMatches": true
+      },
+      "37055328": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "e2654e0bb11e16b797ae233d1773cebe516fe6b53069c5622d19646443434fc3",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/960A/sub-37055328.json",
+          "sha256": "883d1b2168708cbd88a58507a548eebbe3eed33ce4c2423b0cc1b76fa2ca0bd7"
+        },
+        "language": "C++14 (GCC 6-32)",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "ba2b8e7d328f11cc9d528a55e9aacd614d080f203c5b1710314a888fecfc4b84",
+        "verdictMatches": true
+      },
+      "37055329": {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshOutcomeDigest": "e2654e0bb11e16b797ae233d1773cebe516fe6b53069c5622d19646443434fc3",
+        "freshVerdict": "AC",
+        "fullRunLog": {
+          "path": "archive/960A/sub-37055329.json",
+          "sha256": "f4a89e102c33ef20b78004530c7f15710647afd364051fdb33b6d1592b6d8da3"
+        },
+        "language": "GNU C++11",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "e4581b7b3c0d19aa078452bca5531e874e9eef90640052b611387713039fc1d6",
+        "verdictMatches": true
+      },
+      "37056628": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0001",
+        "freshOutcomeDigest": "da4ed5f553671b76158e4a468f653b122deb34657a6546d66d843b4acaae4251",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/960A/sub-37056628.json",
+          "sha256": "1276b7e65fdf148f820e968c630fb9e75a43d7d74867b8dfc3d8e39454e55cb0"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0001",
+        "recordedVerdict": "WA",
+        "sourceHash": "26c178cbebce127f4d9da72905d9b0e8fddf0d1cc10b871c1e83bc2a3fce74a9",
+        "verdictMatches": true
+      },
+      "37057899": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0021",
+        "freshOutcomeDigest": "76713e3ffd3bd967080637fd4e69593735871b12f5fd999042af54f042c4cef9",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/960A/sub-37057899.json",
+          "sha256": "96bab891ffe0c85e32514bbbc6375bf52d328c950ff352da89714de98152eefa"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0021",
+        "recordedVerdict": "WA",
+        "sourceHash": "55aec43238f27464e9d08f78aa833151aff9196a48d8fcd4db52c1b657fc4b2b",
+        "verdictMatches": true
+      },
+      "37060714": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0010",
+        "freshOutcomeDigest": "91571e2af87259e2d074cd52f74fa651f826500fd369b531f256f4d7dbcd8d44",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/960A/sub-37060714.json",
+          "sha256": "74782fef80ce188b541597e7e465295520dbd3843b4f9a29522f535324d733fe"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0010",
+        "recordedVerdict": "WA",
+        "sourceHash": "0b9044ec4b3312a05e8d70ad7bbf689a8ad0d08558e5d34033d6c8215e690e43",
+        "verdictMatches": true
+      },
+      "37060746": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0001",
+        "freshOutcomeDigest": "12d4bb5ad9580d7f35f6ba84d0cdf9bf9d0f0c65ceb095a9b600b4ada24baf26",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/960A/sub-37060746.json",
+          "sha256": "de3ff1ab95a5f7973d606fdee6124073a2d35faf8aec4d44f6f379922f5deb87"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0001",
+        "recordedVerdict": "WA",
+        "sourceHash": "4dd1c546b787542e33d39fa615d29bdbdda59033c9a0e2b9fe7e94119037ecf5",
+        "verdictMatches": true
+      },
+      "37062288": {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0001",
+        "freshOutcomeDigest": "a41bba1d6f4ec4f21d9475f5248587276721b6c8b96367ca954e54e87058df55",
+        "freshVerdict": "WA",
+        "fullRunLog": {
+          "path": "archive/960A/sub-37062288.json",
+          "sha256": "ecfb4eae57a94006e769a0979caf653c381451a47e7dc1430b73598c140d6b1c"
+        },
+        "language": "Python 3",
+        "outputHashMismatchesVsEvidence": [],
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0001",
+        "recordedVerdict": "WA",
+        "sourceHash": "2a3eb352d6a1a492f106098e53d0d70dfed15d07ddd4e2b27c9a1dece10de16d",
+        "verdictMatches": true
+      }
+    }
+  }
+}
