@@ -1,0 +1,223 @@
+{
+  "approved": false,
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": false,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": true,
+    "hashes": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementBoundsAccurate": false,
+    "statementComplete": true,
+    "supplementaryIndependentOracle": true
+  },
+  "evidenceHash": "7098222b0c8c3f95e70ca898ae1841069de4ffdec8e28605b7e61e8b1d20fa05",
+  "incorrectAnalysis": {
+    "39686495": {
+      "actualOutput": "100\n",
+      "actualOutputHash": "eea8254c7500ba3de996aa8ad6af399183f04e17d4a8102fde539dbc93a90012",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "1\r\n",
+      "expectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "expectedPath": "proof/664A/counterexamples/39686495.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            4,
+            8
+          ],
+          "source": "def GCD(A,B):\n    if(B==0):\n        return A\n    return GCD(B,A%B)\nprint(GCD(int(A),int(B)))"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/664A/counterexamples/39686495.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "100 100000\n",
+      "lfNormalizedInputHash": "ddf65397f3d6d887f6cfa605614f730fc6155e6b21ef9d409ee263012785fb1e",
+      "proofHash": "b7903e54c822d0d80b41689b07c17a391f5540b23d1236ff8e7ee88c643e3ef5",
+      "proofPath": "proof/664A/incorrect-reviews/39686495.json",
+      "reason": "On test 0004 a=100,b=100000, computes gcd of endpoints (100), not gcd of every integer in the range (1).",
+      "sourceHash": "d4de430e4218c18757d2e5e22331476607368f08b2089ae1ad3041ef917f3911",
+      "sourceLineRanges": [
+        [
+          4,
+          8
+        ]
+      ],
+      "test": "0004"
+    },
+    "44754762": {
+      "actualOutput": "100\n",
+      "actualOutputHash": "eea8254c7500ba3de996aa8ad6af399183f04e17d4a8102fde539dbc93a90012",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "1\r\n",
+      "expectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "expectedPath": "proof/664A/counterexamples/44754762.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            6
+          ],
+          "source": "def gcd(a, b):\n    while b:\n        a, b = b, a%b\n    return a\na, b = [int(x) for x in input().split()]\nprint(gcd(a,b))"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/664A/counterexamples/44754762.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "100 100000\n",
+      "lfNormalizedInputHash": "ddf65397f3d6d887f6cfa605614f730fc6155e6b21ef9d409ee263012785fb1e",
+      "proofHash": "2fec3a767828aa8e7fb77b5764acdc3a91130e6b7421079a5338fd0cf23f3172",
+      "proofPath": "proof/664A/incorrect-reviews/44754762.json",
+      "reason": "On test 0004 a=100,b=100000, Euclid's algorithm on only endpoints returns 100, while adjacent range members force answer 1.",
+      "sourceHash": "1845792b3986cecc1c04f37f53452b7ac1f0eefcac12b8f071be38e5ee41e562",
+      "sourceLineRanges": [
+        [
+          1,
+          6
+        ]
+      ],
+      "test": "0004"
+    },
+    "44820856": {
+      "actualOutput": "100\n",
+      "actualOutputHash": "eea8254c7500ba3de996aa8ad6af399183f04e17d4a8102fde539dbc93a90012",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "1\r\n",
+      "expectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "expectedPath": "proof/664A/counterexamples/44820856.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            9
+          ],
+          "source": "def gcd(a,b):\n    while b:\n        a = a%b\n        a,b = b,a\n    return a\n    \na = input(\"\")\na,b = a.split(\" \")\nprint(gcd(int(a),int(b)))"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/664A/counterexamples/44820856.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "100 100000\n",
+      "lfNormalizedInputHash": "ddf65397f3d6d887f6cfa605614f730fc6155e6b21ef9d409ee263012785fb1e",
+      "proofHash": "37b8cb3c50895809a908232b12ed016734c044b766c4212293027f18d24b7745",
+      "proofPath": "proof/664A/incorrect-reviews/44820856.json",
+      "reason": "On test 0004 a=100,b=100000, uses endpoint gcd and returns 100 instead of interval gcd 1.",
+      "sourceHash": "0ea16336d41eda2d62ba9155ca9d13e89567b531536453ae4d31567395dc1307",
+      "sourceLineRanges": [
+        [
+          1,
+          9
+        ]
+      ],
+      "test": "0004"
+    },
+    "45721574": {
+      "actualOutput": "0\n",
+      "actualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "1\r\n",
+      "expectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "expectedPath": "proof/664A/counterexamples/45721574.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            8,
+            16
+          ],
+          "source": "gcd = 0\n\nmin = min(a, b)\nfor i in range(min, 1, -1):\n    if a % i == 0 and b % i == 0:\n        gcd = i\n        break\n\nprint(gcd)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/664A/counterexamples/45721574.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "1 2\n",
+      "lfNormalizedInputHash": "f251ddc12234e0da8d3b778bd0f7463fb477f16f47757f5617dc8b4ff4d4f14a",
+      "proofHash": "7273d14e6d6953f4136f2199eb96253cd68c9d878de72c55a375270de6bf51c9",
+      "proofPath": "proof/664A/incorrect-reviews/45721574.json",
+      "reason": "On test 0001 a=1,b=2, candidate divisor iteration excludes divisor 1 and leaves answer 0 instead of 1.",
+      "sourceHash": "4d8f17b834f20a3fd9e01d1564e1b2b97d5434450a87424aea482672d357bbe3",
+      "sourceLineRanges": [
+        [
+          8,
+          16
+        ]
+      ],
+      "test": "0001"
+    },
+    "45724368": {
+      "actualOutput": "",
+      "actualOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actualVerdict": "TLE",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "61803398874989484820458683436563811772030917980576\r\n",
+      "expectedOutputHash": "084d444d818aa3b25809b6664a68b632a1014caa93fb528e1378c6cea40c6914",
+      "expectedPath": "proof/664A/counterexamples/45724368.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            8,
+            19
+          ],
+          "source": "gcd = 0\n\nmin = min(a, b)\nfor i in range(min, 0, -1):\n    for j in range(b, a, -1):\n        if j % i == 0:\n            gcd = i\n        else:\n            gcd = 1\n            break\n\nprint(gcd)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/664A/counterexamples/45724368.in",
+      "kind": "excluded-tle-without-wrong-output",
+      "lfNormalizedInput": "61803398874989484820458683436563811772030917980576 61803398874989484820458683436563811772030917980576\n",
+      "lfNormalizedInputHash": "3f5fca61f28bf97667a0a855b2dc52acdabc559322250cf028f701def43ad86e",
+      "proofHash": "64ed21e6c5e0424de8b562a115d3f461deaaa176706d96dfe60c1f7a23ac4609",
+      "proofPath": "proof/664A/incorrect-reviews/45724368.json",
+      "reason": "Test 0002 has equal 47-digit endpoints 61803398874989484820458683436563811772030917980576. Outer divisor range is astronomically long; inner range(b,a,-1) is empty for equality and never updates gcd from 0. A small equal input would expose this defect, but exact retained test only times out with no completed wrong output. It is not upgraded to a different test or counted.",
+      "sourceHash": "0ef5f0043e01d2290f0abdeda8da5f1a6f9e1ce77cc591bed9ded0f127ccc270",
+      "sourceLineRanges": [
+        [
+          8,
+          19
+        ]
+      ],
+      "test": "0002"
+    }
+  },
+  "lineEndingPolicy": "Original package bytes preserved; complete-suite counted sources and distinct reference run original bytes. Recipe lexical validation canonicalizes CRLF/CR to LF only, as explicitly documented in handoff. Exact wrong counterexamples independently rerun original and LF bytes; LF-only passes excluded.",
+  "packageHash": "792412ce4f06bcc327ba41ac440411f495e77610653d48828f4d1acb21673687",
+  "proofRoot": "proof/664A",
+  "qualificationBasis": "official",
+  "reason": [
+    "Input upper bound is rendered 10100 instead of 10^100. Pinned source row itself is flattened; statement is not accurate for packaged huge integers.",
+    "Only 4/5 recorded incorrect sources demonstrate an eligible algorithmic wrong answer at their exact retained LF counterexample; excluded sources: 45724368 (excluded-tle-without-wrong-output)"
+  ],
+  "reviewUrl": "https://staging.itsdev.in/sessions/f2d2e0c649fb49d0828376375afb5c25",
+  "reviewer": "devin-f2d2e0c649fb49d0828376375afb5c25",
+  "statementReview": "Full range gcd; equal endpoints return a, adjacent integers force gcd 1 otherwise. Decimal strings up to 10^100 fit Python arbitrary integers. Exponent fidelity fails.",
+  "supplementary": {
+    "accepted": [
+      {
+        "runCount": 213,
+        "sourceHash": "ee86f8a7426c6a9e185a4bf29d6721482863d6b28a09fc4aca33ce63687f3358",
+        "submissionId": "17343119",
+        "verdict": "AC"
+      },
+      {
+        "runCount": 213,
+        "sourceHash": "a37573b26c04d147691dff340c2036154713fae389eac19e99880e4431425143",
+        "submissionId": "17343122",
+        "verdict": "AC"
+      }
+    ],
+    "builderPackageVerdict": "AC",
+    "count": 213,
+    "referenceHash": "9d4a48215fc9d983fd5a013be29285e59df6930759e673228d909c3b1c0d2da2",
+    "referencePackageVerdict": "AC",
+    "testsHash": "7849b2159a2b9a8def2ca734d86e42001df23678b6caba771fe51cffac2cc117",
+    "uniqueCount": 213
+  },
+  "supplementaryReview": "213 cases: all intervals 1<=a<=b<=20, equal 10^100, adjacent near 10^100, widest interval. Actual range gcd for small intervals, adjacent gcd theorem for huge."
+}

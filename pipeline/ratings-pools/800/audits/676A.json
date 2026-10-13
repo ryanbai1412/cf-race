@@ -1,0 +1,222 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "hashes": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementBoundsAccurate": true,
+    "statementComplete": true,
+    "supplementaryIndependentOracle": true
+  },
+  "evidenceHash": "9188112c89e135bc418d717226abe8cc8ee4a26bcb173c0ef7abacbd59b359af",
+  "incorrectAnalysis": {
+    "68226827": {
+      "actualOutput": "4\n",
+      "actualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "3\r\n",
+      "expectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "expectedPath": "proof/676A/counterexamples/68226827.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            16,
+            19
+          ],
+          "source": "        ans=b-a+1\n    elif a<=mid and b<=mid:\n        ans=n-max(a,b)+1\n    elif a>=mid and b>=mid:"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/676A/counterexamples/68226827.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "5\n4 5 1 3 2\n",
+      "lfNormalizedInputHash": "f637eba5e6692c5f45e400f832435f14c5e4124d509282a010381f85bedbd466",
+      "proofHash": "8d8f96cf3bf37bef0c1353ea87b786bce6814802a73901c84994c078ac8f15a3",
+      "proofPath": "proof/676A/incorrect-reviews/68226827.json",
+      "reason": "Test 0001 permutation 4 5 1 3 2 has zero-based extreme positions 1,2. The both<=mid branch returns n-max(pos)+1=4; exhaustive swaps give optimum 3.",
+      "sourceHash": "2741294684ab536f095777de5f3cb26e892341788a709526c24c8558806d81be",
+      "sourceLineRanges": [
+        [
+          16,
+          19
+        ]
+      ],
+      "test": "0001"
+    },
+    "69073884": {
+      "actualOutput": "1\n",
+      "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "2\r\n",
+      "expectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "expectedPath": "proof/676A/counterexamples/69073884.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            13,
+            15
+          ],
+          "source": "    \n    dist=abs((len(a)-1)-min(min_pos,max_pos))\n    print(dist)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/676A/counterexamples/69073884.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "3\n2 3 1\n",
+      "lfNormalizedInputHash": "1cd3b95e0891d9d14c52fa7a99f99aeda983e3b48f62b2219add82a6f94fe2c0",
+      "proofHash": "0cac3e6887c5f34182e4017279eebbf407a5f880d38939ff2614af20937a2560",
+      "proofPath": "proof/676A/incorrect-reviews/69073884.json",
+      "reason": "Test 0006 permutation 2 3 1 has extremes at 1,2. Only measures distance from the earlier extreme to the right edge (1), missing moving the other extreme to the left edge for distance 2.",
+      "sourceHash": "ae7eb66a11f985899991458e2fdfaf410f2264c6b302dcda0f4463f9e0b760ce",
+      "sourceLineRanges": [
+        [
+          13,
+          15
+        ]
+      ],
+      "test": "0006"
+    },
+    "71101165": {
+      "actualOutput": "9\n",
+      "actualOutputHash": "2e6d31a5983a91251bfae5aefa1c0a19d8ba3cf601d0e8a706b4cfa9661a6b8a",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "7\r\n",
+      "expectedOutputHash": "9b6dd0f55d1cea37555db317f53a0631f694bd46df8018cc2aeed3d9e2f32f5f",
+      "expectedPath": "proof/676A/counterexamples/71101165.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            4
+          ],
+          "source": "input()\na = input().split()\ns = a.index(max(a))\nd = a.index(min(a))"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/676A/counterexamples/71101165.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "10\n8 7 10 1 2 3 4 6 5 9\n",
+      "lfNormalizedInputHash": "1f0f09a60b58a842efcb8abf7b1301288457f576610671ab99a9019dd900dc79",
+      "proofHash": "d56245c35928ec76b20d957a152e0aeedb940407c0ca867dcc294e6c28f19ed5",
+      "proofPath": "proof/676A/incorrect-reviews/71101165.json",
+      "reason": "Test 0014 n=10 permutation 8 7 10 1 2 3 4 6 5 9: min/max operate on strings, so lexicographic maximum is 9 (position 9), not numeric 10 (position 2). Prints 9 instead of 7.",
+      "sourceHash": "90cef47e49bd1bb92574656e5584fdbf045d190cf212904f080708459491cb70",
+      "sourceLineRanges": [
+        [
+          1,
+          4
+        ]
+      ],
+      "test": "0014"
+    },
+    "72984604": {
+      "actualOutput": "1\n",
+      "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "2\r\n",
+      "expectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "expectedPath": "proof/676A/counterexamples/72984604.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            6,
+            15
+          ],
+          "source": "for i in range(n//2+1):\n    if(l[i]==x or l[i]==y):\n        print(n-1-i)\n        c = 1\n        break\nif(c==0):\n    for i in range(n-1,n//2,-1):\n        if(l[i]==x or l[i]==y):\n            print(i)\n            break"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/676A/counterexamples/72984604.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "3\n2 3 1\n",
+      "lfNormalizedInputHash": "1cd3b95e0891d9d14c52fa7a99f99aeda983e3b48f62b2219add82a6f94fe2c0",
+      "proofHash": "82f47a526e003f3ad9fc45cb2f41bfd327be10274347d3e3b78fd8b6b24384dc",
+      "proofPath": "proof/676A/incorrect-reviews/72984604.json",
+      "reason": "Test 0006 permutation 2 3 1: first left-half extreme is 3 at position 1, so prints 1 immediately and never considers 1 at the right endpoint, which permits distance 2.",
+      "sourceHash": "3abbe897d10d754da4a9aadae3641f834730b184a65bda6f95fa3e53fec9d0ad",
+      "sourceLineRanges": [
+        [
+          6,
+          15
+        ]
+      ],
+      "test": "0006"
+    },
+    "72985114": {
+      "actualOutput": "4\n",
+      "actualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "6\r\n",
+      "expectedOutputHash": "92961e9752250efa971147344b22295db32d7b75e940e0971e5fb34f21d0bc67",
+      "expectedPath": "proof/676A/counterexamples/72985114.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            6,
+            24
+          ],
+          "source": "for i in range(n//2):\n    if(l[i]==x or l[i]==y):\n        if (l[n-1]!=x and l[n-1]!=y):\n            print(n-1-i)\n            c = 1\n            break\n        else:\n            print(n-1)\n            c=1\n            break\nif(c==0):\n    for i in range(n-1,n//2,-1):\n        if(l[i]==x or l[i]==y):\n            if (l[0]!=x and l[0]!=y):\n                print(i)\n                break\n            else:\n                print(n-1)\n                break"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/676A/counterexamples/72985114.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "8\n4 5 3 8 6 7 1 2\n",
+      "lfNormalizedInputHash": "25e651cdb0b96b383d40b4b154d8971bb4cbe4d13ec4494f6ae8d445ec003572",
+      "proofHash": "8d9b7510dcf6c50f66ab74ab00fee5111e057b7decea87f3dbe8d29fac4b10a2",
+      "proofPath": "proof/676A/incorrect-reviews/72985114.json",
+      "reason": "Test 0012 permutation 4 5 3 8 6 7 1 2: left scan first encounters 8 at index 3 and prematurely returns 4; moving 8 to index 0 leaves 1 at index 6 and gives optimum 6.",
+      "sourceHash": "e4abae90b472d1189f9be197081da787b5163098464ce1148935ce97cd7d7929",
+      "sourceLineRanges": [
+        [
+          6,
+          24
+        ]
+      ],
+      "test": "0012"
+    }
+  },
+  "lineEndingPolicy": "Original package bytes preserved; complete-suite counted sources and distinct reference run original bytes. Recipe lexical validation canonicalizes CRLF/CR to LF only, as explicitly documented in handoff. Exact wrong counterexamples independently rerun original and LF bytes; LF-only passes excluded.",
+  "packageHash": "321b4dec0cb45f92e0936c4f706e8e77c95afe001c145b913508678e83631757",
+  "proofRoot": "proof/676A",
+  "qualificationBasis": "official",
+  "reason": [
+    "All independently checked package, source, provenance, statement, coverage and exact-counterexample requirements passed."
+  ],
+  "reviewUrl": "https://staging.itsdev.in/sessions/f2d2e0c649fb49d0828376375afb5c25",
+  "reviewer": "devin-f2d2e0c649fb49d0828376375afb5c25",
+  "statementReview": "Full statement: exactly one swap, unique maximum position distance between numeric 1 and n, n=2..100 permutation. Brute enumerates every swap including n=2; input/output/samples complete.",
+  "supplementary": {
+    "accepted": [
+      {
+        "runCount": 904,
+        "sourceHash": "741cb2ea6e6d59fff83caad697dd671e912b6012e9a12731a25d917bff232819",
+        "submissionId": "18073343",
+        "verdict": "AC"
+      },
+      {
+        "runCount": 904,
+        "sourceHash": "3dabd57eac412d17f476ca9ff926dc9a08c33bc0159d766e500f0dcde5040b2b",
+        "submissionId": "18073344",
+        "verdict": "AC"
+      }
+    ],
+    "builderPackageVerdict": "AC",
+    "count": 904,
+    "referenceHash": "bce2de21c4ab0230ac68b0df786ec96f4d50bd041ed26fee80d5dc819d99cf74",
+    "referencePackageVerdict": "AC",
+    "testsHash": "c4d28278a638024337384ef588282f2739f9508d0871c8b2b5361d2caf9485fb",
+    "uniqueCount": 904
+  },
+  "supplementaryReview": "904 cases: all 872 permutations for n=2..6, 30 seeded random n=100 permutations, identity/reverse maxima. Independent oracle explicitly tries every pair of swap positions."
+}

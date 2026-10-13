@@ -1,0 +1,222 @@
+{
+  "approved": false,
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": true,
+    "hashes": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementBoundsAccurate": true,
+    "statementComplete": true,
+    "supplementaryIndependentOracle": true
+  },
+  "evidenceHash": "7118d8174a97f28160e30fe8b5c7d6e8dfa149749586d10f4740ef651e64c49f",
+  "incorrectAnalysis": {
+    "46664059": {
+      "actualOutput": "1\n",
+      "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "0\r\n",
+      "expectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "expectedPath": "proof/672A/counterexamples/46664059.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            4
+          ],
+          "source": "s = \"1234506789\"\nfor i in range (10 , 1000) :\n    s+= str(i)\nprint(s[int(input())-1])"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/672A/counterexamples/46664059.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "11\n",
+      "lfNormalizedInputHash": "25d4f2a86deb5e2574bb3210b67bb24fcc4afb19f93a7b65a057daa874a9d18e",
+      "proofHash": "d387427c9a4b6ff6259b6b19563bb565ee060a2849ef8a495b42d3f7677c67f5",
+      "proofPath": "proof/672A/incorrect-reviews/46664059.json",
+      "reason": "On recorded position 11 test, hard-coded prefix 1234506789 corrupts the concatenated sequence and selects a wrong digit.",
+      "sourceHash": "0c31fdde21b30de6f9fa51e48f6acb02b76d63c86c6b54601869ea3af45a4cf6",
+      "sourceLineRanges": [
+        [
+          1,
+          4
+        ]
+      ],
+      "test": "0002"
+    },
+    "48490723": {
+      "actualOutput": "1\n",
+      "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "0\r\n",
+      "expectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "expectedPath": "proof/672A/counterexamples/48490723.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            8
+          ],
+          "source": "n = int(input())\nnums = ''\nfor i in range(1, n + 1):\n\tnums += str(i)\nif n < 10:\n\tprint(n)\nelse:\n\tprint(nums[n])"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/672A/counterexamples/48490723.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "11\n",
+      "lfNormalizedInputHash": "25d4f2a86deb5e2574bb3210b67bb24fcc4afb19f93a7b65a057daa874a9d18e",
+      "proofHash": "54e16391d06a68fa27fa8dd48521b65a027ce6fa80564b968e5f3900224a03a8",
+      "proofPath": "proof/672A/incorrect-reviews/48490723.json",
+      "reason": "On test 0002 position 11, builds the correct prefix but uses nums[n] rather than nums[n-1], returning the 12th digit 1 instead of 11th digit 0.",
+      "sourceHash": "3c776d1dc40ab9bd5b985e4ac766d5f4848c03bc58a4653ae4d83d95b8cc498a",
+      "sourceLineRanges": [
+        [
+          1,
+          8
+        ]
+      ],
+      "test": "0002"
+    },
+    "51497934": {
+      "actualOutput": "1\n",
+      "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "3\r\n",
+      "expectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "expectedPath": "proof/672A/counterexamples/51497934.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            14
+          ],
+          "source": "n = int(input())\n\ncur = 0\n\nwhile n > 9 * 10 ** cur:\n    n -= 9 * 10 ** cur\n    cur += 1\n\n\ncur += 1    \nnth = (n - 1) // cur\n\nnum = 10 ** (cur - 1) + nth\nprint(str(num)[(n - 1) % cur])"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/672A/counterexamples/51497934.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "1000\n",
+      "lfNormalizedInputHash": "83c02ac2d48c863dab2ccf6870455aadfc2cec073b8db269b517c879d76aa6d9",
+      "proofHash": "0d71775bc96378ce4481b98f2c8b602b0f02658c000305ff874a50759088d1cb",
+      "proofPath": "proof/672A/incorrect-reviews/51497934.json",
+      "reason": "On test 0007 position 1000, subtracts 9*10^cur rather than digitCount*9*10^cur at block transitions; returns 1 rather than correct digit 3.",
+      "sourceHash": "6c0726222b68afb030d81165d0a0e5f36c8ed387cc7e46257231f8afbb931719",
+      "sourceLineRanges": [
+        [
+          1,
+          14
+        ]
+      ],
+      "test": "0007"
+    },
+    "51982061": {
+      "actualOutput": "3\n",
+      "actualOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "actualVerdict": "AC",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "3\r\n",
+      "expectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "expectedPath": "proof/672A/counterexamples/51982061.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            8
+          ],
+          "source": "x = input()\ny = len(x)\ns = 0\nr = int(\"9\"*y)\nfor i in range(1,y+1):\n\ts = s + i*int(\"9\"*i)\ns = s -y* ((y)*int(r)-int(x))\nprint(s)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/672A/counterexamples/51982061.in",
+      "kind": "excluded-crlf-only",
+      "lfNormalizedInput": "3\n",
+      "lfNormalizedInputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "proofHash": "5602cc0e23faf2c74caf2afe44d7705e75759b58a6fb27aa0a0ca53c5ddad141",
+      "proofPath": "proof/672A/incorrect-reviews/51982061.json",
+      "reason": "On recorded test 0001 (n=3), original bytes fail but the exact LF-normalized counterexample passes and prints 3. Its different logical defect cannot upgrade this stale counterexample.",
+      "sourceHash": "799027b5e4b326a32821ea525364723fd481cf824d38834b663866b361b00f8f",
+      "sourceLineRanges": [
+        [
+          1,
+          8
+        ]
+      ],
+      "test": "0001"
+    },
+    "52031450": {
+      "actualOutput": "11\n1\n",
+      "actualOutputHash": "a2d2b88a7ac42b3ddc612165db38a8cca3355a1513be4a77da7c96eccf47d99b",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "1\r\n",
+      "expectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "expectedPath": "proof/672A/counterexamples/52031450.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            37
+          ],
+          "source": "x = int(input())\nif x <= 9:\n\tprint(x)\nelse:\n\ti = 0\n\tr = 0\n\twhile x>r:\n\t\tr = r + (i+1)*9*(10**(i))\n\t\t# print(x,r)\n\t\tif x<=r:\n\t\t\tbreak\n\t\ti = i + 1\n\t# print(i)\n\t# print(r)\n\t# print(i)\n\ts = x - r + (i+1)*int(9*(10**i))\n\t# print(s)\n\ts1 = int(s/(i+1))\n\ts2 = int(s%(i+1))\n\t# print(i)\n\t# print(s1)\n\t# print(s2)\n\n\tif s2!= 0:\n\t\tk=int(9*(10**(i-1)))+s1+1\n\t\tprint(k)\n\t\t# print(k)\n\t\tr1 = i +1 - s2\n\t\t# print(r1)\n\t\tfor i in range(r1):\n\t\t\tk = int(k/10)\n\t\t# print(k)\n\t\tprint(k%10)\n\telse:\n\t\tk = int(9*(10**(i-1)))+s1\n\t\t# print(k)\n\t\tprint(k%10)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/672A/counterexamples/52031450.in",
+      "kind": "excluded-debug-output",
+      "lfNormalizedInput": "12\n",
+      "lfNormalizedInputHash": "a1fb50e6c86fae1679ef3351296fd6713411a08cf8dd1790a4fd05fae8688164",
+      "proofHash": "6aed07b932dc2dc13e8f0de8200d608bed8f319717555b6c8c4755849a027394",
+      "proofPath": "proof/672A/incorrect-reviews/52031450.json",
+      "reason": "On recorded n=12 test, prints an intermediate/debug value in addition to the final digit; the correct final digit is present. Not an algorithmic counterexample at this recorded test.",
+      "sourceHash": "34d813751aa0d06b89121c1ce57aee1d23d39c648c7e069603d6bfce9e274b60",
+      "sourceLineRanges": [
+        [
+          1,
+          37
+        ]
+      ],
+      "test": "0003"
+    }
+  },
+  "lineEndingPolicy": "Original package bytes preserved; complete-suite counted sources and distinct reference run original bytes. Recipe lexical validation canonicalizes CRLF/CR to LF only, as explicitly documented in handoff. Exact wrong counterexamples independently rerun original and LF bytes; LF-only passes excluded.",
+  "packageHash": "15b6168b6353866dba74c9079a74efed8efb7876db98c05d9736369ab6992508",
+  "proofRoot": "proof/672A",
+  "qualificationBasis": "official",
+  "reason": [
+    "Only 3/5 recorded incorrect sources demonstrate an eligible algorithmic wrong answer at their exact retained LF counterexample; excluded sources: 51982061 (excluded-crlf-only), 52031450 (excluded-debug-output)"
+  ],
+  "reviewUrl": "https://staging.itsdev.in/sessions/f2d2e0c649fb49d0828376375afb5c25",
+  "reviewer": "devin-f2d2e0c649fb49d0828376375afb5c25",
+  "statementReview": "Concatenation 123456789101112...; unique digit at n in 1..1000. Entire input domain exhausted independently.",
+  "supplementary": {
+    "accepted": [
+      {
+        "runCount": 1000,
+        "sourceHash": "56c86ef9c4ed6ccbc4eba002851423e2db9fe72d905e4b3014207ea50548ae74",
+        "submissionId": "17846163",
+        "verdict": "AC"
+      },
+      {
+        "runCount": 1000,
+        "sourceHash": "7f522556b07cf8acabbf7acbf9a2ed17b9df82638c3546a1f1ef8b35eee9dd8b",
+        "submissionId": "17846164",
+        "verdict": "AC"
+      }
+    ],
+    "builderPackageVerdict": "AC",
+    "count": 1000,
+    "referenceHash": "5c1b5f1ead24f5df272e3a84f6714f43a7368f40f8a0c4fec00993aeb7bb2348",
+    "referencePackageVerdict": "AC",
+    "testsHash": "0235772c551ad6843627b4fc3e2da69ffc70523974016f8946b8c1e6c69eddb5",
+    "uniqueCount": 1000
+  },
+  "supplementaryReview": "All 1000 valid inputs. Independent digit-block arithmetic, not concatenation, agrees with two accepted sources."
+}

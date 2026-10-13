@@ -1,0 +1,223 @@
+{
+  "approved": false,
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": false,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": true,
+    "hashes": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementBoundsAccurate": false,
+    "statementComplete": true,
+    "supplementaryIndependentOracle": true
+  },
+  "evidenceHash": "164f1638a900cb41473bb6ae3d89125a4cc26b956a8d99dc470e1acff84a00b3",
+  "incorrectAnalysis": {
+    "210960985": {
+      "actualOutput": "78125\n",
+      "actualOutputHash": "f4bf62051b633991d692d14666735bdba486f1a4c1f0133e92749a88d224a1b7",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "25",
+      "expectedOutputHash": "b7a56873cd771f2c446d369b649430b65a756ba278ff97ec81bb6f55b2e73569",
+      "expectedPath": "proof/630A/counterexamples/210960985.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            1
+          ],
+          "source": "print(5 ** int(input()))"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/630A/counterexamples/210960985.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "7\n",
+      "lfNormalizedInputHash": "10159baf262b43a92d95db59dae1f72c645127301661e0a3ce4e38b295a97c58",
+      "proofHash": "2d60a22904cbe2efab6b9e8d0b574a648481cdf18bbba511451088a03d8dad88",
+      "proofPath": "proof/630A/incorrect-reviews/210960985.json",
+      "reason": "On test 0002 n=7, computes and prints the whole power 5^7=78125 rather than its last two digits 25.",
+      "sourceHash": "73320ea209c105e74dea08e1a20017bac3ff280f974b000f67a089c2ef147a9c",
+      "sourceLineRanges": [
+        [
+          1,
+          1
+        ]
+      ],
+      "test": "0002"
+    },
+    "210961169": {
+      "actualOutput": "",
+      "actualOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actualVerdict": "TLE",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "25",
+      "expectedOutputHash": "b7a56873cd771f2c446d369b649430b65a756ba278ff97ec81bb6f55b2e73569",
+      "expectedPath": "proof/630A/counterexamples/210961169.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            2,
+            5
+          ],
+          "source": "t = 5\nfor _ in range(n):\n    t *= 5\n    t %= 100"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/630A/counterexamples/210961169.in",
+      "kind": "excluded-tle-only",
+      "lfNormalizedInput": "1000000000000000000\n",
+      "lfNormalizedInputHash": "b8650fe462b5b738b2bb69af1d3c3f16974db285c79025cf1b98652763ff509a",
+      "proofHash": "49de9e6a5507cc95a986393043efa37abb0566aaeb441eabcc1dab805015b869",
+      "proofPath": "proof/630A/incorrect-reviews/210961169.json",
+      "reason": "On test 0003 n=10^18, loops n times multiplying by 5 modulo 100. Values stabilize at 25 after one multiplication from initial 5, so its extra exponent does not change any valid answer. Fresh LF rerun times out; this correct-but-infeasible linear loop cannot count.",
+      "sourceHash": "def347f124ab6958b7b4028edbda3c1f5dd710666e4aec506d439e55fd9c862a",
+      "sourceLineRanges": [
+        [
+          2,
+          5
+        ]
+      ],
+      "test": "0003"
+    },
+    "211056261": {
+      "actualOutput": "",
+      "actualOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actualVerdict": "TLE",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "25",
+      "expectedOutputHash": "b7a56873cd771f2c446d369b649430b65a756ba278ff97ec81bb6f55b2e73569",
+      "expectedPath": "proof/630A/counterexamples/211056261.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            3,
+            3
+          ],
+          "source": "print(str(5 ** n)[-2:])"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/630A/counterexamples/211056261.in",
+      "kind": "excluded-tle-only",
+      "lfNormalizedInput": "1000000000000000000\n",
+      "lfNormalizedInputHash": "b8650fe462b5b738b2bb69af1d3c3f16974db285c79025cf1b98652763ff509a",
+      "proofHash": "04ee4f7d97a9a20645abb08cb1aad2a02071ab5a5bca4a1e9b1c1452c19c5782",
+      "proofPath": "proof/630A/incorrect-reviews/211056261.json",
+      "reason": "On test 0003 n=10^18, huge exact exponentiation is infeasible. Fresh LF rerun times out, not an algorithmically incorrect value; excluded.",
+      "sourceHash": "f85c78e12c46cdbb3f9e331cd03e688c26fca93fd450659e949c55d853ec9445",
+      "sourceLineRanges": [
+        [
+          3,
+          3
+        ]
+      ],
+      "test": "0003"
+    },
+    "211069188": {
+      "actualOutput": "1\n",
+      "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "25",
+      "expectedOutputHash": "b7a56873cd771f2c446d369b649430b65a756ba278ff97ec81bb6f55b2e73569",
+      "expectedPath": "proof/630A/counterexamples/211069188.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            3,
+            12
+          ],
+          "source": "r = n % 4\n\nif r == 1:\n    print(5)\nelif r == 2:\n    print(25)\nelif r == 3:\n    print(25)\nelse:\n    print(1)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/630A/counterexamples/211069188.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "1000000000000000000\n",
+      "lfNormalizedInputHash": "b8650fe462b5b738b2bb69af1d3c3f16974db285c79025cf1b98652763ff509a",
+      "proofHash": "8affdf8b3fb5e351cb0ff6017ec954b5869965e88a47d80b5ad505c5655bf267",
+      "proofPath": "proof/630A/incorrect-reviews/211069188.json",
+      "reason": "On test 0003 n=10^18, branches on n mod 4 and prints 1 for remainder zero, but every valid n>=2 ends in 25.",
+      "sourceHash": "d3d563ece3ead683c33101021b6eaec402cc7a0b2e668d4d5917e9aa8ccf3f45",
+      "sourceLineRanges": [
+        [
+          3,
+          12
+        ]
+      ],
+      "test": "0003"
+    },
+    "211088341": {
+      "actualOutput": "75\n",
+      "actualOutputHash": "84b9bb077be0d8a29d0d01ef350d718b77c2ec5f40c3ab90502b1b4b5016c550",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "25",
+      "expectedOutputHash": "b7a56873cd771f2c446d369b649430b65a756ba278ff97ec81bb6f55b2e73569",
+      "expectedPath": "proof/630A/counterexamples/211088341.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            2,
+            4
+          ],
+          "source": "    pattern = [25, 25, 75, 75, 25, 25, 75, 75, 25, 25, 75, 75, 25, 25, 75, 75, 25, 25, 75, 75]\n    index = (n - 1) % 20\n    return pattern[index]"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/630A/counterexamples/211088341.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "7\n",
+      "lfNormalizedInputHash": "10159baf262b43a92d95db59dae1f72c645127301661e0a3ce4e38b295a97c58",
+      "proofHash": "06761ced13fe8a9c47c8f418335aa87e074204f8918707b12f19b966adad57fb",
+      "proofPath": "proof/630A/incorrect-reviews/211088341.json",
+      "reason": "On test 0002 n=7, incorrect residue pattern prints 75 instead of 25.",
+      "sourceHash": "4b9f0204c9f9010e14f1367467a20ba75fbb716f9064e70eb365994a83a99f46",
+      "sourceLineRanges": [
+        [
+          2,
+          4
+        ]
+      ],
+      "test": "0002"
+    }
+  },
+  "lineEndingPolicy": "Original package bytes preserved; complete-suite counted sources and distinct reference run original bytes. Recipe lexical validation canonicalizes CRLF/CR to LF only, as explicitly documented in handoff. Exact wrong counterexamples independently rerun original and LF bytes; LF-only passes excluded.",
+  "packageHash": "d48947eebe5a359f7d1c952431a5c7e88bc5245057b3412be3652681948e3b1f",
+  "proofRoot": "proof/630A",
+  "qualificationBasis": "official",
+  "reason": [
+    "Input upper bound is rendered 2\u00b71018 instead of 2\u00b710^18. The pinned source row is already flattened; no upstream-attested normalization exists.",
+    "Only 3/5 recorded incorrect sources demonstrate an eligible algorithmic wrong answer at their exact retained LF counterexample; excluded sources: 210961169 (excluded-tle-only), 211056261 (excluded-tle-only)"
+  ],
+  "reviewUrl": "https://staging.itsdev.in/sessions/f2d2e0c649fb49d0828376375afb5c25",
+  "reviewer": "devin-f2d2e0c649fb49d0828376375afb5c25",
+  "statementReview": "Unique last-two-digit output for n>=2; independent modular exponentiation yields 25. Exponent fidelity fails.",
+  "supplementary": {
+    "accepted": [
+      {
+        "runCount": 101,
+        "sourceHash": "3f36f01c5066dfb16b4a105de7c45f71166894d79fd7e43a0a519d8bb3548c14",
+        "submissionId": "16143484",
+        "verdict": "AC"
+      },
+      {
+        "runCount": 101,
+        "sourceHash": "80ba9a52308ebd361abf2330e15d5112331315d45a287a3d09b8d4a83c14f4f3",
+        "submissionId": "16143485",
+        "verdict": "AC"
+      }
+    ],
+    "builderPackageVerdict": "AC",
+    "count": 101,
+    "referenceHash": "7115fbc8a716d1fdf9ae9f8b96834f42e9eef937e38b37a02ef5cf2bf612a914",
+    "referencePackageVerdict": "AC",
+    "testsHash": "e8193ea71390bbabc69026f2734ed7ac6032d78ad4986ad2fb954951dfc3ebb8",
+    "uniqueCount": 101
+  },
+  "supplementaryReview": "101 cases: n=2..99 and 10^18,2*10^18-1,2*10^18; modular repeated-squaring reference distinct from constant output."
+}

@@ -1,0 +1,225 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementBoundsAccurate": true,
+    "statementComplete": true,
+    "supplementaryIndependentOracle": true
+  },
+  "evidenceHash": "a9713cb5cbaf8e6e77734e9dfd9a4e90f6bd8bd125fc4b8f842a7b2a9549af73",
+  "incorrectAnalysis": {
+    "158256865": {
+      "actualOutput": "#Color\n",
+      "actualOutputHash": "deb0c33977cda44cf6fef96353bb4b55460b8b4b8a6ebfa0a0c93d9cb29d2177",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "#Black&White",
+      "expectedOutputHash": "5a093e35b161a915c3b71d540c60ef5b5d608c8a842c331f62be6ce1c010dee8",
+      "expectedPath": "proof/707A/counterexamples/158256865.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            4,
+            6
+          ],
+          "source": "    l=list(input().split())\n    if 'C' in l or 'M' in l or 'Y' in l or 'G' in l:\n        flag=-1"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/707A/counterexamples/158256865.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "1 3\nW G B\n",
+      "lfNormalizedInputHash": "4b6285cd5f5a02866177e042a254a8d260e9e79d5245a75f2c2664822c79e597",
+      "proofHash": "4d3025a90fd0143d21a38df949e204f294f2b605e42bf60718fbd81a5998391b",
+      "proofPath": "proof/707A/incorrect-reviews/158256865.json",
+      "reason": "Test 0008 W G B: treats grey G as a color-trigger, though grey belongs to black-and-white; returns #Color rather than #Black&White.",
+      "sourceHash": "a86d790fd8601ab18732e04821ea4a9162f043c8a43d8dd8f0741e07e98c1a35",
+      "sourceLineRanges": [
+        [
+          4,
+          6
+        ]
+      ],
+      "test": "0008"
+    },
+    "158495936": {
+      "actualOutput": "#Color\n",
+      "actualOutputHash": "deb0c33977cda44cf6fef96353bb4b55460b8b4b8a6ebfa0a0c93d9cb29d2177",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "#Black&White",
+      "expectedOutputHash": "5a093e35b161a915c3b71d540c60ef5b5d608c8a842c331f62be6ce1c010dee8",
+      "expectedPath": "proof/707A/counterexamples/158495936.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            5,
+            7
+          ],
+          "source": "\tfor j in range(n):\n\t\tif x[j] != 'B' or x[j] != 'W':\n\t\t\tt='#Color'"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/707A/counterexamples/158495936.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "3 2\nW W\nW W\nB B\n",
+      "lfNormalizedInputHash": "9b5a9c7843c3a5c4e4d91e470547bfb56bef4d7594e4b891f9aaf558aee3ce8f",
+      "proofHash": "fc07666bb91ef9a27316f4d13b3501bd828f9d437f656167a2429fbefbc1e63c",
+      "proofPath": "proof/707A/incorrect-reviews/158495936.json",
+      "reason": "Test 0002 all W/B pixels: condition x!='B' or x!='W' is always true, so every nonempty photo becomes #Color instead of #Black&White.",
+      "sourceHash": "e1b018019dbece2b7b5612946195de6d9b42e7df1f0c5b6b782d5238a833c2a9",
+      "sourceLineRanges": [
+        [
+          5,
+          7
+        ]
+      ],
+      "test": "0002"
+    },
+    "158497309": {
+      "actualOutput": "#Black&White\n",
+      "actualOutputHash": "b5e719be3d53597fedf2beafaaa032ddbdf50823f67c9a9261d89bd552f4ae7a",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "#Color",
+      "expectedOutputHash": "e0cabf53b3ca2f636937d729aa9d58ae7ce592edde27ef98d1939324b963dde3",
+      "expectedPath": "proof/707A/counterexamples/158497309.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            6,
+            8
+          ],
+          "source": "\tfor j in range(n):\n\t\tif x[j] == 'B' or x[j] != 'W':\n\t\t\ty+=1"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/707A/counterexamples/158497309.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "2 2\nC M\nY Y\n",
+      "lfNormalizedInputHash": "4bb5e2b258d1a2b705f8f8018a13a5b24dc6cb49d201278f750a187adf55a312",
+      "proofHash": "f9c0ec045cfc190dbffa9250cfb24a9ec593ecc472872661dd292780c6e290e5",
+      "proofPath": "proof/707A/incorrect-reviews/158497309.json",
+      "reason": "Test 0001 C M / Y Y: counts x=='B' or x!='W' as black-and-white, counting every colored pixel, and wrongly labels all-colored photo #Black&White.",
+      "sourceHash": "349496b0a064b4f1359ca0564756b644904f421a4af35fc6da3864bb1c4b09d2",
+      "sourceLineRanges": [
+        [
+          6,
+          8
+        ]
+      ],
+      "test": "0001"
+    },
+    "158497520": {
+      "actualOutput": "#Color\n",
+      "actualOutputHash": "deb0c33977cda44cf6fef96353bb4b55460b8b4b8a6ebfa0a0c93d9cb29d2177",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "#Black&White",
+      "expectedOutputHash": "5a093e35b161a915c3b71d540c60ef5b5d608c8a842c331f62be6ce1c010dee8",
+      "expectedPath": "proof/707A/counterexamples/158497520.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            5,
+            9
+          ],
+          "source": "\tx=list(input().split())\n\ty+=x.count('B')\n\ty+=x.count('W')\nif y==m*n:\n\tt='#Black&White'"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/707A/counterexamples/158497520.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "1 3\nW G B\n",
+      "lfNormalizedInputHash": "4b6285cd5f5a02866177e042a254a8d260e9e79d5245a75f2c2664822c79e597",
+      "proofHash": "6e5e3f35bbe3eff05880261b11d3e98260fac0a87a6b1cb1cd7414bba3cedc25",
+      "proofPath": "proof/707A/incorrect-reviews/158497520.json",
+      "reason": "Test 0008 W G B: counts only B and W as grayscale and omits G, so cannot reach total pixel count and prints #Color.",
+      "sourceHash": "8993e8059fc86d3b5d6b701e5471212aa5ca3c6722ad1ba0f141effaf59dee36",
+      "sourceLineRanges": [
+        [
+          5,
+          9
+        ]
+      ],
+      "test": "0008"
+    },
+    "158599717": {
+      "actualOutput": "#Color\n",
+      "actualOutputHash": "deb0c33977cda44cf6fef96353bb4b55460b8b4b8a6ebfa0a0c93d9cb29d2177",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "#Black&White",
+      "expectedOutputHash": "5a093e35b161a915c3b71d540c60ef5b5d608c8a842c331f62be6ce1c010dee8",
+      "expectedPath": "proof/707A/counterexamples/158599717.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            5,
+            7
+          ],
+          "source": "    l=l+e\nif 'C' in l or 'M' in l or 'Y' in l or 'G' in l:\n    print(\"#Color\")"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/707A/counterexamples/158599717.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "1 3\nW G B\n",
+      "lfNormalizedInputHash": "4b6285cd5f5a02866177e042a254a8d260e9e79d5245a75f2c2664822c79e597",
+      "proofHash": "81ea39a5d8b5a34ce9675129391c26cea9646a4572fcaf759a05377920865177",
+      "proofPath": "proof/707A/incorrect-reviews/158599717.json",
+      "reason": "Test 0008 W G B: explicitly includes G among C/M/Y color triggers; returns #Color instead of #Black&White.",
+      "sourceHash": "6ee80e828569d1168486ba67e1cb47871a9feb3d201850cf9cb8925872bcc1d0",
+      "sourceLineRanges": [
+        [
+          5,
+          7
+        ]
+      ],
+      "test": "0008"
+    }
+  },
+  "lineEndingPolicy": "Original package bytes preserved; complete-suite counted sources and distinct reference run original bytes. Recipe lexical validation canonicalizes CRLF/CR to LF only, as explicitly documented in handoff. Exact wrong counterexamples independently rerun original and LF bytes; LF-only passes excluded.",
+  "packageHash": "e1056910f62294558258242710f728e5c5e9a8e502b565ad8e89812a79a38a5e",
+  "proofRoot": "proof/707A",
+  "qualificationBasis": "generated",
+  "reason": [
+    "All independently checked package, source, provenance, statement, coverage and exact-counterexample requirements passed."
+  ],
+  "reviewUrl": "https://staging.itsdev.in/sessions/f2d2e0c649fb49d0828376375afb5c25",
+  "reviewer": "devin-f2d2e0c649fb49d0828376375afb5c25",
+  "statementReview": "Full statement: dimensions 1..100, six symbols CMYWGB; C/M/Y imply color, W/G/B grayscale. Unique #Color/#Black&White; grey explicitly included. Input/output/examples complete.",
+  "supplementary": {
+    "accepted": [
+      {
+        "runCount": 1344,
+        "sourceHash": "d69e74fe62dd71918b427ccca340e57bdbb3c0b3a1172b3fffcfe020dd1c7782",
+        "submissionId": "19982363",
+        "verdict": "AC"
+      },
+      {
+        "runCount": 1344,
+        "sourceHash": "dd122e853809df20f2f1088b7275a6ee2eae78e319580e0f4dba807ad259d998",
+        "submissionId": "19982364",
+        "verdict": "AC"
+      }
+    ],
+    "builderPackageVerdict": "AC",
+    "count": 1344,
+    "referenceHash": "63ee520fc76428be55b451be74f18cf1029cd42355c62da1acb02938d3b6a62c",
+    "referencePackageVerdict": "AC",
+    "testsHash": "22e877751a2ab6acfe347e9148f1d4f69fc56f5c39dc4f001cf39019fcf2652f",
+    "uniqueCount": 1344
+  },
+  "supplementaryReview": "1344 cases: all 1x1,1x2,2x2 matrices over six colors (6+36+1296), plus six 100x100 grayscale matrices with last pixel each color. Independent set-inclusion classification."
+}

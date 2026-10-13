@@ -1,0 +1,222 @@
+{
+  "approved": false,
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": true,
+    "hashes": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementBoundsAccurate": true,
+    "statementComplete": true,
+    "supplementaryIndependentOracle": true
+  },
+  "evidenceHash": "1f25b31ba41a0ef16403b219bf13af962aceedc6131d96cbb74cfaaf6cfda96a",
+  "incorrectAnalysis": {
+    "72380332": {
+      "actualOutput": "21\n",
+      "actualOutputHash": "6e2ae11dad0616f66bbb2b6e6556f580bb987fd911d7132aa6bee2bfc7cc7b52",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "16\r\n",
+      "expectedOutputHash": "b7a33ec2d3fa6748259d5a72ed976b7308fa7355fd99818bc0dc12fece595277",
+      "expectedPath": "proof/680A/counterexamples/72380332.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            20
+          ],
+          "source": "import functools\nimport operator\n\nlul = input().split()\n\nlul = [int(i) for i in lul]\n\nlul.sort(reverse = True)\n\nlent = lul.__len__()\n\nfor i in range(lent):\n  if i < lent-1 and lul[i] == lul [i+1]:\n    if i < lent-2 and lul[i+1] == lul [i+2]:\n      lul.remove(lul[i+2])\n    lul.remove(lul[i+1])\n    lul.remove(lul[i])\n    break\n\nprint(functools.reduce(operator.add,lul))"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/680A/counterexamples/72380332.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "7 7 7 8 8\n",
+      "lfNormalizedInputHash": "261bbc0a0249ceed0905eead01a6e0d9976cfcc544f5168d6a6083a64fb5a290",
+      "proofHash": "6929b9700c3b1e4c2e79b91b0e47452b995a3e74c3e50b7d3ab8f20ae3778dc3",
+      "proofPath": "proof/680A/incorrect-reviews/72380332.json",
+      "reason": "Test 0005 cards 7 7 7 8 8: descending greedy removes pair 8 (16) before considering triple 7 (21), giving remaining sum 21 instead of 16.",
+      "sourceHash": "c8de09521671d3e853f5d748d5885bbf90baf18147c3a521de6a40b3a9919572",
+      "sourceLineRanges": [
+        [
+          1,
+          20
+        ]
+      ],
+      "test": "0005"
+    },
+    "72742711": {
+      "actualOutput": "40\n26\n",
+      "actualOutputHash": "7d3232e994a661f24705f1f9869f58741c0b967bea0ce835960db51a85eaaa5e",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "26\r\n",
+      "expectedOutputHash": "2218c54ac6a0d40e422f1e643c5df24bcbbe62f33ffe335ca2501dc36629c402",
+      "expectedPath": "proof/680A/counterexamples/72742711.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            34
+          ],
+          "source": "def findDuplicate(cards):\n    duplicates = []\n    for i in range(len(cards)):\n        card = cards[i]\n        counter = 0 \n        for j in range(len(cards)):\n            next_card = cards[j]\n            if(i != j and card == next_card):\n                counter += 1\n        if(counter >= 1):\n            check = True\n            for dupli in duplicates:\n                if(dupli[0] == card):\n                    check = False\n            if(check):\n                duplicates.append([card, counter+1])\n    return duplicates\n    \n\ndef main():\n    cards = input()\n    cards = cards.split()\n    somatorio = 0\n    for card in cards:\n        somatorio += int(card)\n    print(somatorio)\n    duplicates = findDuplicate(cards)\n    min_somatorio = somatorio\n    for dupla in duplicates:\n        if(somatorio - (int(dupla[1])*int(dupla[0])) < min_somatorio):\n           min_somatorio = somatorio - (int(dupla[1])*int(dupla[0]))\n    print(min_somatorio)\n    \nmain()"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/680A/counterexamples/72742711.in",
+      "kind": "excluded-debug-output",
+      "lfNormalizedInput": "7 3 7 3 20\n",
+      "lfNormalizedInputHash": "d7ef567bb568ce188a5256c06a6d9957573f1ef8ea06f9386cc3260225074f7e",
+      "proofHash": "25fad9fc29b199b06d954fe440a520bea781a7e7d8a606b92db28b5c8d535779",
+      "proofPath": "proof/680A/incorrect-reviews/72742711.json",
+      "reason": "Test 0001 cards 7 3 7 3 20: prints preliminary sum 40 followed by correct optimum 26. Its >3-equal-card defect occurs elsewhere, not on this recorded test.",
+      "sourceHash": "db18185ff422915e904f8053e6ef75f20fee099550f625f81551a32f1f8f180e",
+      "sourceLineRanges": [
+        [
+          1,
+          34
+        ]
+      ],
+      "test": "0001"
+    },
+    "72761522": {
+      "actualOutput": "50\n",
+      "actualOutputHash": "7ea9844ae84eccbf55e8330640865e36c43521e45a1baec24233327aab7e6595",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "20\r\n",
+      "expectedOutputHash": "8ce88a8842c1584e3d6871e84e166e3b513c3ce2a9da6166760c7af1645dea29",
+      "expectedPath": "proof/680A/counterexamples/72761522.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            34
+          ],
+          "source": "entrada = input()\n\ncards = entrada.split(\" \")\ninteger_cards = []\n\nfor card in cards:\n    integer_cards.append(int(card))\n\ninteger_cards.sort(reverse = True)\n\ndict_cards = {}\nfor card in integer_cards:\n    if (dict_cards.get(card) != None):\n        dict_cards[card] += 1\n    else:\n        dict_cards.update({card: 1})\n\nfor card in dict_cards:\n    if dict_cards[card] == 3:\n        i = 0\n        while i < len(integer_cards):\n            if integer_cards[i] == card:\n                integer_cards[i] = 0\n            i += 1\n        break\n    if dict_cards[card] == 2:\n        i = 0\n        while i < len(integer_cards):\n            if integer_cards[i] == card:\n                integer_cards[i] = 0\n            i += 1\n        break\n    \nprint(sum(integer_cards))"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/680A/counterexamples/72761522.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "10 10 10 10 10\n",
+      "lfNormalizedInputHash": "79eabcab0b43bb73043a73d0e2fb2866a5efc6596fcc116eb83499ee03b3144e",
+      "proofHash": "9167af0e7621ae578b31f0e514ecc0e5d088d1f92fe8d080f97ad83d837dfdb3",
+      "proofPath": "proof/680A/incorrect-reviews/72761522.json",
+      "reason": "Test 0003 five cards 10: only exact count 2 or 3 is considered, so removes nothing and prints 50 instead of removing three tens for answer 20.",
+      "sourceHash": "a2cb736beda8cb0ef5d9a2d435449b31b2e75c8fb6105a7a150daf29f262598d",
+      "sourceLineRanges": [
+        [
+          1,
+          34
+        ]
+      ],
+      "test": "0003"
+    },
+    "73583421": {
+      "actualOutput": "16\n",
+      "actualOutputHash": "e6c21e8d260fe71882debdb339d2402a2ca7648529bc2303f48649bce0380017",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "6\r\n",
+      "expectedOutputHash": "92961e9752250efa971147344b22295db32d7b75e940e0971e5fb34f21d0bc67",
+      "expectedPath": "proof/680A/counterexamples/73583421.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            17
+          ],
+          "source": "def func(a):\n    s=set(a)\n    x=-1\n    for i in s:\n        if a.count(i)>=3:\n            return sum(a)-3*i\n        elif a.count(i)==2:\n            if i>x:\n                x=i\n    if x==-1:\n        return sum(a)\n    else:\n        return sum(a)-2*x\n\n\na=list(map(int,input().split()))\nprint(func(a))"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/680A/counterexamples/73583421.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "8 8 2 2 2\n",
+      "lfNormalizedInputHash": "e6bc683503aa81dedd7155aeb283d4f8d9c9591c29107e4ceec24bfc79793362",
+      "proofHash": "9bdf1d6da04f9ecaded4f5ccf79ef0fe67e7a47ef5a2c4c02db0e4bdcf7aea92",
+      "proofPath": "proof/680A/incorrect-reviews/73583421.json",
+      "reason": "Test 0007 cards 8 8 2 2 2: immediately removes triple 2 (6), ignoring the larger pair 8 (16); gives 16 instead of 6.",
+      "sourceHash": "79573c752ec466ab7ae12d8152091fd4195cb14b3786fc4ea9585fddca9f98ba",
+      "sourceLineRanges": [
+        [
+          1,
+          17
+        ]
+      ],
+      "test": "0007"
+    },
+    "74309267": {
+      "actualOutput": "14\n",
+      "actualOutputHash": "9a92adbc0cee38ef658c71ce1b1bf8c65668f166bfb213644c895ccb1ad07a25",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "26\r\n",
+      "expectedOutputHash": "2218c54ac6a0d40e422f1e643c5df24bcbbe62f33ffe335ca2501dc36629c402",
+      "expectedPath": "proof/680A/counterexamples/74309267.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            19
+          ],
+          "source": "num  = list(map(int , input().split(\" \")))\n\nabt_to_remove = [i for i in num if (num.count(i) >= 2)]\n\nif len(abt_to_remove) != 0 :\n    remove = max(abt_to_remove)\nelse :\n    remove = 0\n\nx = num.count(remove)\nremoved = []\nif x > 3 :\n    x = 3\nif x >= 2 :\n    for i in range(x) :\n        num.remove(remove)\n        removed.append(remove)\n\nprint(min(sum(num) , sum(removed)))"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/680A/counterexamples/74309267.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "7 3 7 3 20\n",
+      "lfNormalizedInputHash": "d7ef567bb568ce188a5256c06a6d9957573f1ef8ea06f9386cc3260225074f7e",
+      "proofHash": "5f5444fd119a5362ec130b4ab9ee3d781630573d72a53b13d836f3ecdebdd6e6",
+      "proofPath": "proof/680A/incorrect-reviews/74309267.json",
+      "reason": "Test 0001 cards 7 3 7 3 20: min(sum(remaining),sum(removed)) compares an inadmissible removed-sum alternative and returns 14 rather than required remaining sum 26.",
+      "sourceHash": "173fbcd42c2870f26e863aae6d16590d237bce9241b3b8348b1649f936a0512a",
+      "sourceLineRanges": [
+        [
+          1,
+          19
+        ]
+      ],
+      "test": "0001"
+    }
+  },
+  "lineEndingPolicy": "Original package bytes preserved; complete-suite counted sources and distinct reference run original bytes. Recipe lexical validation canonicalizes CRLF/CR to LF only, as explicitly documented in handoff. Exact wrong counterexamples independently rerun original and LF bytes; LF-only passes excluded.",
+  "packageHash": "0e3749a2b4ef85d820b267e32a4b9da833c9ac5de9a3c759417ba03f02e8d8e5",
+  "proofRoot": "proof/680A",
+  "qualificationBasis": "official",
+  "reason": [
+    "Only 4/5 recorded incorrect sources demonstrate an eligible algorithmic wrong answer at their exact retained LF counterexample; excluded sources: 72742711 (excluded-debug-output)"
+  ],
+  "reviewUrl": "https://staging.itsdev.in/sessions/f2d2e0c649fb49d0828376375afb5c25",
+  "reviewer": "devin-f2d2e0c649fb49d0828376375afb5c25",
+  "statementReview": "Exactly five cards, values 1..100. Optionally discard exactly two or three equal-valued cards, minimizing remaining sum. Brute checks all 32 subsets; greedy largest face is not sufficient.",
+  "supplementary": {
+    "accepted": [
+      {
+        "runCount": 3125,
+        "sourceHash": "f7b721b300a4099e88e8796490eea871f09f48db94ecb539cd008473f8c497fe",
+        "submissionId": "18302741",
+        "verdict": "AC"
+      },
+      {
+        "runCount": 3125,
+        "sourceHash": "75d72a608d88e06374318062c643b827b045b3c92b8ae2fc8e2a2261d9122213",
+        "submissionId": "18302745",
+        "verdict": "AC"
+      }
+    ],
+    "builderPackageVerdict": "AC",
+    "count": 3125,
+    "referenceHash": "b558b7cc1751e443857d87a53d78de46b4ee669f2fd8ddf191d8e0af5b10fbbd",
+    "referencePackageVerdict": "AC",
+    "testsHash": "08c06878a58e630eb6021f573c59315d99ab672e429d436fc0ec14e39c620ff3",
+    "uniqueCount": 3125
+  },
+  "supplementaryReview": "3125 ordered tuples over {1,2,3,7,100}, exhausting this reduced domain (not all 100^5 inputs); independent 32-mask subset brute handles pair/triple competition and four/five repeats."
+}

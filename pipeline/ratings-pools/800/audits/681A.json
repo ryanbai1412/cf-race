@@ -1,0 +1,225 @@
+{
+  "approved": false,
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementBoundsAccurate": true,
+    "statementComplete": true,
+    "supplementaryIndependentOracle": true
+  },
+  "evidenceHash": "4e44a894261c90e72a19ab293e631db4a60e3954ec7e4ca3101764de1dd8e0b7",
+  "incorrectAnalysis": {
+    "24621098": {
+      "actualOutput": "N0\n",
+      "actualOutputHash": "3784a12be4b84a79c1d786c3166f2421d9ef566a96e14f0a08e704a8e3b0a050",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "NO",
+      "expectedOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+      "expectedPath": "proof/681A/counterexamples/24621098.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            24
+          ],
+          "source": "n = input()\nn = int(n)\na = []\n\n\nfor i in range(0,n):\n    t1,t2,t3 = input().split()\n    a.append(str(t1))\n    a.append(int(t2))\n    a.append(int(t3))\n\ny = 0\nfor i in range(0,len(a),3):\n    if a[i + 1] > 2400:\n        if a[i + 1] < a[i + 2]:\n            y = 1\n            break\n        else:\n            y = 0\n\nif y == 1:\n    print ('YES')\nelse:\n    print ('N0')"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/681A/counterexamples/24621098.in",
+      "kind": "excluded-output-spelling",
+      "lfNormalizedInput": "3\nApplejack 2400 2400\nFluttershy 2390 2431\nPinkie_Pie -2500 -2450\n",
+      "lfNormalizedInputHash": "b455e5e2e5e78aa8bb3717105f2b1abf2e15ffeeca2cae2340664345747cba23",
+      "proofHash": "87f499229c95eb8840cdec1baa69c0e9fbc30c7667207c9a26935dde192924ad",
+      "proofPath": "proof/681A/incorrect-reviews/24621098.json",
+      "reason": "Test 0002 contains no improving participant with before>=2400. Computes false correctly but prints N0 (zero). Its >2400 threshold defect is elsewhere; the recorded counterexample is spelling-only.",
+      "sourceHash": "ccc4b949a28fc31fdca49e754dc336f1d9bef94a950c46da2aa836479acd393b",
+      "sourceLineRanges": [
+        [
+          1,
+          24
+        ]
+      ],
+      "test": "0002"
+    },
+    "25371030": {
+      "actualOutput": "NO\n",
+      "actualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "YES",
+      "expectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "expectedPath": "proof/681A/counterexamples/25371030.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            15
+          ],
+          "source": "def elegible(bp, ap):\n    if bp >= 2400:\n        if bp < ap:\n            return True\n    else:\n        return False\n\nnum_users = input()\nflag = 'YES'\nfor i in range(0, int(num_users)):\n    user, bp, ap = input().split()\n    if not elegible(int(bp), int(ap)):\n        flag = 'NO'\n    \nprint(flag)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/681A/counterexamples/25371030.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "3\nBurunduk1 2526 2537\nBudAlNik 2084 2214\nsubscriber 2833 2749\n",
+      "lfNormalizedInputHash": "4c25030bd39ad999a8a5ece6693293c53a2916aa625b34229d3a7780c51da279",
+      "proofHash": "c6a965b38fc8b4ac1435e54c3070d07fdf16045ce861107c8f62e548cc70f3d3",
+      "proofPath": "proof/681A/incorrect-reviews/25371030.json",
+      "reason": "Test 0001 has an eligible improving participant, but downgrades flag to NO when ANY other participant is ineligible, requiring universal rather than existential eligibility.",
+      "sourceHash": "14e55f44310ad989e5cd96e9e536c5248dc704bfa8c110db2aedffb4e794d510",
+      "sourceLineRanges": [
+        [
+          1,
+          15
+        ]
+      ],
+      "test": "0001"
+    },
+    "25700895": {
+      "actualOutput": "NO\n",
+      "actualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "YES",
+      "expectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "expectedPath": "proof/681A/counterexamples/25700895.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            10
+          ],
+          "source": "count = int(input())\n\ndef run():\n    for _ in range(count):\n        b, a = (int(x) for x in input().split()[1:])\n        if a > b > 2400:\n            print('YES')\n            return\n    print('NO')\nrun()"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/681A/counterexamples/25700895.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "1\na 2400 2401\n",
+      "lfNormalizedInputHash": "3c1e4d49b7b154266f896e66b511353ba27c5e4d9c73e227fb23299634d9d65f",
+      "proofHash": "b243199a276ae4b0bb52af219f62e2e917bcda864d09e885f7e7fca71e5a06e6",
+      "proofPath": "proof/681A/incorrect-reviews/25700895.json",
+      "reason": "Test 0007 a:2400->2401: chained a>b>2400 excludes equality at 2400; prints NO instead of YES.",
+      "sourceHash": "3bf7a6f032fe3c2861ab310aeb4ffcfaeff211f57b2f0bcc6111ded14ff6e9ad",
+      "sourceLineRanges": [
+        [
+          1,
+          10
+        ]
+      ],
+      "test": "0007"
+    },
+    "28179783": {
+      "actualOutput": "NO\n",
+      "actualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "YES",
+      "expectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "expectedPath": "proof/681A/counterexamples/28179783.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            7
+          ],
+          "source": "for i in range(int(input())):\n    s = input().split()\n    if int(s[1]) > 2400 and int(s[2])>int(s[1]):\n        print(\"YES\")\n        break\nelse:\n    print(\"NO\")"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/681A/counterexamples/28179783.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "1\na 2400 2401\n",
+      "lfNormalizedInputHash": "3c1e4d49b7b154266f896e66b511353ba27c5e4d9c73e227fb23299634d9d65f",
+      "proofHash": "8ee44982bb03aeed87cd2ad8545ee22fb7e60277e4eaba0123c5acb132c00962",
+      "proofPath": "proof/681A/incorrect-reviews/28179783.json",
+      "reason": "Test 0007 2400->2401: strict >2400 incorrectly excludes the required inclusive threshold, prints NO.",
+      "sourceHash": "a13f407acddca71f720ed2b216a94c349f578636585b974a9bedf45d2b03585f",
+      "sourceLineRanges": [
+        [
+          1,
+          7
+        ]
+      ],
+      "test": "0007"
+    },
+    "28211823": {
+      "actualOutput": "NO\n",
+      "actualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "YES",
+      "expectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "expectedPath": "proof/681A/counterexamples/28211823.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            8
+          ],
+          "source": "n=int(input())\nflag=0\nfor _ in range(n):\n    inp=list(input().split())\n    if(int(inp[2])>int(inp[1]) and int(inp[1])>2400):\n        flag=1\n        break\nprint(\"YES\" if flag==1 else \"NO\")"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/681A/counterexamples/28211823.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "1\na 2400 2401\n",
+      "lfNormalizedInputHash": "3c1e4d49b7b154266f896e66b511353ba27c5e4d9c73e227fb23299634d9d65f",
+      "proofHash": "3cee929665b16d21635a513ab19d13915c89a6e0ab3e3eef5c9bcba5c396d810",
+      "proofPath": "proof/681A/incorrect-reviews/28211823.json",
+      "reason": "Test 0007 2400->2401: uses >2400 instead of >=2400 and returns NO rather than YES.",
+      "sourceHash": "ba68c0aa69fa205bf89f9c10328d100d45e1ae735c8df5b3a6bcae38f21f1007",
+      "sourceLineRanges": [
+        [
+          1,
+          8
+        ]
+      ],
+      "test": "0007"
+    }
+  },
+  "lineEndingPolicy": "Original package bytes preserved; complete-suite counted sources and distinct reference run original bytes. Recipe lexical validation canonicalizes CRLF/CR to LF only, as explicitly documented in handoff. Exact wrong counterexamples independently rerun original and LF bytes; LF-only passes excluded.",
+  "packageHash": "054df7520751912b95528780fb94e63e810a5f271514c28f9b145507587a9ada",
+  "proofRoot": "proof/681A",
+  "qualificationBasis": "generated",
+  "reason": [
+    "Only 4/5 recorded incorrect sources demonstrate an eligible algorithmic wrong answer at their exact retained LF counterexample; excluded sources: 24621098 (excluded-output-spelling)"
+  ],
+  "reviewUrl": "https://staging.itsdev.in/sessions/f2d2e0c649fb49d0828376375afb5c25",
+  "reviewer": "devin-f2d2e0c649fb49d0828376375afb5c25",
+  "statementReview": "Existential improving contestant with before>=2400; inclusive threshold. n<=100, distinct handles of length 1..10 using letters/digits/underscore/hyphen; ratings -4000..4000. Unique YES/NO.",
+  "supplementary": {
+    "accepted": [
+      {
+        "runCount": 165,
+        "sourceHash": "82ff1160b2e37b31155b2a1d2cf3bf10d59839c70d3df1a43757fe4b9033b70d",
+        "submissionId": "18455951",
+        "verdict": "AC"
+      },
+      {
+        "runCount": 165,
+        "sourceHash": "88e420a7de6a726d53212216312587b36336157423788e71302a9ccbde1d099f",
+        "submissionId": "18455953",
+        "verdict": "AC"
+      }
+    ],
+    "builderPackageVerdict": "AC",
+    "count": 165,
+    "referenceHash": "e7867c74496dec8933f0f2be52c1f0c1b6030c02fcf5cf5450e11694c12334da",
+    "referencePackageVerdict": "AC",
+    "testsHash": "4786828910a89160af2dc2e521fa5a2ff857a11e72edca716f686680c9657ab5",
+    "uniqueCount": 165
+  },
+  "supplementaryReview": "165 cases: rating boundary grid {-4000,-1,0,2399,2400,2401,3999,4000}^2, each eligible index among 100 unique users, and 100 non-improvers. Existential logic/order stress."
+}

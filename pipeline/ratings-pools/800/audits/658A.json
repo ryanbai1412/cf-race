@@ -1,0 +1,233 @@
+{
+  "approved": false,
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": true,
+    "hashes": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementBoundsAccurate": true,
+    "statementComplete": true,
+    "supplementaryIndependentOracle": true
+  },
+  "evidenceHash": "40d065f0fa6c1d8e3ce323cdef410d801d8dc8978f4f7706e8267357629a0eeb",
+  "incorrectAnalysis": {
+    "16993647": {
+      "actualOutput": "Radewoosh\n",
+      "actualOutputHash": "65cbb606d4fe9342a13dceaaa452564092001b53de431af28f2e745c3537f189",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "Limak\r\n",
+      "expectedOutputHash": "d97368c015fa7af3c376fcb6b295b583d69a054a8d3b708c100f021522475699",
+      "expectedPath": "proof/658A/counterexamples/16993647.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            8,
+            8
+          ],
+          "source": "Radewoosh = max(0, s[0] - c * t[-1])"
+        },
+        {
+          "lines": [
+            16,
+            20
+          ],
+          "source": "time2 = 0   \nwhile i >= 0:\n    time2 += t[i]\n    Radewoosh += max(0, s[i] - c * time2)\n    i -= 1 "
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/658A/counterexamples/16993647.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "5 1\n256 275 469 671 842\n7 9 14 17 26\n",
+      "lfNormalizedInputHash": "877bc0a5a8c4ebad961feb6c81ddc38d25f0215c582622730f5e009f6801bc88",
+      "proofHash": "755352e8fd0ba64da97f932a85100f74b16c630ef19b8dd9fdb05adf15c94f85",
+      "proofPath": "proof/658A/incorrect-reviews/16993647.json",
+      "reason": "On test 0017 n=5,c=1,p=256,275,469,671,842,t=7,9,14,17,26, initializes Radewoosh with extra max(0,s[0]-c*t[-1])=230, then also sums every true reverse score. Correct totals are Limak=2340 and Radewoosh=2248, but the extra 230 makes wrong reverse total 2478 and flips winner to Radewoosh instead of Limak.",
+      "sourceHash": "71cf3076ac6647c67536d570fd9de88b4144df4145a2613562a00370edbd6191",
+      "sourceLineRanges": [
+        [
+          8,
+          8
+        ],
+        [
+          16,
+          20
+        ]
+      ],
+      "test": "0017"
+    },
+    "17013773": {
+      "actualOutput": "Limak\n",
+      "actualOutputHash": "c89bea25043cfc16973ab5377fc8c24e3cb23a568ffa256c8a95a6041722839b",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "Radewoosh\r\n",
+      "expectedOutputHash": "05a5df66d89ea4073648297b62c80e9acd1579392683533e929aaa77adc7e624",
+      "expectedPath": "proof/658A/counterexamples/17013773.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            7,
+            15
+          ],
+          "source": "for i in range(n):\n    lim_penalty += t[i]\n    lim_score += p[i] * lim_penalty\n\nrad_score = 0\nrad_penalty = 0\nfor i in range(n - 1, -1, -1):\n    rad_penalty += t[i]\n    rad_score += p[i] * rad_penalty"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/658A/counterexamples/17013773.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "3 6\n50 85 250\n10 15 25\n",
+      "lfNormalizedInputHash": "8430f9a2d8135a7afc4c5d39fbec68f8fff67463124d12e75ebddf75c5966aba",
+      "proofHash": "491daecd7eee128955940aa69eec5c77f7f012efc70fda6a184b3d7ae3ad965e",
+      "proofPath": "proof/658A/incorrect-reviews/17013773.json",
+      "reason": "On test 0002, sums p[i]*cumulative_time rather than max(0,p[i]-c*cumulative_time), ignores c and clamping, and compares higher weighted penalty as better score. Returns Limak instead of Radewoosh.",
+      "sourceHash": "d11f19c787a0bc4dc498850e8d9e06ecef212ca5fa77ecb49811f2ccdb471406",
+      "sourceLineRanges": [
+        [
+          7,
+          15
+        ]
+      ],
+      "test": "0002"
+    },
+    "17016578": {
+      "actualOutput": "Limak\n",
+      "actualOutputHash": "c89bea25043cfc16973ab5377fc8c24e3cb23a568ffa256c8a95a6041722839b",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "Radewoosh\r\n",
+      "expectedOutputHash": "05a5df66d89ea4073648297b62c80e9acd1579392683533e929aaa77adc7e624",
+      "expectedPath": "proof/658A/counterexamples/17016578.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            5,
+            13
+          ],
+          "source": "for i in range(n):\n    ti += t[i]\n    li += p[i] - c * ti\np.reverse()\nt.reverse()\nti = 0\nfor i in range(n):\n    ti += t[i]\n    ra += p[i] - c * ti"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/658A/counterexamples/17016578.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "3 6\n50 85 250\n10 15 25\n",
+      "lfNormalizedInputHash": "8430f9a2d8135a7afc4c5d39fbec68f8fff67463124d12e75ebddf75c5966aba",
+      "proofHash": "2c5d4e6f3b446609bf943b3b9048ddd6cbe95dad093951fd761923291edce009",
+      "proofPath": "proof/658A/incorrect-reviews/17016578.json",
+      "reason": "On test 0002, allows negative per-problem scores instead of clamping to zero; negative tails corrupt totals and choose Limak instead of Radewoosh.",
+      "sourceHash": "58778d6358968a4fcef88cea5ac8caef51027f4f73322716b8179f8718ba6200",
+      "sourceLineRanges": [
+        [
+          5,
+          13
+        ]
+      ],
+      "test": "0002"
+    },
+    "17023383": {
+      "actualOutput": "Padewoosh\n",
+      "actualOutputHash": "8abe98860060bf1cd4a2c9ec2190bbf8342e7ab39d367db530750ade0d43b1b3",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "Radewoosh\r\n",
+      "expectedOutputHash": "05a5df66d89ea4073648297b62c80e9acd1579392683533e929aaa77adc7e624",
+      "expectedPath": "proof/658A/counterexamples/17023383.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            20,
+            21
+          ],
+          "source": "elif Pade > Limak:\n    print('Padewoosh')"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/658A/counterexamples/17023383.in",
+      "kind": "excluded-output-spelling",
+      "lfNormalizedInput": "3 6\n50 85 250\n10 15 25\n",
+      "lfNormalizedInputHash": "8430f9a2d8135a7afc4c5d39fbec68f8fff67463124d12e75ebddf75c5966aba",
+      "proofHash": "e936e534438a711c18d052ea9525b823d60c7f46490dbdd62a65de16f8a7986f",
+      "proofPath": "proof/658A/incorrect-reviews/17023383.json",
+      "reason": "On test 0002, computes the Radewoosh winner correctly but prints Padewoosh. This literal misspelling is not an algorithmic counterexample.",
+      "sourceHash": "f7fc3539c9e7591a4df6a3a6c7d533a0710b97b50c106b6ada2875d2c5a0b81b",
+      "sourceLineRanges": [
+        [
+          20,
+          21
+        ]
+      ],
+      "test": "0002"
+    },
+    "23632880": {
+      "actualOutput": "Limark\n",
+      "actualOutputHash": "e21b299fa4887491ade5771cfba232fcbc68856216b55906124087f1c9c654ac",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "Limak\r\n",
+      "expectedOutputHash": "d97368c015fa7af3c376fcb6b295b583d69a054a8d3b708c100f021522475699",
+      "expectedPath": "proof/658A/counterexamples/23632880.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            16,
+            17
+          ],
+          "source": "elif rade < limark:\n    print(\"Limark\")"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/658A/counterexamples/23632880.in",
+      "kind": "excluded-output-spelling",
+      "lfNormalizedInput": "3 2\n50 85 250\n10 15 25\n",
+      "lfNormalizedInputHash": "1265b1a959356e5d6f487b30967b9de549e76ba6f693aedcdbd9b4542de85c96",
+      "proofHash": "5a8a184a2c6be01b6505b033ddd1a13f5c6f2d84e8d75e6c2265d5e7b143319a",
+      "proofPath": "proof/658A/incorrect-reviews/23632880.json",
+      "reason": "On test 0001, computes the Limak winner but prints Limark. The recorded failure is a spelling-only mismatch.",
+      "sourceHash": "443d0b75c412a9d510ce2e9898043fca19637b65922cf1c02b2d4b8eff0b8e7b",
+      "sourceLineRanges": [
+        [
+          16,
+          17
+        ]
+      ],
+      "test": "0001"
+    }
+  },
+  "lineEndingPolicy": "Original package bytes preserved; complete-suite counted sources and distinct reference run original bytes. Recipe lexical validation canonicalizes CRLF/CR to LF only, as explicitly documented in handoff. Exact wrong counterexamples independently rerun original and LF bytes; LF-only passes excluded.",
+  "packageHash": "bbb443ae26e87f52a110249968ab636a3eff3c58b4022063a02b49c2809ec0b2",
+  "proofRoot": "proof/658A",
+  "qualificationBasis": "official",
+  "reason": [
+    "Only 3/5 recorded incorrect sources demonstrate an eligible algorithmic wrong answer at their exact retained LF counterexample; excluded sources: 17023383 (excluded-output-spelling), 23632880 (excluded-output-spelling)"
+  ],
+  "reviewUrl": "https://staging.itsdev.in/sessions/f2d2e0c649fb49d0828376375afb5c25",
+  "reviewer": "devin-f2d2e0c649fb49d0828376375afb5c25",
+  "statementReview": "Full statement and samples: forward/reverse solve orders, cumulative c*time decay, per-problem clamp to zero; unique Limak/Radewoosh/Tie. Strictly increasing p,t and n<=50 verified.",
+  "supplementary": {
+    "accepted": [
+      {
+        "runCount": 208,
+        "sourceHash": "9d8dc6ad9dd5d8911101442cf1450876a64ae0c2ba47c3b814dbcd09f62ee00f",
+        "submissionId": "16990317",
+        "verdict": "AC"
+      },
+      {
+        "runCount": 208,
+        "sourceHash": "2a7451ce92a3fe8fd36097589a802605b628acc463e21425a7ffb8b177be8a90",
+        "submissionId": "16990323",
+        "verdict": "AC"
+      }
+    ],
+    "builderPackageVerdict": "AC",
+    "count": 208,
+    "referenceHash": "21cf0715b3118a9eb20d2a5d3a86edf89a4379a7ff472f8a3c9d8feb2a73a254",
+    "referencePackageVerdict": "AC",
+    "testsHash": "d40a23b136bc14555c3a3de57f4352280d5adf9bc80c656ef3b824edd2e15242",
+    "uniqueCount": 208
+  },
+  "supplementaryReview": "208 cases: exhaustive n=1..3 increasing p,t subsets of 1..4 and c=1..3, plus n=50 and low/high decay. Reference sums explicit forward/backward prefix times independently."
+}

@@ -1,0 +1,222 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "hashes": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementBoundsAccurate": true,
+    "statementComplete": true,
+    "supplementaryIndependentOracle": true
+  },
+  "evidenceHash": "adef4ca1d8986a104cf10d674f074049fcaede8cee1713c7e75e943f4b0e1b9e",
+  "incorrectAnalysis": {
+    "207506557": {
+      "actualOutput": " I hate that I love it I hate it\n",
+      "actualOutputHash": "8720ca299227814b04ed6e1462c328d676ac561cdd9cea61b877e0097a1ac395",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "I hate that I love that I hate it\r\n",
+      "expectedOutputHash": "d84314ec60b6713c1838dc2571df3a6d0a0f82e9d1fe09a096d546b5523cb178",
+      "expectedPath": "proof/705A/counterexamples/207506557.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            2,
+            6
+          ],
+          "source": "s=\"\"\nm=\" I hate that I love it\"\nt=\" I hate it\"\ns=(l//2)*m + (t)*(l%2)\nprint(s)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/705A/counterexamples/207506557.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "3\n",
+      "lfNormalizedInputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "proofHash": "f9d7ef9d3e1c2acfc81b7a0bf1fde830186a24a5ce36c77de557159f9168a406",
+      "proofPath": "proof/705A/incorrect-reviews/207506557.json",
+      "reason": "Test 0003 n=3: repeats a fully terminated two-layer phrase then appends a terminated one-layer phrase, yielding I hate that I love it I hate it. Mid-sentence it replaces the required that; grammar construction is wrong, not whitespace.",
+      "sourceHash": "8477c663d8af5c53e89d6cbbddd6fd14654cb08842538cbd2ff1fe38a38ba7fa",
+      "sourceLineRanges": [
+        [
+          2,
+          6
+        ]
+      ],
+      "test": "0003"
+    },
+    "207810853": {
+      "actualOutput": "I hate that I love that  it\n",
+      "actualOutputHash": "20d74597f522e7c59593b68584dade3ba3fe6444d56cca8d9436e52d3c5df98f",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "I hate that I love it\r\n",
+      "expectedOutputHash": "c8d3d1969e619a72cf29ca68e123b907aff737c36e92f0818cd2ee82f2128821",
+      "expectedPath": "proof/705A/counterexamples/207810853.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            11,
+            13
+          ],
+          "source": "        else:\n            final +=s2\n    print(final+\" it\")"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/705A/counterexamples/207810853.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "2\n",
+      "lfNormalizedInputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "proofHash": "94c6864739090f6214c7f3658c96e5e2c3e8445edcb79d96fe44d503614597ac",
+      "proofPath": "proof/705A/incorrect-reviews/207810853.json",
+      "reason": "Test 0002 n=2: every layer unconditionally appends that, including last, yielding I hate that I love that it instead of ending the last layer directly with it. Extra connector token is a construction defect.",
+      "sourceHash": "ccb023b1ea2ca9f4527677120f4a2cfc48fe14ea3de9e3b083c33928b08dd915",
+      "sourceLineRanges": [
+        [
+          11,
+          13
+        ]
+      ],
+      "test": "0002"
+    },
+    "207834218": {
+      "actualOutput": "I hate that I love it\n",
+      "actualOutputHash": "ae5c6df3089f45749c1492a8c715542971686e0ef6ed43e866327cd827ddf7fb",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "I hate that I love that I hate that I love it\r\n",
+      "expectedOutputHash": "3adb624d81631a4ad192da0c99110de58da48cad7378332463ed8f9ab1aa80fb",
+      "expectedPath": "proof/705A/counterexamples/207834218.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            4
+          ],
+          "source": "n=int(input())\nif n%2==0:\n\tprint(\"I hate that I love it\")\nelif n!=1:"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/705A/counterexamples/207834218.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "4\n",
+      "lfNormalizedInputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "proofHash": "badd56e18207fac343ee2407e89abb3d8ae28c495b1a887632e3d99ff653677b",
+      "proofPath": "proof/705A/incorrect-reviews/207834218.json",
+      "reason": "Test 0004 n=4: chooses a fixed two-layer sentence for every even n instead of constructing n layers; prints two clauses rather than four.",
+      "sourceHash": "adb08e4e188cbd17ea80e5a5f46d50496cee71f8a63d3a948dd206beb6633190",
+      "sourceLineRanges": [
+        [
+          1,
+          4
+        ]
+      ],
+      "test": "0004"
+    },
+    "208072487": {
+      "actualOutput": "I hate that I hate it\n",
+      "actualOutputHash": "10ad1bc395d3c24d4d574cdaeb4c6fd3e1a735e381ee38ab497984b642bfb6a6",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "I hate it\r\n",
+      "expectedOutputHash": "a7ff64db79c0b2541ce518eb1fd997c60078f1755af491bd17d27f68d2ed890d",
+      "expectedPath": "proof/705A/counterexamples/208072487.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            5,
+            17
+          ],
+          "source": "s4='I love it'\nk=s1+' '\nif n>1:\n    for i in range(2,n):\n        if i%2==0:\n            k=k+s2+' '\n        else:\n            k=k+s1+' '\nif n%2==0:\n    k=k+s4\nelse:\n    k=k+s3\nprint(k)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/705A/counterexamples/208072487.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "1\n",
+      "lfNormalizedInputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "proofHash": "cf17c75bc018184d15d2db56f1299ad850edd974374951ee91d2c79bc50e9c70",
+      "proofPath": "proof/705A/incorrect-reviews/208072487.json",
+      "reason": "Test 0001 n=1: initializes a first hate clause with that and always appends another clause, returning two hate layers rather than the one-layer I hate it.",
+      "sourceHash": "b32cea8bc3bb96178357991c18f1faa993cec75e0bd88c6a3dd317756a780c7d",
+      "sourceLineRanges": [
+        [
+          5,
+          17
+        ]
+      ],
+      "test": "0001"
+    },
+    "208187069": {
+      "actualOutput": "I hate that I hate it\n",
+      "actualOutputHash": "10ad1bc395d3c24d4d574cdaeb4c6fd3e1a735e381ee38ab497984b642bfb6a6",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "I hate that I love it\r\n",
+      "expectedOutputHash": "c8d3d1969e619a72cf29ca68e123b907aff737c36e92f0818cd2ee82f2128821",
+      "expectedPath": "proof/705A/counterexamples/208187069.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            4,
+            6
+          ],
+          "source": "for i in range(2, n+1):\n    result += \" that \" + f[i % 2]\nresult += \" it\""
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/705A/counterexamples/208187069.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "2\n",
+      "lfNormalizedInputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "proofHash": "6feca5ef029123a49d087403e3fe425a9236378ef1a022ceb14c74de2e0345ee",
+      "proofPath": "proof/705A/incorrect-reviews/208187069.json",
+      "reason": "Test 0002 n=2: index i%2 selects hate for even layer 2; repeats hate instead of love. Correct alternation is violated.",
+      "sourceHash": "837a71a4074e99d35c95060adb656eac67402d0f923949ce9ef18a9e636e3f07",
+      "sourceLineRanges": [
+        [
+          4,
+          6
+        ]
+      ],
+      "test": "0002"
+    }
+  },
+  "lineEndingPolicy": "Original package bytes preserved; complete-suite counted sources and distinct reference run original bytes. Recipe lexical validation canonicalizes CRLF/CR to LF only, as explicitly documented in handoff. Exact wrong counterexamples independently rerun original and LF bytes; LF-only passes excluded.",
+  "packageHash": "620bd21e48b3196bd40058cd3d2e5c79453e060692211615271c6d8748c5df26",
+  "proofRoot": "proof/705A",
+  "qualificationBasis": "official",
+  "reason": [
+    "All independently checked package, source, provenance, statement, coverage and exact-counterexample requirements passed."
+  ],
+  "reviewUrl": "https://staging.itsdev.in/sessions/f2d2e0c649fb49d0828376375afb5c25",
+  "reviewer": "devin-f2d2e0c649fb49d0828376375afb5c25",
+  "statementReview": "Full statement/examples: precisely n alternating hate/love clauses, internal that, terminal it. n in 1..100; unique phrase. Entire input domain exhausted; extra connector words are semantic construction defects, not whitespace.",
+  "supplementary": {
+    "accepted": [
+      {
+        "runCount": 100,
+        "sourceHash": "719438a2ca6e05ae3a0c3a7bb10abd4fea979d6200ed8ef2558ae8b7bfaf2a45",
+        "submissionId": "19687910",
+        "verdict": "AC"
+      },
+      {
+        "runCount": 100,
+        "sourceHash": "ff4b2e8f23f0e8752da35e2b6a0f19fa4520fde0f0baabbe17c379d4ba1bb398",
+        "submissionId": "19687913",
+        "verdict": "AC"
+      }
+    ],
+    "builderPackageVerdict": "AC",
+    "count": 100,
+    "referenceHash": "7e68cd321d0aa03ece8551590362b7500bd20f271088c751d29dc619586e7b74",
+    "referencePackageVerdict": "AC",
+    "testsHash": "d14ba332dad40f799c462a9bddcb430fc7b0ad33c27dcaab3848116c9a524132",
+    "uniqueCount": 100
+  },
+  "supplementaryReview": "All 100 valid inputs. Independent token-state construction, with last connector selected directly rather than builder join implementation."
+}

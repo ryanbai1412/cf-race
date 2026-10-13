@@ -1,0 +1,223 @@
+{
+  "approved": false,
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": false,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": true,
+    "hashes": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementBoundsAccurate": false,
+    "statementComplete": true,
+    "supplementaryIndependentOracle": true
+  },
+  "evidenceHash": "1d326a55784ed67fe4df2f452d8bc0ced0dd3e11afd7f80987cf13ee819c4920",
+  "incorrectAnalysis": {
+    "23330733": {
+      "actualOutput": "",
+      "actualOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actualVerdict": "TLE",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "710490435\r\n",
+      "expectedOutputHash": "91d37c296e944d1b42cdf1bae11ccdaba862ca64d31496a5ea167ab3dcbf3930",
+      "expectedPath": "proof/678A/counterexamples/23330733.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            9
+          ],
+          "source": "x = input()\nx = str.split(x, ' ')\nn = int(x[0])\nm = int(x[1])\nwhile True:\n    n+=1\n    if n % m is 0:\n        print(n)\n        break"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/678A/counterexamples/23330733.in",
+      "kind": "excluded-tle-only",
+      "lfNormalizedInput": "687355301 142098087\n",
+      "lfNormalizedInputHash": "6950fe508a2cb3d62b63c8afeb6ec0e01a041c4df651c1c7d079d12127df3aab",
+      "proofHash": "004c625d6c1f2e150b62d6198a8bb6aea2974172909137b4192e280e75bbb94d",
+      "proofPath": "proof/678A/incorrect-reviews/23330733.json",
+      "reason": "Test 0013 n=687355301,k=142098087: linearly increments to the next multiple 710490435; correct but too slow, excluded.",
+      "sourceHash": "e08e78de7c69a75c2dfa207754e3762b071c860cdfa902717a58b69776894aa5",
+      "sourceLineRanges": [
+        [
+          1,
+          9
+        ]
+      ],
+      "test": "0013"
+    },
+    "23340328": {
+      "actualOutput": "",
+      "actualOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actualVerdict": "TLE",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "1000000000\r\n",
+      "expectedOutputHash": "c38029691f44acacc2e533e91a213e03bcfc10d50ef256bfa7a0e962f73c8f41",
+      "expectedPath": "proof/678A/counterexamples/23340328.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            15
+          ],
+          "source": "x = input()\nx = str.split(x, ' ')\nn = int(x[0])\nm = int(x[1])\n\nif n % m is 0:\n    print(n+m)\nelse:\n    p = 1\n    while True:\n        temp = p*m\n        if temp > n :\n            print(temp)\n            break\n        p+=1"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/678A/counterexamples/23340328.in",
+      "kind": "excluded-tle-only",
+      "lfNormalizedInput": "999999999 2\n",
+      "lfNormalizedInputHash": "f6f15f63c5ce4ed529cdf0c40984b44cabb1a53195e374b02110c83540444f53",
+      "proofHash": "7052d563a1d1cc968ba303a1987422307215f5e987965e67854890673bcb236e",
+      "proofPath": "proof/678A/incorrect-reviews/23340328.json",
+      "reason": "Test 0024 n=999999999,k=2: linearly searches multiples from k upward and times out; correct-but-slow witness excluded.",
+      "sourceHash": "79322662351b74d2cb753e296cc16dc061a3e410533b16cea3bc1c248cd8cde9",
+      "sourceLineRanges": [
+        [
+          1,
+          15
+        ]
+      ],
+      "test": "0024"
+    },
+    "24352210": {
+      "actualOutput": "Hello World\n",
+      "actualOutputHash": "d2a84f4b8b650937ec8f73cd8be2c74add5a911ba64df27458ed8229da804a26",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "6\r\n",
+      "expectedOutputHash": "92961e9752250efa971147344b22295db32d7b75e940e0971e5fb34f21d0bc67",
+      "expectedPath": "proof/678A/counterexamples/24352210.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            1
+          ],
+          "source": "print (\"Hello World\");"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/678A/counterexamples/24352210.in",
+      "kind": "excluded-wrong-problem",
+      "lfNormalizedInput": "5 3\n",
+      "lfNormalizedInputHash": "8b2400d87bdbae9842fb0f3af97842ee8245fb64129e1b0aa046a0b299267505",
+      "proofHash": "e1056ec92d512eea3cd44808d7257ef75343721fde878518d14abdd6621a4a6c",
+      "proofPath": "proof/678A/incorrect-reviews/24352210.json",
+      "reason": "Test 0001 n=5,k=3: source only prints Hello World, with no problem algorithm. Wrong-problem code is excluded.",
+      "sourceHash": "36d15cba1df6d26e19692dd2a2b254ac416eaed8adfaf197032283ba905f95dc",
+      "sourceLineRanges": [
+        [
+          1,
+          1
+        ]
+      ],
+      "test": "0001"
+    },
+    "35276831": {
+      "actualOutput": "",
+      "actualOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "39\r\n",
+      "expectedOutputHash": "6a0d069048f7ef14f538f1691dd6aeda4c7bbdb0442861f3bce74d843fe4004c",
+      "expectedPath": "proof/678A/counterexamples/35276831.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            11
+          ],
+          "source": "a,b=map(int,input().split())\nm=list(range(b,a+b,b))\nif a==b:\n    print(a*2)\nelif a<b:\n    print(b)\nelse:\n    for i in m:\n        if i>a :\n            print(i)\n            exit(0)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/678A/counterexamples/35276831.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "26 13\n",
+      "lfNormalizedInputHash": "b0dcbbce5b1a078d17e83bc769b51effbbe3321e9b3974d181c1b23eaadd8d7c",
+      "proofHash": "7ae9e4a0aa297b797523b48811a832fa673b623003b66c376ab485121395fdd0",
+      "proofPath": "proof/678A/incorrect-reviews/35276831.json",
+      "reason": "Test 0003 n=26,k=13: range(k,n+k,k) excludes 39 and contains no candidate strictly greater than n, so emits nothing. Candidate-range off-by-one is demonstrated, but empty-output-only witness is conservatively not counted.",
+      "sourceHash": "0042bf39b810f2e12ec5a36716e7f5131fa6da2edac30cb22edc9b74167eda73",
+      "sourceLineRanges": [
+        [
+          1,
+          11
+        ]
+      ],
+      "test": "0003"
+    },
+    "36933010": {
+      "actualOutput": "1\n",
+      "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "2\r\n",
+      "expectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "expectedPath": "proof/678A/counterexamples/36933010.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            8
+          ],
+          "source": "a = list(input().split(' '))\nn = int(a[0])\nk = int(a[1])\nif (n > k):\n    res = (n // k) * k\n    print(res + k)\nelse :\n    print(k)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/678A/counterexamples/36933010.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "1 1\n",
+      "lfNormalizedInputHash": "3f11ad6bbc7ecca0b2416b713dee77f1a635c00aaeaa946e14cde1c2bfae56d5",
+      "proofHash": "d6883a101318170b22f7feee303374c5f7bdc767166abf2753cedaf3d1e62684",
+      "proofPath": "proof/678A/incorrect-reviews/36933010.json",
+      "reason": "Test 0004 n=k=1: equality follows the else branch and returns k=1 instead of strictly greater multiple 2.",
+      "sourceHash": "86db750dcbf2408369e9cac5395c8cf38eccd5f957119b8d41adcde00cc92c9d",
+      "sourceLineRanges": [
+        [
+          1,
+          8
+        ]
+      ],
+      "test": "0004"
+    }
+  },
+  "lineEndingPolicy": "Original package bytes preserved; complete-suite counted sources and distinct reference run original bytes. Recipe lexical validation canonicalizes CRLF/CR to LF only, as explicitly documented in handoff. Exact wrong counterexamples independently rerun original and LF bytes; LF-only passes excluded.",
+  "packageHash": "5cb051a8eff2530677d1332a9779aa2cff9e496f1c36a6800a28af1ecba647fb",
+  "proofRoot": "proof/678A",
+  "qualificationBasis": "official",
+  "reason": [
+    "Both n and k upper bounds are rendered 109 instead of 10^9; pinned source statement is already flattened. No attested normalization.",
+    "Only 1/5 recorded incorrect sources demonstrate an eligible algorithmic wrong answer at their exact retained LF counterexample; excluded sources: 23330733 (excluded-tle-only), 23340328 (excluded-tle-only), 24352210 (excluded-wrong-problem), 35276831 (wrong-answer)"
+  ],
+  "reviewUrl": "https://staging.itsdev.in/sessions/f2d2e0c649fb49d0828376375afb5c25",
+  "reviewer": "devin-f2d2e0c649fb49d0828376375afb5c25",
+  "statementReview": "Strictly greater multiple of k, not greater-or-equal; unique positive integer. Equality and k>n checked. Exponent fidelity fails.",
+  "supplementary": {
+    "accepted": [
+      {
+        "runCount": 633,
+        "sourceHash": "6d911cf45bb1f267fba2d19c45dc6f34995c3dbd0ab76cbf343dd3d288b792d4",
+        "submissionId": "18416480",
+        "verdict": "AC"
+      },
+      {
+        "runCount": 633,
+        "sourceHash": "48f385ce5738a46af98b84d9a1e57eeb04c4497e6e6c42e72ade47d166888a17",
+        "submissionId": "18416483",
+        "verdict": "AC"
+      }
+    ],
+    "builderPackageVerdict": "AC",
+    "count": 633,
+    "referenceHash": "02882e959ce4e3b043e8af17f49e3c7f21d1b3b172b9a31be9ead2a3315435d4",
+    "referencePackageVerdict": "AC",
+    "testsHash": "2573cfd3ac0dc704e61cbf9b130c09ea75723d845e05a2e71e48a74e9351d576",
+    "uniqueCount": 633
+  },
+  "supplementaryReview": "633 cases: every n,k in 1..25, plus boundaries at 10^9, equality, k>n, parity. Binary-search reference finds first multiple greater than n."
+}

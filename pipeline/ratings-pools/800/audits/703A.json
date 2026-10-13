@@ -1,0 +1,222 @@
+{
+  "approved": false,
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": true,
+    "hashes": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementBoundsAccurate": true,
+    "statementComplete": true,
+    "supplementaryIndependentOracle": true
+  },
+  "evidenceHash": "5a509e7680892c5a12a4b9fd819b0a649d6f811d654d0e0d319e20ff1eb66e00",
+  "incorrectAnalysis": {
+    "175051827": {
+      "actualOutput": "Chris\n",
+      "actualOutputHash": "cd26aa8871d0f6106c8cb7b5b426d68f2c7539da779b61e582930c521ca43e8e",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "Friendship is magic!^^",
+      "expectedOutputHash": "519a0a391b52803bb7713c60eb4785f57bd7abc26c77574e2b0becf728f74d08",
+      "expectedPath": "proof/703A/counterexamples/175051827.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            13
+          ],
+          "source": "a = int(input())\nq = 0\nw = 0\nfor i in range(a):\n    b, c = map(int, input().split())\n    q += b\n    w += c\nif q > w:\n    print(\"Mishka\")\nelif w > q:\n    print(\"Chris\")\nelse:\n    print(\"Friendship is magic!^^\")"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/703A/counterexamples/175051827.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "8\n4 1\n2 6\n4 2\n2 5\n5 2\n3 5\n5 2\n1 5\n",
+      "lfNormalizedInputHash": "5e3c975c488eb508691f7f7f35f405cc597e31b604060f8049f8fd5a0803dff3",
+      "proofHash": "634c6a90c5db6b62239650ca7abf35fd233d8832b7069aa92dce088b54a24231",
+      "proofPath": "proof/703A/incorrect-reviews/175051827.json",
+      "reason": "Test 0006 has four round wins each. Sums dice faces rather than counting round wins and chooses Chris instead of Friendship is magic!^^.",
+      "sourceHash": "9ea085f72ecb091ebeba11dfffc298cc4323ee4349830d998d4540c8bff95720",
+      "sourceLineRanges": [
+        [
+          1,
+          13
+        ]
+      ],
+      "test": "0006"
+    },
+    "175232235": {
+      "actualOutput": "Chris\nMishka\nMishka\n",
+      "actualOutputHash": "995eb90a2b17dd93e08deecd03c5b1b790ad4180f0ec9e98917c5a8cc71051c4",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "Mishka",
+      "expectedOutputHash": "c2ef2726b08c6d295e58dd2e9d623e3adcdae9464eb18adcf6efb40f2c530e2c",
+      "expectedPath": "proof/703A/counterexamples/175232235.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            9
+          ],
+          "source": "n= int(input())\nfor i in range(n):\n    x,y =list(map(int,input().split()))\n    if x>y:\n        print(\"Mishka\")\n    elif x<y:\n        print(\"Chris\")\n    else:\n        print(\"Friendship is magic!^^\")"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/703A/counterexamples/175232235.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "3\n3 5\n2 1\n4 2\n",
+      "lfNormalizedInputHash": "30b65ce04dcd6eb40e1ddd325a6c7104c83eb24edb0b7233b67b2e263ea85c66",
+      "proofHash": "f271290712ba743f553a7b35fbd30318803c4ef5014e0f6453f74ab84908e826",
+      "proofPath": "proof/703A/incorrect-reviews/175232235.json",
+      "reason": "Test 0001 emits each individual round winner (Chris,Mishka,Mishka), never aggregates the two-to-one match for Mishka. The first predicted winner is wrong for the match, not merely repeated correct answers.",
+      "sourceHash": "afd03c88cf63ecf9557ada06a20ea52e7db9136282bc7cda0f61655573c5eaa8",
+      "sourceLineRanges": [
+        [
+          1,
+          9
+        ]
+      ],
+      "test": "0001"
+    },
+    "175879244": {
+      "actualOutput": "Chris\n",
+      "actualOutputHash": "cd26aa8871d0f6106c8cb7b5b426d68f2c7539da779b61e582930c521ca43e8e",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "Mishka",
+      "expectedOutputHash": "c2ef2726b08c6d295e58dd2e9d623e3adcdae9464eb18adcf6efb40f2c530e2c",
+      "expectedPath": "proof/703A/counterexamples/175879244.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            10
+          ],
+          "source": "rounds = int(input())\nmb = 0\ncb = 0\nfor i in range(0, rounds):\n    m,c = map(int,input().split())\n    if( m > c): mb+=1\n    else: cb+=1\nif mb > cb: print(\"Mishka\")\nelif mb < cb: print(\"Chris\")\nelse: print(\"Friendship is magic!^^\")"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/703A/counterexamples/175879244.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "100\n4 1\n3 4\n4 6\n4 5\n6 5\n5 3\n6 2\n6 3\n5 2\n4 5\n1 5\n5 4\n1 4\n4 5\n4 6\n1 6\n4 4\n5 1\n6 4\n6 4\n4 6\n2 3\n6 2\n4 6\n1 4\n2 3\n4 3\n1 3\n6 2\n3 1\n3 4\n2 6\n4 5\n5 4\n2 2\n2 5\n4 1\n2 2\n3 3\n1 4\n5 6\n6 4\n4 2\n6 1\n5 5\n4 1\n2 1\n6 4\n4 4\n4 3\n5 3\n4 5\n5 3\n3 5\n6 3\n1 1\n3 4\n6 3\n6 1\n5 1\n2 4\n4 3\n2 2\n5 5\n1 5\n5 3\n4 6\n1 4\n6 3\n4 3\n2 4\n3 2\n2 4\n3 4\n6 2\n5 6\n1 2\n1 5\n5 5\n2 6\n5 1\n1 6\n5 3\n3 5\n2 6\n4 6\n6 2\n3 1\n5 5\n6 1\n3 6\n4 4\n1 1\n4 6\n5 3\n4 2\n5 1\n3 3\n2 1\n1 4\n",
+      "lfNormalizedInputHash": "aede6801dc7efeaa2d275b1775753125f77b209c82bc68c65033c7616b1f06f2",
+      "proofHash": "97498f0840b4ddb439167cc28b1caf46604700261276485e0b11386cfcf53619",
+      "proofPath": "proof/703A/incorrect-reviews/175879244.json",
+      "reason": "Test 0016: else credits every tied round to Chris; ties must give neither player a win. Changes correct Mishka match result to Chris.",
+      "sourceHash": "bff2dff20330b9e552f5176e857addd54096ca971ce373634b02698281648a7c",
+      "sourceLineRanges": [
+        [
+          1,
+          10
+        ]
+      ],
+      "test": "0016"
+    },
+    "176102917": {
+      "actualOutput": "Friendship is majic!^^\n",
+      "actualOutputHash": "b921b2dd7be39bf019fd7596edbe93c51f37387170b55669f2b415ab7a96c24b",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "Friendship is magic!^^",
+      "expectedOutputHash": "519a0a391b52803bb7713c60eb4785f57bd7abc26c77574e2b0becf728f74d08",
+      "expectedPath": "proof/703A/counterexamples/176102917.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            24
+          ],
+          "source": "num = int(input())\nl = []\n\nfor c in range(num):\n    inn = input().split()\n    if len(inn) == 2:\n        l.extend(inn)\nindex = 1\noddd = 0\neven = 0\n\nfor g in l:\n    odd = index % 2\n    if odd == 0:\n        oddd += int(g)\n    else:\n        even += int(g)\n    index += 1\nif even > oddd:\n    print(\"Mishka\")\nelif oddd > even:\n    print(\"Chris\")\nelse:\n    print(\"Friendship is majic!^^\")"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/703A/counterexamples/176102917.in",
+      "kind": "excluded-output-spelling",
+      "lfNormalizedInput": "2\n6 1\n1 6\n",
+      "lfNormalizedInputHash": "2ef19e644db9fc985917a9274d58121f68602a00060f02e2f49d6af4880918d3",
+      "proofHash": "951c3a5b5199409bde1ce12cdd2c013d0b0db9af6a0b855ac089505d2b7c25df",
+      "proofPath": "proof/703A/incorrect-reviews/176102917.json",
+      "reason": "Test 0002 (6,1),(1,6): both summed faces and round wins tie, but prints majic instead of magic. Its sum-of-faces defect is not demonstrated on this stale recorded test.",
+      "sourceHash": "4dacfc4c4265af3277689e389142da3896199a2551842dfbb30b39406a050532",
+      "sourceLineRanges": [
+        [
+          1,
+          24
+        ]
+      ],
+      "test": "0002"
+    },
+    "176144699": {
+      "actualOutput": "Chris\n",
+      "actualOutputHash": "cd26aa8871d0f6106c8cb7b5b426d68f2c7539da779b61e582930c521ca43e8e",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "Mishka",
+      "expectedOutputHash": "c2ef2726b08c6d295e58dd2e9d623e3adcdae9464eb18adcf6efb40f2c530e2c",
+      "expectedPath": "proof/703A/counterexamples/176144699.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            15
+          ],
+          "source": "n = int(input())\nr_mish = 0\nr_cr = 0\nfor i in range(n):\n    a, b = map(int, input().split())\n    if a > b:\n        r_mish += 1\n    else:\n        r_cr += 1\nif r_mish > r_cr:\n    print(\"Mishka\")\nelif r_cr > r_mish:\n    print(\"Chris\")\nelse:\n    print(\"Friendship is magic!^^\")"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/703A/counterexamples/176144699.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "100\n4 1\n3 4\n4 6\n4 5\n6 5\n5 3\n6 2\n6 3\n5 2\n4 5\n1 5\n5 4\n1 4\n4 5\n4 6\n1 6\n4 4\n5 1\n6 4\n6 4\n4 6\n2 3\n6 2\n4 6\n1 4\n2 3\n4 3\n1 3\n6 2\n3 1\n3 4\n2 6\n4 5\n5 4\n2 2\n2 5\n4 1\n2 2\n3 3\n1 4\n5 6\n6 4\n4 2\n6 1\n5 5\n4 1\n2 1\n6 4\n4 4\n4 3\n5 3\n4 5\n5 3\n3 5\n6 3\n1 1\n3 4\n6 3\n6 1\n5 1\n2 4\n4 3\n2 2\n5 5\n1 5\n5 3\n4 6\n1 4\n6 3\n4 3\n2 4\n3 2\n2 4\n3 4\n6 2\n5 6\n1 2\n1 5\n5 5\n2 6\n5 1\n1 6\n5 3\n3 5\n2 6\n4 6\n6 2\n3 1\n5 5\n6 1\n3 6\n4 4\n1 1\n4 6\n5 3\n4 2\n5 1\n3 3\n2 1\n1 4\n",
+      "lfNormalizedInputHash": "aede6801dc7efeaa2d275b1775753125f77b209c82bc68c65033c7616b1f06f2",
+      "proofHash": "7ed15f733b810ffc26b7c4aa461fb7bd993f25086321b1af5be33d54ea52a275",
+      "proofPath": "proof/703A/incorrect-reviews/176144699.json",
+      "reason": "Test 0016: tied rounds fall into Chris increment, incorrectly converting expected Mishka win into Chris.",
+      "sourceHash": "ae1af5be8cb862c7b347d054b0bac1b964bc33c7f1cd2c09781094968d39fcaa",
+      "sourceLineRanges": [
+        [
+          1,
+          15
+        ]
+      ],
+      "test": "0016"
+    }
+  },
+  "lineEndingPolicy": "Original package bytes preserved; complete-suite counted sources and distinct reference run original bytes. Recipe lexical validation canonicalizes CRLF/CR to LF only, as explicitly documented in handoff. Exact wrong counterexamples independently rerun original and LF bytes; LF-only passes excluded.",
+  "packageHash": "e47c8a50439b2b252cfc1298b8cf2e86820a627590e0d3c1a089f7d478d907cb",
+  "proofRoot": "proof/703A",
+  "qualificationBasis": "official",
+  "reason": [
+    "Only 4/5 recorded incorrect sources demonstrate an eligible algorithmic wrong answer at their exact retained LF counterexample; excluded sources: 176102917 (excluded-output-spelling)"
+  ],
+  "reviewUrl": "https://staging.itsdev.in/sessions/f2d2e0c649fb49d0828376375afb5c25",
+  "reviewer": "devin-f2d2e0c649fb49d0828376375afb5c25",
+  "statementReview": "Count rounds won, ignore draws, do not sum dice faces. n<=100, both dice 1..6. Unique Mishka/Chris/Friendship is magic!^^ string, token checker appropriate.",
+  "supplementary": {
+    "accepted": [
+      {
+        "runCount": 1353,
+        "sourceHash": "46a18f131fd761ea048cb7e0fe90b19b8dea1573409a57e49f85e07d7ab2ac0e",
+        "submissionId": "19617768",
+        "verdict": "AC"
+      },
+      {
+        "runCount": 1353,
+        "sourceHash": "f80d53c56adfdc18d31462a89139cec9ce0fd7ce78c5f780b0c6a17fcb504fea",
+        "submissionId": "19617769",
+        "verdict": "AC"
+      }
+    ],
+    "builderPackageVerdict": "AC",
+    "count": 1353,
+    "referenceHash": "5c48bd259bd1aa47b745476efadeb3394e2916126f856f980d13a9ddec2fce74",
+    "referencePackageVerdict": "AC",
+    "testsHash": "481dc51568e172f1d753b872d73cf55b892fb52a2bf4ce0076c7ba18483cca71",
+    "uniqueCount": 1353
+  },
+  "supplementaryReview": "1353 cases: all one-/two-round dice sequences (36+1296), 20 seeded n=100 matches and max-size all draws. Signed comparison sum counts match wins."
+}

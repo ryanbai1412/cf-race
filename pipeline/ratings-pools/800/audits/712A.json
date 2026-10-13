@@ -1,0 +1,217 @@
+{
+  "approved": false,
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": false,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementBoundsAccurate": false,
+    "statementComplete": true,
+    "supplementaryIndependentOracle": true
+  },
+  "evidenceHash": "0fff345f2e5e430e80b43dfe4442ae9836a6fa1da446822c89f971434bf8f6c2",
+  "incorrectAnalysis": {
+    "20515090": {
+      "actualOutput": "5 ",
+      "actualOutputHash": "aec400e3e65dc09b31513694bc9893b91a8f4eafb8f1d882e5dcd4e141ebff52",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "2 4 6 1 3 \r\n",
+      "expectedOutputHash": "9b5600a549e5fb118e70c72d42c1c8e9a8d5764a88c9519986ebdfa8deb4f346",
+      "expectedPath": "proof/712A/counterexamples/20515090.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            14
+          ],
+          "source": "def main():\n\tm = [int(i) for i in input().split()]\n\tm2 = []\n\tfor i in range(len(m)-1,-1,-1):\n\t\tdifferent = 0+sum(m2[::2]) - sum(m2[1::2])\n\t\tif len(m2) % 2 == 1:\n\t\t\tdifferent *= -1\n\t\tm2.append(m[i] - different)\n\tfor i in m2:\n\t\tprint(i,end = \" \")\n\tpass\n\nif __name__ == \"__main__\":\n\tmain()"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/712A/counterexamples/20515090.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "5\n6 -4 8 -2 3\n",
+      "lfNormalizedInputHash": "54aa27e4bb75495ed2662eb8a9b02d6a7c66bd602fc83227ee7b17045f683b74",
+      "proofHash": "f9c37bca8976fc675cbf3913a3b0ebd179e2f7c5c55857393765c029ab77c421",
+      "proofPath": "proof/712A/incorrect-reviews/20515090.json",
+      "reason": "Test 0001 n=5 and a=6,-4,8,-2,3: treats first line [5] as the sequence, never reads actual a, prints 5 rather than b=2,4,6,1,3.",
+      "sourceHash": "36e6a15d660fbeb40e5c4c15e67095be21f88ecba6bfcf8bbbfc049ec1e6e966",
+      "sourceLineRanges": [
+        [
+          1,
+          14
+        ]
+      ],
+      "test": "0001"
+    },
+    "20515209": {
+      "actualOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actualVerdict": "TLE",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutputHash": "9d455daf8410531a709cb99ad8f4d784b4444a3af2aa582478557ee280bea1ad",
+      "expectedPath": "proof/712A/counterexamples/20515209.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            10
+          ],
+          "source": "length = int(input())\nm = [int(i) for i in input().split()]\nm2 = []\nfor i in range(length-1,-1,-1):\n\tdifferent = 0+sum(m2[::2]) - sum(m2[1::2])\n\tif len(m2) % 2 == 1:\n\t\tdifferent *= -1\n\tm2.append(m[i] - different)\nfor i in range(length-1,-1,-1):\n\tprint(m2[i],end = \" \")"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/712A/counterexamples/20515209.in",
+      "kind": "excluded-tle-only",
+      "lfNormalizedInputHash": "083fb0d926380dad558cb9eec052012329b1364f5ef8e1612a70a7dd09dd6cb4",
+      "proofHash": "bff00eb573988c4e908b1c8336b874bf7fc5a19778fbf19c33008d2747e51ddf",
+      "proofPath": "proof/712A/incorrect-reviews/20515209.json",
+      "reason": "Recorded test 0012: repeated sliced suffix sums implement the correct alternating-suffix inversion but cost quadratic work, timing out. Fresh suite first times out at 0011; exact recorded LF test also TLE. Excluded.",
+      "sourceHash": "e49afe9f50620cfbdbbe522e8bbf2a5905607b1eab50b7fd85849290a75c7ec2",
+      "sourceLineRanges": [
+        [
+          1,
+          10
+        ]
+      ],
+      "test": "0012"
+    },
+    "20551344": {
+      "actualOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actualVerdict": "TLE",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutputHash": "a41bce9cb31aa3420bcbecb7a22062e74a0c252dcff7f3461f8b088aa793065d",
+      "expectedPath": "proof/712A/counterexamples/20551344.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            29
+          ],
+          "source": "n=int(input())\nan=input().split()\nfor i in range(n):\n\tan[i]=int(an[i])\n\nan.reverse()\nbn=an\n\ngs=True\nfor i in range(1,n):\n\tsg=gs\n\tfor y in range(i):\n\t\tif sg==True:\n\t\t\tbn[i]=bn[i]+bn[y]\n\n\t\t\tsg=False\n\t\t\t\n\t\telse:\n\t\t\tbn[i]=bn[i]-bn[y]\n\n\t\t\tsg=True\n\tif gs==True:\n\t\tgs=False\n\telse:\n\t\tgs=True\nfor i in range(n):\n\tbn[i]=str(bn[i])\nbn.reverse()\nprint(\" \".join(bn))"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/712A/counterexamples/20551344.in",
+      "kind": "excluded-tle-only",
+      "lfNormalizedInputHash": "ac4e079560d30c11511aa1c9326b9d434b5f68c83f9c19b1ae5469d0cc05a038",
+      "proofHash": "c8fa0a14e772991aba82ef91c54b77e9ef059ae83ce10a265eb4a0ea738adf86",
+      "proofPath": "proof/712A/incorrect-reviews/20551344.json",
+      "reason": "Test 0009: nested alternating accumulation gives correct inversion with quadratic work and times out. No algorithmic wrong value established; excluded.",
+      "sourceHash": "aec094bfb912bef76a2f2f3e25fbfaf78ef60dbdb518ac24b3e5ff61c0a6d0be",
+      "sourceLineRanges": [
+        [
+          1,
+          29
+        ]
+      ],
+      "test": "0009"
+    },
+    "20559378": {
+      "actualOutput": "[2, 4, 6, 1, 3]\n",
+      "actualOutputHash": "006c3fad82cf39bf343f1e69c492c3f59cd34073fe6d5125470ccbf9fddf8d21",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "2 4 6 1 3 \r\n",
+      "expectedOutputHash": "9b5600a549e5fb118e70c72d42c1c8e9a8d5764a88c9519986ebdfa8deb4f346",
+      "expectedPath": "proof/712A/counterexamples/20559378.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            10
+          ],
+          "source": "n = int(input())\na = [int(x) for x in input().split()]\nb = [0] * n\n\ns = 0\nfor i in range(n-1,-1,-1):\n    b[i] = a[i] + s\n    s = -s + b[i]\n\nprint(b)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/712A/counterexamples/20559378.in",
+      "kind": "excluded-list-formatting",
+      "lfNormalizedInput": "5\n6 -4 8 -2 3\n",
+      "lfNormalizedInputHash": "54aa27e4bb75495ed2662eb8a9b02d6a7c66bd602fc83227ee7b17045f683b74",
+      "proofHash": "d81e72a7b275b5fe3b33e0233395639b07b418cf44bee63c94824068b6b51a1d",
+      "proofPath": "proof/712A/incorrect-reviews/20559378.json",
+      "reason": "Test 0001: computes correct b=[2,4,6,1,3] but print(b) emits brackets and commas. Formatting-only failure excluded.",
+      "sourceHash": "d60799a6ea8f3d38d11862cc8a892b3f3c0b510ac2df63187e1ffa2b1dddb8a7",
+      "sourceLineRanges": [
+        [
+          1,
+          10
+        ]
+      ],
+      "test": "0001"
+    },
+    "20563846": {
+      "actualOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actualVerdict": "TLE",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutputHash": "634899c653bc0f2d343c211185b50d9a6e94e7590dfcc735b7b532f180811fc0",
+      "expectedPath": "proof/712A/counterexamples/20563846.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            7
+          ],
+          "source": "l = int(input())\ns = [int(i) for i in input().split()]\nans = str()\nfor i in range(l-1):\n    ans = ans + str(s[i]+s[i+1]) + ' '\nans = ans + str(s[l-1])\nprint(ans)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/712A/counterexamples/20563846.in",
+      "kind": "excluded-tle-only",
+      "lfNormalizedInputHash": "109b7cac9a489c554bab0e8d37b91cddd7053b10533cc7ec97e7ae53a956d07a",
+      "proofHash": "6cb15b158fa78631bbd12da168c6726fb0b3c4448ee986c488890b85cef1f48d",
+      "proofPath": "proof/712A/incorrect-reviews/20563846.json",
+      "reason": "Test 0016: correct adjacent-sum formula but repeated string concatenation is slow and times out. This correct-but-slow implementation cannot count.",
+      "sourceHash": "021115ed1479c2e157a4e5d416229c44b608372b5cacaf60b38af3a1c2a5b05f",
+      "sourceLineRanges": [
+        [
+          1,
+          7
+        ]
+      ],
+      "test": "0016"
+    }
+  },
+  "lineEndingPolicy": "Original package bytes preserved; complete-suite counted sources and distinct reference run original bytes. Recipe lexical validation canonicalizes CRLF/CR to LF only, as explicitly documented in handoff. Exact wrong counterexamples independently rerun original and LF bytes; LF-only passes excluded.",
+  "packageHash": "71f34dc3de3b72b7503acef7f07251bb5fa3ccc8c6d062d794d83b862e771d68",
+  "proofRoot": "proof/712A",
+  "qualificationBasis": "generated",
+  "reason": [
+    "Input a_i bounds are rendered -109..109 rather than -10^9..10^9, despite packaged large-magnitude integers; no attested normalization.",
+    "Only 1/5 recorded incorrect sources demonstrate an eligible algorithmic wrong answer at their exact retained LF counterexample; excluded sources: 20515209 (excluded-tle-only), 20551344 (excluded-tle-only), 20559378 (excluded-list-formatting), 20563846 (excluded-tle-only)"
+  ],
+  "reviewUrl": "https://staging.itsdev.in/sessions/f2d2e0c649fb49d0828376375afb5c25",
+  "reviewer": "devin-f2d2e0c649fb49d0828376375afb5c25",
+  "statementReview": "Alternating suffix equations determine b uniquely; b_i=a_i+a_(i+1), b_n=a_n. Small independent triangular inversion and large suffix recurrence checked, n=2..100000. Exponent fidelity fails.",
+  "supplementary": {
+    "accepted": [
+      {
+        "runCount": 779,
+        "sourceHash": "38ce72b4c5d0ee82dbf502640eb37d1329204fcb5ca786815d8c908970683f49",
+        "submissionId": "20501350",
+        "verdict": "AC"
+      },
+      {
+        "runCount": 779,
+        "sourceHash": "febf69e6b9e07ba3d8b938ac7b510872e2bdc9dce92d6b74c6f6e03ce11567c2",
+        "submissionId": "20501351",
+        "verdict": "AC"
+      }
+    ],
+    "builderPackageVerdict": "AC",
+    "count": 779,
+    "referenceHash": "7c49c7442ba634e475692f9bdc601f03b0af567cadd7421211f41f0227b59e61",
+    "referencePackageVerdict": "AC",
+    "testsHash": "36b3233ecb41e7f10c9508cc4c8392728078b2f2b98c0745fda81de9090bdd06",
+    "uniqueCount": 779
+  },
+  "supplementaryReview": "779 cases: all arrays over -2..2 for n=2..4 (25+125+625), four n=100000 extreme/zero patterns. Small exact triangular inversion; large signed-suffix recurrence, not adjacent-sum code."
+}

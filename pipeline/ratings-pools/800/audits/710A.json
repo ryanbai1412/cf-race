@@ -1,0 +1,222 @@
+{
+  "approved": false,
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": true,
+    "hashes": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementBoundsAccurate": true,
+    "statementComplete": true,
+    "supplementaryIndependentOracle": true
+  },
+  "evidenceHash": "692bbfe95d3331918bfcfcf7a4563fb461254a0e923d06bf5637b264de050f72",
+  "incorrectAnalysis": {
+    "20087152": {
+      "actualOutput": "3\n",
+      "actualOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "actualVerdict": "AC",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "3\r\n",
+      "expectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "expectedPath": "proof/710A/counterexamples/20087152.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            7
+          ],
+          "source": "inp = input()\nif inp in [\"a1\",\"a8\",\"h1\",\"h8\"]:\n\tprint(3)\nelif inp[0] in [\"a\",\"h\"]:\n\tprint(5)\nelse:\n\tprint(8)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/710A/counterexamples/20087152.in",
+      "kind": "excluded-crlf-only",
+      "lfNormalizedInput": "a1\n",
+      "lfNormalizedInputHash": "0111f7554519f7126c570c154b894f1fbcddf4faa126f6d644b974dab6c77411",
+      "proofHash": "909c25b64bca33f674c3becf6bc2ed1f222e6468d12a48d96ea06c70b4236ef0",
+      "proofPath": "proof/710A/incorrect-reviews/20087152.json",
+      "reason": "Recorded test 0002 a1 fails original CRLF bytes but passes exact LF-normalized input with output 3. The missing horizontal-edge branch is a different counterexample and cannot upgrade this record.",
+      "sourceHash": "ebc17bb90c1a7a53a240034352aac65e737ae64f1a96abdb8ea72a1c13b74848",
+      "sourceLineRanges": [
+        [
+          1,
+          7
+        ]
+      ],
+      "test": "0002"
+    },
+    "20090737": {
+      "actualOutput": "8\n",
+      "actualOutputHash": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "5\r\n",
+      "expectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+      "expectedPath": "proof/710A/counterexamples/20090737.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            11
+          ],
+          "source": "val = list(input())\nch = str(val[0]);vl = int(val[1])\nif ((ch==\"a\" or ch==\"h\")):\n\tif (vl == 8 or vl == 1):\n\t\tprint(3)\n\telif (vl>1 and vl<8):\n\t\tprint(5)\nelif (ch>\"a\" and ch<\"h\") and (vl<2):\n\tprint(5)\nelse:\n\tprint(8)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/710A/counterexamples/20090737.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "c8\n",
+      "lfNormalizedInputHash": "bcf669bfdb1e5de9e284b8db7fbd53cffaa6eed68affe0e8c3af6729334d6067",
+      "proofHash": "bb6c03df65af8ee8b779e16eab609a5fb2e8ee023eb6d8852f39d754fc53fe47",
+      "proofPath": "proof/710A/incorrect-reviews/20090737.json",
+      "reason": "Test 0010 c8: detects bottom rank via vl<2 but never top rank 8 for interior files, returning 8 moves instead of 5.",
+      "sourceHash": "4ea4335d057c20c8fb95d85e14864d5f9fdb386bcbe27dcdef05d6522145713a",
+      "sourceLineRanges": [
+        [
+          1,
+          11
+        ]
+      ],
+      "test": "0010"
+    },
+    "20107350": {
+      "actualOutput": "e 4\n8\n",
+      "actualOutputHash": "e1d615fc3c0f602069d735eb16558d978bef0702555ac6b3c5e7e872982b89f3",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "8\r\n",
+      "expectedOutputHash": "e0c18a6a8d48da87994c100bbb324c758d413e95f0fa5135bd0738a692b4d56f",
+      "expectedPath": "proof/710A/counterexamples/20107350.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            14
+          ],
+          "source": "s=input()\nb=s[0]\nn=int(s[1])\nprint(b,n)\nif b!=\"a\" and b!=\"h\":\n    if n!=1 and n!=8:\n          print(8)\n    else:\n          print(5)\nelse:\n    if n!=1 and n!=8:\n        print(5)\n    else:\n        print(3)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/710A/counterexamples/20107350.in",
+      "kind": "excluded-debug-output",
+      "lfNormalizedInput": "e4\n",
+      "lfNormalizedInputHash": "95a46cb0e2527126bca4966d7c106019819b301ceed4de9fc5a37f205c2707dd",
+      "proofHash": "ae5551922d234cca746f3450517e9090aca38d0b62c4b278e5153b5c58228fcb",
+      "proofPath": "proof/710A/incorrect-reviews/20107350.json",
+      "reason": "Test 0001 e4: prints debug parsed e 4 before correct count 8. No algorithmic wrong answer on recorded test.",
+      "sourceHash": "d4921ae87e1edfa17d3f4db59f9eb43b27574693724fec5a77d29297d34f6a31",
+      "sourceLineRanges": [
+        [
+          1,
+          14
+        ]
+      ],
+      "test": "0001"
+    },
+    "20109475": {
+      "actualOutput": "5\n",
+      "actualOutputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "3\r\n",
+      "expectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "expectedPath": "proof/710A/counterexamples/20109475.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            13
+          ],
+          "source": "'''\nCreated on Aug 24, 2016\n\n@author: Md. Rezwanul Haque\n'''\nn = input()\nL = [8,5,3]\ncnt = 0\nif n[0] == 'a' or n[0] == 'h':\n    cnt+=1\nif n[1] == '1' or n[1] == 8:\n    cnt+=1\nprint(L[cnt])"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/710A/counterexamples/20109475.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "h8\n",
+      "lfNormalizedInputHash": "cc1e018e6089980231827e9173eb1681523de31eb31d659b8f33cf8cfb3b5f27",
+      "proofHash": "16fd0809d81a4c8550c1bb2e5b30194035488b0e48b7e0254e26be567f5843dd",
+      "proofPath": "proof/710A/incorrect-reviews/20109475.json",
+      "reason": "Test 0003 h8: compares n[1] string to integer 8, so misses top-edge condition and returns 5 instead of corner count 3.",
+      "sourceHash": "40ebb8117c64877107a27c060ccd08c1dba7a2491f6883ca8ea837f2caa06203",
+      "sourceLineRanges": [
+        [
+          1,
+          13
+        ]
+      ],
+      "test": "0003"
+    },
+    "20141854": {
+      "actualOutput": "5\n",
+      "actualOutputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "3\r\n",
+      "expectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "expectedPath": "proof/710A/counterexamples/20141854.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            8
+          ],
+          "source": "n = input()\nL = [8,5,3,5]\ncnt = 0\nif n[0] == 'a' or n[0] == 'h':\n    cnt+=1\nif n[1] == '1' or n[1] == 8:\n    cnt+=1\nprint(L[cnt])"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/710A/counterexamples/20141854.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "h8\n",
+      "lfNormalizedInputHash": "cc1e018e6089980231827e9173eb1681523de31eb31d659b8f33cf8cfb3b5f27",
+      "proofHash": "efe51657acfe0efdc9b950fcb3726875d5e23e681b6598f56eca6d5725e6e2d7",
+      "proofPath": "proof/710A/incorrect-reviews/20141854.json",
+      "reason": "Test 0003 h8: string rank compared to integer 8 cannot match, missing corner classification and printing 5 rather than 3.",
+      "sourceHash": "7bfae93cdd13b2293d137cedd4f3f8a7c34f4470f5610ac024622fb3a618c18c",
+      "sourceLineRanges": [
+        [
+          1,
+          8
+        ]
+      ],
+      "test": "0003"
+    }
+  },
+  "lineEndingPolicy": "Original package bytes preserved; complete-suite counted sources and distinct reference run original bytes. Recipe lexical validation canonicalizes CRLF/CR to LF only, as explicitly documented in handoff. Exact wrong counterexamples independently rerun original and LF bytes; LF-only passes excluded.",
+  "packageHash": "a838a2c61a088b82fec90c784e40597622f7cae271323b61e05efe809aa7b212",
+  "proofRoot": "proof/710A",
+  "qualificationBasis": "official",
+  "reason": [
+    "Only 3/5 recorded incorrect sources demonstrate an eligible algorithmic wrong answer at their exact retained LF counterexample; excluded sources: 20087152 (excluded-crlf-only), 20107350 (excluded-debug-output)"
+  ],
+  "reviewUrl": "https://staging.itsdev.in/sessions/f2d2e0c649fb49d0828376375afb5c25",
+  "reviewer": "devin-f2d2e0c649fb49d0828376375afb5c25",
+  "statementReview": "Eight-by-eight chessboard a..h,1..8; unique legal king-move count. Enumerates all 64 inputs and eight neighbor offsets; corners=3, edges=5, interior=8.",
+  "supplementary": {
+    "accepted": [
+      {
+        "runCount": 64,
+        "sourceHash": "20014d1a4b194f231c0f166f05040e54c4f6e73fc6ee8298d22227889977e813",
+        "submissionId": "20047537",
+        "verdict": "AC"
+      },
+      {
+        "runCount": 64,
+        "sourceHash": "79657573f5cfa19c0fd4e9bc69c81962d0785d6390d567b0ebfaa7454fa40a55",
+        "submissionId": "20047538",
+        "verdict": "AC"
+      }
+    ],
+    "builderPackageVerdict": "AC",
+    "count": 64,
+    "referenceHash": "8fb7094f0fdcce4c2e0938c483a1d55f35fdeae73fa0ad2337c7a08728d78143",
+    "referencePackageVerdict": "AC",
+    "testsHash": "3e69a77cde0df553c85e89f813301df48529814a9f055d63992e2256ade73741",
+    "uniqueCount": 64
+  },
+  "supplementaryReview": "All 64 legal squares. Reference counts actual adjacent in-board coordinates, distinct from edge-classification implementations."
+}

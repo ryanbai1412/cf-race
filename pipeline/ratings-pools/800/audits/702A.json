@@ -1,0 +1,223 @@
+{
+  "approved": false,
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": false,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementBoundsAccurate": false,
+    "statementComplete": true,
+    "supplementaryIndependentOracle": true
+  },
+  "evidenceHash": "c9350fe23e8e21ff2c3f2a79c9c4699d2268ed2414cd47e3dd608dfb9527e673",
+  "incorrectAnalysis": {
+    "159144631": {
+      "actualOutput": "2\n",
+      "actualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "3\r\n",
+      "expectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "expectedPath": "proof/702A/counterexamples/159144631.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            24
+          ],
+          "source": "##      ##                                     ##                              ####\n##      ##                                     ##                              ####\n##                                             ##                                ##\n####### ## ########## ######## ####### ####### ######## ##   ##        #######   ##\n####### ## ##  ##  ##       ## ##   ## ##      ######## ##   ##        ##   ##   ##\n##   ## ## ##  ##  ## ######## ##   ## ####### ##    ## ##   ##        ##   ##   ##\n##   ## ## ##  ##  ## ##    ## ##   ##      ## ##    ## ##   ##        ##   ##   ##\n##   ## ## ##  ##  ## ######## ##   ## ####### ##    ## ####### ###### #######   ##\n                                                                       ##\n                                                                       ##                                                                   \n\n\nimport math\nn=int(input())\na=list(map(int,input().split()))\nans=-math.inf\ntemp=1\nfor i in range(n-1):\n        if a[i]<a[i+1]:\n                temp+=1\n        else:\n                ans=max(ans,temp)\n                temp=1\nprint(ans)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/702A/counterexamples/159144631.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "5\n1 7 2 11 15\n",
+      "lfNormalizedInputHash": "e7639f7b7b320db16a75bbce275812ae7b3ee02965e915f4a7b33b2773b734a7",
+      "proofHash": "20284c71f221d69a92e367d7ae20366e747e972d6e32327b8bfa7e3c339d8662",
+      "proofPath": "proof/702A/incorrect-reviews/159144631.json",
+      "reason": "Test 0001 array 1 7 2 11 15: maximum updated only on a run break, so misses final run 2,11,15 and prints 2 instead of 3.",
+      "sourceHash": "74db862032114ac50de571b110df9faef9d2f1378ff87ddfb91cdcba33ca0944",
+      "sourceLineRanges": [
+        [
+          1,
+          24
+        ]
+      ],
+      "test": "0001"
+    },
+    "159178993": {
+      "actualOutput": "70\n",
+      "actualOutputHash": "6442bc26a7c562f5afe6467dab36365c709909f6a81afcecfc0c25cff0f1bab0",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "3\r\n",
+      "expectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "expectedPath": "proof/702A/counterexamples/159178993.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            20
+          ],
+          "source": "def solve(n):\n\n    row = [1] * n #nice way to create a list repeated with the same value for the given times\n\n    for i in range(1, n):\n\n        prevCol = 1\n\n        for j in range(1, n):\n\n            row[j] = row[j] + prevCol\n            prevCol = row[j]\n\n    print(row[n-1])\n\n\nif __name__ == \"__main__\":\n\n    n = int(input())\n    solve(n)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/702A/counterexamples/159178993.in",
+      "kind": "excluded-wrong-problem",
+      "lfNormalizedInput": "5\n1 7 2 11 15\n",
+      "lfNormalizedInputHash": "e7639f7b7b320db16a75bbce275812ae7b3ee02965e915f4a7b33b2773b734a7",
+      "proofHash": "2ffe1c490b1fd02c879d24fc62fa37769e5a01a1f120ad713b21f527e95bd006",
+      "proofPath": "proof/702A/incorrect-reviews/159178993.json",
+      "reason": "Test 0001: ignores array and computes a Pascal/grid-path recurrence for n, printing 70 instead of 3. Wrong-problem code excluded.",
+      "sourceHash": "02e00653c565ee776fbf3907c6fb52a8dfc10bca38701b68814b9a01892024c8",
+      "sourceLineRanges": [
+        [
+          1,
+          20
+        ]
+      ],
+      "test": "0001"
+    },
+    "159351519": {
+      "actualOutput": "2\n",
+      "actualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "3\r\n",
+      "expectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "expectedPath": "proof/702A/counterexamples/159351519.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            14
+          ],
+          "source": "#Problem 702 A\n# Maximum Increase\n#Problem 21\nn = int(input())\na = list(map(int,input().split()))\ncount = 0\nfor i in range(1,n+1):\n\n    if(a[i-2]<a[i-1]):\n        count+=1\nif(count!=0):\n    print(count)\nelse:\n    print(count + 1)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/702A/counterexamples/159351519.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "3\n1 2 3\n",
+      "lfNormalizedInputHash": "6b3272564201ddb9c9af54f753cb42a5c57b80c776cdd05f049d26c8695e2079",
+      "proofHash": "9a3c6cd95739a1530772700c0fbe5c23f0af678dd0612cae843c6bf64822a4df",
+      "proofPath": "proof/702A/incorrect-reviews/159351519.json",
+      "reason": "Test 0003 array 1 2 3: counts increasing adjacent comparisons, not elements in a consecutive run; returns 2 instead of 3.",
+      "sourceHash": "7412ed6306696026c3c9ff6bf91a1acbe8ff3e525a600f3565ba554d2fe206c4",
+      "sourceLineRanges": [
+        [
+          1,
+          14
+        ]
+      ],
+      "test": "0003"
+    },
+    "159454242": {
+      "actualOutput": "1\n",
+      "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "3\r\n",
+      "expectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "expectedPath": "proof/702A/counterexamples/159454242.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            11
+          ],
+          "source": "x = (int(input()))\ng = list(map(int, input().split()))\nc = -1000\nk = 0\nfor i in range(x):\n    if g[i] > c:\n        k += 1\n    else:\n        k = 1\n    c = g[i]\nprint(k)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/702A/counterexamples/159454242.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "10\n802030518 598196518 640274071 983359971 71550121 96204862 799843967 446173607 796619138 402690754\n",
+      "lfNormalizedInputHash": "a664bcc0ccd4c522020ae66efd93605ba1864a78ba673a84660167b2cf5e153d",
+      "proofHash": "9f881d6f564dfe952767e6707013aed60da10e69fc6a3c474d10fc7b1a3877db",
+      "proofPath": "proof/702A/incorrect-reviews/159454242.json",
+      "reason": "Test 0005: maintains current run length but never maximum; ends in a decrease and prints final run 1 instead of prior optimum 3.",
+      "sourceHash": "64bcac08ffdb5982cd2289dcb653ca1e19d3ceeced5748e25869b62c792f404a",
+      "sourceLineRanges": [
+        [
+          1,
+          11
+        ]
+      ],
+      "test": "0005"
+    },
+    "159528292": {
+      "actualOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actualVerdict": "TLE",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutputHash": "6d27eb694d45192c84e1002626a4afb67585dba51e8e8fc8fb28d42f0d9b3995",
+      "expectedPath": "proof/702A/counterexamples/159528292.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            16
+          ],
+          "source": "a = int(input())\nb = [int(i) for i in input().split(\" \")]\nt = 1\nfor i in range(a, 0, -1):\n    for i2 in range(0, i):\n        k = 0\n        u = 0\n        for i3 in range(i2, i):\n            if k < b[i3]:\n                k = b[i3]\n                u += 1\n            else:\n                break\n        if t < u:\n            t = u\nprint(t)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/702A/counterexamples/159528292.in",
+      "kind": "excluded-tle-only",
+      "lfNormalizedInputHash": "2b9b7625806a8ba96ee7942fd0ee29c0abdead0d57ec247121ebb46020c7c6ee",
+      "proofHash": "a60003445dbecf102b557dce97ab5482432207f906b54edd30e87a7a2c5b84aa",
+      "proofPath": "proof/702A/incorrect-reviews/159528292.json",
+      "reason": "Test 0020 n=6169: nested enumeration of candidate increasing subsegments is mathematically correct but prohibitively slow. Fresh full and recorded LF reruns time out; excluded.",
+      "sourceHash": "477ee9bf2235ccfa74f481491d400e2cac0dfdf861a7c9ab68098025b5ffd57b",
+      "sourceLineRanges": [
+        [
+          1,
+          16
+        ]
+      ],
+      "test": "0020"
+    }
+  },
+  "lineEndingPolicy": "Original package bytes preserved; complete-suite counted sources and distinct reference run original bytes. Recipe lexical validation canonicalizes CRLF/CR to LF only, as explicitly documented in handoff. Exact wrong counterexamples independently rerun original and LF bytes; LF-only passes excluded.",
+  "packageHash": "221fed553381974b53fe8f7333fe69042f4f3656bba7f9e528f1cfbfada8f114",
+  "proofRoot": "proof/702A",
+  "qualificationBasis": "generated",
+  "reason": [
+    "Input n upper bound is rendered 105 instead of 10^5 and a_i bound 109 instead of 10^9; cannot sign these immutable statement bytes.",
+    "Only 3/5 recorded incorrect sources demonstrate an eligible algorithmic wrong answer at their exact retained LF counterexample; excluded sources: 159178993 (excluded-wrong-problem), 159528292 (excluded-tle-only)"
+  ],
+  "reviewUrl": "https://staging.itsdev.in/sessions/f2d2e0c649fb49d0828376375afb5c25",
+  "reviewer": "devin-f2d2e0c649fb49d0828376375afb5c25",
+  "statementReview": "Longest contiguous strictly increasing segment, not subsequence or count of comparisons. Length-one, equality, final-run maximum, max-size tests checked. Exponent fidelity fails.",
+  "supplementary": {
+    "accepted": [
+      {
+        "runCount": 1096,
+        "sourceHash": "59ad29e7391453045a9198c8f0ae9cf90abca55fb4284c7204e320b0a26240ae",
+        "submissionId": "19482198",
+        "verdict": "AC"
+      },
+      {
+        "runCount": 1096,
+        "sourceHash": "fedccd2453392662fdfcbce115bb6eeb68be0aa1262dc86b0d0398d48b570bdd",
+        "submissionId": "19482199",
+        "verdict": "AC"
+      }
+    ],
+    "builderPackageVerdict": "AC",
+    "count": 1096,
+    "referenceHash": "42e33a743eed70b7830eeb001125a4d98b183004b323c3ecdbb0541a24309fef",
+    "referencePackageVerdict": "AC",
+    "testsHash": "88b4b87fe87c84d14bdfae447df8bdf5fde374dd5f3e456857fa969353cd3283",
+    "uniqueCount": 1096
+  },
+  "supplementaryReview": "1096 cases: every array over {1,2,3} for n=1..6, plus four n=100000 increasing/decreasing/constant/alternating cases. Small exhaustive segment brute; large independent cut-boundary reference."
+}

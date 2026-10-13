@@ -1,0 +1,225 @@
+{
+  "approved": false,
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementBoundsAccurate": true,
+    "statementComplete": true,
+    "supplementaryIndependentOracle": true
+  },
+  "evidenceHash": "5ff83202ff5c1a283899acd0b9d3e2302a6a120096cf293e08d9812a3c734191",
+  "incorrectAnalysis": {
+    "213530054": {
+      "actualOutput": "2\n",
+      "actualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "4\r\n",
+      "expectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+      "expectedPath": "proof/677A/counterexamples/213530054.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            6
+          ],
+          "source": "n, h = map(int, input().split())\na =  map(int, input().split())\nsum=0\nfor i in a:\n    sum=2 if i > h  else 1\nprint(sum)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/677A/counterexamples/213530054.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "3 7\n4 5 14\n",
+      "lfNormalizedInputHash": "c15dad238f3cbdecdb618a70fe10ac63333bc43fb927d0e99d9ac164cd476ca3",
+      "proofHash": "9debcb684b97ee9a8071c451173b7c1ee7fb05b95168759aa17a07df3cce2a8c",
+      "proofPath": "proof/677A/incorrect-reviews/213530054.json",
+      "reason": "Test 0001 heights 4,5,14 against h=7: overwrites sum on each child rather than accumulating widths, returning 2 instead of 4.",
+      "sourceHash": "9b83b0e060bfe418147f7d0d93a9333faf9ee588626afc5b983f6feed68a0496",
+      "sourceLineRanges": [
+        [
+          1,
+          6
+        ]
+      ],
+      "test": "0001"
+    },
+    "214243420": {
+      "actualOutput": "Enter The first Line please :Enter the Second Line please : 4\n",
+      "actualOutputHash": "eaeb01138f04a5149809d88a55e64a81ba040c9ebf7d470609cdf07e07c2636d",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "4\r\n",
+      "expectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+      "expectedPath": "proof/677A/counterexamples/214243420.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            13
+          ],
+          "source": "X=input(\"Enter The first Line please :\")\nY=input(\"Enter the Second Line please : \")\nZ=X.split(\" \")\nW=Y.split(\" \")\noutput=0\n\nfor i in range (int(Z[0])):\n    if (int(W[i])>int(Z[1])):\n        output +=2\n    else:\n        output +=1\n\nprint (output)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/677A/counterexamples/214243420.in",
+      "kind": "excluded-prompts",
+      "lfNormalizedInput": "3 7\n4 5 14\n",
+      "lfNormalizedInputHash": "c15dad238f3cbdecdb618a70fe10ac63333bc43fb927d0e99d9ac164cd476ca3",
+      "proofHash": "ae5a65a3162c9b8d361ff339a303c76f9587b1a786efdafcc29a71b9d0dff18e",
+      "proofPath": "proof/677A/incorrect-reviews/214243420.json",
+      "reason": "Test 0001: correct numeric width 4 is preceded by input() prompt text. Prompt-only failure, not an algorithmic witness.",
+      "sourceHash": "15f1fc2544bfe1448fe2e6dc11b3c6ec2d7fb30a5447b81d751b579caba8c273",
+      "sourceLineRanges": [
+        [
+          1,
+          13
+        ]
+      ],
+      "test": "0001"
+    },
+    "214243875": {
+      "actualOutput": "Enter The first Line please :Enter the Second Line please : 4\n",
+      "actualOutputHash": "eaeb01138f04a5149809d88a55e64a81ba040c9ebf7d470609cdf07e07c2636d",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "4\r\n",
+      "expectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+      "expectedPath": "proof/677A/counterexamples/214243875.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            12
+          ],
+          "source": "# X=\n# Y=\nZ=input(\"Enter The first Line please :\").split(\" \")\nW=input(\"Enter the Second Line please : \").split(\" \")\noutput=0\nfor i in range (int(Z[0])):\n    if (int(W[i])>int(Z[1])):\n        output +=2\n    else:\n        output +=1\n\nprint (output)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/677A/counterexamples/214243875.in",
+      "kind": "excluded-prompts",
+      "lfNormalizedInput": "3 7\n4 5 14\n",
+      "lfNormalizedInputHash": "c15dad238f3cbdecdb618a70fe10ac63333bc43fb927d0e99d9ac164cd476ca3",
+      "proofHash": "d309dbc485a532a693170ff170a068a1af9d5968487fdbd5a3dcc7855ca8ca30",
+      "proofPath": "proof/677A/incorrect-reviews/214243875.json",
+      "reason": "Test 0001: computes 4 correctly and emits input prompts; excluded.",
+      "sourceHash": "a101eccd4edb0734af32a9b4a681325534c9d5b6fd1dd28342351467d0ca9fa6",
+      "sourceLineRanges": [
+        [
+          1,
+          12
+        ]
+      ],
+      "test": "0001"
+    },
+    "214295782": {
+      "actualOutput": "12\n",
+      "actualOutputHash": "a1fb50e6c86fae1679ef3351296fd6713411a08cf8dd1790a4fd05fae8688164",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "6\r\n",
+      "expectedOutputHash": "92961e9752250efa971147344b22295db32d7b75e940e0971e5fb34f21d0bc67",
+      "expectedPath": "proof/677A/counterexamples/214295782.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            9
+          ],
+          "source": "a=list(map(int,input().split()))\nb=list(map(int,input().split()))\nx=0\nfor i in range(len(b)):\n    if b[i]>=a[1]:\n        x+=2\n    else:\n        x+=1\nprint(x)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/677A/counterexamples/214295782.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "6 1\n1 1 1 1 1 1\n",
+      "lfNormalizedInputHash": "4746c7283cc524c833cde9c58aabac7c5322cc133f78a26ccdea0ef773d89382",
+      "proofHash": "9375cf083a318fedef4c8f22dbf5acc4c05245c0d4bac979e9ab08e221bea6c6",
+      "proofPath": "proof/677A/incorrect-reviews/214295782.json",
+      "reason": "Test 0002 six heights all 1 against h=1: >= threshold incorrectly bends equal-height children, prints 12 instead of 6.",
+      "sourceHash": "4980cdc82c97c520ab23995948435ef2b9172cee842412204e000019fd418a0d",
+      "sourceLineRanges": [
+        [
+          1,
+          9
+        ]
+      ],
+      "test": "0002"
+    },
+    "214527859": {
+      "actualOutput": "12\n",
+      "actualOutputHash": "a1fb50e6c86fae1679ef3351296fd6713411a08cf8dd1790a4fd05fae8688164",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "6\r\n",
+      "expectedOutputHash": "92961e9752250efa971147344b22295db32d7b75e940e0971e5fb34f21d0bc67",
+      "expectedPath": "proof/677A/counterexamples/214527859.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            1,
+            12
+          ],
+          "source": "x = input().split()\nn = int(x[0])\nh = int(x[1])\no = 0\ninput_list = input().split()\nfor i in range(n):\n  if int(input_list[i]) < h:\n    o += 1\n  else:\n    o += 2\n\nprint(o)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/677A/counterexamples/214527859.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "6 1\n1 1 1 1 1 1\n",
+      "lfNormalizedInputHash": "4746c7283cc524c833cde9c58aabac7c5322cc133f78a26ccdea0ef773d89382",
+      "proofHash": "c0f590b3929a1771c0918f7bd2ea070d1deb85ac911a61eda83d7527edf65cba",
+      "proofPath": "proof/677A/incorrect-reviews/214527859.json",
+      "reason": "Test 0002 h=1 and six heights 1: uses strict < for standing, assigning width 2 to equality; returns 12 instead of 6.",
+      "sourceHash": "78582789da8ab8c04cc7a3e4e987e286f4c88531d9d3653413e1a3d05aa46203",
+      "sourceLineRanges": [
+        [
+          1,
+          12
+        ]
+      ],
+      "test": "0002"
+    }
+  },
+  "lineEndingPolicy": "Original package bytes preserved; complete-suite counted sources and distinct reference run original bytes. Recipe lexical validation canonicalizes CRLF/CR to LF only, as explicitly documented in handoff. Exact wrong counterexamples independently rerun original and LF bytes; LF-only passes excluded.",
+  "packageHash": "53c984cc599ffc0d8256cd37e47c13cdba1bc167b2a823fec19b096c4e70d8eb",
+  "proofRoot": "proof/677A",
+  "qualificationBasis": "generated",
+  "reason": [
+    "Only 3/5 recorded incorrect sources demonstrate an eligible algorithmic wrong answer at their exact retained LF counterexample; excluded sources: 214243420 (excluded-prompts), 214243875 (excluded-prompts)"
+  ],
+  "reviewUrl": "https://staging.itsdev.in/sessions/f2d2e0c649fb49d0828376375afb5c25",
+  "reviewer": "devin-f2d2e0c649fb49d0828376375afb5c25",
+  "statementReview": "Unique total width n plus number of a_i>h. Bounds n,h in 1..1000 and 1<=a_i<=2h. Equal-height child stands; examples and all pairs independently checked.",
+  "supplementary": {
+    "accepted": [
+      {
+        "runCount": 362,
+        "sourceHash": "c0df05a7d5b7eab2ee9e2e8ad737a3a2a287a9f81b9d3a71af2516789dc40d25",
+        "submissionId": "18185361",
+        "verdict": "AC"
+      },
+      {
+        "runCount": 362,
+        "sourceHash": "53344927b38bb7260c6ec040f725a8ab41a3d46178cc72ab6bbefdc8e6ec4d0d",
+        "submissionId": "18185365",
+        "verdict": "AC"
+      }
+    ],
+    "builderPackageVerdict": "AC",
+    "count": 362,
+    "referenceHash": "657d9a832437b9d7b3d24b9f112dcd33882b9a99d3883688c20ca7b09570d99c",
+    "referencePackageVerdict": "AC",
+    "testsHash": "1d1acff190751092c5b5e286ceae53390f8294bb68320a612179f27f0887fd42",
+    "uniqueCount": 362
+  },
+  "supplementaryReview": "362 cases: exhaustive n<=3,h<=3, every allowed height tuple, plus n=1000 all-equal-threshold/all-bent/alternating at h=1 and h=1000."
+}

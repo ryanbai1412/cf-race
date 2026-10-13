@@ -1,0 +1,223 @@
+{
+  "approved": false,
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": false,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": true,
+    "hashes": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementBoundsAccurate": false,
+    "statementComplete": true,
+    "supplementaryIndependentOracle": true
+  },
+  "evidenceHash": "98300fb6016943ba9fbd3dc6fc53d0cb62a6e47737a6ceca73777526a5859ef1",
+  "incorrectAnalysis": {
+    "17500332": {
+      "actualOutput": "1.0\n",
+      "actualOutputHash": "5717e7c840171019a4eeab5b79a7f894a4986eaff93d04ec5b12c9a189f594bf",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "1\r\n",
+      "expectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "expectedPath": "proof/669A/counterexamples/17500332.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            2,
+            5
+          ],
+          "source": "if x % 3 == 0:\n    print(x/3)\nelse:\n    print((x-(x%3))/3 + 1)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/669A/counterexamples/17500332.in",
+      "kind": "excluded-float-formatting",
+      "lfNormalizedInput": "1\n",
+      "lfNormalizedInputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "proofHash": "20dd057d086555f9dda62791395cd393e21d189a0274e0897c55b4ed9a06dfe2",
+      "proofPath": "proof/669A/incorrect-reviews/17500332.json",
+      "reason": "On test 0001 n=1, Python / produces 1.0 rather than integer token 1. The numeric answer is correct and float-format-only rejection does not count.",
+      "sourceHash": "0b6df1ecec1c96c38dd56fb19f09918a505b739d032151b12d0e27efcec45e12",
+      "sourceLineRanges": [
+        [
+          2,
+          5
+        ]
+      ],
+      "test": "0001"
+    },
+    "17503172": {
+      "actualOutput": "1.0\n",
+      "actualOutputHash": "5717e7c840171019a4eeab5b79a7f894a4986eaff93d04ec5b12c9a189f594bf",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "2\r\n",
+      "expectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "expectedPath": "proof/669A/counterexamples/17503172.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            4,
+            9
+          ],
+          "source": "else:\n    num=n/3\n    if n%3:\n        print(num+1)\n    else:\n        print(num)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/669A/counterexamples/17503172.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "3\n",
+      "lfNormalizedInputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "proofHash": "4c6a092305d5c15101e3d8891c592c2602da0d406e52a8f1be89214741a013a8",
+      "proofPath": "proof/669A/incorrect-reviews/17503172.json",
+      "reason": "On test 0003 n=3, computes num=n/3=1.0 and prints 1.0. This is not merely decimal formatting: true maximum is 2 presents (amounts 1 then 2), so numeric value itself is wrong.",
+      "sourceHash": "839690aa01bdcb3342cb517eeffb1d533e784747a7c391103628f66493dc18df",
+      "sourceLineRanges": [
+        [
+          4,
+          9
+        ]
+      ],
+      "test": "0003"
+    },
+    "17508195": {
+      "actualOutput": "4\n",
+      "actualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "2\r\n",
+      "expectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "expectedPath": "proof/669A/counterexamples/17508195.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            2,
+            5
+          ],
+          "source": "k = n // 3 * 2 + 1\nif n % 3 == 0:\n    k += 1\nprint(k)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/669A/counterexamples/17508195.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "3\n",
+      "lfNormalizedInputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "proofHash": "212574101c68f41aa9655c034ac236f308c9524245e32c066c988058e48bbeee",
+      "proofPath": "proof/669A/incorrect-reviews/17508195.json",
+      "reason": "On test 0003 n=3, wrong arithmetic formula prints 4 presents; alternating positive unequal amounts permit only 2.",
+      "sourceHash": "8f0b2b57c72df20e3d3af807b1430b21d8303c5c8752d6bf706a25cfd0b05e9d",
+      "sourceLineRanges": [
+        [
+          2,
+          5
+        ]
+      ],
+      "test": "0003"
+    },
+    "17520235": {
+      "actualOutput": "2\n",
+      "actualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "actualVerdict": "WA",
+      "countedAlgorithmicallyWrong": true,
+      "expectedOutput": "3\r\n",
+      "expectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "expectedPath": "proof/669A/counterexamples/17520235.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            2,
+            2
+          ],
+          "source": "print ((n + 3) // 3)"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/669A/counterexamples/17520235.in",
+      "kind": "wrong-answer",
+      "lfNormalizedInput": "4\n",
+      "lfNormalizedInputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "proofHash": "626ad100736dd7a0d31518b22309374c8121f90f5e76f7d9aed643b74a8e2155",
+      "proofPath": "proof/669A/incorrect-reviews/17520235.json",
+      "reason": "On test 0004 n=4, computes (n+3)//3=2 instead of maximum 3 (amounts 1,2,1).",
+      "sourceHash": "72914a67558a16d779083c0d249a57cce52244a7b4f68e693730133ec3454fe5",
+      "sourceLineRanges": [
+        [
+          2,
+          2
+        ]
+      ],
+      "test": "0004"
+    },
+    "17532033": {
+      "actualOutput": "",
+      "actualOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actualVerdict": "TLE",
+      "countedAlgorithmicallyWrong": false,
+      "expectedOutput": "666666667\r\n",
+      "expectedOutputHash": "58440410c6b4e3493682008061553a8299cee5c36a21ab6be6c6fb36f6c662c1",
+      "expectedPath": "proof/669A/counterexamples/17532033.out",
+      "faultyImplementedStep": [
+        {
+          "lines": [
+            7,
+            16
+          ],
+          "source": "while (n>2):\n    count += 1\n    if (prevn != 1):\n        n = n - 1\n        prevn = 1\n    else:\n        n = n - 2\n        prevn = 2\n        \ncount += 1"
+        }
+      ],
+      "inputConstraintsIndependentlyValidated": true,
+      "inputPath": "proof/669A/counterexamples/17532033.in",
+      "kind": "excluded-tle-only",
+      "lfNormalizedInput": "1000000000\n",
+      "lfNormalizedInputHash": "8bd5a23c3aef1243c78bac155b39b9d57a43d8c49665ccf6f42acf2992a94afa",
+      "proofHash": "2c94be5b394f58ad2b07237e61d3e242154a495478da6a1da37931c7706f5e8c",
+      "proofPath": "proof/669A/incorrect-reviews/17532033.json",
+      "reason": "On recorded n=10^9 test, simulates alternating 1/2-stone presents to depletion and times out. This is a slow correct strategy, excluded as a counted algorithmic witness.",
+      "sourceHash": "821338c6eaccb6356f6d5e87729d5e820ddac0d7e9d5e7998af21e2eeb61b81e",
+      "sourceLineRanges": [
+        [
+          7,
+          16
+        ]
+      ],
+      "test": "0008"
+    }
+  },
+  "lineEndingPolicy": "Original package bytes preserved; complete-suite counted sources and distinct reference run original bytes. Recipe lexical validation canonicalizes CRLF/CR to LF only, as explicitly documented in handoff. Exact wrong counterexamples independently rerun original and LF bytes; LF-only passes excluded.",
+  "packageHash": "caf880682f088b554b5ac56de17dbf7aceef8d3b0c1a6434ba647c0854419855",
+  "proofRoot": "proof/669A",
+  "qualificationBasis": "official",
+  "reason": [
+    "Input upper bound is rendered 109 instead of 10^9; several immutable pairs contain values beyond literal 109. No attested exponent normalization.",
+    "Only 3/5 recorded incorrect sources demonstrate an eligible algorithmic wrong answer at their exact retained LF counterexample; excluded sources: 17500332 (excluded-float-formatting), 17532033 (excluded-tle-only)"
+  ],
+  "reviewUrl": "https://staging.itsdev.in/sessions/f2d2e0c649fb49d0828376375afb5c25",
+  "reviewer": "devin-f2d2e0c649fb49d0828376375afb5c25",
+  "statementReview": "Positive stone counts must differ from preceding present. Minimum cost for k presents is k+floor(k/2), attained by alternating 1,2. Unique count; exponent fidelity fails.",
+  "supplementary": {
+    "accepted": [
+      {
+        "runCount": 102,
+        "sourceHash": "5e2a35030925b8d2272ab172e9cdcf163f5d9a16ac8817b4ac627a1369bc926a",
+        "submissionId": "17481587",
+        "verdict": "AC"
+      },
+      {
+        "runCount": 102,
+        "sourceHash": "cce9d61ea30dea031a9a709286357a7cdc69cb7a3b2559d71ece5a103b28d5af",
+        "submissionId": "17481588",
+        "verdict": "AC"
+      }
+    ],
+    "builderPackageVerdict": "AC",
+    "count": 102,
+    "referenceHash": "0608bc5660c030c321b75f483fb57cedf50c8145aee4d8efb3e3ad70afeb45c3",
+    "referencePackageVerdict": "AC",
+    "testsHash": "8b6986bf11b2270cbdab878d813f2629703925fe3cbd7ad87392a4a8d686539a",
+    "uniqueCount": 102
+  },
+  "supplementaryReview": "102 cases: n=1..99 and last three values through 10^9. DP for n<=40 enumerates every next positive unequal present; minimum-cost binary search for large n."
+}
