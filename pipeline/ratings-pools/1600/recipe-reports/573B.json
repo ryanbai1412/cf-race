@@ -1,0 +1,137 @@
+{
+  "aliases": [
+    "573/B",
+    "574/D"
+  ],
+  "baseCommit": "5b28d33",
+  "datasetCardsRead": {
+    "open-r1/codeforces": {
+      "sha256": "b9971cff0a797603b79d78f49129830b0a1a4b99d9860e392fba126a4ef4dc69",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md"
+    },
+    "open-r1/codeforces-submissions": {
+      "sha256": "8352430bd0fbc94cfe8762a9278c18a8494fca567a8aaf29a9e353c3f4627687",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md"
+    }
+  },
+  "extraCategories": {
+    "adversarial": 117,
+    "boundary": 25,
+    "maxSize": 10
+  },
+  "extraPairs": 152,
+  "extrasMotivation": "Minima (n=1, n=2, unit and 10^9 heights); flat rows where the answer is width-limited (n+1)//2 vs height-limited; single-column valleys splitting plateaus; pyramids; ten maximum n=10^5 rows (all 10^9 -> 50000, unit, alternating, increasing/decreasing staircases that drive quadratic propagation, exact pyramid, central split, noisy near-max, full-range random, heights near the width bound); fixed-seed small rows checkable by literal simulation; medium mixed-scale rows; perturbed pyramids. Unit tests port 8 selected WRONG_ANSWER sources to Python (author ports, not executed originals) and assert each is killed by at least one extra.",
+  "extrasSha256": "bf60ee515c287a5318076e147cc9cabc8d4af65a80aa7a19e2443ffebecc3a60",
+  "extrasSha256Method": "pool_contract.digest(extras(\"573B\"))",
+  "generatedBasis": "Not claimed. Official suite is incomplete (18/41); authored extras are supplementary, and any generated basis requires the parent 5AC/5WA plus sixth-oracle qualification and later different-agent audit.",
+  "id": "573B",
+  "independentChecks": {
+    "bruteChecks": {
+      "573B": 10101
+    },
+    "distanceFormula": "O(n^2) min(i+1, n-i, min_j h_j+|i-j|) on 600 fixed-seed rows n<=250 with heights up to 10^9.",
+    "literalSimulation": "Cell-set simulation of the statement rule (block kept iff top, bottom-or-floor, left and right neighbours all present), applied simultaneously until empty. Exhaustive n=1..5 with h in 1..5 and n=6 with h in 1..4 (8001 rows), plus 1500 fixed-seed rows n<=14, h<=10."
+  },
+  "inputs": {
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "file": "inputs/573B.json",
+    "fileBytes": 60622,
+    "fileSha256": "2ec3bc7c710bbcd1a727575e4baaaf2222aa342a313d377c84bb96af7b63ffa0",
+    "manifestEntry": {
+      "bytes": 60622,
+      "sha256": "2ec3bc7c710bbcd1a727575e4baaaf2222aa342a313d377c84bb96af7b63ffa0"
+    },
+    "manifestMatches": true,
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "pinsMatchManifest": true,
+    "sourceRowHash": "3666c365f010bd652b4ee8c3b7307e18aa0eec4d665cc6fc19ee96c3400c7d14",
+    "sourceRowHashMatches": true,
+    "sourceRowHashRecomputed": "3666c365f010bd652b4ee8c3b7307e18aa0eec4d665cc6fc19ee96c3400c7d14",
+    "sourceShard": {
+      "bytes": 151609539,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00002-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "ffb14a8f832b5430c6d92b122d4ce44e240fa1f2808f5cffb9c11e3cb6d38a02",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00002-of-00011.parquet"
+    }
+  },
+  "officialReview": {
+    "failures": [],
+    "note": "All 18 official CRLF pairs and 2 samples parse within constraints and match the oracle. Row holds 18 of 41 official tests (largest n=170); no malformed upstream pair or contradiction. Row reports generated_tests=12 (not included in input; not reviewed).",
+    "officialPairs": 18,
+    "officialTestsComplete": false,
+    "samples": 2,
+    "testsetSize": 41
+  },
+  "oracle": "O(n): L_i=min(L_{i-1}+1,h_i), R_i=min(R_{i+1}+1,h_i), answer max_i min(L_i,R_i).",
+  "parse": "Exactly two lines (optional final LF; CRLF accepted per line): line 1 n as [1-9][0-9]*, line 2 exactly n tokens [1-9][0-9]* separated by single spaces; 1<=n<=10^5, 1<=h_i<=10^9. Rejects leading/trailing/double spaces, tabs, signs, leading zeros, extra lines, count mismatch.",
+  "rating": 1600,
+  "role": "recipe-author (not an independent audit, not a qualification, no signoff)",
+  "selectedSubmissions": {
+    "authorObservationsNonBinding": [
+      "TLE sources 12761473, 12761879 and 12761129 use propagation that is quadratic on monotone staircases; maxSize extras include such rows but TLE is not algorithmic proof.",
+      "Ported WRONG_ANSWER ideas (12761046, 12761891, 12761564, 12759818, 12760110, 12762143, 12762029, 12761207) each disagree with the oracle on at least one authored extra; several are killed only by n=1 or n<=2 edge columns. Parent auditor must judge sandboxed originals; author makes no claim on counted wrong sources."
+    ],
+    "byVerdict": {
+      "OK": 12,
+      "TIME_LIMIT_EXCEEDED": 3,
+      "WRONG_ANSWER": 17
+    },
+    "count": 32,
+    "executed": false
+  },
+  "semantics": "Line 1: n, 1<=n<=10^5; line 2: n integers h_i, 1<=h_i<=10^9 (public English statement shows 10<sup>5</sup>/10<sup>9</sup>; pinned row flattened them to 105/109). Each operation simultaneously destroys every block lacking a block or floor on any of its four sides; print the unique integer number of operations until no block remains. Oracle: L_i=min(L_{i-1}+1,h_i), R_i=min(R_{i+1}+1,h_i) with zero outside the row; answer max_i min(L_i,R_i). Literal cell-set simulation exhaustively cross-checks small rows and an O(n^2) distance formula min(i+1,n-i,min_j h_j+|i-j|) cross-checks large heights.",
+  "statement": {
+    "attestation": "Original English input specification reads \"1 ≤ <i>n</i> ≤ 10<sup class=\\\"upper-index\\\">5</sup>\" and \"1 ≤ <i>h</i><sub class=\\\"lower-index\\\"><i>i</i></sub> ≤ 10<sup class=\\\"upper-index\\\">9</sup>\"; header shows 1 second / 256 megabytes, stdin/stdout.",
+    "committedCopy": "statement-sources/573B.recipe-author.original.html",
+    "committedCopyByteRange": [
+      37894,
+      41045
+    ],
+    "committedCopyNote": "Byte-exact <div class=\"problem-statement\"> element of the public body; page chrome omitted.",
+    "committedCopySha256": "a64111533aea6c19ea9b0f42b06738e237fd53ffcea94ac625f47b74d3149f02",
+    "corroboration": "Official test 0008 has h=1000000000 (outside a literal 109 bound); official n values max 170 so 10^5 is attested by the public statement only.",
+    "exclusionChecks": {
+      "customChecker": false,
+      "fileIO": false,
+      "floatingOutput": false,
+      "inputMode": "stdio",
+      "interactive": false,
+      "missingImageOrQuestion": false,
+      "multipleValidOutputs": false
+    },
+    "normalizationProposal": {
+      "MULTI_REPAIRS": {
+        "573B": [
+          [
+            "≤ 105)",
+            "≤ 10<sup>5</sup>)",
+            1
+          ],
+          [
+            "≤ 109)",
+            "≤ 10<sup>9</sup>)",
+            1
+          ]
+        ]
+      },
+      "attestationValues": [
+        "10<sup class=\"upper-index\">5</sup>",
+        "10<sup class=\"upper-index\">9</sup>"
+      ],
+      "note": "Parent applies via normalize_statement.py with a statement-sources/573B.json attestation; author did not edit normalize_statement.py or any package. Pinned row bytes unchanged."
+    },
+    "otherDifferences": "Pinned note keeps only the first sentence; the public note additionally says \"After first operation there are four blocks left and only one remains after second operation. This last block is destroyed in third operation.\" and embeds an illustrative image (espresso.codeforces.com/03536e679d62748811026b5575567b66ad9c43b2.png). The destruction rule is fully specified in text, so the missing image/sentence does not change semantics; parent may choose to restore the sentence.",
+    "pinnedInputFormat": "The first line contains single integer n (1 ≤ n ≤ 105).\n\nThe second line contains n space-separated integers h1, h2, ..., hn (1 ≤ hi ≤ 109) — sizes of towers.",
+    "publicBodyBytes": 59985,
+    "publicBodySha256": "89e5ce4e0028ac820b70012d5c2e21c49d20034da0e3cd3e1452ed78b0822362",
+    "publicSourceUrl": "https://codeforces.me/contest/573/problem/B",
+    "transport": "Public HTTP GET (curl, browser user agent); no authentication. cf-p.vercel.app proxy returned a 1097-byte non-statement page; codeforces.com returned 403."
+  },
+  "title": "Bear and Blocks",
+  "validated": false
+}
