@@ -114,8 +114,11 @@ class Recipe380ATests(unittest.TestCase):
         self.assertNotEqual([literal[(q - 1) % 2] for q in range(4, 8)], literal[3:])
         suffix = [7, 13, 17] + [13, 17] * 2
         self.assertNotEqual(suffix, literal)
-        self.assertEqual(recipe.answer('380A', ([(1, 9), (1, 8), (2, 1, 1)], [3])), [9])
-        self.assertNotEqual([1], [9])
+        singleton_ops = [(1, 9), (1, 8), (2, 1, 1)]
+        expected = recipe._literal(singleton_ops)[2]
+        self.assertEqual(recipe.answer('380A', (singleton_ops, [3])), [expected])
+        mistaken_append_value = singleton_ops[-1][1]
+        self.assertNotEqual(mistaken_append_value, expected)
 
     def test_generation_is_deterministic(self):
         def fingerprint(cases):
