@@ -3,7 +3,7 @@
   "id": "607A",
   "rating": 1600,
   "role": "recipe-author",
-  "status": "authored; recipe checks passed; statement capture whitespace fix pending post-push check",
+  "status": "authored; targeted local recipe checks passed; not qualified",
   "qualification": {
     "qualified": false,
     "independentAudit": false,
@@ -274,12 +274,12 @@
     "unitMutants": "Own authored variants check omitted coordinate zero, exclusive radius, missing sort, no suffix deletion, and only-zero/one suffix deletion. They are defect motifs, not executions of original submissions."
   },
   "localChecks": {
-    "status": "targeted unittest and AST passed; whitespace correction awaiting post-push diff check",
+    "status": "passed",
     "targetedUnittest": {
       "command": "python -m unittest -v test_recipe_607A",
-      "testMethods": 14,
+      "testMethods": 15,
       "result": "passed",
-      "seconds": 4.881
+      "seconds": 7.8
     },
     "bruteChecks": {
       "returned": {
@@ -304,7 +304,8 @@
     "gitDiffCheck": {
       "initialResult": "original full web page contained unrelated trailing whitespace",
       "correction": "Keep complete original problem-statement div unchanged, excluding webpage scaffolding. Full response hash stays recorded; committed capture has its separate SHA256.",
-      "postCorrectionResult": "pending"
+      "postCorrectionResult": "passed",
+      "command": "git diff 5b28d33..HEAD --check"
     }
   },
   "integration": "No shared registrations, product/gate/foundation, packages, inventory, qualifications, evidence or audits changed. Parent owns integration and independent qualification."
