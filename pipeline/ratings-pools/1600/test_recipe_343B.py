@@ -95,6 +95,11 @@ class Recipe343BTests(unittest.TestCase):
         word = '+--+'
         self.assertNotEqual(word[0], word[1])
         self.assertEqual(cases[word], 'Yes')
+        word = '+-+--+-+'
+        initial_run_residue = ''.join(symbol for symbol, run in itertools.groupby(word)
+                                      if len(list(run)) % 2)
+        self.assertTrue('+-+' in initial_run_residue or '-+-' in initial_run_residue)
+        self.assertEqual(cases[word], 'Yes')
 
     def test_review_preserves_bad_pairs_and_continues(self):
         pairs = [('layout', {'input': '+\n+\n', 'output': 'Yes\n'}),
