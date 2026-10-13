@@ -1,0 +1,256 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "hashes": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementComplete": true
+  },
+  "evidenceHash": "19474a35a50ece3a926a310d1228705ef7db745df5f2b96e93012ebeb1dfa6c9",
+  "incorrectAnalysis": {
+    "171586849": {
+      "actualLF": "6 3",
+      "expected": "6 2",
+      "kind": "wrong-answer",
+      "lfInput": "6 11\n",
+      "lfInputSha256": "6b74c7e5fbea8bcdfe93d855499c0478aefbebbc09e7608b580dfdb3ce6771fd",
+      "lfVerdict": "WA",
+      "reason": "After min(a,b)=6 different-sock days, b=5 remains; `while b > 0: b -= 2; sincol += 1` runs for b=5,3,1, so the unpairable last sock is counted as a day: ceil(5/2)=3 instead of floor(5/2)=2.",
+      "sourceHash": "a60471f2bc04a7995dcc57a0a5eba2d916c018b2acece708a78b3a1dc0f6b06e",
+      "sourceLines": "lines 10-13",
+      "sourceProvenance": {
+        "bytes": 143535599,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00025-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "0fe4a49998adbbfce09027033e613e939c46974aa3e25afc6a7b8e2a1f605dbb",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00025-of-00036.parquet"
+      },
+      "test": "0007"
+    },
+    "171781782": {
+      "actualLF": "100 100",
+      "expected": "100 0",
+      "kind": "wrong-answer",
+      "lfInput": "100 100\n",
+      "lfInputSha256": "37b26abc9c8e1af827e42db5e5d828ef302872d17fadc312536b91068f3e2670",
+      "lfVerdict": "WA",
+      "reason": "The a==b branch prints (a, b), so it reports b=100 same-sock days. When a==b, no socks remain after the 100 different-sock days, so |a-b|//2 = 0.",
+      "sourceHash": "b7e380c474b9a4475afa6c3f733ae0f2920b5d06e13b2aef8fb39435f28c4379",
+      "sourceLines": "lines 2-3",
+      "sourceProvenance": {
+        "bytes": 143535599,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00025-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "0fe4a49998adbbfce09027033e613e939c46974aa3e25afc6a7b8e2a1f605dbb",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00025-of-00036.parquet"
+      },
+      "test": "0004"
+    },
+    "172338677": {
+      "actualLF": "100 48",
+      "expected": "100 0",
+      "kind": "wrong-answer",
+      "lfInput": "100 100\n",
+      "lfInputSha256": "37b26abc9c8e1af827e42db5e5d828ef302872d17fadc312536b91068f3e2670",
+      "lfVerdict": "WA",
+      "reason": "When k<=r, it sets p = r//2 - 1 and then subtracts 1 again whenever r//2 > 1. For 100 100 that gives 50-1-1=48, but the remaining socks are r-k=0, so the answer is 0. The second term is derived from r alone, not from |a-b|//2.",
+      "sourceHash": "ba765e397318e69c35fb3f7f3a3e2f952b9f802992a9a82f27c3b8a868e5f041",
+      "sourceLines": "lines 10-14",
+      "sourceProvenance": {
+        "bytes": 143535599,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00025-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "0fe4a49998adbbfce09027033e613e939c46974aa3e25afc6a7b8e2a1f605dbb",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00025-of-00036.parquet"
+      },
+      "test": "0004"
+    },
+    "172450277": {
+      "actualLF": "1 2",
+      "expected": "1 1",
+      "kind": "wrong-answer",
+      "lfInput": "3 1\n",
+      "lfInputSha256": "a279f0fe018bb1305d69ee251cd2a29919d20c910b86e3730fc1b857dd3c573a",
+      "lfVerdict": "WA",
+      "reason": "It prints abs(a-b) as the same-sock day count. Each same-color day uses two socks, so the count must be |a-b|//2 = (3-1)//2 = 1, not 2.",
+      "sourceHash": "02e1852f9e5ce780a3b8e69241425d3d49dbec760a2cf939e57c24f8f912f417",
+      "sourceLines": "line 2",
+      "sourceProvenance": {
+        "bytes": 143535599,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00025-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "0fe4a49998adbbfce09027033e613e939c46974aa3e25afc6a7b8e2a1f605dbb",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00025-of-00036.parquet"
+      },
+      "test": "0001"
+    },
+    "172622977": {
+      "actualLF": "1 0",
+      "expected": "1 1",
+      "kind": "wrong-answer",
+      "lfInput": "3 1\n",
+      "lfInputSha256": "a279f0fe018bb1305d69ee251cd2a29919d20c910b86e3730fc1b857dd3c573a",
+      "lfVerdict": "WA",
+      "reason": "For a>=b it computes y = b-a = -2 (sign reversed), so c = floor(-1) = -1 < 0 and it prints (b, 0). The leftover a-b=2 red socks give (a-b)//2 = 1 same-sock day; the expected answer is 1 1.",
+      "sourceHash": "7176851c2a488d3613fd5d7a5eea7ffcc41ff9e3340d638c604864e24ce86220",
+      "sourceLines": "lines 7-11",
+      "sourceProvenance": {
+        "bytes": 143535599,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00025-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "0fe4a49998adbbfce09027033e613e939c46974aa3e25afc6a7b8e2a1f605dbb",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00025-of-00036.parquet"
+      },
+      "test": "0001"
+    }
+  },
+  "packageHash": "8a80646400a02e284776e8956cc2a26ae40574b61ba286744dd569731c300c32",
+  "qualificationBasis": "official",
+  "reruns": {
+    "13259384": {
+      "expected": "OK",
+      "lfFailedTestVerdict": null,
+      "proof": {
+        "path": "reruns/581A/13259384.json",
+        "sha256": "ebba0b9a2f905881582a9457af3cf003f0934aaad875b23431019c06b6c2952c"
+      },
+      "recordedFailedTest": null,
+      "recordedVerdict": "AC",
+      "rerunFailedTest": null,
+      "rerunVerdict": "AC"
+    },
+    "13259387": {
+      "expected": "OK",
+      "lfFailedTestVerdict": null,
+      "proof": {
+        "path": "reruns/581A/13259387.json",
+        "sha256": "4803f6680e14ba9be98fb160142f847b9bd828fd50b4755c9a7e1dd4839823a3"
+      },
+      "recordedFailedTest": null,
+      "recordedVerdict": "AC",
+      "rerunFailedTest": null,
+      "rerunVerdict": "AC"
+    },
+    "13259389": {
+      "expected": "OK",
+      "lfFailedTestVerdict": null,
+      "proof": {
+        "path": "reruns/581A/13259389.json",
+        "sha256": "03f7b599accf05a635edeba1758be0f0095f15f88100a3fa8e4bb232bccea75e"
+      },
+      "recordedFailedTest": null,
+      "recordedVerdict": "AC",
+      "rerunFailedTest": null,
+      "rerunVerdict": "AC"
+    },
+    "13259398": {
+      "expected": "OK",
+      "lfFailedTestVerdict": null,
+      "proof": {
+        "path": "reruns/581A/13259398.json",
+        "sha256": "0b85561343636bb02c48c94663f30f6b791d9ed3cb542c1b81a974603a28aa4c"
+      },
+      "recordedFailedTest": null,
+      "recordedVerdict": "AC",
+      "rerunFailedTest": null,
+      "rerunVerdict": "AC"
+    },
+    "13259400": {
+      "expected": "OK",
+      "lfFailedTestVerdict": null,
+      "proof": {
+        "path": "reruns/581A/13259400.json",
+        "sha256": "8fd84f1f9fd8e8ed8e0ba4c134549e005326da850caf43c4365adcc218387aff"
+      },
+      "recordedFailedTest": null,
+      "recordedVerdict": "AC",
+      "rerunFailedTest": null,
+      "rerunVerdict": "AC"
+    },
+    "171586849": {
+      "expected": "WRONG_ANSWER",
+      "lfFailedTestVerdict": "WA",
+      "proof": {
+        "path": "reruns/581A/171586849.json",
+        "sha256": "d11f12d7f435e35da7c368ecb18ff7fae3069dcc78b02bdb2b510d6afbb23f87"
+      },
+      "recordedFailedTest": "0007",
+      "recordedVerdict": "WA",
+      "rerunFailedTest": "0007",
+      "rerunVerdict": "WA"
+    },
+    "171781782": {
+      "expected": "WRONG_ANSWER",
+      "lfFailedTestVerdict": "WA",
+      "proof": {
+        "path": "reruns/581A/171781782.json",
+        "sha256": "aff249f539348587049495a5a1821d8bca12d2f190c016433e8bfa4eb4da1424"
+      },
+      "recordedFailedTest": "0004",
+      "recordedVerdict": "WA",
+      "rerunFailedTest": "0004",
+      "rerunVerdict": "WA"
+    },
+    "172338677": {
+      "expected": "WRONG_ANSWER",
+      "lfFailedTestVerdict": "WA",
+      "proof": {
+        "path": "reruns/581A/172338677.json",
+        "sha256": "d13575d96a88a77a207b6c8d96f777c4d74de62af698b4db1b54627d4bd3aa94"
+      },
+      "recordedFailedTest": "0004",
+      "recordedVerdict": "WA",
+      "rerunFailedTest": "0004",
+      "rerunVerdict": "WA"
+    },
+    "172450277": {
+      "expected": "WRONG_ANSWER",
+      "lfFailedTestVerdict": "WA",
+      "proof": {
+        "path": "reruns/581A/172450277.json",
+        "sha256": "7afaa3990c3c8a2e6ca6a6448f82611640e6035814d7a56ab5a3ba2b0355dc73"
+      },
+      "recordedFailedTest": "0001",
+      "recordedVerdict": "WA",
+      "rerunFailedTest": "0001",
+      "rerunVerdict": "WA"
+    },
+    "172622977": {
+      "expected": "WRONG_ANSWER",
+      "lfFailedTestVerdict": "WA",
+      "proof": {
+        "path": "reruns/581A/172622977.json",
+        "sha256": "69cd860bd2589f62c9bd13c14f1d82e4f565d506ea3f395b1f60f1a6bca57db7"
+      },
+      "recordedFailedTest": "0001",
+      "recordedVerdict": "WA",
+      "rerunFailedTest": "0001",
+      "rerunVerdict": "WA"
+    }
+  },
+  "reviewUrl": "https://staging.itsdev.in/sessions/f467d1a5550a4e61be6a486042a5345c",
+  "reviewer": "devin-f467d1a5550a4e61be6a486042a5345c",
+  "supplemental": {
+    "exhaustive": {
+      "path": "supp/581A/exhaustive.json",
+      "sha256": "d2660d2524a5376410a8040d3dc619f1e1b5d5e1859ae13e1f6bf0f29073b0ec"
+    },
+    "parquetCrossCheck": {
+      "path": "hf/581A-crosscheck.json",
+      "sha256": "af97f5193518c534c8a231c318ec35ddc6115340d9b85e1a82b0384e34cc2ba4"
+    },
+    "reference": {
+      "path": "scripts/supp581.py",
+      "sha256": "da423cc1d60706d918b031111ff05ef558b913cdad40d3147ed9261c0a173270"
+    }
+  }
+}
