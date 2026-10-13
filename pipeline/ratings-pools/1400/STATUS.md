@@ -77,3 +77,4 @@ Owned paths only: pipeline/ratings-pools/1400/, pipeline/problems/<ids>/, proble
 - Current worker approvals passing gate: 23 = 12 primary-validated + 11 child-approved not yet primary-reviewed (441B 489C 507B 550B 604B 710B 757B 803A 911C 920C 940B).
 - Audit 11: 799B approved by child but NOT imported (3/5 WA); 954B rejected (false "half repeated" label) -> label fixed, regeneration pending.
 - Audits 12/13 (b409acf1, 885bb7d7) running under WA-only policy on 14 execution-passed packages (bundle db697582...).
+- Audit 13: 0 approved (698A held; 697B 748C 804B 934A 958A1 995B rejected: <5 eligible WA kills; 804B/958A1 accepted CRLF contradictions). 954B regenerated (pkg 9e047fdb...), execution-passed, re-audit 14 pending.
