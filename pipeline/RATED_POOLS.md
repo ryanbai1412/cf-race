@@ -331,3 +331,27 @@ Verify `sha256sum archive.tar.gz` before extraction. A worker must attach its
 deterministic extra-test generator/coverage review too. Unit tests are delivered
 as a gitignored test archive rather than force-added to Git. Archive creation
 does not imply validation or publication approval.
+
+## Combined data-only replay
+
+`pool_combine.py` safely extracts a SHA256-pinned portable archive into an
+empty directory and replays a full index or a compact snapshot against the
+current package/evidence/audit gate. It verifies current independent decisions,
+source bytes and attribution, canonical IDs, exact ratings, duplicate/omitted
+entries, and rejection of empty publication approvals. Archives, source code,
+execution logs and the full index remain external artifacts, not bulk Git data.
+
+```sh
+python3 -B pipeline/pool_combine.py extract proof.tar.gz restored \
+  --sha256 EXPECTED_ARCHIVE_SHA256 --output extraction.json
+python3 -B pipeline/pool_combine.py replay restored/snapshot.json \
+  --root restored --output combined-replay.json
+python3 -B -m unittest discover -s pipeline -p 'test_pool_combine.py' -v
+```
+
+Use the archive's documented snapshot path and expected SHA256. Replay executes
+no public programs and makes no remote writes. Its technical counts reconstruct
+signed evidence; they are not a fresh source-semantic audit, legal clearance,
+or content-bound publication approval. Rejected, held and provisional entries
+cannot be substituted into the technical list. Production publication remains
+a separate operator-approved step through the existing upload gates.
