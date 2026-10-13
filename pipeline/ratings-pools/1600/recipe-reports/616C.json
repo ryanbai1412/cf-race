@@ -1,12 +1,19 @@
 {
   "authoredSuite": {
-    "actualCount": null,
+    "actualCount": 160,
     "bruteSeed": 61601600,
+    "canonicalHashMethod": "pool_contract.digest(extras(\"616C\"))",
+    "canonicalSuiteHash": "2aed5982a51a6b1e4e3416377cb2a14fa884f5c21524c66a70025874bdc63c74",
     "categories": [
       "boundary",
       "adversarial",
       "maxSize"
     ],
+    "categoryCounts": {
+      "adversarial": 129,
+      "boundary": 20,
+      "maxSize": 11
+    },
     "maxima": "Three1000x1000 grids: all dots, checkerboard, and all dots except center wall. Also1x1000 and1000x1 cases.",
     "motivations": [
       "Minimum dot/wall; count includes removed wall.",
@@ -15,17 +22,23 @@
       "Modulo transitions at reachable sizes9/10/11,19/20/21 and99/100/101.",
       "Long iterative serpent; maximum500000 singleton components and one million-cell component."
     ],
-    "plannedCount": 160,
-    "seed": 6161600
+    "seed": 6161600,
+    "serializedBytes": 6132572
   },
   "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
   "checks": {
-    "astSyntax": null,
-    "bruteAssertions": null,
-    "generatedReferenceAssertions": null,
-    "gitDiffCheck": null,
-    "status": "pending",
-    "unittestMethods": null
+    "astSyntax": "passed for recipe_616C.py and test_recipe_616C.py",
+    "bruteAssertionUnit": "One whole-grid answer equality against independently implemented per-wall BFS; not a problem-qualification count.",
+    "bruteAssertions": 1562,
+    "generatedReferenceAssertions": 160,
+    "gitDiffCheck": "passed against exact base after retaining only the original problem-statement div bytes; original full response had navigation-only trailing whitespace",
+    "maximumAnalyticReferenceAssertions": 3,
+    "publicProgramExecution": false,
+    "status": "passed",
+    "unittestCommand": "RECIPE_616C_INPUT=<authenticated inputs/616C.json> python -m unittest -v test_recipe_616C (cwd pipeline/ratings-pools/1600)",
+    "unittestMethods": 10,
+    "unittestResult": "10 passed, 0 failed, 0 skipped",
+    "upstreamLiteralReferenceAssertions": 11
   },
   "constraints": {
     "checker": "No custom generated checker, floating-point or multiple-valid outputs. Each unique output matrix row is one token.",
@@ -563,15 +576,17 @@
   },
   "statementAttestation": {
     "attribution": "Codeforces, problem 616C The Labyrinth; original public English statement mirrored at codeforces.me.",
-    "bodyBytes": 59174,
+    "bodyBytes": 4466,
     "bodyPath": "statement-sources/616C.recipe-author.original.html",
-    "bodyPreservation": "Full HTTP response body copied unchanged. Problem-statement contains no images or missing required formulas.",
-    "bodySha256": "2c86b350ae0345a1b6b49b8d104b1a8bdee5e2f5849aee8c0c02be459b21bf4c",
+    "bodyPreservation": "Exact original problem-statement div bytes extracted from the full HTTP response without reserialization or whitespace changes. Navigation/footer excluded; full English question, constraints, samples, note preserved. No images or required formulas absent.",
+    "bodySha256": "ce7eb3ebd9eb9e7ac9c2c25cf3f5f6bc6cfb0a09e3b6957865d7ac80a6ca90ea",
     "exactInputHtmlEvidence": "<div class=\"section-title\">Input</div><p>The first line contains two integers <span class=\"tex-span\"><i>n</i>, <i>m</i></span> (<span class=\"tex-span\">1 ≤ <i>n</i>, <i>m</i> ≤ 1000</span>) — the number of rows and columns in the field.</p><p>Each of the next <span class=\"tex-span\"><i>n</i></span> lines contains <span class=\"tex-span\"><i>m</i></span> symbols: &quot;<span class=\"tex-font-style-tt\">.</span>&quot; for empty cells, &quot;<span class=\"tex-font-style-tt\">*</span>&quot; for impassable cells.</p></div>",
     "exactSourceCorrectionProposal": [],
     "normalizationNeeded": false,
     "normalizationReason": "Pinned source explicitly states 1000 for both dimensions and modulo 10. No exponent markup or semantic repair is needed.",
     "originalProblemUrl": "https://codeforces.com/problemset/problem/616/C?locale=en",
+    "responseBodyBytes": 59174,
+    "responseBodySha256": "2c86b350ae0345a1b6b49b8d104b1a8bdee5e2f5849aee8c0c02be459b21bf4c",
     "semanticEvidence": [
       "Empty cells are adjacent if they share a side.",
       "For each impassable cell imagine it is empty, all other cells remain unchanged; do each independently.",
@@ -579,11 +594,11 @@
     ],
     "sourceUrl": "https://codeforces.me/problemset/problem/616/C?locale=en"
   },
-  "status": "authored-pending-targeted-checks",
+  "status": "recipe-author-milestone-complete-not-qualified",
   "upstreamPairs": {
     "availableOfficialPairs": 9,
     "availableSamples": 2,
-    "failedPairs": null,
+    "failedPairs": [],
     "generatedTestsField": 17,
     "generatedTestsFieldNote": "Integer17, not supplied input/output pairs; not treated as reviewed pairs.",
     "officialTestsComplete": false,
@@ -679,7 +694,7 @@
     ],
     "preservation": "Original statement/test/sample/public-source bytes and expected outputs unchanged. Authored extras are separate data.",
     "reportedTestsetSize": 19,
-    "reviewStatus": "pending-targeted-checks",
+    "reviewStatus": "all-9-official-and-2-sample-pairs-reviewed-against-parser-oracle-and-literal-brute",
     "sourceTextSha256": {
       "description": "72a03e3fce1d664bae32b10f54d9102cead26890f3590b73b0b5db3d2afeea80",
       "input_format": "198ea42f8be38f4e6fdd7f122778e2f946f8ffd792f2abb1667fafb0c4f20c5b",
