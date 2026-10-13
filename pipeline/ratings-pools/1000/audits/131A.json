@@ -1,28 +1,209 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "1da61bf2a6df5334517ad4207faeb7e40f54409873e265440d6187b4dfcfbd31",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "213403116": {
+      "LFActualOutputHash": "d7ea10d26f17df6679e750bb16495fa2d7ac105a3c54e9f47d7cd6864f2437f9",
+      "LFExpectedOutputHash": "db44b8db4f05d720ef1a57abadeed0c164d47b17416c7dd7d136d8f10fba91c9",
+      "LFInputHash": "a63ef1fc1e9e0aed6d5f23c5f97740a5c40a0924adbe73af80a1aa79f0d2f4b5",
+      "LFProofHash": "29c5c53689bb271faa617334aaa16debd082ffd06b775002945e32d0c2571b12",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 2,
+          "lines": [
+            "print(s.swapcase())"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualBase64": "bE9DSw0K",
+      "originalActualOutputHash": "48c7e3efbc6c78943bf915f956dd9d67f0dc641212314bf39969175e3b9cbf1e",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "23b5bd69a285e5057f24a387507dba0121500034c901135d98cc8db7b6cd041f",
+      "originalInputHash": "23b5bd69a285e5057f24a387507dba0121500034c901135d98cc8db7b6cd041f",
+      "originalOutputReconstruction": "Original CRLF input leaves a terminal carriage return in these input()/case-conversion expressions. swapcase/lower/upper preserve that character; the substantive wrong word is unchanged. Reconstructed CR-containing stdout exactly hashes to the original full-suite record.",
+      "originalTimeout": false,
+      "reason": "line 2 `print(s.swapcase())` without the rule test Expected derivation: Rule: change case of all letters iff the word is entirely uppercase, or every letter except the first is uppercase; else unchanged. Letter case is the answer content (checker folds case only for YES/NO tokens). 'Lock': suffix 'ock' is lowercase and word not all-caps -> unchanged 'Lock'. Source trace: 'Lock'.swapcase() = 'lOCK'.",
+      "sourceHash": "982f666915a54cf7071a1dee64346209feb1ab2efacde5b87368232c4ef6e5f4",
+      "sourceRanges": [
+        [
+          2,
+          2
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/131/submission/213403116",
+      "test": "0002"
+    },
+    "213405027": {
+      "LFActualOutputHash": "7f397390c9ada2de2ec991994d674aebfd7188193f2b42f9fc759c3a8e820e9d",
+      "LFExpectedOutputHash": "bd9b6abb39811686a3ce6937ab20e015e9670dd7284c04ffef25cc751b7317d6",
+      "LFInputHash": "7f397390c9ada2de2ec991994d674aebfd7188193f2b42f9fc759c3a8e820e9d",
+      "LFProofHash": "29c5c53689bb271faa617334aaa16debd082ffd06b775002945e32d0c2571b12",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 5,
+          "lines": [
+            "if s.lower():",
+            "    print(s)",
+            "else:",
+            "    print(s.swapcase())"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualBase64": "Y0FQUw0K",
+      "originalActualOutputHash": "3abffbea82dd3a9026a67f3f46ccf3f3fb4bc0e26fd3cdcdd910b27035336fdc",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "bd9b6abb39811686a3ce6937ab20e015e9670dd7284c04ffef25cc751b7317d6",
+      "originalInputHash": "3abffbea82dd3a9026a67f3f46ccf3f3fb4bc0e26fd3cdcdd910b27035336fdc",
+      "originalOutputReconstruction": "Original CRLF input leaves a terminal carriage return in these input()/case-conversion expressions. swapcase/lower/upper preserve that character; the substantive wrong word is unchanged. Reconstructed CR-containing stdout exactly hashes to the original full-suite record.",
+      "originalTimeout": false,
+      "reason": "line 2 `if s.lower():` is always True for 1..100-letter input; swapcase branch (line 5) unreachable Expected derivation: Rule: change case of all letters iff the word is entirely uppercase, or every letter except the first is uppercase; else unchanged. Letter case is the answer content (checker folds case only for YES/NO tokens). 'cAPS': all letters after the first are uppercase -> swap -> 'Caps'. Source trace: s.lower()='caps' truthy -> line 3 prints 'cAPS'.",
+      "sourceHash": "92d50aafdb4cc7be07226c9ec1d939f6491b10e926c3a5e3839d046b58e98ca4",
+      "sourceRanges": [
+        [
+          2,
+          5
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/131/submission/213405027",
+      "test": "0001"
+    },
+    "213462998": {
+      "LFActualOutputHash": "bad964683849dff20bf0ae84fa4bf807c51aedcb3472bebec80ebeec5c7d11d4",
+      "LFExpectedOutputHash": "006937e3f6c8e12452fdf54b78599bf672ef825b12340f32ea3b8ed64c3037c7",
+      "LFInputHash": "a35ca14abfe1d09a59ae01c5f3127722870ab02cc2500cc7d759569e1e65aad2",
+      "LFProofHash": "29c5c53689bb271faa617334aaa16debd082ffd06b775002945e32d0c2571b12",
+      "exactSourceExcerpts": [
+        {
+          "first": 3,
+          "last": 7,
+          "lines": [
+            "    if len(x) == 1:",
+            "        correct_word = x.upper()",
+            "    else:",
+            "        correct_word = x[0].upper() + x[1:].lower()",
+            "    return correct_word"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualBase64": "Q2Fwc2xvY2sNCg==",
+      "originalActualOutputHash": "9896a1d94d5546911fb2351d4c0782ddd12d22e21620471bb6f96617e01cff1f",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f1ad766c2a14f803f497c19c166f5e557bab3b8d1244773844a6a923fa155f6a",
+      "originalInputHash": "f1ad766c2a14f803f497c19c166f5e557bab3b8d1244773844a6a923fa155f6a",
+      "originalOutputReconstruction": "Original CRLF input leaves a terminal carriage return in these input()/case-conversion expressions. swapcase/lower/upper preserve that character; the substantive wrong word is unchanged. Reconstructed CR-containing stdout exactly hashes to the original full-suite record.",
+      "originalTimeout": false,
+      "reason": "line 6 `x[0].upper() + x[1:].lower()` applied to every multi-letter word; line 4 uppercases single letters even if already uppercase Expected derivation: Rule: change case of all letters iff the word is entirely uppercase, or every letter except the first is uppercase; else unchanged. Letter case is the answer content (checker folds case only for YES/NO tokens). 'cAPSlOCK': contains lowercase 'l' after the first letter and is not all-caps -> unchanged 'cAPSlOCK'. Source trace: len 8 -> 'C' + 'apslock' = 'Capslock'.",
+      "sourceHash": "4e4762e4e28594aa2feb65deb6b19ee3e491672669a0d7b2cbd1ef9c7a775b94",
+      "sourceRanges": [
+        [
+          3,
+          7
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/131/submission/213462998",
+      "test": "0003"
+    },
+    "213464510": {
+      "LFActualOutputHash": "c7653bc8a3e0c7b31b907646d6860c30327bf2cf684378b7a2eefe001eb217b3",
+      "LFExpectedOutputHash": "d13f2eadd4ed5b027fa773a29520cc0d65ce374365d641112de786f8a029c2fe",
+      "LFInputHash": "2d7e1c3737d62413b5f5d6377039d5ab97b71633ae3fd7f0cc92a2bf7e639f72",
+      "LFProofHash": "29c5c53689bb271faa617334aaa16debd082ffd06b775002945e32d0c2571b12",
+      "exactSourceExcerpts": [
+        {
+          "first": 8,
+          "last": 9,
+          "lines": [
+            "    elif len(x) > 1 and x == x.upper():",
+            "        correct_word = x[0].upper() + x[1:].lower()"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualBase64": "T29wcw0K",
+      "originalActualOutputHash": "a17d67347257d613adb33f84ffe23d5185168fb5b583f984bf295a61a1cb434d",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "d13f2eadd4ed5b027fa773a29520cc0d65ce374365d641112de786f8a029c2fe",
+      "originalInputHash": "b05faccf9e2645a9e166a206758afee126e20a20151c392248443fd4580c6e79",
+      "originalOutputReconstruction": "Original CRLF input leaves a terminal carriage return in these input()/case-conversion expressions. swapcase/lower/upper preserve that character; the substantive wrong word is unchanged. Reconstructed CR-containing stdout exactly hashes to the original full-suite record.",
+      "originalTimeout": false,
+      "reason": "line 9 `correct_word = x[0].upper() + x[1:].lower()` for the all-caps case (should be x.lower()) Expected derivation: Rule: change case of all letters iff the word is entirely uppercase, or every letter except the first is uppercase; else unchanged. Letter case is the answer content (checker folds case only for YES/NO tokens). 'OOPS' all uppercase -> swap all -> 'oops'. Source trace: len 4; line 6: x[0]=='O' != 'o' -> false; line 8: x==x.upper() -> 'O'+'ops'='Oops'.",
+      "sourceHash": "36ac2c17d04d4ffc409f687f9fb0a78941e94ed00aaad98842883203c50d455a",
+      "sourceRanges": [
+        [
+          8,
+          9
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/131/submission/213464510",
+      "test": "0006"
+    },
+    "213478014": {
+      "LFActualOutputHash": "d7ea10d26f17df6679e750bb16495fa2d7ac105a3c54e9f47d7cd6864f2437f9",
+      "LFExpectedOutputHash": "db44b8db4f05d720ef1a57abadeed0c164d47b17416c7dd7d136d8f10fba91c9",
+      "LFInputHash": "a63ef1fc1e9e0aed6d5f23c5f97740a5c40a0924adbe73af80a1aa79f0d2f4b5",
+      "LFProofHash": "29c5c53689bb271faa617334aaa16debd082ffd06b775002945e32d0c2571b12",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 6,
+          "lines": [
+            "a=s.lower()",
+            "if a==s:",
+            "    print(s)",
+            "else:",
+            "    print(s.swapcase())"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualBase64": "bE9DSw0K",
+      "originalActualOutputHash": "48c7e3efbc6c78943bf915f956dd9d67f0dc641212314bf39969175e3b9cbf1e",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "23b5bd69a285e5057f24a387507dba0121500034c901135d98cc8db7b6cd041f",
+      "originalInputHash": "23b5bd69a285e5057f24a387507dba0121500034c901135d98cc8db7b6cd041f",
+      "originalOutputReconstruction": "Original CRLF input leaves a terminal carriage return in these input()/case-conversion expressions. swapcase/lower/upper preserve that character; the substantive wrong word is unchanged. Reconstructed CR-containing stdout exactly hashes to the original full-suite record.",
+      "originalTimeout": false,
+      "reason": "line 3 `if a==s` (all-lowercase test) instead of the caps-lock condition; line 6 swaps any mixed word Expected derivation: Rule: change case of all letters iff the word is entirely uppercase, or every letter except the first is uppercase; else unchanged. Letter case is the answer content (checker folds case only for YES/NO tokens). 'Lock' -> unchanged 'Lock'. Source trace: 'lock' != 'Lock' -> line 6 swapcase -> 'lOCK'.",
+      "sourceHash": "877e19f307ed5a147d9d7ee52e7609ea4b62888e8e9132ebdd4f2d7a88bf4c88",
+      "sourceRanges": [
+        [
+          2,
+          6
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/131/submission/213478014",
+      "test": "0002"
+    }
+  },
   "independentFreshRunHash": "f7abe968b2061134ae6280565218c808f76062cf2373e29886c4fa334d1e7b9f",
   "independentLFReplayHash": "29c5c53689bb271faa617334aaa16debd082ffd06b775002945e32d0c2571b12",
   "independentSemanticCheckHash": "1054f56738ca6a6c68d039f4812732483a3a4f6a4ff351e091f448f247baf8fa",
   "independentStressHash": "8fb39d0f648c2e3d0b204a84145a8f9093b3ab3ea4fd5467ba474b2147ffb211",
+  "originalExecutionEvidenceHash": "1da61bf2a6df5334517ad4207faeb7e40f54409873e265440d6187b4dfcfbd31",
   "packageHash": "86e1da085a3e51d84e5efd94dcf587413ceef62e33c9b7be60344fd6bf7f8bfe",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -109,26 +290,25 @@
         "AC": 3,
         "WA": 20
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 20
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 20,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 20,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 14,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "982f666915a54cf7071a1dee64346209feb1ab2efacde5b87368232c4ef6e5f4",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/131/submission/213403116",
       "submissionId": "213403116",
       "testVerdicts": {
@@ -144,7 +324,11 @@
           "0002"
         ],
         "origin": "tests/0002",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "48c7e3efbc6c78943bf915f956dd9d67f0dc641212314bf39969175e3b9cbf1e",
+        "originalExpectedOutputHash": "23b5bd69a285e5057f24a387507dba0121500034c901135d98cc8db7b6cd041f",
+        "originalInputHash": "23b5bd69a285e5057f24a387507dba0121500034c901135d98cc8db7b6cd041f",
+        "reason": "line 2 `print(s.swapcase())` without the rule test",
+        "selectedOriginalTest": "0002",
         "test": "lf-0002"
       }
     },
@@ -153,26 +337,25 @@
         "AC": 7,
         "WA": 15
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 15
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 15,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 15,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "92d50aafdb4cc7be07226c9ec1d939f6491b10e926c3a5e3839d046b58e98ca4",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/131/submission/213405027",
       "submissionId": "213405027",
       "testVerdicts": {
@@ -189,7 +372,11 @@
           "0064"
         ],
         "origin": "tests/0064",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "3abffbea82dd3a9026a67f3f46ccf3f3fb4bc0e26fd3cdcdd910b27035336fdc",
+        "originalExpectedOutputHash": "bd9b6abb39811686a3ce6937ab20e015e9670dd7284c04ffef25cc751b7317d6",
+        "originalInputHash": "3abffbea82dd3a9026a67f3f46ccf3f3fb4bc0e26fd3cdcdd910b27035336fdc",
+        "reason": "line 2 `if s.lower():` is always True for 1..100-letter input; swapcase branch (line 5) unreachable",
+        "selectedOriginalTest": "0001",
         "test": "lf-0064"
       }
     },
@@ -198,26 +385,25 @@
         "AC": 2,
         "WA": 21
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 21
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 21,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 21,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 14,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "4e4762e4e28594aa2feb65deb6b19ee3e491672669a0d7b2cbd1ef9c7a775b94",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/131/submission/213462998",
       "submissionId": "213462998",
       "testVerdicts": {
@@ -233,7 +419,11 @@
           "0003"
         ],
         "origin": "tests/0003",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "9896a1d94d5546911fb2351d4c0782ddd12d22e21620471bb6f96617e01cff1f",
+        "originalExpectedOutputHash": "f1ad766c2a14f803f497c19c166f5e557bab3b8d1244773844a6a923fa155f6a",
+        "originalInputHash": "f1ad766c2a14f803f497c19c166f5e557bab3b8d1244773844a6a923fa155f6a",
+        "reason": "line 6 `x[0].upper() + x[1:].lower()` applied to every multi-letter word; line 4 uppercases single letters even if already uppercase",
+        "selectedOriginalTest": "0003",
         "test": "lf-0003"
       }
     },
@@ -242,26 +432,25 @@
         "AC": 9,
         "WA": 11
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0006",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 11
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 11,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 11,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 10,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "36ac2c17d04d4ffc409f687f9fb0a78941e94ed00aaad98842883203c50d455a",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/131/submission/213464510",
       "submissionId": "213464510",
       "testVerdicts": {
@@ -277,7 +466,11 @@
           "0006"
         ],
         "origin": "tests/0006",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "a17d67347257d613adb33f84ffe23d5185168fb5b583f984bf295a61a1cb434d",
+        "originalExpectedOutputHash": "d13f2eadd4ed5b027fa773a29520cc0d65ce374365d641112de786f8a029c2fe",
+        "originalInputHash": "b05faccf9e2645a9e166a206758afee126e20a20151c392248443fd4580c6e79",
+        "reason": "line 9 `correct_word = x[0].upper() + x[1:].lower()` for the all-caps case (should be x.lower())",
+        "selectedOriginalTest": "0006",
         "test": "lf-0006"
       }
     },
@@ -286,26 +479,25 @@
         "AC": 3,
         "WA": 19
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 19
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 19,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 19,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 14,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "877e19f307ed5a147d9d7ee52e7609ea4b62888e8e9132ebdd4f2d7a88bf4c88",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/131/submission/213478014",
       "submissionId": "213478014",
       "testVerdicts": {
@@ -321,7 +513,11 @@
           "0002"
         ],
         "origin": "tests/0002",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "48c7e3efbc6c78943bf915f956dd9d67f0dc641212314bf39969175e3b9cbf1e",
+        "originalExpectedOutputHash": "23b5bd69a285e5057f24a387507dba0121500034c901135d98cc8db7b6cd041f",
+        "originalInputHash": "23b5bd69a285e5057f24a387507dba0121500034c901135d98cc8db7b6cd041f",
+        "reason": "line 3 `if a==s` (all-lowercase test) instead of the caps-lock condition; line 6 swaps any mixed word",
+        "selectedOriginalTest": "0002",
         "test": "lf-0002"
       }
     }
@@ -329,14 +525,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 1,
+      "bytes": 387441,
+      "name": "batch1-source-semantics-review.json",
+      "sha256": "ca43961fef2540e778e5dfc2d517ba9ae59958c8198fecf0e801108165b0e722"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "dbedef65b557630119ae10615a2f27b09a5b0a1ae5aa8d27fc73570808c3337b",
+  "sourceSemanticReviewPath": "source-review/proofs/131A.json",
   "stressCases": 40,
-  "testPairs": 77,
-  "unconfirmedSourceIds": [
-    "213403116",
-    "213405027",
-    "213462998",
-    "213464510",
-    "213478014"
-  ]
+  "testPairs": 77
 }

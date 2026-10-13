@@ -1,6 +1,6 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
+  "algorithmicIncorrectKilled": 4,
   "approved": false,
   "checks": {
     "coverage": true,
@@ -12,16 +12,156 @@
     "sourceAttribution": true
   },
   "evidenceHash": "70b9da7e763c2f013e94608e99b5e734c0555ddafd2ad6cde54a19c47fd494f6",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "48168336": {
+      "LFActualOutputHash": "a4b2c5db15348c29451e18b8307e5ef81625ea638e807935f39ceaa8d9ac7758",
+      "LFExpectedOutputHash": "7a61b53701befdae0eeeffaecc73f14e20b537bb0f8b91ad7c2936dc63562b25",
+      "LFInputHash": "5c5b5a90d617f1f09644e9b532a97926576c01513648111b289ec62cf78c7422",
+      "LFProofHash": "53b75852b13e3bc56162f3b5a759e563504a3ab1c52aff6f86fc6fa96da4549b",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 7,
+          "lines": [
+            "if b==max(r,g,b):",
+            "    print(2+max(r,g,b)+30)",
+            "elif g==max(r,g,b):",
+            "    print(1+max(r,g,b)+30)",
+            "else:",
+            "    print(max(r,g,b)+30)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "a4b2c5db15348c29451e18b8307e5ef81625ea638e807935f39ceaa8d9ac7758",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7a61b53701befdae0eeeffaecc73f14e20b537bb0f8b91ad7c2936dc63562b25",
+      "originalInputHash": "b90350d8668d85beef15681ea16d5a5ce09732281ce96694e4922bb00195924f",
+      "originalTimeout": false,
+      "reason": "lines 3/5/7 use max(r,g,b) minutes instead of 3*(ceil(x/2)-1); also the largest group need not determine the last arrival. Expected derivation: tests/0003: 3 5 2 -> r: 2 cars, last 3; g: 3 cars, last 1+6=7; b: 1 car at 2 -> 37. Source trace: max=5=g (b=2 not max) -> 1+5+30 = 36.",
+      "sourceHash": "bc998456d563204da173b3be533c23305544dd567fa66f7b7771d00beb9ff6c6",
+      "sourceRanges": [
+        [
+          2,
+          7
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/90/submission/48168336",
+      "test": "0003"
+    },
+    "4904871": {
+      "LFActualOutputHash": "420002158111bff8adb3347d84029e480f45e60e1869b454b6adac3345f9f7d4",
+      "LFExpectedOutputHash": "71ee45a3c0db9a9865f7313dd3372cf60dca6479d46261f3542eb9346e4a04d6",
+      "LFInputHash": "68b5e2f10fde10ee7e12626cad6dbcb872f7da7c36ba20087f4d4371d5339f44",
+      "LFProofHash": "53b75852b13e3bc56162f3b5a759e563504a3ab1c52aff6f86fc6fa96da4549b",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 2,
+          "lines": [
+            "print(max(3 * (r - 1) // 2, 1 + 3 * (g - 1) // 2, 2 + 3 * (b - 1) // 2) + 30)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "420002158111bff8adb3347d84029e480f45e60e1869b454b6adac3345f9f7d4",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "71ee45a3c0db9a9865f7313dd3372cf60dca6479d46261f3542eb9346e4a04d6",
+      "originalInputHash": "ec8714094b08c5e1761d995c0bf551deee706332b3f06c3242d28e265a57037c",
+      "originalTimeout": false,
+      "reason": "line 2 uses floor(3(x-1)/2) as the last departure offset instead of 3*(ceil(x/2)-1); for even x it is one minute too late (x=10: 13 vs 12). Expected derivation: tests/0004: 10 10 10 -> 5 cars per color; blue last at 2+3*4=14 -> 44. Source trace: 3*9//2=13 -> max(13, 14, 15) + 30 = 45.",
+      "sourceHash": "90d237161bb4661156fb5267b6b0c0c552b7233dc3686ef7b07c834e30940c67",
+      "sourceRanges": [
+        [
+          2,
+          2
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/90/submission/4904871",
+      "test": "0004"
+    },
+    "52659133": {
+      "LFActualOutputHash": "a4b2c5db15348c29451e18b8307e5ef81625ea638e807935f39ceaa8d9ac7758",
+      "LFExpectedOutputHash": "86e50149658661312a9e0b35558d84f6c6d3da797f552a9657fe0558ca40cdef",
+      "LFInputHash": "4dcef6a0547ba147979d11689e69197b7ec3694c820549922e9b4c296e48c012",
+      "LFProofHash": "53b75852b13e3bc56162f3b5a759e563504a3ab1c52aff6f86fc6fa96da4549b",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 5,
+          "lines": [
+            "elif max(r,g,b) == g:",
+            "    print(30 + 3 * (g//2 + g % 2))"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "a4b2c5db15348c29451e18b8307e5ef81625ea638e807935f39ceaa8d9ac7758",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "86e50149658661312a9e0b35558d84f6c6d3da797f552a9657fe0558ca40cdef",
+      "originalInputHash": "8bf3dd085d6d3d666293a29afc962fbfd2c1e609425fde9d4ec6280e22f8a26e",
+      "originalTimeout": false,
+      "reason": "line 5 `30 + 3*(g//2 + g%2)` = 30+3*ceil(g/2) instead of 30+1+3*(ceil(g/2)-1); color offsets are missing on all three branches. Expected derivation: tests/0001: 1 3 2 -> r at 0; g cars at 1,4; b at 2 -> 34. Source trace: max=3=g -> 30 + 3*(1+1) = 36.",
+      "sourceHash": "ef08016edb1892f2b8a5b08f5a54c7c63eb4539ffd1e48a00b3fde68b5ee9c7c",
+      "sourceRanges": [
+        [
+          4,
+          5
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/90/submission/52659133",
+      "test": "0001"
+    },
+    "9260232": {
+      "LFActualOutputHash": "2115cdb6bfcfb008eb2bab2bb79347cb064a48e4e7c4115ccbe4469c787bb6c4",
+      "LFExpectedOutputHash": "eb1e33e8a81b697b75855af6bfcdbcbf7cbbde9f94962ceaec1ed8af21f5a50f",
+      "LFInputHash": "15652f9db1b379b9e443b4ce0a1dd4d766cd873ffac98e60fe96e140d742685c",
+      "LFProofHash": "53b75852b13e3bc56162f3b5a759e563504a3ab1c52aff6f86fc6fa96da4549b",
+      "exactSourceExcerpts": [
+        {
+          "first": 25,
+          "last": 30,
+          "lines": [
+            "if(b > 2):",
+            "    b -= 2",
+            "    res3 += 2",
+            "else:",
+            "    b = 0",
+            "    res3 += 2"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "2115cdb6bfcfb008eb2bab2bb79347cb064a48e4e7c4115ccbe4469c787bb6c4",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "eb1e33e8a81b697b75855af6bfcdbcbf7cbbde9f94962ceaec1ed8af21f5a50f",
+      "originalInputHash": "e8de71642df63cb9fa2ba612b967d7ac8b5813bd26cdb8018120d5e9c5df02f9",
+      "originalTimeout": false,
+      "reason": "lines 28-30: blue `else` covers b==0 and still adds 2 (res3=32), so an empty blue group contributes; also red/green have no x==2 branch (lines 11-23) so x=2 needs an extra cycle. Expected derivation: tests/0010: 0 1 0 -> one green car at time 1 -> 31. Source trace: res1=30 (r=0); g==1 -> g=0,res2=31; b=0 -> else: b=0,res3=32; no further additions; max=32.",
+      "sourceHash": "c100cdbda5fce50f3ca910c2862ce21b53f4b20e62f200485e06aa58f99141ac",
+      "sourceRanges": [
+        [
+          25,
+          30
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/90/submission/9260232",
+      "test": "0010"
+    }
+  },
   "independentFreshRunHash": "7c9e9dffab1dcedc35735332d44418715e61c9601b29556288688f7f85110733",
   "independentLFReplayHash": "53b75852b13e3bc56162f3b5a759e563504a3ab1c52aff6f86fc6fa96da4549b",
   "independentSemanticCheckHash": "3949db208936689e48fe4cbf1796edc998bf081f0ea519e7c585043b336dd458",
   "independentStressHash": "3c619bff6f9d489fc8d36f2d3be370ac8cbea49b14a20db64be83a04c26dee5a",
+  "originalExecutionEvidenceHash": "70b9da7e763c2f013e94608e99b5e734c0555ddafd2ad6cde54a19c47fd494f6",
   "packageHash": "60b0f5e63bb1499c8ed5291498b6254043080f678875f1baaea85c86948e2210",
   "qualificationBasis": "official",
   "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
+    "38985905: reviewer-reject; no-selected-semantic-witness"
   ],
   "references": [
     {
@@ -109,26 +249,25 @@
         "AC": 3,
         "WA": 20
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 20
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 20,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 20,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 14,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "90d237161bb4661156fb5267b6b0c0c552b7233dc3686ef7b07c834e30940c67",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/90/submission/4904871",
       "submissionId": "4904871",
       "testVerdicts": {
@@ -144,7 +283,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "420002158111bff8adb3347d84029e480f45e60e1869b454b6adac3345f9f7d4",
+        "originalExpectedOutputHash": "71ee45a3c0db9a9865f7313dd3372cf60dca6479d46261f3542eb9346e4a04d6",
+        "originalInputHash": "ec8714094b08c5e1761d995c0bf551deee706332b3f06c3242d28e265a57037c",
+        "reason": "line 2 uses floor(3(x-1)/2) as the last departure offset instead of 3*(ceil(x/2)-1); for even x it is one minute too late (x=10: 13 vs 12).",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     },
@@ -153,26 +296,25 @@
         "AC": 10,
         "WA": 10
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0010",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 10
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 10,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 10,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 10,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "c100cdbda5fce50f3ca910c2862ce21b53f4b20e62f200485e06aa58f99141ac",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/90/submission/9260232",
       "submissionId": "9260232",
       "testVerdicts": {
@@ -188,7 +330,11 @@
           "0010"
         ],
         "origin": "tests/0010",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "2115cdb6bfcfb008eb2bab2bb79347cb064a48e4e7c4115ccbe4469c787bb6c4",
+        "originalExpectedOutputHash": "eb1e33e8a81b697b75855af6bfcdbcbf7cbbde9f94962ceaec1ed8af21f5a50f",
+        "originalInputHash": "e8de71642df63cb9fa2ba612b967d7ac8b5813bd26cdb8018120d5e9c5df02f9",
+        "reason": "lines 28-30: blue `else` covers b==0 and still adds 2 (res3=32), so an empty blue group contributes; also red/green have no x==2 branch (lines 11-23) so x=2 needs an extra cycle.",
+        "selectedOriginalTest": "0010",
         "test": "lf-0010"
       }
     },
@@ -201,21 +347,24 @@
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 22
+        "source-reviewed defect with included normal-exit wrong answer": 0
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
+      "exclusionReason": "reviewer-reject; no-selected-semantic-witness: Unrelated/wrong-problem program: excluded by rule 5; not evidence of an algorithmic defect in a 90A implementation.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 22,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 22,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-semantics-reject",
       "packageWitnessCount": 13,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "e72cf0533ed2c82fa4e79295cca50db2826c6849278d5f4aebf1bfc4b726c32a",
+      "sourceSemanticExclusionReasons": [
+        "reviewer-reject",
+        "no-selected-semantic-witness"
+      ],
+      "sourceSemanticReviewStatus": "reject",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/90/submission/38985905",
       "submissionId": "38985905",
       "testVerdicts": {
@@ -239,26 +388,25 @@
         "AC": 1,
         "WA": 21
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 21
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 21,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 21,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "bc998456d563204da173b3be533c23305544dd567fa66f7b7771d00beb9ff6c6",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/90/submission/48168336",
       "submissionId": "48168336",
       "testVerdicts": {
@@ -274,7 +422,11 @@
           "0003"
         ],
         "origin": "tests/0003",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "a4b2c5db15348c29451e18b8307e5ef81625ea638e807935f39ceaa8d9ac7758",
+        "originalExpectedOutputHash": "7a61b53701befdae0eeeffaecc73f14e20b537bb0f8b91ad7c2936dc63562b25",
+        "originalInputHash": "b90350d8668d85beef15681ea16d5a5ce09732281ce96694e4922bb00195924f",
+        "reason": "lines 3/5/7 use max(r,g,b) minutes instead of 3*(ceil(x/2)-1); also the largest group need not determine the last arrival.",
+        "selectedOriginalTest": "0003",
         "test": "lf-0003"
       }
     },
@@ -282,26 +434,25 @@
       "LFReplayVerdicts": {
         "WA": 22
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 22
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 22,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 22,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "ef08016edb1892f2b8a5b08f5a54c7c63eb4539ffd1e48a00b3fde68b5ee9c7c",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/90/submission/52659133",
       "submissionId": "52659133",
       "testVerdicts": {
@@ -316,7 +467,11 @@
           "0001"
         ],
         "origin": "tests/0001",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "a4b2c5db15348c29451e18b8307e5ef81625ea638e807935f39ceaa8d9ac7758",
+        "originalExpectedOutputHash": "86e50149658661312a9e0b35558d84f6c6d3da797f552a9657fe0558ca40cdef",
+        "originalInputHash": "8bf3dd085d6d3d666293a29afc962fbfd2c1e609425fde9d4ec6280e22f8a26e",
+        "reason": "line 5 `30 + 3*(g//2 + g%2)` = 30+3*ceil(g/2) instead of 30+1+3*(ceil(g/2)-1); color offsets are missing on all three branches.",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     }
@@ -324,14 +479,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 5,
+      "bytes": 295543,
+      "name": "batch5-source-review.json",
+      "sha256": "b428fe8eb83846ca1692f87dfcd5d3bc7a98bf5bc8c3f856cd1173fc9dcbfb5a"
+    }
+  ],
+  "sourceReviewStatus": "reject",
+  "sourceSemanticReviewHash": "9c27b0cf4ced75cf70b94b0b8f62de92369b7d748d2e928436926a10511d9345",
+  "sourceSemanticReviewPath": "source-review/proofs/90A.json",
   "stressCases": 40,
-  "testPairs": 122,
-  "unconfirmedSourceIds": [
-    "4904871",
-    "9260232",
-    "38985905",
-    "48168336",
-    "52659133"
-  ]
+  "testPairs": 122
 }

@@ -1,6 +1,6 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
+  "algorithmicIncorrectKilled": 3,
   "approved": false,
   "checks": {
     "coverage": true,
@@ -12,16 +12,130 @@
     "sourceAttribution": true
   },
   "evidenceHash": "2915fdd79ba865bbcb27d017c9dfc4763231570653cd05b705734d4361014f57",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "51844817": {
+      "LFActualOutputHash": "76d74d6a9d3274e0c93d9cc403772afe083b63094cb1759ba4306ade54687f0c",
+      "LFExpectedOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+      "LFInputHash": "215a7a7dc3cc760ce2c0db86c1c4dcd30362ac7c347f84d216c9272f21c31201",
+      "LFProofHash": "576bef034858a508e582bf23a7aa9fdfaefed184d992e7645156896facae2029",
+      "exactSourceExcerpts": [
+        {
+          "first": 22,
+          "last": 30,
+          "lines": [
+            "    temp = [int(d) for d in str(B)]",
+            "    if temp[len(temp) -1] == 1:",
+            "        B = int((B-1)/10)",
+            "        listRta.append(B)",
+            "        count +=1",
+            "    else:",
+            "        B = int(B/2)",
+            "        listRta.append(B)",
+            "        count+=1"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "76d74d6a9d3274e0c93d9cc403772afe083b63094cb1759ba4306ade54687f0c",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "originalInputHash": "6e4f0ca020a258d14def48fcf5da74d457c795823e5b3562da65417e2c4181d0",
+      "originalTimeout": false,
+      "reason": "Line 28 `B = int(B/2)` halves odd numbers not ending in 1 with truncation instead of reporting impossibility. Expected derivation: 1 1000000000: 1e9 -> ... -> 1953125 (odd, ends in 5) cannot be produced -> NO. Source trace: 1953125 -> int(976562.5)=976562 -> 488281 -> 48828 -> 24414 -> 12207 -> 6103 -> 3051 -> 305 -> 152 -> 76 -> 38 -> 19 -> 9 -> 4 -> 2 -> 1 == A -> YES with 26 invalid steps.",
+      "sourceHash": "332da17a72c0788056520e2d05873faa0507560518fad69ac33388df2026b031",
+      "sourceRanges": [
+        [
+          22,
+          30
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/727/submission/51844817",
+      "test": "0005"
+    },
+    "51887687": {
+      "LFActualOutputHash": "ae47935ffbc905587b9759e2779b8fef6323a6b3bba5f3c5a67a773c90d221b6",
+      "LFExpectedOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+      "LFInputHash": "215a7a7dc3cc760ce2c0db86c1c4dcd30362ac7c347f84d216c9272f21c31201",
+      "LFProofHash": "576bef034858a508e582bf23a7aa9fdfaefed184d992e7645156896facae2029",
+      "exactSourceExcerpts": [
+        {
+          "first": 20,
+          "last": 25,
+          "lines": [
+            "   elif b%2==0:",
+            "      b//=2",
+            "      l.append(b)",
+            "   else:",
+            "      b//=10",
+            "      l.append(b)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "ae47935ffbc905587b9759e2779b8fef6323a6b3bba5f3c5a67a773c90d221b6",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "originalInputHash": "6e4f0ca020a258d14def48fcf5da74d457c795823e5b3562da65417e2c4181d0",
+      "originalTimeout": false,
+      "reason": "Line 23-24 `else: b//=10` drops any last digit, not only 1; odd b ending in 3/5/7/9 should mean NO. Expected derivation: 1 1000000000 -> NO (1953125 ends in 5). Source trace: 1953125//10=195312 -> ... -> 15 -> 1 == a -> YES, 21 values.",
+      "sourceHash": "f39eefd25151d5670edbf4d19efbc97664fa312bb62732218f72a9bebc411731",
+      "sourceRanges": [
+        [
+          20,
+          25
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/727/submission/51887687",
+      "test": "0005"
+    },
+    "51954260": {
+      "LFActualOutputHash": "ae47935ffbc905587b9759e2779b8fef6323a6b3bba5f3c5a67a773c90d221b6",
+      "LFExpectedOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+      "LFInputHash": "215a7a7dc3cc760ce2c0db86c1c4dcd30362ac7c347f84d216c9272f21c31201",
+      "LFProofHash": "576bef034858a508e582bf23a7aa9fdfaefed184d992e7645156896facae2029",
+      "exactSourceExcerpts": [
+        {
+          "first": 7,
+          "last": 10,
+          "lines": [
+            "  if b%2==0:",
+            "    b//=2",
+            "  else:",
+            "    b=(b-1)//10"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "ae47935ffbc905587b9759e2779b8fef6323a6b3bba5f3c5a67a773c90d221b6",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "originalInputHash": "6e4f0ca020a258d14def48fcf5da74d457c795823e5b3562da65417e2c4181d0",
+      "originalTimeout": false,
+      "reason": "Line 10 `b=(b-1)//10` for any odd b (no check that last digit is 1). Expected derivation: 1 1000000000 -> NO. Source trace: 1953125 -> (1953124)//10=195312 -> ... -> 15 -> 1 == a -> YES, 21 values.",
+      "sourceHash": "7c60e832a97e645cf3b0b457d6dfa29e2240a674d7d1fa4a4c74c746092ff6b1",
+      "sourceRanges": [
+        [
+          7,
+          10
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/727/submission/51954260",
+      "test": "0005"
+    }
+  },
   "independentFreshRunHash": "29deeb7ea63d5124f270748a0454aba791c6226f0a15dd2945c03dc63582b518",
   "independentLFReplayHash": "576bef034858a508e582bf23a7aa9fdfaefed184d992e7645156896facae2029",
   "independentSemanticCheckHash": "3d31d2be340cb30bdd3f779a4c9f5da0cfd47f3d6b832f17b0ad09bf74acca5a",
   "independentStressHash": "da74283b85ec343bc5a6dbafac41d9897aa9ca692ee770d000bed715c58e185e",
+  "originalExecutionEvidenceHash": "2915fdd79ba865bbcb27d017c9dfc4763231570653cd05b705734d4361014f57",
   "packageHash": "52e597a39b8d483a790caec4da460741c2ab611eb010d92573f88d1354437a64",
   "qualificationBasis": "official",
   "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
+    "51732884: reviewer-reject",
+    "51954222: reviewer-reject"
   ],
   "references": [
     {
@@ -114,21 +228,23 @@
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 13
+        "source-reviewed defect with included normal-exit wrong answer": 0
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
+      "exclusionReason": "reviewer-reject: All 13 included witnesses are YES cases where only the length line is one less; decision and path are correct. This is a count/header off-by-one, not an algorithmic error in the transformation -> not a qualifying source-level counterexample.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-semantics-reject",
       "packageWitnessCount": 13,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "e8284d338b774e6567c65b0b785ae3646ee26ee43027bd0201f137a92448c822",
+      "sourceSemanticExclusionReasons": [
+        "reviewer-reject"
+      ],
+      "sourceSemanticReviewStatus": "reject",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/727/submission/51732884",
       "submissionId": "51732884",
       "testVerdicts": {
@@ -153,26 +269,25 @@
         "AC": 8,
         "WA": 6
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 6
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 6,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 6,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 4,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "332da17a72c0788056520e2d05873faa0507560518fad69ac33388df2026b031",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/727/submission/51844817",
       "submissionId": "51844817",
       "testVerdicts": {
@@ -189,7 +304,11 @@
           "0034"
         ],
         "origin": "tests/0034",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "76d74d6a9d3274e0c93d9cc403772afe083b63094cb1759ba4306ade54687f0c",
+        "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+        "originalInputHash": "6e4f0ca020a258d14def48fcf5da74d457c795823e5b3562da65417e2c4181d0",
+        "reason": "Line 28 `B = int(B/2)` halves odd numbers not ending in 1 with truncation instead of reporting impossibility.",
+        "selectedOriginalTest": "0005",
         "test": "lf-0034"
       }
     },
@@ -199,26 +318,25 @@
         "TLE": 4,
         "WA": 2
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 2
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 2,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 2,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 2,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "f39eefd25151d5670edbf4d19efbc97664fa312bb62732218f72a9bebc411731",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/727/submission/51887687",
       "submissionId": "51887687",
       "testVerdicts": {
@@ -236,7 +354,11 @@
           "0034"
         ],
         "origin": "tests/0034",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "ae47935ffbc905587b9759e2779b8fef6323a6b3bba5f3c5a67a773c90d221b6",
+        "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+        "originalInputHash": "6e4f0ca020a258d14def48fcf5da74d457c795823e5b3562da65417e2c4181d0",
+        "reason": "Line 23-24 `else: b//=10` drops any last digit, not only 1; odd b ending in 3/5/7/9 should mean NO.",
+        "selectedOriginalTest": "0005",
         "test": "lf-0034"
       }
     },
@@ -250,21 +372,23 @@
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 13
+        "source-reviewed defect with included normal-exit wrong answer": 0
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
+      "exclusionReason": "reviewer-reject: All 13 included witnesses are YES cases with correct decision; differences are list/float presentation and omission of the first element/count off-by-one. No included test exposes an algorithmic decision/path error -> reject.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-semantics-reject",
       "packageWitnessCount": 13,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "39444f92402c924c8b0db62e54f568d3a32e9533dd48f4ae90faef82bf2f626d",
+      "sourceSemanticExclusionReasons": [
+        "reviewer-reject"
+      ],
+      "sourceSemanticReviewStatus": "reject",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/727/submission/51954222",
       "submissionId": "51954222",
       "testVerdicts": {
@@ -289,26 +413,25 @@
         "AC": 10,
         "WA": 2
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 2
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 2,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 2,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 2,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "7c60e832a97e645cf3b0b457d6dfa29e2240a674d7d1fa4a4c74c746092ff6b1",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/727/submission/51954260",
       "submissionId": "51954260",
       "testVerdicts": {
@@ -325,7 +448,11 @@
           "0034"
         ],
         "origin": "tests/0034",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "ae47935ffbc905587b9759e2779b8fef6323a6b3bba5f3c5a67a773c90d221b6",
+        "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+        "originalInputHash": "6e4f0ca020a258d14def48fcf5da74d457c795823e5b3562da65417e2c4181d0",
+        "reason": "Line 10 `b=(b-1)//10` for any odd b (no check that last digit is 1).",
+        "selectedOriginalTest": "0005",
         "test": "lf-0034"
       }
     }
@@ -333,14 +460,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 3,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 4,
+      "bytes": 389086,
+      "name": "rating-1000-source-review-batch4.json",
+      "sha256": "de8c7b37f70b0356c91c2ac393453ebcab2031858e514fd24cadd083c0a7c19e"
+    }
+  ],
+  "sourceReviewStatus": "reject",
+  "sourceSemanticReviewHash": "92e37825d2a12dbf0cc98869380ba20a69d52a2201fd5d1137e4f4cc63d3fa3b",
+  "sourceSemanticReviewPath": "source-review/proofs/727A.json",
   "stressCases": 40,
-  "testPairs": 215,
-  "unconfirmedSourceIds": [
-    "51732884",
-    "51844817",
-    "51887687",
-    "51954222",
-    "51954260"
-  ]
+  "testPairs": 215
 }

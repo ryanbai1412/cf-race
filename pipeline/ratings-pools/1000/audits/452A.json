@@ -1,6 +1,6 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 1,
+  "algorithmicIncorrectKilled": 4,
   "approved": false,
   "checks": {
     "coverage": true,
@@ -12,16 +12,159 @@
     "sourceAttribution": true
   },
   "evidenceHash": "e583d661d3b2ef1552fb046acc7de4a5bea869d44e91c3fc493d4072c3b3b511",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "7258678": {
+      "LFActualOutputHash": "593b5d757d5c6ebe5aeecf03295f9008fbac79f3db722fb2d57bc703e230919d",
+      "LFExpectedOutputHash": "be18ebfe76da99a163d03ba5b49fcf332b673f6d6fc4781e7e89963a6edcdf08",
+      "LFInputHash": "730f07a415b1b311d16c82df318119ddf359b50e24c8ab8a6e6520ad2916fc37",
+      "LFProofHash": "f81df93ef059f319e6127ec85bebac0619da06e26d9047edd1d9b5fe9ef4548c",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 14,
+          "lines": [
+            "    input()",
+            "    p = re.compile(input())",
+            "",
+            "    pokemons = [\"vaporeon\", \"jolteon\", \"flareon\", \"espeon\", \"umbreon\", \"leafeon\", \"glaceon\", \"sylveon\"]",
+            "",
+            "    for x in pokemons:",
+            "        if p.match(x):",
+            "            print(x)",
+            "            break"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "593b5d757d5c6ebe5aeecf03295f9008fbac79f3db722fb2d57bc703e230919d",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "5c8e9ed60f1155cd68bfcdeba4e5ff2846a4162e7e69ba2d2bb9783261685239",
+      "originalInputHash": "730f07a415b1b311d16c82df318119ddf359b50e24c8ab8a6e6520ad2916fc37",
+      "originalTimeout": false,
+      "reason": "Ignores n and uses prefix match rather than whole-name/length match. Expected derivation: Input length6, pattern......: espeon is the only6-letter candidate; all other names have7 or8 letters, so unique answer espeon. Source trace: Regex of6 dots matches the first6 letters of first candidate vaporeon (length8); the program prints vaporeon and breaks. This is wrong candidate acceptance, not capitalization/formatting.",
+      "sourceHash": "8d17d9dc3a7fe953e11de388b83379f6a5d1514f14983fe843f804b0dde572cf",
+      "sourceRanges": [
+        [
+          6,
+          14
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/452/submission/7258678",
+      "test": "0021"
+    },
+    "7258739": {
+      "LFActualOutputHash": "a67db56516de0cb898b9e31df61d164d3fe9a715529b68746239aa81c7e68e83",
+      "LFExpectedOutputHash": "be18ebfe76da99a163d03ba5b49fcf332b673f6d6fc4781e7e89963a6edcdf08",
+      "LFInputHash": "730f07a415b1b311d16c82df318119ddf359b50e24c8ab8a6e6520ad2916fc37",
+      "LFProofHash": "f81df93ef059f319e6127ec85bebac0619da06e26d9047edd1d9b5fe9ef4548c",
+      "exactSourceExcerpts": [
+        {
+          "first": 5,
+          "last": 7,
+          "lines": [
+            "for sasa in names:",
+            "    if re.match(sa2,sasa,re.I):",
+            "        print(sasa)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "a67db56516de0cb898b9e31df61d164d3fe9a715529b68746239aa81c7e68e83",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "5c8e9ed60f1155cd68bfcdeba4e5ff2846a4162e7e69ba2d2bb9783261685239",
+      "originalInputHash": "730f07a415b1b311d16c82df318119ddf359b50e24c8ab8a6e6520ad2916fc37",
+      "originalTimeout": false,
+      "reason": "Does not enforce length/full matching, admitting all longer-name prefixes. Expected derivation: n6 with...... matches only espeon among full-length names. Source trace: re.match('......',name) succeeds for all8 names because each has at least6 characters. It prints all8, asserting false candidates vaporeon,jolteon,flareon,umbreon,leafeon,glaceon,sylveon as well as espeon. These additional named answers are semantic false matches, not debug or equivalent representation.",
+      "sourceHash": "901e06dd5e79eeebf281f71a62b2788229a70fce8f7a12560ea8fe538acedf03",
+      "sourceRanges": [
+        [
+          5,
+          7
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/452/submission/7258739",
+      "test": "0021"
+    },
+    "7259853": {
+      "LFActualOutputHash": "a67db56516de0cb898b9e31df61d164d3fe9a715529b68746239aa81c7e68e83",
+      "LFExpectedOutputHash": "be18ebfe76da99a163d03ba5b49fcf332b673f6d6fc4781e7e89963a6edcdf08",
+      "LFInputHash": "730f07a415b1b311d16c82df318119ddf359b50e24c8ab8a6e6520ad2916fc37",
+      "LFProofHash": "f81df93ef059f319e6127ec85bebac0619da06e26d9047edd1d9b5fe9ef4548c",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 7,
+          "lines": [
+            "for i in ['vaporeon', 'jolteon', 'flareon', 'espeon', 'umbreon', 'leafeon', 'glaceon', 'sylveon']:",
+            "    if regexp.match(i) : print(i)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "a67db56516de0cb898b9e31df61d164d3fe9a715529b68746239aa81c7e68e83",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "5c8e9ed60f1155cd68bfcdeba4e5ff2846a4162e7e69ba2d2bb9783261685239",
+      "originalInputHash": "730f07a415b1b311d16c82df318119ddf359b50e24c8ab8a6e6520ad2916fc37",
+      "originalTimeout": false,
+      "reason": "Uses regex prefix matching and never checks n or total name length. Expected derivation: Only espeon has length6;...... has no further constraints, so answer espeon uniquely. Source trace: All eight names satisfy the6-dot prefix regex, so every name is printed. Seven admitted candidates violate the required length; conceptually removing output layout cannot remove these wrong decisions.",
+      "sourceHash": "2a86aa5276d20f8364009185aee5c91b2438b196be78d578a4409179ce5764a7",
+      "sourceRanges": [
+        [
+          6,
+          7
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/452/submission/7259853",
+      "test": "0021"
+    },
+    "7274969": {
+      "LFActualOutputHash": "593b5d757d5c6ebe5aeecf03295f9008fbac79f3db722fb2d57bc703e230919d",
+      "LFExpectedOutputHash": "be18ebfe76da99a163d03ba5b49fcf332b673f6d6fc4781e7e89963a6edcdf08",
+      "LFInputHash": "730f07a415b1b311d16c82df318119ddf359b50e24c8ab8a6e6520ad2916fc37",
+      "LFProofHash": "f81df93ef059f319e6127ec85bebac0619da06e26d9047edd1d9b5fe9ef4548c",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 9,
+          "lines": [
+            "for t in [\"vaporeon\", \"jolteon\", \"flareon\", \"espeon\", \"umbreon\", \"leafeon\", \"glaceon\", \"sylveon\"]:",
+            "    if re.match(s, t):",
+            "        print(t)",
+            "        break"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "593b5d757d5c6ebe5aeecf03295f9008fbac79f3db722fb2d57bc703e230919d",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "5c8e9ed60f1155cd68bfcdeba4e5ff2846a4162e7e69ba2d2bb9783261685239",
+      "originalInputHash": "730f07a415b1b311d16c82df318119ddf359b50e24c8ab8a6e6520ad2916fc37",
+      "originalTimeout": false,
+      "reason": "Prefix match without n/length equality picks a longer word. Expected derivation: Exactly espeon has the requested6 letters;...... otherwise unconstrained, so espeon. Source trace: First name vaporeon matches the6-dot prefix, is printed, and breaks, though its8 letters violate n6.",
+      "sourceHash": "40cd09b3180d5f740eb9fa444209ae895580a48e85538a365421079022f79ed2",
+      "sourceRanges": [
+        [
+          6,
+          9
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/452/submission/7274969",
+      "test": "0021"
+    }
+  },
   "independentFreshRunHash": "ea1e4a6df12c39264b36e12c2c862e16e9a95505b219a03a4e11d7efa89c6538",
   "independentLFReplayHash": "f81df93ef059f319e6127ec85bebac0619da06e26d9047edd1d9b5fe9ef4548c",
   "independentSemanticCheckHash": "1557e9c1e58429f829ad49a44a87f0adefca46a5f187efbe4c93f1fac5de67fb",
   "independentStressHash": "1c93b7860d58e7f2a0877818e9beeb6aab42d7406d721d077fdb2cc690fadca6",
+  "originalExecutionEvidenceHash": "e583d661d3b2ef1552fb046acc7de4a5bea869d44e91c3fc493d4072c3b3b511",
   "packageHash": "bd402fa430ba0a920ccdd15a4d1c071bf26eedadf66c566a1bab884913fd7223",
   "qualificationBasis": "official",
   "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
+    "7274102: empty-stdout-not-computed-wrong-answer"
   ],
   "references": [
     {
@@ -109,26 +252,25 @@
         "AC": 18,
         "WA": 4
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 4
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 4,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": false,
       "language": "Python 3",
       "normalWrongAnswerCount": 4,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 4,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "8d17d9dc3a7fe953e11de388b83379f6a5d1514f14983fe843f804b0dde572cf",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/452/submission/7258678",
       "submissionId": "7258678",
       "testVerdicts": {
@@ -141,11 +283,14 @@
         "expectedOutputHash": "be18ebfe76da99a163d03ba5b49fcf332b673f6d6fc4781e7e89963a6edcdf08",
         "inputHash": "730f07a415b1b311d16c82df318119ddf359b50e24c8ab8a6e6520ad2916fc37",
         "matchingPackageTests": [
-          "0009",
           "0021"
         ],
         "origin": "tests/0021",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "593b5d757d5c6ebe5aeecf03295f9008fbac79f3db722fb2d57bc703e230919d",
+        "originalExpectedOutputHash": "5c8e9ed60f1155cd68bfcdeba4e5ff2846a4162e7e69ba2d2bb9783261685239",
+        "originalInputHash": "730f07a415b1b311d16c82df318119ddf359b50e24c8ab8a6e6520ad2916fc37",
+        "reason": "Ignores n and uses prefix match rather than whole-name/length match.",
+        "selectedOriginalTest": "0021",
         "test": "lf-0021"
       }
     },
@@ -154,27 +299,25 @@
         "AC": 18,
         "WA": 4
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 2,
-        "answer appears intact alongside additional output; not an algorithmic witness": 2
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 2,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": false,
       "language": "Python 3",
       "normalWrongAnswerCount": 4,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 2,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "901e06dd5e79eeebf281f71a62b2788229a70fce8f7a12560ea8fe538acedf03",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/452/submission/7258739",
       "submissionId": "7258739",
       "testVerdicts": {
@@ -187,11 +330,14 @@
         "expectedOutputHash": "be18ebfe76da99a163d03ba5b49fcf332b673f6d6fc4781e7e89963a6edcdf08",
         "inputHash": "730f07a415b1b311d16c82df318119ddf359b50e24c8ab8a6e6520ad2916fc37",
         "matchingPackageTests": [
-          "0009",
           "0021"
         ],
         "origin": "tests/0021",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "a67db56516de0cb898b9e31df61d164d3fe9a715529b68746239aa81c7e68e83",
+        "originalExpectedOutputHash": "5c8e9ed60f1155cd68bfcdeba4e5ff2846a4162e7e69ba2d2bb9783261685239",
+        "originalInputHash": "730f07a415b1b311d16c82df318119ddf359b50e24c8ab8a6e6520ad2916fc37",
+        "reason": "Does not enforce length/full matching, admitting all longer-name prefixes.",
+        "selectedOriginalTest": "0021",
         "test": "lf-0021"
       }
     },
@@ -200,27 +346,25 @@
         "AC": 18,
         "WA": 4
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 2,
-        "answer appears intact alongside additional output; not an algorithmic witness": 2
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 2,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": false,
       "language": "Python 3",
       "normalWrongAnswerCount": 4,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 2,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "2a86aa5276d20f8364009185aee5c91b2438b196be78d578a4409179ce5764a7",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/452/submission/7259853",
       "submissionId": "7259853",
       "testVerdicts": {
@@ -233,11 +377,14 @@
         "expectedOutputHash": "be18ebfe76da99a163d03ba5b49fcf332b673f6d6fc4781e7e89963a6edcdf08",
         "inputHash": "730f07a415b1b311d16c82df318119ddf359b50e24c8ab8a6e6520ad2916fc37",
         "matchingPackageTests": [
-          "0009",
           "0021"
         ],
         "origin": "tests/0021",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "a67db56516de0cb898b9e31df61d164d3fe9a715529b68746239aa81c7e68e83",
+        "originalExpectedOutputHash": "5c8e9ed60f1155cd68bfcdeba4e5ff2846a4162e7e69ba2d2bb9783261685239",
+        "originalInputHash": "730f07a415b1b311d16c82df318119ddf359b50e24c8ab8a6e6520ad2916fc37",
+        "reason": "Uses regex prefix matching and never checks n or total name length.",
+        "selectedOriginalTest": "0021",
         "test": "lf-0021"
       }
     },
@@ -246,22 +393,28 @@
         "AC": 6,
         "WA": 17
       },
-      "algorithmicWitnessCount": 17,
-      "algorithmicWrongAnswer": true,
+      "algorithmicWitnessCount": 0,
+      "algorithmicWrongAnswer": false,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": true,
+      "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "string length compared to integers, so six/eight-character branches never run": 17
+        "source-reviewed defect with included normal-exit wrong answer": 0
       },
+      "exclusionReason": "empty-stdout-not-computed-wrong-answer: {'CRLF': 'The executed selected input is verified LF only; no carriage returns are present. Package CRLF relationships are recorded separately and do not create the selected defect.', 'countOrHeaderOmission': 'No pass is based only on a missing count/header. Where the task asks a count/value, a wrong computed count/result variable is demonstrated; list-layout differences are ignored.', 'debugOrPromptOutput': 'The substantive wrong result is traced; unrelated diagnostic/prompt text is not used to establish the defect.', 'entrypointLanguageCrashTimeout': 'Python3 is recorded and an exact matching normal execution record has exitCode0, timeoutFalse, WA and actual-output hash. Complete source has active top-level/main logic; for 7274102 its candidate search runs and falsely finds no match, not an absent entrypoint.', 'placeholderOrUnrelated': 'Actual attempted problem algorithm described above.', 'presentationAndEquivalentNotation': 'Only the mathematical answer/selected candidate/count is compared after ignoring whitespace and equivalent numeric notation. The expected derivation and actual branch trace explain distinct values/decisions, not a generic numeric inequality classifier.', 'sourceSpecificCausality': \"input_length is a string but compared to integer6/8, so correct six/eight-letter candidate classes are unreachable. '6'==6 and '6'==8 both false; else searches only7-letter names. Every candidate mismatches at character1 (zero-based): jolteon o, flareon l, umbreon m, leafeon e, glaceon l, sylveon y instead of s. All break there, avoiding index6; normal execution chooses no candidate and outputs empty bytes. This is an algorithmic false no-match caused by wrong candidate class, not an unexecuted entrypoint or placeholder print omission.\"}",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
       "language": "Python 3",
       "normalWrongAnswerCount": 17,
-      "outcome": "algorithmic-WA",
+      "outcome": "source-semantics-reject",
       "packageWitnessCount": 17,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "b278d5cdb5e22f378aa32aa1e1cfc4a05fa13c1834d8934385454579312ed6f3",
+      "sourceSemanticExclusionReasons": [
+        "empty-stdout-not-computed-wrong-answer"
+      ],
+      "sourceSemanticReviewStatus": "reject",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/452/submission/7274102",
       "submissionId": "7274102",
       "testVerdicts": {
@@ -288,26 +441,25 @@
         "AC": 18,
         "WA": 4
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 4
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 4,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": false,
       "language": "Python 3",
       "normalWrongAnswerCount": 4,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 4,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "40cd09b3180d5f740eb9fa444209ae895580a48e85538a365421079022f79ed2",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/452/submission/7274969",
       "submissionId": "7274969",
       "testVerdicts": {
@@ -320,11 +472,14 @@
         "expectedOutputHash": "be18ebfe76da99a163d03ba5b49fcf332b673f6d6fc4781e7e89963a6edcdf08",
         "inputHash": "730f07a415b1b311d16c82df318119ddf359b50e24c8ab8a6e6520ad2916fc37",
         "matchingPackageTests": [
-          "0009",
           "0021"
         ],
         "origin": "tests/0021",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "593b5d757d5c6ebe5aeecf03295f9008fbac79f3db722fb2d57bc703e230919d",
+        "originalExpectedOutputHash": "5c8e9ed60f1155cd68bfcdeba4e5ff2846a4162e7e69ba2d2bb9783261685239",
+        "originalInputHash": "730f07a415b1b311d16c82df318119ddf359b50e24c8ab8a6e6520ad2916fc37",
+        "reason": "Prefix match without n/length equality picks a longer word.",
+        "selectedOriginalTest": "0021",
         "test": "lf-0021"
       }
     }
@@ -332,13 +487,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 3,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 2,
+      "bytes": 816646,
+      "name": "batch-2-source-semantics-review.json",
+      "sha256": "37ab4aefa3b89e88955bddd18c024454d0b0b929d93e2f380e20f499ef9f0612"
+    }
+  ],
+  "sourceReviewStatus": "reject",
+  "sourceSemanticReviewHash": "201d5646d40b9c08c26bd9bd2df4f2d0828a4be3458662539405e78644746251",
+  "sourceSemanticReviewPath": "source-review/proofs/452A.json",
   "stressCases": 21,
-  "testPairs": 972,
-  "unconfirmedSourceIds": [
-    "7258678",
-    "7258739",
-    "7259853",
-    "7274969"
-  ]
+  "testPairs": 972
 }

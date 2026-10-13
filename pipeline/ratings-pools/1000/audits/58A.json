@@ -1,28 +1,213 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 1,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "c933881a77f8c6a188382e837f070a3eb3b7e86bfcb72c5f6421d0a507d93ea8",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "3930232": {
+      "LFActualOutputHash": "a9ac0c3ac83c40e1b4c3416066d63d324ee9f8c144641dfeed72d140b6557245",
+      "LFExpectedOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+      "LFInputHash": "6c16601771964f355101cb935f4cbf1051273abf68e6d90fdbe2ccaf741cd7c3",
+      "LFProofHash": "a55bb36c5c81aa3ad6e5aeb8c80d525ad31fd3e70182a4597e573d77c1e165d3",
+      "exactSourceExcerpts": [
+        {
+          "first": 11,
+          "last": 13,
+          "lines": [
+            "        if k>3:",
+            "            i=n",
+            "            print ('True')"
+          ]
+        },
+        {
+          "first": 21,
+          "last": 22,
+          "lines": [
+            "    if k<4:",
+            "        print('False')"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "a9ac0c3ac83c40e1b4c3416066d63d324ee9f8c144641dfeed72d140b6557245",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "originalInputHash": "47ea83a34ee546e886caaf3c27dd958b61977ef63bef6a39b53fb16fcaf26763",
+      "originalTimeout": false,
+      "reason": "Accepts once k>3 (four letters hell), before checking the fifth letter o; final failure threshold is also four rather than five. Expected derivation: The62-letter lowercase input is valid. The earliest viable h,e,l,l positions are13,48,55,56 (1-based), and there is no o after56. Greedy earliest matching maximizes remaining suffix, so no hello subsequence exists. Source trace: The counter reaches k1 at h13, k2 at e48, k3 at l55,k4 at l56. At next character57, k>3 is true: it sets i=n and prints True. No o was matched. Interpreting True as the Boolean assertion rather than merely rejecting the nonstandard token, the decision is wrong.",
+      "sourceHash": "323a11a2952e61573a8b0f85d249231fcf3b6ddbe6beae7f14d0ca5f4fa70e5c",
+      "sourceRanges": [
+        [
+          11,
+          13
+        ],
+        [
+          21,
+          22
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/58/submission/3930232",
+      "test": "0035"
+    },
+    "4549521": {
+      "LFActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "LFExpectedOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+      "LFInputHash": "dde66ef108e7395c64bf447e1218c7d2c06f4bd1c93c2ef3dc4deefadd550ab2",
+      "LFProofHash": "a55bb36c5c81aa3ad6e5aeb8c80d525ad31fd3e70182a4597e573d77c1e165d3",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 7,
+          "lines": [
+            "for i in s:",
+            "    while j < len(t) and t[j] != i:",
+            "        j += 1",
+            "print(['YES', 'NO'][j == len(t)])"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "originalInputHash": "b3f0d1b7f4815280a590ad8b1b3c28d8752881d5c0ce2d4ff13980e0c2760402",
+      "originalTimeout": false,
+      "reason": "Does not advance j after a successful match; the same l is reused for both consecutive l letters in hello. Expected derivation: In hlelo, e is at position3, and only l4 follows it before o5. The other l2 precedes e. Two distinct l positions after e are required, so NO. Source trace: On hlelo+y, j0 matches h; e search advances to index2; first l advances to index3; second l reuses index3 without advancing; o advances to index4. j4!=len(t)6, hence prints YES.",
+      "sourceHash": "ebf116e456c2d6ad9bb15db524f3d0bf8aeb1d0e7c50d8ee70d17daafde2cf57",
+      "sourceRanges": [
+        [
+          4,
+          7
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/58/submission/4549521",
+      "test": "0002"
+    },
+    "4573075": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "c2d380131c762e6ddaeea6813b79f9ee77abb6c8783fe1acfc506616bf8dbc1a",
+      "LFProofHash": "a55bb36c5c81aa3ad6e5aeb8c80d525ad31fd3e70182a4597e573d77c1e165d3",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 3,
+          "lines": [
+            "a=[s.find(\"h\"),s.find(\"e\"),s.find(\"ll\"),s.find(\"o\")]",
+            "print(\"YES\" if(a==sorted(a)) else \"NO\")"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+      "originalInputHash": "3ce02ea933d8829f2dbb042fc5d0df0f02fee1aff03540fbb210e87bb2c41eab",
+      "originalTimeout": false,
+      "reason": "Requires adjacent substring ll rather than two l occurrences in a subsequence; also does not handle missing find results correctly. Expected derivation: helhcludoo is valid lowercase length10. Positions1,2,3,6,9 spell h,e,l,l,o, so deleting the other letters gives hello. Source trace: find values are h0,e1,ll=-1,o8. [0,1,-1,8] differs from sorted[-1,0,1,8], so NO. The two nonadjacent l letters should have been allowed.",
+      "sourceHash": "dff5794ce3ed4eb0dcfa714af279d7c6db67c9d678657a742ef3bee8a8a0d95e",
+      "sourceRanges": [
+        [
+          2,
+          3
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/58/submission/4573075",
+      "test": "0003"
+    },
+    "6567274": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "c2d380131c762e6ddaeea6813b79f9ee77abb6c8783fe1acfc506616bf8dbc1a",
+      "LFProofHash": "a55bb36c5c81aa3ad6e5aeb8c80d525ad31fd3e70182a4597e573d77c1e165d3",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 5,
+          "lines": [
+            "def is_hello(s: str) -> bool:",
+            "    return re.match('.h.e.l.l.o.', s)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+      "originalInputHash": "3ce02ea933d8829f2dbb042fc5d0df0f02fee1aff03540fbb210e87bb2c41eab",
+      "originalTimeout": false,
+      "reason": "Regex .h.e.l.l.o. requires exactly one arbitrary character before, between and after target letters and re.match anchors at the start; subsequence gaps must be arbitrary length including zero. Expected derivation: helhcludoo contains hello at positions1,2,3,6,9; valid length10 lowercase string, so YES. Source trace: re.match starts at index0, where first dot consumes h; then literal h at pattern position2 is compared to input e at index1 and fails immediately. is_hello returns None and prints NO.",
+      "sourceHash": "edb27b0a728dd6acb6a47177eed6a9fb77dd7789b4fafac137c9529132cc4fff",
+      "sourceRanges": [
+        [
+          4,
+          5
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/58/submission/6567274",
+      "test": "0003"
+    },
+    "6577362": {
+      "LFActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "LFExpectedOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+      "LFInputHash": "6c16601771964f355101cb935f4cbf1051273abf68e6d90fdbe2ccaf741cd7c3",
+      "LFProofHash": "a55bb36c5c81aa3ad6e5aeb8c80d525ad31fd3e70182a4597e573d77c1e165d3",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 13,
+          "lines": [
+            "    if p == 4:",
+            "        print('YES')",
+            "        exit()",
+            "    if i == w[p]:",
+            "        p += 1",
+            "    if p == 4:",
+            "        print('YES')",
+            "        exit()"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "originalInputHash": "47ea83a34ee546e886caaf3c27dd958b61977ef63bef6a39b53fb16fcaf26763",
+      "originalTimeout": false,
+      "reason": "Both success checks use p==4 instead of5, so hell suffices without a following o. Expected derivation: In the valid62-letter input, earliest h,e,l,l positions13,48,55,56 leave no o afterward. No hello subsequence exists, so NO. Source trace: p advances to1,2,3,4 at those four positions; the post-match p==4 check on l56 prints YES and exits. Fifth target letter was never matched.",
+      "sourceHash": "63e85a098168de40778810dec6e734e0b13641210f9d6fc6e04627b85d9c0a33",
+      "sourceRanges": [
+        [
+          6,
+          13
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/58/submission/6577362",
+      "test": "0035"
+    }
+  },
   "independentFreshRunHash": "d567ce77dbd0fcb3c94f17a849087cd0cc94a38bc7db658baeb9b99b5f80365f",
   "independentLFReplayHash": "a55bb36c5c81aa3ad6e5aeb8c80d525ad31fd3e70182a4597e573d77c1e165d3",
   "independentSemanticCheckHash": "2fb2b3e571fcb7b5a0da3e9307c795355052c88fa01721283c0900b083d735f2",
   "independentStressHash": "df38c56240977cd890a3ee1b645baea31a1262b89999ed94104879ca18d47459",
+  "originalExecutionEvidenceHash": "c933881a77f8c6a188382e837f070a3eb3b7e86bfcb72c5f6421d0a507d93ea8",
   "packageHash": "237517c4292f6eb19c48fc8296cf64c3ce85b6bf132e009b991170ca798b3c46",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -113,19 +298,20 @@
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "Boolean predicate is mathematically wrong": 1,
-        "correct Boolean predicate in unsupported output representation": 21,
-        "empty output requires additional source-level defect review": 1
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
       "language": "Python 3",
       "normalWrongAnswerCount": 23,
-      "outcome": "algorithmic-WA",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 1,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "323a11a2952e61573a8b0f85d249231fcf3b6ddbe6beae7f14d0ca5f4fa70e5c",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/58/submission/3930232",
       "submissionId": "3930232",
       "testVerdicts": {
@@ -140,7 +326,11 @@
           "0035"
         ],
         "origin": "tests/0035",
-        "reason": "Boolean predicate is mathematically wrong",
+        "originalActualOutputHash": "a9ac0c3ac83c40e1b4c3416066d63d324ee9f8c144641dfeed72d140b6557245",
+        "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+        "originalInputHash": "47ea83a34ee546e886caaf3c27dd958b61977ef63bef6a39b53fb16fcaf26763",
+        "reason": "Accepts once k>3 (four letters hell), before checking the fifth letter o; final failure threshold is also four rather than five.",
+        "selectedOriginalTest": "0035",
         "test": "lf-0035"
       }
     },
@@ -149,26 +339,25 @@
         "AC": 6,
         "WA": 9
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 9
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 9,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 9,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 5,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "ebf116e456c2d6ad9bb15db524f3d0bf8aeb1d0e7c50d8ee70d17daafde2cf57",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/58/submission/4549521",
       "submissionId": "4549521",
       "testVerdicts": {
@@ -185,7 +374,11 @@
           "0043"
         ],
         "origin": "tests/0043",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+        "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+        "originalInputHash": "b3f0d1b7f4815280a590ad8b1b3c28d8752881d5c0ce2d4ff13980e0c2760402",
+        "reason": "Does not advance j after a successful match; the same l is reused for both consecutive l letters in hello.",
+        "selectedOriginalTest": "0002",
         "test": "lf-0043"
       }
     },
@@ -194,26 +387,25 @@
         "AC": 7,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "dff5794ce3ed4eb0dcfa714af279d7c6db67c9d678657a742ef3bee8a8a0d95e",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/58/submission/4573075",
       "submissionId": "4573075",
       "testVerdicts": {
@@ -229,7 +421,11 @@
           "0003"
         ],
         "origin": "tests/0003",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+        "originalInputHash": "3ce02ea933d8829f2dbb042fc5d0df0f02fee1aff03540fbb210e87bb2c41eab",
+        "reason": "Requires adjacent substring ll rather than two l occurrences in a subsequence; also does not handle missing find results correctly.",
+        "selectedOriginalTest": "0003",
         "test": "lf-0003"
       }
     },
@@ -238,26 +434,25 @@
         "AC": 7,
         "WA": 15
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 15
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 15,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 15,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "edb27b0a728dd6acb6a47177eed6a9fb77dd7789b4fafac137c9529132cc4fff",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/58/submission/6567274",
       "submissionId": "6567274",
       "testVerdicts": {
@@ -273,7 +468,11 @@
           "0003"
         ],
         "origin": "tests/0003",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+        "originalInputHash": "3ce02ea933d8829f2dbb042fc5d0df0f02fee1aff03540fbb210e87bb2c41eab",
+        "reason": "Regex .h.e.l.l.o. requires exactly one arbitrary character before, between and after target letters and re.match anchors at the start; subsequence gaps must be arbitrary length including zero.",
+        "selectedOriginalTest": "0003",
         "test": "lf-0003"
       }
     },
@@ -282,26 +481,25 @@
         "AC": 10,
         "WA": 5
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0035",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 5
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 5,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 5,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 5,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "63e85a098168de40778810dec6e734e0b13641210f9d6fc6e04627b85d9c0a33",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/58/submission/6577362",
       "submissionId": "6577362",
       "testVerdicts": {
@@ -317,7 +515,11 @@
           "0035"
         ],
         "origin": "tests/0035",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+        "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+        "originalInputHash": "47ea83a34ee546e886caaf3c27dd958b61977ef63bef6a39b53fb16fcaf26763",
+        "reason": "Both success checks use p==4 instead of5, so hell suffices without a following o.",
+        "selectedOriginalTest": "0035",
         "test": "lf-0035"
       }
     }
@@ -325,13 +527,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 3,
+      "bytes": 840772,
+      "name": "batch-3-source-semantics-report.json",
+      "sha256": "13a95ff57fc4d6b97aec98a2cea133fcb944543e9d5421886be5e8b7bb7631a9"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "a545f374a4ab6c5d481e5c158c232e1b8364b51846c2ff91ec0b82c74c3410ce",
+  "sourceSemanticReviewPath": "source-review/proofs/58A.json",
   "stressCases": 40,
-  "testPairs": 60,
-  "unconfirmedSourceIds": [
-    "4549521",
-    "4573075",
-    "6567274",
-    "6577362"
-  ]
+  "testPairs": 60
 }

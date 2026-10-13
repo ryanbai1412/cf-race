@@ -1,62 +1,238 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
-    "algorithmicallyWrong": false,
+    "algorithmicallyWrong": true,
     "coverage": true,
     "deterministicGeneration": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "generatedBasis": true,
     "hashes": true,
     "independentOracle": true,
     "inputConstraints": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "bf052ebbfd5c5ebdcbd27064042aa0141789a84866b141e4002e9d8bf714e911",
   "generatedQualificationHash": "ad5a668c72605e430c60febd17c0865c2f65699a1cd36575026c482190ad70e0",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
-  "historicalIncorrectAnalysis": {
+  "incorrectAnalysis": {
     "23771942": {
+      "LFActualOutputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+      "LFExpectedOutputHash": "f5ca38f748a1d6eaf726b8a42fb575c3c71f1864a8143301782de13da2d9202b",
+      "LFInputHash": "5aefeaefc97ce84b9ce58c234bead0411a6cf1a7863f7b3b6980f6cb16272ab1",
+      "LFProofHash": "9fb287f8f018a3b958ffb353221d26b45ba3e8f722e79ffba66e1c238baa24cd",
+      "exactSourceExcerpts": [
+        {
+          "first": 9,
+          "last": 19,
+          "lines": [
+            "    for x in inpstr:",
+            "        if x in list(\"Bulbasr\"):",
+            "            counter[x] += 1",
+            "",
+            "    result = min(result, counter[\"B\"])",
+            "    result = min(result, counter[\"u\"]//2)",
+            "    result = min(result, counter[\"b\"]//2)",
+            "    result = min(result, counter[\"a\"]//2)",
+            "    result = min(result, counter[\"l\"])",
+            "    result = min(result, counter[\"s\"])",
+            "    result = min(result, counter[\"r\"])"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "8ce88a8842c1584e3d6871e84e166e3b513c3ce2a9da6166760c7af1645dea29",
+      "originalInputHash": "bf0479640fbcf4d3c79d6447791d84c794328cb3032e872f57d3d933124b9631",
+      "originalTimeout": false,
+      "reason": "Line 15 `counter[\"b\"]//2` halves lowercase b, which \"Bulbasaur\" needs only once (only u and a need two). Expected derivation: Counts B=30,u=100,l=20,b=20,a=200,s=20,r=30 -> min(30,100//2,20,20,200//2,20,30)=20. Source trace: b//2 = 10 -> min = 10.",
+      "sourceHash": "65dd67c1dc7bce9215c4a400dc40ab920c89125748ba5d3d1fd86045bd99a1ea",
+      "sourceRanges": [
+        [
+          9,
+          19
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/757/submission/23771942",
       "test": "0008"
     },
     "23772296": {
+      "LFActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "LFExpectedOutputHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+      "LFInputHash": "e08a3b644965f31b1b4ea6a67e39e2c85438fd004de11478280fb58c41477bd4",
+      "LFProofHash": "9fb287f8f018a3b958ffb353221d26b45ba3e8f722e79ffba66e1c238baa24cd",
+      "exactSourceExcerpts": [
+        {
+          "first": 20,
+          "last": 28,
+          "lines": [
+            "win = 0",
+            "while(1):",
+            "    if sol[0]>0 and sol[1]>= 2*sol[0] and sol[2]>0 and sol[3]>0 and sol[4]>=2*sol[0] and sol[5]>0 and sol[6]>0:",
+            "        for a in range(0,len(sol)):",
+            "            sol[a] -= 1",
+            "        win+=1",
+            "",
+            "    else:",
+            "        break"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+      "originalInputHash": "cbe88d1395b9149ca9878879f9a442aee0e1aeb951c92d343527760bad1bcdb7",
+      "originalTimeout": false,
+      "reason": "Line 22 requires u>=2*B and a>=2*B (B = remaining B count) instead of u>=2,a>=2; line 24 subtracts 1 from every letter (u and a should lose 2). Expected derivation: B=b=u=l=s=a=r=10 -> min(10,10/2,...,10/2)=5. Source trace: sol[1]=10 >= 2*10 false -> loop breaks immediately -> 0.",
+      "sourceHash": "02a28918351d86bf0b8cfb52ea4b0e81dba1897ee803a2d16c320ff61ac65335",
+      "sourceRanges": [
+        [
+          20,
+          28
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/757/submission/23772296",
       "test": "0004"
     },
     "23775200": {
+      "LFActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "LFExpectedOutputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "LFInputHash": "b053b3239a94b67a57c33d33c48f4f505b848edbd1f990a76028ad1591329091",
+      "LFProofHash": "9fb287f8f018a3b958ffb353221d26b45ba3e8f722e79ffba66e1c238baa24cd",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 15,
+          "lines": [
+            "for i in pokemon:",
+            "    count = 0",
+            "    for j in s:",
+            "        if i == j:",
+            "            count += 1",
+            "    if i == 'a' or 'u':",
+            "        count = int(count/2)",
+            "    number.append(count)",
+            "",
+            "print(min(number))"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "originalInputHash": "755467fc57a663acecad17afda3f23fc86c43edc08f70647e01f3da59ec724a9",
+      "originalTimeout": false,
+      "reason": "Line 11 `if i == 'a' or 'u':` is always true (non-empty \"u\"), so every letter count is halved. Expected derivation: Bulbbasaur: B1,u2,l1,b2,a2,s1,r1 -> 1. Source trace: B count 1 -> int(1/2)=0 -> min 0.",
+      "sourceHash": "8ada819dd607bb2d553ff48a08a691c98a18b0fe2992d7eb08af08dbf0ef9d8a",
+      "sourceRanges": [
+        [
+          6,
+          15
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/757/submission/23775200",
       "test": "0001"
     },
     "23781202": {
+      "LFActualOutputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+      "LFExpectedOutputHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+      "LFInputHash": "e08a3b644965f31b1b4ea6a67e39e2c85438fd004de11478280fb58c41477bd4",
+      "LFProofHash": "9fb287f8f018a3b958ffb353221d26b45ba3e8f722e79ffba66e1c238baa24cd",
+      "exactSourceExcerpts": [
+        {
+          "first": 33,
+          "last": 36,
+          "lines": [
+            "for a in range(min(bukov.values())):",
+            "    for i in bukov:",
+            "        sl[i]+=bukvi[i]",
+            "print(min(sl.values()))"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+      "originalInputHash": "cbe88d1395b9149ca9878879f9a442aee0e1aeb951c92d343527760bad1bcdb7",
+      "originalTimeout": false,
+      "reason": "Line 33 uses min(bukov.values()) (raw min count) as the number of words, ignoring that u and a are needed twice; result is m*1 = m. Expected derivation: all seven letters x10 -> 5. Source trace: m=10; sl B=10,u=20,l=10,b=10,a=20,s=10,r=10 -> min 10.",
+      "sourceHash": "4e58ed91367b70c2792fad5470cc2f834d60134585bcf02dfb92dc4d24c35a20",
+      "sourceRanges": [
+        [
+          33,
+          36
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/757/submission/23781202",
       "test": "0004"
     },
     "23783943": {
+      "LFActualOutputHash": "8d5c1b5a87c51f970807fc0c2057b3ab3aaf11638ab667dc5956edc8f5bcf138",
+      "LFExpectedOutputHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "LFInputHash": "aa9bf8422b3268e6739cfa84c52015a51cc5d0138f97f5854560e8e262b65905",
+      "LFProofHash": "9fb287f8f018a3b958ffb353221d26b45ba3e8f722e79ffba66e1c238baa24cd",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 7,
+          "lines": [
+            "if dict.get('a') is not None: dict['a'] /= 2",
+            "if dict.get('u') is not None: dict['u'] /= 2"
+          ]
+        },
+        {
+          "first": 10,
+          "last": 13,
+          "lines": [
+            "for ch in tmp:",
+            "    if dict.get(ch) is not None: ans = min(ans, dict[ch])",
+            "    else: ans = 0",
+            "print(ans)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "8d5c1b5a87c51f970807fc0c2057b3ab3aaf11638ab667dc5956edc8f5bcf138",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "originalInputHash": "07f07411719923b531c39f34e8a497384edf17de026ee81725940f65d261f552",
+      "originalTimeout": false,
+      "reason": "Lines 6-7 use true division `/= 2` instead of floor division, so a single a/u is worth half a word. Expected derivation: Bbulsar: B1,b1,u1,l1,s1,a1,r1 -> min(1,0,1,1,0,1,1)=0. Source trace: a=u=0.5 -> min 0.5 -> prints 0.5.",
+      "sourceHash": "4a37ea154119cd1fad4146b77b4243d4ac2881d7d5d586608ab7b0223739b430",
+      "sourceRanges": [
+        [
+          6,
+          7
+        ],
+        [
+          10,
+          13
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/757/submission/23783943",
       "test": "0019"
     }
   },
-  "incorrectAnalysis": {},
   "independentFreshRunHash": "955a541a23101af82d97168fcfd14a05a6401a665468810fdb92f51f2ceb448d",
   "independentLFReplayHash": "9fb287f8f018a3b958ffb353221d26b45ba3e8f722e79ffba66e1c238baa24cd",
   "independentSemanticCheckHash": "0a455822696b67e37a84129da3b742212715de3e250853b2b8f5ae1750790cb6",
   "independentStressHash": "ca4d221f06f02781a241dde2f7036126ecee9860424f22f4b9866f5186db1ab5",
+  "originalExecutionEvidenceHash": "bf052ebbfd5c5ebdcbd27064042aa0141789a84866b141e4002e9d8bf714e911",
   "packageHash": "3b5deb84f980fa696f5fe88c1474c9d93b4fd9d784dec3faece320f5f386953a",
   "qualificationBasis": "generated",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -143,26 +319,25 @@
         "AC": 9,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0008",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "65dd67c1dc7bce9215c4a400dc40ab920c89125748ba5d3d1fd86045bd99a1ea",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/757/submission/23771942",
       "submissionId": "23771942",
       "testVerdicts": {
@@ -178,7 +353,11 @@
           "0008"
         ],
         "origin": "tests/0008",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+        "originalExpectedOutputHash": "8ce88a8842c1584e3d6871e84e166e3b513c3ce2a9da6166760c7af1645dea29",
+        "originalInputHash": "bf0479640fbcf4d3c79d6447791d84c794328cb3032e872f57d3d933124b9631",
+        "reason": "Line 15 `counter[\"b\"]//2` halves lowercase b, which \"Bulbasaur\" needs only once (only u and a need two).",
+        "selectedOriginalTest": "0008",
         "test": "lf-0008"
       }
     },
@@ -187,26 +366,25 @@
         "AC": 8,
         "WA": 16
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 16
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 16,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 16,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "02a28918351d86bf0b8cfb52ea4b0e81dba1897ee803a2d16c320ff61ac65335",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/757/submission/23772296",
       "submissionId": "23772296",
       "testVerdicts": {
@@ -222,7 +400,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "originalInputHash": "cbe88d1395b9149ca9878879f9a442aee0e1aeb951c92d343527760bad1bcdb7",
+        "reason": "Line 22 requires u>=2*B and a>=2*B (B = remaining B count) instead of u>=2,a>=2; line 24 subtracts 1 from every letter (u and a should lose 2).",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     },
@@ -231,26 +413,25 @@
         "AC": 6,
         "WA": 17
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 17
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 17,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 17,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "8ada819dd607bb2d553ff48a08a691c98a18b0fe2992d7eb08af08dbf0ef9d8a",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/757/submission/23775200",
       "submissionId": "23775200",
       "testVerdicts": {
@@ -266,7 +447,11 @@
           "0001"
         ],
         "origin": "tests/0001",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+        "originalInputHash": "755467fc57a663acecad17afda3f23fc86c43edc08f70647e01f3da59ec724a9",
+        "reason": "Line 11 `if i == 'a' or 'u':` is always true (non-empty \"u\"), so every letter count is halved.",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     },
@@ -275,26 +460,25 @@
         "AC": 8,
         "WA": 16
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 16
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 16,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 16,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "4e58ed91367b70c2792fad5470cc2f834d60134585bcf02dfb92dc4d24c35a20",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/757/submission/23781202",
       "submissionId": "23781202",
       "testVerdicts": {
@@ -310,7 +494,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+        "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "originalInputHash": "cbe88d1395b9149ca9878879f9a442aee0e1aeb951c92d343527760bad1bcdb7",
+        "reason": "Line 33 uses min(bukov.values()) (raw min count) as the number of words, ignoring that u and a are needed twice; result is m*1 = m.",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     },
@@ -319,27 +507,25 @@
         "AC": 8,
         "WA": 16
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0019",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 11,
-        "numeric values equal; only numeric output representation differs": 5
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 11,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 16,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 9,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "4a37ea154119cd1fad4146b77b4243d4ac2881d7d5d586608ab7b0223739b430",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/757/submission/23783943",
       "submissionId": "23783943",
       "testVerdicts": {
@@ -356,7 +542,11 @@
           "0020"
         ],
         "origin": "tests/0019",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "8d5c1b5a87c51f970807fc0c2057b3ab3aaf11638ab667dc5956edc8f5bcf138",
+        "originalExpectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+        "originalInputHash": "07f07411719923b531c39f34e8a497384edf17de026ee81725940f65d261f552",
+        "reason": "Lines 6-7 use true division `/= 2` instead of floor division, so a single a/u is worth half a word.",
+        "selectedOriginalTest": "0019",
         "test": "lf-0019"
       }
     }
@@ -364,14 +554,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 3,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 4,
+      "bytes": 389086,
+      "name": "rating-1000-source-review-batch4.json",
+      "sha256": "de8c7b37f70b0356c91c2ac393453ebcab2031858e514fd24cadd083c0a7c19e"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "ee7860f19af6dacd0fce1974986f74c7eb08f85a7237f26623c10616eba83b11",
+  "sourceSemanticReviewPath": "source-review/proofs/757A.json",
   "stressCases": 40,
-  "testPairs": 252,
-  "unconfirmedSourceIds": [
-    "23771942",
-    "23772296",
-    "23775200",
-    "23781202",
-    "23783943"
-  ]
+  "testPairs": 252
 }

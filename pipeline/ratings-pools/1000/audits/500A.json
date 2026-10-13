@@ -1,68 +1,250 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 1,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
-    "algorithmicallyWrong": false,
+    "algorithmicallyWrong": true,
     "coverage": true,
     "deterministicGeneration": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "generatedBasis": true,
     "hashes": true,
     "independentOracle": true,
     "inputConstraints": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "030941a8b2742fa80a4b1fb9ab7bc89f07de9f124d54f8bfbdf3ae085e5e30b5",
   "generatedQualificationHash": "88dcfd6f248034a79852785c70f649c318dcd0a15caae98ac29ac3b576e72bef",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
-  "historicalIncorrectAnalysis": {
+  "incorrectAnalysis": {
     "142337314": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "1388d1a285774478713c7189f3fab70443ac4410ad3f9f93576890c6c0eeaac5",
+      "LFProofHash": "ac39c12f43554dbf1e3ccc736088ea1596314f8ddeb1557027eb8fe52463f1cc",
+      "exactSourceExcerpts": [
+        {
+          "first": 9,
+          "last": 15,
+          "lines": [
+            "    while i!=n:",
+            "        if i == t:",
+            "            print(\"YES\")",
+            "            break",
+            "        i = a[i-1]",
+            "    else:",
+            "        print(\"NO\")"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+      "originalInputHash": "8e512b735f66d7faaaf547d5ed7d5bcbcca8fbd54e67539f94d4be147fc66bcf",
+      "originalTimeout": false,
+      "reason": "while i!=n exits on reaching the last cell before the i==t success check, misclassifying t=n. Expected derivation: n=4,t=4,a=(2,2,1) is valid. Path from 1 is 1->3->4, so cell 4 is reachable and answer YES. Source trace: Destination list becomes [3,4,4], so membership precheck succeeds. i=1 jumps to 3, then to 4. while i!=n stops; while-else prints NO without checking target 4.",
+      "sourceHash": "460952cf94807a56cb6beb8ab10b539576b1e459bf16987d2d299090ec32096f",
+      "sourceRanges": [
+        [
+          9,
+          15
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/500/submission/142337314",
       "test": "0011"
     },
     "142400674": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "e5c68d93bf3e914f6e090e89f3d67e04668eaef358776f89b36bf1a9c2b0ad67",
+      "LFProofHash": "ac39c12f43554dbf1e3ccc736088ea1596314f8ddeb1557027eb8fe52463f1cc",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 8,
+          "lines": [
+            "res.append(arr[0])",
+            "for i in range (1, len(arr)+1):",
+            "    a, b = i, (arr[i-1]+i)",
+            "    if a == res[len(res)-1]:",
+            "        res.append(b)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+      "originalInputHash": "5cb1bc26aa9e584c093310b2e7607a15bd4263ce32e01c5480b3656de4770153",
+      "originalTimeout": false,
+      "reason": "res starts with arr[0] (the first jump length), not starting cell 1 or destination 1+arr[0]. Expected derivation: All 19 jumps satisfy 1<=ai<=20-i. With t=19, the actual path is 1->14 (a1=13), 14->19 (a14=5), 19->20. Therefore YES. Source trace: res begins [13]. At i=13 it appends 13+a13=18; at i=18 it appends 18+a18=20. No further i reaches 20 in range 1..19. res=[13,18,20], excludes 19, so source prints NO.",
+      "sourceHash": "21891b55d07460d8d2511a82f2da71f655c16be621610063735898b073382ef6",
+      "sourceRanges": [
+        [
+          4,
+          8
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/500/submission/142400674",
       "test": "0003"
     },
     "143360881": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "1388d1a285774478713c7189f3fab70443ac4410ad3f9f93576890c6c0eeaac5",
+      "LFProofHash": "ac39c12f43554dbf1e3ccc736088ea1596314f8ddeb1557027eb8fe52463f1cc",
+      "exactSourceExcerpts": [
+        {
+          "first": 7,
+          "last": 20,
+          "lines": [
+            "while i <= len(a):",
+            "    if i == t:",
+            "        print(\"YES\")",
+            "        test = 0",
+            "        break",
+            "    elif i < t:",
+            "        i = i + a[i-1]",
+            "    else:",
+            "        print(\"NO\")",
+            "        test = 0",
+            "        break",
+            "",
+            "if test:",
+            "    print(\"NO\")"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+      "originalInputHash": "8e512b735f66d7faaaf547d5ed7d5bcbcca8fbd54e67539f94d4be147fc66bcf",
+      "originalTimeout": false,
+      "reason": "while i<=len(a) excludes cell n=len(a)+1, so it misses success at t=n. Expected derivation: Valid jumps (2,2,1) in n=4 yield 1->3->4, reaching target 4. YES. Source trace: i starts 1, test=1. It jumps to 3 and then 4; 4<=len(a)=3 fails, so target check never runs at 4. test stays 1 and final fallback prints NO.",
+      "sourceHash": "43e7483b7ed2034c5ad660cb07f64392ac39f71c2708334e5ffebf1e6062fb99",
+      "sourceRanges": [
+        [
+          7,
+          20
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/500/submission/143360881",
       "test": "0011"
     },
     "143601236": {
+      "LFActualOutputHash": "1a5402190dd0a7c8f081b525dedf39179dd369218dfa095a476dea67be5b7eed",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "8f3d7764a507f7d26296ebd5a5605e7673bbb7c0c581424932457d96954d4d4b",
+      "LFProofHash": "ac39c12f43554dbf1e3ccc736088ea1596314f8ddeb1557027eb8fe52463f1cc",
+      "exactSourceExcerpts": [
+        {
+          "first": 12,
+          "last": 16,
+          "lines": [
+            "        if i >= len(portal):",
+            "            return clist",
+            "        clist += [i]",
+            "        next_index = i + portal[i]",
+            "        clist = dfs(portal, next_index, clist)"
+          ]
+        },
+        {
+          "first": 22,
+          "last": 25,
+          "lines": [
+            "    if d in des:",
+            "        print(\"YES\")",
+            "    else:",
+            "        print(\"NO\")"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "terminal answer is mathematically wrong after disregarding debug output",
+      "originalActualOutputHash": "1a5402190dd0a7c8f081b525dedf39179dd369218dfa095a476dea67be5b7eed",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+      "originalInputHash": "e9eaa573a8991a32f9b18a264366e586308ce12f668172b92e4eb8c19ca9133c",
+      "originalTimeout": false,
+      "reason": "Compares one-based destination d directly with a list of zero-based indices; recursion also omits the final cell index because it returns before appending it. Expected derivation: For valid n=8,t=4 and jumps [1,2,1,2,1,2,1], the one-based path is 1->2->4->6->8. Target 4 is visited, so YES. Source trace: dfs(0) appends indices 0,1,3,5 and stops at 7 because 7>=len(portal). d=4 is not in [0,1,3,5], so terminal output is NO. Removing 'hello', portal echo and visited-list debug leaves the same wrong decision.",
+      "sourceHash": "3a33edcc22961ff973e0d63258bf47879b1cd770d82fa78015b73231e8ce351b",
+      "sourceRanges": [
+        [
+          12,
+          16
+        ],
+        [
+          22,
+          25
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/500/submission/143601236",
       "test": "0001"
     },
     "143794684": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "1388d1a285774478713c7189f3fab70443ac4410ad3f9f93576890c6c0eeaac5",
+      "LFProofHash": "ac39c12f43554dbf1e3ccc736088ea1596314f8ddeb1557027eb8fe52463f1cc",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 9,
+          "lines": [
+            "    while(i<n):",
+            "        if(i==t):",
+            "            print(\"YES\")",
+            "            return",
+            "        i = i + arr[i]",
+            "    print('NO')"
+          ]
+        },
+        {
+          "first": 14,
+          "last": 14,
+          "lines": [
+            "pro(arr,n-1,t)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+      "originalInputHash": "8e512b735f66d7faaaf547d5ed7d5bcbcca8fbd54e67539f94d4be147fc66bcf",
+      "originalTimeout": false,
+      "reason": "Caller passes n-1 and while i<n excludes final zero-based index n-1; target check is skipped on the last cell. Expected derivation: With n=4,t=4,jumps (2,2,1), path 1->3->4 reaches target: YES. Source trace: pro receives limit 3 and t=4 becomes3. i=0 jumps to2, then to3. i<3 fails and it prints NO without testing i==t at3.",
+      "sourceHash": "044919b0bccc5299fa5294897461e8c30f6edb71d90c69fba0e5dd54c719b853",
+      "sourceRanges": [
+        [
+          4,
+          9
+        ],
+        [
+          14,
+          14
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/500/submission/143794684",
       "test": "0011"
-    }
-  },
-  "incorrectAnalysis": {
-    "143601236": {
-      "kind": "wrong-answer",
-      "reason": "terminal answer is mathematically wrong after disregarding debug output",
-      "test": "0001"
     }
   },
   "independentFreshRunHash": "413015fc0133252882592bac6c0b362d6ed90ae3bd342c432a2c3cad714a9102",
   "independentLFReplayHash": "ac39c12f43554dbf1e3ccc736088ea1596314f8ddeb1557027eb8fe52463f1cc",
   "independentSemanticCheckHash": "69214988c0cad8b3c63aa0aa25f4202e724b188b4edcf59404e6ee25b888b717",
   "independentStressHash": "71b223373f68157797fe1cb2f6a49dee1f540a00b379f8574903e8bbbfcedd8c",
+  "originalExecutionEvidenceHash": "030941a8b2742fa80a4b1fb9ab7bc89f07de9f124d54f8bfbdf3ae085e5e30b5",
   "packageHash": "b59cd58d7bf666a1b84086a21dbff717fcccaa42d8f3857d83fb83a103f727dd",
   "qualificationBasis": "generated",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -149,26 +331,25 @@
         "AC": 10,
         "WA": 11
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0011",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 11
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 11,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 11,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "460952cf94807a56cb6beb8ab10b539576b1e459bf16987d2d299090ec32096f",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/500/submission/142337314",
       "submissionId": "142337314",
       "testVerdicts": {
@@ -184,7 +365,11 @@
           "0011"
         ],
         "origin": "tests/0011",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+        "originalInputHash": "8e512b735f66d7faaaf547d5ed7d5bcbcca8fbd54e67539f94d4be147fc66bcf",
+        "reason": "while i!=n exits on reaching the last cell before the i==t success check, misclassifying t=n.",
+        "selectedOriginalTest": "0011",
         "test": "lf-0011"
       }
     },
@@ -193,26 +378,25 @@
         "AC": 7,
         "WA": 16
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 16
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 16,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 16,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 14,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "21891b55d07460d8d2511a82f2da71f655c16be621610063735898b073382ef6",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/500/submission/142400674",
       "submissionId": "142400674",
       "testVerdicts": {
@@ -228,7 +412,11 @@
           "0003"
         ],
         "origin": "tests/0003",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+        "originalInputHash": "5cb1bc26aa9e584c093310b2e7607a15bd4263ce32e01c5480b3656de4770153",
+        "reason": "res starts with arr[0] (the first jump length), not starting cell 1 or destination 1+arr[0].",
+        "selectedOriginalTest": "0003",
         "test": "lf-0003"
       }
     },
@@ -237,26 +425,25 @@
         "AC": 10,
         "WA": 11
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0011",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 11
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 11,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 11,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "43e7483b7ed2034c5ad660cb07f64392ac39f71c2708334e5ffebf1e6062fb99",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/500/submission/143360881",
       "submissionId": "143360881",
       "testVerdicts": {
@@ -272,7 +459,11 @@
           "0011"
         ],
         "origin": "tests/0011",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+        "originalInputHash": "8e512b735f66d7faaaf547d5ed7d5bcbcca8fbd54e67539f94d4be147fc66bcf",
+        "reason": "while i<=len(a) excludes cell n=len(a)+1, so it misses success at t=n.",
+        "selectedOriginalTest": "0011",
         "test": "lf-0011"
       }
     },
@@ -280,23 +471,25 @@
       "LFReplayVerdicts": {
         "WA": 23
       },
-      "algorithmicWitnessCount": 14,
+      "algorithmicWitnessCount": 1,
       "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "answer appears intact alongside additional output; not an algorithmic witness": 9,
-        "terminal answer is mathematically wrong after disregarding debug output": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
       "language": "Python 3",
       "normalWrongAnswerCount": 23,
-      "outcome": "algorithmic-WA",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 10,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "3a33edcc22961ff973e0d63258bf47879b1cd770d82fa78015b73231e8ce351b",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/500/submission/143601236",
       "submissionId": "143601236",
       "testVerdicts": {
@@ -312,7 +505,11 @@
           "0001"
         ],
         "origin": "tests/0001",
-        "reason": "terminal answer is mathematically wrong after disregarding debug output",
+        "originalActualOutputHash": "1a5402190dd0a7c8f081b525dedf39179dd369218dfa095a476dea67be5b7eed",
+        "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+        "originalInputHash": "e9eaa573a8991a32f9b18a264366e586308ce12f668172b92e4eb8c19ca9133c",
+        "reason": "Compares one-based destination d directly with a list of zero-based indices; recursion also omits the final cell index because it returns before appending it.",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     },
@@ -321,26 +518,25 @@
         "AC": 10,
         "WA": 11
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0011",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 11
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 11,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 11,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "044919b0bccc5299fa5294897461e8c30f6edb71d90c69fba0e5dd54c719b853",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/500/submission/143794684",
       "submissionId": "143794684",
       "testVerdicts": {
@@ -356,7 +552,11 @@
           "0011"
         ],
         "origin": "tests/0011",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+        "originalInputHash": "8e512b735f66d7faaaf547d5ed7d5bcbcca8fbd54e67539f94d4be147fc66bcf",
+        "reason": "Caller passes n-1 and while i<n excludes final zero-based index n-1; target check is skipped on the last cell.",
+        "selectedOriginalTest": "0011",
         "test": "lf-0011"
       }
     }
@@ -364,13 +564,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 3,
+      "bytes": 840772,
+      "name": "batch-3-source-semantics-report.json",
+      "sha256": "13a95ff57fc4d6b97aec98a2cea133fcb944543e9d5421886be5e8b7bb7631a9"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "79468d1da0f0d08a969ecfb07a709c8af2e16225a5c8f6f38bf431086ee58f00",
+  "sourceSemanticReviewPath": "source-review/proofs/500A.json",
   "stressCases": 40,
-  "testPairs": 211,
-  "unconfirmedSourceIds": [
-    "142337314",
-    "142400674",
-    "143360881",
-    "143794684"
-  ]
+  "testPairs": 211
 }

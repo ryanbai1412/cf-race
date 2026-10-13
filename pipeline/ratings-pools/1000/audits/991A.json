@@ -1,28 +1,206 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "8f5a184678b0f0c4c6f6e18b1f2a3b485f7bf70382b2910a4498394421444505",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "43009789": {
+      "LFActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "LFExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+      "LFInputHash": "aa3fa0849449a654f3c4b0c7e24430936946425939c0192631b7a8f858474cfc",
+      "LFProofHash": "8a4ca60e2761555f7c041ee61ba382832aa83086d1131c5c30fd42963aa1d710",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 6,
+          "lines": [
+            "s=d-((a-c)+(b-c))-c",
+            "if s > 0:",
+            "    print(s)",
+            "else:",
+            "    print(-1)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+      "originalInputHash": "a3e1a0656833f4e8a8273eb2d74fb7892006b208db4a74e7e9405152c95ebfeb",
+      "originalTimeout": false,
+      "reason": "lines 3-6 never check C <= A and C <= B, so negative 'only-A'/'only-B' counts are accepted. Expected derivation: tests/0005: A=1, B=5, C=2, N=10: C=2 > A=1 (more students visited both than visited BugDonalds) -> contradictory -> -1. Source trace: s = 10-((1-2)+(5-2))-2 = 10-2-2 = 6 > 0 -> prints 6.",
+      "sourceHash": "3b5d00cfb5dc2b4f7c41235cc7c5fb350630b8c3a6a755d24b9b01cea7b6cdd9",
+      "sourceRanges": [
+        [
+          2,
+          6
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/991/submission/43009789",
+      "test": "0005"
+    },
+    "43157599": {
+      "LFActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "LFExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+      "LFInputHash": "aa3fa0849449a654f3c4b0c7e24430936946425939c0192631b7a8f858474cfc",
+      "LFProofHash": "8a4ca60e2761555f7c041ee61ba382832aa83086d1131c5c30fd42963aa1d710",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 4,
+          "lines": [
+            "pp = a+b-c",
+            "ff = n-pp",
+            "print (ff if ff>0 else -1)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+      "originalInputHash": "a3e1a0656833f4e8a8273eb2d74fb7892006b208db4a74e7e9405152c95ebfeb",
+      "originalTimeout": false,
+      "reason": "line 4 only checks ff>0; missing C<=A and C<=B validity. Expected derivation: tests/0005: A=1, B=5, C=2, N=10: C=2 > A=1 (more students visited both than visited BugDonalds) -> contradictory -> -1. Source trace: pp=1+5-2=4, ff=6 -> prints 6.",
+      "sourceHash": "22f8e2d969bf820b6ebf318e61f495ebf47051674bfee475c87c93945f3dd6e2",
+      "sourceRanges": [
+        [
+          2,
+          4
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/991/submission/43157599",
+      "test": "0005"
+    },
+    "43580181": {
+      "LFActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "LFExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+      "LFInputHash": "aa3fa0849449a654f3c4b0c7e24430936946425939c0192631b7a8f858474cfc",
+      "LFProofHash": "8a4ca60e2761555f7c041ee61ba382832aa83086d1131c5c30fd42963aa1d710",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 7,
+          "lines": [
+            "d= A-C",
+            "e=B-C",
+            "if ( (N-(d+e+C )) > 0 ) :",
+            "    print (N-(d+e+C ))",
+            "else:",
+            "    print(-1)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+      "originalInputHash": "a3e1a0656833f4e8a8273eb2d74fb7892006b208db4a74e7e9405152c95ebfeb",
+      "originalTimeout": false,
+      "reason": "lines 2-4: d=A-C may be negative (here -1) but no d>=0/e>=0 validity check. Expected derivation: tests/0005: A=1, B=5, C=2, N=10: C=2 > A=1 (more students visited both than visited BugDonalds) -> contradictory -> -1. Source trace: d=-1, e=3; 10-(-1+3+2)=6 > 0 -> prints 6.",
+      "sourceHash": "ce44cc5f0807b2fb1e7cf365b6441581fa669131e1fe6ffb2e0f9e9a0b29ebbb",
+      "sourceRanges": [
+        [
+          2,
+          7
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/991/submission/43580181",
+      "test": "0005"
+    },
+    "43600255": {
+      "LFActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "LFExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+      "LFInputHash": "aa3fa0849449a654f3c4b0c7e24430936946425939c0192631b7a8f858474cfc",
+      "LFProofHash": "8a4ca60e2761555f7c041ee61ba382832aa83086d1131c5c30fd42963aa1d710",
+      "exactSourceExcerpts": [
+        {
+          "first": 8,
+          "last": 11,
+          "lines": [
+            "if n - (a + b - c) < 1:",
+            "\tprint(-1)",
+            "else:",
+            "\tprint(n - (a + b - c))"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+      "originalInputHash": "a3e1a0656833f4e8a8273eb2d74fb7892006b208db4a74e7e9405152c95ebfeb",
+      "originalTimeout": false,
+      "reason": "line 8 only tests home count < 1; C>A or C>B not rejected. Expected derivation: tests/0005: A=1, B=5, C=2, N=10: C=2 > A=1 (more students visited both than visited BugDonalds) -> contradictory -> -1. Source trace: 10-(1+5-2)=6, not < 1 -> prints 6.",
+      "sourceHash": "0c0241bea74cf847a8b352f7debb13f05492d05ecccf7a7701e38dec9f9f3077",
+      "sourceRanges": [
+        [
+          8,
+          11
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/991/submission/43600255",
+      "test": "0005"
+    },
+    "43686374": {
+      "LFActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "LFExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+      "LFInputHash": "aa3fa0849449a654f3c4b0c7e24430936946425939c0192631b7a8f858474cfc",
+      "LFProofHash": "8a4ca60e2761555f7c041ee61ba382832aa83086d1131c5c30fd42963aa1d710",
+      "exactSourceExcerpts": [
+        {
+          "first": 13,
+          "last": 18,
+          "lines": [
+            "failed = n-a-b+c",
+            "",
+            "if failed<1:",
+            "    print(-1)",
+            "else:",
+            "    print(failed)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+      "originalInputHash": "a3e1a0656833f4e8a8273eb2d74fb7892006b208db4a74e7e9405152c95ebfeb",
+      "originalTimeout": false,
+      "reason": "lines 15-18 implement only failed<1; the c<=a/c<=b constraint from the string literal at lines 3-11 is not executed. Expected derivation: tests/0005: A=1, B=5, C=2, N=10: C=2 > A=1 (more students visited both than visited BugDonalds) -> contradictory -> -1. Source trace: failed = 10-1-5+2 = 6 -> prints 6.",
+      "sourceHash": "affdadbcddb01500e8f10a40b9dd352746e84a48d8dfea995401fe55c36d3bfc",
+      "sourceRanges": [
+        [
+          13,
+          18
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/991/submission/43686374",
+      "test": "0005"
+    }
+  },
   "independentFreshRunHash": "d8b0f7135d53656dad76109a5b1eda8652f9fb858b39535ddb0de5cfdb25c80b",
   "independentLFReplayHash": "8a4ca60e2761555f7c041ee61ba382832aa83086d1131c5c30fd42963aa1d710",
   "independentSemanticCheckHash": "1118623ad3baabde7344bcd5755c303c01643a24a523b7be3cd0ab2b50b24e7c",
   "independentStressHash": "33daaf7303b945ae3f1eb14a6c03f51362c398f189cfc059cca4c553a6a67dab",
+  "originalExecutionEvidenceHash": "8f5a184678b0f0c4c6f6e18b1f2a3b485f7bf70382b2910a4498394421444505",
   "packageHash": "e3ddceb9464f4b7751000a99051993c84a1f7aaf2a910df1a0980214cc73bc66",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -109,26 +287,25 @@
         "AC": 8,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "3b5d00cfb5dc2b4f7c41235cc7c5fb350630b8c3a6a755d24b9b01cea7b6cdd9",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/991/submission/43009789",
       "submissionId": "43009789",
       "testVerdicts": {
@@ -144,7 +321,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+        "originalExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+        "originalInputHash": "a3e1a0656833f4e8a8273eb2d74fb7892006b208db4a74e7e9405152c95ebfeb",
+        "reason": "lines 3-6 never check C <= A and C <= B, so negative 'only-A'/'only-B' counts are accepted.",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     },
@@ -153,26 +334,25 @@
         "AC": 8,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "22f8e2d969bf820b6ebf318e61f495ebf47051674bfee475c87c93945f3dd6e2",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/991/submission/43157599",
       "submissionId": "43157599",
       "testVerdicts": {
@@ -188,7 +368,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+        "originalExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+        "originalInputHash": "a3e1a0656833f4e8a8273eb2d74fb7892006b208db4a74e7e9405152c95ebfeb",
+        "reason": "line 4 only checks ff>0; missing C<=A and C<=B validity.",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     },
@@ -197,26 +381,25 @@
         "AC": 8,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "ce44cc5f0807b2fb1e7cf365b6441581fa669131e1fe6ffb2e0f9e9a0b29ebbb",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/991/submission/43580181",
       "submissionId": "43580181",
       "testVerdicts": {
@@ -232,7 +415,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+        "originalExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+        "originalInputHash": "a3e1a0656833f4e8a8273eb2d74fb7892006b208db4a74e7e9405152c95ebfeb",
+        "reason": "lines 2-4: d=A-C may be negative (here -1) but no d>=0/e>=0 validity check.",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     },
@@ -241,26 +428,25 @@
         "AC": 8,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "0c0241bea74cf847a8b352f7debb13f05492d05ecccf7a7701e38dec9f9f3077",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/991/submission/43600255",
       "submissionId": "43600255",
       "testVerdicts": {
@@ -276,7 +462,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+        "originalExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+        "originalInputHash": "a3e1a0656833f4e8a8273eb2d74fb7892006b208db4a74e7e9405152c95ebfeb",
+        "reason": "line 8 only tests home count < 1; C>A or C>B not rejected.",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     },
@@ -285,26 +475,25 @@
         "AC": 8,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "affdadbcddb01500e8f10a40b9dd352746e84a48d8dfea995401fe55c36d3bfc",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/991/submission/43686374",
       "submissionId": "43686374",
       "testVerdicts": {
@@ -320,7 +509,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+        "originalExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+        "originalInputHash": "a3e1a0656833f4e8a8273eb2d74fb7892006b208db4a74e7e9405152c95ebfeb",
+        "reason": "lines 15-18 implement only failed<1; the c<=a/c<=b constraint from the string literal at lines 3-11 is not executed.",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     }
@@ -328,14 +521,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 3,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 5,
+      "bytes": 295543,
+      "name": "batch5-source-review.json",
+      "sha256": "b428fe8eb83846ca1692f87dfcd5d3bc7a98bf5bc8c3f856cd1173fc9dcbfb5a"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "ccb8cc4f2f152ef32376a0c507bb4b82de80f3d024fc682a75fa72e5e8ccabb6",
+  "sourceSemanticReviewPath": "source-review/proofs/991A.json",
   "stressCases": 40,
-  "testPairs": 152,
-  "unconfirmedSourceIds": [
-    "43009789",
-    "43157599",
-    "43580181",
-    "43600255",
-    "43686374"
-  ]
+  "testPairs": 152
 }

@@ -1,28 +1,206 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "a4c623b22a6af89f2d1aaa9fc68cc798af0c9df3814dc1f0ca568c4e411cee60",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "33678365": {
+      "LFActualOutputHash": "23d7ecfba6f8b19c644490acf66a41c418c849d81b544c0f5271184de21a0e0f",
+      "LFExpectedOutputHash": "b6399cc26f4d76baacf93830240ae1a8b0b54060eda1e760d9e3a86d4d3cb618",
+      "LFInputHash": "c00a936852cc6ea943824af1268d50f0faa34cc89a7586a4788a0d1dfcbb1262",
+      "LFProofHash": "9155caac8250a31bcfacb63d4ebe00d4a7dccc862289ef1b0c32904aeb069568",
+      "exactSourceExcerpts": [
+        {
+          "first": 18,
+          "last": 19,
+          "lines": [
+            "        if last_name[0] >= first_name[index]:",
+            "            login += first_name[index]"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "23d7ecfba6f8b19c644490acf66a41c418c849d81b544c0f5271184de21a0e0f",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "5d4a1bf31b4debf6e0574cd82d38dfff07cd147f2134475c7c0b97e6a08ae1df",
+      "originalInputHash": "6257a40233c6faa83575ff069d01d58994c74377f64623e163d3d777216141c2",
+      "originalTimeout": false,
+      "reason": "line 18 `last_name[0] >= first_name[index]` uses >= instead of >, so equal letters are taken from the first name, making the login longer and later. Expected derivation: tests/0024: 'twvvsl wtcyawv': 't' then first[1]='w' is not < 'w' -> stop -> 'tw'. Source trace: 'w'>='w' take w; 'w'>='v' take v; v; s; l; index reaches 6 -> stop; append 'w' -> 'twvvslw'.",
+      "sourceHash": "23dab0bd1f636e67ab35fcfbb5858380f09791fad907125c44338651b33f99b9",
+      "sourceRanges": [
+        [
+          18,
+          19
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/909/submission/33678365",
+      "test": "0024"
+    },
+    "33678948": {
+      "LFActualOutputHash": "23d7ecfba6f8b19c644490acf66a41c418c849d81b544c0f5271184de21a0e0f",
+      "LFExpectedOutputHash": "b6399cc26f4d76baacf93830240ae1a8b0b54060eda1e760d9e3a86d4d3cb618",
+      "LFInputHash": "c00a936852cc6ea943824af1268d50f0faa34cc89a7586a4788a0d1dfcbb1262",
+      "LFProofHash": "9155caac8250a31bcfacb63d4ebe00d4a7dccc862289ef1b0c32904aeb069568",
+      "exactSourceExcerpts": [
+        {
+          "first": 8,
+          "last": 13,
+          "lines": [
+            "  if ord(ch) < ord(i):",
+            "    ans.append(ch)",
+            "    flag=1",
+            "    break",
+            "  else:",
+            "    ans.append(i)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "23d7ecfba6f8b19c644490acf66a41c418c849d81b544c0f5271184de21a0e0f",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "5d4a1bf31b4debf6e0574cd82d38dfff07cd147f2134475c7c0b97e6a08ae1df",
+      "originalInputHash": "6257a40233c6faa83575ff069d01d58994c74377f64623e163d3d777216141c2",
+      "originalTimeout": false,
+      "reason": "line 8 `ord(ch) < ord(i)` sends ties (ch == i) to the else branch (line 13), appending the first-name letter instead of stopping. Expected derivation: tests/0024: 'twvvsl wtcyawv' -> 'tw'. Source trace: ch='w'; i='w': not w<w -> append w; i='v','v','s','l' all <= 'w' -> appended; flag 0 -> append 'w' -> 'twvvslw'.",
+      "sourceHash": "bc1a77f6fdcb59f332dc2cb097338b3a8a4f8fc3f6723780e6f46e876b4b0438",
+      "sourceRanges": [
+        [
+          8,
+          13
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/909/submission/33678948",
+      "test": "0024"
+    },
+    "33681075": {
+      "LFActualOutputHash": "bbdf7b8c3cc5267ca09e667e50c5eaa0b7ae206093870a151f5dc8759467486d",
+      "LFExpectedOutputHash": "b6399cc26f4d76baacf93830240ae1a8b0b54060eda1e760d9e3a86d4d3cb618",
+      "LFInputHash": "c00a936852cc6ea943824af1268d50f0faa34cc89a7586a4788a0d1dfcbb1262",
+      "LFProofHash": "9155caac8250a31bcfacb63d4ebe00d4a7dccc862289ef1b0c32904aeb069568",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 16,
+          "lines": [
+            "while ( i <len(a) and j < len(b)):",
+            "\tif ord(a[i]) < ord(b[j]):",
+            "\t\tans.append(a[i])",
+            "\t\ti+=1",
+            "\telif ord(b[j]) < ord(a[i]):",
+            "\t\tans.append(b[j])",
+            "\t\tj+=1",
+            "\t\tbreak",
+            "\telse:",
+            "\t\ti+=1",
+            "\t\tj+=1"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "bbdf7b8c3cc5267ca09e667e50c5eaa0b7ae206093870a151f5dc8759467486d",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "5d4a1bf31b4debf6e0574cd82d38dfff07cd147f2134475c7c0b97e6a08ae1df",
+      "originalInputHash": "6257a40233c6faa83575ff069d01d58994c74377f64623e163d3d777216141c2",
+      "originalTimeout": false,
+      "reason": "lines 14-16 on a[i]==b[j] advance i and j without appending anything, and line 7 compares against b[j] for j>0 instead of always b[0]. Expected derivation: tests/0024: 'twvvsl wtcyawv' -> 'tw'. Source trace: ans=['t']; i=1,j=0: 'w'=='w' -> i=2,j=1; 'v' vs 't': 't'<'v' -> append 't', break -> 'tt'.",
+      "sourceHash": "c6d2867a2c15c9a8f54adc15537f66c0d5b589bd4f5effce1d5eb9c3f301cd3b",
+      "sourceRanges": [
+        [
+          6,
+          16
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/909/submission/33681075",
+      "test": "0024"
+    },
+    "33682085": {
+      "LFActualOutputHash": "5c669d940e7cab6f05086a32bb14b9eafb2bba87a6e8bb7e335516571a149fda",
+      "LFExpectedOutputHash": "bfe5989f3f00aa2376bf3ff6c89a8613519dffff80e0c70a49d496262ff46783",
+      "LFInputHash": "6baabb540af57329878c89eb93c94b9417e58cb719a9d78435b38e97d9203a62",
+      "LFProofHash": "9155caac8250a31bcfacb63d4ebe00d4a7dccc862289ef1b0c32904aeb069568",
+      "exactSourceExcerpts": [
+        {
+          "first": 36,
+          "last": 39,
+          "lines": [
+            "f = n[0][1:]",
+            "t = n[0]+ n[1][0]",
+            "for i in range(1,len(f)):",
+            "\tt = checker(t, n[0][0:i]+n[1][0])"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "5c669d940e7cab6f05086a32bb14b9eafb2bba87a6e8bb7e335516571a149fda",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "55df75cd6e2f154005a7d54a83d14cba75baa7a94ffd31b9b7a70a8954026e7e",
+      "originalInputHash": "8c9590098d4bb09134828d23b982281dc77fa98b7f3ca3186e397d6cb8d654c5",
+      "originalTimeout": false,
+      "reason": "lines 36-38: f = first[1:] so `range(1,len(f))` tries only first-name prefixes of length 1..len(first)-2 besides the initial full name; length len(first)-1 is never tried, and for a 2-letter first name no shorter prefix at all (never 'first[0]+last[0]'). Expected derivation: tests/0017: 'ly qtsmze': 'lq' < 'lyq' since q<y -> 'lq'. Source trace: f='y', len 1 -> range(1,1) empty -> t stays 'ly'+'q' = 'lyq'.",
+      "sourceHash": "675d012086df3d964739e2ba7e389253bd55fb572cd8edaa917beaf9923ad816",
+      "sourceRanges": [
+        [
+          36,
+          39
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/909/submission/33682085",
+      "test": "0017"
+    },
+    "33689935": {
+      "LFActualOutputHash": "23d7ecfba6f8b19c644490acf66a41c418c849d81b544c0f5271184de21a0e0f",
+      "LFExpectedOutputHash": "b6399cc26f4d76baacf93830240ae1a8b0b54060eda1e760d9e3a86d4d3cb618",
+      "LFInputHash": "c00a936852cc6ea943824af1268d50f0faa34cc89a7586a4788a0d1dfcbb1262",
+      "LFProofHash": "9155caac8250a31bcfacb63d4ebe00d4a7dccc862289ef1b0c32904aeb069568",
+      "exactSourceExcerpts": [
+        {
+          "first": 8,
+          "last": 8,
+          "lines": [
+            "    if ord(k)>p2:"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "23d7ecfba6f8b19c644490acf66a41c418c849d81b544c0f5271184de21a0e0f",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "5d4a1bf31b4debf6e0574cd82d38dfff07cd147f2134475c7c0b97e6a08ae1df",
+      "originalInputHash": "6257a40233c6faa83575ff069d01d58994c74377f64623e163d3d777216141c2",
+      "originalTimeout": false,
+      "reason": "line 8 `ord(k)>p2` stops only on strictly greater letters; letters equal to last[0] are kept. Expected derivation: tests/0024: 'twvvsl wtcyawv' -> 'tw'. Source trace: first[1:]='wvvsl', p2=ord('w'): none > 'w' -> flag 0 -> ans='twvvsl' -> prints 'twvvslw'.",
+      "sourceHash": "3044170879c7effca6d0cbcbb5a4c990af72f660a8e91343a95406cb69b149f0",
+      "sourceRanges": [
+        [
+          8,
+          8
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/909/submission/33689935",
+      "test": "0024"
+    }
+  },
   "independentFreshRunHash": "4a202bd054d240e7462efd0f24731de2bd4c7f958365cd0e5e30ad7e091d4c6e",
   "independentLFReplayHash": "9155caac8250a31bcfacb63d4ebe00d4a7dccc862289ef1b0c32904aeb069568",
   "independentSemanticCheckHash": "76a92c7dcae7b7e8b2aa700e6ffdd69bfa5bcb32d355e26d47a3151dc11db458",
   "independentStressHash": "5045b17f19cfeff27619f8bcbb879494aafd2b5a01f4d241db9e411fbc537a7e",
+  "originalExecutionEvidenceHash": "a4c623b22a6af89f2d1aaa9fc68cc798af0c9df3814dc1f0ca568c4e411cee60",
   "packageHash": "c3243abe0ade608760aa8c43fed189b2caf87084ef21365019ab5524b6c5bcb3",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -109,26 +287,25 @@
         "AC": 10,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0024",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "23dab0bd1f636e67ab35fcfbb5858380f09791fad907125c44338651b33f99b9",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/909/submission/33678365",
       "submissionId": "33678365",
       "testVerdicts": {
@@ -144,7 +321,11 @@
           "0024"
         ],
         "origin": "tests/0024",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "23d7ecfba6f8b19c644490acf66a41c418c849d81b544c0f5271184de21a0e0f",
+        "originalExpectedOutputHash": "5d4a1bf31b4debf6e0574cd82d38dfff07cd147f2134475c7c0b97e6a08ae1df",
+        "originalInputHash": "6257a40233c6faa83575ff069d01d58994c74377f64623e163d3d777216141c2",
+        "reason": "line 18 `last_name[0] >= first_name[index]` uses >= instead of >, so equal letters are taken from the first name, making the login longer and later.",
+        "selectedOriginalTest": "0024",
         "test": "lf-0024"
       }
     },
@@ -153,26 +334,25 @@
         "AC": 10,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0024",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "bc1a77f6fdcb59f332dc2cb097338b3a8a4f8fc3f6723780e6f46e876b4b0438",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/909/submission/33678948",
       "submissionId": "33678948",
       "testVerdicts": {
@@ -188,7 +368,11 @@
           "0024"
         ],
         "origin": "tests/0024",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "23d7ecfba6f8b19c644490acf66a41c418c849d81b544c0f5271184de21a0e0f",
+        "originalExpectedOutputHash": "5d4a1bf31b4debf6e0574cd82d38dfff07cd147f2134475c7c0b97e6a08ae1df",
+        "originalInputHash": "6257a40233c6faa83575ff069d01d58994c74377f64623e163d3d777216141c2",
+        "reason": "line 8 `ord(ch) < ord(i)` sends ties (ch == i) to the else branch (line 13), appending the first-name letter instead of stopping.",
+        "selectedOriginalTest": "0024",
         "test": "lf-0024"
       }
     },
@@ -197,26 +381,25 @@
         "AC": 10,
         "WA": 12
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0024",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 12
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 12,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 12,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "c6d2867a2c15c9a8f54adc15537f66c0d5b589bd4f5effce1d5eb9c3f301cd3b",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/909/submission/33681075",
       "submissionId": "33681075",
       "testVerdicts": {
@@ -233,7 +416,11 @@
           "0024"
         ],
         "origin": "tests/0024",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "bbdf7b8c3cc5267ca09e667e50c5eaa0b7ae206093870a151f5dc8759467486d",
+        "originalExpectedOutputHash": "5d4a1bf31b4debf6e0574cd82d38dfff07cd147f2134475c7c0b97e6a08ae1df",
+        "originalInputHash": "6257a40233c6faa83575ff069d01d58994c74377f64623e163d3d777216141c2",
+        "reason": "lines 14-16 on a[i]==b[j] advance i and j without appending anything, and line 7 compares against b[j] for j>0 instead of always b[0].",
+        "selectedOriginalTest": "0024",
         "test": "lf-0024"
       }
     },
@@ -242,26 +429,25 @@
         "AC": 10,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0017",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "675d012086df3d964739e2ba7e389253bd55fb572cd8edaa917beaf9923ad816",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/909/submission/33682085",
       "submissionId": "33682085",
       "testVerdicts": {
@@ -277,7 +463,11 @@
           "0017"
         ],
         "origin": "tests/0017",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "5c669d940e7cab6f05086a32bb14b9eafb2bba87a6e8bb7e335516571a149fda",
+        "originalExpectedOutputHash": "55df75cd6e2f154005a7d54a83d14cba75baa7a94ffd31b9b7a70a8954026e7e",
+        "originalInputHash": "8c9590098d4bb09134828d23b982281dc77fa98b7f3ca3186e397d6cb8d654c5",
+        "reason": "lines 36-38: f = first[1:] so `range(1,len(f))` tries only first-name prefixes of length 1..len(first)-2 besides the initial full name; length len(first)-1 is never tried, and for a 2-letter first name no shorter prefix at all (never 'first[0]+last[0]').",
+        "selectedOriginalTest": "0017",
         "test": "lf-0017"
       }
     },
@@ -286,26 +476,25 @@
         "AC": 10,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0024",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "3044170879c7effca6d0cbcbb5a4c990af72f660a8e91343a95406cb69b149f0",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/909/submission/33689935",
       "submissionId": "33689935",
       "testVerdicts": {
@@ -321,7 +510,11 @@
           "0024"
         ],
         "origin": "tests/0024",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "23d7ecfba6f8b19c644490acf66a41c418c849d81b544c0f5271184de21a0e0f",
+        "originalExpectedOutputHash": "5d4a1bf31b4debf6e0574cd82d38dfff07cd147f2134475c7c0b97e6a08ae1df",
+        "originalInputHash": "6257a40233c6faa83575ff069d01d58994c74377f64623e163d3d777216141c2",
+        "reason": "line 8 `ord(k)>p2` stops only on strictly greater letters; letters equal to last[0] are kept.",
+        "selectedOriginalTest": "0024",
         "test": "lf-0024"
       }
     }
@@ -329,14 +522,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 5,
+      "bytes": 295543,
+      "name": "batch5-source-review.json",
+      "sha256": "b428fe8eb83846ca1692f87dfcd5d3bc7a98bf5bc8c3f856cd1173fc9dcbfb5a"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "a98835998e90ba541cec175daf967fc169e68d9f83996e7e40924dfc533ba563",
+  "sourceSemanticReviewPath": "source-review/proofs/909A.json",
   "stressCases": 40,
-  "testPairs": 146,
-  "unconfirmedSourceIds": [
-    "33678365",
-    "33678948",
-    "33681075",
-    "33682085",
-    "33689935"
-  ]
+  "testPairs": 146
 }

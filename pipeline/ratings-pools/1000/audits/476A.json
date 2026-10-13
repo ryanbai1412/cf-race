@@ -1,28 +1,202 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "59dc701e8a026d9ccdb78771b1ea32cfbb834a6af373e3ad6f3fa8e1a99d3189",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "147267731": {
+      "LFActualOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "LFExpectedOutputHash": "e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683",
+      "LFInputHash": "673958e6cd9bcd6ed191d77bcaa87223c41caf877c028ce43e62a4670b5e14e5",
+      "LFProofHash": "ab8394948eef9a6a5e1a0c5417929d1c19ec67264781416ffb2049edbe91465d",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 6,
+          "lines": [
+            "j=n/m",
+            "if(j>=1.0):",
+            "    while(j%m!=0):",
+            "        j=j+1",
+            "    print(int(j))"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "originalInputHash": "673958e6cd9bcd6ed191d77bcaa87223c41caf877c028ce43e62a4670b5e14e5",
+      "originalTimeout": false,
+      "reason": "j=n/m starts at the stair count divided by the modulus, rather than ceil(n/2); the resulting candidate can be too small to climb the stairs. Expected derivation: For n=9, a move count k must satisfy 5<=k<=9 (k one/two-step moves cover between k and 2k stairs). The first multiple of 3 in that interval is 6, achieved by three two-steps and three one-steps. Source trace: j=9/3=3.0, so j>=1 and j%3=0; the loop does not execute and int(j)=3 is printed. Three moves cover at most 6 stairs, not 9.",
+      "sourceHash": "ae859fc0480a9c4480056d1bbd3db2a3afb2e21e9e00d4387e20a421bc4f039f",
+      "sourceRanges": [
+        [
+          2,
+          6
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/476/submission/147267731",
+      "test": "0053"
+    },
+    "148047173": {
+      "LFActualOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+      "LFExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "LFInputHash": "f65ceaae246de02135c1326ff5188bdd166c9749c021c91e49c0b9a79f9c7262",
+      "LFProofHash": "ab8394948eef9a6a5e1a0c5417929d1c19ec67264781416ffb2049edbe91465d",
+      "exactSourceExcerpts": [
+        {
+          "first": 7,
+          "last": 10,
+          "lines": [
+            "    if steps < m:",
+            "        steps = -1 ",
+            "    elif x:",
+            "        steps += m - x "
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "originalInputHash": "8f5e5488b2fb251fe67a0bd2d8e7b4d115f4119ca02279ee63d71e510cfc41a0",
+      "originalTimeout": false,
+      "reason": "if steps<m sets -1 although a larger feasible move count may reach m. Feasibility needs to compare the rounded multiple with n. Expected derivation: For n=2 the possible move counts are 1 and 2. With m=2, taking two one-step moves is feasible and minimal, so answer 2. Source trace: steps=(2>>1)+(2&1)=1, x=1%2=1. steps<m is true, so steps=-1 and it is printed without rounding.",
+      "sourceHash": "e5466bd045c89657c251efb165ac39f462c6c3d2243e1b1b2f7e061f1b97c165",
+      "sourceRanges": [
+        [
+          7,
+          10
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/476/submission/148047173",
+      "test": "0004"
+    },
+    "148701566": {
+      "LFActualOutputHash": "9a92adbc0cee38ef658c71ce1b1bf8c65668f166bfb213644c895ccb1ad07a25",
+      "LFExpectedOutputHash": "6f4b6612125fb3a0daecd2799dfd6c9c299424fd920f9b308110a2c1fbd8f443",
+      "LFInputHash": "d8e001a62d001a27320d004f383f148315ef60ece41a4d682c2ac4df5f0b150e",
+      "LFProofHash": "ab8394948eef9a6a5e1a0c5417929d1c19ec67264781416ffb2049edbe91465d",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 5,
+          "lines": [
+            "for i in range(n // 2, n + 1):",
+            "    if i % m == 0:",
+            "        print(i)",
+            "        exit()"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "9a92adbc0cee38ef658c71ce1b1bf8c65668f166bfb213644c895ccb1ad07a25",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "ce60da21a19e0a3d484fc4ee3f868999745b7f23475772ea8c87c7bde54c4b43",
+      "originalInputHash": "769019b0d471e8c6477891632a108ff1df9c9a9376594c64fe9b426f263d12d6",
+      "originalTimeout": false,
+      "reason": "range(n//2,n+1) begins at floor(n/2), which is infeasible for odd n. Expected derivation: For 29 stairs the feasible interval is ceil(29/2)=15 through 29. Multiples of 7 are 21 and 28, so the minimal answer is 21. Source trace: Enumeration starts at 29//2=14; 14%7=0, so it prints 14 and exits immediately. Fourteen moves cover at most 28 stairs.",
+      "sourceHash": "d8f7d575b693dcf802274dc71d04a67b91df94b01c37ea23217afb91b4d7c74d",
+      "sourceRanges": [
+        [
+          2,
+          5
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/476/submission/148701566",
+      "test": "0003"
+    },
+    "149518663": {
+      "LFActualOutputHash": "52e467c529ae7117b0a14251dea4dc9689f6334d26f48e807d76287939b0de86",
+      "LFExpectedOutputHash": "0f8eb4b72b6e0c9e88b388eb967b49e067ef1004bf07bffc22c3acb13b43580a",
+      "LFInputHash": "08286790dfcdc2a63da94798e2bd3fe85cd9c39c51caf93cff9e3c139b9e4194",
+      "LFProofHash": "ab8394948eef9a6a5e1a0c5417929d1c19ec67264781416ffb2049edbe91465d",
+      "exactSourceExcerpts": [
+        {
+          "first": 9,
+          "last": 9,
+          "lines": [
+            "steps = mini + m - (mini%m)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "52e467c529ae7117b0a14251dea4dc9689f6334d26f48e807d76287939b0de86",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "c14f0eeaec609582c1564d5ad140795a7b7bbc9a3fa6e68b6d62fe34057cf2af",
+      "originalInputHash": "d58b8b711db079b04f8d5cbe642686cb23ea9cbea6988897e5e84d0e6259fda6",
+      "originalTimeout": false,
+      "reason": "mini+m-(mini%m) advances by a full m even when mini is already divisible by m. Expected derivation: With n=10000, at least 5000 moves are needed; 5000 is divisible by 2 and 5000 two-step moves reach the top. It is optimal. Source trace: n is even, mini=5000, maxi=10000. steps=5000+2-0=5002, which passes the upper bound and is printed instead of 5000.",
+      "sourceHash": "3633451fa39ba89d85ed2ebed34fb68908b7be1b0148f09bf9cd7009796142b6",
+      "sourceRanges": [
+        [
+          9,
+          9
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/476/submission/149518663",
+      "test": "0006"
+    },
+    "149663838": {
+      "LFActualOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+      "LFExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "LFInputHash": "f65ceaae246de02135c1326ff5188bdd166c9749c021c91e49c0b9a79f9c7262",
+      "LFProofHash": "ab8394948eef9a6a5e1a0c5417929d1c19ec67264781416ffb2049edbe91465d",
+      "exactSourceExcerpts": [
+        {
+          "first": 9,
+          "last": 14,
+          "lines": [
+            "    while ones != n :",
+            "        if tot_steps % m == 0 :",
+            "            f = 1 ",
+            "            break ",
+            "        ones += 2 ",
+            "        tot_steps += 1"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "originalInputHash": "8f5e5488b2fb251fe67a0bd2d8e7b4d115f4119ca02279ee63d71e510cfc41a0",
+      "originalTimeout": false,
+      "reason": "while ones!=n exits before checking the all-one-step endpoint (tot_steps=n). Expected derivation: For 2 stairs and modulus 2, two one-step moves are feasible and minimal; answer 2. Source trace: n>=m, tot_steps=1, ones=0, f=0. First iteration finds 1%2!=0, updates ones=2 and tot_steps=2. The loop now exits before testing 2%2; f remains zero and -1 is printed.",
+      "sourceHash": "ae87dbbac4880965cecd72e426e071019d3314a7d1b8aee102ebf6b5cb82e19e",
+      "sourceRanges": [
+        [
+          9,
+          14
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/476/submission/149663838",
+      "test": "0004"
+    }
+  },
   "independentFreshRunHash": "82b1c4351805d5e1cc8e58ad39ccab24914976081fca9910ae8de7233cb32e74",
   "independentLFReplayHash": "ab8394948eef9a6a5e1a0c5417929d1c19ec67264781416ffb2049edbe91465d",
   "independentSemanticCheckHash": "d4f0914d25095b74b0a2909474b9e5d0aa8fc258f2065735aaec7dcb1fdfcf83",
   "independentStressHash": "36ed067b005d1b3ce2332aaf21f3eae78df33caa1cbd699bf9039a314f14e480",
+  "originalExecutionEvidenceHash": "59dc701e8a026d9ccdb78771b1ea32cfbb834a6af373e3ad6f3fa8e1a99d3189",
   "packageHash": "e2d2a50b8dd1e4a550207f7c5d9fc3b136eb44a69545a2a91796276f5a3c61bb",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -110,26 +284,25 @@
         "TLE": 7,
         "WA": 8
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 8
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "TIME_LIMIT_EXCEEDED",
       "freshVerdict": "TLE",
-      "historicalAlgorithmicWitnessCount": 8,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": false,
       "language": "Python 3",
       "normalWrongAnswerCount": 8,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 8,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "ae859fc0480a9c4480056d1bbd3db2a3afb2e21e9e00d4387e20a421bc4f039f",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/476/submission/147267731",
       "submissionId": "147267731",
       "testVerdicts": {
@@ -146,7 +319,11 @@
           "0053"
         ],
         "origin": "tests/0053",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+        "originalExpectedOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+        "originalInputHash": "673958e6cd9bcd6ed191d77bcaa87223c41caf877c028ce43e62a4670b5e14e5",
+        "reason": "j=n/m starts at the stair count divided by the modulus, rather than ceil(n/2); the resulting candidate can be too small to climb the stairs.",
+        "selectedOriginalTest": "0053",
         "test": "lf-0053"
       }
     },
@@ -155,26 +332,25 @@
         "AC": 10,
         "WA": 9
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 9
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 9,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 9,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 9,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "e5466bd045c89657c251efb165ac39f462c6c3d2243e1b1b2f7e061f1b97c165",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/476/submission/148047173",
       "submissionId": "148047173",
       "testVerdicts": {
@@ -191,7 +367,11 @@
           "0040"
         ],
         "origin": "tests/0040",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+        "originalExpectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+        "originalInputHash": "8f5e5488b2fb251fe67a0bd2d8e7b4d115f4119ca02279ee63d71e510cfc41a0",
+        "reason": "if steps<m sets -1 although a larger feasible move count may reach m. Feasibility needs to compare the rounded multiple with n.",
+        "selectedOriginalTest": "0004",
         "test": "lf-0040"
       }
     },
@@ -200,26 +380,25 @@
         "AC": 10,
         "WA": 9
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 9
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 9,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 9,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 9,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "d8f7d575b693dcf802274dc71d04a67b91df94b01c37ea23217afb91b4d7c74d",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/476/submission/148701566",
       "submissionId": "148701566",
       "testVerdicts": {
@@ -235,7 +414,11 @@
           "0003"
         ],
         "origin": "tests/0003",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "9a92adbc0cee38ef658c71ce1b1bf8c65668f166bfb213644c895ccb1ad07a25",
+        "originalExpectedOutputHash": "ce60da21a19e0a3d484fc4ee3f868999745b7f23475772ea8c87c7bde54c4b43",
+        "originalInputHash": "769019b0d471e8c6477891632a108ff1df9c9a9376594c64fe9b426f263d12d6",
+        "reason": "range(n//2,n+1) begins at floor(n/2), which is infeasible for odd n.",
+        "selectedOriginalTest": "0003",
         "test": "lf-0003"
       }
     },
@@ -244,26 +427,25 @@
         "AC": 6,
         "WA": 15
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0006",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 15
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 15,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 15,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "3633451fa39ba89d85ed2ebed34fb68908b7be1b0148f09bf9cd7009796142b6",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/476/submission/149518663",
       "submissionId": "149518663",
       "testVerdicts": {
@@ -280,7 +462,11 @@
           "0068"
         ],
         "origin": "tests/0006",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "52e467c529ae7117b0a14251dea4dc9689f6334d26f48e807d76287939b0de86",
+        "originalExpectedOutputHash": "c14f0eeaec609582c1564d5ad140795a7b7bbc9a3fa6e68b6d62fe34057cf2af",
+        "originalInputHash": "d58b8b711db079b04f8d5cbe642686cb23ea9cbea6988897e5e84d0e6259fda6",
+        "reason": "mini+m-(mini%m) advances by a full m even when mini is already divisible by m.",
+        "selectedOriginalTest": "0006",
         "test": "lf-0006"
       }
     },
@@ -289,26 +475,25 @@
         "AC": 10,
         "WA": 6
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 6
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 6,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 6,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 6,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "ae87dbbac4880965cecd72e426e071019d3314a7d1b8aee102ebf6b5cb82e19e",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/476/submission/149663838",
       "submissionId": "149663838",
       "testVerdicts": {
@@ -325,7 +510,11 @@
           "0040"
         ],
         "origin": "tests/0040",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+        "originalExpectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+        "originalInputHash": "8f5e5488b2fb251fe67a0bd2d8e7b4d115f4119ca02279ee63d71e510cfc41a0",
+        "reason": "while ones!=n exits before checking the all-one-step endpoint (tot_steps=n).",
+        "selectedOriginalTest": "0004",
         "test": "lf-0040"
       }
     }
@@ -333,14 +522,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 3,
+      "bytes": 840772,
+      "name": "batch-3-source-semantics-report.json",
+      "sha256": "13a95ff57fc4d6b97aec98a2cea133fcb944543e9d5421886be5e8b7bb7631a9"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "45d1ceb0e61a90e5413fa8457e6d4f77940908a106633891a3c44ec995c9ee5b",
+  "sourceSemanticReviewPath": "source-review/proofs/476A.json",
   "stressCases": 40,
-  "testPairs": 71,
-  "unconfirmedSourceIds": [
-    "147267731",
-    "148047173",
-    "148701566",
-    "149518663",
-    "149663838"
-  ]
+  "testPairs": 71
 }

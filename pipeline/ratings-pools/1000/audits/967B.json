@@ -1,9 +1,9 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 1,
+  "algorithmicIncorrectKilled": 4,
   "approved": false,
   "checks": {
-    "algorithmicallyWrong": false,
+    "algorithmicallyWrong": true,
     "coverage": true,
     "deterministicGeneration": true,
     "fiveAcceptedFiveIncorrect": false,
@@ -18,50 +18,162 @@
   },
   "evidenceHash": "8909363586f35692a3cc252a71f4d4aa436a78a43b8754d83be9fc6c5e01284f",
   "generatedQualificationHash": "cf44f53eaf3dc15c8a24712f74197efc9e5969ce8e2dd1b6c8f3bedb31d7eb1a",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
-  "historicalIncorrectAnalysis": {
-    "37730597": {
-      "kind": "wrong-answer",
-      "reason": "missing result for a valid algorithmic boundary branch",
-      "test": "0006"
-    },
+  "incorrectAnalysis": {
     "37733395": {
+      "LFActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "LFExpectedOutputHash": "2c624232cdd221771294dfbb310aca000a0df6ac8b66b696d90ef06fdefb64a3",
+      "LFInputHash": "208a735501d42a32a50d5931f9feb9f479cc3cecfc6fe75e1dcc490cd672d47f",
+      "LFProofHash": "cb30153e3ff03440d2f446ccc37ae7f59a9eb049f1a95e412bcde347984fa8be",
+      "exactSourceExcerpts": [
+        {
+          "first": 11,
+          "last": 16,
+          "lines": [
+            "    while x!=float(b):",
+            "        x+=l[j]*a/s",
+            "        i+=1",
+            "        j+=1",
+            "        if (b-x)<=0.00000000000001:",
+            "            break;"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "e0c18a6a8d48da87994c100bbb324c758d413e95f0fa5135bd0738a692b4d56f",
+      "originalInputHash": "98e458a0ee5052bc47e050eff5a5bd43c48e0d63c83358ad3eb6e8bd1e1b2e32",
+      "originalTimeout": false,
+      "reason": "lines 11-14 `x+=l[j]*a/s` sums other holes' outflow in input order with fixed S; never removes holes from S nor picks the largest. Expected derivation: tests/0005: n=10, A=300, B=100, s1=20: need S <= 20*300/100 = 60. Others descending 96,85,68,60,44,40,37,25,23 (S=498): blocking 8 gives S=20+23=43 <= 60, blocking 7 gives 68 > 60 -> 8. Source trace: S=498, x=12.05; +25 -> 27.11 (i=1); +68 -> 68.07 (i=2); +40 -> 92.17 (i=3); +60 -> 128.31 (i=4) >= 100 -> break; prints 4.",
+      "sourceHash": "5a8682382247450050d149b81fa2001e36c0c20d95e46b68932ece2994f377ec",
+      "sourceRanges": [
+        [
+          11,
+          16
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/967/submission/37733395",
       "test": "0005"
     },
     "37733686": {
+      "LFActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "LFExpectedOutputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "LFInputHash": "bdedb4fdea9ee094d4e99dfbece54d6a33c5c1218dcf44895778989f481e944f",
+      "LFProofHash": "cb30153e3ff03440d2f446ccc37ae7f59a9eb049f1a95e412bcde347984fa8be",
+      "exactSourceExcerpts": [
+        {
+          "first": 9,
+          "last": 13,
+          "lines": [
+            "      l.sort()",
+            "      i=0",
+            "      while(s>(a*x/b)) and i<n-1:",
+            "            s-=l[i]",
+            "            i+=1"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "originalInputHash": "24cee765a50fd256b07a9fa7258b70afd80d2ea5b1fab06ff0c0a14e28e192f5",
+      "originalTimeout": false,
+      "reason": "line 9 ascending sort with line 12 `s-=l[i]` from i=0 blocks the SMALLEST holes first instead of the largest. Expected derivation: tests/0004: n=10, A=300, B=100, s=[20,1,3,10,8,5,3,6,4,3], S=63, need S <= 60: blocking 10 gives 53 -> 1. Source trace: sorted others [1,3,3,3,4,5,6,8,10]; 63>60 -> s=62,i=1; 62>60 -> s=59,i=2; stop -> prints 2.",
+      "sourceHash": "629308ed6ae2b817e7556d4624015b4e13798d6055025da675e3b772ec51e636",
+      "sourceRanges": [
+        [
+          9,
+          13
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/967/submission/37733686",
       "test": "0004"
     },
     "37734826": {
+      "LFActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "LFExpectedOutputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "LFInputHash": "bdedb4fdea9ee094d4e99dfbece54d6a33c5c1218dcf44895778989f481e944f",
+      "LFProofHash": "cb30153e3ff03440d2f446ccc37ae7f59a9eb049f1a95e412bcde347984fa8be",
+      "exactSourceExcerpts": [
+        {
+          "first": 28,
+          "last": 34,
+          "lines": [
+            "s.sort()",
+            "count=0",
+            "sm=0",
+            "for ss in s:",
+            "\tcount+=1",
+            "\tsm+=ss",
+            "\tif(sm>=val):break"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "originalInputHash": "24cee765a50fd256b07a9fa7258b70afd80d2ea5b1fab06ff0c0a14e28e192f5",
+      "originalTimeout": false,
+      "reason": "line 28 `s.sort()` ascending + loop lines 31-34 remove the smallest holes first; should remove largest first. Expected derivation: tests/0004: need remove >= 3 of size: largest other 10 suffices -> 1. Source trace: val = ceil(63 - 60.0) = 3; sorted [1,3,3,...]: 1 (sm=1,count=1), 3 (sm=4>=3,count=2) -> prints 2.",
+      "sourceHash": "f66dbc34f33d7c0099b34e068db81b2dfdb4ed0775c27631d226f49b53850e0f",
+      "sourceRanges": [
+        [
+          28,
+          34
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/967/submission/37734826",
       "test": "0004"
     },
     "37738787": {
+      "LFActualOutputHash": "10159baf262b43a92d95db59dae1f72c645127301661e0a3ce4e38b295a97c58",
+      "LFExpectedOutputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "LFInputHash": "bdedb4fdea9ee094d4e99dfbece54d6a33c5c1218dcf44895778989f481e944f",
+      "LFProofHash": "cb30153e3ff03440d2f446ccc37ae7f59a9eb049f1a95e412bcde347984fa8be",
+      "exactSourceExcerpts": [
+        {
+          "first": 10,
+          "last": 12,
+          "lines": [
+            "    summ-=aa",
+            "    con=1;",
+            "    while ar[n]*a/summ <b:"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "10159baf262b43a92d95db59dae1f72c645127301661e0a3ce4e38b295a97c58",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "originalInputHash": "24cee765a50fd256b07a9fa7258b70afd80d2ea5b1fab06ff0c0a14e28e192f5",
+      "originalTimeout": false,
+      "reason": "line 12 tests the outflow of the current largest OTHER hole ar[n] (and line 10 drops s1 from summ) instead of s1*A/(s1+remaining). Expected derivation: tests/0004: answer 1 (block size 10: 20*300/53 = 113.2 >= 100). Source trace: 6000/63 = 95.2 < 100 -> else; summ=43; ar[8]=10: 3000/43=69.8 -> summ 33, con 2; 8: 2400/33=72.7 -> 25, con 3; 6: 1800/25=72 -> 19, con 4; 5: 1500/19=78.9 -> 14, con 5; 4: 1200/14=85.7 -> 10, con 6; 3: 900/10=90 -> 7, con 7; 3: 900/7=128.6 >= 100 stop -> prints 7.",
+      "sourceHash": "84c5e7f4cbb0c594b7b6148323ee9c1c2a5a0ad06df8cbdc6b1fce2a32f84c77",
+      "sourceRanges": [
+        [
+          10,
+          12
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/967/submission/37738787",
       "test": "0004"
-    }
-  },
-  "incorrectAnalysis": {
-    "37730597": {
-      "kind": "wrong-answer",
-      "reason": "missing result for a valid algorithmic boundary branch",
-      "test": "0006"
     }
   },
   "independentFreshRunHash": "18847549f5504d3b7e1e3bc085e539bc647eb619d4867578df0f5463dc062ffc",
   "independentLFReplayHash": "cb30153e3ff03440d2f446ccc37ae7f59a9eb049f1a95e412bcde347984fa8be",
   "independentSemanticCheckHash": "7541b467f1a798d60fbf26f7ff6b9475a5f69fabadd9acae8c9be62b31d06ca9",
   "independentStressHash": "1a7532577c1f24779e89da787be1e695c1ac206bf9e39c03d03f18ead74db198",
+  "originalExecutionEvidenceHash": "8909363586f35692a3cc252a71f4d4aa436a78a43b8754d83be9fc6c5e01284f",
   "packageHash": "208d6eee527c0c17e6dff6ac3fd57aaec84ed83771c89753c4ce8b933ac19297",
   "qualificationBasis": "generated",
   "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
+    "37730597: reviewer-reject; no-selected-semantic-witness"
   ],
   "references": [
     {
@@ -149,22 +261,29 @@
         "AC": 9,
         "WA": 10
       },
-      "algorithmicWitnessCount": 10,
-      "algorithmicWrongAnswer": true,
+      "algorithmicWitnessCount": 0,
+      "algorithmicWrongAnswer": false,
       "builderFailedTest": "0006",
-      "builderFailureAlgorithmicallyProven": true,
+      "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "missing result for a valid algorithmic boundary branch": 10
+        "source-reviewed defect with included normal-exit wrong answer": 0
       },
+      "exclusionReason": "reviewer-reject; no-selected-semantic-witness: Not qualified as a genuine semantic wrong answer: on all bundled included-test counterexamples the computed state (ans=0) equals the expected answer and the defect is only that no result is emitted for the n==1 boundary (missing print/unexecuted check). No included counterexample shows a wrong computed value. Primary auditor may re-classify, but this reviewer does not certify it.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
       "language": "Python 3",
       "normalWrongAnswerCount": 10,
-      "outcome": "algorithmic-WA",
+      "outcome": "source-semantics-reject",
       "packageWitnessCount": 10,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "72bd5a6b769e00b9ccf48cf1cc25105a98024314c444dfe5fd5474eb24c629fd",
+      "sourceSemanticExclusionReasons": [
+        "reviewer-reject",
+        "no-selected-semantic-witness"
+      ],
+      "sourceSemanticReviewStatus": "reject",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/967/submission/37730597",
       "submissionId": "37730597",
       "testVerdicts": {
@@ -189,26 +308,25 @@
         "AC": 9,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "5a8682382247450050d149b81fa2001e36c0c20d95e46b68932ece2994f377ec",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/967/submission/37733395",
       "submissionId": "37733395",
       "testVerdicts": {
@@ -224,7 +342,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+        "originalExpectedOutputHash": "e0c18a6a8d48da87994c100bbb324c758d413e95f0fa5135bd0738a692b4d56f",
+        "originalInputHash": "98e458a0ee5052bc47e050eff5a5bd43c48e0d63c83358ad3eb6e8bd1e1b2e32",
+        "reason": "lines 11-14 `x+=l[j]*a/s` sums other holes' outflow in input order with fixed S; never removes holes from S nor picks the largest.",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     },
@@ -233,26 +355,25 @@
         "AC": 6,
         "WA": 17
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 17
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 17,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 17,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "629308ed6ae2b817e7556d4624015b4e13798d6055025da675e3b772ec51e636",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/967/submission/37733686",
       "submissionId": "37733686",
       "testVerdicts": {
@@ -268,7 +389,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+        "originalInputHash": "24cee765a50fd256b07a9fa7258b70afd80d2ea5b1fab06ff0c0a14e28e192f5",
+        "reason": "line 9 ascending sort with line 12 `s-=l[i]` from i=0 blocks the SMALLEST holes first instead of the largest.",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     },
@@ -277,26 +402,25 @@
         "AC": 6,
         "WA": 17
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 17
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 17,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 17,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "f66dbc34f33d7c0099b34e068db81b2dfdb4ed0775c27631d226f49b53850e0f",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/967/submission/37734826",
       "submissionId": "37734826",
       "testVerdicts": {
@@ -312,7 +436,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+        "originalInputHash": "24cee765a50fd256b07a9fa7258b70afd80d2ea5b1fab06ff0c0a14e28e192f5",
+        "reason": "line 28 `s.sort()` ascending + loop lines 31-34 remove the smallest holes first; should remove largest first.",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     },
@@ -321,26 +449,25 @@
         "AC": 7,
         "WA": 16
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 16
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 16,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 16,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "84c5e7f4cbb0c594b7b6148323ee9c1c2a5a0ad06df8cbdc6b1fce2a32f84c77",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/967/submission/37738787",
       "submissionId": "37738787",
       "testVerdicts": {
@@ -356,7 +483,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "10159baf262b43a92d95db59dae1f72c645127301661e0a3ce4e38b295a97c58",
+        "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+        "originalInputHash": "24cee765a50fd256b07a9fa7258b70afd80d2ea5b1fab06ff0c0a14e28e192f5",
+        "reason": "line 12 tests the outflow of the current largest OTHER hole ar[n] (and line 10 drops s1 from summ) instead of s1*A/(s1+remaining).",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     }
@@ -364,13 +495,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 3,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 5,
+      "bytes": 295543,
+      "name": "batch5-source-review.json",
+      "sha256": "b428fe8eb83846ca1692f87dfcd5d3bc7a98bf5bc8c3f856cd1173fc9dcbfb5a"
+    }
+  ],
+  "sourceReviewStatus": "reject",
+  "sourceSemanticReviewHash": "415b411de79b8603904aa4e96c82b78762f997327fd414e3023debc0a51fd34a",
+  "sourceSemanticReviewPath": "source-review/proofs/967B.json",
   "stressCases": 40,
-  "testPairs": 212,
-  "unconfirmedSourceIds": [
-    "37733395",
-    "37733686",
-    "37734826",
-    "37738787"
-  ]
+  "testPairs": 212
 }

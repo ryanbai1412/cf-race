@@ -1,62 +1,207 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
-    "algorithmicallyWrong": false,
+    "algorithmicallyWrong": true,
     "coverage": true,
     "deterministicGeneration": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "generatedBasis": true,
     "hashes": true,
     "independentOracle": true,
     "inputConstraints": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "5e19b0606e34054a046948b3b7435d5dcfba415e75eea0a8649f8b1c10fe0100",
   "generatedQualificationHash": "c437f6715c54fe41fd7d10f269df0f0f2a1037649588199bc0a8c4654ebf65bd",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
-  "historicalIncorrectAnalysis": {
+  "incorrectAnalysis": {
     "7597891": {
+      "LFActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "LFExpectedOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+      "LFInputHash": "03ddaee2d785633b259324b239b5a9778c22ad2f143fabe551ac5f1837bb6856",
+      "LFProofHash": "2e9cb800d8bb79813ffefd8e40f6abf275680009bc1b6e778d95a44b0a8ce967",
+      "exactSourceExcerpts": [
+        {
+          "first": 25,
+          "last": 29,
+          "lines": [
+            "   for i in range(n):",
+            "      if (c[i] + r[i]) % 2 != 0:",
+            "         print('NO')",
+            "         return 0",
+            "   print('YES')"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "originalInputHash": "306cbddc8113bd9dd53bd3c0aec1f04022f8e07c29bd49320440e4a70b6f2250",
+      "originalTimeout": false,
+      "reason": "Whole-row/column parity is not local four-neighbor parity for each cell. Expected derivation: Boardxx/xo: cell(1,2) has exactly one adjacent o (2,2), as does(2,1), so condition fails: NO. Source trace: r=[0,1],c=[0,1]; sums at indices0 and1 are0 and2, both even, so it prints YES.",
+      "sourceHash": "152a456bfdd7824655c138a4cd7405edb5700fd747d03c4ebe2d0b024259668a",
+      "sourceRanges": [
+        [
+          25,
+          29
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/462/submission/7597891",
       "test": "0005"
     },
     "7598638": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "5b20e3f07263e3ecb844467214f011347632695f9cb0390d7be90d2ca3b7adff",
+      "LFProofHash": "2e9cb800d8bb79813ffefd8e40f6abf275680009bc1b6e778d95a44b0a8ce967",
+      "exactSourceExcerpts": [
+        {
+          "first": 15,
+          "last": 15,
+          "lines": [
+            "   k = [[1,0],[0,-1],[-1,0],[1,0]]"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+      "originalInputHash": "b9b3a8925a005d88c3924e7c6c5aa429f79bc8cc762e37311e21bfceb8890cff",
+      "originalTimeout": false,
+      "reason": "Direction list duplicates down[1,0] and omits right[0,1]. Expected derivation: Boardox/xo: o-cells have0 o-neighbors; each x-cell has two diagonal-corner o-neighbors sharing sides with it. Counts0,2,2,0 are all even: YES. Source trace: At(1,2), correct neighbors are left o and down o. Buggy directions count down twice and left once, yielding3 odd; prints NO and returns.",
+      "sourceHash": "e313ed0bc27cc8cea49f08506676d55c52df14cca5ce41d85f787df93deb805c",
+      "sourceRanges": [
+        [
+          15,
+          15
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/462/submission/7598638",
       "test": "0004"
     },
     "7598992": {
+      "LFActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "LFExpectedOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+      "LFInputHash": "03ddaee2d785633b259324b239b5a9778c22ad2f143fabe551ac5f1837bb6856",
+      "LFProofHash": "2e9cb800d8bb79813ffefd8e40f6abf275680009bc1b6e778d95a44b0a8ce967",
+      "exactSourceExcerpts": [
+        {
+          "first": 12,
+          "last": 19,
+          "lines": [
+            "            if grid[i][j] == 'x':",
+            "                continue",
+            "            x = i+difx[c]",
+            "            y = j+dify[c]",
+            "            if x < 0 or x >= n or y < 0 or y >= n:",
+            "                continue",
+            "            if grid[x][y] == 'x':",
+            "                count += 1"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "originalInputHash": "306cbddc8113bd9dd53bd3c0aec1f04022f8e07c29bd49320440e4a70b6f2250",
+      "originalTimeout": false,
+      "reason": "The predicate must count o neighbors for every cell, regardless of center content. Expected derivation: Onxx/xo, x centers(1,2),(2,1) each have one o-neighbor, so NO. Source trace: Every x center skips all four directions, count0. The sole o center(2,2) has two x neighbors, count2; every tested count is even and p remains1, prints YES.",
+      "sourceHash": "763e14ccdef4873731ff73e0b361e34ce1f00ceb3c3f393bab402d63e5cc952e",
+      "sourceRanges": [
+        [
+          12,
+          19
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/462/submission/7598992",
       "test": "0005"
     },
     "7601109": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "5b20e3f07263e3ecb844467214f011347632695f9cb0390d7be90d2ca3b7adff",
+      "LFProofHash": "2e9cb800d8bb79813ffefd8e40f6abf275680009bc1b6e778d95a44b0a8ce967",
+      "exactSourceExcerpts": [
+        {
+          "first": 5,
+          "last": 7,
+          "lines": [
+            "    for i in range(size):",
+            "        for j in range(size):",
+            "            listx = [board[i+1][j], board[i-1][j], board[i][j-1], board[i][j+1]]"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+      "originalInputHash": "b9b3a8925a005d88c3924e7c6c5aa429f79bc8cc762e37311e21bfceb8890cff",
+      "originalTimeout": false,
+      "reason": "Iterates0..n-1 rather than padded real-cell indices1..n, checking top/left padding while omitting real bottom/right cells. Expected derivation: Real boardox/xo has counts0,2,2,0, all even: YES. Source trace: Padded board row0='....', row1='.ox.', row2='.xo.', row3='....'. First i0,j0 count0; at i0,j1 (top padding) neighbors include board[1][1]='o' and other dots, count1; returnsFalse, outputsNO. Negative indexing stays in-bounds padding, no crash.",
+      "sourceHash": "29b425d18afde412f5220258193487b474a36df3c86661c049bab4e9eaa542e6",
+      "sourceRanges": [
+        [
+          5,
+          7
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/462/submission/7601109",
       "test": "0004"
     },
     "7650617": {
+      "LFActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "LFExpectedOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+      "LFInputHash": "03ddaee2d785633b259324b239b5a9778c22ad2f143fabe551ac5f1837bb6856",
+      "LFProofHash": "2e9cb800d8bb79813ffefd8e40f6abf275680009bc1b6e778d95a44b0a8ce967",
+      "exactSourceExcerpts": [
+        {
+          "first": 19,
+          "last": 20,
+          "lines": [
+            "\t\t\tif valid(x,y):",
+            "\t\t\t\tcounter += (arr[i][j] == 'o')"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "originalInputHash": "306cbddc8113bd9dd53bd3c0aec1f04022f8e07c29bd49320440e4a70b6f2250",
+      "originalTimeout": false,
+      "reason": "Tests arr[i][j] (center) rather than arr[x][y] (neighbor). Expected derivation: xx/xo violates at centers(1,2),(2,1), each adjacent to one o, so NO. Source trace: All2x2 cells have2 valid neighbors. x centers add0 twice, o center adds1 twice; every computed counter0 or2 is even, so ans stays1 and printsYES.",
+      "sourceHash": "06fdb8318c8912b3eaaf8045c352217a0b483ea292935db19939778110f504f5",
+      "sourceRanges": [
+        [
+          19,
+          20
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/462/submission/7650617",
       "test": "0005"
     }
   },
-  "incorrectAnalysis": {},
   "independentFreshRunHash": "d7bdc6a10c328b5baea22f8ce31e63dfe844a814ae39ce113e42de590800fb06",
   "independentLFReplayHash": "2e9cb800d8bb79813ffefd8e40f6abf275680009bc1b6e778d95a44b0a8ce967",
   "independentSemanticCheckHash": "5f2e2148ba0e49cf967dd714254e4742dc9ca8cc49affe5ddb6df770afa29c12",
   "independentStressHash": "9c014f3515213e2979b648e23e773561b5a838c7274b697e7d500a51c714d71f",
+  "originalExecutionEvidenceHash": "5e19b0606e34054a046948b3b7435d5dcfba415e75eea0a8649f8b1c10fe0100",
   "packageHash": "e2e4907a156e55bb8b92f70f8ba41cfda159b2f9097f39d5178540461307c70e",
   "qualificationBasis": "generated",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -143,26 +288,25 @@
         "AC": 7,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "152a456bfdd7824655c138a4cd7405edb5700fd747d03c4ebe2d0b024259668a",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/462/submission/7597891",
       "submissionId": "7597891",
       "testVerdicts": {
@@ -179,7 +323,11 @@
           "0039"
         ],
         "origin": "tests/0039",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+        "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+        "originalInputHash": "306cbddc8113bd9dd53bd3c0aec1f04022f8e07c29bd49320440e4a70b6f2250",
+        "reason": "Whole-row/column parity is not local four-neighbor parity for each cell.",
+        "selectedOriginalTest": "0005",
         "test": "lf-0039"
       }
     },
@@ -188,26 +336,25 @@
         "AC": 9,
         "WA": 9
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 9
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 9,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 9,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 9,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "e313ed0bc27cc8cea49f08506676d55c52df14cca5ce41d85f787df93deb805c",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/462/submission/7598638",
       "submissionId": "7598638",
       "testVerdicts": {
@@ -223,7 +370,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+        "originalInputHash": "b9b3a8925a005d88c3924e7c6c5aa429f79bc8cc762e37311e21bfceb8890cff",
+        "reason": "Direction list duplicates down[1,0] and omits right[0,1].",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     },
@@ -232,26 +383,25 @@
         "AC": 8,
         "WA": 11
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 11
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 11,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 11,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 10,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "763e14ccdef4873731ff73e0b361e34ce1f00ceb3c3f393bab402d63e5cc952e",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/462/submission/7598992",
       "submissionId": "7598992",
       "testVerdicts": {
@@ -268,7 +418,11 @@
           "0039"
         ],
         "origin": "tests/0039",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+        "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+        "originalInputHash": "306cbddc8113bd9dd53bd3c0aec1f04022f8e07c29bd49320440e4a70b6f2250",
+        "reason": "The predicate must count o neighbors for every cell, regardless of center content.",
+        "selectedOriginalTest": "0005",
         "test": "lf-0039"
       }
     },
@@ -277,26 +431,25 @@
         "AC": 9,
         "WA": 9
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 9
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 9,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 9,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 9,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "29b425d18afde412f5220258193487b474a36df3c86661c049bab4e9eaa542e6",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/462/submission/7601109",
       "submissionId": "7601109",
       "testVerdicts": {
@@ -312,7 +465,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+        "originalInputHash": "b9b3a8925a005d88c3924e7c6c5aa429f79bc8cc762e37311e21bfceb8890cff",
+        "reason": "Iterates0..n-1 rather than padded real-cell indices1..n, checking top/left padding while omitting real bottom/right cells.",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     },
@@ -321,26 +478,25 @@
         "AC": 8,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "06fdb8318c8912b3eaaf8045c352217a0b483ea292935db19939778110f504f5",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/462/submission/7650617",
       "submissionId": "7650617",
       "testVerdicts": {
@@ -357,7 +513,11 @@
           "0039"
         ],
         "origin": "tests/0039",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+        "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+        "originalInputHash": "306cbddc8113bd9dd53bd3c0aec1f04022f8e07c29bd49320440e4a70b6f2250",
+        "reason": "Tests arr[i][j] (center) rather than arr[x][y] (neighbor).",
+        "selectedOriginalTest": "0005",
         "test": "lf-0039"
       }
     }
@@ -365,14 +525,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 2,
+      "bytes": 816646,
+      "name": "batch-2-source-semantics-review.json",
+      "sha256": "37ab4aefa3b89e88955bddd18c024454d0b0b929d93e2f380e20f499ef9f0612"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "9222ef3dba7a2cb6487c3411b735040677fdeba9e5bc30bbd2ba47f8cd0b27ad",
+  "sourceSemanticReviewPath": "source-review/proofs/462A.json",
   "stressCases": 40,
-  "testPairs": 181,
-  "unconfirmedSourceIds": [
-    "7597891",
-    "7598638",
-    "7598992",
-    "7601109",
-    "7650617"
-  ]
+  "testPairs": 181
 }

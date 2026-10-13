@@ -1,28 +1,245 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "60d87efe929dace0608e2b0027c1b5840b58360f8e062dcdb6c06fab7749927d",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "116596647": {
+      "LFActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "LFExpectedOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+      "LFInputHash": "232329ec542751c553e03e864e6932a0ce5d4654f53ff12b2c88a95217bec834",
+      "LFProofHash": "37f09c44fc716a4a1f0e34fa0103a726cf85e298cc26647b0f2d672c49ad42a2",
+      "exactSourceExcerpts": [
+        {
+          "first": 14,
+          "last": 19,
+          "lines": [
+            "if b1>=a1:",
+            "    ans=b1-a1",
+            "else:",
+            "    ans=6-a1+b1",
+            "# print(ans)",
+            "if ans in ax:"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalInputHash": "232329ec542751c553e03e864e6932a0ce5d4654f53ff12b2c88a95217bec834",
+      "originalTimeout": false,
+      "reason": "Line 17 `ans=6-a1+b1` for wrap-around; correct distance is 7-a1+b1. Expected derivation: sunday(6)->monday(0): (0-6) mod 7 = 1 -> NO. Source trace: b1<a1 -> ans = 6-6+0 = 0 in {0,2,3} -> YES.",
+      "sourceHash": "8d0aad6b4a8f65c359cd0397b349dfd1e23f3df47e5f8f1cbd1db46861af1784",
+      "sourceRanges": [
+        [
+          14,
+          19
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/724/submission/116596647",
+      "test": "0111"
+    },
+    "117054435": {
+      "LFActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "LFExpectedOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+      "LFInputHash": "a633730e7b2468dca63398b224cb33be138035ce63f55efc2299af3518d126bf",
+      "LFProofHash": "37f09c44fc716a4a1f0e34fa0103a726cf85e298cc26647b0f2d672c49ad42a2",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 7,
+          "lines": [
+            "if f == s:",
+            "    print('NO')",
+            "else:",
+            "    print('YES')"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "originalInputHash": "b3e896819345d9be25144febfcea13d2617198430e038c506e634a2deb9a43a1",
+      "originalTimeout": false,
+      "reason": "Lines 4-7 `if f == s: NO else YES` uses a wrong criterion; correct rule is shift mod 7 in {0,2,3}. Expected derivation: monday->tuesday: shift 1 -> NO. Source trace: f!=s -> YES.",
+      "sourceHash": "a7c5733423f0968f531e19ce8ecb31ea2f8ed384ce6c6e3ace2433bd89efe678",
+      "sourceRanges": [
+        [
+          4,
+          7
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/724/submission/117054435",
+      "test": "0001"
+    },
+    "21303608": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "04218c3422af14ca6540f552b4c4f99ad413963babe0e30cdfc6fac2b5cf4b36",
+      "LFProofHash": "37f09c44fc716a4a1f0e34fa0103a726cf85e298cc26647b0f2d672c49ad42a2",
+      "exactSourceExcerpts": [
+        {
+          "first": 3,
+          "last": 18,
+          "lines": [
+            "for i in range(2):",
+            "    if day[i] == 'monday':",
+            "        day[i] = 1",
+            "    elif day[i] == 'tuesday':",
+            "        day[i] = 2",
+            "    elif day[i] == 'wednesday':",
+            "        day[i] = 3",
+            "    elif day[i] == 'thursday':",
+            "        day[i] = 4",
+            "    elif day[i] == 'friday':",
+            "        day[i] = 5",
+            "    elif day[i] == 'saturday':",
+            "        day[i] = 6",
+            "    else:",
+            "        day[i] = 7",
+            "if (day[0] == day[1]) or ((day[0] + 2) % 7 == day[1]) or ((day[0] + 3) % 7 == day[1]):"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "originalInputHash": "04218c3422af14ca6540f552b4c4f99ad413963babe0e30cdfc6fac2b5cf4b36",
+      "originalTimeout": false,
+      "reason": "Line 18 compares (day0+2)%7 / (day0+3)%7 (range 0..6) with day1 encoded 1..7 (lines 4-17); sunday=7 is never matched by a mod-7 shift. Expected derivation: friday->sunday: shift (7-5) mod 7 = 2 (30-day month) -> YES. Source trace: day0=5, day1=7: 5!=7, (5+2)%7=0!=7, (5+3)%7=1!=7 -> NO.",
+      "sourceHash": "483da4a98aa77d47b15731a12b4d2c925a3992026948bd17741ddfeb58ca2125",
+      "sourceRanges": [
+        [
+          3,
+          18
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/724/submission/21303608",
+      "test": "0103"
+    },
+    "21435315": {
+      "LFActualOutputHash": "564739ea8fa5926d4fa5c9734fed462061960a22e6b8d5c06e94969d97891bf2",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "bd5b0d48c5440da4f5796424cdcc630ae22e0662962fee440f1c39088eae90e2",
+      "LFProofHash": "37f09c44fc716a4a1f0e34fa0103a726cf85e298cc26647b0f2d672c49ad42a2",
+      "exactSourceExcerpts": [
+        {
+          "first": 7,
+          "last": 27,
+          "lines": [
+            "for x in range(0,len(days_list)):",
+            "    if first_day is days_list[x]:",
+            "        index1 =x",
+            "",
+            "    if sec_day is days_list[x]:",
+            "        index2 =x",
+            "",
+            "months_list=[31, 28,30]",
+            "",
+            "for x in months_list:",
+            "    index2= index2 + x",
+            "    ind = index2%7",
+            "    if days_list[ind] is sec_day:",
+            "        sol = True",
+            "        break",
+            "    else:",
+            "        sol = False",
+            "if sol is True:",
+            "    print(\"yes\")",
+            "else:",
+            "    print(\"no\")"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "564739ea8fa5926d4fa5c9734fed462061960a22e6b8d5c06e94969d97891bf2",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+      "originalInputHash": "00e96a68f338ec1a82c7fa8b8a6de737893ba5b83050ac42164850b87f26979a",
+      "originalTimeout": false,
+      "reason": "Lines 14-19: shifts index2 (second day) by cumulative 31,59,89 and compares with sec_day itself, ignoring first_day; cumulative shifts 3,3,5 mod 7 are never 0, so sol is always False. Lines 8/11/19 also use identity `is`. Expected derivation: sunday->sunday: shift 0 (Feb, 28 days) -> YES. Source trace: index lookups fail (`is`) -> index2=0; ind = 31%7=3 -> thursday is not sec_day; 59%7=3; 89%7=5 -> sol=False -> prints \"no\" (case-insensitive NO).",
+      "sourceHash": "361dbb508ccf711d22be4454f1534f399353581a8c76ed587fbf2793d776b7f0",
+      "sourceRanges": [
+        [
+          7,
+          27
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/724/submission/21435315",
+      "test": "0002"
+    },
+    "29907491": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "5de78fae5948b2875762294b1a82d2cfa23dc6dba64abbc1b5386f9378bda215",
+      "LFProofHash": "37f09c44fc716a4a1f0e34fa0103a726cf85e298cc26647b0f2d672c49ad42a2",
+      "exactSourceExcerpts": [
+        {
+          "first": 1,
+          "last": 1,
+          "lines": [
+            "a=['monday','tuesday','wednesday','thusday','friday','saturday','sunday','monday','tuesday','wednesday','thusday','friday','saturday','sunday']"
+          ]
+        },
+        {
+          "first": 4,
+          "last": 8,
+          "lines": [
+            "for i in range(14):",
+            "    if(a[i]==s):",
+            "        if(a[i]==t or a[i+2]==t or a[i+3]==t):print(\"YES\")",
+            "        else:print(\"NO\")",
+            "        break"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "originalInputHash": "5de78fae5948b2875762294b1a82d2cfa23dc6dba64abbc1b5386f9378bda215",
+      "originalTimeout": false,
+      "reason": "Line 1 misspells \"thusday\" (indices 3 and 10), so line 6 `a[i+2]==t` can never match t=\"thursday\" (and s=\"thursday\" is never found). Expected derivation: tuesday->thursday: shift 2 -> YES. Source trace: s found at i=1; a[1]=\"tuesday\", a[3]=\"thusday\", a[4]=\"friday\" != \"thursday\" -> NO.",
+      "sourceHash": "63e4ed499bb7ecbbc39008af682e4131a6b7742ad943b176cdb9690f12be4924",
+      "sourceRanges": [
+        [
+          1,
+          1
+        ],
+        [
+          4,
+          8
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/724/submission/29907491",
+      "test": "0079"
+    }
+  },
   "independentFreshRunHash": "e8b12c28287234a752b15d67d8124a94f9bae4cc57f57e49ea7f849c76fba244",
   "independentLFReplayHash": "37f09c44fc716a4a1f0e34fa0103a726cf85e298cc26647b0f2d672c49ad42a2",
   "independentSemanticCheckHash": "6922790233cadb140453b27058e723d01ebcac73152451c755bac2c0552ea082",
   "independentStressHash": "0a7d2993e3374a31cedef4c671edcc4b40bacc85c5bd904479b4e198101272a0",
+  "originalExecutionEvidenceHash": "60d87efe929dace0608e2b0027c1b5840b58360f8e062dcdb6c06fab7749927d",
   "packageHash": "1b9220f0f5a62edddfaffb881823b53a2888b1b878cc670e4f474247f4507a69",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -109,26 +326,25 @@
         "AC": 22,
         "WA": 1
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 1
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 1,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": false,
       "language": "Python 3",
       "normalWrongAnswerCount": 1,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 1,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "483da4a98aa77d47b15731a12b4d2c925a3992026948bd17741ddfeb58ca2125",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/724/submission/21303608",
       "submissionId": "21303608",
       "testVerdicts": {
@@ -141,12 +357,14 @@
         "expectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
         "inputHash": "04218c3422af14ca6540f552b4c4f99ad413963babe0e30cdfc6fac2b5cf4b36",
         "matchingPackageTests": [
-          "0037",
-          "0050",
           "0103"
         ],
         "origin": "tests/0103",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+        "originalInputHash": "04218c3422af14ca6540f552b4c4f99ad413963babe0e30cdfc6fac2b5cf4b36",
+        "reason": "Line 18 compares (day0+2)%7 / (day0+3)%7 (range 0..6) with day1 encoded 1..7 (lines 4-17); sunday=7 is never matched by a mod-7 shift.",
+        "selectedOriginalTest": "0103",
         "test": "lf-0103"
       }
     },
@@ -155,26 +373,25 @@
         "AC": 4,
         "WA": 18
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 18
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 18,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 18,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 16,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "361dbb508ccf711d22be4454f1534f399353581a8c76ed587fbf2793d776b7f0",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/724/submission/21435315",
       "submissionId": "21435315",
       "testVerdicts": {
@@ -191,7 +408,11 @@
           "0117"
         ],
         "origin": "tests/0117",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "564739ea8fa5926d4fa5c9734fed462061960a22e6b8d5c06e94969d97891bf2",
+        "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+        "originalInputHash": "00e96a68f338ec1a82c7fa8b8a6de737893ba5b83050ac42164850b87f26979a",
+        "reason": "Lines 14-19: shifts index2 (second day) by cumulative 31,59,89 and compares with sec_day itself, ignoring first_day; cumulative shifts 3,3,5 mod 7 are never 0, so sol is always False. Lines 8/11/19 also use identity `is`.",
+        "selectedOriginalTest": "0002",
         "test": "lf-0117"
       }
     },
@@ -200,27 +421,25 @@
         "AC": 19,
         "WA": 4
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 1,
-        "empty output requires additional source-level defect review": 3
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 1,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": false,
       "language": "Python 3",
       "normalWrongAnswerCount": 4,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 1,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "63e4ed499bb7ecbbc39008af682e4131a6b7742ad943b176cdb9690f12be4924",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/724/submission/29907491",
       "submissionId": "29907491",
       "testVerdicts": {
@@ -233,11 +452,14 @@
         "expectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
         "inputHash": "5de78fae5948b2875762294b1a82d2cfa23dc6dba64abbc1b5386f9378bda215",
         "matchingPackageTests": [
-          "0004",
           "0079"
         ],
         "origin": "independent-mutation",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+        "originalInputHash": "5de78fae5948b2875762294b1a82d2cfa23dc6dba64abbc1b5386f9378bda215",
+        "reason": "Line 1 misspells \"thusday\" (indices 3 and 10), so line 6 `a[i+2]==t` can never match t=\"thursday\" (and s=\"thursday\" is never found).",
+        "selectedOriginalTest": "0079",
         "test": "independent-0009"
       }
     },
@@ -246,26 +468,25 @@
         "AC": 16,
         "WA": 6
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 6
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 6,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": false,
       "language": "Python 3",
       "normalWrongAnswerCount": 6,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 6,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "8d0aad6b4a8f65c359cd0397b349dfd1e23f3df47e5f8f1cbd1db46861af1784",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/724/submission/116596647",
       "submissionId": "116596647",
       "testVerdicts": {
@@ -282,7 +503,11 @@
           "0111"
         ],
         "origin": "tests/0111",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+        "originalExpectedOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalInputHash": "232329ec542751c553e03e864e6932a0ce5d4654f53ff12b2c88a95217bec834",
+        "reason": "Line 17 `ans=6-a1+b1` for wrap-around; correct distance is 7-a1+b1.",
+        "selectedOriginalTest": "0111",
         "test": "lf-0111"
       }
     },
@@ -291,26 +516,25 @@
         "AC": 3,
         "WA": 20
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 20
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 20,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 20,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 18,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "a7c5733423f0968f531e19ce8ecb31ea2f8ed384ce6c6e3ace2433bd89efe678",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/724/submission/117054435",
       "submissionId": "117054435",
       "testVerdicts": {
@@ -327,7 +551,11 @@
           "0070"
         ],
         "origin": "tests/0001",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+        "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+        "originalInputHash": "b3e896819345d9be25144febfcea13d2617198430e038c506e634a2deb9a43a1",
+        "reason": "Lines 4-7 `if f == s: NO else YES` uses a wrong criterion; correct rule is shift mod 7 in {0,2,3}.",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     }
@@ -335,14 +563,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 3,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 4,
+      "bytes": 389086,
+      "name": "rating-1000-source-review-batch4.json",
+      "sha256": "de8c7b37f70b0356c91c2ac393453ebcab2031858e514fd24cadd083c0a7c19e"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "711b775f90ae2edbb8ee6b602341f3d5629b501fb27f42b6b4d45a8fb542b806",
+  "sourceSemanticReviewPath": "source-review/proofs/724A.json",
   "stressCases": 11,
-  "testPairs": 117,
-  "unconfirmedSourceIds": [
-    "21303608",
-    "21435315",
-    "29907491",
-    "116596647",
-    "117054435"
-  ]
+  "testPairs": 117
 }

@@ -1,62 +1,239 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
-    "algorithmicallyWrong": false,
+    "algorithmicallyWrong": true,
     "coverage": true,
     "deterministicGeneration": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "generatedBasis": true,
     "hashes": true,
     "independentOracle": true,
     "inputConstraints": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
-  "evidenceHash": "9a8c7f2d0cf4f52146c5c053fb435605457d34240f2bbc9b9786454b612ceba1",
+  "evidenceHash": "4435aa2c3afa10b08b22b92dc3961f8afca48fbf5060c84f4472006f391cb319",
   "generatedQualificationHash": "c18ee52f9ff1cad63fd35b23290e88267691cd200ae4a74333a57fd5f556bf04",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
-  "historicalIncorrectAnalysis": {
+  "incorrectAnalysis": {
     "12777834": {
+      "LFActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "LFExpectedOutputHash": "e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683",
+      "LFInputHash": "e96dae840c41025dff5c619120f9bc1199f5505590438dc098f35751ae50e058",
+      "LFProofHash": "58b0cfc6e7478b2d63ba9d43d48c426f1a833cb89ed0973aafc4344e37430b19",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 11,
+          "lines": [
+            "for i in range(N):",
+            "\tA[i].append(i)",
+            "A.sort(key=itemgetter(0))",
+            "A.sort(key=itemgetter(1))",
+            "A.sort(key=itemgetter(2))",
+            "A.sort(key=itemgetter(3),reverse=True)",
+            "#print(A)",
+            "print(A[N-1][4])"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
-      "test": "0002"
+      "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "originalInputHash": "e96dae840c41025dff5c619120f9bc1199f5505590438dc098f35751ae50e058",
+      "originalTimeout": false,
+      "reason": "lines 6-9 select overall cheapest with no domination test; line 11 prints 0-based `A[N-1][4]` Expected derivation: Laptop k is outdated iff some laptop j has strictly larger speed, ram and hdd. Answer = 1-based index of the cheapest non-outdated laptop. Test 0085: cheapest #3 (1187,1108,300,131) is outdated by #1 (2171,1786,362); next cheapest #6 (3181,2245,49,160) has max speed -> not outdated -> 6. Source trace: after sorts, A[5] is laptop #3 (cost 131) with stored index 2 -> prints 2.",
+      "sourceHash": "8da2d4136e2d52c589a001594922995ba2850c5e3a7e51cfc63eceb20fea657b",
+      "sourceRanges": [
+        [
+          4,
+          11
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/106/submission/12777834",
+      "test": "0085"
     },
     "20980929": {
+      "LFActualOutputHash": "4960a9ce196ee53a9ae6f2b038ebf5bb7949312406eabe79835e766b4a3d0d88",
+      "LFExpectedOutputHash": "73475cb40a568e8da8a045ced110137e159f890ac4da883b6b17dc651b3a8049",
+      "LFInputHash": "3c6c89797c0830129789279e24614e9daf7fd669682bbfb671e2339bf8130a30",
+      "LFProofHash": "58b0cfc6e7478b2d63ba9d43d48c426f1a833cb89ed0973aafc4344e37430b19",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 9,
+          "lines": [
+            "t=0",
+            "for i in range(n):",
+            "\tx=y=1",
+            "\tfor j in 0,1,2:y=y and a[t][j]<a[i][j];x=x and a[t][j]>a[i][j]",
+            "\tif 1-x and a[t][3]>a[i][3]or y:t=i",
+            "print(t)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
-      "test": "0002"
+      "originalActualOutputHash": "4960a9ce196ee53a9ae6f2b038ebf5bb7949312406eabe79835e766b4a3d0d88",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "084c799cd551dd1d8d5c5f9a5d593b2e931f5e36122ee5c793c1d08a19839cc0",
+      "originalInputHash": "3c6c89797c0830129789279e24614e9daf7fd669682bbfb671e2339bf8130a30",
+      "originalTimeout": false,
+      "reason": "line 8 `if 1-x and a[t][3]>a[i][3]or y:t=i` (non-transitive greedy) and line 9 `print(t)` (0-based) Expected derivation: Laptop k is outdated iff some laptop j has strictly larger speed, ram and hdd. Answer = 1-based index of the cheapest non-outdated laptop. Test 0032 (n=100): laptop 42 (2559,3372,492,189) is the cheapest non-outdated laptop (self-authored check over all 100) -> 42. Source trace: Self-authored trace of lines 5-8: t reaches laptop 42 at i=42 (cheaper than 41); at i=50 (2889,2494,432,106) 42 does not dominate it and it is cheaper -> t=50 (50 is outdated); i=69 (3488,2546,483,380) dominates 50 -> t=69; subsequent moves 72,76,86,87,89,94,97,99; final t=98 (laptop 99, cost 262) -> prints 98. Matches recorded actual 98.",
+      "sourceHash": "715ea1726a98292c20fac1b7820bd5d41626f8548f75ef43b518225a7e823ea5",
+      "sourceRanges": [
+        [
+          4,
+          9
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/106/submission/20980929",
+      "test": "0032"
     },
     "21323674": {
+      "LFActualOutputHash": "2e6d31a5983a91251bfae5aefa1c0a19d8ba3cf601d0e8a706b4cfa9661a6b8a",
+      "LFExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "LFInputHash": "6a4d96c73ff592f948aef95bc89cbdc0e82b567054112bcc6454418f1fd028fd",
+      "LFProofHash": "58b0cfc6e7478b2d63ba9d43d48c426f1a833cb89ed0973aafc4344e37430b19",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 16,
+          "lines": [
+            "l.sort()",
+            "ans = l[n-1][3]",
+            "index = n-1",
+            "#for i in l:",
+            "#\tprint (i)",
+            "for i in range(n - 1):",
+            "\tif l[i][0] >= l[n-1][0] or l[i][1] >= l[n-1][1] or l[i][2] >= l[n-1][2]:",
+            "\t\tans = min(l[i][3], ans)",
+            "\t\tindex = i",
+            "",
+            "print (index + 1)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "2e6d31a5983a91251bfae5aefa1c0a19d8ba3cf601d0e8a706b4cfa9661a6b8a",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "originalInputHash": "4ad59d33729a5b54b4d065a5e3934a089355ae3f3823a66c9d17dcff65759e49",
+      "originalTimeout": false,
+      "reason": "line 12 `or` test (not domination), line 14 `index = i` regardless of cost, line 16 prints sorted position Expected derivation: Laptop k is outdated iff some laptop j has strictly larger speed, ram and hdd. Answer = 1-based index of the cheapest non-outdated laptop. Test 0005: laptop 2 (2705,3497,413,241) is cheapest overall; nobody has speed>2705, ram>3497 and hdd>413 simultaneously (only #9 has ram>3497 and its speed 2361<2705) -> 2. Source trace: sorted by speed: #6,#1,#9,#7,#2,#10,#8,#4,#3,#5; reference #5 (3658,3213,353); last i in 0..8 with ram>=3213 or hdd>=353 is i=8 (#3, hdd 470) -> index=8 -> prints 9.",
+      "sourceHash": "61e0615c395f80841a08e1fbc381bccca0063b5da6b614f966f6dbb4fdab871e",
+      "sourceRanges": [
+        [
+          6,
+          16
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/106/submission/21323674",
       "test": "0005"
     },
     "33000316": {
+      "LFActualOutputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+      "LFExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "LFInputHash": "6a4d96c73ff592f948aef95bc89cbdc0e82b567054112bcc6454418f1fd028fd",
+      "LFProofHash": "58b0cfc6e7478b2d63ba9d43d48c426f1a833cb89ed0973aafc4344e37430b19",
+      "exactSourceExcerpts": [
+        {
+          "first": 15,
+          "last": 33,
+          "lines": [
+            "for i in range(len(l)):",
+            "    if l[i][0]==max(speed):",
+            "        preferred.append(l[i])",
+            "        temp.remove(l[i])",
+            "        ram.remove(l[i][1])",
+            "        hdd.remove(l[i][2])",
+            "l=temp[:]",
+            "for i in range(len(l)):",
+            "    if l[i][1]==max(ram):",
+            "        preferred.append(l[i])",
+            "        temp.remove(l[i])",
+            "        hdd.remove(l[i][2])",
+            "l=temp[:]",
+            "for i in range(len(l)):",
+            "    if l[i][2]==max(hdd):",
+            "        preferred.append(l[i])",
+            "",
+            "preferred.sort(key=lambda item: item[3])",
+            "print(l0.index(preferred[0])+1)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "originalInputHash": "4ad59d33729a5b54b4d065a5e3934a089355ae3f3823a66c9d17dcff65759e49",
+      "originalTimeout": false,
+      "reason": "lines 16, 23, 29 `== max(...)` attribute-maximum filters instead of a domination test Expected derivation: Laptop k is outdated iff some laptop j has strictly larger speed, ram and hdd. Answer = 1-based index of the cheapest non-outdated laptop. Test 0005 -> 2 (see above). Source trace: max speed 3658 -> #5; remaining max ram 4004 -> #9; remaining max hdd 476 -> #10; candidates costs 602,719,310 -> #10 -> prints 10.",
+      "sourceHash": "4e903231475a92b8cb7a53d9e59d470711739ff3a234e1f52dcd0f4de1459d65",
+      "sourceRanges": [
+        [
+          15,
+          33
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/106/submission/33000316",
       "test": "0005"
     },
     "33000726": {
+      "LFActualOutputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+      "LFExpectedOutputHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+      "LFInputHash": "95dc84d425fc1025381641b84e10e222a83f76bd7567e99a903549a9c21186c7",
+      "LFProofHash": "58b0cfc6e7478b2d63ba9d43d48c426f1a833cb89ed0973aafc4344e37430b19",
+      "exactSourceExcerpts": [
+        {
+          "first": 7,
+          "last": 13,
+          "lines": [
+            "for i in range(n):",
+            "    for j in range(n):",
+            "        for k in range(3):",
+            "            if l[i][k]>=l[j][k]:",
+            "                preferred.append(l[i])",
+            "preferred.sort(key=lambda item:item[3])",
+            "print(l.index(preferred[0])+1)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+      "originalInputHash": "0e028de0afcb9f0b52035e8d0ab80c3005c2d28034a74833c4eb6cc7f2355ba1",
+      "originalTimeout": false,
+      "reason": "line 10 `if l[i][k]>=l[j][k]` (true for j==i) -> no outdated filtering Expected derivation: Laptop k is outdated iff some laptop j has strictly larger speed, ram and hdd. Answer = 1-based index of the cheapest non-outdated laptop. Sample 3: #5 (2000,512,180,150) is outdated by #3 (2300,1024,200); #1 outdated by #3; cheapest remaining #4 (300) -> 4. Source trace: all laptops are candidates; cheapest overall #5 (cost 150) -> prints 5.",
+      "sourceHash": "3298c76d07b9f128bd388c6cb0948966ee1ea97e9364b516dd26662d44df02ea",
+      "sourceRanges": [
+        [
+          7,
+          13
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/106/submission/33000726",
       "test": "0001"
     }
   },
-  "incorrectAnalysis": {},
   "independentFreshRunHash": "16a863f003d373f89c870de33245e236b5a0c59aa8489f5c29a947d13b90962b",
   "independentLFReplayHash": "58b0cfc6e7478b2d63ba9d43d48c426f1a833cb89ed0973aafc4344e37430b19",
   "independentSemanticCheckHash": "c4b14413c6ba727df5155c0171d636058a40e4111d64597c12e2d7e70f2716e9",
   "independentStressHash": "ea24851ab6df12b756215ae712aa80d78ca68cf283a5b07c4708ee9d14e1ebf7",
+  "originalExecutionEvidenceHash": "9a8c7f2d0cf4f52146c5c053fb435605457d34240f2bbc9b9786454b612ceba1",
   "packageHash": "f284db5df56d3868df95aaa3026c948039dfce35f52bcbedd55639fc006fe6d9",
   "qualificationBasis": "generated",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -143,26 +320,25 @@
         "AC": 2,
         "WA": 21
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 21
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 21,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 21,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 14,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "8da2d4136e2d52c589a001594922995ba2850c5e3a7e51cfc63eceb20fea657b",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/106/submission/12777834",
       "submissionId": "12777834",
       "testVerdicts": {
@@ -171,15 +347,19 @@
       },
       "testsRun": 214,
       "witness": {
-        "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
-        "expectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
-        "inputHash": "2d544082e001ee1e8756530ae8ac2a078c50e216a39119c367eba1c37fd1eaed",
+        "actualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "expectedOutputHash": "e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683",
+        "inputHash": "e96dae840c41025dff5c619120f9bc1199f5505590438dc098f35751ae50e058",
         "matchingPackageTests": [
-          "0002"
+          "0085"
         ],
-        "origin": "tests/0002",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
-        "test": "lf-0002"
+        "origin": "tests/0085",
+        "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "originalExpectedOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+        "originalInputHash": "e96dae840c41025dff5c619120f9bc1199f5505590438dc098f35751ae50e058",
+        "reason": "lines 6-9 select overall cheapest with no domination test; line 11 prints 0-based `A[N-1][4]`",
+        "selectedOriginalTest": "0085",
+        "test": "lf-0085"
       }
     },
     {
@@ -187,26 +367,25 @@
         "AC": 2,
         "WA": 21
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 21
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 21,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 21,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 14,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "715ea1726a98292c20fac1b7820bd5d41626f8548f75ef43b518225a7e823ea5",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/106/submission/20980929",
       "submissionId": "20980929",
       "testVerdicts": {
@@ -215,15 +394,19 @@
       },
       "testsRun": 214,
       "witness": {
-        "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
-        "expectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
-        "inputHash": "2d544082e001ee1e8756530ae8ac2a078c50e216a39119c367eba1c37fd1eaed",
+        "actualOutputHash": "4960a9ce196ee53a9ae6f2b038ebf5bb7949312406eabe79835e766b4a3d0d88",
+        "expectedOutputHash": "73475cb40a568e8da8a045ced110137e159f890ac4da883b6b17dc651b3a8049",
+        "inputHash": "3c6c89797c0830129789279e24614e9daf7fd669682bbfb671e2339bf8130a30",
         "matchingPackageTests": [
-          "0002"
+          "0032"
         ],
-        "origin": "tests/0002",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
-        "test": "lf-0002"
+        "origin": "tests/0032",
+        "originalActualOutputHash": "4960a9ce196ee53a9ae6f2b038ebf5bb7949312406eabe79835e766b4a3d0d88",
+        "originalExpectedOutputHash": "084c799cd551dd1d8d5c5f9a5d593b2e931f5e36122ee5c793c1d08a19839cc0",
+        "originalInputHash": "3c6c89797c0830129789279e24614e9daf7fd669682bbfb671e2339bf8130a30",
+        "reason": "line 8 `if 1-x and a[t][3]>a[i][3]or y:t=i` (non-transitive greedy) and line 9 `print(t)` (0-based)",
+        "selectedOriginalTest": "0032",
+        "test": "lf-0032"
       }
     },
     {
@@ -231,26 +414,25 @@
         "AC": 8,
         "WA": 15
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 15
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 15,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 15,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "61e0615c395f80841a08e1fbc381bccca0063b5da6b614f966f6dbb4fdab871e",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/106/submission/21323674",
       "submissionId": "21323674",
       "testVerdicts": {
@@ -266,7 +448,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "2e6d31a5983a91251bfae5aefa1c0a19d8ba3cf601d0e8a706b4cfa9661a6b8a",
+        "originalExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+        "originalInputHash": "4ad59d33729a5b54b4d065a5e3934a089355ae3f3823a66c9d17dcff65759e49",
+        "reason": "line 12 `or` test (not domination), line 14 `index = i` regardless of cost, line 16 prints sorted position",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     },
@@ -275,26 +461,25 @@
         "AC": 8,
         "WA": 15
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 15
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 15,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 15,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "4e903231475a92b8cb7a53d9e59d470711739ff3a234e1f52dcd0f4de1459d65",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/106/submission/33000316",
       "submissionId": "33000316",
       "testVerdicts": {
@@ -310,7 +495,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+        "originalExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+        "originalInputHash": "4ad59d33729a5b54b4d065a5e3934a089355ae3f3823a66c9d17dcff65759e49",
+        "reason": "lines 16, 23, 29 `== max(...)` attribute-maximum filters instead of a domination test",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     },
@@ -319,26 +508,25 @@
         "AC": 8,
         "WA": 15
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 15
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 15,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 15,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "3298c76d07b9f128bd388c6cb0948966ee1ea97e9364b516dd26662d44df02ea",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/106/submission/33000726",
       "submissionId": "33000726",
       "testVerdicts": {
@@ -354,7 +542,11 @@
           "0001"
         ],
         "origin": "tests/0001",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+        "originalExpectedOutputHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+        "originalInputHash": "0e028de0afcb9f0b52035e8d0ab80c3005c2d28034a74833c4eb6cc7f2355ba1",
+        "reason": "line 10 `if l[i][k]>=l[j][k]` (true for j==i) -> no outdated filtering",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     }
@@ -362,14 +554,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 1,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 1,
+      "bytes": 387441,
+      "name": "batch1-source-semantics-review.json",
+      "sha256": "ca43961fef2540e778e5dfc2d517ba9ae59958c8198fecf0e801108165b0e722"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "70cdcdd455688990cbd2656ddbd636dc4990f3aee7e1634ac31c8bb52a279434",
+  "sourceSemanticReviewPath": "source-review/proofs/106B.json",
   "stressCases": 40,
-  "testPairs": 214,
-  "unconfirmedSourceIds": [
-    "12777834",
-    "20980929",
-    "21323674",
-    "33000316",
-    "33000726"
-  ]
+  "testPairs": 214
 }

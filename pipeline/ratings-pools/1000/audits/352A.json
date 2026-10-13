@@ -1,62 +1,216 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
-    "algorithmicallyWrong": false,
+    "algorithmicallyWrong": true,
     "coverage": true,
     "deterministicGeneration": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "generatedBasis": true,
     "hashes": true,
     "independentOracle": true,
     "inputConstraints": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "cbb8bf3ec00c3877d9058f64d620fb62c9608e8d6d35d9150efb6775dbac9eec",
   "generatedQualificationHash": "bf16c821b53bac650f23f4c438540c6167876ead26c360891cdb2f61bae294c2",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
-  "historicalIncorrectAnalysis": {
+  "incorrectAnalysis": {
     "117494464": {
+      "LFActualOutputHash": "92dd041b2bd3db6e7e265432dfdf0fdf0083e3e9bd683ad672a1f67855f26b63",
+      "LFExpectedOutputHash": "37226c5f2a4416c5793394a2d70668f37eab26702406ca6b03705815810449e9",
+      "LFInputHash": "c78437621f5335a25494f91d7e8f60a45aed8c1dbd5afcfe42c7e7ddf091076a",
+      "LFProofHash": "6d8e5425d95119fa513a2bfec29884cc4bca6a586f7c66e28626daf0e5bea18d",
+      "exactSourceExcerpts": [
+        {
+          "first": 15,
+          "last": 19,
+          "lines": [
+            "\t\t\tM = c2//9",
+            "\t\t\tS = [\"5\"]*(M*9)",
+            "\t\t\tS.append(\"0\")",
+            "\t\t\tS = \"\".join(S)",
+            "\t\t\tprint(S)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "92dd041b2bd3db6e7e265432dfdf0fdf0083e3e9bd683ad672a1f67855f26b63",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "776c7bf293e81b410bf84cc0176780acbf71f6898645b30b6877780c716a076b",
+      "originalInputHash": "47b27b51049c0defe2490620af710b1a518ae0dfd2b1fa83af7932a2feca686e",
+      "originalTimeout": false,
+      "reason": "S.append('0') includes only one zero despite five available zeros; appending all zeros strictly maximizes the number. Expected derivation: There are 18 fives and 5 zeros. Divisibility by 10 requires a zero; digit sum 18*5=90 is divisible by 9. All 23 digits can be used as 18 fives followed by 5 zeros: 55555555555555555500000. Source trace: c1=5,c2=18,M=2; S contains 18 fives but only one appended zero, producing 5555555555555555550.",
+      "sourceHash": "1b9369fd0650f15675027f404bf1f691b72c95d7fbd3c503d23df883ee619114",
+      "sourceRanges": [
+        [
+          15,
+          19
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/352/submission/117494464",
       "test": "0007"
     },
     "118618902": {
+      "LFActualOutputHash": "30826f9f27bb88305a6cc070dcaa6237fa83ec9c74e2665726ce5b0014fed880",
+      "LFExpectedOutputHash": "71b0872d6bf555298028623fbb1949a0c648e9ffd05f095b7701c83aa4739a37",
+      "LFInputHash": "60fc54810ddc5b5e5f2f8068470228d6f56b47a4cb09b442b666e3f4b100eaf8",
+      "LFProofHash": "6d8e5425d95119fa513a2bfec29884cc4bca6a586f7c66e28626daf0e5bea18d",
+      "exactSourceExcerpts": [
+        {
+          "first": 12,
+          "last": 14,
+          "lines": [
+            "\tst = \"999999999\"*dr",
+            "\tst += (\"0\"*ct0)",
+            "\tprint(st)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "30826f9f27bb88305a6cc070dcaa6237fa83ec9c74e2665726ce5b0014fed880",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "4e37b274ff3c16cf9aaaa266b7a61ec89030e620295c6af0463b4fd66241fed4",
+      "originalInputHash": "6295652e7a36aca1837e12e2c46161dc3f95a061882f7c58a288397d34852c69",
+      "originalTimeout": false,
+      "reason": "Constructs digits '9' rather than the available '5' cards. Expected derivation: 10 fives and one zero allow 9 fives followed by zero: 5555555550. Ten fives have digit sum 50, not a multiple of 9. Source trace: ct5=10, ct0=1, dr=1; st='999999999'+'0', so answer is 9999999990. This is not an equivalent notation for 5555555550 and uses nonexistent 9 cards.",
+      "sourceHash": "ce55d76fbf29b896b6b7864c5cc42744b7cf329cd51fcaaee273aed79331c074",
+      "sourceRanges": [
+        [
+          12,
+          14
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/352/submission/118618902",
       "test": "0002"
     },
     "118682415": {
+      "LFActualOutputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+      "LFExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+      "LFInputHash": "cbf5bf0a20ba05811da71e37c2c5bcdde3a5b6b7fbb6c184b297ce0a714a9c96",
+      "LFProofHash": "6d8e5425d95119fa513a2bfec29884cc4bca6a586f7c66e28626daf0e5bea18d",
+      "exactSourceExcerpts": [
+        {
+          "first": 26,
+          "last": 36,
+          "lines": [
+            "    for i in range(n):",
+            "        b = a[i:]",
+            "        # print(b, sum(b), sum(b) % 90)",
+            "        if sum(b) % 9 == 0:",
+            "            break",
+            "    if len(set(b)) == 1 and set(b) == {0}:",
+            "        print(0)",
+            "        exit()",
+            "    for i in b:",
+            "        print(i, end='')",
+            "    print()"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577",
+      "originalInputHash": "cd063258d72df842edae0a764ada447523440ac011f8589b34e29a90674c62a0",
+      "originalTimeout": false,
+      "reason": "If no suffix qualifies it prints the last suffix anyway; it also never requires a zero to ensure divisibility by 10. Expected derivation: Seven fives and no zero cannot yield any multiple of 10 (hence of 90); no zero number is constructible either. Answer -1. Source trace: The suffix sums are 35,30,25,20,15,10,5; none divisible by 9. b ends as [5]; the zero-only branch fails and it prints 5.",
+      "sourceHash": "30dea3d0f3be2e796e4f5913b9fc06520f45bd5766ce3858a25a42bf5ac4594e",
+      "sourceRanges": [
+        [
+          26,
+          36
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/352/submission/118682415",
       "test": "0003"
     },
     "118959386": {
+      "LFActualOutputHash": "b42742d1378af51da6020178b6b14311f820e17cfa5b9ff3c9b40fd2f758af5c",
+      "LFExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+      "LFInputHash": "b2cd2a738e69315633de212ecd0ad345755fcbfe0f9c5b8c8dfb1adff559a57b",
+      "LFProofHash": "6d8e5425d95119fa513a2bfec29884cc4bca6a586f7c66e28626daf0e5bea18d",
+      "exactSourceExcerpts": [
+        {
+          "first": 12,
+          "last": 15,
+          "lines": [
+            "if num_fives >= 9:",
+            "    max_num = ('5' * 9 * (num_fives // 9))",
+            "    if num_zeros > 0:",
+            "        max_num += '0'*num_zeros"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "b42742d1378af51da6020178b6b14311f820e17cfa5b9ff3c9b40fd2f758af5c",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577",
+      "originalInputHash": "568d20e29bbcee7de549d9ce433d00f69e277dedb16a6317ce57b03e02ffbbec",
+      "originalTimeout": false,
+      "reason": "When num_zeros=0 and num_fives>=9 it still emits the fives, though a multiple of 90 must end in zero. Expected derivation: Nine fives without a zero cannot form a multiple of 10 or the number zero. Answer -1. Source trace: num_fives=9,num_zeros=0; max_num='555555555'; the zero-appending branch is skipped, then that number is printed.",
+      "sourceHash": "cfc457c0a23d4684451cc8635240cb8fd3f46513c2f9b24df06e71850042ba0d",
+      "sourceRanges": [
+        [
+          12,
+          15
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/352/submission/118959386",
       "test": "0008"
     },
     "119715085": {
+      "LFActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "LFExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+      "LFInputHash": "cbf5bf0a20ba05811da71e37c2c5bcdde3a5b6b7fbb6c184b297ce0a714a9c96",
+      "LFProofHash": "6d8e5425d95119fa513a2bfec29884cc4bca6a586f7c66e28626daf0e5bea18d",
+      "exactSourceExcerpts": [
+        {
+          "first": 7,
+          "last": 11,
+          "lines": [
+            "if a.count(5)<9:",
+            "    print(0)",
+            "else:",
+            "    c = b*9*['5']+ a.count(0)*['0']",
+            "    print(\"\".join(c))"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577",
+      "originalInputHash": "cd063258d72df842edae0a764ada447523440ac011f8589b34e29a90674c62a0",
+      "originalTimeout": false,
+      "reason": "The fewer-than-nine-fives branch prints zero without checking a zero card exists. Expected derivation: Seven fives, no zeros: no number divisible by 10 exists, so answer -1. Source trace: count(5)=7<9, so it prints 0, a value that cannot be constructed from these cards.",
+      "sourceHash": "57849c3df6143dbc7c7e05a6494b503dbeaf46d96e69c823148a7307f6f3e772",
+      "sourceRanges": [
+        [
+          7,
+          11
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/352/submission/119715085",
       "test": "0003"
     }
   },
-  "incorrectAnalysis": {},
   "independentFreshRunHash": "2f4f9a942fd9cf3bc803e19352bf7908b2c51c9731aca0198007aa8a9913da98",
   "independentLFReplayHash": "6d8e5425d95119fa513a2bfec29884cc4bca6a586f7c66e28626daf0e5bea18d",
   "independentSemanticCheckHash": "0099427bc7623bcf65953d2dc598efc579daac4bf0ae858887da83c28bde7952",
   "independentStressHash": "b1393ac95b62ee6a73978c5f6b259c613d4086e9205316e7579243d9f814e300",
+  "originalExecutionEvidenceHash": "cbb8bf3ec00c3877d9058f64d620fb62c9608e8d6d35d9150efb6775dbac9eec",
   "packageHash": "d227439d10d7147cc06f78d79b4088b307f4c516890ecbe1fabeda062794fedf",
   "qualificationBasis": "generated",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -143,26 +297,25 @@
         "AC": 6,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0007",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 10,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "1b9369fd0650f15675027f404bf1f691b72c95d7fbd3c503d23df883ee619114",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/352/submission/117494464",
       "submissionId": "117494464",
       "testVerdicts": {
@@ -178,7 +331,11 @@
           "0007"
         ],
         "origin": "tests/0007",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "92dd041b2bd3db6e7e265432dfdf0fdf0083e3e9bd683ad672a1f67855f26b63",
+        "originalExpectedOutputHash": "776c7bf293e81b410bf84cc0176780acbf71f6898645b30b6877780c716a076b",
+        "originalInputHash": "47b27b51049c0defe2490620af710b1a518ae0dfd2b1fa83af7932a2feca686e",
+        "reason": "S.append('0') includes only one zero despite five available zeros; appending all zeros strictly maximizes the number.",
+        "selectedOriginalTest": "0007",
         "test": "lf-0007"
       }
     },
@@ -187,26 +344,25 @@
         "AC": 5,
         "WA": 17
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 17
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 17,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 17,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 14,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "ce55d76fbf29b896b6b7864c5cc42744b7cf329cd51fcaaee273aed79331c074",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/352/submission/118618902",
       "submissionId": "118618902",
       "testVerdicts": {
@@ -222,7 +378,11 @@
           "0002"
         ],
         "origin": "tests/0002",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "30826f9f27bb88305a6cc070dcaa6237fa83ec9c74e2665726ce5b0014fed880",
+        "originalExpectedOutputHash": "4e37b274ff3c16cf9aaaa266b7a61ec89030e620295c6af0463b4fd66241fed4",
+        "originalInputHash": "6295652e7a36aca1837e12e2c46161dc3f95a061882f7c58a288397d34852c69",
+        "reason": "Constructs digits '9' rather than the available '5' cards.",
+        "selectedOriginalTest": "0002",
         "test": "lf-0002"
       }
     },
@@ -231,26 +391,25 @@
         "AC": 9,
         "WA": 10
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 10
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 10,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 10,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 10,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "30dea3d0f3be2e796e4f5913b9fc06520f45bd5766ce3858a25a42bf5ac4594e",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/352/submission/118682415",
       "submissionId": "118682415",
       "testVerdicts": {
@@ -266,7 +425,11 @@
           "0003"
         ],
         "origin": "tests/0003",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+        "originalExpectedOutputHash": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577",
+        "originalInputHash": "cd063258d72df842edae0a764ada447523440ac011f8589b34e29a90674c62a0",
+        "reason": "If no suffix qualifies it prints the last suffix anyway; it also never requires a zero to ensure divisibility by 10.",
+        "selectedOriginalTest": "0003",
         "test": "lf-0003"
       }
     },
@@ -275,26 +438,25 @@
         "AC": 9,
         "WA": 6
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0008",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 6
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 6,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 6,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 6,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "cfc457c0a23d4684451cc8635240cb8fd3f46513c2f9b24df06e71850042ba0d",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/352/submission/118959386",
       "submissionId": "118959386",
       "testVerdicts": {
@@ -310,7 +472,11 @@
           "0008"
         ],
         "origin": "tests/0008",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "b42742d1378af51da6020178b6b14311f820e17cfa5b9ff3c9b40fd2f758af5c",
+        "originalExpectedOutputHash": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577",
+        "originalInputHash": "568d20e29bbcee7de549d9ce433d00f69e277dedb16a6317ce57b03e02ffbbec",
+        "reason": "When num_zeros=0 and num_fives>=9 it still emits the fives, though a multiple of 90 must end in zero.",
+        "selectedOriginalTest": "0008",
         "test": "lf-0008"
       }
     },
@@ -319,26 +485,25 @@
         "AC": 9,
         "WA": 10
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 10
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 10,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 10,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 10,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "57849c3df6143dbc7c7e05a6494b503dbeaf46d96e69c823148a7307f6f3e772",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/352/submission/119715085",
       "submissionId": "119715085",
       "testVerdicts": {
@@ -354,7 +519,11 @@
           "0003"
         ],
         "origin": "tests/0003",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "originalExpectedOutputHash": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577",
+        "originalInputHash": "cd063258d72df842edae0a764ada447523440ac011f8589b34e29a90674c62a0",
+        "reason": "The fewer-than-nine-fives branch prints zero without checking a zero card exists.",
+        "selectedOriginalTest": "0003",
         "test": "lf-0003"
       }
     }
@@ -362,14 +531,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 2,
+      "bytes": 816646,
+      "name": "batch-2-source-semantics-review.json",
+      "sha256": "37ab4aefa3b89e88955bddd18c024454d0b0b929d93e2f380e20f499ef9f0612"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "50d90c5f29ca49311d1ef271a09660d64631c5cf55e9cca1a858ea86ccd1a36b",
+  "sourceSemanticReviewPath": "source-review/proofs/352A.json",
   "stressCases": 36,
-  "testPairs": 189,
-  "unconfirmedSourceIds": [
-    "117494464",
-    "118618902",
-    "118682415",
-    "118959386",
-    "119715085"
-  ]
+  "testPairs": 189
 }

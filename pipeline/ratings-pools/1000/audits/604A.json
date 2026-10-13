@@ -1,28 +1,194 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "9626aa55ba0901e223a30a2316f8c914f29bd3843c923c5f3f669047686d7259",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "14586581": {
+      "LFActualOutputHash": "f74e0a8080df60dc061f16c6491e51d5c8c8f7b7e4f5c4dd9b73badede1f72ec",
+      "LFExpectedOutputHash": "bcdc35b056897c2743a1371bc4bc1652e8a1c2b7b6fc7c65788bb412b6a0bf52",
+      "LFInputHash": "fc1bf1040043361b32634b082b7e25d505733b44f3f0a30cae1a913322ae44c3",
+      "LFProofHash": "76bbaf1c3a2f656464313777deb229bf82502991f0c634de8b04c0073e39d544",
+      "exactSourceExcerpts": [
+        {
+          "first": 5,
+          "last": 7,
+          "lines": [
+            "x=500",
+            "for i in range(5):",
+            "    s+=max(.3*x,(1-int(m[i])/250)*(x*(i+1))-50*int(w[i]))"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "f74e0a8080df60dc061f16c6491e51d5c8c8f7b7e4f5c4dd9b73badede1f72ec",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "9d1eab9d091d238f4d92964f1d274ab93ce924c52a94ffd6d81425e4ae40535a",
+      "originalInputHash": "87e0d88159d60a09ffc9d8ab7fdb50951d0c774a7ec14ba508da14432e34e89c",
+      "originalTimeout": false,
+      "reason": "x stays500 and floor .3*x=150 for every problem, while the time-based term uses x*(i+1); each floor should use that same problem maximum. Expected derivation: Exact raw problem scores are178,142,962,1092,2010. Correct floors are150,300,450,600,750, yielding178,300,962,1092,2010 totaling4542. Hacks=400-650=-250, answer4292. Source trace: Source floors all problems at150, so values become178,150,962,1092,2010 totaling4392. With hacks-250 prints4142; the entire150 deficit is the second problem's missing floor, not float notation.",
+      "sourceHash": "bd98ad95dc673c0d3ed125f09fa3561d55ffa7249783fa2ad5fb87372beb328c",
+      "sourceRanges": [
+        [
+          5,
+          7
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/604/submission/14586581",
+      "test": "0011"
+    },
+    "14635900": {
+      "LFActualOutputHash": "e786866bd92699b3c367098fd7856a3e4912167ed3f93d5de1a5cf4280e04639",
+      "LFExpectedOutputHash": "8b833ace33df3b957c23fe6dc61a636cc27ae1c1919b6bbe9a7d5a648a989ed9",
+      "LFInputHash": "5da22dbd0644bd637a4b410a918f35e2703736fe39ecce5e5985c5276c9af4c6",
+      "LFProofHash": "76bbaf1c3a2f656464313777deb229bf82502991f0c634de8b04c0073e39d544",
+      "exactSourceExcerpts": [
+        {
+          "first": 12,
+          "last": 13,
+          "lines": [
+            "if h2 > 0:",
+            "    output -= h1 * 50"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "e786866bd92699b3c367098fd7856a3e4912167ed3f93d5de1a5cf4280e04639",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "c4ca47b24344fff213e5165019e84e5d34d4bc0db582dc7c10b62b9e4a782baf",
+      "originalInputHash": "7ba320b1a1b6f3f90f3dc2e5705daa7dfd14dbb740d4b072b71af9908fce04c3",
+      "originalTimeout": false,
+      "reason": "Subtracts h1*50 rather than h2*50 when failed hacks exist. Expected derivation: Problem scores158,724,1234,1056,1550 sum4722; hs2,hu8 give200-400=-200, final4522. Source trace: The problem sum is4722. It adds2*100=200, then h2>0 selects subtraction of h1*50=100 rather than400. Result4722+200-100=4822.",
+      "sourceHash": "d620c75991ebae898bd02608c245e7e98882f15b61ec005ea91dba765236a05c",
+      "sourceRanges": [
+        [
+          12,
+          13
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/604/submission/14635900",
+      "test": "0004"
+    },
+    "14658528": {
+      "LFActualOutputHash": "1e8e9d144c8fdb15b92d37e4910b9b11b8786f7657cf1004f609ba3991a2093d",
+      "LFExpectedOutputHash": "6c0b64d1ba905979a8b0518752ff1a82cc0466c0e09c303bb4df855200fa80d0",
+      "LFInputHash": "827a656e2b1feb55e91d947434dc8f7dea2f468553639b0b128ff528403a5721",
+      "LFProofHash": "76bbaf1c3a2f656464313777deb229bf82502991f0c634de8b04c0073e39d544",
+      "exactSourceExcerpts": [
+        {
+          "first": 7,
+          "last": 7,
+          "lines": [
+            "    total += (1 - m[i] / 250) * x - 50 * w[i]"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "1e8e9d144c8fdb15b92d37e4910b9b11b8786f7657cf1004f609ba3991a2093d",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "88f5049ce6014d1c6a5f06097713e1d51d9b90919a039c4e38bfa29afff0da4e",
+      "originalInputHash": "b86b2cdb5c6f02df6bd4188722b1e7777ba1eb61cc61c5d35744e56db321ace2",
+      "originalTimeout": false,
+      "reason": "Never applies the required max(0.3*x,rawScore) floor. Expected derivation: Raw scores90,736,750,1348,1530. Floors150,300,450,600,750 require first score150, giving4514 total. Hacks19*100=1900, final6414. Source trace: The raw first score90 is accepted without a max, so source problem sum4454; other four raw scores exceed their floors. Adding1900 gives6354,60 too low.",
+      "sourceHash": "0d837c030f22879c0e8813c07eaead0fbbfe0f3b3db8d9a1230e6095ce1f4874",
+      "sourceRanges": [
+        [
+          7,
+          7
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/604/submission/14658528",
+      "test": "0006"
+    },
+    "14663549": {
+      "LFActualOutputHash": "c800d7f07a5a18c2d5e67f48102d25dcdea26aaef9eca4799f48559377175858",
+      "LFExpectedOutputHash": "cb75a48046c21183cc0fc8e09657a712194966d7d21d2c9c21c52a09df0ffe82",
+      "LFInputHash": "7856cf32086d13d3565bc5ef6e87cbf10249f1943e0701fcb74d326d833d8cf2",
+      "LFProofHash": "76bbaf1c3a2f656464313777deb229bf82502991f0c634de8b04c0073e39d544",
+      "exactSourceExcerpts": [
+        {
+          "first": 9,
+          "last": 12,
+          "lines": [
+            "    d = (1 - (m / 250))",
+            "    score = d * mxv - 50 * w",
+            "    # print('score: ', score)",
+            "    return score"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "c800d7f07a5a18c2d5e67f48102d25dcdea26aaef9eca4799f48559377175858",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "17424d9d663b438212d096fc994f6a4bbe26f353ec7c21dbfd546ae000a0d79c",
+      "originalInputHash": "7856cf32086d13d3565bc5ef6e87cbf10249f1943e0701fcb74d326d833d8cf2",
+      "originalTimeout": false,
+      "reason": "calculate_score returns raw score without max(0.3*mxv,score). Expected derivation: Raw scores30,360,992,1718,1410; correct first score150 gives total4630. Hacks2*100-7*50=-150, so4480. Source trace: Returns30 for problem1 rather than150; all other raw scores exceed floors. fsum gives4510, hacks-150 yields terminal4360.0. Removing the equivalent .0 representation leaves4360, still120 wrong.",
+      "sourceHash": "8420bbe52ae50d48ccea8e66124778602c43f9702c1df9c789908d78e493ea12",
+      "sourceRanges": [
+        [
+          9,
+          12
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/604/submission/14663549",
+      "test": "0115"
+    },
+    "14680492": {
+      "LFActualOutputHash": "ce1aebf8c8a7f1436c182f37cf75f03b814e8ba583a7110f619e8adb83380cf9",
+      "LFExpectedOutputHash": "8e2d91da4e36f2d82d3df133ac8f1f274430573c394b0b4a86cf18190e51cd5a",
+      "LFInputHash": "1f9060bba0f75e67e857af78b94330b53baacf8c7198dc1d901ba9d92f907563",
+      "LFProofHash": "76bbaf1c3a2f656464313777deb229bf82502991f0c634de8b04c0073e39d544",
+      "exactSourceExcerpts": [
+        {
+          "first": 8,
+          "last": 9,
+          "lines": [
+            "    o+=max(0.3*x,(1-m[i]/250)*x-50*w[i])",
+            "print(ceil(o+100*hs-50*hu))"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "ce1aebf8c8a7f1436c182f37cf75f03b814e8ba583a7110f619e8adb83380cf9",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7c62377e80c758351338cf61fd6ce3c4b4be249fdaf7e64524ade329bd44d1bf",
+      "originalInputHash": "b7cf84dfe78c9990eaefe6fa5597e2708159ab5ea73ffdd8cb83f27e463291f7",
+      "originalTimeout": false,
+      "reason": "ceil converts positive floating-point approximation error of an exactly integral score into a real +1 answer error; problem requires absolute precision and no rounding. Expected derivation: Exact raw scores188,326,424,960,1030; floors150,300,450,600,750 produce188,326,450,960,1030 with sum2954. Hacks200-50=150 yield exact3104. Source trace: Trusted self-authored binary arithmetic reconstructs raw scores188.0,326.0,424.0,960.0000000000002,1030.0000000000002. Max scores sum to2954.0000000000005, hacks give3104.0000000000005, and ceil returns3105. This is a wrong integer result, not alternate notation for3104.",
+      "sourceHash": "2094976275b814ad1b9b32354a17f585ca4fabce490318f762d01fc1042bd296",
+      "sourceRanges": [
+        [
+          8,
+          9
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/604/submission/14680492",
+      "test": "0021"
+    }
+  },
   "independentFreshRunHash": "f5d6951e9529b29c4cb57f4537ea0d15f34a17e95186ee0030d93e5f4c8e4a28",
   "independentLFReplayHash": "76bbaf1c3a2f656464313777deb229bf82502991f0c634de8b04c0073e39d544",
   "independentSemanticCheckHash": "6fed9dbb8ddf32ed6ff675ef9347794181befd8555e4c3824b7ddde7a02427d1",
   "independentStressHash": "cdff1bdcfb86fb2e2518ad575f711664b49cbb5dbe66d43c660b90680bef0aa0",
+  "originalExecutionEvidenceHash": "9626aa55ba0901e223a30a2316f8c914f29bd3843c923c5f3f669047686d7259",
   "packageHash": "769f20acfd28295017353da6e1ef4ad30e0d4b25ab27625d3e5bd0037ce841e2",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -109,26 +275,25 @@
         "AC": 10,
         "WA": 12
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0011",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 12
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 12,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 12,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "bd98ad95dc673c0d3ed125f09fa3561d55ffa7249783fa2ad5fb87372beb328c",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/604/submission/14586581",
       "submissionId": "14586581",
       "testVerdicts": {
@@ -144,7 +309,11 @@
           "0011"
         ],
         "origin": "tests/0011",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "f74e0a8080df60dc061f16c6491e51d5c8c8f7b7e4f5c4dd9b73badede1f72ec",
+        "originalExpectedOutputHash": "9d1eab9d091d238f4d92964f1d274ab93ce924c52a94ffd6d81425e4ae40535a",
+        "originalInputHash": "87e0d88159d60a09ffc9d8ab7fdb50951d0c774a7ec14ba508da14432e34e89c",
+        "reason": "x stays500 and floor .3*x=150 for every problem, while the time-based term uses x*(i+1); each floor should use that same problem maximum.",
+        "selectedOriginalTest": "0011",
         "test": "lf-0011"
       }
     },
@@ -153,26 +322,25 @@
         "AC": 4,
         "WA": 19
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 19
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 19,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 19,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "d620c75991ebae898bd02608c245e7e98882f15b61ec005ea91dba765236a05c",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/604/submission/14635900",
       "submissionId": "14635900",
       "testVerdicts": {
@@ -188,7 +356,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "e786866bd92699b3c367098fd7856a3e4912167ed3f93d5de1a5cf4280e04639",
+        "originalExpectedOutputHash": "c4ca47b24344fff213e5165019e84e5d34d4bc0db582dc7c10b62b9e4a782baf",
+        "originalInputHash": "7ba320b1a1b6f3f90f3dc2e5705daa7dfd14dbb740d4b072b71af9908fce04c3",
+        "reason": "Subtracts h1*50 rather than h2*50 when failed hacks exist.",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     },
@@ -197,26 +369,25 @@
         "AC": 7,
         "WA": 16
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0006",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 16
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 16,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 16,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "0d837c030f22879c0e8813c07eaead0fbbfe0f3b3db8d9a1230e6095ce1f4874",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/604/submission/14658528",
       "submissionId": "14658528",
       "testVerdicts": {
@@ -232,7 +403,11 @@
           "0006"
         ],
         "origin": "tests/0006",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "1e8e9d144c8fdb15b92d37e4910b9b11b8786f7657cf1004f609ba3991a2093d",
+        "originalExpectedOutputHash": "88f5049ce6014d1c6a5f06097713e1d51d9b90919a039c4e38bfa29afff0da4e",
+        "originalInputHash": "b86b2cdb5c6f02df6bd4188722b1e7777ba1eb61cc61c5d35744e56db321ace2",
+        "reason": "Never applies the required max(0.3*x,rawScore) floor.",
+        "selectedOriginalTest": "0006",
         "test": "lf-0006"
       }
     },
@@ -240,27 +415,25 @@
       "LFReplayVerdicts": {
         "WA": 23
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 9,
-        "numeric values equal; only numeric output representation differs": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 9,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": false,
       "language": "Python 3",
       "normalWrongAnswerCount": 23,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 6,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "8420bbe52ae50d48ccea8e66124778602c43f9702c1df9c789908d78e493ea12",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/604/submission/14663549",
       "submissionId": "14663549",
       "testVerdicts": {
@@ -275,7 +448,11 @@
           "0115"
         ],
         "origin": "tests/0115",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "c800d7f07a5a18c2d5e67f48102d25dcdea26aaef9eca4799f48559377175858",
+        "originalExpectedOutputHash": "17424d9d663b438212d096fc994f6a4bbe26f353ec7c21dbfd546ae000a0d79c",
+        "originalInputHash": "7856cf32086d13d3565bc5ef6e87cbf10249f1943e0701fcb74d326d833d8cf2",
+        "reason": "calculate_score returns raw score without max(0.3*mxv,score).",
+        "selectedOriginalTest": "0115",
         "test": "lf-0115"
       }
     },
@@ -284,26 +461,25 @@
         "AC": 10,
         "WA": 1
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0021",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 1
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 1,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 1,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 1,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "2094976275b814ad1b9b32354a17f585ca4fabce490318f762d01fc1042bd296",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/604/submission/14680492",
       "submissionId": "14680492",
       "testVerdicts": {
@@ -319,7 +495,11 @@
           "0021"
         ],
         "origin": "tests/0021",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "ce1aebf8c8a7f1436c182f37cf75f03b814e8ba583a7110f619e8adb83380cf9",
+        "originalExpectedOutputHash": "7c62377e80c758351338cf61fd6ce3c4b4be249fdaf7e64524ade329bd44d1bf",
+        "originalInputHash": "b7cf84dfe78c9990eaefe6fa5597e2708159ab5ea73ffdd8cb83f27e463291f7",
+        "reason": "ceil converts positive floating-point approximation error of an exactly integral score into a real +1 answer error; problem requires absolute precision and no rounding.",
+        "selectedOriginalTest": "0021",
         "test": "lf-0021"
       }
     }
@@ -327,14 +507,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 3,
+      "bytes": 840772,
+      "name": "batch-3-source-semantics-report.json",
+      "sha256": "13a95ff57fc4d6b97aec98a2cea133fcb944543e9d5421886be5e8b7bb7631a9"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "c16c1f523a6d7616d861bf4995ec8851772b4a0f8cb1a7aa47dbbc22823b1151",
+  "sourceSemanticReviewPath": "source-review/proofs/604A.json",
   "stressCases": 40,
-  "testPairs": 120,
-  "unconfirmedSourceIds": [
-    "14586581",
-    "14635900",
-    "14658528",
-    "14663549",
-    "14680492"
-  ]
+  "testPairs": 120
 }

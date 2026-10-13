@@ -1,6 +1,6 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
+  "algorithmicIncorrectKilled": 4,
   "approved": false,
   "checks": {
     "coverage": true,
@@ -12,16 +12,160 @@
     "sourceAttribution": true
   },
   "evidenceHash": "54f4632cf3ee9abe6d583f5523b85a71e398d4e943afda8c511ac70f3127d3d3",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "30459754": {
+      "LFActualOutputHash": "dc1a600c48a24a74d5eac593b7695267b5253d65d95180f5e151329134b7b1b7",
+      "LFExpectedOutputHash": "2c624232cdd221771294dfbb310aca000a0df6ac8b66b696d90ef06fdefb64a3",
+      "LFInputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "LFProofHash": "c64768249e52c39ecf19f144fd6afbd8909adbd4f4d3575e82272bb95bb767f9",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 6,
+          "lines": [
+            "b=pow(a,0.5)",
+            "if(a<=b*(b+1)):",
+            "    print(4*b+2)",
+            "else:",
+            "    print(4*b+4)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "dc1a600c48a24a74d5eac593b7695267b5253d65d95180f5e151329134b7b1b7",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "e0c18a6a8d48da87994c100bbb324c758d413e95f0fa5135bd0738a692b4d56f",
+      "originalInputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+      "originalTimeout": false,
+      "reason": "Missing perfect-square branch (no 4*b case) in lines 3-6, plus line 2 never floors sqrt so b is fractional for non-squares. Expected derivation: N=4: 2x2 square encloses exactly 4 blocks, perimeter 8; any rectangle w x h with wh>=4 has 2(w+h)>=8 by AM-GM, so 8. Source trace: a=4, b=pow(4,0.5)=2.0, test 4<=2.0*3.0=6.0 true -> print(4*2.0+2)=10.0.",
+      "sourceHash": "35c912dd8b102c8b2c9df32d15a402514dfff235d15e0c8ffd52544d2123b363",
+      "sourceRanges": [
+        [
+          2,
+          6
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/859/submission/30459754",
+      "test": "0001"
+    },
+    "30551145": {
+      "LFActualOutputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+      "LFExpectedOutputHash": "2c624232cdd221771294dfbb310aca000a0df6ac8b66b696d90ef06fdefb64a3",
+      "LFInputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "LFProofHash": "c64768249e52c39ecf19f144fd6afbd8909adbd4f4d3575e82272bb95bb767f9",
+      "exactSourceExcerpts": [
+        {
+          "first": 12,
+          "last": 14,
+          "lines": [
+            "  q=a//m",
+            "  rem=a%m",
+            "  print(2*(q+m)+2)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "e0c18a6a8d48da87994c100bbb324c758d413e95f0fa5135bd0738a692b4d56f",
+      "originalInputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "originalTimeout": false,
+      "reason": "line 14 `print(2*(q+m)+2)` adds +2 unconditionally; rem computed on line 13 is never used, so when rem==0 (N=m*q exactly) the answer is overstated by 2. Expected derivation: N=3: 1x3 strip (or 2x2 minus corner) has perimeter 8; minimum over w of 2(w+ceil(3/w)) = min(2*4, 2*4, 2*4)=8. Source trace: 3 not a square; loop i in range(1,3): i=1 (1<=3) appended, i=2 (4>3) not; m=1, q=3, rem=0; prints 2*(3+1)+2=10.",
+      "sourceHash": "45411211ebc08ca387b0b47ce23bcd279388fefe77358d06fe8d9b82b981b0d5",
+      "sourceRanges": [
+        [
+          12,
+          14
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/859/submission/30551145",
+      "test": "0004"
+    },
+    "30569249": {
+      "LFActualOutputHash": "e6c21e8d260fe71882debdb339d2402a2ca7648529bc2303f48649bce0380017",
+      "LFExpectedOutputHash": "6b51d431df5d7f141cbececcf79edf3dd861c3b4069f0b11661a3eefacbba918",
+      "LFInputHash": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+      "LFProofHash": "c64768249e52c39ecf19f144fd6afbd8909adbd4f4d3575e82272bb95bb767f9",
+      "exactSourceExcerpts": [
+        {
+          "first": 34,
+          "last": 43,
+          "lines": [
+            "    else:",
+            "        maxVol = 1*n",
+            "        pos = [1,n]",
+            "        #print(pos)",
+            "        for i in range(1,n+1):",
+            "            if i*(n-i) > maxVol:",
+            "                #print(\"HERE\")",
+            "                maxVol = i*(n-i)",
+            "                pos = [i,n-i]",
+            "        return pos"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "e6c21e8d260fe71882debdb339d2402a2ca7648529bc2303f48649bce0380017",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "a1fb50e6c86fae1679ef3351296fd6713411a08cf8dd1790a4fd05fae8688164",
+      "originalInputHash": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+      "originalTimeout": false,
+      "reason": "while-else branch lines 34-43: treats n as the SUM of the two sides and maximizes i*(n-i), returning a 4x4 shape for n=8 instead of sides with area>=n and minimal perimeter. Expected derivation: N=8: 3x3 square minus one corner cell has area 8 and perimeter 12 (also 2x4 rectangle: 12); lower bound 2(w+h) with wh>=8 gives w+h>=6. Answer 12. Source trace: n=8: has=8,7,6,5 (>4) none is a perfect square, loop ends -> else branch: maxVol=8,pos=[1,8]; i=1..8 products 7,12,15,16,... max 16 at i=4 -> pos=[4,4]. minStreets: streets=[2*4+2*4]=[16], len 1 -> returns 16 (no debug lines printed). Output '16'.",
+      "sourceHash": "d61c29f6d23dabc9f43abc3ff93cc678df84dc31740513b249342176031d1888",
+      "sourceRanges": [
+        [
+          34,
+          43
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/859/submission/30569249",
+      "test": "0043"
+    },
+    "30575433": {
+      "LFActualOutputHash": "7ee29791fc17e986b97128845622b077fb45e349fdb80523fac9dba879b4ad60",
+      "LFExpectedOutputHash": "f5ca38f748a1d6eaf726b8a42fb575c3c71f1864a8143301782de13da2d9202b",
+      "LFInputHash": "f14b4987904bcb5814e4459a057ed4d20f58a633152288a761214dcd28780b56",
+      "LFProofHash": "c64768249e52c39ecf19f144fd6afbd8909adbd4f4d3575e82272bb95bb767f9",
+      "exactSourceExcerpts": [
+        {
+          "first": 3,
+          "last": 3,
+          "lines": [
+            "print(4 * k + 2 * (k * k < n))"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "7ee29791fc17e986b97128845622b077fb45e349fdb80523fac9dba879b4ad60",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "8ce88a8842c1584e3d6871e84e166e3b513c3ce2a9da6166760c7af1645dea29",
+      "originalInputHash": "12d3a4efa6646b3ece4782f70033b9785bf0d167b553c43e22579b031cea5c4d",
+      "originalTimeout": false,
+      "reason": "line 3 `4 * k + 2 * (k * k < n)` caps the extra at +2; missing +4 case when N>k(k+1). Expected derivation: N=22: k=4, 22>4*5=20, so need 5x5 (minus 3 cells) or 4x6 (minus 2): perimeter 20; 4x5=20 cells <22 so 18 impossible (w+h=9 gives max area 20). Answer 20. Source trace: n=22, k=int(22**0.5)=4, 16<22 -> 16+2=18.",
+      "sourceHash": "621db7c8a35b9917a2db29d4193c453b24b327480ec191dd11e12e0e7e0db7c6",
+      "sourceRanges": [
+        [
+          3,
+          3
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/859/submission/30575433",
+      "test": "0003"
+    }
+  },
   "independentFreshRunHash": "863e5d47ce226095f7a6c363cc55ab4b575ee7da145df3f0a8995150a2d1c334",
   "independentLFReplayHash": "c64768249e52c39ecf19f144fd6afbd8909adbd4f4d3575e82272bb95bb767f9",
   "independentSemanticCheckHash": "c6ee3078099b5402559131bc5cee80a6d2d403460b2a32407844d989d464aad2",
   "independentStressHash": "a44ecfa17e6d6a25f4534321bb8449e65317a0980f02cbb8f97e25a5e70c8a86",
+  "originalExecutionEvidenceHash": "54f4632cf3ee9abe6d583f5523b85a71e398d4e943afda8c511ac70f3127d3d3",
   "packageHash": "6279d00b1b5a864d4a9d43e3fda1e23eb0c7b9f9c5feb8cc924e0d9347e88b4e",
   "qualificationBasis": "official",
   "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
+    "30446951: reviewer-reject; no-selected-semantic-witness"
   ],
   "references": [
     {
@@ -113,21 +257,24 @@
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 22
+        "source-reviewed defect with included normal-exit wrong answer": 0
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
+      "exclusionReason": "reviewer-reject; no-selected-semantic-witness: Placeholder/unrelated constant program: excluded by rule 5 (placeholder program). Mismatch is not evidence of an algorithmic defect in an implementation of 859B.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 22,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 22,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-semantics-reject",
       "packageWitnessCount": 14,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "ab67c39bcef3d7f1f96d880ac41a3c48eac7d443287b53ef47c928d2c8bcca7d",
+      "sourceSemanticExclusionReasons": [
+        "reviewer-reject",
+        "no-selected-semantic-witness"
+      ],
+      "sourceSemanticReviewStatus": "reject",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/859/submission/30446951",
       "submissionId": "30446951",
       "testVerdicts": {
@@ -151,26 +298,25 @@
       "LFReplayVerdicts": {
         "WA": 22
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 22
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 22,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 22,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 14,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "35c912dd8b102c8b2c9df32d15a402514dfff235d15e0c8ffd52544d2123b363",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/859/submission/30459754",
       "submissionId": "30459754",
       "testVerdicts": {
@@ -186,7 +332,11 @@
           "0039"
         ],
         "origin": "tests/0039",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "dc1a600c48a24a74d5eac593b7695267b5253d65d95180f5e151329134b7b1b7",
+        "originalExpectedOutputHash": "e0c18a6a8d48da87994c100bbb324c758d413e95f0fa5135bd0738a692b4d56f",
+        "originalInputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "reason": "Missing perfect-square branch (no 4*b case) in lines 3-6, plus line 2 never floors sqrt so b is fractional for non-squares.",
+        "selectedOriginalTest": "0001",
         "test": "lf-0039"
       }
     },
@@ -195,26 +345,25 @@
         "AC": 10,
         "WA": 11
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 11
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 11,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 11,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "45411211ebc08ca387b0b47ce23bcd279388fefe77358d06fe8d9b82b981b0d5",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/859/submission/30551145",
       "submissionId": "30551145",
       "testVerdicts": {
@@ -230,9 +379,13 @@
           "0004",
           "0038"
         ],
-        "origin": "tests/0038",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
-        "test": "lf-0038"
+        "origin": "tests/0004",
+        "originalActualOutputHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+        "originalExpectedOutputHash": "e0c18a6a8d48da87994c100bbb324c758d413e95f0fa5135bd0738a692b4d56f",
+        "originalInputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "reason": "line 14 `print(2*(q+m)+2)` adds +2 unconditionally; rem computed on line 13 is never used, so when rem==0 (N=m*q exactly) the answer is overstated by 2.",
+        "selectedOriginalTest": "0004",
+        "test": "lf-0004"
       }
     },
     {
@@ -240,28 +393,25 @@
         "AC": 2,
         "WA": 21
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "answer appears intact alongside additional output; not an algorithmic witness": 8,
-        "computed numeric answer differs from independent mathematical oracle": 2,
-        "non-numeric output needs source-level review": 11
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 2,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": false,
       "language": "Python 3",
       "normalWrongAnswerCount": 21,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 2,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "d61c29f6d23dabc9f43abc3ff93cc678df84dc31740513b249342176031d1888",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/859/submission/30569249",
       "submissionId": "30569249",
       "testVerdicts": {
@@ -277,9 +427,13 @@
           "0014",
           "0043"
         ],
-        "origin": "tests/0043",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
-        "test": "lf-0043"
+        "origin": "tests/0014",
+        "originalActualOutputHash": "e6c21e8d260fe71882debdb339d2402a2ca7648529bc2303f48649bce0380017",
+        "originalExpectedOutputHash": "a1fb50e6c86fae1679ef3351296fd6713411a08cf8dd1790a4fd05fae8688164",
+        "originalInputHash": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+        "reason": "while-else branch lines 34-43: treats n as the SUM of the two sides and maximizes i*(n-i), returning a 4x4 shape for n=8 instead of sides with area>=n and minimal perimeter.",
+        "selectedOriginalTest": "0043",
+        "test": "lf-0014"
       }
     },
     {
@@ -287,26 +441,25 @@
         "AC": 7,
         "WA": 15
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 15
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 15,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 15,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "621db7c8a35b9917a2db29d4193c453b24b327480ec191dd11e12e0e7e0db7c6",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/859/submission/30575433",
       "submissionId": "30575433",
       "testVerdicts": {
@@ -322,7 +475,11 @@
           "0003"
         ],
         "origin": "tests/0003",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "7ee29791fc17e986b97128845622b077fb45e349fdb80523fac9dba879b4ad60",
+        "originalExpectedOutputHash": "8ce88a8842c1584e3d6871e84e166e3b513c3ce2a9da6166760c7af1645dea29",
+        "originalInputHash": "12d3a4efa6646b3ece4782f70033b9785bf0d167b553c43e22579b031cea5c4d",
+        "reason": "line 3 `4 * k + 2 * (k * k < n)` caps the extra at +2; missing +4 case when N>k(k+1).",
+        "selectedOriginalTest": "0003",
         "test": "lf-0003"
       }
     }
@@ -330,14 +487,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 3,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 5,
+      "bytes": 295543,
+      "name": "batch5-source-review.json",
+      "sha256": "b428fe8eb83846ca1692f87dfcd5d3bc7a98bf5bc8c3f856cd1173fc9dcbfb5a"
+    }
+  ],
+  "sourceReviewStatus": "reject",
+  "sourceSemanticReviewHash": "7aab1f70e879ddccdc34d834e7eb0973a949cb2685c2542509a816649dc90350",
+  "sourceSemanticReviewPath": "source-review/proofs/859B.json",
   "stressCases": 40,
-  "testPairs": 68,
-  "unconfirmedSourceIds": [
-    "30446951",
-    "30459754",
-    "30551145",
-    "30569249",
-    "30575433"
-  ]
+  "testPairs": 68
 }

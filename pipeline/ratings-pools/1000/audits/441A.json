@@ -1,62 +1,208 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
-    "algorithmicallyWrong": false,
+    "algorithmicallyWrong": true,
     "coverage": true,
     "deterministicGeneration": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "generatedBasis": true,
     "hashes": true,
     "independentOracle": true,
     "inputConstraints": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "d2bd02093d52db71ec63fb86fbd3488713e476176e5e4e20bcbb7732d6be0073",
   "generatedQualificationHash": "fb9ec4b13335a2d4a098f08072388dfcd5ada3bad3252ec1c47a948a632c4c59",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
-  "historicalIncorrectAnalysis": {
+  "incorrectAnalysis": {
     "6945697": {
+      "LFActualOutputHash": "6b3272564201ddb9c9af54f753cb42a5c57b80c776cdd05f049d26c8695e2079",
+      "LFExpectedOutputHash": "de2ad8e58ba769085b79c091820d7ffe70924e65a749a2ba74db31e165c1ec56",
+      "LFInputHash": "9aa9625e8fb3de972ce8a82dd835a75937b94c117e741ba6290c02b90e3df087",
+      "LFProofHash": "2ede02df57ed1bb81ec856b4e8d7d2ffb49b32acd69ce5889c1fcd08dfc40c60",
+      "exactSourceExcerpts": [
+        {
+          "first": 5,
+          "last": 6,
+          "lines": [
+            "        if v > min(map(int, input()[1: ].split())) :",
+            "            ans.append(str(i))"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "6b3272564201ddb9c9af54f753cb42a5c57b80c776cdd05f049d26c8695e2079",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "5d7715da1ec03ec8195c8a9346bc3213a16c7c43cbbdc4c4404c35825190ff41",
+      "originalInputHash": "bbb3cc39a0ecaaf16cf02f858c5ad606c60f84a66d96d0bef5c5ecdfee6aa78f",
+      "originalTimeout": false,
+      "reason": "input()[1:] drops one character, not the whole item-count token. Two-digit k leaves its last digit in the candidate prices and falsely qualifies a seller. Expected derivation: Budget1000000: seller1 has568832 and seller2 has596527, so both can be outbid. Seller3's20 items all cost1000000 and cannot be outbid. Exact seller set{1,2}, cardinality2. Source trace: Seller1 line starts5 so its count is removed correctly. Seller2 starts13, leaving3 as a bogus price. Seller3 starts20, leaving0: min=0<1000000, so it erroneously appends3. Output count3 and IDs1,2,3.",
+      "sourceHash": "01c8eebcbe42eac99027ea14b6257bc9be3f7ef747791071f100f0befbff7436",
+      "sourceRanges": [
+        [
+          5,
+          6
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/441/submission/6945697",
       "test": "0006"
     },
     "7299171": {
+      "LFActualOutputHash": "0771d64aa8ada05e085c0f5bb8af8ea2b3ae1245900ef5f1e80a88e2bb2ed315",
+      "LFExpectedOutputHash": "de2ad8e58ba769085b79c091820d7ffe70924e65a749a2ba74db31e165c1ec56",
+      "LFInputHash": "9aa9625e8fb3de972ce8a82dd835a75937b94c117e741ba6290c02b90e3df087",
+      "LFProofHash": "2ede02df57ed1bb81ec856b4e8d7d2ffb49b32acd69ce5889c1fcd08dfc40c60",
+      "exactSourceExcerpts": [
+        {
+          "first": 10,
+          "last": 14,
+          "lines": [
+            "        if int(l[s+1]) < v:",
+            "            ans.append(k)",
+            "            break",
+            "",
+            "ans = list(set(ans))"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "0771d64aa8ada05e085c0f5bb8af8ea2b3ae1245900ef5f1e80a88e2bb2ed315",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "5d7715da1ec03ec8195c8a9346bc3213a16c7c43cbbdc4c4404c35825190ff41",
+      "originalInputHash": "bbb3cc39a0ecaaf16cf02f858c5ad606c60f84a66d96d0bef5c5ecdfee6aa78f",
+      "originalTimeout": false,
+      "reason": "Appends k (the seller's item count), not x+1 (seller number), then deduplicates these wrong identifiers. Expected derivation: Only sellers1 and2 have prices strictly below1000000; seller3's prices equal budget. Correct count2, IDs1,2. Source trace: Affordability checks append5 for seller1 and13 for seller2; seller3 contributes nothing. set(ans)={5,13}; executed order13,5 is irrelevant, but the identities remain wrong. Both are even outside1..3.",
+      "sourceHash": "a6b07bbdd1bfa8e3e172f723b95b60fd2b330e774eb6a07c36b3acc4b859d5d5",
+      "sourceRanges": [
+        [
+          10,
+          14
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/441/submission/7299171",
       "test": "0006"
     },
     "7361090": {
+      "LFActualOutputHash": "74d01a0c051c963d9a9b8ab9dbeab1723f0ad8534ea9fa6a942f358d7fa011b4",
+      "LFExpectedOutputHash": "de2ad8e58ba769085b79c091820d7ffe70924e65a749a2ba74db31e165c1ec56",
+      "LFInputHash": "9aa9625e8fb3de972ce8a82dd835a75937b94c117e741ba6290c02b90e3df087",
+      "LFProofHash": "2ede02df57ed1bb81ec856b4e8d7d2ffb49b32acd69ce5889c1fcd08dfc40c60",
+      "exactSourceExcerpts": [
+        {
+          "first": 8,
+          "last": 10,
+          "lines": [
+            " if int(re[1])<coins:",
+            "  counter+=1",
+            "  result+=str(i+1)+\" \""
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "74d01a0c051c963d9a9b8ab9dbeab1723f0ad8534ea9fa6a942f358d7fa011b4",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "5d7715da1ec03ec8195c8a9346bc3213a16c7c43cbbdc4c4404c35825190ff41",
+      "originalInputHash": "bbb3cc39a0ecaaf16cf02f858c5ad606c60f84a66d96d0bef5c5ecdfee6aa78f",
+      "originalTimeout": false,
+      "reason": "Ignores all other items even though any affordable item suffices. Expected derivation: Seller1's second item568832 and seller2's fourth item596527 are below1000000, so exact set{1,2}, count2; seller3 has no affordable item. Source trace: The first item of each seller costs1000000, so all three re[1]<coins conditions fail. counter=0,result empty; it computes the empty seller set.",
+      "sourceHash": "604919f893a10ffc1e2654c059c8166ac89b0772fa59c7cc210332234f1a5b11",
+      "sourceRanges": [
+        [
+          8,
+          10
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/441/submission/7361090",
       "test": "0006"
     },
     "7361189": {
+      "LFActualOutputHash": "4efd1121b7ef49130c40717acf54213d3e0e965bf40c23363084c6906c4bb458",
+      "LFExpectedOutputHash": "3feb960877f0231e4bfddbddc3d220f1a2afe6d3eed3a52b41dc9633531e62d6",
+      "LFInputHash": "dad30e630cb712e996255649dfea2a74b9653ba1e99aaaba03ded80a15ad979e",
+      "LFProofHash": "2ede02df57ed1bb81ec856b4e8d7d2ffb49b32acd69ce5889c1fcd08dfc40c60",
+      "exactSourceExcerpts": [
+        {
+          "first": 9,
+          "last": 15,
+          "lines": [
+            " for j in range(0,len(re)):",
+            "  if int(re[j])<coins:",
+            "   counter+=1",
+            "  if counter>=1:",
+            "   result+=str(i+1)+\" \"",
+            "   count+=1",
+            "  counter=0"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "4efd1121b7ef49130c40717acf54213d3e0e965bf40c23363084c6906c4bb458",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "244c4c9045a86dda52348533cc1f8875b981357cdf1c483436cf7facb2a22d0e",
+      "originalInputHash": "d29f351b7504ed6e95a23c3a204cdb5e849fd3e5798e6cf9f5364146d31508cd",
+      "originalTimeout": false,
+      "reason": "Counts the item-count token as a price and counts each qualifying token as a separate seller, resetting the flag each iteration. Expected derivation: Each of the3 sellers has exactly one price below50000 (40000,20000,10000 respectively), so exactly3 sellers, IDs1,2,3. Source trace: For each seller k (1,2,3) is also <50000 and gets counted; its one cheap real price is counted separately. count reaches6 and IDs are1,1,2,2,3,3. This reports mathematical seller count6 rather than3, not a missing header or whitespace issue.",
+      "sourceHash": "b195915361deac1f5618bdd60840fe212f99ddec0cce7cb7b6e4986c8e26bdb8",
+      "sourceRanges": [
+        [
+          9,
+          15
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/441/submission/7361189",
       "test": "0001"
     },
     "7361231": {
+      "LFActualOutputHash": "2063c1d5289f1bef672c1eb43fe19000747e378f4b227622a0f61a72d636717c",
+      "LFExpectedOutputHash": "3feb960877f0231e4bfddbddc3d220f1a2afe6d3eed3a52b41dc9633531e62d6",
+      "LFInputHash": "dad30e630cb712e996255649dfea2a74b9653ba1e99aaaba03ded80a15ad979e",
+      "LFProofHash": "2ede02df57ed1bb81ec856b4e8d7d2ffb49b32acd69ce5889c1fcd08dfc40c60",
+      "exactSourceExcerpts": [
+        {
+          "first": 12,
+          "last": 14,
+          "lines": [
+            "        if counter == 1:",
+            "            result += str(i + 1) + \" \"",
+            "            count += 1"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "2063c1d5289f1bef672c1eb43fe19000747e378f4b227622a0f61a72d636717c",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "244c4c9045a86dda52348533cc1f8875b981357cdf1c483436cf7facb2a22d0e",
+      "originalInputHash": "d29f351b7504ed6e95a23c3a204cdb5e849fd3e5798e6cf9f5364146d31508cd",
+      "originalTimeout": false,
+      "reason": "While counter remains1 it increments the seller count and appends the same ID again for subsequent unaffordable items, rather than recording a seller once. Expected derivation: Each seller has an affordable item; cardinality of eligible sellers is3 and set{1,2,3}. Source trace: Seller1 increments count once; seller2 increments at20000 and again at60000 because counter stays1; seller3 increments at10000,70000,190000. It computes count1+2+3=6 and IDs1,2,2,3,3,3. Distinct membership is correct, but the explicitly required integer p is6 rather than3. This pass relies on wrong computed cardinality (not on list order, duplication typography, or an omitted count/header).",
+      "sourceHash": "6cda13e4f624734aac1d59dbf7f1a8d2758badc8f4dd6e6261f4454609505e74",
+      "sourceRanges": [
+        [
+          12,
+          14
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/441/submission/7361231",
       "test": "0001"
     }
   },
-  "incorrectAnalysis": {},
   "independentFreshRunHash": "b93a4acffbb898c81467811b521ce2378718d660912a2198bc825ec23d4141d9",
   "independentLFReplayHash": "2ede02df57ed1bb81ec856b4e8d7d2ffb49b32acd69ce5889c1fcd08dfc40c60",
   "independentSemanticCheckHash": "11f42d14d7d897606da2ce5923dcb2df717015bf17120227e0c9d57120640eac",
   "independentStressHash": "e00e753fc72c403f6c5ca3257fb8840b27ab78dc1de94abca180b94552054ef0",
+  "originalExecutionEvidenceHash": "d2bd02093d52db71ec63fb86fbd3488713e476176e5e4e20bcbb7732d6be0073",
   "packageHash": "67398e72be77c2c2ac85c68e07eaa6a4291d0f16cc783f493046b980deeda01b",
   "qualificationBasis": "generated",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -143,27 +289,25 @@
         "AC": 9,
         "WA": 12
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0006",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 11,
-        "non-numeric output needs source-level review": 1
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 11,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 12,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 10,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "01c8eebcbe42eac99027ea14b6257bc9be3f7ef747791071f100f0befbff7436",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/441/submission/6945697",
       "submissionId": "6945697",
       "testVerdicts": {
@@ -179,7 +323,11 @@
           "0006"
         ],
         "origin": "tests/0006",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "6b3272564201ddb9c9af54f753cb42a5c57b80c776cdd05f049d26c8695e2079",
+        "originalExpectedOutputHash": "5d7715da1ec03ec8195c8a9346bc3213a16c7c43cbbdc4c4404c35825190ff41",
+        "originalInputHash": "bbb3cc39a0ecaaf16cf02f858c5ad606c60f84a66d96d0bef5c5ecdfee6aa78f",
+        "reason": "input()[1:] drops one character, not the whole item-count token. Two-digit k leaves its last digit in the candidate prices and falsely qualifies a seller.",
+        "selectedOriginalTest": "0006",
         "test": "lf-0006"
       }
     },
@@ -188,26 +336,25 @@
         "AC": 7,
         "WA": 16
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0006",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 16
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 16,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 16,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "a6b07bbdd1bfa8e3e172f723b95b60fd2b330e774eb6a07c36b3acc4b859d5d5",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/441/submission/7299171",
       "submissionId": "7299171",
       "testVerdicts": {
@@ -223,7 +370,11 @@
           "0006"
         ],
         "origin": "tests/0006",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "0771d64aa8ada05e085c0f5bb8af8ea2b3ae1245900ef5f1e80a88e2bb2ed315",
+        "originalExpectedOutputHash": "5d7715da1ec03ec8195c8a9346bc3213a16c7c43cbbdc4c4404c35825190ff41",
+        "originalInputHash": "bbb3cc39a0ecaaf16cf02f858c5ad606c60f84a66d96d0bef5c5ecdfee6aa78f",
+        "reason": "Appends k (the seller's item count), not x+1 (seller number), then deduplicates these wrong identifiers.",
+        "selectedOriginalTest": "0006",
         "test": "lf-0006"
       }
     },
@@ -232,26 +383,25 @@
         "AC": 7,
         "WA": 16
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0006",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 16
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 16,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 16,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "604919f893a10ffc1e2654c059c8166ac89b0772fa59c7cc210332234f1a5b11",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/441/submission/7361090",
       "submissionId": "7361090",
       "testVerdicts": {
@@ -267,7 +417,11 @@
           "0006"
         ],
         "origin": "tests/0006",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "74d01a0c051c963d9a9b8ab9dbeab1723f0ad8534ea9fa6a942f358d7fa011b4",
+        "originalExpectedOutputHash": "5d7715da1ec03ec8195c8a9346bc3213a16c7c43cbbdc4c4404c35825190ff41",
+        "originalInputHash": "bbb3cc39a0ecaaf16cf02f858c5ad606c60f84a66d96d0bef5c5ecdfee6aa78f",
+        "reason": "Ignores all other items even though any affordable item suffices.",
+        "selectedOriginalTest": "0006",
         "test": "lf-0006"
       }
     },
@@ -275,28 +429,25 @@
       "LFReplayVerdicts": {
         "WA": 23
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 12,
-        "answer appears intact alongside additional output; not an algorithmic witness": 3,
-        "non-numeric output needs source-level review": 8
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 12,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 23,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 7,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "b195915361deac1f5618bdd60840fe212f99ddec0cce7cb7b6e4986c8e26bdb8",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/441/submission/7361189",
       "submissionId": "7361189",
       "testVerdicts": {
@@ -311,7 +462,11 @@
           "0001"
         ],
         "origin": "tests/0001",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "4efd1121b7ef49130c40717acf54213d3e0e965bf40c23363084c6906c4bb458",
+        "originalExpectedOutputHash": "244c4c9045a86dda52348533cc1f8875b981357cdf1c483436cf7facb2a22d0e",
+        "originalInputHash": "d29f351b7504ed6e95a23c3a204cdb5e849fd3e5798e6cf9f5364146d31508cd",
+        "reason": "Counts the item-count token as a price and counts each qualifying token as a separate seller, resetting the flag each iteration.",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     },
@@ -320,27 +475,25 @@
         "AC": 5,
         "WA": 17
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 15,
-        "answer appears intact alongside additional output; not an algorithmic witness": 2
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 15,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 17,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 10,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "6cda13e4f624734aac1d59dbf7f1a8d2758badc8f4dd6e6261f4454609505e74",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/441/submission/7361231",
       "submissionId": "7361231",
       "testVerdicts": {
@@ -356,7 +509,11 @@
           "0001"
         ],
         "origin": "tests/0001",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "2063c1d5289f1bef672c1eb43fe19000747e378f4b227622a0f61a72d636717c",
+        "originalExpectedOutputHash": "244c4c9045a86dda52348533cc1f8875b981357cdf1c483436cf7facb2a22d0e",
+        "originalInputHash": "d29f351b7504ed6e95a23c3a204cdb5e849fd3e5798e6cf9f5364146d31508cd",
+        "reason": "While counter remains1 it increments the seller count and appends the same ID again for subsequent unaffordable items, rather than recording a seller once.",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     }
@@ -364,14 +521,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 2,
+      "bytes": 816646,
+      "name": "batch-2-source-semantics-review.json",
+      "sha256": "37ab4aefa3b89e88955bddd18c024454d0b0b929d93e2f380e20f499ef9f0612"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "a95903026c9119d49fc44506717376bdc98b982b85f146da226995b9bfe67cea",
+  "sourceSemanticReviewPath": "source-review/proofs/441A.json",
   "stressCases": 40,
-  "testPairs": 213,
-  "unconfirmedSourceIds": [
-    "6945697",
-    "7299171",
-    "7361090",
-    "7361189",
-    "7361231"
-  ]
+  "testPairs": 213
 }

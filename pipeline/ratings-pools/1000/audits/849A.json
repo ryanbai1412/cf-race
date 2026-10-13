@@ -1,28 +1,208 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "645d7206cc951a75f4fbd7a7dc4921d4002253ff038e67b3a5b5a79f09d9070a",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "29976261": {
+      "LFActualOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+      "LFExpectedOutputHash": "1ea442a134b2a184bd5d40104401f2a37fbc09ccf3f4bc9da161c6099be3691d",
+      "LFInputHash": "c46f52f62a1e5d314c2dcb1639519ae0882a0019d371a62555ef0d86da30ba41",
+      "LFProofHash": "446e547e2e1afb6f729c13edd6939c53f7a6713bb659ea5e509f5ad28720b686",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 11,
+          "lines": [
+            "found = False",
+            "count = 0",
+            "for item in array:",
+            "    count += (item & 1)",
+            "    if (item % 2 == 0) and (count % 2):",
+            "        found = True",
+            "",
+            "if (array[0]%2) and (array[-1]%2) and ((count%2) or (found)):"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "193050346fd34a6daa994a51c19bf0e2bbdec20a4465e3fd6ae2fdd4d3b5a6e9",
+      "originalInputHash": "40e274fdba81c2038b1033a7b4b75c3f02949a96332cc2bc311f05204cd0ef16",
+      "originalTimeout": false,
+      "reason": "Line 11 never tests that n is odd (the only correct criterion is n odd and both ends odd); the count/found clause is unrelated. Expected derivation: n=50 (even) -> No. Source trace: a1=49, a50=99 odd; count of odds=24 (even) but found=True at a2=32 (odd prefix count 1) -> Yes.",
+      "sourceHash": "c2186bd29549b0b504487e700f694add041f94a53737a3699d8da5a01d9079c7",
+      "sourceRanges": [
+        [
+          4,
+          11
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/849/submission/29976261",
+      "test": "0016"
+    },
+    "29976427": {
+      "LFActualOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+      "LFExpectedOutputHash": "1ea442a134b2a184bd5d40104401f2a37fbc09ccf3f4bc9da161c6099be3691d",
+      "LFInputHash": "85c2758ced18430a5fe8dd78d86eaac06b1d5b8a3c9308260e1e9fe47753857c",
+      "LFProofHash": "446e547e2e1afb6f729c13edd6939c53f7a6713bb659ea5e509f5ad28720b686",
+      "exactSourceExcerpts": [
+        {
+          "first": 12,
+          "last": 12,
+          "lines": [
+            "if not odd(seq[0]) or not odd(seq[0]) or not odd(len(seq)):"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "193050346fd34a6daa994a51c19bf0e2bbdec20a4465e3fd6ae2fdd4d3b5a6e9",
+      "originalInputHash": "a3d252d732909dabd4241bb7809dd95e8160442ec0abb6c78afb7aab5504f33d",
+      "originalTimeout": false,
+      "reason": "Line 12 tests `odd(seq[0])` twice; the last element is never checked. Expected derivation: n=15, a1=81 odd, a15=36 even -> No. Source trace: 81 odd, 15 odd -> Yes.",
+      "sourceHash": "10539edf51dc82c9650531ee2cf9afa795e7153429422aa7f6547cce12e24457",
+      "sourceRanges": [
+        [
+          12,
+          12
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/849/submission/29976427",
+      "test": "0015"
+    },
+    "29976707": {
+      "LFActualOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+      "LFExpectedOutputHash": "1ea442a134b2a184bd5d40104401f2a37fbc09ccf3f4bc9da161c6099be3691d",
+      "LFInputHash": "85c2758ced18430a5fe8dd78d86eaac06b1d5b8a3c9308260e1e9fe47753857c",
+      "LFProofHash": "446e547e2e1afb6f729c13edd6939c53f7a6713bb659ea5e509f5ad28720b686",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 4,
+          "lines": [
+            "if values[0] % 2 == 0 or values[len(values) - 1] == 0 or len(values) % 2 == 0 and values[0] % 2 == 1 and values[len(values) - 1] % 2 == 1:"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "193050346fd34a6daa994a51c19bf0e2bbdec20a4465e3fd6ae2fdd4d3b5a6e9",
+      "originalInputHash": "a3d252d732909dabd4241bb7809dd95e8160442ec0abb6c78afb7aab5504f33d",
+      "originalTimeout": false,
+      "reason": "Line 4 `values[len(values) - 1] == 0` tests for zero instead of evenness; precedence also mixes or/and. Expected derivation: last 36 even -> No. Source trace: 81 odd, 36 != 0, n odd -> Yes.",
+      "sourceHash": "746a3db8a4fa910deeaa46a69826a5fb0cfb82e035b80b63d5e822df847940ed",
+      "sourceRanges": [
+        [
+          4,
+          4
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/849/submission/29976707",
+      "test": "0015"
+    },
+    "29977381": {
+      "LFActualOutputHash": "31375587f8bedb1f33f6eca3d8cee94ab70845a6dd1a7c7eeb929f4aa7dc10ab",
+      "LFExpectedOutputHash": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+      "LFInputHash": "1533a4f97fd3ed5aba56b0c79d9806efbae2f93b0430bf5af862f2f0b7f42df6",
+      "LFProofHash": "446e547e2e1afb6f729c13edd6939c53f7a6713bb659ea5e509f5ad28720b686",
+      "exactSourceExcerpts": [
+        {
+          "first": 7,
+          "last": 14,
+          "lines": [
+            "\tcount = 0",
+            "\tfor i in range(1, n - 1):",
+            "\t\tif l[i]==0: count += 1",
+            "\t\telse:",
+            "\t\t\tif count % 2 == 0 and count!=0: ",
+            "\t\t\t\tans = \"No\"",
+            "\t\t\t\tbreak",
+            "\t\t\tcount = 0"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "31375587f8bedb1f33f6eca3d8cee94ab70845a6dd1a7c7eeb929f4aa7dc10ab",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "97f9973acffcd86691239b33272f810880ca14c4476a24e88abdf294518cbc65",
+      "originalInputHash": "a6a4cde3f43437a69bf26d433444868a29e3e0079a2ba1602e4605fc70a15011",
+      "originalTimeout": false,
+      "reason": "Lines 8-13 reject when an interior run of even numbers has even non-zero length, an invented condition. Expected derivation: n=99, a1=73, a99=69 odd -> Yes. Source trace: interior even run 22,80 (indices 7-8, length 2) followed by odd 75 -> count%2==0 and count!=0 -> No.",
+      "sourceHash": "bb1860a42544e2afa84c4dc3ad6ffa3f2f556c1f2c8960f6762ce9ecba74a80f",
+      "sourceRanges": [
+        [
+          7,
+          14
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/849/submission/29977381",
+      "test": "0018"
+    },
+    "29978713": {
+      "LFActualOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+      "LFExpectedOutputHash": "1ea442a134b2a184bd5d40104401f2a37fbc09ccf3f4bc9da161c6099be3691d",
+      "LFInputHash": "3c5b54a75e483fd7863419c9c44f76601871d171c02a7a1e7490efaf809bd1da",
+      "LFProofHash": "446e547e2e1afb6f729c13edd6939c53f7a6713bb659ea5e509f5ad28720b686",
+      "exactSourceExcerpts": [
+        {
+          "first": 12,
+          "last": 19,
+          "lines": [
+            "count = 0",
+            "last = 0",
+            "i = 1",
+            "while i < n - 1:",
+            "    if o(a[i]) and o(a[i+1]) and ((i - last) % 2) == 0:",
+            "        count += 1; last = i+1;",
+            "    i += 1",
+            "print(\"Yes\" if (count % 2) == 0 else \"No\")"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "193050346fd34a6daa994a51c19bf0e2bbdec20a4465e3fd6ae2fdd4d3b5a6e9",
+      "originalInputHash": "f620f52a17737de11a738a9b95e448926bb0fd6b5c546232241b2ecbb874841f",
+      "originalTimeout": false,
+      "reason": "Lines 12-19 never check n parity; count rule is unrelated to the requirement. Expected derivation: n=2, 1 1 -> even length -> No. Source trace: loop does not run, count=0 -> Yes.",
+      "sourceHash": "4a004f922de038b1074b6fe4874bcff4baf6af97bdd4713826f2acf9c06ddada",
+      "sourceRanges": [
+        [
+          12,
+          19
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/849/submission/29978713",
+      "test": "0009"
+    }
+  },
   "independentFreshRunHash": "2e8d86cfa5cc06ef118a51d6dcd7da87bcba87d85a6f806731f4baa501018477",
   "independentLFReplayHash": "446e547e2e1afb6f729c13edd6939c53f7a6713bb659ea5e509f5ad28720b686",
   "independentSemanticCheckHash": "72107952e7b83bd6b2a0cd9d1fa0bcdfd9f8fd3e46e4b7ab106dd9205682ce24",
   "independentStressHash": "026ef35c5d4a4b7fc84180fa59d51a32894006f404cca7a8be6130940ce2bb6e",
+  "originalExecutionEvidenceHash": "645d7206cc951a75f4fbd7a7dc4921d4002253ff038e67b3a5b5a79f09d9070a",
   "packageHash": "b7c7f2d00c95d214eae166faded576393f8dbcca9e49f81d9c2a4e78781604ce",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -109,26 +289,25 @@
         "AC": 8,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0016",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "c2186bd29549b0b504487e700f694add041f94a53737a3699d8da5a01d9079c7",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/849/submission/29976261",
       "submissionId": "29976261",
       "testVerdicts": {
@@ -144,7 +323,11 @@
           "0016"
         ],
         "origin": "tests/0016",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+        "originalExpectedOutputHash": "193050346fd34a6daa994a51c19bf0e2bbdec20a4465e3fd6ae2fdd4d3b5a6e9",
+        "originalInputHash": "40e274fdba81c2038b1033a7b4b75c3f02949a96332cc2bc311f05204cd0ef16",
+        "reason": "Line 11 never tests that n is odd (the only correct criterion is n odd and both ends odd); the count/found clause is unrelated.",
+        "selectedOriginalTest": "0016",
         "test": "lf-0016"
       }
     },
@@ -153,26 +336,25 @@
         "AC": 10,
         "WA": 11
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0015",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 11
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 11,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 11,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "10539edf51dc82c9650531ee2cf9afa795e7153429422aa7f6547cce12e24457",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/849/submission/29976427",
       "submissionId": "29976427",
       "testVerdicts": {
@@ -188,7 +370,11 @@
           "0015"
         ],
         "origin": "tests/0015",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+        "originalExpectedOutputHash": "193050346fd34a6daa994a51c19bf0e2bbdec20a4465e3fd6ae2fdd4d3b5a6e9",
+        "originalInputHash": "a3d252d732909dabd4241bb7809dd95e8160442ec0abb6c78afb7aab5504f33d",
+        "reason": "Line 12 tests `odd(seq[0])` twice; the last element is never checked.",
+        "selectedOriginalTest": "0015",
         "test": "lf-0015"
       }
     },
@@ -197,26 +383,25 @@
         "AC": 10,
         "WA": 12
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0015",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 12
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 12,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 12,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "746a3db8a4fa910deeaa46a69826a5fb0cfb82e035b80b63d5e822df847940ed",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/849/submission/29976707",
       "submissionId": "29976707",
       "testVerdicts": {
@@ -232,7 +417,11 @@
           "0015"
         ],
         "origin": "tests/0015",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+        "originalExpectedOutputHash": "193050346fd34a6daa994a51c19bf0e2bbdec20a4465e3fd6ae2fdd4d3b5a6e9",
+        "originalInputHash": "a3d252d732909dabd4241bb7809dd95e8160442ec0abb6c78afb7aab5504f33d",
+        "reason": "Line 4 `values[len(values) - 1] == 0` tests for zero instead of evenness; precedence also mixes or/and.",
+        "selectedOriginalTest": "0015",
         "test": "lf-0015"
       }
     },
@@ -241,26 +430,25 @@
         "AC": 10,
         "WA": 9
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0018",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 9
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 9,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 9,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 9,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "bb1860a42544e2afa84c4dc3ad6ffa3f2f556c1f2c8960f6762ce9ecba74a80f",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/849/submission/29977381",
       "submissionId": "29977381",
       "testVerdicts": {
@@ -276,7 +464,11 @@
           "0018"
         ],
         "origin": "tests/0018",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "31375587f8bedb1f33f6eca3d8cee94ab70845a6dd1a7c7eeb929f4aa7dc10ab",
+        "originalExpectedOutputHash": "97f9973acffcd86691239b33272f810880ca14c4476a24e88abdf294518cbc65",
+        "originalInputHash": "a6a4cde3f43437a69bf26d433444868a29e3e0079a2ba1602e4605fc70a15011",
+        "reason": "Lines 8-13 reject when an interior run of even numbers has even non-zero length, an invented condition.",
+        "selectedOriginalTest": "0018",
         "test": "lf-0018"
       }
     },
@@ -285,26 +477,25 @@
         "AC": 9,
         "WA": 12
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0009",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 12
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 12,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 12,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "4a004f922de038b1074b6fe4874bcff4baf6af97bdd4713826f2acf9c06ddada",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/849/submission/29978713",
       "submissionId": "29978713",
       "testVerdicts": {
@@ -320,7 +511,11 @@
           "0009"
         ],
         "origin": "tests/0009",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+        "originalExpectedOutputHash": "193050346fd34a6daa994a51c19bf0e2bbdec20a4465e3fd6ae2fdd4d3b5a6e9",
+        "originalInputHash": "f620f52a17737de11a738a9b95e448926bb0fd6b5c546232241b2ecbb874841f",
+        "reason": "Lines 12-19 never check n parity; count rule is unrelated to the requirement.",
+        "selectedOriginalTest": "0009",
         "test": "lf-0009"
       }
     }
@@ -328,14 +523,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 4,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 4,
+      "bytes": 389086,
+      "name": "rating-1000-source-review-batch4.json",
+      "sha256": "de8c7b37f70b0356c91c2ac393453ebcab2031858e514fd24cadd083c0a7c19e"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "451f190d612fe6cabe67e25a7d0e1ec2b18fc68b6d6f8552f100b182c4555da0",
+  "sourceSemanticReviewPath": "source-review/proofs/849A.json",
   "stressCases": 40,
-  "testPairs": 137,
-  "unconfirmedSourceIds": [
-    "29976261",
-    "29976427",
-    "29976707",
-    "29977381",
-    "29978713"
-  ]
+  "testPairs": 137
 }

@@ -1,28 +1,215 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "3e0a41bf09f8769a8df590035084baee868117f6613313ba9ae2e9adbe444e2c",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "32260447": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "53c6afdb1c65c55f3868e954652f1e0a48d1e1981ca72725c9071d836b1783d1",
+      "LFProofHash": "1adc62bdcd4148f1ae4852b671a8ad75e22eadde42aae70412156212afc39a44",
+      "exactSourceExcerpts": [
+        {
+          "first": 8,
+          "last": 18,
+          "lines": [
+            "while len(a)>0:",
+            "    e=int(max(a))",
+            "    a.remove(str(e))",
+            "    if k==0:",
+            "        q+=e",
+            "        if q>w:",
+            "            k=1",
+            "    else:",
+            "        w+=e",
+            "        if w>q:",
+            "            k=0"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+      "originalInputHash": "e04332bad47d95ad24bce40dc4bdaecdebdcdca4ff85a55ab9e58f269e4d6705",
+      "originalTimeout": false,
+      "reason": "line 9 `int(max(a))` takes max over STRING tokens (lexicographic, '71'>'199'), and the greedy of lines 11-18 is not a valid decision procedure for equal 3-person teams. Expected derivation: tests/0010: 71 66 124 199 67 147, total 674, half 337: {199,71,67}=337 and {66,124,147}=337 -> YES. Source trace: String order picks 71 (q=71,k=1), 67 (w=67), 66 (w=133>71,k=0), 199 (q=270,k=1), 147 (w=280,k=0), 124 (q=394). q=394 != w=280 -> NO.",
+      "sourceHash": "8dde7cdbe19e45ffdbb050de5112d56f47ae5818c2757e96b8ec27a91fd63357",
+      "sourceRanges": [
+        [
+          8,
+          18
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/886/submission/32260447",
+      "test": "0010"
+    },
+    "32261191": {
+      "LFActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "LFExpectedOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+      "LFInputHash": "3a0d46d8bd88ab8b1eb5ff0a8cd6f8a66097b4a4db6f977a6b12ee4cec0beb0c",
+      "LFProofHash": "1adc62bdcd4148f1ae4852b671a8ad75e22eadde42aae70412156212afc39a44",
+      "exactSourceExcerpts": [
+        {
+          "first": 8,
+          "last": 10,
+          "lines": [
+            "\tfor i in range(1,6):",
+            "\t\tfor j in range(1,6):",
+            "\t\t\tif l[0]+l[i]+l[j]==sum(p)-l[i]-l[j]:"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "originalInputHash": "15ab96e00d725b2c98b46e6747dcc9e489dd95dcf02f79564a052ae2ff967a68",
+      "originalTimeout": false,
+      "reason": "lines 8-9 both loop range(1,6) with no `i != j` (nor i<j) guard, so the same participant is used twice in a team. Expected derivation: tests/0045: 2 1 0 0 0 5 -> sorted [0,0,0,1,2,5], total 8, half 4. Team containing smallest 0 needs two others from {0,0,1,2,5} summing 4: pairs give 0,1,2,5,1,2,5,3,6,7 -> none is 4 -> NO. Source trace: i=j=4 (l[4]=2): 0+2+2=4 and sum(p)-2-2 = 8-4 = 4 -> b=True -> YES.",
+      "sourceHash": "ee8ceaeb676a17dfd8ae7288d43e26815538119865325cac8a295eac34a62b01",
+      "sourceRanges": [
+        [
+          8,
+          10
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/886/submission/32261191",
+      "test": "0045"
+    },
+    "32261672": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "08c0a04e4256186b035f4c786733936248716195794ce72e6e0a92030f345fa9",
+      "LFProofHash": "1adc62bdcd4148f1ae4852b671a8ad75e22eadde42aae70412156212afc39a44",
+      "exactSourceExcerpts": [
+        {
+          "first": 14,
+          "last": 23,
+          "lines": [
+            "        for k in range(4):",
+            "            y1 = x[k]",
+            "            res += y1",
+            "            x.remove(y1)",
+            "            ",
+            "            if res == sum(x):",
+            "                itog = 'YES'",
+            "                ",
+            "            res -= y1",
+            "            x.append(y1)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+      "originalInputHash": "3f3b02c538c62628b0b54b7a9bdf24d6334ca05994b1777b2a4047197fe3f90c",
+      "originalTimeout": false,
+      "reason": "lines 15-17/23 (and 10-12/25, 6-8/27): remove-by-index then `append` at the END rotates the list, so subsequent x[k] indices skip elements and revisit others; the enumeration does not cover all triples. Expected derivation: tests/0013: 180 179 188 50 75 214, total 886, half 443: {180,188,75}=443 -> YES. Source trace: Hand analysis of the rotation (k-loop over [a,b,c,d] visits a,c,a,a) confirmed by a self-authored model of the remove/append list semantics (not the source): only 12 of 20 distinct triples are visited, and neither {180,188,75} nor its complement {179,50,214} is among them, so itog stays 'NO'.",
+      "sourceHash": "e7a6adb68fb425015ac8deff47fe983d32a12e7ae2fb9a2cf46a9a5804cdd121",
+      "sourceRanges": [
+        [
+          14,
+          23
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/886/submission/32261672",
+      "test": "0013"
+    },
+    "32262081": {
+      "LFActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "LFExpectedOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+      "LFInputHash": "04b6f7c4139ff7c07d8eb84067d1ed4554b314a49a75d36ca394f0f2ab94fefa",
+      "LFProofHash": "1adc62bdcd4148f1ae4852b671a8ad75e22eadde42aae70412156212afc39a44",
+      "exactSourceExcerpts": [
+        {
+          "first": 9,
+          "last": 12,
+          "lines": [
+            "for i in range(leng):",
+            "\tfor j in range(leng):",
+            "\t\tfor k in range (leng):",
+            "\t\t\tif players[i] + players[j] + players[k] == maximum:"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "originalInputHash": "65041b520ae974d669bb68b67073ff238952c74a0fc8bec5aa2c5e260d7b1b8d",
+      "originalTimeout": false,
+      "reason": "lines 9-11 allow i, j, k to repeat (no distinctness), so a participant may be counted multiple times. Expected derivation: tests/0031: 8 1 1 3 3 0, total 16, half 8. A team with 8 has sum >= 8+0+1 = 9; without 8 max is 3+3+1 = 7 -> NO. Source trace: i=0 (8), j=k=5 (0): 8+0+0 = 8 == 8.0 -> is_possible True -> YES.",
+      "sourceHash": "c42f6c49790f79925f440e86f759b555b76a2e6ba7bb753c9508c827a15dbe87",
+      "sourceRanges": [
+        [
+          9,
+          12
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/886/submission/32262081",
+      "test": "0031"
+    },
+    "32263727": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "e2d845b4d8b42bb6260435d33461cedad1c56367c2f49d1ebfed7f226b59921e",
+      "LFProofHash": "1adc62bdcd4148f1ae4852b671a8ad75e22eadde42aae70412156212afc39a44",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 10,
+          "lines": [
+            "    s+=dist[i]+dist[i+2]",
+            "    for k in range(4-i):",
+            "        s+=dist[i]",
+            "        s1 = suma-s",
+            "        if s1==s:"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+      "originalInputHash": "29768b013242fdf01b401e2d126d112466b9c7cad8ac0307f8823be7db230bde",
+      "originalTimeout": false,
+      "reason": "lines 6-8: only considers sums d[i]+d[i+2]+m*d[i]; never enumerates arbitrary 3-element teams. Expected derivation: tests/0011: 54 26 0 171 239 12, total 502, half 251: {239,12,0}=251 -> YES. Source trace: i=0: s=54+0=54 -> 108,162,216,270; i=1: 26+171=197 -> 223,249,275; i=2: 0+239=239 -> 239,239; i=3: 171+12=183 -> 354. None equals 251 -> NO.",
+      "sourceHash": "0e9a5d0cd9073757f733140b634c1b8416aa56eadf943b498caf6c6d9fc7243d",
+      "sourceRanges": [
+        [
+          6,
+          10
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/886/submission/32263727",
+      "test": "0011"
+    }
+  },
   "independentFreshRunHash": "facc641361040a69816ce0c0ab3b577fcec6c72ebb3543a1a46b75715da19fc7",
   "independentLFReplayHash": "1adc62bdcd4148f1ae4852b671a8ad75e22eadde42aae70412156212afc39a44",
   "independentSemanticCheckHash": "b569ecdd0cf6215eca2e72e071e218ee5c8e9a9bebb9c41a9e38c4a71e0421db",
   "independentStressHash": "0215c10cd7a58309f4fd837ac3e1db950ab2e6a1cff9cf42119c105f3f7cd087",
+  "originalExecutionEvidenceHash": "3e0a41bf09f8769a8df590035084baee868117f6613313ba9ae2e9adbe444e2c",
   "packageHash": "8fdfe3ac3aa4a64658c143d752fd5fad678a5a2c30c9afe8ada57d8feb84dc1d",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -109,26 +296,25 @@
         "AC": 10,
         "WA": 12
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0010",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 12
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 12,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 12,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "8dde7cdbe19e45ffdbb050de5112d56f47ae5818c2757e96b8ec27a91fd63357",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/886/submission/32260447",
       "submissionId": "32260447",
       "testVerdicts": {
@@ -144,7 +330,11 @@
           "0010"
         ],
         "origin": "tests/0010",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+        "originalInputHash": "e04332bad47d95ad24bce40dc4bdaecdebdcdca4ff85a55ab9e58f269e4d6705",
+        "reason": "line 9 `int(max(a))` takes max over STRING tokens (lexicographic, '71'>'199'), and the greedy of lines 11-18 is not a valid decision procedure for equal 3-person teams.",
+        "selectedOriginalTest": "0010",
         "test": "lf-0010"
       }
     },
@@ -153,26 +343,25 @@
         "AC": 10,
         "WA": 2
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0045",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 2
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 2,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 2,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 2,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "ee8ceaeb676a17dfd8ae7288d43e26815538119865325cac8a295eac34a62b01",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/886/submission/32261191",
       "submissionId": "32261191",
       "testVerdicts": {
@@ -188,7 +377,11 @@
           "0045"
         ],
         "origin": "tests/0045",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+        "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+        "originalInputHash": "15ab96e00d725b2c98b46e6747dcc9e489dd95dcf02f79564a052ae2ff967a68",
+        "reason": "lines 8-9 both loop range(1,6) with no `i != j` (nor i<j) guard, so the same participant is used twice in a team.",
+        "selectedOriginalTest": "0045",
         "test": "lf-0045"
       }
     },
@@ -197,26 +390,25 @@
         "AC": 10,
         "WA": 2
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0013",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 2
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 2,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 2,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 2,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "e7a6adb68fb425015ac8deff47fe983d32a12e7ae2fb9a2cf46a9a5804cdd121",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/886/submission/32261672",
       "submissionId": "32261672",
       "testVerdicts": {
@@ -232,7 +424,11 @@
           "0013"
         ],
         "origin": "tests/0013",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+        "originalInputHash": "3f3b02c538c62628b0b54b7a9bdf24d6334ca05994b1777b2a4047197fe3f90c",
+        "reason": "lines 15-17/23 (and 10-12/25, 6-8/27): remove-by-index then `append` at the END rotates the list, so subsequent x[k] indices skip elements and revisit others; the enumeration does not cover all triples.",
+        "selectedOriginalTest": "0013",
         "test": "lf-0013"
       }
     },
@@ -241,26 +437,25 @@
         "AC": 10,
         "WA": 10
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0031",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 10
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 10,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 10,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 10,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "c42f6c49790f79925f440e86f759b555b76a2e6ba7bb753c9508c827a15dbe87",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/886/submission/32262081",
       "submissionId": "32262081",
       "testVerdicts": {
@@ -276,7 +471,11 @@
           "0031"
         ],
         "origin": "tests/0031",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+        "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+        "originalInputHash": "65041b520ae974d669bb68b67073ff238952c74a0fc8bec5aa2c5e260d7b1b8d",
+        "reason": "lines 9-11 allow i, j, k to repeat (no distinctness), so a participant may be counted multiple times.",
+        "selectedOriginalTest": "0031",
         "test": "lf-0031"
       }
     },
@@ -285,26 +484,25 @@
         "AC": 10,
         "WA": 12
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0011",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 12
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 12,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 12,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "0e9a5d0cd9073757f733140b634c1b8416aa56eadf943b498caf6c6d9fc7243d",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/886/submission/32263727",
       "submissionId": "32263727",
       "testVerdicts": {
@@ -320,7 +518,11 @@
           "0011"
         ],
         "origin": "tests/0011",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+        "originalInputHash": "29768b013242fdf01b401e2d126d112466b9c7cad8ac0307f8823be7db230bde",
+        "reason": "lines 6-8: only considers sums d[i]+d[i+2]+m*d[i]; never enumerates arbitrary 3-element teams.",
+        "selectedOriginalTest": "0011",
         "test": "lf-0011"
       }
     }
@@ -328,14 +530,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 5,
+      "bytes": 295543,
+      "name": "batch5-source-review.json",
+      "sha256": "b428fe8eb83846ca1692f87dfcd5d3bc7a98bf5bc8c3f856cd1173fc9dcbfb5a"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "027564128224b4f6ec1129f8af1b0b96dc0003629d03fe02ff2fe1cbb5f625d9",
+  "sourceSemanticReviewPath": "source-review/proofs/886A.json",
   "stressCases": 40,
-  "testPairs": 177,
-  "unconfirmedSourceIds": [
-    "32260447",
-    "32261191",
-    "32261672",
-    "32262081",
-    "32263727"
-  ]
+  "testPairs": 177
 }

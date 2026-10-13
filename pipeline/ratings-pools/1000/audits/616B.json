@@ -1,62 +1,225 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
-    "algorithmicallyWrong": false,
+    "algorithmicallyWrong": true,
     "coverage": true,
     "deterministicGeneration": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "generatedBasis": true,
     "hashes": true,
     "independentOracle": true,
     "inputConstraints": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "564ea9b8a848f7e59537e75e5179679f217d7a07b41bd65ae4431376d93adf74",
   "generatedQualificationHash": "81159f811b834af151ae949a59dd704b5ca09c03a2403d0f00dd17ee89e12329",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
-  "historicalIncorrectAnalysis": {
+  "incorrectAnalysis": {
     "110732676": {
+      "LFActualOutputHash": "4b9258d432ecb4511cfe5471a58f3feea9e8aa513e1d32294894693827d3b0d4",
+      "LFExpectedOutputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "LFInputHash": "2ca70636b3dfb1081ea71240238f9a2b2969121a4f5bc93269d7c58977ab09f2",
+      "LFProofHash": "8e81c68ff3275cb15de02d3f3458c5a7786ac63ce093beb6cf980fd6ecc01c70",
+      "exactSourceExcerpts": [
+        {
+          "first": 10,
+          "last": 15,
+          "lines": [
+            "for j in range(m):",
+            "    tmp_min = c[0][j]",
+            "    for i in range(n):",
+            "        tmp_min = min(tmp_min, c[i][j])",
+            "    max0.append(tmp_min)",
+            "print(max(max0))"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "4b9258d432ecb4511cfe5471a58f3feea9e8aa513e1d32294894693827d3b0d4",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "originalInputHash": "4a3513a0a9092a0ced8b1de52fd22737522eaa6c3cade773c0154804f74d05e9",
+      "originalTimeout": false,
+      "reason": "Swaps the street and avenue roles: computes max_j min_i instead of max_i min_j. Expected derivation: There is only one street and10 avenues. Emma must choose it; Jack chooses avenue5 costing1, the row minimum. Correct answer1. Source trace: Each column has just its input price, so column minima are74,35,82,39,1,84,29,41,70,12. max(max0) is84, not row minimum1. c=[[]]*n causes no alias issue because each row is assigned separately.",
+      "sourceHash": "5794ea07453b403f964cc8ada6e68478166dce4829536a600f58298f4c5d7089",
+      "sourceRanges": [
+        [
+          10,
+          15
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/616/submission/110732676",
       "test": "0004"
     },
     "122684731": {
+      "LFActualOutputHash": "076320a2a08267b4c026d06573bba408ea68841e73cdc20e62cce59de165ece3",
+      "LFExpectedOutputHash": "1da51b8d8ff98f6a48f80ae79fe3ca6c26e1abb7b7d125259255d6d2b875ea08",
+      "LFInputHash": "204fa1b0086d9713bf8704a05f63ad1bd5ee0bb18d49e8f334f8ebd3788ff668",
+      "LFProofHash": "8e81c68ff3275cb15de02d3f3458c5a7786ac63ce093beb6cf980fd6ecc01c70",
+      "exactSourceExcerpts": [
+        {
+          "first": 10,
+          "last": 16,
+          "lines": [
+            "    if min(l[i])==x:",
+            "        l[i]=-1",
+            "        c+=1",
+            "    else:",
+            "        t=min(l[i])",
+            "        if t<y:",
+            "            y=t"
+          ]
+        },
+        {
+          "first": 18,
+          "last": 21,
+          "lines": [
+            "if c==n:",
+            "    print(x)",
+            "else:",
+            "    print(y)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "076320a2a08267b4c026d06573bba408ea68841e73cdc20e62cce59de165ece3",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "49b7905b38fe9a56996f8340bcedbf62f50a6aa572a70c9be031090e3905fe5e",
+      "originalInputHash": "b419bfdcf4dfb689f5cdd08e5ab01231b2872469325bde25b1c03247bd0aeca4",
+      "originalTimeout": false,
+      "reason": "Returns second-smallest distinct row minimum rather than largest row minimum. Expected derivation: With one avenue per street, dinner costs are44,23,65,17,48,29,49,88,91,85; Emma chooses largest91. Source trace: First scan sets x17. Second scan excludes just row4 with17, c1; y becomes44 then23 and never decreases further. Since c!=n, source prints y23 rather than91.",
+      "sourceHash": "f1c2014aa8d491a16383ec35d1bb179c94b01d73879e5c66a7b781decad22c70",
+      "sourceRanges": [
+        [
+          10,
+          16
+        ],
+        [
+          18,
+          21
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/616/submission/122684731",
       "test": "0005"
     },
     "130598113": {
+      "LFActualOutputHash": "b16377786788b35d5d5cd87fce0c0eb3f3f5bbd83ab6b9b1375dde697d23e796",
+      "LFExpectedOutputHash": "52f11620e397f867b7d9f19e48caeb64658356a6b5d17138c00dd9feaf5d7ad6",
+      "LFInputHash": "05846e10e8ee87dc8339388f3425c37a9a7cedb08974231b01688ea950682225",
+      "LFProofHash": "8e81c68ff3275cb15de02d3f3458c5a7786ac63ce093beb6cf980fd6ecc01c70",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 5,
+          "lines": [
+            "    c += [min(list(input().split()))]",
+            "print(max(c))"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "b16377786788b35d5d5cd87fce0c0eb3f3f5bbd83ab6b9b1375dde697d23e796",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "49abc1fee2b48d5133805e96fec77d8c257e5c17c3b8bb8fd5c4d87b60663a25",
+      "originalInputHash": "3fb1badecc793c902d597500e6727aa15a93b22b237c9575269a450de831c884",
+      "originalTimeout": false,
+      "reason": "Keeps costs as strings, so both min and max compare lexicographically instead of numerically. Expected derivation: The numeric row minima in the valid10x10 matrix are45,45,61,54,20,51,3,16,184,37. Emma maximizes these guaranteed costs, so184. Source trace: The first row's lexicographic minimum is235 despite containing45; lexicographic minima for all ten rows are235,212,107,131,137,199,212,130,184,150. Their lexicographic maximum is235. The printed numeric235 is a different cost, not alternate notation for184.",
+      "sourceHash": "785ce33af17894d35ccd8974d7a73b06b275c267334b5ea98facbbc0eba1359d",
+      "sourceRanges": [
+        [
+          4,
+          5
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/616/submission/130598113",
       "test": "0006"
     },
     "143426653": {
+      "LFActualOutputHash": "4b9258d432ecb4511cfe5471a58f3feea9e8aa513e1d32294894693827d3b0d4",
+      "LFExpectedOutputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "LFInputHash": "2ca70636b3dfb1081ea71240238f9a2b2969121a4f5bc93269d7c58977ab09f2",
+      "LFProofHash": "8e81c68ff3275cb15de02d3f3458c5a7786ac63ce093beb6cf980fd6ecc01c70",
+      "exactSourceExcerpts": [
+        {
+          "first": 12,
+          "last": 16,
+          "lines": [
+            "for i in range(m):",
+            "    col = min(createCol(munhattan,i))",
+            "    if col > mini:",
+            "        mini = col",
+            "        emma = i"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "4b9258d432ecb4511cfe5471a58f3feea9e8aa513e1d32294894693827d3b0d4",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "originalInputHash": "4a3513a0a9092a0ced8b1de52fd22737522eaa6c3cade773c0154804f74d05e9",
+      "originalTimeout": false,
+      "reason": "Maximizes column minima, reversing the specified street-first then avenue selection. Expected derivation: One street,10 avenues. Jack can choose the restaurant of cost1 on that street, so dinner cost1 regardless of Emma. Source trace: createCol returns singleton lists; col values equal74,35,82,39,1,84,29,41,70,12. mini evolves74,82,84 and ends84. Correct optimization minimizes within that sole row.",
+      "sourceHash": "c64b7e59737fc3a86b6d0623add88a190b2c46c64ba29c2c375c55c430b0738f",
+      "sourceRanges": [
+        [
+          12,
+          16
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/616/submission/143426653",
       "test": "0004"
     },
     "91493734": {
+      "LFActualOutputHash": "979b894f2d91bf199766571d58024f020d1a44a417da5f48e1fa1cdf554a14f5",
+      "LFExpectedOutputHash": "1da51b8d8ff98f6a48f80ae79fe3ca6c26e1abb7b7d125259255d6d2b875ea08",
+      "LFInputHash": "204fa1b0086d9713bf8704a05f63ad1bd5ee0bb18d49e8f334f8ebd3788ff668",
+      "LFProofHash": "8e81c68ff3275cb15de02d3f3458c5a7786ac63ce093beb6cf980fd6ecc01c70",
+      "exactSourceExcerpts": [
+        {
+          "first": 9,
+          "last": 11,
+          "lines": [
+            "for j in set(l1):",
+            "\tl3[j] = l2.count(j)",
+            "a = max(l3,key = l3.get)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "979b894f2d91bf199766571d58024f020d1a44a417da5f48e1fa1cdf554a14f5",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "49b7905b38fe9a56996f8340bcedbf62f50a6aa572a70c9be031090e3905fe5e",
+      "originalInputHash": "b419bfdcf4dfb689f5cdd08e5ab01231b2872469325bde25b1c03247bd0aeca4",
+      "originalTimeout": false,
+      "reason": "Optimizes frequency instead of maximizing row minimum; ties are resolved by set iteration order unrelated to restaurant minimax. Expected derivation: Ten rows each have one avenue, with prices44,23,65,17,48,29,49,88,91,85. Jack has no choice within a row; Emma chooses highest price91. All are valid1..10^9. Source trace: l1 and l2 both contain those ten values, all dictionary counts are1. Integer set iteration in this execution starts65 (self-authored construction yields65,44,48,17,49,85,23,88,91,29), so max(l3,key=l3.get) selects65, matching the bound output. max is by count, not key. Set order is not a universal Python contract; the pinned execution is evidence of this tie outcome, and no permutation can make frequency the correct minimax objective.",
+      "sourceHash": "ea4c5baaf6de2ddc53a17c8709d02d546f92385be57a9d6509ff2b5a02f38507",
+      "sourceRanges": [
+        [
+          9,
+          11
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/616/submission/91493734",
       "test": "0005"
     }
   },
-  "incorrectAnalysis": {},
   "independentFreshRunHash": "b10099ad22b1b92be81d1560f9587bc769bb471897177435d9a65524f12dd910",
   "independentLFReplayHash": "8e81c68ff3275cb15de02d3f3458c5a7786ac63ce093beb6cf980fd6ecc01c70",
   "independentSemanticCheckHash": "97581b52050041e7cb09ae0c7f1b6d7243990a6d6edda1df962c2dbb5561b7ab",
   "independentStressHash": "20c7b308d9ffb9de36640412f3ec0532115c4062b4c0d8eca081c819d625c651",
+  "originalExecutionEvidenceHash": "564ea9b8a848f7e59537e75e5179679f217d7a07b41bd65ae4431376d93adf74",
   "packageHash": "6b7e99a69bf32ba191dd382dec3e2d64e1e5951d8152373f8249cf3d94443c3b",
   "qualificationBasis": "generated",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -143,26 +306,25 @@
         "AC": 4,
         "WA": 18
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 18
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 18,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 18,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "ea4c5baaf6de2ddc53a17c8709d02d546f92385be57a9d6509ff2b5a02f38507",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/616/submission/91493734",
       "submissionId": "91493734",
       "testVerdicts": {
@@ -178,7 +340,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "979b894f2d91bf199766571d58024f020d1a44a417da5f48e1fa1cdf554a14f5",
+        "originalExpectedOutputHash": "49b7905b38fe9a56996f8340bcedbf62f50a6aa572a70c9be031090e3905fe5e",
+        "originalInputHash": "b419bfdcf4dfb689f5cdd08e5ab01231b2872469325bde25b1c03247bd0aeca4",
+        "reason": "Optimizes frequency instead of maximizing row minimum; ties are resolved by set iteration order unrelated to restaurant minimax.",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     },
@@ -187,26 +353,25 @@
         "AC": 4,
         "WA": 19
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 19
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 19,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 19,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "5794ea07453b403f964cc8ada6e68478166dce4829536a600f58298f4c5d7089",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/616/submission/110732676",
       "submissionId": "110732676",
       "testVerdicts": {
@@ -222,7 +387,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4b9258d432ecb4511cfe5471a58f3feea9e8aa513e1d32294894693827d3b0d4",
+        "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+        "originalInputHash": "4a3513a0a9092a0ced8b1de52fd22737522eaa6c3cade773c0154804f74d05e9",
+        "reason": "Swaps the street and avenue roles: computes max_j min_i instead of max_i min_j.",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     },
@@ -231,26 +400,25 @@
         "AC": 4,
         "WA": 19
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 19
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 19,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 19,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "f1c2014aa8d491a16383ec35d1bb179c94b01d73879e5c66a7b781decad22c70",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/616/submission/122684731",
       "submissionId": "122684731",
       "testVerdicts": {
@@ -266,7 +434,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "076320a2a08267b4c026d06573bba408ea68841e73cdc20e62cce59de165ece3",
+        "originalExpectedOutputHash": "49b7905b38fe9a56996f8340bcedbf62f50a6aa572a70c9be031090e3905fe5e",
+        "originalInputHash": "b419bfdcf4dfb689f5cdd08e5ab01231b2872469325bde25b1c03247bd0aeca4",
+        "reason": "Returns second-smallest distinct row minimum rather than largest row minimum.",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     },
@@ -275,26 +447,25 @@
         "AC": 5,
         "WA": 15
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0006",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 15
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 15,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 15,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 10,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "785ce33af17894d35ccd8974d7a73b06b275c267334b5ea98facbbc0eba1359d",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/616/submission/130598113",
       "submissionId": "130598113",
       "testVerdicts": {
@@ -310,7 +481,11 @@
           "0006"
         ],
         "origin": "tests/0006",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "b16377786788b35d5d5cd87fce0c0eb3f3f5bbd83ab6b9b1375dde697d23e796",
+        "originalExpectedOutputHash": "49abc1fee2b48d5133805e96fec77d8c257e5c17c3b8bb8fd5c4d87b60663a25",
+        "originalInputHash": "3fb1badecc793c902d597500e6727aa15a93b22b237c9575269a450de831c884",
+        "reason": "Keeps costs as strings, so both min and max compare lexicographically instead of numerically.",
+        "selectedOriginalTest": "0006",
         "test": "lf-0006"
       }
     },
@@ -319,26 +494,25 @@
         "AC": 4,
         "WA": 19
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 19
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 19,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 19,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "c64b7e59737fc3a86b6d0623add88a190b2c46c64ba29c2c375c55c430b0738f",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/616/submission/143426653",
       "submissionId": "143426653",
       "testVerdicts": {
@@ -354,7 +528,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4b9258d432ecb4511cfe5471a58f3feea9e8aa513e1d32294894693827d3b0d4",
+        "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+        "originalInputHash": "4a3513a0a9092a0ced8b1de52fd22737522eaa6c3cade773c0154804f74d05e9",
+        "reason": "Maximizes column minima, reversing the specified street-first then avenue selection.",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     }
@@ -362,14 +540,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 3,
+      "bytes": 840772,
+      "name": "batch-3-source-semantics-report.json",
+      "sha256": "13a95ff57fc4d6b97aec98a2cea133fcb944543e9d5421886be5e8b7bb7631a9"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "de404c14cf262a7185855f402ba539927bf246ef8decdb65242759adfe7e4c1d",
+  "sourceSemanticReviewPath": "source-review/proofs/616B.json",
   "stressCases": 40,
-  "testPairs": 212,
-  "unconfirmedSourceIds": [
-    "91493734",
-    "110732676",
-    "122684731",
-    "130598113",
-    "143426653"
-  ]
+  "testPairs": 212
 }

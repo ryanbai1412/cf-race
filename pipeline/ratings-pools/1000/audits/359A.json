@@ -1,62 +1,222 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
-    "algorithmicallyWrong": false,
+    "algorithmicallyWrong": true,
     "coverage": true,
     "deterministicGeneration": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "generatedBasis": true,
     "hashes": true,
     "independentOracle": true,
     "inputConstraints": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "0345b2785cb64f5bbeff2a17f5e1154ae4e636b1988a281b6aed82aea0be175b",
   "generatedQualificationHash": "caea2cf92e4c452f25d1a81057ad1f97bdcf8df9fcb113737197e45ed1769e15",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
-  "historicalIncorrectAnalysis": {
+  "incorrectAnalysis": {
     "4968314": {
+      "LFActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "LFExpectedOutputHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+      "LFInputHash": "c5fcba7fe74cf9542b3abf691cc3c0eee3843d4dcb724410a9d999ea509e6bf4",
+      "LFProofHash": "035bfab4f95be9e67c0fd9bbdefa8dd68b949b121864ab43facbb1ba91c9fc4c",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 7,
+          "lines": [
+            "        if a[j] == 1 and (j or i in [0, m-1]):",
+            "            k=1"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+      "originalInputHash": "d6df470ac9377e5ade57513bc8d4f592f8a3af7237bcc1a5bbe8536704ef1dca",
+      "originalTimeout": false,
+      "reason": "(j or i in [0,m-1]) treats any nonzero column index as a border, so interior cells trigger two. Expected derivation: Only (2,2) is good in a 3x3 board. Each rectangle from it reaches just one corner; all four corners require four rectangles, and four suffice. Source trace: At zero-based i=j=1, a[j]=1 and j is truthy, so k=1 and answer=2.",
+      "sourceHash": "4cd7c4a3d4267bd68e957af386afedd8dd25117ed46b36bb6ddf0fc54ce7b92c",
+      "sourceRanges": [
+        [
+          6,
+          7
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/359/submission/4968314",
       "test": "0001"
     },
     "4972548": {
+      "LFActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "LFExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "LFInputHash": "6640f5a0f031627a3448f4bcb0d169236f7b67ea6db198df00b467ae9bd323f8",
+      "LFProofHash": "035bfab4f95be9e67c0fd9bbdefa8dd68b949b121864ab43facbb1ba91c9fc4c",
+      "exactSourceExcerpts": [
+        {
+          "first": 3,
+          "last": 8,
+          "lines": [
+            "mid = [int(j) for j in input().split() for i in range(1, n - 1)]",
+            "bot = [int(i) for i in input().split()]",
+            "",
+            "lrBorder = mid[0 : (n - 2) * m : m - 1]",
+            "",
+            "if sum(lrBorder) or sum(top) or sum(bot):"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "originalInputHash": "cdb9cc93c9b62c2c215400ee88a051460a3b716b6b6c770f454c9e649d5133cd",
+      "originalTimeout": false,
+      "reason": "The comprehension reads only one interior row and repeats each cell n-2 times; bot reads row 3 rather than row n. Rows 4..n are ignored, and the border slice is not a valid row-border extraction. Expected derivation: On the 5x50 board the sole good cell is (4,50), on the right border and not a corner. Rectangles to (1,1) and (5,1) cover all cells, so two suffice; one cannot cover the full board from this noncorner. Source trace: top=row1 all zeros; mid repeats each of row2's zero entries three times; bot=row3 all zeros. sum(lrBorder),sum(top),sum(bot) are all 0, so it prints 4. The valid row4 good cell is not represented in the model. This is an actual border-detection algorithm with defective input aggregation, not a missing output header or unrelated program.",
+      "sourceHash": "7642f0dc4d223b89472197e5f205ba9527172043f230780d5db02c9990ddaeb7",
+      "sourceRanges": [
+        [
+          3,
+          8
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/359/submission/4972548",
       "test": "0004"
     },
     "5003692": {
+      "LFActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "LFExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "LFInputHash": "a95548d9db1cdd7c24a1af6da1600e3a5b730c0fdc5db1fecc4d424a80cd711a",
+      "LFProofHash": "035bfab4f95be9e67c0fd9bbdefa8dd68b949b121864ab43facbb1ba91c9fc4c",
+      "exactSourceExcerpts": [
+        {
+          "first": 8,
+          "last": 15,
+          "lines": [
+            "for i in range(rows):",
+            "\tif table[i][0] == \"1\" or table[i][cols-1] == \"1\":",
+            "\t\tfound = True",
+            "\t\tbreak",
+            "if found:",
+            "\tprint(\"2\")",
+            "else:",
+            "\tprint(\"4\")"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "originalInputHash": "baf083e0447eeb9727b5be103cbbbb2b588359fa42ef522079094ddd9701f2fc",
+      "originalTimeout": false,
+      "reason": "Never checks the top and bottom borders' interior columns. Expected derivation: Only (1,2) is good in 3x3. Rectangles to (3,1) and (3,3) cover all cells. One rectangle cannot span both left/right columns from column 2. Answer 2. Source trace: Every first/last column entry is 0, so found remains False and it prints 4.",
+      "sourceHash": "e04bf73bfae19fee04353e255d7632f54d225b1d6b47e9a2442d45ea49d3bc1e",
+      "sourceRanges": [
+        [
+          8,
+          15
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/359/submission/5003692",
       "test": "0008"
     },
     "5078966": {
+      "LFActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "LFExpectedOutputHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+      "LFInputHash": "c5fcba7fe74cf9542b3abf691cc3c0eee3843d4dcb724410a9d999ea509e6bf4",
+      "LFProofHash": "035bfab4f95be9e67c0fd9bbdefa8dd68b949b121864ab43facbb1ba91c9fc4c",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 10,
+          "lines": [
+            "ans, t = 4, input()",
+            "if '1' in input(): ans = 2",
+            "else:",
+            "    for i in range(n - 2):",
+            "        t = input()",
+            "        if '1' in [t[0], t[-1]]:",
+            "            ans = 2",
+            "            break",
+            "if '1' in input(): ans = 2"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+      "originalInputHash": "d6df470ac9377e5ade57513bc8d4f592f8a3af7237bcc1a5bbe8536704ef1dca",
+      "originalTimeout": false,
+      "reason": "Discards the first row and treats the second row as an entire boundary row; any interior 1 there falsely triggers 2. Expected derivation: The sole good (2,2) in 3x3 needs four rectangles because each operation covers only one corner. Source trace: t consumes all-zero row1; line3 sees '1' in row2 and sets ans=2; skips else loop; line10 reads zero row3. Prints 2 and exits normally.",
+      "sourceHash": "f95812bce6798695ae42519a9dc162964d321abf95dae0f85dbfd62d2cc389d5",
+      "sourceRanges": [
+        [
+          2,
+          10
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/359/submission/5078966",
       "test": "0001"
     },
     "9357803": {
+      "LFActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "LFExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "LFInputHash": "6640f5a0f031627a3448f4bcb0d169236f7b67ea6db198df00b467ae9bd323f8",
+      "LFProofHash": "035bfab4f95be9e67c0fd9bbdefa8dd68b949b121864ab43facbb1ba91c9fc4c",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 10,
+          "lines": [
+            "\tcheck2 = [x + y for x, y in zip(a[0], a[-1])]",
+            "\tif any(x > 0 and y > 0 for x, y in zip(check2[: -1], check2[1: ])):",
+            "\t\treturn 2",
+            "\tcheckn = [sum(l) for l in zip(*a)]",
+            "\tif any(x > 0 and y > 0 for x, y in zip(check2[: -1], checkn[1: ])):",
+            "\t\treturn 3",
+            "\tif any(x > 0 and y > 0 for x, y in zip(checkn[: -1], check2[1: ])):",
+            "\t\treturn 3",
+            "\treturn 4"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "originalInputHash": "cdb9cc93c9b62c2c215400ee88a051460a3b716b6b6c770f454c9e649d5133cd",
+      "originalTimeout": false,
+      "reason": "Two operations are incorrectly conditioned on adjacent positive border entries; a single good border cell already suffices. Expected derivation: Sole good (4,50) in 5x50 can cover the board using rectangles to the two opposite-side corners (1,1),(5,1); minimum 2. Source trace: Original orientation: check2 is all zero, checkn has only column50=1: all conjunctions fail, returns4. Transpose: check2/checkn each have only position4 positive, no adjacent pair has both positive, so returns4. min(4,4)=4.",
+      "sourceHash": "24b789777cbfc92a62de34db0ae1c7d2b92a36fe09f2168563f448ba02a60621",
+      "sourceRanges": [
+        [
+          2,
+          10
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/359/submission/9357803",
       "test": "0004"
     }
   },
-  "incorrectAnalysis": {},
   "independentFreshRunHash": "062fe65cd7d37256e5b0c934a36ce39b4e7f0f71038043ed186a5528d1e0a81a",
   "independentLFReplayHash": "035bfab4f95be9e67c0fd9bbdefa8dd68b949b121864ab43facbb1ba91c9fc4c",
   "independentSemanticCheckHash": "a1184bc1cc70ef8c86db0a2ebe006b66c901ed34e0ef9a49feca3233222c28ce",
   "independentStressHash": "6b5dea8cd9820834e31a107586e26a9b677dbfad54d3d00ea8afd2b0f5dab3ec",
+  "originalExecutionEvidenceHash": "0345b2785cb64f5bbeff2a17f5e1154ae4e636b1988a281b6aed82aea0be175b",
   "packageHash": "e6b1afbf15b11c8338312ad36c52d4d2140273ed22a3c1bd6a1abe89ccd53ac8",
   "qualificationBasis": "generated",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -143,26 +303,25 @@
         "AC": 9,
         "WA": 11
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 11
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 11,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 11,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 10,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "4cd7c4a3d4267bd68e957af386afedd8dd25117ed46b36bb6ddf0fc54ce7b92c",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/359/submission/4968314",
       "submissionId": "4968314",
       "testVerdicts": {
@@ -178,7 +337,11 @@
           "0001"
         ],
         "origin": "tests/0001",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "originalExpectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "originalInputHash": "d6df470ac9377e5ade57513bc8d4f592f8a3af7237bcc1a5bbe8536704ef1dca",
+        "reason": "(j or i in [0,m-1]) treats any nonzero column index as a border, so interior cells trigger two.",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     },
@@ -187,26 +350,25 @@
         "AC": 5,
         "WA": 15
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 15
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 15,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 15,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 10,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "7642f0dc4d223b89472197e5f205ba9527172043f230780d5db02c9990ddaeb7",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/359/submission/4972548",
       "submissionId": "4972548",
       "testVerdicts": {
@@ -222,7 +384,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+        "originalExpectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+        "originalInputHash": "cdb9cc93c9b62c2c215400ee88a051460a3b716b6b6c770f454c9e649d5133cd",
+        "reason": "The comprehension reads only one interior row and repeats each cell n-2 times; bot reads row 3 rather than row n. Rows 4..n are ignored, and the border slice is not a valid row-border extraction.",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     },
@@ -231,26 +397,25 @@
         "AC": 11,
         "WA": 11
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0008",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 11
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 11,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 11,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 8,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "e04bf73bfae19fee04353e255d7632f54d225b1d6b47e9a2442d45ea49d3bc1e",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/359/submission/5003692",
       "submissionId": "5003692",
       "testVerdicts": {
@@ -267,7 +432,11 @@
           "0040"
         ],
         "origin": "tests/0040",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+        "originalExpectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+        "originalInputHash": "baf083e0447eeb9727b5be103cbbbb2b588359fa42ef522079094ddd9701f2fc",
+        "reason": "Never checks the top and bottom borders' interior columns.",
+        "selectedOriginalTest": "0008",
         "test": "lf-0040"
       }
     },
@@ -277,26 +446,25 @@
         "RE": 2,
         "WA": 8
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 8
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 8,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 8,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 7,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "f95812bce6798695ae42519a9dc162964d321abf95dae0f85dbfd62d2cc389d5",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/359/submission/5078966",
       "submissionId": "5078966",
       "testVerdicts": {
@@ -313,7 +481,11 @@
           "0001"
         ],
         "origin": "tests/0001",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "originalExpectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "originalInputHash": "d6df470ac9377e5ade57513bc8d4f592f8a3af7237bcc1a5bbe8536704ef1dca",
+        "reason": "Discards the first row and treats the second row as an entire boundary row; any interior 1 there falsely triggers 2.",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     },
@@ -322,26 +494,25 @@
         "AC": 1,
         "WA": 22
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 22
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 22,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 22,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "24b789777cbfc92a62de34db0ae1c7d2b92a36fe09f2168563f448ba02a60621",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/359/submission/9357803",
       "submissionId": "9357803",
       "testVerdicts": {
@@ -357,7 +528,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+        "originalExpectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+        "originalInputHash": "cdb9cc93c9b62c2c215400ee88a051460a3b716b6b6c770f454c9e649d5133cd",
+        "reason": "Two operations are incorrectly conditioned on adjacent positive border entries; a single good border cell already suffices.",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     }
@@ -365,14 +540,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 2,
+      "bytes": 816646,
+      "name": "batch-2-source-semantics-review.json",
+      "sha256": "37ab4aefa3b89e88955bddd18c024454d0b0b929d93e2f380e20f499ef9f0612"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "549cac165ea658b6c8a5a1e8bdcb0c41e52f906519f7c16e394a1cbb2fb5d256",
+  "sourceSemanticReviewPath": "source-review/proofs/359A.json",
   "stressCases": 40,
-  "testPairs": 214,
-  "unconfirmedSourceIds": [
-    "4968314",
-    "4972548",
-    "5003692",
-    "5078966",
-    "9357803"
-  ]
+  "testPairs": 214
 }

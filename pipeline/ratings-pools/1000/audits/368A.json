@@ -1,28 +1,219 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "e1ccb53cbb03c8062e41b2d0ba341f2316808e3e65d79ee96daa6948ef318a9d",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "190473695": {
+      "LFActualOutputHash": "662bcd118695bc8ed0a45b0b82ec9321052f3d3138f21c844fa4263f5dd3eb11",
+      "LFExpectedOutputHash": "2c17079b4da72e80c1875f7d2feefe79322a71544c5de1c838ee0230f3598312",
+      "LFInputHash": "180465f19b6e7df085f4453ceb1751411039287284b0164449a01dc02d503dfa",
+      "LFProofHash": "b2accbeee1b044b07c36312fb86b8cbb89dd187a6c4ed9210e9fd88ee434892a",
+      "exactSourceExcerpts": [
+        {
+          "first": 5,
+          "last": 9,
+          "lines": [
+            "sm= sum(arr)",
+            "# fd = ",
+            "ln = m-n",
+            "np = ln*d",
+            "print(sm-np)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "662bcd118695bc8ed0a45b0b82ec9321052f3d3138f21c844fa4263f5dd3eb11",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "9bdb6d5668b0cbc569ca4252f9e45857cccc0a868a63d617d34b464d858cf55c",
+      "originalInputHash": "066e88a7b77e6160aaff66c3b3edfa84c2a2a271a707295feed01272d4972e6a",
+      "originalTimeout": false,
+      "reason": "Charges every hook and applies a negative fine when m<n; only the m cheapest hooks should be used. Expected derivation: With 90 hooks and 49 guests, there is no fine. Sum of the 49 smallest prices is 1306. Source trace: sum(arr)=4214, ln=49-90=-41, np=-984; prints 4214-(-984)=5198.",
+      "sourceHash": "de28fb8d84936d4362298f74f6df728215c8756efbbcf5c1dcf81f655146de42",
+      "sourceRanges": [
+        [
+          5,
+          9
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/368/submission/190473695",
+      "test": "0016"
+    },
+    "190473908": {
+      "LFActualOutputHash": "d126eca42fc8cb7ebd871f967158acb6e5f9826a402d960a43db051ddef8b872",
+      "LFExpectedOutputHash": "434c9b5ae514646bbd91b50032ca579efec8f22bf0b4aac12e65997c418e0dd6",
+      "LFInputHash": "f23fa31e43e56a0f582db4286fe033b33a86d7f7239a0d6f10e212548e14d4a5",
+      "LFProofHash": "b2accbeee1b044b07c36312fb86b8cbb89dd187a6c4ed9210e9fd88ee434892a",
+      "exactSourceExcerpts": [
+        {
+          "first": 5,
+          "last": 14,
+          "lines": [
+            "sm= sum(arr)",
+            "# fd = ",
+            "ln = m-n",
+            "np = ln*d",
+            "# print(np)",
+            "# print(sm-np)",
+            "if (sm-np)==5198:",
+            "\tprint(1306)",
+            "else:",
+            "\tprint(sm-np)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "d126eca42fc8cb7ebd871f967158acb6e5f9826a402d960a43db051ddef8b872",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "abca10e5c0ff2b657c09cd50d7aa667175fe7a1402550d6c43547ebf49fa71d6",
+      "originalInputHash": "094b9e5ef57d1ef2cb71fe675ca1c0aa43254ae9b368a31efe974ec96f771420",
+      "originalTimeout": false,
+      "reason": "Still charges unused hooks and credits negative fines; the 5198 exception does not implement cheapest-hook selection. Expected derivation: 60 hooks, 9 guests, no fines. The nine smallest prices are 2,5,6,7,12,12,13,14,15 with sum86. Source trace: sum(arr)=2794, ln=9-60=-51, np=-3213; sm-np=6007, not5198, so else prints6007.",
+      "sourceHash": "0824bb568701d5eb1cad935dba2f9813c16fc8487bd7be205ccc9e63f1be94a1",
+      "sourceRanges": [
+        [
+          5,
+          14
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/368/submission/190473908",
+      "test": "0017"
+    },
+    "199004882": {
+      "LFActualOutputHash": "662bcd118695bc8ed0a45b0b82ec9321052f3d3138f21c844fa4263f5dd3eb11",
+      "LFExpectedOutputHash": "2c17079b4da72e80c1875f7d2feefe79322a71544c5de1c838ee0230f3598312",
+      "LFInputHash": "180465f19b6e7df085f4453ceb1751411039287284b0164449a01dc02d503dfa",
+      "LFProofHash": "b2accbeee1b044b07c36312fb86b8cbb89dd187a6c4ed9210e9fd88ee434892a",
+      "exactSourceExcerpts": [
+        {
+          "first": 10,
+          "last": 19,
+          "lines": [
+            "for i in arr:",
+            "  count += 1",
+            "  pay += i",
+            "  if count == len(arr):",
+            "    break",
+            "",
+            "for i in range(0,count):",
+            "  m -= 1",
+            "",
+            "pay -= d*m"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "662bcd118695bc8ed0a45b0b82ec9321052f3d3138f21c844fa4263f5dd3eb11",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "9bdb6d5668b0cbc569ca4252f9e45857cccc0a868a63d617d34b464d858cf55c",
+      "originalInputHash": "066e88a7b77e6160aaff66c3b3edfa84c2a2a271a707295feed01272d4972e6a",
+      "originalTimeout": false,
+      "reason": "Processes all hooks even when guests run out and subtracts d times a negative remaining guest count. Expected derivation: 90 hooks and49 guests: only49 cheapest hooks earn revenue, sum1306, with no fine. Source trace: count=90,pay=4214; ninety decrements make m=-41; pay-=24*(-41) gives5198.",
+      "sourceHash": "eef812c03ca28d1db4919ce5b5f5c1a5dddf9fb5c4a0cbff6be5c341d8e2f438",
+      "sourceRanges": [
+        [
+          10,
+          19
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/368/submission/199004882",
+      "test": "0016"
+    },
+    "199005690": {
+      "LFActualOutputHash": "ceea815ab262b1b477a610df8d3697c9f3dbb7344a6ff2dcd732855ca528cfd1",
+      "LFExpectedOutputHash": "2c17079b4da72e80c1875f7d2feefe79322a71544c5de1c838ee0230f3598312",
+      "LFInputHash": "180465f19b6e7df085f4453ceb1751411039287284b0164449a01dc02d503dfa",
+      "LFProofHash": "b2accbeee1b044b07c36312fb86b8cbb89dd187a6c4ed9210e9fd88ee434892a",
+      "exactSourceExcerpts": [
+        {
+          "first": 10,
+          "last": 14,
+          "lines": [
+            "for i in arr:",
+            "  count += 1",
+            "  pay += i",
+            "  if count == m:",
+            "    break"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "ceea815ab262b1b477a610df8d3697c9f3dbb7344a6ff2dcd732855ca528cfd1",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "9bdb6d5668b0cbc569ca4252f9e45857cccc0a868a63d617d34b464d858cf55c",
+      "originalInputHash": "066e88a7b77e6160aaff66c3b3edfa84c2a2a271a707295feed01272d4972e6a",
+      "originalTimeout": false,
+      "reason": "Uses input order rather than choosing minimum available price for each guest. Expected derivation: 49 guests among90 hooks pay the49 smallest prices:1306. Source trace: Stops after49 input entries; their sum is2265, m then becomes0, so no fine; prints2265.",
+      "sourceHash": "afc37f00c9c7a8f27f11aff5467f8557791bf06cfec51bf8f8906b43636ae654",
+      "sourceRanges": [
+        [
+          10,
+          14
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/368/submission/199005690",
+      "test": "0016"
+    },
+    "201649191": {
+      "LFActualOutputHash": "6e5e12563d35f886d3deaaf2ebab3c45485af5d77a9b78a23471fbb90250acda",
+      "LFExpectedOutputHash": "2c17079b4da72e80c1875f7d2feefe79322a71544c5de1c838ee0230f3598312",
+      "LFInputHash": "180465f19b6e7df085f4453ceb1751411039287284b0164449a01dc02d503dfa",
+      "LFProofHash": "b2accbeee1b044b07c36312fb86b8cbb89dd187a6c4ed9210e9fd88ee434892a",
+      "exactSourceExcerpts": [
+        {
+          "first": 5,
+          "last": 11,
+          "lines": [
+            "while hook >0 and geust >=0 : ",
+            "    mn = min(hook_prices)",
+            "    counter += mn ",
+            "    hook_prices[hook_prices.index(mn)] =101",
+            "    hook-= 1",
+            "    geust-=1",
+            "res = counter - (geust * d) "
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "6e5e12563d35f886d3deaaf2ebab3c45485af5d77a9b78a23471fbb90250acda",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "9bdb6d5668b0cbc569ca4252f9e45857cccc0a868a63d617d34b464d858cf55c",
+      "originalInputHash": "066e88a7b77e6160aaff66c3b3edfa84c2a2a271a707295feed01272d4972e6a",
+      "originalTimeout": false,
+      "reason": "geust>=0 allows a nonexistent 50th guest when geust=0; geust becomes -1 and the final subtraction adds a fine instead. Expected derivation: 49 real guests pay the49 smallest prices sum1306, no fine. The50th cheapest price is48 and must not be charged. Source trace: The loop runs50 times: counter=1306+48=1354; geust=-1, so res=1354-(-1*24)=1378.",
+      "sourceHash": "3abc9e06acde8caf49c5f9cd0aa5f37984931592ba03dd106ccab853a1362793",
+      "sourceRanges": [
+        [
+          5,
+          11
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/368/submission/201649191",
+      "test": "0016"
+    }
+  },
   "independentFreshRunHash": "b09d0c644cb2b7f5502fca78b4a98c2514f1841b10ca8c9a4295f9ea34331efd",
   "independentLFReplayHash": "b2accbeee1b044b07c36312fb86b8cbb89dd187a6c4ed9210e9fd88ee434892a",
   "independentSemanticCheckHash": "9135492384ebb16fe6f726fb157454b5fc7a5e5015fafff89e2e7bcf01385e93",
   "independentStressHash": "77803108324299863e94e0c26dc7871407e5430f9a8efde606e04ed455e56df0",
+  "originalExecutionEvidenceHash": "e1ccb53cbb03c8062e41b2d0ba341f2316808e3e65d79ee96daa6948ef318a9d",
   "packageHash": "9d8dafcd9b40563f00ed64ce1503b3eb4f3e1dcbed1d3c0c0ba1336cfccb71f7",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -109,26 +300,25 @@
         "AC": 10,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0016",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "de28fb8d84936d4362298f74f6df728215c8756efbbcf5c1dcf81f655146de42",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/368/submission/190473695",
       "submissionId": "190473695",
       "testVerdicts": {
@@ -144,7 +334,11 @@
           "0016"
         ],
         "origin": "tests/0016",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "662bcd118695bc8ed0a45b0b82ec9321052f3d3138f21c844fa4263f5dd3eb11",
+        "originalExpectedOutputHash": "9bdb6d5668b0cbc569ca4252f9e45857cccc0a868a63d617d34b464d858cf55c",
+        "originalInputHash": "066e88a7b77e6160aaff66c3b3edfa84c2a2a271a707295feed01272d4972e6a",
+        "reason": "Charges every hook and applies a negative fine when m<n; only the m cheapest hooks should be used.",
+        "selectedOriginalTest": "0016",
         "test": "lf-0016"
       }
     },
@@ -153,26 +347,25 @@
         "AC": 10,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0017",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "0824bb568701d5eb1cad935dba2f9813c16fc8487bd7be205ccc9e63f1be94a1",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/368/submission/190473908",
       "submissionId": "190473908",
       "testVerdicts": {
@@ -188,7 +381,11 @@
           "0017"
         ],
         "origin": "tests/0017",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "d126eca42fc8cb7ebd871f967158acb6e5f9826a402d960a43db051ddef8b872",
+        "originalExpectedOutputHash": "abca10e5c0ff2b657c09cd50d7aa667175fe7a1402550d6c43547ebf49fa71d6",
+        "originalInputHash": "094b9e5ef57d1ef2cb71fe675ca1c0aa43254ae9b368a31efe974ec96f771420",
+        "reason": "Still charges unused hooks and credits negative fines; the 5198 exception does not implement cheapest-hook selection.",
+        "selectedOriginalTest": "0017",
         "test": "lf-0017"
       }
     },
@@ -197,26 +394,25 @@
         "AC": 10,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0016",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "eef812c03ca28d1db4919ce5b5f5c1a5dddf9fb5c4a0cbff6be5c341d8e2f438",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/368/submission/199004882",
       "submissionId": "199004882",
       "testVerdicts": {
@@ -232,7 +428,11 @@
           "0016"
         ],
         "origin": "tests/0016",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "662bcd118695bc8ed0a45b0b82ec9321052f3d3138f21c844fa4263f5dd3eb11",
+        "originalExpectedOutputHash": "9bdb6d5668b0cbc569ca4252f9e45857cccc0a868a63d617d34b464d858cf55c",
+        "originalInputHash": "066e88a7b77e6160aaff66c3b3edfa84c2a2a271a707295feed01272d4972e6a",
+        "reason": "Processes all hooks even when guests run out and subtracts d times a negative remaining guest count.",
+        "selectedOriginalTest": "0016",
         "test": "lf-0016"
       }
     },
@@ -241,26 +441,25 @@
         "AC": 10,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0016",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "afc37f00c9c7a8f27f11aff5467f8557791bf06cfec51bf8f8906b43636ae654",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/368/submission/199005690",
       "submissionId": "199005690",
       "testVerdicts": {
@@ -276,7 +475,11 @@
           "0016"
         ],
         "origin": "tests/0016",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "ceea815ab262b1b477a610df8d3697c9f3dbb7344a6ff2dcd732855ca528cfd1",
+        "originalExpectedOutputHash": "9bdb6d5668b0cbc569ca4252f9e45857cccc0a868a63d617d34b464d858cf55c",
+        "originalInputHash": "066e88a7b77e6160aaff66c3b3edfa84c2a2a271a707295feed01272d4972e6a",
+        "reason": "Uses input order rather than choosing minimum available price for each guest.",
+        "selectedOriginalTest": "0016",
         "test": "lf-0016"
       }
     },
@@ -285,26 +488,25 @@
         "AC": 10,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0016",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "3abc9e06acde8caf49c5f9cd0aa5f37984931592ba03dd106ccab853a1362793",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/368/submission/201649191",
       "submissionId": "201649191",
       "testVerdicts": {
@@ -320,7 +522,11 @@
           "0016"
         ],
         "origin": "tests/0016",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "6e5e12563d35f886d3deaaf2ebab3c45485af5d77a9b78a23471fbb90250acda",
+        "originalExpectedOutputHash": "9bdb6d5668b0cbc569ca4252f9e45857cccc0a868a63d617d34b464d858cf55c",
+        "originalInputHash": "066e88a7b77e6160aaff66c3b3edfa84c2a2a271a707295feed01272d4972e6a",
+        "reason": "geust>=0 allows a nonexistent 50th guest when geust=0; geust becomes -1 and the final subtraction adds a fine instead.",
+        "selectedOriginalTest": "0016",
         "test": "lf-0016"
       }
     }
@@ -328,14 +534,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 2,
+      "bytes": 816646,
+      "name": "batch-2-source-semantics-review.json",
+      "sha256": "37ab4aefa3b89e88955bddd18c024454d0b0b929d93e2f380e20f499ef9f0612"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "c50d2d942acb3e42cfef23330a3ea36595c14ffe461a9308e48e6d40b9bc5307",
+  "sourceSemanticReviewPath": "source-review/proofs/368A.json",
   "stressCases": 40,
-  "testPairs": 98,
-  "unconfirmedSourceIds": [
-    "190473695",
-    "190473908",
-    "199004882",
-    "199005690",
-    "201649191"
-  ]
+  "testPairs": 98
 }

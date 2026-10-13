@@ -1,62 +1,217 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
-    "algorithmicallyWrong": false,
+    "algorithmicallyWrong": true,
     "coverage": true,
     "deterministicGeneration": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "generatedBasis": true,
     "hashes": true,
     "independentOracle": true,
     "inputConstraints": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "ee1b90bbbc376fab42543b29bafdb185370248854457812fc4d6a164957b8fd8",
   "generatedQualificationHash": "1eb94111e3fda467fb70628ff9bdddbf907e9cbd5d6fa8d315dff6fa8520fd85",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
-  "historicalIncorrectAnalysis": {
+  "incorrectAnalysis": {
     "4052624": {
+      "LFActualOutputHash": "b7ea1f3c2d566646713b53bd09d64591fe6d4c8b5341a5f27e4523b1bae289c8",
+      "LFExpectedOutputHash": "7bd7df1a31049cd71ae13cd2097a04efad83aa634963236227cec39eef3a2588",
+      "LFInputHash": "da3f0a5e322bf0fbcd6e19fe1510151c069719e497bcafabd07effcefc0c7688",
+      "LFProofHash": "b3d7457ad0f3079e19d32a417b3928a10ed7b740d1f4f144b691e96857fcf379",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 16,
+          "lines": [
+            "c=0",
+            "maxx=0",
+            "answer=1",
+            "for i in range(n-1):",
+            "    if(s[i]!=s[i+1]):",
+            "        c=1",
+            "        answer+=1",
+            "    else:",
+            "        c+=1",
+            "    if(c>maxx):",
+            "        maxx=c"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "b7ea1f3c2d566646713b53bd09d64591fe6d4c8b5341a5f27e4523b1bae289c8",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "987c88acd20069170636a20695a01e241c86924212827627e0be586b8b78d75c",
+      "originalInputHash": "1a2f14e66aca202a3f2ae3356a3fa5717679f38a86623d6be250fb1fcbfa6866",
+      "originalTimeout": false,
+      "reason": "Initial c=0 fails to count the first bar in the first sorted run. Expected derivation: Lengths1,1,2,3 form towers of heights2,1,1: maximum2, total3. Source trace: Sorted string list['1','1','2','3']; first equality raises c only to1; subsequent transitions set c=1 and answer to3. maxx remains1, output1 3.",
+      "sourceHash": "ccdd3d35d0b029c64d977095c9f513b0865967327b112cde4ff1efd226197ba6",
+      "sourceRanges": [
+        [
+          6,
+          16
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/37/submission/4052624",
       "test": "0003"
     },
     "7975977": {
+      "LFActualOutputHash": "eacca93cd3b11a40864285005ba01a16b5b6dfe3abfed6148091e2e125cb7589",
+      "LFExpectedOutputHash": "83345d8d745842ce5795c90845f5f10586e061b7a4e9da0f739d259f3cc585a1",
+      "LFInputHash": "aa94db87fe8a5364c4efcf67b144f6e745ba75441248fbe3b1cf6d7be6adeb76",
+      "LFProofHash": "b3d7457ad0f3079e19d32a417b3928a10ed7b740d1f4f144b691e96857fcf379",
+      "exactSourceExcerpts": [
+        {
+          "first": 16,
+          "last": 21,
+          "lines": [
+            "    else:",
+            "        c = i",
+            "        r += 1",
+            "        if(cnt > vmax):",
+            "            vmax = cnt",
+            "            cnt = 0"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "eacca93cd3b11a40864285005ba01a16b5b6dfe3abfed6148091e2e125cb7589",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "950a6fc35d1151a4eec4ae1393ea3fa473ad25bf98feec05a0485501980233fd",
+      "originalInputHash": "361685f2be5e3ff18aeceab91905bb815a2cdf3b4f131d575beaccf0fcc56da9",
+      "originalTimeout": false,
+      "reason": "On transitions it resets cnt only when a new record is set and sets it to0 rather than1; otherwise old counts carry into unrelated lengths. Expected derivation: Only lengths8,19,111,153,225,228 occur twice; all others once. There are63 bars minus6 duplicates=57 distinct towers; max frequency2. Source trace: The 8-pair makes cnt2 and updates vmax2 on transition to17, resetting cnt0. The19-pair raises cnt to1; the111-pair raises it to2, which is not >vmax, so it is not reset. The153-pair raises cnt3 and updates vmax3 at155. Remaining pairs never exceed3; r correctly reaches57. Output3 57.",
+      "sourceHash": "a4e590fe3f392a48d9bbd379231a2d574e8b07172d520ea563849a1077130179",
+      "sourceRanges": [
+        [
+          16,
+          21
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/37/submission/7975977",
       "test": "0008"
     },
     "8554964": {
+      "LFActualOutputHash": "3aebd7327cb0c84b85ce4dfd301187d864a30cd0980162ef877d9e78be39d47f",
+      "LFExpectedOutputHash": "020a7c91e30725bb191818987340dec6040aff93923840de685e1e1d7b3d071a",
+      "LFInputHash": "c72e95a6898a9ce2f7ab9cb8c795d687c69aae4a8f39828f13e8e669d097357d",
+      "LFProofHash": "b3d7457ad0f3079e19d32a417b3928a10ed7b740d1f4f144b691e96857fcf379",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 11,
+          "lines": [
+            "m = -1",
+            "c = 1",
+            "for i in range(1,n):",
+            "    if a[i] == a[i-1]:",
+            "        c += 1",
+            "    else:",
+            "        c = 1",
+            "    m = max(m,c)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "3aebd7327cb0c84b85ce4dfd301187d864a30cd0980162ef877d9e78be39d47f",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "2b0f5fbcc0989e147be531c252d960cdf037cd28b8357c6a9d1cb2b6208eea2e",
+      "originalInputHash": "bb8405b02408a02fb72095e496b38066481c5ca87e1774bfe6fde63218ba7840",
+      "originalTimeout": false,
+      "reason": "m starts at -1 and is updated only inside range(1,n); n=1 leaves it unchanged. Expected derivation: One bar of length1000 forms exactly one tower of height1, so1 1. Source trace: n=1 makes loop empty; m remains-1; len(set(a))=1, output-1 1.",
+      "sourceHash": "1bab7ca71fd0626ead316acc6814c5d90bd59615239c0caac6c69967339520f8",
+      "sourceRanges": [
+        [
+          4,
+          11
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/37/submission/8554964",
       "test": "0011"
     },
     "9383007": {
+      "LFActualOutputHash": "01215714cbaa7c659e2e20347997b3c4d1b64a6f963d27d7eeed8fdaa423367f",
+      "LFExpectedOutputHash": "6b57f59458128182871144e01e39075371a9dee82d4ffdad40b8095dbb37ba4b",
+      "LFInputHash": "649fa159499715a0828fdbc8447fb01f9080912d22bd10ecefdcf0c82823199d",
+      "LFProofHash": "b3d7457ad0f3079e19d32a417b3928a10ed7b740d1f4f144b691e96857fcf379",
+      "exactSourceExcerpts": [
+        {
+          "first": 1,
+          "last": 1,
+          "lines": [
+            "l = int(input()); b = list(map(int,input().split())); s = len(set(b)); print(l-s+1,s)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "01215714cbaa7c659e2e20347997b3c4d1b64a6f963d27d7eeed8fdaa423367f",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "6e46d02014b005c33a0583627597f9ed26d48d4ef98784b86296fe7f30e5d605",
+      "originalInputHash": "14a8c982883db03dd37fd242de708cf14bca20ae6b506100c16fbb051cfff486",
+      "originalTimeout": false,
+      "reason": "All duplicate bars need not belong to one length; summing duplicate excesses exaggerates the tallest tower. Expected derivation: 25 bars;47 and116 each occur twice, all others once. Max tower2, distinct25-2=23. Source trace: l=25,s=23; prints l-s+1=3 followed by23.",
+      "sourceHash": "decd76a2edbd22c75f26b4ed2516f85bd108d1e12048ac75344d50bf6c4e4a4c",
+      "sourceRanges": [
+        [
+          1,
+          1
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/37/submission/9383007",
       "test": "0006"
     },
     "9944920": {
+      "LFActualOutputHash": "b7ea1f3c2d566646713b53bd09d64591fe6d4c8b5341a5f27e4523b1bae289c8",
+      "LFExpectedOutputHash": "7bd7df1a31049cd71ae13cd2097a04efad83aa634963236227cec39eef3a2588",
+      "LFInputHash": "da3f0a5e322bf0fbcd6e19fe1510151c069719e497bcafabd07effcefc0c7688",
+      "LFProofHash": "b3d7457ad0f3079e19d32a417b3928a10ed7b740d1f4f144b691e96857fcf379",
+      "exactSourceExcerpts": [
+        {
+          "first": 16,
+          "last": 18,
+          "lines": [
+            "    if l[i]*l.count(p)>hight:",
+            "        number=l.count(p)",
+            "        hight=l[i]*l.count(p)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "b7ea1f3c2d566646713b53bd09d64591fe6d4c8b5341a5f27e4523b1bae289c8",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "987c88acd20069170636a20695a01e241c86924212827627e0be586b8b78d75c",
+      "originalInputHash": "1a2f14e66aca202a3f2ae3356a3fa5717679f38a86623d6be250fb1fcbfa6866",
+      "originalTimeout": false,
+      "reason": "Optimizes l[i]*count rather than the requested number of bars in the largest tower. Expected derivation: Lengths3,2,1,1 form count-heights1,1,2; maximum2 and distinct3. Source trace: First length3 sets hight=3,number=1; length2 product2 and length1 product2 cannot beat3. Outputs1 3 despite the two-bar tower.",
+      "sourceHash": "c16872054d448a81b9584a7930a15b505c2a05c42e7aef74c286e637c9fedc4e",
+      "sourceRanges": [
+        [
+          16,
+          18
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/37/submission/9944920",
       "test": "0003"
     }
   },
-  "incorrectAnalysis": {},
   "independentFreshRunHash": "b5b96039b8d997677a7e6d063220c2d6fdac6281bbc6374a726b76f6b713f99e",
   "independentLFReplayHash": "b3d7457ad0f3079e19d32a417b3928a10ed7b740d1f4f144b691e96857fcf379",
   "independentSemanticCheckHash": "caa8971008045a6a57b73e70e381227699e83ecc8f768b7812c62e211da318e7",
   "independentStressHash": "28042ad166cd9ea3b4a4828930af9b15e3c1934038ca590b5161883ea470bf83",
+  "originalExecutionEvidenceHash": "ee1b90bbbc376fab42543b29bafdb185370248854457812fc4d6a164957b8fd8",
   "packageHash": "508d7b69a280220f9bf8f8bb18dfed137e4470ea4c9a6b0976d067698243537d",
   "qualificationBasis": "generated",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -143,26 +298,25 @@
         "AC": 10,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "ccdd3d35d0b029c64d977095c9f513b0865967327b112cde4ff1efd226197ba6",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/37/submission/4052624",
       "submissionId": "4052624",
       "testVerdicts": {
@@ -178,7 +332,11 @@
           "0003"
         ],
         "origin": "tests/0003",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "b7ea1f3c2d566646713b53bd09d64591fe6d4c8b5341a5f27e4523b1bae289c8",
+        "originalExpectedOutputHash": "987c88acd20069170636a20695a01e241c86924212827627e0be586b8b78d75c",
+        "originalInputHash": "1a2f14e66aca202a3f2ae3356a3fa5717679f38a86623d6be250fb1fcbfa6866",
+        "reason": "Initial c=0 fails to count the first bar in the first sorted run.",
+        "selectedOriginalTest": "0003",
         "test": "lf-0003"
       }
     },
@@ -187,26 +345,25 @@
         "AC": 8,
         "WA": 5
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0008",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 5
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 5,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 5,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 3,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "a4e590fe3f392a48d9bbd379231a2d574e8b07172d520ea563849a1077130179",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/37/submission/7975977",
       "submissionId": "7975977",
       "testVerdicts": {
@@ -222,7 +379,11 @@
           "0008"
         ],
         "origin": "tests/0008",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "eacca93cd3b11a40864285005ba01a16b5b6dfe3abfed6148091e2e125cb7589",
+        "originalExpectedOutputHash": "950a6fc35d1151a4eec4ae1393ea3fa473ad25bf98feec05a0485501980233fd",
+        "originalInputHash": "361685f2be5e3ff18aeceab91905bb815a2cdf3b4f131d575beaccf0fcc56da9",
+        "reason": "On transitions it resets cnt only when a new record is set and sets it to0 rather than1; otherwise old counts carry into unrelated lengths.",
+        "selectedOriginalTest": "0008",
         "test": "lf-0008"
       }
     },
@@ -231,26 +392,25 @@
         "AC": 10,
         "WA": 10
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0011",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 10
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 10,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 10,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 10,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "1bab7ca71fd0626ead316acc6814c5d90bd59615239c0caac6c69967339520f8",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/37/submission/8554964",
       "submissionId": "8554964",
       "testVerdicts": {
@@ -266,7 +426,11 @@
           "0011"
         ],
         "origin": "tests/0011",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "3aebd7327cb0c84b85ce4dfd301187d864a30cd0980162ef877d9e78be39d47f",
+        "originalExpectedOutputHash": "2b0f5fbcc0989e147be531c252d960cdf037cd28b8357c6a9d1cb2b6208eea2e",
+        "originalInputHash": "bb8405b02408a02fb72095e496b38066481c5ca87e1774bfe6fde63218ba7840",
+        "reason": "m starts at -1 and is updated only inside range(1,n); n=1 leaves it unchanged.",
+        "selectedOriginalTest": "0011",
         "test": "lf-0011"
       }
     },
@@ -275,26 +439,25 @@
         "AC": 5,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0006",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 8,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "decd76a2edbd22c75f26b4ed2516f85bd108d1e12048ac75344d50bf6c4e4a4c",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/37/submission/9383007",
       "submissionId": "9383007",
       "testVerdicts": {
@@ -310,7 +473,11 @@
           "0006"
         ],
         "origin": "tests/0006",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "01215714cbaa7c659e2e20347997b3c4d1b64a6f963d27d7eeed8fdaa423367f",
+        "originalExpectedOutputHash": "6e46d02014b005c33a0583627597f9ed26d48d4ef98784b86296fe7f30e5d605",
+        "originalInputHash": "14a8c982883db03dd37fd242de708cf14bca20ae6b506100c16fbb051cfff486",
+        "reason": "All duplicate bars need not belong to one length; summing duplicate excesses exaggerates the tallest tower.",
+        "selectedOriginalTest": "0006",
         "test": "lf-0006"
       }
     },
@@ -319,26 +486,25 @@
         "AC": 7,
         "WA": 15
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 15
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 15,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 15,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "c16872054d448a81b9584a7930a15b505c2a05c42e7aef74c286e637c9fedc4e",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/37/submission/9944920",
       "submissionId": "9944920",
       "testVerdicts": {
@@ -354,7 +520,11 @@
           "0003"
         ],
         "origin": "tests/0003",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "b7ea1f3c2d566646713b53bd09d64591fe6d4c8b5341a5f27e4523b1bae289c8",
+        "originalExpectedOutputHash": "987c88acd20069170636a20695a01e241c86924212827627e0be586b8b78d75c",
+        "originalInputHash": "1a2f14e66aca202a3f2ae3356a3fa5717679f38a86623d6be250fb1fcbfa6866",
+        "reason": "Optimizes l[i]*count rather than the requested number of bars in the largest tower.",
+        "selectedOriginalTest": "0003",
         "test": "lf-0003"
       }
     }
@@ -362,14 +532,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 2,
+      "bytes": 816646,
+      "name": "batch-2-source-semantics-review.json",
+      "sha256": "37ab4aefa3b89e88955bddd18c024454d0b0b929d93e2f380e20f499ef9f0612"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "b1ac49df1e43b6d159002a3e4bdf71758f7631b847f0579d0769c6d99c2ba645",
+  "sourceSemanticReviewPath": "source-review/proofs/37A.json",
   "stressCases": 40,
-  "testPairs": 211,
-  "unconfirmedSourceIds": [
-    "4052624",
-    "7975977",
-    "8554964",
-    "9383007",
-    "9944920"
-  ]
+  "testPairs": 211
 }

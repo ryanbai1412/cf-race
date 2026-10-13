@@ -1,6 +1,6 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
+  "algorithmicIncorrectKilled": 3,
   "approved": false,
   "checks": {
     "coverage": true,
@@ -12,16 +12,121 @@
     "sourceAttribution": true
   },
   "evidenceHash": "71dca1dbeb74bd59c7906ca3a2f762bf16b4c976e2eebb56e46b7f9092f620d5",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "12926079": {
+      "LFActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "LFExpectedOutputHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "LFInputHash": "6cbef959b6a25ce522a4e3f5bc3d5473a9bc667e0ace139e252317b781901679",
+      "LFProofHash": "1bf30243498775e49e3389758e48950121fbe8c343d2812e7db9f76d9d51a88d",
+      "exactSourceExcerpts": [
+        {
+          "first": 39,
+          "last": 40,
+          "lines": [
+            " for (ll i = 1; i <= n; i++){",
+            "  if (x % i == 0 && x <= i * (n + 1)) ans++;"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "originalInputHash": "84aa9dbab8d5fc0380b39c19a171089334cba94d4796ad207a6cce3845265943",
+      "originalTimeout": false,
+      "reason": "x<=i*(n+1) permits column n+1; correct bound is x<=i*n. Expected derivation: For n=2, all cells are 1,2,2,4. None is6, so count0. Source trace: i=1 divides6 but6<=3 is false; i=2 divides6 and6<=6 is true, so ans=1. It counts nonexistent column3 in row2. Extra cin after output reaches EOF; supplied execution exits0 normally.",
+      "sourceHash": "5abe22dfa9b70e831a06dfd8c1ddbd4ca4cabc81dcabdc548f51ef1943a28233",
+      "sourceRanges": [
+        [
+          39,
+          40
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/577/submission/12926079",
+      "test": "0042"
+    },
+    "12926104": {
+      "LFActualOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+      "LFExpectedOutputHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "LFInputHash": "aca8cbbe96ba89bf0fd068d4b4069213909923c48085dca9e63b124bc1544bcb",
+      "LFProofHash": "1bf30243498775e49e3389758e48950121fbe8c343d2812e7db9f76d9d51a88d",
+      "exactSourceExcerpts": [
+        {
+          "first": 47,
+          "last": 50,
+          "lines": [
+            "            if(i<=n&&x/i<=n)",
+            "                ans+=2;",
+            "            if(i==x/i)",
+            "                ans--;"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "originalInputHash": "f2efb760341c2aa3a18bf13648da6cfc01371e47b176e62e1a557585ec32e8ad",
+      "originalTimeout": false,
+      "reason": "Square correction ans-- is applied even when the factor pair failed the n bounds and nothing was added. Expected derivation: A1x1 table contains only1, not4, so count0. Source trace: For x4, i1 has complement4>n and adds0. i2 divides4 but i2>n, so adds0; i==x/i is nevertheless true and decrements0 to-1. Prints-1.",
+      "sourceHash": "a8e61da5631e2777c671f18ba362993fae30d92ed3c546441e041c8734566d87",
+      "sourceRanges": [
+        [
+          47,
+          50
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/577/submission/12926104",
+      "test": "0010"
+    },
+    "12926346": {
+      "LFActualOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+      "LFExpectedOutputHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "LFInputHash": "aca8cbbe96ba89bf0fd068d4b4069213909923c48085dca9e63b124bc1544bcb",
+      "LFProofHash": "1bf30243498775e49e3389758e48950121fbe8c343d2812e7db9f76d9d51a88d",
+      "exactSourceExcerpts": [
+        {
+          "first": 13,
+          "last": 16,
+          "lines": [
+            "  if(i<=n && (x/i)<=n)",
+            "  cnt+=2;",
+            "  if(i*i == x)",
+            "  cnt--;"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "originalInputHash": "f2efb760341c2aa3a18bf13648da6cfc01371e47b176e62e1a557585ec32e8ad",
+      "originalTimeout": false,
+      "reason": "cnt-- for i*i==x happens even when i>n and no valid square cell was counted. Expected derivation: A1x1 multiplication table contains only1; x4 occurs zero times. Source trace: i1 does not add because4>n. i2 does not add because2>n, then i*i==4 decrements cnt from0 to-1. Source prints-1.",
+      "sourceHash": "7f746f7e641d5f9e9fb0cfc8e24b383fa6dafb958b1f26b0da36db778e3dc25b",
+      "sourceRanges": [
+        [
+          13,
+          16
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/577/submission/12926346",
+      "test": "0010"
+    }
+  },
   "independentFreshRunHash": "e584f4f2dce019fcb94787f21987e95e728e93fa510373edbdec17ff7cad010d",
   "independentLFReplayHash": "1bf30243498775e49e3389758e48950121fbe8c343d2812e7db9f76d9d51a88d",
   "independentSemanticCheckHash": "f1b04d906b64984d723caf2d320d1c1cdc7f21e83670d1fe4b0febc252a525f8",
   "independentStressHash": "4119578421c7ac28902dc5d9a5110490dc49c0165bcc3649eb3c5ab44f94cbe1",
+  "originalExecutionEvidenceHash": "71dca1dbeb74bd59c7906ca3a2f762bf16b4c976e2eebb56e46b7f9092f620d5",
   "packageHash": "286e65c397681c278c31bb3d5caab4802d1173f41c5e6c25f161bec979f0a179",
   "qualificationBasis": "official",
   "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
+    "12926294: reviewer-reject",
+    "12926306: reviewer-reject"
   ],
   "references": [
     {
@@ -109,26 +214,25 @@
         "AC": 10,
         "WA": 3
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0042",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 3
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 3,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "GNU C++11",
       "normalWrongAnswerCount": 3,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 3,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "5abe22dfa9b70e831a06dfd8c1ddbd4ca4cabc81dcabdc548f51ef1943a28233",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/577/submission/12926079",
       "submissionId": "12926079",
       "testVerdicts": {
@@ -144,7 +248,11 @@
           "0042"
         ],
         "origin": "tests/0042",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "originalExpectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+        "originalInputHash": "84aa9dbab8d5fc0380b39c19a171089334cba94d4796ad207a6cce3845265943",
+        "reason": "x<=i*(n+1) permits column n+1; correct bound is x<=i*n.",
+        "selectedOriginalTest": "0042",
         "test": "lf-0042"
       }
     },
@@ -153,26 +261,25 @@
         "AC": 10,
         "WA": 3
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0010",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 3
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 3,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "GNU C++11",
       "normalWrongAnswerCount": 3,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 3,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "a8e61da5631e2777c671f18ba362993fae30d92ed3c546441e041c8734566d87",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/577/submission/12926104",
       "submissionId": "12926104",
       "testVerdicts": {
@@ -188,7 +295,11 @@
           "0010"
         ],
         "origin": "tests/0010",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+        "originalExpectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+        "originalInputHash": "f2efb760341c2aa3a18bf13648da6cfc01371e47b176e62e1a557585ec32e8ad",
+        "reason": "Square correction ans-- is applied even when the factor pair failed the n bounds and nothing was added.",
+        "selectedOriginalTest": "0010",
         "test": "lf-0010"
       }
     },
@@ -202,21 +313,23 @@
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 19
+        "source-reviewed defect with included normal-exit wrong answer": 0
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
+      "exclusionReason": "reviewer-reject: {'definedSourceArithmeticTraceExplainsRecordedAnswer': False, 'rejectDoesNotAssertAbsenceOfAnySourceBug': True, 'rejectReason': 'Reject: normal termination exists, but does not establish a deterministic mathematical error rather than ABI/input-format incompatibility and undefined state. No new run or invented state is used.'}",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 19,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "GNU C++11",
       "normalWrongAnswerCount": 19,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-semantics-reject",
       "packageWitnessCount": 14,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "c2d487b35bb83ac0deb3438ac9ab72abd0499f0e5b6745055b97a5df55af3b25",
+      "sourceSemanticExclusionReasons": [
+        "reviewer-reject"
+      ],
+      "sourceSemanticReviewStatus": "reject",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/577/submission/12926294",
       "submissionId": "12926294",
       "testVerdicts": {
@@ -245,21 +358,23 @@
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 23
+        "source-reviewed defect with included normal-exit wrong answer": 0
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
+      "exclusionReason": "reviewer-reject: {'definedSourceArithmeticTraceExplainsRecordedAnswer': False, 'rejectDoesNotAssertAbsenceOfAnySourceBug': True, 'rejectReason': 'Reject: output padding alone is irrelevant, but the observed incorrect value is confounded by nonportable input/output specifiers and undefined state; no complete causal source arithmetic proof is available.'}",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 23,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "GNU C++11",
       "normalWrongAnswerCount": 23,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-semantics-reject",
       "packageWitnessCount": 15,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "4c95c99b4dd401d2909d0c0d176e73aa773deecf5b4c30312ed8cc539284bac4",
+      "sourceSemanticExclusionReasons": [
+        "reviewer-reject"
+      ],
+      "sourceSemanticReviewStatus": "reject",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/577/submission/12926306",
       "submissionId": "12926306",
       "testVerdicts": {
@@ -284,26 +399,25 @@
         "AC": 10,
         "WA": 3
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0010",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 3
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 3,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "GNU C++11",
       "normalWrongAnswerCount": 3,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 3,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "7f746f7e641d5f9e9fb0cfc8e24b383fa6dafb958b1f26b0da36db778e3dc25b",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/577/submission/12926346",
       "submissionId": "12926346",
       "testVerdicts": {
@@ -319,7 +433,11 @@
           "0010"
         ],
         "origin": "tests/0010",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+        "originalExpectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+        "originalInputHash": "f2efb760341c2aa3a18bf13648da6cfc01371e47b176e62e1a557585ec32e8ad",
+        "reason": "cnt-- for i*i==x happens even when i>n and no valid square cell was counted.",
+        "selectedOriginalTest": "0010",
         "test": "lf-0010"
       }
     }
@@ -327,14 +445,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 3,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 3,
+      "bytes": 840772,
+      "name": "batch-3-source-semantics-report.json",
+      "sha256": "13a95ff57fc4d6b97aec98a2cea133fcb944543e9d5421886be5e8b7bb7631a9"
+    }
+  ],
+  "sourceReviewStatus": "reject",
+  "sourceSemanticReviewHash": "d8cecf0dc05d003a9424b9281c15ee4687be140c2fb2593b65dcd3f8ca15cf30",
+  "sourceSemanticReviewPath": "source-review/proofs/577A.json",
   "stressCases": 40,
-  "testPairs": 77,
-  "unconfirmedSourceIds": [
-    "12926079",
-    "12926104",
-    "12926294",
-    "12926306",
-    "12926346"
-  ]
+  "testPairs": 77
 }

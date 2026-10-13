@@ -1,28 +1,226 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 4,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "da579d3c6b97eb709f5a1621205a6708e88ca09bd2dec2474cfe48f9bda34d10",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "4696305": {
+      "LFActualOutputHash": "8c3011103730c3e04f9869c71a03b6d8e2425e5cbfe9cdf87b22f87c8ef94e99",
+      "LFExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+      "LFInputHash": "c5a7f4c253fb7de88fba5fab1ddcb54e3261fed258c6dd8a96afca4a4cb77928",
+      "LFProofHash": "b9b8f065b5095cc5c858caa83c01a1b463cefdccd32608b81dc8f824889ab759",
+      "exactSourceExcerpts": [
+        {
+          "first": 14,
+          "last": 17,
+          "lines": [
+            "        if c1 != a + c or c2 != b + d or d2 != b + c: print(-1)",
+            "        else:",
+            "            print(a, b)",
+            "            print(c, d)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "8c3011103730c3e04f9869c71a03b6d8e2425e5cbfe9cdf87b22f87c8ef94e99",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577",
+      "originalInputHash": "0807724c4629a927181a7f658e9a1f0cfffb6cb9b3ef1ac14992cdf9e08d9d85",
+      "originalTimeout": false,
+      "reason": "line 14 consistency check lacks `1<=x<=9` and distinctness tests before printing (lines 16-17) Expected derivation: Grid [[a,b],[c,d]] of DISTINCT digits 1..9 with a+b=r1, c+d=r2, a+c=c1, b+d=c2, a+d=d1, b+c=d2; the linear system fixes a uniquely, so the answer (if any) is unique, else -1. 10 10/10 10/10 10: only solution of the linear system is a=b=c=d=5, not distinct -> -1. Source trace: a=(10+10-10)/2=5, b=5, d=5, c=5; c1=10=a+c, c2=10=b+d, d2=10=b+c -> prints '5 5\\n5 5'.",
+      "sourceHash": "e62c9b352c4b6ea18afe502e8088c98a01373a97a3f71dc90cd09ffc7831c6e8",
+      "sourceRanges": [
+        [
+          14,
+          17
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/143/submission/4696305",
+      "test": "0004"
+    },
+    "5458882": {
+      "LFActualOutputHash": "3eb801a8127c1d8fe79ce86a00bde07448eb14165d8d60922266992f229f5de2",
+      "LFExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+      "LFInputHash": "8608eac967c276db881d3981d3a63c58ad0ff54640f49c341be7b4d6edaf15d4",
+      "LFProofHash": "b9b8f065b5095cc5c858caa83c01a1b463cefdccd32608b81dc8f824889ab759",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 12,
+          "lines": [
+            "for a11 in range(1,10):",
+            "    a12=r1-a11",
+            "    a21=c1-a11",
+            "    a22=c2-a12",
+            "    if a11+a22==d1 and a12+a21==d2 and 1<=a12<=9 and 1<=a21<=9 and 1<=a22<=9 and a12 !=a11 and a21!=a11 and a21!=a12 and a22 != a11 and a22!=a12 and a22!=a21:",
+            "        print('%d %d\\n%d %d'%(a11,a12,a21,a22))",
+            "        break"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "3eb801a8127c1d8fe79ce86a00bde07448eb14165d8d60922266992f229f5de2",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577",
+      "originalInputHash": "92c0c69f4a0046cf51cda7dce0213ade20a5b5127b492744adfc36ff586ce74b",
+      "originalTimeout": false,
+      "reason": "line 10 condition omits `a21+a22==r2` Expected derivation: Grid [[a,b],[c,d]] of DISTINCT digits 1..9 with a+b=r1, c+d=r2, a+c=c1, b+d=c2, a+d=d1, b+c=d2; the linear system fixes a uniquely, so the answer (if any) is unique, else -1. 9 12/3 17/10 10: a from system: rows sum 21, cols sum 20 -> inconsistent -> -1. Source trace: a11=1: a12=8, a21=2, a22=9; 1+9=10=d1, 8+2=10=d2, all in range and distinct -> prints '1 8\\n2 9' (row2 = 11 != 12).",
+      "sourceHash": "a30f923c6823ae1d431ef766ab1f88791353972741e3605f187a140c832f803c",
+      "sourceRanges": [
+        [
+          6,
+          12
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/143/submission/5458882",
+      "test": "0051"
+    },
+    "7010905": {
+      "LFActualOutputHash": "425104cb06fa927ad371f5a49723749f0f2041823028702b2aca43588a716bba",
+      "LFExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+      "LFInputHash": "9311017a10155dae126e226674e26b1809284f5149bf34a1ba59b25ae5ef443a",
+      "LFProofHash": "b9b8f065b5095cc5c858caa83c01a1b463cefdccd32608b81dc8f824889ab759",
+      "exactSourceExcerpts": [
+        {
+          "first": 7,
+          "last": 21,
+          "lines": [
+            "x3 = math.ceil((c[0] + d[1] - r[0])/2)",
+            "x1 = c[0] - x3",
+            "x2 = d[1] - x3",
+            "x4 = r[1] - x3",
+            "#print(x1,x2)",
+            "#print(x3,x4)",
+            "if (x3 > 9) or (x1 > 9) or (x2 > 9) or (x4 > 9) or (x3 <= 0) or (x1 <= 0) or (x2 <= 0) or (x4 <= 0):",
+            "    print(-1)",
+            "    #print(0)",
+            "elif x3 == x1 or x3 == x2 or x3 == x4 or x1 == x2 or x1 == x4 or x2 == x4 :",
+            "    print(-1)",
+            "    #print(1)",
+            "else:",
+            "    print(x1,x2)",
+            "    print(x3,x4)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "425104cb06fa927ad371f5a49723749f0f2041823028702b2aca43588a716bba",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577",
+      "originalInputHash": "6a75799ef7e598949735012b8ac28beabb4df645462d67b849168bd3f3fe81a2",
+      "originalTimeout": false,
+      "reason": "line 7 `math.ceil(...)` plus missing checks of x2+x4==c2 and x1+x4==d1 before printing (lines 19-21) Expected derivation: Grid [[a,b],[c,d]] of DISTINCT digits 1..9 with a+b=r1, c+d=r2, a+c=c1, b+d=c2, a+d=d1, b+c=d2; the linear system fixes a uniquely, so the answer (if any) is unique, else -1. 3 8/4 6/5 5: row sums total 11, column sums total 10 -> inconsistent -> -1. Source trace: x3=ceil((4+5-3)/2)=3, x1=1, x2=2, x4=5; in range, distinct -> prints '1 2\\n3 5' (c2: 2+5=7!=6, d1: 1+5=6!=5).",
+      "sourceHash": "7f3ce23493be29f6b323b8b0ab79dca27eefbc1d3e8f94097e03616e597422d9",
+      "sourceRanges": [
+        [
+          7,
+          21
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/143/submission/7010905",
+      "test": "0052"
+    },
+    "8555163": {
+      "LFActualOutputHash": "a069e83826c59bb75f5d106d86cafa6688c25f7ba4ba08ab0530e7fea7d842ba",
+      "LFExpectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
+      "LFInputHash": "3f0045567b6e37acdc2899fd4906bcdbfc94d88fc2e3dd30fed19237c8e5a229",
+      "LFProofHash": "b9b8f065b5095cc5c858caa83c01a1b463cefdccd32608b81dc8f824889ab759",
+      "exactSourceExcerpts": [
+        {
+          "first": 5,
+          "last": 12,
+          "lines": [
+            "for i in range(1,10):",
+            "\tfor j in range(1,10):",
+            "\t\tfor k in range(1,10):",
+            "\t\t\tfor l in range(1,10):",
+            "\t\t\t\tif i + j == c1 and k + l == c2 and i + k == r1 and j + l == r2 and i + l == d1 and j + k == d2:",
+            "\t\t\t\t\tprint(i, k)",
+            "\t\t\t\t\tprint(j, l)",
+            "\t\t\t\t\texit()"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "a069e83826c59bb75f5d106d86cafa6688c25f7ba4ba08ab0530e7fea7d842ba",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577",
+      "originalInputHash": "2a66e8054a1642c93f5157cf363445cad0af508e0e05f7e1ac22f016edfc21a4",
+      "originalTimeout": false,
+      "reason": "line 9 condition lacks pairwise-distinct test; no fallback print(-1) after the loops Expected derivation: Grid [[a,b],[c,d]] of DISTINCT digits 1..9 with a+b=r1, c+d=r2, a+c=c1, b+d=c2, a+d=d1, b+c=d2; the linear system fixes a uniquely, so the answer (if any) is unique, else -1. 7 11/7 11/6 12: linear solution a=1,b=6,c=6,d=5 has repeated 6 -> -1. Source trace: i=1,j=6,k=6,l=5 satisfies all six sums -> prints '1 6\\n6 5'.",
+      "sourceHash": "34f5e1f976fb64b83e0f255f2521f48e6d7331acdc212cf99e06e0759e7533f4",
+      "sourceRanges": [
+        [
+          5,
+          12
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/143/submission/8555163",
+      "test": "0038"
+    },
+    "8985121": {
+      "LFActualOutputHash": "0be57d4cec3fe73879a8de35b94aa0d586c8be24ce04d2cb51c0d6fce9a6d622",
+      "LFExpectedOutputHash": "69449d4d6d778d99998b29a5ada25844c399c894e47c7dda7c28919cf67db424",
+      "LFInputHash": "762098c77c69359138a5ddaa8337cbaca484f9663605cf5a9e7fc8ca68edc426",
+      "LFProofHash": "b9b8f065b5095cc5c858caa83c01a1b463cefdccd32608b81dc8f824889ab759",
+      "exactSourceExcerpts": [
+        {
+          "first": 8,
+          "last": 17,
+          "lines": [
+            "for i in range(1, 10):",
+            "    a1 = i",
+            "    a2 = r1 - i",
+            "    a3 = c1 - i",
+            "    a4 = d1 - i",
+            "    ",
+            "    if(a1 > 0 and a1 < 10 and a2 > 0 and a2 < 10 and a3 > 0 and a3 < 10 and a4 > 0 and a4 < 10 and a1 != a2 and a1 != a3 and a1 != a4 and a2 != a3 and a2 != a4 and a3 != a4):",
+            "        print(str(a1) + \" \" + str(a2))",
+            "        print(str(a3) + \" \" + str(a4))",
+            "        exit()"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "0be57d4cec3fe73879a8de35b94aa0d586c8be24ce04d2cb51c0d6fce9a6d622",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "41468f6a5862e2ab5b8783055e5e72273049e93b3efb1fd39db0424602463aac",
+      "originalInputHash": "ea9aa8ba1ae3eb984ffcb89140c2287861ae345ea85de22766814457fdb6b7ee",
+      "originalTimeout": false,
+      "reason": "line 14 condition omits a3+a4==r2, a2+a4==c2, a2+a3==d2 Expected derivation: Grid [[a,b],[c,d]] of DISTINCT digits 1..9 with a+b=r1, c+d=r2, a+c=c1, b+d=c2, a+d=d1, b+c=d2; the linear system fixes a uniquely, so the answer (if any) is unique, else -1. 5 13/8 10/11 7: a=3,b=2,c=5,d=8 (3+2=5, 5+8=13, 3+5=8, 2+8=10, 3+8=11, 2+5=7), distinct -> '3 2 / 5 8'. Source trace: i=1: a4=10 out of range; i=2: a2=3, a3=6, a4=9 valid & distinct -> prints '2 3\\n6 9' (row2 15 != 13).",
+      "sourceHash": "432b6a124657d128a0bd29d0c66bcd67773b4e7135dbb4094286c0f0b9866446",
+      "sourceRanges": [
+        [
+          8,
+          17
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/143/submission/8985121",
+      "test": "0005"
+    }
+  },
   "independentFreshRunHash": "6209f4afdc6e08f49df9e86a9b5fd87ec938da08382cea9488cb6a68343886a4",
   "independentLFReplayHash": "b9b8f065b5095cc5c858caa83c01a1b463cefdccd32608b81dc8f824889ab759",
   "independentSemanticCheckHash": "8bc370b3040fda3470778c438558f37c7fdf795e556d74bd56d896858f5e909e",
   "independentStressHash": "b7fd32bdda71fba0ec6ba68f619c9cabad74a40d69ad09c20d82d1edb7946c90",
+  "originalExecutionEvidenceHash": "da579d3c6b97eb709f5a1621205a6708e88ca09bd2dec2474cfe48f9bda34d10",
   "packageHash": "680ae15c5e8361b4f41647aa9874c51a31340967612f4779e516127db781b4e1",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -109,22 +307,25 @@
         "AC": 10,
         "WA": 11
       },
-      "algorithmicWitnessCount": 11,
+      "algorithmicWitnessCount": 1,
       "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
       "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "linear grid solver omits cell range and pairwise-distinct constraints": 11
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
       "language": "Python 3",
       "normalWrongAnswerCount": 11,
-      "outcome": "algorithmic-WA",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "e62c9b352c4b6ea18afe502e8088c98a01373a97a3f71dc90cd09ffc7831c6e8",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/143/submission/4696305",
       "submissionId": "4696305",
       "testVerdicts": {
@@ -140,7 +341,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "linear grid solver omits cell range and pairwise-distinct constraints",
+        "originalActualOutputHash": "8c3011103730c3e04f9869c71a03b6d8e2425e5cbfe9cdf87b22f87c8ef94e99",
+        "originalExpectedOutputHash": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577",
+        "originalInputHash": "0807724c4629a927181a7f658e9a1f0cfffb6cb9b3ef1ac14992cdf9e08d9d85",
+        "reason": "line 14 consistency check lacks `1<=x<=9` and distinctness tests before printing (lines 16-17)",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     },
@@ -149,22 +354,25 @@
         "AC": 9,
         "WA": 3
       },
-      "algorithmicWitnessCount": 3,
+      "algorithmicWitnessCount": 1,
       "algorithmicWrongAnswer": true,
       "builderFailedTest": "0051",
       "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "grid solver omits the second row-sum constraint": 3
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
       "language": "Python 3",
       "normalWrongAnswerCount": 3,
-      "outcome": "algorithmic-WA",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 2,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "a30f923c6823ae1d431ef766ab1f88791353972741e3605f187a140c832f803c",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/143/submission/5458882",
       "submissionId": "5458882",
       "testVerdicts": {
@@ -180,7 +388,11 @@
           "0051"
         ],
         "origin": "tests/0051",
-        "reason": "grid solver omits the second row-sum constraint",
+        "originalActualOutputHash": "3eb801a8127c1d8fe79ce86a00bde07448eb14165d8d60922266992f229f5de2",
+        "originalExpectedOutputHash": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577",
+        "originalInputHash": "92c0c69f4a0046cf51cda7dce0213ade20a5b5127b492744adfc36ff586ce74b",
+        "reason": "line 10 condition omits `a21+a22==r2`",
+        "selectedOriginalTest": "0051",
         "test": "lf-0051"
       }
     },
@@ -189,22 +401,25 @@
         "AC": 7,
         "WA": 7
       },
-      "algorithmicWitnessCount": 7,
+      "algorithmicWitnessCount": 1,
       "algorithmicWrongAnswer": true,
       "builderFailedTest": "0052",
       "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "grid solver rounds fractional cells and omits inconsistent-sum checks": 7
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
       "language": "Python 3",
       "normalWrongAnswerCount": 7,
-      "outcome": "algorithmic-WA",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 4,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "7f3ce23493be29f6b323b8b0ab79dca27eefbc1d3e8f94097e03616e597422d9",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/143/submission/7010905",
       "submissionId": "7010905",
       "testVerdicts": {
@@ -220,7 +435,11 @@
           "0052"
         ],
         "origin": "tests/0052",
-        "reason": "grid solver rounds fractional cells and omits inconsistent-sum checks",
+        "originalActualOutputHash": "425104cb06fa927ad371f5a49723749f0f2041823028702b2aca43588a716bba",
+        "originalExpectedOutputHash": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577",
+        "originalInputHash": "6a75799ef7e598949735012b8ac28beabb4df645462d67b849168bd3f3fe81a2",
+        "reason": "line 7 `math.ceil(...)` plus missing checks of x2+x4==c2 and x1+x4==d1 before printing (lines 19-21)",
+        "selectedOriginalTest": "0052",
         "test": "lf-0052"
       }
     },
@@ -229,23 +448,25 @@
         "AC": 1,
         "WA": 22
       },
-      "algorithmicWitnessCount": 20,
+      "algorithmicWitnessCount": 1,
       "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": true,
+      "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "grid search omits -1 when no grid satisfies all constraints": 20,
-        "non-numeric output needs source-level review": 2
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
       "language": "Python 3",
       "normalWrongAnswerCount": 22,
-      "outcome": "algorithmic-WA",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "34f5e1f976fb64b83e0f255f2521f48e6d7331acdc212cf99e06e0759e7533f4",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/143/submission/8555163",
       "submissionId": "8555163",
       "testVerdicts": {
@@ -254,15 +475,19 @@
       },
       "testsRun": 254,
       "witness": {
-        "actualOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "actualOutputHash": "a069e83826c59bb75f5d106d86cafa6688c25f7ba4ba08ab0530e7fea7d842ba",
         "expectedOutputHash": "1bad6b8cf97131fceab8543e81f7757195fbb1d36b376ee994ad1cf17699c464",
-        "inputHash": "f838ae1a677b59de0548b9893b006c61bc3a1fab69b0e143322a3000444f98ad",
+        "inputHash": "3f0045567b6e37acdc2899fd4906bcdbfc94d88fc2e3dd30fed19237c8e5a229",
         "matchingPackageTests": [
-          "0003"
+          "0038"
         ],
-        "origin": "tests/0003",
-        "reason": "grid search omits -1 when no grid satisfies all constraints",
-        "test": "lf-0003"
+        "origin": "tests/0038",
+        "originalActualOutputHash": "a069e83826c59bb75f5d106d86cafa6688c25f7ba4ba08ab0530e7fea7d842ba",
+        "originalExpectedOutputHash": "186a919b8c7cb84aebf4e53c70cd1cc028a93a1d183ee29dd6e10cd18a714577",
+        "originalInputHash": "2a66e8054a1642c93f5157cf363445cad0af508e0e05f7e1ac22f016edfc21a4",
+        "reason": "line 9 condition lacks pairwise-distinct test; no fallback print(-1) after the loops",
+        "selectedOriginalTest": "0038",
+        "test": "lf-0038"
       }
     },
     {
@@ -270,27 +495,25 @@
         "AC": 3,
         "WA": 20
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 11,
-        "non-numeric output needs source-level review": 9
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 11,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 20,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "432b6a124657d128a0bd29d0c66bcd67773b4e7135dbb4094286c0f0b9866446",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/143/submission/8985121",
       "submissionId": "8985121",
       "testVerdicts": {
@@ -306,7 +529,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "0be57d4cec3fe73879a8de35b94aa0d586c8be24ce04d2cb51c0d6fce9a6d622",
+        "originalExpectedOutputHash": "41468f6a5862e2ab5b8783055e5e72273049e93b3efb1fd39db0424602463aac",
+        "originalInputHash": "ea9aa8ba1ae3eb984ffcb89140c2287861ae345ea85de22766814457fdb6b7ee",
+        "reason": "line 14 condition omits a3+a4==r2, a2+a4==c2, a2+a3==d2",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     }
@@ -314,10 +541,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 4,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 1,
+      "bytes": 387441,
+      "name": "batch1-source-semantics-review.json",
+      "sha256": "ca43961fef2540e778e5dfc2d517ba9ae59958c8198fecf0e801108165b0e722"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "213ec87870e16d544a7e120d89ec4f1f57478afdbea5be69ebca73d10a9ae612",
+  "sourceSemanticReviewPath": "source-review/proofs/143A.json",
   "stressCases": 40,
-  "testPairs": 254,
-  "unconfirmedSourceIds": [
-    "8985121"
-  ]
+  "testPairs": 254
 }

@@ -1,28 +1,199 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 1,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "e9ac0030be1b110d513dacee8d2c97d1f9687520f92ed0ee1f7f14d79f58eaef",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "18156123": {
+      "LFActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "LFExpectedOutputHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+      "LFInputHash": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba",
+      "LFProofHash": "b69542485714336adf3ca62de4bfc5e47d4da340c1edc9829bf7752032dcac4c",
+      "exactSourceExcerpts": [
+        {
+          "first": 3,
+          "last": 6,
+          "lines": [
+            "i=1",
+            "while (l+i)%(n+1)==1:",
+            "    i+=1",
+            "print(i)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "originalInputHash": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+      "originalTimeout": false,
+      "reason": "Returns the first safe finger count rather than the number of safe choices. Expected derivation: With n=1 and sum=1, choices 1,3,5 give even totals and avoid Dima, so there are 3 ways. Source trace: i=1 gives (1+1)%2=0, the loop is skipped and 1 is printed.",
+      "sourceHash": "1977876386114526c681857cdaf6bf431e9a417cbe626a24c6b34f652be38630",
+      "sourceRanges": [
+        [
+          3,
+          6
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/272/submission/18156123",
+      "test": "0001"
+    },
+    "27439696": {
+      "LFActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "LFExpectedOutputHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+      "LFInputHash": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba",
+      "LFProofHash": "b69542485714336adf3ca62de4bfc5e47d4da340c1edc9829bf7752032dcac4c",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 4,
+          "lines": [
+            "    print(2) if sum(line) % n == 0 else print(1)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "originalInputHash": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+      "originalTimeout": false,
+      "reason": "Uses sum%n and returns only 2 or 1; the circle has n+1 people and all five choices must be counted. Expected derivation: With n=1 and sum=1, choices 1,3,5 avoid Dima, so 3 ways. Source trace: sum(line)%n=1%1=0, so the conditional prints 2.",
+      "sourceHash": "e316121bd3aa1e1fbba815622d6cb8f0ac5e4211355c2dc0b0a1b1fb7603cafc",
+      "sourceRanges": [
+        [
+          4,
+          4
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/272/submission/27439696",
+      "test": "0001"
+    },
+    "27439790": {
+      "LFActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "LFExpectedOutputHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+      "LFInputHash": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba",
+      "LFProofHash": "b69542485714336adf3ca62de4bfc5e47d4da340c1edc9829bf7752032dcac4c",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 7,
+          "lines": [
+            "    for i in range(1, 6):",
+            "        if (i + v) % n != 1:",
+            "            print(i)",
+            "            break"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "originalInputHash": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+      "originalTimeout": false,
+      "reason": "Prints the first safe i and breaks, instead of counting every safe i. Expected derivation: With n=1 and sum=1, safe choices are 1,3,5: 3 ways. Source trace: n becomes 2, v=1; i=1 satisfies (i+v)%n!=1, so it prints 1 and breaks.",
+      "sourceHash": "eea35da0f780e01a36a67ed24f3166962cb3cb50430c2bab1119d3084f134668",
+      "sourceRanges": [
+        [
+          4,
+          7
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/272/submission/27439790",
+      "test": "0001"
+    },
+    "27527259": {
+      "LFActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "LFExpectedOutputHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+      "LFInputHash": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba",
+      "LFProofHash": "b69542485714336adf3ca62de4bfc5e47d4da340c1edc9829bf7752032dcac4c",
+      "exactSourceExcerpts": [
+        {
+          "first": 5,
+          "last": 9,
+          "lines": [
+            "h = k%(n+1)",
+            "if h == 0:",
+            "    print(2)",
+            "else:",
+            "    print(min(5, n+1))"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "originalInputHash": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+      "originalTimeout": false,
+      "reason": "The h branches 2/min(5,n+1) do not count safe choices. Expected derivation: n=1, sum=1 makes safe choices 1,3,5: answer 3. This n=1 case has exactly one integer on the second line, so its input-reading loop also terminates normally. Source trace: k=1, h=1%2=1, else prints min(5,2)=2.",
+      "sourceHash": "653ebcc01b69cb50a91f199c5bdbb88368a79da3cc2d976d7a06c9c5b3f4f2ed",
+      "sourceRanges": [
+        [
+          5,
+          9
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/272/submission/27527259",
+      "test": "0001"
+    },
+    "27872399": {
+      "LFActualOutputHash": "c1a075273180456681c0fa4d482fd478d0ff56d029601ca03e8ea1c34639c037",
+      "LFExpectedOutputHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+      "LFInputHash": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba",
+      "LFProofHash": "b69542485714336adf3ca62de4bfc5e47d4da340c1edc9829bf7752032dcac4c",
+      "exactSourceExcerpts": [
+        {
+          "first": 16,
+          "last": 18,
+          "lines": [
+            "while x>=j:",
+            "    x=x-j",
+            "print(j-x)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "c1a075273180456681c0fa4d482fd478d0ff56d029601ca03e8ea1c34639c037",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "originalInputHash": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+      "originalTimeout": false,
+      "reason": "j-x is the distance to residue zero, not the number of safe choices among 1..5. Expected derivation: n=1, sum=1 gives 3 safe choices 1,3,5. Source trace: j=2, x=1; the reduction loop is skipped; final print(j-x) is 1. Discard the separate debug list ['1']; the remaining mathematical answer is still 1, not 3.",
+      "sourceHash": "ef04b6772f9b0a2731d9ce17fc7b5bd3b0c316851feb094e35ecb691aa3fa311",
+      "sourceRanges": [
+        [
+          16,
+          18
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/272/submission/27872399",
+      "test": "0001"
+    }
+  },
   "independentFreshRunHash": "4aa4d74279bc50adcd67d25ddcf6b33e56882de8166d533eb42d5fd8e7bad65b",
   "independentLFReplayHash": "b69542485714336adf3ca62de4bfc5e47d4da340c1edc9829bf7752032dcac4c",
   "independentSemanticCheckHash": "db18e7c0dcfbbf02b69783c42d1f017612bb16b43ef522af82e6188176b29205",
   "independentStressHash": "5da9bd3c88c09bab840901fe0a78a02fe7de4ec1ec051e8e7582adf90236d1b8",
+  "originalExecutionEvidenceHash": "e9ac0030be1b110d513dacee8d2c97d1f9687520f92ed0ee1f7f14d79f58eaef",
   "packageHash": "5de544c43f53c722b06f6b10a4431ef396312d660d126db032722154eca7fdb0",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -109,26 +280,25 @@
         "AC": 1,
         "WA": 21
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 21
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 21,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 21,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "1977876386114526c681857cdaf6bf431e9a417cbe626a24c6b34f652be38630",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/272/submission/18156123",
       "submissionId": "18156123",
       "testVerdicts": {
@@ -144,7 +314,11 @@
           "0001"
         ],
         "origin": "tests/0001",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "originalExpectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "originalInputHash": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+        "reason": "Returns the first safe finger count rather than the number of safe choices.",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     },
@@ -153,26 +327,25 @@
         "AC": 1,
         "WA": 21
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 21
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 21,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 21,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "e316121bd3aa1e1fbba815622d6cb8f0ac5e4211355c2dc0b0a1b1fb7603cafc",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/272/submission/27439696",
       "submissionId": "27439696",
       "testVerdicts": {
@@ -188,7 +361,11 @@
           "0001"
         ],
         "origin": "tests/0001",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "originalExpectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "originalInputHash": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+        "reason": "Uses sum%n and returns only 2 or 1; the circle has n+1 people and all five choices must be counted.",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     },
@@ -197,26 +374,25 @@
         "AC": 1,
         "WA": 21
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 21
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 21,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 21,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "eea35da0f780e01a36a67ed24f3166962cb3cb50430c2bab1119d3084f134668",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/272/submission/27439790",
       "submissionId": "27439790",
       "testVerdicts": {
@@ -232,7 +408,11 @@
           "0001"
         ],
         "origin": "tests/0001",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "originalExpectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "originalInputHash": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+        "reason": "Prints the first safe i and breaks, instead of counting every safe i.",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     },
@@ -242,26 +422,25 @@
         "RE": 8,
         "WA": 4
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 4
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 4,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 4,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 3,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "653ebcc01b69cb50a91f199c5bdbb88368a79da3cc2d976d7a06c9c5b3f4f2ed",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/272/submission/27527259",
       "submissionId": "27527259",
       "testVerdicts": {
@@ -278,7 +457,11 @@
           "0001"
         ],
         "origin": "tests/0001",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "originalExpectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "originalInputHash": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+        "reason": "The h branches 2/min(5,n+1) do not count safe choices.",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     },
@@ -286,23 +469,25 @@
       "LFReplayVerdicts": {
         "WA": 22
       },
-      "algorithmicWitnessCount": 18,
+      "algorithmicWitnessCount": 1,
       "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "correct terminal value plus debug input echo": 4,
-        "terminal arithmetic value is wrong after disregarding debug input echo": 18
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
       "language": "Python 3",
       "normalWrongAnswerCount": 22,
-      "outcome": "algorithmic-WA",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 10,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "ef04b6772f9b0a2731d9ce17fc7b5bd3b0c316851feb094e35ecb691aa3fa311",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/272/submission/27872399",
       "submissionId": "27872399",
       "testVerdicts": {
@@ -317,7 +502,11 @@
           "0001"
         ],
         "origin": "tests/0001",
-        "reason": "terminal arithmetic value is wrong after disregarding debug input echo",
+        "originalActualOutputHash": "c1a075273180456681c0fa4d482fd478d0ff56d029601ca03e8ea1c34639c037",
+        "originalExpectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "originalInputHash": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+        "reason": "j-x is the distance to residue zero, not the number of safe choices among 1..5.",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     }
@@ -325,13 +514,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 3,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 2,
+      "bytes": 816646,
+      "name": "batch-2-source-semantics-review.json",
+      "sha256": "37ab4aefa3b89e88955bddd18c024454d0b0b929d93e2f380e20f499ef9f0612"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "d612f3ed35f5727514252d0aebe086e445c92eee89407e02ba1790d06351084a",
+  "sourceSemanticReviewPath": "source-review/proofs/272A.json",
   "stressCases": 40,
-  "testPairs": 93,
-  "unconfirmedSourceIds": [
-    "18156123",
-    "27439696",
-    "27439790",
-    "27527259"
-  ]
+  "testPairs": 93
 }

@@ -1,62 +1,199 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
-    "algorithmicallyWrong": false,
+    "algorithmicallyWrong": true,
     "coverage": true,
     "deterministicGeneration": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "generatedBasis": true,
     "hashes": true,
     "independentOracle": true,
     "inputConstraints": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "0a437365509dc46a7980a01da96645e38e7919b08243fdb3981b41e13343b802",
   "generatedQualificationHash": "df5f115b40e8dbe412dfde9934d2775d95e596a938a8fc40a471e3d3ab389eaf",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
-  "historicalIncorrectAnalysis": {
+  "incorrectAnalysis": {
     "34842483": {
+      "LFActualOutputHash": "08f6b65c68f880dbfbfd98b25bdc7d8a4480ecf52a5e34a1d79803429a2b2464",
+      "LFExpectedOutputHash": "35653ac14652637cb8b5d4b62e2c652eebb9daaf3bee5cefaf8efa8b790775db",
+      "LFInputHash": "6653dbf22d63f7dd1c5343d89f076a553faee0863eab3e6b8d4be637c4fde6e8",
+      "LFProofHash": "696541c314c2c9c684aab51ada068d5b0bf0e168e0a776e1bb9439ff661f1211",
+      "exactSourceExcerpts": [
+        {
+          "first": 30,
+          "last": 30,
+          "lines": [
+            "    curr = min(curr, abs(i - x[j] + 1));"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "08f6b65c68f880dbfbfd98b25bdc7d8a4480ecf52a5e34a1d79803429a2b2464",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "2cb23f5827fde5dbfe7fdfc33a518a317ec6ed56ddf164a82ff531ede6a233c0",
+      "originalInputHash": "c9e06f54506fac141c9a97fbcbb721841e95240c3e97b455e6ba251e29f99c04",
+      "originalTimeout": false,
+      "reason": "line 30 `abs(i - x[j] + 1)` puts the +1 inside abs(); correct time is abs(i - x[j]) + 1. Underestimates on one side and overestimates on the other. Expected derivation: tests/0002 case 2: n=2, tap at 2 -> bed 1 watered after 2 seconds -> 2. Source trace: i=1: |1-2+1|=0; i=2: |2-2+1|=1 -> ans=1 (2nd output line '1').",
+      "sourceHash": "d342bc7cb89b9ec8275920c34cc23c17f1d68aa5b732dd3c5f2f5c2882eb80c9",
+      "sourceRanges": [
+        [
+          30,
+          30
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/920/submission/34842483",
       "test": "0002"
     },
     "34842500": {
+      "LFActualOutputHash": "240a850d5acaacaeadd9a8b0297ecd8580018335392373db7c979bf01d1ec62b",
+      "LFExpectedOutputHash": "35653ac14652637cb8b5d4b62e2c652eebb9daaf3bee5cefaf8efa8b790775db",
+      "LFInputHash": "6653dbf22d63f7dd1c5343d89f076a553faee0863eab3e6b8d4be637c4fde6e8",
+      "LFProofHash": "696541c314c2c9c684aab51ada068d5b0bf0e168e0a776e1bb9439ff661f1211",
+      "exactSourceExcerpts": [
+        {
+          "first": 17,
+          "last": 23,
+          "lines": [
+            "        int l = 500000, r = 500000;",
+            "        for (int i = 1; i <= k; ++i) {",
+            "            int x; cin >> x;",
+            "            l = min(l, x);",
+            "            r = min(r, n - x + 1);",
+            "        }    ",
+            "        cout << max(l, r) << '\\n';"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "240a850d5acaacaeadd9a8b0297ecd8580018335392373db7c979bf01d1ec62b",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "2cb23f5827fde5dbfe7fdfc33a518a317ec6ed56ddf164a82ff531ede6a233c0",
+      "originalInputHash": "c9e06f54506fac141c9a97fbcbb721841e95240c3e97b455e6ba251e29f99c04",
+      "originalTimeout": false,
+      "reason": "lines 20-23 never consider interior gaps floor((x_{j+1}-x_j)/2)+1. Expected derivation: tests/0002 case 9: n=3, taps 1 and 3 -> bed 2 needs 2 seconds -> 2. Source trace: l=min(1,3)=1; r=min(3,1)=1; prints 1.",
+      "sourceHash": "2ef4d780923aa817811ba27c3592d59045b1b6048a6db50e0ffafd3d8600489d",
+      "sourceRanges": [
+        [
+          17,
+          23
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/920/submission/34842500",
       "test": "0002"
     },
     "34842508": {
+      "LFActualOutputHash": "d5e6d89968944cd8d1958a63aaf8deb0be328109c826ef0762116f8325daf56e",
+      "LFExpectedOutputHash": "35653ac14652637cb8b5d4b62e2c652eebb9daaf3bee5cefaf8efa8b790775db",
+      "LFInputHash": "6653dbf22d63f7dd1c5343d89f076a553faee0863eab3e6b8d4be637c4fde6e8",
+      "LFProofHash": "696541c314c2c9c684aab51ada068d5b0bf0e168e0a776e1bb9439ff661f1211",
+      "exactSourceExcerpts": [
+        {
+          "first": 33,
+          "last": 33,
+          "lines": [
+            "    if(j<N-1) H[j]=min(H[j],H[j+1]+1);"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "d5e6d89968944cd8d1958a63aaf8deb0be328109c826ef0762116f8325daf56e",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "2cb23f5827fde5dbfe7fdfc33a518a317ec6ed56ddf164a82ff531ede6a233c0",
+      "originalInputHash": "c9e06f54506fac141c9a97fbcbb721841e95240c3e97b455e6ba251e29f99c04",
+      "originalTimeout": false,
+      "reason": "line 33 `if(j<N-1)` should be j<N: bed N-1 never relaxes from bed N, so a tap only at bed N cannot water beds to its left. Expected derivation: tests/0002 case 2: n=2, tap at 2 -> 2. Source trace: H[1]=1010, H[2]=1. Sweep j=1: j>1 false, 1<1 false -> H[1] stays 1010; j=2: H[2]=1. max=1010 -> prints 1010.",
+      "sourceHash": "bd45898af62123b40edaa516df99efb0ca78bd9e7da1ffa96c171be737e4c807",
+      "sourceRanges": [
+        [
+          33,
+          33
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/920/submission/34842508",
       "test": "0002"
     },
     "34842512": {
+      "LFActualOutputHash": "3feed5103a0757e3c5da8107b0f01c169264f2aeadda5b2188965786e5471fd8",
+      "LFExpectedOutputHash": "35653ac14652637cb8b5d4b62e2c652eebb9daaf3bee5cefaf8efa8b790775db",
+      "LFInputHash": "6653dbf22d63f7dd1c5343d89f076a553faee0863eab3e6b8d4be637c4fde6e8",
+      "LFProofHash": "696541c314c2c9c684aab51ada068d5b0bf0e168e0a776e1bb9439ff661f1211",
+      "exactSourceExcerpts": [
+        {
+          "first": 25,
+          "last": 25,
+          "lines": [
+            "            ans = max(ans, (x[j + 1] - x[j] + 1) / 2);"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "3feed5103a0757e3c5da8107b0f01c169264f2aeadda5b2188965786e5471fd8",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "2cb23f5827fde5dbfe7fdfc33a518a317ec6ed56ddf164a82ff531ede6a233c0",
+      "originalInputHash": "c9e06f54506fac141c9a97fbcbb721841e95240c3e97b455e6ba251e29f99c04",
+      "originalTimeout": false,
+      "reason": "line 25 `(x[j + 1] - x[j] + 1) / 2` should be (x[j+1]-x[j])/2 + 1; underestimates even gaps. Expected derivation: tests/0002 case 9: n=3, taps 1,3 -> 2. Source trace: ans=max(1, 3-3+1=1)=1; gap (3-1+1)/2 = 1 -> prints 1.",
+      "sourceHash": "4fc15cbe96cefef05161941928143695a603deaa98f93caf46496f68c08d613a",
+      "sourceRanges": [
+        [
+          25,
+          25
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/920/submission/34842512",
       "test": "0002"
     },
     "34842516": {
+      "LFActualOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "LFExpectedOutputHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+      "LFInputHash": "2cbde4bec8103c844c73ec1d91dc735c9374c183437ffe6bb3e7c7c6348dc3bd",
+      "LFProofHash": "696541c314c2c9c684aab51ada068d5b0bf0e168e0a776e1bb9439ff661f1211",
+      "exactSourceExcerpts": [
+        {
+          "first": 14,
+          "last": 14,
+          "lines": [
+            "        printf(\"%d\",n/a[m]+n%a[m]);"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "originalInputHash": "2cbde4bec8103c844c73ec1d91dc735c9374c183437ffe6bb3e7c7c6348dc3bd",
+      "originalTimeout": false,
+      "reason": "line 14 `n/a[m]+n%a[m]` - wrong formula (and no separator between cases). Expected derivation: tests/0051: t=1, n=4, tap at 3 -> max(3, 4-3+1)=3. Source trace: 4/3 + 4%3 = 1 + 1 = 2 -> prints '2'.",
+      "sourceHash": "8de072c8d1b079346178220e9907426d4cc1ec265fa20e90548daaf08337244c",
+      "sourceRanges": [
+        [
+          14,
+          14
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/920/submission/34842516",
       "test": "0051"
     }
   },
-  "incorrectAnalysis": {},
   "independentFreshRunHash": "d4a7ffb19532e8d8411547f742aea0e1965e46ee8f72ee1a7364ad784bc229fc",
   "independentLFReplayHash": "696541c314c2c9c684aab51ada068d5b0bf0e168e0a776e1bb9439ff661f1211",
   "independentSemanticCheckHash": "222898f11c5d70dc3b4cf4f4e6982d68460870d59f8dbd1f2a5f62baebf1f71d",
   "independentStressHash": "17a3276d92f511f42aa8138a9ae328e325f39cc36d4f48fc7b2525b9a2d12d3d",
+  "originalExecutionEvidenceHash": "0a437365509dc46a7980a01da96645e38e7919b08243fdb3981b41e13343b802",
   "packageHash": "c61e3f5934301943db4307bd1077add19bdc448a001a1fb144b7a9d4853073f7",
   "qualificationBasis": "generated",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -143,27 +280,25 @@
         "AC": 3,
         "WA": 20
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 5,
-        "computed numeric answer differs from independent mathematical oracle": 15
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 20,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "C++14 (GCC 6-32)",
       "normalWrongAnswerCount": 20,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "d342bc7cb89b9ec8275920c34cc23c17f1d68aa5b732dd3c5f2f5c2882eb80c9",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/920/submission/34842483",
       "submissionId": "34842483",
       "testVerdicts": {
@@ -179,7 +314,11 @@
           "0002"
         ],
         "origin": "tests/0002",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "08f6b65c68f880dbfbfd98b25bdc7d8a4480ecf52a5e34a1d79803429a2b2464",
+        "originalExpectedOutputHash": "2cb23f5827fde5dbfe7fdfc33a518a317ec6ed56ddf164a82ff531ede6a233c0",
+        "originalInputHash": "c9e06f54506fac141c9a97fbcbb721841e95240c3e97b455e6ba251e29f99c04",
+        "reason": "line 30 `abs(i - x[j] + 1)` puts the +1 inside abs(); correct time is abs(i - x[j]) + 1. Underestimates on one side and overestimates on the other.",
+        "selectedOriginalTest": "0002",
         "test": "lf-0002"
       }
     },
@@ -188,27 +327,25 @@
         "AC": 3,
         "WA": 20
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 5,
-        "computed numeric answer differs from independent mathematical oracle": 15
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 20,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "C++14 (GCC 6-32)",
       "normalWrongAnswerCount": 20,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "2ef4d780923aa817811ba27c3592d59045b1b6048a6db50e0ffafd3d8600489d",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/920/submission/34842500",
       "submissionId": "34842500",
       "testVerdicts": {
@@ -224,7 +361,11 @@
           "0002"
         ],
         "origin": "tests/0002",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "240a850d5acaacaeadd9a8b0297ecd8580018335392373db7c979bf01d1ec62b",
+        "originalExpectedOutputHash": "2cb23f5827fde5dbfe7fdfc33a518a317ec6ed56ddf164a82ff531ede6a233c0",
+        "originalInputHash": "c9e06f54506fac141c9a97fbcbb721841e95240c3e97b455e6ba251e29f99c04",
+        "reason": "lines 20-23 never consider interior gaps floor((x_{j+1}-x_j)/2)+1.",
+        "selectedOriginalTest": "0002",
         "test": "lf-0002"
       }
     },
@@ -233,27 +374,25 @@
         "AC": 6,
         "WA": 16
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 6,
-        "computed numeric answer differs from independent mathematical oracle": 10
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 16,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "C++14 (GCC 6-32)",
       "normalWrongAnswerCount": 16,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "bd45898af62123b40edaa516df99efb0ca78bd9e7da1ffa96c171be737e4c807",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/920/submission/34842508",
       "submissionId": "34842508",
       "testVerdicts": {
@@ -269,7 +408,11 @@
           "0002"
         ],
         "origin": "tests/0002",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "d5e6d89968944cd8d1958a63aaf8deb0be328109c826ef0762116f8325daf56e",
+        "originalExpectedOutputHash": "2cb23f5827fde5dbfe7fdfc33a518a317ec6ed56ddf164a82ff531ede6a233c0",
+        "originalInputHash": "c9e06f54506fac141c9a97fbcbb721841e95240c3e97b455e6ba251e29f99c04",
+        "reason": "line 33 `if(j<N-1)` should be j<N: bed N-1 never relaxes from bed N, so a tap only at bed N cannot water beds to its left.",
+        "selectedOriginalTest": "0002",
         "test": "lf-0002"
       }
     },
@@ -278,27 +421,25 @@
         "AC": 4,
         "WA": 19
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 5,
-        "computed numeric answer differs from independent mathematical oracle": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 19,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "C++14 (GCC 6-32)",
       "normalWrongAnswerCount": 19,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "4fc15cbe96cefef05161941928143695a603deaa98f93caf46496f68c08d613a",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/920/submission/34842512",
       "submissionId": "34842512",
       "testVerdicts": {
@@ -314,7 +455,11 @@
           "0002"
         ],
         "origin": "tests/0002",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "3feed5103a0757e3c5da8107b0f01c169264f2aeadda5b2188965786e5471fd8",
+        "originalExpectedOutputHash": "2cb23f5827fde5dbfe7fdfc33a518a317ec6ed56ddf164a82ff531ede6a233c0",
+        "originalInputHash": "c9e06f54506fac141c9a97fbcbb721841e95240c3e97b455e6ba251e29f99c04",
+        "reason": "line 25 `(x[j + 1] - x[j] + 1) / 2` should be (x[j+1]-x[j])/2 + 1; underestimates even gaps.",
+        "selectedOriginalTest": "0002",
         "test": "lf-0002"
       }
     },
@@ -323,28 +468,25 @@
         "AC": 1,
         "WA": 22
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0051",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 4,
-        "answer differs only by token separators": 3,
-        "computed numeric answer differs from independent mathematical oracle": 15
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 19,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "C++14 (GCC 6-32)",
       "normalWrongAnswerCount": 22,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "8de072c8d1b079346178220e9907426d4cc1ec265fa20e90548daaf08337244c",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/920/submission/34842516",
       "submissionId": "34842516",
       "testVerdicts": {
@@ -360,7 +502,11 @@
           "0051"
         ],
         "origin": "tests/0051",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+        "originalExpectedOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+        "originalInputHash": "2cbde4bec8103c844c73ec1d91dc735c9374c183437ffe6bb3e7c7c6348dc3bd",
+        "reason": "line 14 `n/a[m]+n%a[m]` - wrong formula (and no separator between cases).",
+        "selectedOriginalTest": "0051",
         "test": "lf-0051"
       }
     }
@@ -368,14 +514,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 1,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 5,
+      "bytes": 295543,
+      "name": "batch5-source-review.json",
+      "sha256": "b428fe8eb83846ca1692f87dfcd5d3bc7a98bf5bc8c3f856cd1173fc9dcbfb5a"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "c95b2b0d99b7621eb57b7e18ab005ffc7f32a3bf814d852ab4970a52db6e6e01",
+  "sourceSemanticReviewPath": "source-review/proofs/920A.json",
   "stressCases": 40,
-  "testPairs": 185,
-  "unconfirmedSourceIds": [
-    "34842483",
-    "34842500",
-    "34842508",
-    "34842512",
-    "34842516"
-  ]
+  "testPairs": 185
 }

@@ -1,62 +1,215 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
-    "algorithmicallyWrong": false,
+    "algorithmicallyWrong": true,
     "coverage": true,
     "deterministicGeneration": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "generatedBasis": true,
     "hashes": true,
     "independentOracle": true,
     "inputConstraints": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "ed806cd79e53ffbc1479da65e302d7ada3b4bd682a6e6511ce9ae55b1103a602",
   "generatedQualificationHash": "c6b5e502ff0c19d8071986ad2f4368bd9fba1c9f903f715e032a2c8e321ee77c",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
-  "historicalIncorrectAnalysis": {
+  "incorrectAnalysis": {
     "16710937": {
+      "LFActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "LFExpectedOutputHash": "6cce36d9f8a9e151b100234af75cca89d55bcb94c153f51847debdf1f39cae45",
+      "LFInputHash": "fda830f8cd6224eaf3bf2fd113a38b4f65bb76574a1e40aa9c56c5ca12c7685a",
+      "LFProofHash": "0b95cae7301bcb01008bf63a1b268d024789bb09228ddca5b129177d14f00f92",
+      "exactSourceExcerpts": [
+        {
+          "first": 24,
+          "last": 28,
+          "lines": [
+            "        for i in range(n-1,0,-1):",
+            "            if elem==a[i] and d.count(elem)!=1:",
+            "                d.append(i)",
+            "                break",
+            "    print(a[min(d)])"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "953614b55d940dc9ebbf50655808c54860ae7aabcac55874cc780f6c34017144",
+      "originalInputHash": "1c29d3b922093a86e762348a0531ebb7af8f4015233b6cbb8a80dd443a971b7b",
+      "originalTimeout": false,
+      "reason": "Backward index range omits0, so a tied photo occurring only as the first like has no candidate. d.count(elem) also erroneously compares photo ids to a list of indices. Expected derivation: n2, votes1000000,1: both finish with one like. Photo1000000 reached that count at vote1 before photo1 at vote2, so1000000 wins. Source trace: b={1000000:1,1:1},s1,c=[1000000,1],f2. For first photo range(1,0,-1) inspects only index1, no match. For second photo a[1]==1 and d initially empty, so append index1. d=[1], print a[min(d)]=a[1]=1; index0 was never examined.",
+      "sourceHash": "1e651c6ed5b9e954172794324f44c794f7fb1c42618b4c4ed29ca1e8a6d9aaba",
+      "sourceRanges": [
+        [
+          24,
+          28
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/637/submission/16710937",
       "test": "0021"
     },
     "16714518": {
+      "LFActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "LFExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "LFInputHash": "fa7d605b76fc7ff64fcd8704531138c48b16eb60be8604c12a05b1d1468236a7",
+      "LFProofHash": "0b95cae7301bcb01008bf63a1b268d024789bb09228ddca5b129177d14f00f92",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 9,
+          "lines": [
+            "for i in map(int, input().split()):",
+            "    pics[i] += 1",
+            "",
+            "print(max(pics.items(), key=itemgetter(1))[0])"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "originalInputHash": "5492769d4eb6b9f3380ae46dbea5e26ea31941524d9cfeccd4482aec3818f7c2",
+      "originalTimeout": false,
+      "reason": "Equal maximum counts resolve by dictionary insertion/first appearance, not time at which the tied photos reached their final maximum. Expected derivation: Likes1,3,2,2,1 give counts photo1=2,photo2=2,photo3=1. Photo2 reaches second like at position4; photo1 reaches it at5. Winner2. Source trace: Dictionary iteration order is1,3,2; values2,1,2. max with count key keeps first maximum1 on the equal-count tie, so prints1.",
+      "sourceHash": "1aec6b18d4ad6b597f7f0c737f87a0b868e64f9f63c6a41674d0a42e6d233fc5",
+      "sourceRanges": [
+        [
+          6,
+          9
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/637/submission/16714518",
       "test": "0001"
     },
     "16714580": {
+      "LFActualOutputHash": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+      "LFExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "LFInputHash": "c2214cdda6e89ee04f1c583e8e455a0c127c19eb66160363e137ff1a799a363d",
+      "LFProofHash": "0b95cae7301bcb01008bf63a1b268d024789bb09228ddca5b129177d14f00f92",
+      "exactSourceExcerpts": [
+        {
+          "first": 7,
+          "last": 9,
+          "lines": [
+            "    pics[i] = (pics[i][0] + 1, i)",
+            "",
+            "print(max(pics.items(), key=itemgetter(1))[0])"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "originalInputHash": "b9c8f3259056b2739aa5b10edec6532f1c91cb7c44718299f52bbc3d9791aedf",
+      "originalTimeout": false,
+      "reason": "Second tuple component is id, not arrival timing; breaks final-count ties by largest photo id. Expected derivation: For2,1,2,3,1,5,8,7,4,8, highest count2 is shared by2,1,8. They reach their second likes at3,5,10 respectively, so2 wins. Source trace: Final tuples for tied candidates are(2,2),(2,1),(2,8). Lexicographic max is(2,8), source outputs id8, ignoring earlier attainment by2.",
+      "sourceHash": "929f161ac38df4c0f0194596a8e63bc98a184aec2c702315c1853b1170ea7449",
+      "sourceRanges": [
+        [
+          7,
+          9
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/637/submission/16714580",
       "test": "0006"
     },
     "16732225": {
+      "LFActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "LFExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "LFInputHash": "c2214cdda6e89ee04f1c583e8e455a0c127c19eb66160363e137ff1a799a363d",
+      "LFProofHash": "0b95cae7301bcb01008bf63a1b268d024789bb09228ddca5b129177d14f00f92",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 3,
+          "lines": [
+            "    photos = []",
+            "    top = dict(id=arr.pop(0), likes=1)"
+          ]
+        },
+        {
+          "first": 14,
+          "last": 15,
+          "lines": [
+            "        if not found:",
+            "            photos.append(dict(id=id, likes=1))"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "originalInputHash": "b9c8f3259056b2739aa5b10edec6532f1c91cb7c44718299f52bbc3d9791aedf",
+      "originalTimeout": false,
+      "reason": "Pops first like into a separate top object but never puts that photo into photos, so its first vote is absent from subsequent counts. Expected derivation: Sequence2,1,2,3,1,5,8,7,4,8 gives final counts2 for ids2,1,8; id2 reaches it first at vote3 versus5 and10, so2. Source trace: top={id2,likes1},photos empty after removing first2. Vote2 adds id1 likes1; vote3 adds id2 likes1 rather than incrementing it to2. At vote5 id1 increases to2, exceeds separate top count1, becomes top. Id8 reaches2 atvote10 but not strictly greater, leavingtop1. Prints1.",
+      "sourceHash": "1a6ec53ead293a8472f03cbff7fc131777b36129210feacce07f1a6f79251f06",
+      "sourceRanges": [
+        [
+          2,
+          3
+        ],
+        [
+          14,
+          15
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/637/submission/16732225",
       "test": "0006"
     },
     "16737227": {
+      "LFActualOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "LFExpectedOutputHash": "983bd614bb5afece5ab3b6023f71147cd7b6bc2314f9d27af7422541c6558389",
+      "LFInputHash": "295d95b844be868df8ff98e3e8285237df33c22689c0b107e919babdeea5d079",
+      "LFProofHash": "0b95cae7301bcb01008bf63a1b268d024789bb09228ddca5b129177d14f00f92",
+      "exactSourceExcerpts": [
+        {
+          "first": 1,
+          "last": 1,
+          "lines": [
+            "a,b=input(),list(map(int,input().split()));print(b.index(max(b))+1)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "791f66b6a07d13af8af2f243438e6a14bc0c8446987bb603255786e361dcf2f5",
+      "originalInputHash": "cebacab65b0dde8a1dec7d1069cdfc00b7a06734ce5d66460e0f0838a9bb1d54",
+      "originalTimeout": false,
+      "reason": "Computes max id and emits its first 1-based input index, rather than winning photo id determined by vote count and attainment time. Expected derivation: Votes100,200,300,200,100,300,300,100,200: each id has3 votes;300 gets third at7,100 at8,200 at9, so winner id300. Source trace: max(b)=300, b.index(300)=2, output2+1=3. This is a computed array position, not a formatting difference or count/header omission. Its input-dependent maximum-selection algorithm is materially wrong for the voting task, not an unrelated or constant placeholder program.",
+      "sourceHash": "a4298c4224e4623f996862794bb3fe0a2da69b39e129a350c94d9385b03eb84d",
+      "sourceRanges": [
+        [
+          1,
+          1
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/637/submission/16737227",
       "test": "0002"
     }
   },
-  "incorrectAnalysis": {},
   "independentFreshRunHash": "889ec5ed3d5074db155a34c9fcdb0adaefea9797670416d4b71aebd08420112a",
   "independentLFReplayHash": "0b95cae7301bcb01008bf63a1b268d024789bb09228ddca5b129177d14f00f92",
   "independentSemanticCheckHash": "4e35f7bc64ad6fdabd62e0d790d02aaf60e619d40c24cb1f8ba6525f1777494b",
   "independentStressHash": "73a2e7fabded882d756fef414a7e9fe4edcb1dadaac4636c314de204f2b51291",
+  "originalExecutionEvidenceHash": "ed806cd79e53ffbc1479da65e302d7ada3b4bd682a6e6511ce9ae55b1103a602",
   "packageHash": "6090464f82cd21581f9b0c98ca11d633bcaf1bad291778693356354fee46f36a",
   "qualificationBasis": "generated",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -143,26 +296,25 @@
         "AC": 10,
         "WA": 7
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0021",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 7
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 7,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 7,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 7,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "1e651c6ed5b9e954172794324f44c794f7fb1c42618b4c4ed29ca1e8a6d9aaba",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/637/submission/16710937",
       "submissionId": "16710937",
       "testVerdicts": {
@@ -178,7 +330,11 @@
           "0021"
         ],
         "origin": "tests/0021",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "originalExpectedOutputHash": "953614b55d940dc9ebbf50655808c54860ae7aabcac55874cc780f6c34017144",
+        "originalInputHash": "1c29d3b922093a86e762348a0531ebb7af8f4015233b6cbb8a80dd443a971b7b",
+        "reason": "Backward index range omits0, so a tied photo occurring only as the first like has no candidate. d.count(elem) also erroneously compares photo ids to a list of indices.",
+        "selectedOriginalTest": "0021",
         "test": "lf-0021"
       }
     },
@@ -187,26 +343,25 @@
         "AC": 8,
         "WA": 8
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 8
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 8,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 8,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 6,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "1aec6b18d4ad6b597f7f0c737f87a0b868e64f9f63c6a41674d0a42e6d233fc5",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/637/submission/16714518",
       "submissionId": "16714518",
       "testVerdicts": {
@@ -222,7 +377,11 @@
           "0001"
         ],
         "origin": "tests/0001",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "originalExpectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+        "originalInputHash": "5492769d4eb6b9f3380ae46dbea5e26ea31941524d9cfeccd4482aec3818f7c2",
+        "reason": "Equal maximum counts resolve by dictionary insertion/first appearance, not time at which the tied photos reached their final maximum.",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     },
@@ -231,26 +390,25 @@
         "AC": 7,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0006",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "929f161ac38df4c0f0194596a8e63bc98a184aec2c702315c1853b1170ea7449",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/637/submission/16714580",
       "submissionId": "16714580",
       "testVerdicts": {
@@ -266,7 +424,11 @@
           "0006"
         ],
         "origin": "tests/0006",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+        "originalExpectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+        "originalInputHash": "b9c8f3259056b2739aa5b10edec6532f1c91cb7c44718299f52bbc3d9791aedf",
+        "reason": "Second tuple component is id, not arrival timing; breaks final-count ties by largest photo id.",
+        "selectedOriginalTest": "0006",
         "test": "lf-0006"
       }
     },
@@ -275,26 +437,25 @@
         "AC": 6,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0006",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 10,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "1a6ec53ead293a8472f03cbff7fc131777b36129210feacce07f1a6f79251f06",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/637/submission/16732225",
       "submissionId": "16732225",
       "testVerdicts": {
@@ -310,7 +471,11 @@
           "0006"
         ],
         "origin": "tests/0006",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "originalExpectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+        "originalInputHash": "b9c8f3259056b2739aa5b10edec6532f1c91cb7c44718299f52bbc3d9791aedf",
+        "reason": "Pops first like into a separate top object but never puts that photo into photos, so its first vote is absent from subsequent counts.",
+        "selectedOriginalTest": "0006",
         "test": "lf-0006"
       }
     },
@@ -319,26 +484,25 @@
         "AC": 3,
         "WA": 20
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 20
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 20,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 20,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "a4298c4224e4623f996862794bb3fe0a2da69b39e129a350c94d9385b03eb84d",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/637/submission/16737227",
       "submissionId": "16737227",
       "testVerdicts": {
@@ -354,7 +518,11 @@
           "0002"
         ],
         "origin": "tests/0002",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+        "originalExpectedOutputHash": "791f66b6a07d13af8af2f243438e6a14bc0c8446987bb603255786e361dcf2f5",
+        "originalInputHash": "cebacab65b0dde8a1dec7d1069cdfc00b7a06734ce5d66460e0f0838a9bb1d54",
+        "reason": "Computes max id and emits its first 1-based input index, rather than winning photo id determined by vote count and attainment time.",
+        "selectedOriginalTest": "0002",
         "test": "lf-0002"
       }
     }
@@ -362,14 +530,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 3,
+      "bytes": 840772,
+      "name": "batch-3-source-semantics-report.json",
+      "sha256": "13a95ff57fc4d6b97aec98a2cea133fcb944543e9d5421886be5e8b7bb7631a9"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "1f227cfb95823a6d766d6cec33cdc5d6c913fdd2be7659649aa3ea8354576ed9",
+  "sourceSemanticReviewPath": "source-review/proofs/637A.json",
   "stressCases": 40,
-  "testPairs": 211,
-  "unconfirmedSourceIds": [
-    "16710937",
-    "16714518",
-    "16714580",
-    "16732225",
-    "16737227"
-  ]
+  "testPairs": 211
 }

@@ -1,28 +1,216 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 1,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "17e9a9d669fb416ea49d95ce41970822b52974d19c120d29a9e00b65d88dad7d",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "211244483": {
+      "LFActualOutputHash": "6c286396a6c0a62babb7dbe0c46de8b590a1dcfcfc94904a648c941c8f4196ae",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "07d961b4441af9213b46b56dbf0727702888a63ad1952ff3616430f09c8170be",
+      "LFProofHash": "926a28167e7f32d87b7df787e6b2489d5f4691cd7d9dc628a4a81b86dc420f92",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 16,
+          "lines": [
+            "if x % 4 == 0 or x % 7 == 0:",
+            "    if (x // 4) % 2 == 0 or (x // 7) % 2 == 0:",
+            "        print(\"YES\")",
+            "        quit()",
+            "else:",
+            "    for i in str(x):",
+            "        if i == '4' or i == '7':",
+            "            count+=1",
+            "",
+            "if count == length:",
+            "    print(\"YES\")",
+            "else:",
+            "    print(\"NO\")"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "6c286396a6c0a62babb7dbe0c46de8b590a1dcfcfc94904a648c941c8f4196ae",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "originalInputHash": "07d961b4441af9213b46b56dbf0727702888a63ad1952ff3616430f09c8170be",
+      "originalTimeout": false,
+      "primaryResolution": "Included0045 exactLF bytes and0024 CRLF equivalent; original full-suite executions both exit0/WA and their actual-output SHA256 equals the frozen independent-0012 output. Source parity branch computes NO for lucky444, not merely an input-prompt mismatch.",
+      "reason": "line 5 `if (x // 4) % 2 == 0 or (x // 7) % 2 == 0` parity test; when it fails, the else-branch digit count (lines 9-11) is skipped so count=0 != length -> NO at line 16 Expected derivation: 444 is itself a lucky number (digits 4,4,4), hence divisible by itself -> YES. Source trace: x=444; 444%4==0 -> line 5: 444//4=111 odd, 444//7=63 odd -> no YES/quit; else-branch skipped; count=0, length=3 -> line 16 prints NO (after the 'Enter the input: ' prompt).",
+      "sourceHash": "2158af3b0748848d1541e2b076f96019ca76ab9b441b9097462f5518f73550d2",
+      "sourceRanges": [
+        [
+          4,
+          16
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/122/submission/211244483",
+      "test": "0045"
+    },
+    "211253683": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "6fc16b03d8c15b9885876848a301a01816cccaf7b48e74f2b51db99c007a3bd5",
+      "LFProofHash": "926a28167e7f32d87b7df787e6b2489d5f4691cd7d9dc628a4a81b86dc420f92",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 7,
+          "lines": [
+            "if v.count('4')+v.count('7') == len(v):",
+            "    print(\"YES\")",
+            "elif int(v)%4==0 or int(v)%7==0:",
+            "    print(\"YES\")",
+            "else:",
+            "    print(\"NO\")"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+      "originalInputHash": "d5f0eb6a8671aec1295e01dcbae8b70bbdbece3bf94dac0271185ea19c9e2f78",
+      "originalTimeout": false,
+      "reason": "line 4 `elif int(v)%4==0 or int(v)%7==0` only checks single-digit lucky divisors Expected derivation: 94 = 2*47; 47 is lucky -> YES. Source trace: '94' not all lucky digits; 94%4=2, 94%7=3 -> line 7 NO.",
+      "sourceHash": "40928883c538839c0d12f723fccda031ec9c2e42014337cd66a52555d0a920dc",
+      "sourceRanges": [
+        [
+          2,
+          7
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/122/submission/211253683",
+      "test": "0034"
+    },
+    "211260016": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "6fc16b03d8c15b9885876848a301a01816cccaf7b48e74f2b51db99c007a3bd5",
+      "LFProofHash": "926a28167e7f32d87b7df787e6b2489d5f4691cd7d9dc628a4a81b86dc420f92",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 7,
+          "lines": [
+            "if len(num) == luckyCount or int(num) % 4 == 0 or int(num) % 7 == 0:",
+            "    print(\"YES\")",
+            "else:",
+            "    print(\"NO\")"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+      "originalInputHash": "d5f0eb6a8671aec1295e01dcbae8b70bbdbece3bf94dac0271185ea19c9e2f78",
+      "originalTimeout": false,
+      "reason": "line 4 `if len(num) == luckyCount or int(num) % 4 == 0 or int(num) % 7 == 0` Expected derivation: 94 = 2*47 -> YES. Source trace: luckyCount=1 (one '4') != len 2; 94%4=2; 94%7=3 -> NO.",
+      "sourceHash": "fa3351c35d30d285cdbb753c65b5fc3f2bc8cfbbc955c250e3e1a0446077b6da",
+      "sourceRanges": [
+        [
+          4,
+          7
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/122/submission/211260016",
+      "test": "0034"
+    },
+    "211269275": {
+      "LFActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "LFExpectedOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+      "LFInputHash": "b03c70ff0d641a363f1a021413a098dce02e4c68b75f3a47aa10044f42ee1784",
+      "LFProofHash": "926a28167e7f32d87b7df787e6b2489d5f4691cd7d9dc628a4a81b86dc420f92",
+      "exactSourceExcerpts": [
+        {
+          "first": 3,
+          "last": 8,
+          "lines": [
+            "if '4' in str(n) or '7' in str(n):",
+            "    print(\"YES\")",
+            "elif n % 4 == 0:",
+            "    print(\"YES\")",
+            "elif n % 8 == 0:",
+            "    print(\"YES\")"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "originalInputHash": "3c17281e797038547012dcbf220057e711a76c3a220be8f906e9bb27a89c9e87",
+      "originalTimeout": false,
+      "reason": "line 3 `if '4' in str(n) or '7' in str(n)` (any lucky digit, not divisibility by a lucky number) Expected derivation: 78: lucky numbers <=78 are 4,7,44,47,74,77; 78%4=2, 78%7=1, 78%44=34, 78%47=31, 78%74=4, 78%77=1 -> NO. Source trace: '7' in '78' -> line 4 prints YES.",
+      "sourceHash": "73e878baf63d8b893e5937cfb1c8fbd97c2515c0512a1d5218f88c4fee1e329c",
+      "sourceRanges": [
+        [
+          3,
+          8
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/122/submission/211269275",
+      "test": "0003"
+    },
+    "211271846": {
+      "LFActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "LFExpectedOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+      "LFInputHash": "b03c70ff0d641a363f1a021413a098dce02e4c68b75f3a47aa10044f42ee1784",
+      "LFProofHash": "926a28167e7f32d87b7df787e6b2489d5f4691cd7d9dc628a4a81b86dc420f92",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 5,
+          "lines": [
+            "if n % 4 == 0 or n% 7 == 0 or n%47 == 0 or n%44 == 0 or n%74 == 0 or n%77 == 0 or n%444 == 0 or n%477 ==0 or n%474 or n%774 == 0 or n%744 ==0 or n%777 == 0 or n%747 :",
+            "    print(\"YES\")",
+            "else:",
+            "    print(\"NO\")"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "originalInputHash": "3c17281e797038547012dcbf220057e711a76c3a220be8f906e9bb27a89c9e87",
+      "originalTimeout": false,
+      "reason": "line 2 terms `or n%474 or` and `or n%747` (missing == 0) Expected derivation: 78 has no lucky divisor (see 4,7,44,47,74,77 checks) -> NO. Source trace: 78%4,78%7,...,78%477 nonzero -> `n%474` = 78 (truthy) -> condition True -> YES.",
+      "sourceHash": "51f95a957b81f54ce77c4fd49f35d96fecc7c9a5af05ae65c5d2550e80dec923",
+      "sourceRanges": [
+        [
+          2,
+          5
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/122/submission/211271846",
+      "test": "0003"
+    }
+  },
   "independentFreshRunHash": "f5c3074f472f024f5ee5564fc6aaca359f93d106158c31e3ce617a75fb792989",
   "independentLFReplayHash": "926a28167e7f32d87b7df787e6b2489d5f4691cd7d9dc628a4a81b86dc420f92",
   "independentSemanticCheckHash": "1be0753fab14af82e0dc0c2388d8772601d95acba315863151973707abab22d6",
   "independentStressHash": "d58d2347d291b6a705dac924f289e82869bdd9ae7efa1bb9e4a74299973a10d8",
+  "originalExecutionEvidenceHash": "17e9a9d669fb416ea49d95ce41970822b52974d19c120d29a9e00b65d88dad7d",
   "packageHash": "87bfc290436e9548493c5a11f41eb6ff4684bdc97e9239d49857ecc5426831b5",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -113,18 +301,20 @@
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "correct decision with extra input prompt": 25,
-        "terminal lucky-divisor decision is wrong (ignoring input prompt)": 1
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
       "language": "Python 3",
       "normalWrongAnswerCount": 26,
-      "outcome": "algorithmic-WA",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 1,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "2158af3b0748848d1541e2b076f96019ca76ab9b441b9097462f5518f73550d2",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/122/submission/211244483",
       "submissionId": "211244483",
       "testVerdicts": {
@@ -140,7 +330,11 @@
           "0045"
         ],
         "origin": "independent-mutation",
-        "reason": "terminal lucky-divisor decision is wrong (ignoring input prompt)",
+        "originalActualOutputHash": "6c286396a6c0a62babb7dbe0c46de8b590a1dcfcfc94904a648c941c8f4196ae",
+        "originalExpectedOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+        "originalInputHash": "07d961b4441af9213b46b56dbf0727702888a63ad1952ff3616430f09c8170be",
+        "reason": "line 5 `if (x // 4) % 2 == 0 or (x // 7) % 2 == 0` parity test; when it fails, the else-branch digit count (lines 9-11) is skipped so count=0 != length -> NO at line 16",
+        "selectedOriginalTest": "0045",
         "test": "independent-0012"
       }
     },
@@ -149,26 +343,25 @@
         "AC": 15,
         "WA": 6
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 6
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 6,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": false,
       "language": "Python 3",
       "normalWrongAnswerCount": 6,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 6,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "40928883c538839c0d12f723fccda031ec9c2e42014337cd66a52555d0a920dc",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/122/submission/211253683",
       "submissionId": "211253683",
       "testVerdicts": {
@@ -184,7 +377,11 @@
           "0034"
         ],
         "origin": "tests/0034",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+        "originalInputHash": "d5f0eb6a8671aec1295e01dcbae8b70bbdbece3bf94dac0271185ea19c9e2f78",
+        "reason": "line 4 `elif int(v)%4==0 or int(v)%7==0` only checks single-digit lucky divisors",
+        "selectedOriginalTest": "0034",
         "test": "lf-0034"
       }
     },
@@ -193,26 +390,25 @@
         "AC": 15,
         "WA": 6
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 6
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 6,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": false,
       "language": "Python 3",
       "normalWrongAnswerCount": 6,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 6,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "fa3351c35d30d285cdbb753c65b5fc3f2bc8cfbbc955c250e3e1a0446077b6da",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/122/submission/211260016",
       "submissionId": "211260016",
       "testVerdicts": {
@@ -228,7 +424,11 @@
           "0034"
         ],
         "origin": "tests/0034",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+        "originalInputHash": "d5f0eb6a8671aec1295e01dcbae8b70bbdbece3bf94dac0271185ea19c9e2f78",
+        "reason": "line 4 `if len(num) == luckyCount or int(num) % 4 == 0 or int(num) % 7 == 0`",
+        "selectedOriginalTest": "0034",
         "test": "lf-0034"
       }
     },
@@ -237,27 +437,25 @@
         "AC": 5,
         "WA": 20
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 6,
-        "lucky-divisor algorithm omits NO branch": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 20,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 20,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 15,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "73e878baf63d8b893e5937cfb1c8fbd97c2515c0512a1d5218f88c4fee1e329c",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/122/submission/211269275",
       "submissionId": "211269275",
       "testVerdicts": {
@@ -273,7 +471,11 @@
           "0003"
         ],
         "origin": "tests/0003",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+        "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+        "originalInputHash": "3c17281e797038547012dcbf220057e711a76c3a220be8f906e9bb27a89c9e87",
+        "reason": "line 3 `if '4' in str(n) or '7' in str(n)` (any lucky digit, not divisibility by a lucky number)",
+        "selectedOriginalTest": "0003",
         "test": "lf-0003"
       }
     },
@@ -282,26 +484,25 @@
         "AC": 5,
         "WA": 21
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 21
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 21,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 21,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 16,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "51f95a957b81f54ce77c4fd49f35d96fecc7c9a5af05ae65c5d2550e80dec923",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/122/submission/211271846",
       "submissionId": "211271846",
       "testVerdicts": {
@@ -317,7 +518,11 @@
           "0003"
         ],
         "origin": "tests/0003",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+        "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+        "originalInputHash": "3c17281e797038547012dcbf220057e711a76c3a220be8f906e9bb27a89c9e87",
+        "reason": "line 2 terms `or n%474 or` and `or n%747` (missing == 0)",
+        "selectedOriginalTest": "0003",
         "test": "lf-0003"
       }
     }
@@ -325,13 +530,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 3,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 1,
+      "bytes": 387441,
+      "name": "batch1-source-semantics-review.json",
+      "sha256": "ca43961fef2540e778e5dfc2d517ba9ae59958c8198fecf0e801108165b0e722"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "2456f1e0a6be5ffd507e75b5a7425662677e97bf5dbc119a4860b90a672bccde",
+  "sourceSemanticReviewPath": "source-review/proofs/122A.json",
   "stressCases": 40,
-  "testPairs": 126,
-  "unconfirmedSourceIds": [
-    "211253683",
-    "211260016",
-    "211269275",
-    "211271846"
-  ]
+  "testPairs": 126
 }

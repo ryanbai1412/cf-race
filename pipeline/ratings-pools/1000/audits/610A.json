@@ -1,28 +1,195 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "6b29c72bc908f5e630cd3046c8c654d09a1870602522c10db13ad912f8c88eff",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "15095370": {
+      "LFActualOutputHash": "8d5c1b5a87c51f970807fc0c2057b3ab3aaf11638ab667dc5956edc8f5bcf138",
+      "LFExpectedOutputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "LFInputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "LFProofHash": "3c41f248c16fb8e5d428998f5f4492b0b1081234d8a047a673b4d6b140e35303",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 5,
+          "lines": [
+            "ans = (n / 2) / 2",
+            "if (n % 2 == 0):",
+            "   ans = ans - 1",
+            "print(ans)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "8d5c1b5a87c51f970807fc0c2057b3ab3aaf11638ab667dc5956edc8f5bcf138",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "originalInputHash": "92961e9752250efa971147344b22295db32d7b75e940e0971e5fb34f21d0bc67",
+      "originalTimeout": false,
+      "reason": "Uses nonintegral n/4 and subtracts one for all even n rather than counting unequal positive side pairs; n=6 has no square to subtract. Expected derivation: Rectangle sides must be a,a,b,b with a+b=n/2. For n6, a+b3 has exactly one unordered unequal pair{1,2}, yielding{1,1,2,2}. Answer1. Source trace: ans=(6/2)/2=1.5; n%2==0 causes ans-=1 to0.5. It prints0.5, mathematically not1, so this is not merely integer-vs-float notation.",
+      "sourceHash": "e1e003e74bf1f9c38b80aabd2452443177bb2920559c8f59a73d4de74b305e78",
+      "sourceRanges": [
+        [
+          2,
+          5
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/610/submission/15095370",
+      "test": "0001"
+    },
+    "15095373": {
+      "LFActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "LFExpectedOutputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "LFInputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "LFProofHash": "3c41f248c16fb8e5d428998f5f4492b0b1081234d8a047a673b4d6b140e35303",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 4,
+          "lines": [
+            "ans = (int)((n // 2) // 2)",
+            "if (n % 2 == 0):",
+            "   ans = ans - 1"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "originalInputHash": "92961e9752250efa971147344b22295db32d7b75e940e0971e5fb34f21d0bc67",
+      "originalTimeout": false,
+      "reason": "Subtracts one whenever n is even; square exclusion is needed only if n is divisible by4. Expected derivation: n6 gives a+b3; only unordered positive unequal side pair{1,2}, so one valid cut multiset. Source trace: ans=(6//2)//2=1. n even subtracts1, yielding0. No square exists because all four equal integer sides would require6 divisible by4.",
+      "sourceHash": "97dec69d229f2cd713acd129277bd3c15a241753e512a90448bfe1c607a8e310",
+      "sourceRanges": [
+        [
+          2,
+          4
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/610/submission/15095373",
+      "test": "0001"
+    },
+    "15095380": {
+      "LFActualOutputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+      "LFExpectedOutputHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+      "LFInputHash": "5378796307535df3ec8d8b15a2e2dc5641419c3d3060cfe32238c0fa973f7aa3",
+      "LFProofHash": "3c41f248c16fb8e5d428998f5f4492b0b1081234d8a047a673b4d6b140e35303",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 3,
+          "lines": [
+            "ans = ((n // 2) // 2)",
+            "print(ans)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+      "originalInputHash": "8ce88a8842c1584e3d6871e84e166e3b513c3ce2a9da6166760c7af1645dea29",
+      "originalTimeout": false,
+      "reason": "Does not exclude equal side pair (square) when n divisible by4; also lacks odd-perimeter rejection. Expected derivation: n20 gives a+b10, unordered pairs(1,9),(2,8),(3,7),(4,6),(5,5). Last is a square and forbidden, leaving4. Source trace: ans=(20//2)//2=5, printed directly, counting the forbidden fifth pair.",
+      "sourceHash": "3cab8bf0861fb789da18c84954f7323da88536d42ce65c214bf67fc1f3a9d868",
+      "sourceRanges": [
+        [
+          2,
+          3
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/610/submission/15095380",
+      "test": "0002"
+    },
+    "15095478": {
+      "LFActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "LFExpectedOutputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "LFInputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "LFProofHash": "3c41f248c16fb8e5d428998f5f4492b0b1081234d8a047a673b4d6b140e35303",
+      "exactSourceExcerpts": [
+        {
+          "first": 3,
+          "last": 5,
+          "lines": [
+            "for i in range(1, 1, n // 4):",
+            "  if (n - 2 * i) % 2 == 0:",
+            "      ans += 1"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "originalInputHash": "92961e9752250efa971147344b22295db32d7b75e940e0971e5fb34f21d0bc67",
+      "originalTimeout": false,
+      "reason": "range(1,1,n//4) reverses intended stop/step use: equal start and stop make the loop empty for positive step. Expected derivation: For n6 the only allowed unordered sides are1 and2, giving multiset{1,1,2,2}; answer1. Source trace: n//4=1, so range(1,1,1) is empty. Executed entrypoint reads6, sets ans0 and prints0; arithmetic body is skipped due to incorrect loop range. No crash or zero step on this input.",
+      "sourceHash": "e9847030f1ac8b3eb8da1439bfdbde100b1f389023fff5eea94d3823647b1b1b",
+      "sourceRanges": [
+        [
+          3,
+          5
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/610/submission/15095478",
+      "test": "0001"
+    },
+    "15130347": {
+      "LFActualOutputHash": "0cf2382d97b52294f172b6f5ca8788fc1ce9461934901c0fc7a24351d50f610d",
+      "LFExpectedOutputHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "LFInputHash": "263e224a74ccfa3447e2842a52cd7fcb385c5d133dcc1b0f97691f62bf2d3f11",
+      "LFProofHash": "3c41f248c16fb8e5d428998f5f4492b0b1081234d8a047a673b4d6b140e35303",
+      "exactSourceExcerpts": [
+        {
+          "first": 1,
+          "last": 1,
+          "lines": [
+            "print(int((int(input())-1)/4))"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "0cf2382d97b52294f172b6f5ca8788fc1ce9461934901c0fc7a24351d50f610d",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "originalInputHash": "7a8c132633dedbe2f0098ae9f5d13183e45287d0a28883292af2a786553228f8",
+      "originalTimeout": false,
+      "reason": "No rejection for odd n, although sum of two equal-side pairs is necessarily even. Expected derivation: n1943590793 is odd within1..2*10^9. Any rectangle multiset has total2a+2b, an even number, so there are zero possibilities. Source trace: (1943590793-1)/4=1943590792/4=485897698 exactly; int preserves that integer and prints it. The necessary perimeter parity was never checked.",
+      "sourceHash": "66c8d0f5dd2c31122400424368f82167badd47a038d53347279267600e3f026f",
+      "sourceRanges": [
+        [
+          1,
+          1
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/610/submission/15130347",
+      "test": "0016"
+    }
+  },
   "independentFreshRunHash": "e1e7e16aba4665d43a29c1e5825f04c58f64849f24b9781bcda11b947650624f",
   "independentLFReplayHash": "3c41f248c16fb8e5d428998f5f4492b0b1081234d8a047a673b4d6b140e35303",
   "independentSemanticCheckHash": "a43a1c19153122bbb363ea1e10f3f5498cdd58906961b4f1f1d34e76ab410860",
   "independentStressHash": "f7526ed3063e1ed536991d003db5ee1fa82d6ea652bf357eb1b7b9f95893d66e",
+  "originalExecutionEvidenceHash": "6b29c72bc908f5e630cd3046c8c654d09a1870602522c10db13ad912f8c88eff",
   "packageHash": "1f9bda35697a9e86d48d14154b414cf89d2dc4e02fb76c9490476cd9ffa88e73",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -108,27 +275,25 @@
       "LFReplayVerdicts": {
         "WA": 23
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 18,
-        "numeric values equal; only numeric output representation differs": 5
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 18,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 23,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 10,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "e1e003e74bf1f9c38b80aabd2452443177bb2920559c8f59a73d4de74b305e78",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/610/submission/15095370",
       "submissionId": "15095370",
       "testVerdicts": {
@@ -144,7 +309,11 @@
           "0143"
         ],
         "origin": "tests/0001",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "8d5c1b5a87c51f970807fc0c2057b3ab3aaf11638ab667dc5956edc8f5bcf138",
+        "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+        "originalInputHash": "92961e9752250efa971147344b22295db32d7b75e940e0971e5fb34f21d0bc67",
+        "reason": "Uses nonintegral n/4 and subtracts one for all even n rather than counting unequal positive side pairs; n=6 has no square to subtract.",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     },
@@ -153,26 +322,25 @@
         "AC": 1,
         "WA": 22
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 22
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 22,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 22,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 14,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "97dec69d229f2cd713acd129277bd3c15a241753e512a90448bfe1c607a8e310",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/610/submission/15095373",
       "submissionId": "15095373",
       "testVerdicts": {
@@ -189,7 +357,11 @@
           "0143"
         ],
         "origin": "tests/0143",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+        "originalInputHash": "92961e9752250efa971147344b22295db32d7b75e940e0971e5fb34f21d0bc67",
+        "reason": "Subtracts one whenever n is even; square exclusion is needed only if n is divisible by4.",
+        "selectedOriginalTest": "0001",
         "test": "lf-0143"
       }
     },
@@ -198,26 +370,25 @@
         "AC": 1,
         "WA": 22
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 22
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 22,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 22,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 15,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "3cab8bf0861fb789da18c84954f7323da88536d42ce65c214bf67fc1f3a9d868",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/610/submission/15095380",
       "submissionId": "15095380",
       "testVerdicts": {
@@ -234,7 +405,11 @@
           "0157"
         ],
         "origin": "tests/0002",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+        "originalExpectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "originalInputHash": "8ce88a8842c1584e3d6871e84e166e3b513c3ce2a9da6166760c7af1645dea29",
+        "reason": "Does not exclude equal side pair (square) when n divisible by4; also lacks odd-perimeter rejection.",
+        "selectedOriginalTest": "0002",
         "test": "lf-0002"
       }
     },
@@ -243,26 +418,25 @@
         "AC": 8,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "e9847030f1ac8b3eb8da1439bfdbde100b1f389023fff5eea94d3823647b1b1b",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/610/submission/15095478",
       "submissionId": "15095478",
       "testVerdicts": {
@@ -280,7 +454,11 @@
           "0143"
         ],
         "origin": "tests/0143",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+        "originalInputHash": "92961e9752250efa971147344b22295db32d7b75e940e0971e5fb34f21d0bc67",
+        "reason": "range(1,1,n//4) reverses intended stop/step use: equal start and stop make the loop empty for positive step.",
+        "selectedOriginalTest": "0001",
         "test": "lf-0143"
       }
     },
@@ -289,26 +467,25 @@
         "AC": 2,
         "WA": 20
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0016",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 20
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 20,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 20,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "66c8d0f5dd2c31122400424368f82167badd47a038d53347279267600e3f026f",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/610/submission/15130347",
       "submissionId": "15130347",
       "testVerdicts": {
@@ -324,7 +501,11 @@
           "0016"
         ],
         "origin": "tests/0016",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "0cf2382d97b52294f172b6f5ca8788fc1ce9461934901c0fc7a24351d50f610d",
+        "originalExpectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+        "originalInputHash": "7a8c132633dedbe2f0098ae9f5d13183e45287d0a28883292af2a786553228f8",
+        "reason": "No rejection for odd n, although sum of two equal-side pairs is necessarily even.",
+        "selectedOriginalTest": "0016",
         "test": "lf-0016"
       }
     }
@@ -332,14 +513,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 3,
+      "bytes": 840772,
+      "name": "batch-3-source-semantics-report.json",
+      "sha256": "13a95ff57fc4d6b97aec98a2cea133fcb944543e9d5421886be5e8b7bb7631a9"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "016414669b611876069920d07ec1304622f39b9394d8694112e74d6951d1df18",
+  "sourceSemanticReviewPath": "source-review/proofs/610A.json",
   "stressCases": 40,
-  "testPairs": 168,
-  "unconfirmedSourceIds": [
-    "15095370",
-    "15095373",
-    "15095380",
-    "15095478",
-    "15130347"
-  ]
+  "testPairs": 168
 }

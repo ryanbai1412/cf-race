@@ -1,62 +1,222 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
-    "algorithmicallyWrong": false,
+    "algorithmicallyWrong": true,
     "coverage": true,
     "deterministicGeneration": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "generatedBasis": true,
     "hashes": true,
     "independentOracle": true,
     "inputConstraints": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "c3a4424bfc532f7c8d3a2cb79eb4401cde839bcfc49ddbf182d9a2fdefedf759",
   "generatedQualificationHash": "cd082c71f46216547dc7f8f533deeaecfce1033c28e71880cba5cb984aa173f6",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
-  "historicalIncorrectAnalysis": {
+  "incorrectAnalysis": {
     "84864412": {
+      "LFActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "LFExpectedOutputHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+      "LFInputHash": "dc379e51f031243a14ed733830554ad7b57282e1c8cd42b47479e20884d6be6d",
+      "LFProofHash": "77d0afa3c6b2ca443368ec8ef3e542ab160811eb3d45b04643b38345a9ee2411",
+      "exactSourceExcerpts": [
+        {
+          "first": 9,
+          "last": 14,
+          "lines": [
+            "for i in range(n-1):",
+            "    if(a[i]==a[i-1]):",
+            "        print(2)",
+            "        break",
+            "else:",
+            "    print(1)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "originalInputHash": "d05e081d101cd5163a54c9491f4591d419fd031cfb305b4c76394a9c40f4c26a",
+      "originalTimeout": false,
+      "reason": "line 11 constant `print(2)` Expected derivation: Clients at the same minute must all be served simultaneously; answer = maximum multiplicity of any (h,m) time. Test 0004: 7:34 x3 -> 3. Source trace: sorted [306,454,454,454,749,919,1223]; i=0 compares 306 with a[-1]=1223 no; i=1 454 vs 306 no; i=2 454==454 -> prints 2.",
+      "sourceHash": "34cf3b167b8fef78ff380f482f56a2359ee917b3a7fd5cacc21a834332095b68",
+      "sourceRanges": [
+        [
+          9,
+          14
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/237/submission/84864412",
       "test": "0004"
     },
     "84864625": {
+      "LFActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "LFExpectedOutputHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+      "LFInputHash": "f4009cbb84c318927e1b1b9fc8c31d22b0a412e0ab129d432dbb33280104c475",
+      "LFProofHash": "77d0afa3c6b2ca443368ec8ef3e542ab160811eb3d45b04643b38345a9ee2411",
+      "exactSourceExcerpts": [
+        {
+          "first": 10,
+          "last": 16,
+          "lines": [
+            "for i in range(n-1):",
+            "    if(a[i]==a[i-1]):",
+            "        c+=1",
+            "    else:",
+            "        r=max(r,c)",
+            "        c=1",
+            "r=max(r,c)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+      "originalInputHash": "a730d59359459f2f6846a625c3e94fa140421425f2dfcb674063f5ee9a68ea5e",
+      "originalTimeout": false,
+      "reason": "line 10 `for i in range(n-1)` (should cover i=1..n-1) Expected derivation: Clients at the same minute must all be served simultaneously; answer = maximum multiplicity of any (h,m) time. Test 0009 times: 10:01 x2, 14:16 x5, others single -> 5. Source trace: sorted ends with 856 x5 at indices 10..14; i=11,12,13 extend c to 4; i=14 never visited; r=max(2,4)=4 -> prints 4.",
+      "sourceHash": "aae4571d0f5e2ddcb53c7b93668156275c24baead49014e93b582cab6aed91b0",
+      "sourceRanges": [
+        [
+          10,
+          16
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/237/submission/84864625",
       "test": "0009"
     },
     "84914761": {
+      "LFActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "LFExpectedOutputHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+      "LFInputHash": "f4009cbb84c318927e1b1b9fc8c31d22b0a412e0ab129d432dbb33280104c475",
+      "LFProofHash": "77d0afa3c6b2ca443368ec8ef3e542ab160811eb3d45b04643b38345a9ee2411",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 9,
+          "lines": [
+            "    if h1==h and m1==m:",
+            "        ct+=1",
+            "    h1,m1=h,m",
+            "print(ct)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+      "originalInputHash": "a730d59359459f2f6846a625c3e94fa140421425f2dfcb674063f5ee9a68ea5e",
+      "originalTimeout": false,
+      "reason": "lines 6-7 `if h1==h and m1==m: ct+=1` accumulates across different times Expected derivation: Clients at the same minute must all be served simultaneously; answer = maximum multiplicity of any (h,m) time. Test 0009 times: 10:01 x2, 14:16 x5, others single -> 5. Source trace: equal-to-previous: 10:01 (1), 14:16 (4) -> ct=1+5=6 -> prints 6.",
+      "sourceHash": "953f85978db61ef888e0f237cccd5529164398b6f304c54d92830a36a378fbc9",
+      "sourceRanges": [
+        [
+          6,
+          9
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/237/submission/84914761",
       "test": "0009"
     },
     "84914986": {
+      "LFActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "LFExpectedOutputHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+      "LFInputHash": "f4009cbb84c318927e1b1b9fc8c31d22b0a412e0ab129d432dbb33280104c475",
+      "LFProofHash": "77d0afa3c6b2ca443368ec8ef3e542ab160811eb3d45b04643b38345a9ee2411",
+      "exactSourceExcerpts": [
+        {
+          "first": 7,
+          "last": 15,
+          "lines": [
+            "    if h1==h and m1==m:",
+            "        if k==0:",
+            "            ct+=1",
+            "        else:",
+            "            k+=1",
+            "    elif h1!=h and m1!=m:",
+            "        k=0",
+            "    h1,m1=h,m",
+            "print(ct)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+      "originalInputHash": "a730d59359459f2f6846a625c3e94fa140421425f2dfcb674063f5ee9a68ea5e",
+      "originalTimeout": false,
+      "reason": "lines 7-13: k logic inert, `ct+=1` accumulates across different times Expected derivation: Clients at the same minute must all be served simultaneously; answer = maximum multiplicity of any (h,m) time. Test 0009 times: 10:01 x2, 14:16 x5, others single -> 5. Source trace: k stays 0; increments for 10:01 (1) and 14:16 (4) -> ct=6 -> prints 6.",
+      "sourceHash": "8c3609121d5fdf0fa7c190b45b24102eb4ce2ed1c2d8c44b4b91afe88015955c",
+      "sourceRanges": [
+        [
+          7,
+          15
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/237/submission/84914986",
       "test": "0009"
     },
     "85072972": {
+      "LFActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "LFExpectedOutputHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+      "LFInputHash": "f4009cbb84c318927e1b1b9fc8c31d22b0a412e0ab129d432dbb33280104c475",
+      "LFProofHash": "77d0afa3c6b2ca443368ec8ef3e542ab160811eb3d45b04643b38345a9ee2411",
+      "exactSourceExcerpts": [
+        {
+          "first": 9,
+          "last": 16,
+          "lines": [
+            "cash = 1",
+            "for i in range (len(L)-1):",
+            "    if L[i][0] == L[i+1][0] and L[i][1] == L[i+1][1]:",
+            "        cash += 1",
+            "    else:",
+            "        continue",
+            "",
+            "print(cash)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+      "originalInputHash": "a730d59359459f2f6846a625c3e94fa140421425f2dfcb674063f5ee9a68ea5e",
+      "originalTimeout": false,
+      "reason": "lines 11-12 `cash += 1` across all groups Expected derivation: Clients at the same minute must all be served simultaneously; answer = maximum multiplicity of any (h,m) time. Test 0009 times: 10:01 x2, 14:16 x5, others single -> 5. Source trace: adjacent equal pairs: 10:01 (1) + 14:16 (4) = 5 -> cash=6 -> prints 6.",
+      "sourceHash": "1e708d4fe0a8afd3f90c9390b49fea779866e2f6123fb9db6e43da37d53ef206",
+      "sourceRanges": [
+        [
+          9,
+          16
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/237/submission/85072972",
       "test": "0009"
     }
   },
-  "incorrectAnalysis": {},
   "independentFreshRunHash": "96521bdc21912406895d0a96867ba4c450b08f73a89e0a82b3c6a414b788522a",
   "independentLFReplayHash": "77d0afa3c6b2ca443368ec8ef3e542ab160811eb3d45b04643b38345a9ee2411",
   "independentSemanticCheckHash": "b8d7bb4b836cfe7780214b09aa6794fb67ca04cd8291a1566c1c37e1c48f9a94",
   "independentStressHash": "665ed963d517601ae4038ed13e2d562430a9f1b0704bea0846e08aa1379cf63d",
+  "originalExecutionEvidenceHash": "c3a4424bfc532f7c8d3a2cb79eb4401cde839bcfc49ddbf182d9a2fdefedf759",
   "packageHash": "c5617acde74d2c94c76234e6b1dfd23611107cbd7de46ddbf1762b916c677512",
   "qualificationBasis": "generated",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -143,26 +303,25 @@
         "AC": 7,
         "WA": 16
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 16
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 16,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 16,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "34cf3b167b8fef78ff380f482f56a2359ee917b3a7fd5cacc21a834332095b68",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/237/submission/84864412",
       "submissionId": "84864412",
       "testVerdicts": {
@@ -178,7 +337,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "originalExpectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "originalInputHash": "d05e081d101cd5163a54c9491f4591d419fd031cfb305b4c76394a9c40f4c26a",
+        "reason": "line 11 constant `print(2)`",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     },
@@ -187,26 +350,25 @@
         "AC": 10,
         "WA": 4
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0009",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 4
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 4,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 4,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 4,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "aae4571d0f5e2ddcb53c7b93668156275c24baead49014e93b582cab6aed91b0",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/237/submission/84864625",
       "submissionId": "84864625",
       "testVerdicts": {
@@ -222,7 +384,11 @@
           "0009"
         ],
         "origin": "tests/0009",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+        "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "originalInputHash": "a730d59359459f2f6846a625c3e94fa140421425f2dfcb674063f5ee9a68ea5e",
+        "reason": "line 10 `for i in range(n-1)` (should cover i=1..n-1)",
+        "selectedOriginalTest": "0009",
         "test": "lf-0009"
       }
     },
@@ -231,26 +397,25 @@
         "AC": 9,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0009",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "953f85978db61ef888e0f237cccd5529164398b6f304c54d92830a36a378fbc9",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/237/submission/84914761",
       "submissionId": "84914761",
       "testVerdicts": {
@@ -266,7 +431,11 @@
           "0009"
         ],
         "origin": "tests/0009",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+        "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "originalInputHash": "a730d59359459f2f6846a625c3e94fa140421425f2dfcb674063f5ee9a68ea5e",
+        "reason": "lines 6-7 `if h1==h and m1==m: ct+=1` accumulates across different times",
+        "selectedOriginalTest": "0009",
         "test": "lf-0009"
       }
     },
@@ -275,26 +444,25 @@
         "AC": 9,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0009",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "8c3609121d5fdf0fa7c190b45b24102eb4ce2ed1c2d8c44b4b91afe88015955c",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/237/submission/84914986",
       "submissionId": "84914986",
       "testVerdicts": {
@@ -310,7 +478,11 @@
           "0009"
         ],
         "origin": "tests/0009",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+        "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "originalInputHash": "a730d59359459f2f6846a625c3e94fa140421425f2dfcb674063f5ee9a68ea5e",
+        "reason": "lines 7-13: k logic inert, `ct+=1` accumulates across different times",
+        "selectedOriginalTest": "0009",
         "test": "lf-0009"
       }
     },
@@ -319,26 +491,25 @@
         "AC": 10,
         "WA": 9
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0009",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 9
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 9,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 9,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 9,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "1e708d4fe0a8afd3f90c9390b49fea779866e2f6123fb9db6e43da37d53ef206",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/237/submission/85072972",
       "submissionId": "85072972",
       "testVerdicts": {
@@ -354,7 +525,11 @@
           "0009"
         ],
         "origin": "tests/0009",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+        "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "originalInputHash": "a730d59359459f2f6846a625c3e94fa140421425f2dfcb674063f5ee9a68ea5e",
+        "reason": "lines 11-12 `cash += 1` across all groups",
+        "selectedOriginalTest": "0009",
         "test": "lf-0009"
       }
     }
@@ -362,14 +537,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 1,
+      "bytes": 387441,
+      "name": "batch1-source-semantics-review.json",
+      "sha256": "ca43961fef2540e778e5dfc2d517ba9ae59958c8198fecf0e801108165b0e722"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "10e3807142c278b989dd3f9c1397c6276c1d7200c1e3debe59f9ca57b0cf8837",
+  "sourceSemanticReviewPath": "source-review/proofs/237A.json",
   "stressCases": 40,
-  "testPairs": 213,
-  "unconfirmedSourceIds": [
-    "84864412",
-    "84864625",
-    "84914761",
-    "84914986",
-    "85072972"
-  ]
+  "testPairs": 213
 }

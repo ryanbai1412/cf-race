@@ -1,9 +1,9 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 4,
+  "algorithmicIncorrectKilled": 2,
   "approved": false,
   "checks": {
-    "algorithmicallyWrong": false,
+    "algorithmicallyWrong": true,
     "coverage": true,
     "deterministicGeneration": true,
     "fiveAcceptedFiveIncorrect": false,
@@ -18,65 +18,95 @@
   },
   "evidenceHash": "8e644a591e53cf35acf63dc46d768eed0e28bff77528bef908d4bed0b4ad7323",
   "generatedQualificationHash": "b5178e47a8c7f9337b7e4317e94571ce752a73cfb6971be9c043d82841b0a7b6",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
-  "historicalIncorrectAnalysis": {
+  "incorrectAnalysis": {
     "101943439": {
+      "LFActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "LFExpectedOutputHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+      "LFInputHash": "3a44a7f5eadd625e02780fb6754d5b6e84487e368f5e7d8400b7120d29dc89bb",
+      "LFProofHash": "e21308573f749da3ca89127a08f21cc3998344c42ae839a07e30bcde18654e58",
+      "exactSourceExcerpts": [
+        {
+          "first": 16,
+          "last": 20,
+          "lines": [
+            "    s, a = [int(i * (i + 1) / 2) for i in range(1, n + 1)], Y()",
+            "",
+            "    for i in s[::-1]:",
+            "        if k >= i:",
+            "            print(a[k - i - 1])"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+      "originalInputHash": "64fd86f453da3edd913e77529e3bbee26234ef58dce7893e0f48306bee19048e",
+      "originalTimeout": false,
+      "reason": "Line 20 `a[k - i - 1]` when k == T_i exactly gives index -1 (Python wraps to last id) instead of a[i_round-1] (last element of round i). Expected derivation: n=2,k=1, ids 5 1: spoken sequence 5,5,1 -> 1st = 5. Source trace: s=[1,3]; i=3: 1>=3 false; i=1: 1>=1 -> a[1-1-1]=a[-1]=1 -> prints 1.",
+      "sourceHash": "8e8740dacf3082296642555bb1fdde66fb23847bba947818a594188526aaf0bc",
+      "sourceRanges": [
+        [
+          16,
+          20
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/670/submission/101943439",
       "test": "0004"
     },
-    "101944491": {
-      "kind": "wrong-answer",
-      "reason": "triangular-prefix search omits n=1",
-      "test": "0003"
-    },
-    "106065081": {
-      "kind": "wrong-answer",
-      "reason": "solution deliberately omits valid k>10^9",
-      "test": "0023"
-    },
     "106146812": {
+      "LFActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "LFExpectedOutputHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+      "LFInputHash": "067462ae1aa402198478016ad0fe327bada8c2df55097b60241e5f05658f6c0d",
+      "LFProofHash": "e21308573f749da3ca89127a08f21cc3998344c42ae839a07e30bcde18654e58",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 11,
+          "lines": [
+            "c = 1",
+            "",
+            "for i in range(n):",
+            "    c += i",
+            "    a.extend(r[0:i+1])",
+            "    if c >= k: ",
+            "        print(a[c%k])",
+            "        break"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "incorrect k index skips the n=1 branch",
-      "test": "0006"
-    },
-    "106147986": {
-      "kind": "wrong-answer",
-      "reason": "incorrect prefix loop skips the n=1 branch",
-      "test": "0003"
-    }
-  },
-  "incorrectAnalysis": {
-    "101944491": {
-      "kind": "wrong-answer",
-      "reason": "triangular-prefix search omits n=1",
-      "test": "0003"
-    },
-    "106065081": {
-      "kind": "wrong-answer",
-      "reason": "solution deliberately omits valid k>10^9",
-      "test": "0023"
-    },
-    "106146812": {
-      "kind": "wrong-answer",
-      "reason": "incorrect k index skips the n=1 branch",
-      "test": "0006"
-    },
-    "106147986": {
-      "kind": "wrong-answer",
-      "reason": "incorrect prefix loop skips the n=1 branch",
-      "test": "0003"
+      "originalActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+      "originalInputHash": "4c93484269615c3798700b438567a6fbcf48f4adb4a714a1a2aab8250b7fcb58",
+      "originalTimeout": false,
+      "primaryResolution": "Preferred empty-output witness excluded; separate included alternate normal-exit witness with computed wrong answer selected, original pointer retained in history.",
+      "reason": "Line 4/7 `c = 1; c += i` yields c = 1+T_i, lagging the real length T_{i+1} of a; line 10 `a[c%k]` is an unrelated index (should be a[k-1]). Expected derivation: n=2,k=3, ids 6 7: sequence 6,6,7 -> 3rd = 7. Source trace: i=0: c=1,a=[6]; i=1: c=2,a=[6,6,7]; c never reaches 3 -> loop ends, no output. Alt lf-0009 (n=3,k=3, 4 5 6): c=1,2,4 -> a[4%3]=a[1]=4 printed; expected 5.",
+      "sourceHash": "181b861695633f915644fb8ace769627fa2d1e1a41601ca039aaec3bc18e5e5b",
+      "sourceRanges": [
+        [
+          4,
+          11
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/670/submission/106146812",
+      "test": "0009"
     }
   },
   "independentFreshRunHash": "09e0c832b5af357b93735c237c48fdcd912eab8c9e3443c1fd2a45666701db36",
   "independentLFReplayHash": "e21308573f749da3ca89127a08f21cc3998344c42ae839a07e30bcde18654e58",
   "independentSemanticCheckHash": "beb40387c1966e2608f4068e1fd5b7346840f3a880df3a270e1ee46799f2a88a",
   "independentStressHash": "aadd871b25f27d953359b099a09f208af4f8f62549b3369663e648e93ddb0d47",
+  "originalExecutionEvidenceHash": "8e644a591e53cf35acf63dc46d768eed0e28bff77528bef908d4bed0b4ad7323",
   "packageHash": "578f0685ba9246c36972b08ef42245b994c98bedc91467c7c26afe0e1a0bfbee",
   "qualificationBasis": "generated",
   "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
+    "101944491: empty-stdout-not-computed-wrong-answer",
+    "106065081: reviewer-reject; empty-stdout-not-computed-wrong-answer",
+    "106147986: empty-stdout-not-computed-wrong-answer"
   ],
   "references": [
     {
@@ -164,26 +194,25 @@
         "AC": 9,
         "WA": 12
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 12
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 12,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 12,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "8e8740dacf3082296642555bb1fdde66fb23847bba947818a594188526aaf0bc",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/670/submission/101943439",
       "submissionId": "101943439",
       "testVerdicts": {
@@ -200,7 +229,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "originalInputHash": "64fd86f453da3edd913e77529e3bbee26234ef58dce7893e0f48306bee19048e",
+        "reason": "Line 20 `a[k - i - 1]` when k == T_i exactly gives index -1 (Python wraps to last id) instead of a[i_round-1] (last element of round i).",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     },
@@ -209,22 +242,28 @@
         "AC": 9,
         "WA": 7
       },
-      "algorithmicWitnessCount": 7,
-      "algorithmicWrongAnswer": true,
+      "algorithmicWitnessCount": 0,
+      "algorithmicWrongAnswer": false,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": true,
+      "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "triangular-prefix search omits n=1": 7
+        "source-reviewed defect with included normal-exit wrong answer": 0
       },
+      "exclusionReason": "empty-stdout-not-computed-wrong-answer: Empty output is the result of the faulty loop bound (omitted required case), not a crash/timeout/format issue; process exits normally. Disclosure: the only included witnesses are n=1 no-answer cases.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
       "language": "Python 3",
       "normalWrongAnswerCount": 7,
-      "outcome": "algorithmic-WA",
+      "outcome": "source-semantics-reject",
       "packageWitnessCount": 6,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "41906ccbe5499a4090c6f1cd00b5969f149adede240e216e3d77443102801f67",
+      "sourceSemanticExclusionReasons": [
+        "empty-stdout-not-computed-wrong-answer"
+      ],
+      "sourceSemanticReviewStatus": "reject",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/670/submission/101944491",
       "submissionId": "101944491",
       "testVerdicts": {
@@ -249,22 +288,29 @@
         "AC": 10,
         "WA": 9
       },
-      "algorithmicWitnessCount": 9,
-      "algorithmicWrongAnswer": true,
+      "algorithmicWitnessCount": 0,
+      "algorithmicWrongAnswer": false,
       "builderFailedTest": "0023",
-      "builderFailureAlgorithmicallyProven": true,
+      "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "solution deliberately omits valid k>10^9": 9
+        "source-reviewed defect with included normal-exit wrong answer": 0
       },
+      "exclusionReason": "reviewer-reject; empty-stdout-not-computed-wrong-answer: Every included witness (tests 0023-0033) has k>1e9 and hits the placeholder `pass`; the implemented branch never computes a wrong value. Placeholder-only/infeasible-only failure -> not an algorithmic counterexample.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
       "language": "Python 3",
       "normalWrongAnswerCount": 9,
-      "outcome": "algorithmic-WA",
+      "outcome": "source-semantics-reject",
       "packageWitnessCount": 9,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "ca0221c63238478899c53b6b361f3fc54b92f2e5f2ec186114f5399a522a785f",
+      "sourceSemanticExclusionReasons": [
+        "reviewer-reject",
+        "empty-stdout-not-computed-wrong-answer"
+      ],
+      "sourceSemanticReviewStatus": "reject",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/670/submission/106065081",
       "submissionId": "106065081",
       "testVerdicts": {
@@ -289,23 +335,25 @@
         "AC": 9,
         "WA": 13
       },
-      "algorithmicWitnessCount": 13,
+      "algorithmicWitnessCount": 1,
       "algorithmicWrongAnswer": true,
       "builderFailedTest": "0006",
-      "builderFailureAlgorithmicallyProven": true,
+      "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 7,
-        "incorrect k index skips the n=1 branch": 6
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "algorithmic-WA",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "181b861695633f915644fb8ace769627fa2d1e1a41601ca039aaec3bc18e5e5b",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/670/submission/106146812",
       "submissionId": "106146812",
       "testVerdicts": {
@@ -315,15 +363,19 @@
       },
       "testsRun": 213,
       "witness": {
-        "actualOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "expectedOutputHash": "7902699be42c8a8e46fbbb4501726517e86b22c56a189f7625a6da49081b2451",
-        "inputHash": "1fd8c2db32bdc28a18ac19d5fe3078cf2c460a87bbba3385128fd27db5aea64a",
+        "actualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+        "expectedOutputHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+        "inputHash": "067462ae1aa402198478016ad0fe327bada8c2df55097b60241e5f05658f6c0d",
         "matchingPackageTests": [
-          "0006"
+          "0009"
         ],
-        "origin": "tests/0006",
-        "reason": "incorrect k index skips the n=1 branch",
-        "test": "lf-0006"
+        "origin": "tests/0009",
+        "originalActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+        "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "originalInputHash": "4c93484269615c3798700b438567a6fbcf48f4adb4a714a1a2aab8250b7fcb58",
+        "reason": "Line 4/7 `c = 1; c += i` yields c = 1+T_i, lagging the real length T_{i+1} of a; line 10 `a[c%k]` is an unrelated index (should be a[k-1]).",
+        "selectedOriginalTest": "0009",
+        "test": "lf-0009"
       }
     },
     {
@@ -331,22 +383,28 @@
         "AC": 9,
         "WA": 7
       },
-      "algorithmicWitnessCount": 7,
-      "algorithmicWrongAnswer": true,
+      "algorithmicWitnessCount": 0,
+      "algorithmicWrongAnswer": false,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": true,
+      "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "incorrect prefix loop skips the n=1 branch": 7
+        "source-reviewed defect with included normal-exit wrong answer": 0
       },
+      "exclusionReason": "empty-stdout-not-computed-wrong-answer: No-answer outcome is caused by the lagging counter plus loop bound (logic omission), normal termination; not crash/timeout/format. Disclosure: only n=1 no-output witnesses exist.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
       "language": "Python 3",
       "normalWrongAnswerCount": 7,
-      "outcome": "algorithmic-WA",
+      "outcome": "source-semantics-reject",
       "packageWitnessCount": 6,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "3b9b925fe6e8961ef41c02075b8a1ca3d541f908f8a52e908a578da5f2ba8b43",
+      "sourceSemanticExclusionReasons": [
+        "empty-stdout-not-computed-wrong-answer"
+      ],
+      "sourceSemanticReviewStatus": "reject",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/670/submission/106147986",
       "submissionId": "106147986",
       "testVerdicts": {
@@ -371,10 +429,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 4,
+      "bytes": 389086,
+      "name": "rating-1000-source-review-batch4.json",
+      "sha256": "de8c7b37f70b0356c91c2ac393453ebcab2031858e514fd24cadd083c0a7c19e"
+    }
+  ],
+  "sourceReviewStatus": "reject",
+  "sourceSemanticReviewHash": "3c7510ddfcd7515537c579258fdfce571ab199105357242c81aab9bddc54238f",
+  "sourceSemanticReviewPath": "source-review/proofs/670B.json",
   "stressCases": 40,
-  "testPairs": 213,
-  "unconfirmedSourceIds": [
-    "101943439"
-  ]
+  "testPairs": 213
 }

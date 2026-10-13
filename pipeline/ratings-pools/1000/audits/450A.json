@@ -1,28 +1,202 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "44d39515c5a25f32be7ee77aa7dda757bc3363dbebb0364b29b966558fb22501",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "129475918": {
+      "LFActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "LFExpectedOutputHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+      "LFInputHash": "e01f4c01ca8e81761e8e1b91b440729e0bb6c95181c37f1f3a42fd2c8be1d925",
+      "LFProofHash": "4a6c70e97977da1209796dfc74a40aed5dade79727ddb40a391a27d412263e5f",
+      "exactSourceExcerpts": [
+        {
+          "first": 5,
+          "last": 6,
+          "lines": [
+            "    if s[i] >= s[res]:",
+            "        res = i"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+      "originalInputHash": "840c4c04098f2e7ca21a7339c913b150be11f6af75b652dfdcced1bf6dc5d5c5",
+      "originalTimeout": false,
+      "reason": "Ranks ai instead of ceil(ai/m); different demands can require the same number of queue rounds and then the larger index wins. Expected derivation: m=3; required rounds are2,1,2,2,1,1,1. Children1,3,4 leave in the last round in index order, so last is4. Source trace: Raw demands6,1,5,4,2,3,1 have unique maximum6 at index0. res remains0; prints1.",
+      "sourceHash": "4709535155f7510237f15a06593ee5dd42cd10ccd2ccf82baecd6d437075280d",
+      "sourceRanges": [
+        [
+          5,
+          6
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/450/submission/129475918",
+      "test": "0003"
+    },
+    "129484022": {
+      "LFActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "LFExpectedOutputHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+      "LFInputHash": "e01f4c01ca8e81761e8e1b91b440729e0bb6c95181c37f1f3a42fd2c8be1d925",
+      "LFProofHash": "4a6c70e97977da1209796dfc74a40aed5dade79727ddb40a391a27d412263e5f",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 5,
+          "lines": [
+            "most_wanted = max(line)",
+            "position = kids - (line[::-1].index(most_wanted))"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+      "originalInputHash": "840c4c04098f2e7ca21a7339c913b150be11f6af75b652dfdcced1bf6dc5d5c5",
+      "originalTimeout": false,
+      "reason": "Maximum raw demand is not maximum number of rounds with the proper final-round index tie break. Expected derivation: ceil(ai/3) values2,1,2,2,1,1,1 put child4 last. Source trace: most_wanted=6, line[::-1].index(6)=6; position=7-6=1.",
+      "sourceHash": "e054c72b8eb4da7f3714ae30289b1a5a2bcf1f85b2266b92e6c1ea43d2b67595",
+      "sourceRanges": [
+        [
+          4,
+          5
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/450/submission/129484022",
+      "test": "0003"
+    },
+    "129484304": {
+      "LFActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "LFExpectedOutputHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+      "LFInputHash": "e01f4c01ca8e81761e8e1b91b440729e0bb6c95181c37f1f3a42fd2c8be1d925",
+      "LFProofHash": "4a6c70e97977da1209796dfc74a40aed5dade79727ddb40a391a27d412263e5f",
+      "exactSourceExcerpts": [
+        {
+          "first": 10,
+          "last": 18,
+          "lines": [
+            "    for i in range(f):",
+            "        for j in range(n):",
+            "            if a[i] / m > 1:",
+            "                a[i] -= m",
+            "            else:",
+            "                a[i] == 0",
+            "    for k in range(n-1, -1, -1):",
+            "        if a[k] != 0:",
+            "            print(k)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+      "originalInputHash": "840c4c04098f2e7ca21a7339c913b150be11f6af75b652dfdcced1bf6dc5d5c5",
+      "originalTimeout": false,
+      "reason": "Nested loop uses a[i] rather than a[j], and a[i]==0 is a comparison, not removal assignment; completed children stay active. Expected derivation: Demand rounds2,1,2,2,1,1,1 under m3: last child4. Source trace: max(a)=6,f=2. i=0 subtracts3 once from first demand6 then repeatedly leaves3; i=1 leaves demand1 unchanged because the else comparison has no effect. Other entries stay unchanged. Last nonzero slot remains k6, so prints6. Even translating its zero-based index conceptually to child7 would not yield child4; this is not only an index/output convention bug.",
+      "sourceHash": "b03d101652457a248a659104d281fd523dd0a23b98c5f8de997fd1935266cfab",
+      "sourceRanges": [
+        [
+          10,
+          18
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/450/submission/129484304",
+      "test": "0003"
+    },
+    "129881212": {
+      "LFActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "LFExpectedOutputHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+      "LFInputHash": "e01f4c01ca8e81761e8e1b91b440729e0bb6c95181c37f1f3a42fd2c8be1d925",
+      "LFProofHash": "4a6c70e97977da1209796dfc74a40aed5dade79727ddb40a391a27d412263e5f",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 8,
+          "lines": [
+            "    if l[i]>=max:",
+            "        max=l[i]",
+            "        max_i=i+1"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+      "originalInputHash": "840c4c04098f2e7ca21a7339c913b150be11f6af75b652dfdcced1bf6dc5d5c5",
+      "originalTimeout": false,
+      "reason": "Ignores the distribution quantum m, so ties in number of rounds are resolved by raw demands instead of queue order. Expected derivation: With m3 the maximal required round count2 belongs to children1,3,4; child4 is last. Source trace: max starts6; only first element is>=6, sets max_i=1. Later demands never reach6, so prints1.",
+      "sourceHash": "7d25f86d0931e246303143ff8be20829c176e62b518d346345d2d5052daeda7a",
+      "sourceRanges": [
+        [
+          6,
+          8
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/450/submission/129881212",
+      "test": "0003"
+    },
+    "129882218": {
+      "LFActualOutputHash": "2e6d31a5983a91251bfae5aefa1c0a19d8ba3cf601d0e8a706b4cfa9661a6b8a",
+      "LFExpectedOutputHash": "7902699be42c8a8e46fbbb4501726517e86b22c56a189f7625a6da49081b2451",
+      "LFInputHash": "3651e5768157080705f903c95031a0ffc35c0d30d89b38c2443bc91c68068821",
+      "LFProofHash": "4a6c70e97977da1209796dfc74a40aed5dade79727ddb40a391a27d412263e5f",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 9,
+          "lines": [
+            "    if l[i]>k[1]:",
+            "        max_i=i+1",
+            "        f=1",
+            "print(max_i if f==1 else len(l))"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "2e6d31a5983a91251bfae5aefa1c0a19d8ba3cf601d0e8a706b4cfa9661a6b8a",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "9b6dd0f55d1cea37555db317f53a0631f694bd46df8018cc2aeed3d9e2f32f5f",
+      "originalInputHash": "669708720b1d261d5ea00fc7376568fde44d8e844d5403504d4803ae37e9ecbb",
+      "originalTimeout": false,
+      "reason": "Treats all demands>m as equally late, ignoring whether they need two or three (or more) rounds. Expected derivation: m3, demands9,5,2,3,7,1,8,4,6 require rounds3,2,1,1,3,1,3,2,2. Children1,5,7 require3; rightmost7 leaves last. Source trace: The last demand>3 is child9 with6, so max_i=9 and f1; prints9, though child9 leaves in round2.",
+      "sourceHash": "e803fede7caedc2d516ac16d58ee7330d861b7816e8d1c890acc6b81ff7e9df4",
+      "sourceRanges": [
+        [
+          6,
+          9
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/450/submission/129882218",
+      "test": "0006"
+    }
+  },
   "independentFreshRunHash": "3f7c133921b3cdad142d226432dcfebc8cea9c6b41faf15f720f74058dcf2d62",
   "independentLFReplayHash": "4a6c70e97977da1209796dfc74a40aed5dade79727ddb40a391a27d412263e5f",
   "independentSemanticCheckHash": "c3595c81bc21bea5a059534c6e1b8f559fdf193065c9d5b2bc3fe301eb1a93e8",
   "independentStressHash": "273c1d15f9960529846ad314256b46a1f6f0effc7f5be4149eed54d674d1fece",
+  "originalExecutionEvidenceHash": "44d39515c5a25f32be7ee77aa7dda757bc3363dbebb0364b29b966558fb22501",
   "packageHash": "91acd3fdbe216b65b66fbdf2be817b00af1bf3bb00fe64c36326afde068ac70e",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -109,26 +283,25 @@
         "AC": 8,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "4709535155f7510237f15a06593ee5dd42cd10ccd2ccf82baecd6d437075280d",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/450/submission/129475918",
       "submissionId": "129475918",
       "testVerdicts": {
@@ -144,7 +317,11 @@
           "0003"
         ],
         "origin": "tests/0003",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "originalExpectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "originalInputHash": "840c4c04098f2e7ca21a7339c913b150be11f6af75b652dfdcced1bf6dc5d5c5",
+        "reason": "Ranks ai instead of ceil(ai/m); different demands can require the same number of queue rounds and then the larger index wins.",
+        "selectedOriginalTest": "0003",
         "test": "lf-0003"
       }
     },
@@ -153,26 +330,25 @@
         "AC": 8,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "e054c72b8eb4da7f3714ae30289b1a5a2bcf1f85b2266b92e6c1ea43d2b67595",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/450/submission/129484022",
       "submissionId": "129484022",
       "testVerdicts": {
@@ -188,7 +364,11 @@
           "0003"
         ],
         "origin": "tests/0003",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "originalExpectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "originalInputHash": "840c4c04098f2e7ca21a7339c913b150be11f6af75b652dfdcced1bf6dc5d5c5",
+        "reason": "Maximum raw demand is not maximum number of rounds with the proper final-round index tie break.",
+        "selectedOriginalTest": "0003",
         "test": "lf-0003"
       }
     },
@@ -198,26 +378,25 @@
         "RE": 2,
         "WA": 19
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 19
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 19,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 19,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "b03d101652457a248a659104d281fd523dd0a23b98c5f8de997fd1935266cfab",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/450/submission/129484304",
       "submissionId": "129484304",
       "testVerdicts": {
@@ -234,7 +413,11 @@
           "0003"
         ],
         "origin": "tests/0003",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+        "originalExpectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "originalInputHash": "840c4c04098f2e7ca21a7339c913b150be11f6af75b652dfdcced1bf6dc5d5c5",
+        "reason": "Nested loop uses a[i] rather than a[j], and a[i]==0 is a comparison, not removal assignment; completed children stay active.",
+        "selectedOriginalTest": "0003",
         "test": "lf-0003"
       }
     },
@@ -243,26 +426,25 @@
         "AC": 8,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "7d25f86d0931e246303143ff8be20829c176e62b518d346345d2d5052daeda7a",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/450/submission/129881212",
       "submissionId": "129881212",
       "testVerdicts": {
@@ -278,7 +460,11 @@
           "0003"
         ],
         "origin": "tests/0003",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "originalExpectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "originalInputHash": "840c4c04098f2e7ca21a7339c913b150be11f6af75b652dfdcced1bf6dc5d5c5",
+        "reason": "Ignores the distribution quantum m, so ties in number of rounds are resolved by raw demands instead of queue order.",
+        "selectedOriginalTest": "0003",
         "test": "lf-0003"
       }
     },
@@ -287,26 +473,25 @@
         "AC": 6,
         "WA": 15
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0006",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 15
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 15,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 15,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "e803fede7caedc2d516ac16d58ee7330d861b7816e8d1c890acc6b81ff7e9df4",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/450/submission/129882218",
       "submissionId": "129882218",
       "testVerdicts": {
@@ -322,7 +507,11 @@
           "0006"
         ],
         "origin": "tests/0006",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "2e6d31a5983a91251bfae5aefa1c0a19d8ba3cf601d0e8a706b4cfa9661a6b8a",
+        "originalExpectedOutputHash": "9b6dd0f55d1cea37555db317f53a0631f694bd46df8018cc2aeed3d9e2f32f5f",
+        "originalInputHash": "669708720b1d261d5ea00fc7376568fde44d8e844d5403504d4803ae37e9ecbb",
+        "reason": "Treats all demands>m as equally late, ignoring whether they need two or three (or more) rounds.",
+        "selectedOriginalTest": "0006",
         "test": "lf-0006"
       }
     }
@@ -330,14 +519,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 2,
+      "bytes": 816646,
+      "name": "batch-2-source-semantics-review.json",
+      "sha256": "37ab4aefa3b89e88955bddd18c024454d0b0b929d93e2f380e20f499ef9f0612"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "06be7182b58c8a4be2ba1eff7bdeaef9529ca42e6a5b9c0f544c58d8fc5be88d",
+  "sourceSemanticReviewPath": "source-review/proofs/450A.json",
   "stressCases": 40,
-  "testPairs": 76,
-  "unconfirmedSourceIds": [
-    "129475918",
-    "129484022",
-    "129484304",
-    "129881212",
-    "129882218"
-  ]
+  "testPairs": 76
 }

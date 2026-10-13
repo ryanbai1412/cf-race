@@ -1,68 +1,213 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 1,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
-    "algorithmicallyWrong": false,
+    "algorithmicallyWrong": true,
     "coverage": true,
     "deterministicGeneration": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "generatedBasis": true,
     "hashes": true,
     "independentOracle": true,
     "inputConstraints": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "26c6c801303243bf9f2112268345c1559d999234aacd3c7420fb5dc9bb4c4edb",
   "generatedQualificationHash": "7e95b01f0c9699972586b0ae817cc863ad4268060e40f148752800e7358cb413",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
-  "historicalIncorrectAnalysis": {
+  "incorrectAnalysis": {
     "10361454": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "ce363251036006a54d43bec08ac9ef11408fd071c7e97b530cbb6912bd7a274c",
+      "LFProofHash": "0b51240fac58691c8c937066324b2918d782ba842b1ede673e0ab9c9d3248ead",
+      "exactSourceExcerpts": [
+        {
+          "first": 7,
+          "last": 9,
+          "lines": [
+            "    x = x + int(c[0])",
+            "    y = x + int(c[1])",
+            "    z = x + int(c[2])"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "originalInputHash": "7e52a1a21984581e5bdeddaa8d2a7b8f2c09ffa97767e25435d543cae995b3c7",
+      "originalTimeout": false,
+      "reason": "Lines 8-9 `y = x + int(c[1])`, `z = x + int(c[2])` use x instead of y/z, so y,z are not accumulated. Expected derivation: Sums (0,0,0) -> YES. Source trace: final x=0, y = 0+(-1) = -1, z = 0+(-3) = -3 -> NO.",
+      "sourceHash": "b2da3bbe2d996ccec92e4b0e464ed8ea616f1feb8c9b6738917f9703cc2cba6b",
+      "sourceRanges": [
+        [
+          7,
+          9
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/69/submission/10361454",
       "test": "0002"
     },
     "12978893": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "ce363251036006a54d43bec08ac9ef11408fd071c7e97b530cbb6912bd7a274c",
+      "LFProofHash": "0b51240fac58691c8c937066324b2918d782ba842b1ede673e0ab9c9d3248ead",
+      "exactSourceExcerpts": [
+        {
+          "first": 22,
+          "last": 30,
+          "lines": [
+            "s=[0,0,0]",
+            "",
+            "",
+            "for i in range(t-1):",
+            "    for j in range(t-1):",
+            "        s[j]=s[j]+result[j][i]",
+            "",
+            "",
+            "if s==0:"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "originalInputHash": "7e52a1a21984581e5bdeddaa8d2a7b8f2c09ffa97767e25435d543cae995b3c7",
+      "originalTimeout": false,
+      "reason": "Lines 25-27 sum result[j][i] over i,j < t-1 (wrong ranges, transposed); line 30 `if s==0` compares a list to int, always False, so it can never print YES. Expected derivation: Sums (0,0,0) -> YES. Source trace: t=3: s[0]=3+(-1)=2, s[1]=-5+2=-3, s=[2,-3,0]; s==0 False -> NO.",
+      "sourceHash": "69a2eb81a08fae2a8fca5edbdef617951ee0f3450f75c600e050790cd46c9616",
+      "sourceRanges": [
+        [
+          22,
+          30
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/69/submission/12978893",
       "test": "0002"
     },
     "4819366": {
+      "LFActualOutputHash": "0be6359874661dbe4b3c24c7434da0c1becbb4753c8215eb9bf495bb769b3009",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "1a31aa0c3afabeebe0f079c9f5a201d7a4855f186ca34192d7f0807f5c0af703",
+      "LFProofHash": "0b51240fac58691c8c937066324b2918d782ba842b1ede673e0ab9c9d3248ead",
+      "exactSourceExcerpts": [
+        {
+          "first": 9,
+          "last": 12,
+          "lines": [
+            "    print(datain)",
+            "    for i in range(3):",
+            "        print(datain[i][i])",
+            "        totsum[i] = datain[0][i] + datain[1][i] + datain[2][i]"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "terminal force-balance decision ignores vectors after the third",
+      "originalActualOutputHash": "0be6359874661dbe4b3c24c7434da0c1becbb4753c8215eb9bf495bb769b3009",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "originalInputHash": "69d2de0fc6ac81ee91387a899f816b78326442440f8441d3f6197d9556c6b144",
+      "originalTimeout": false,
+      "reason": "Line 12 `totsum[i] = datain[0][i] + datain[1][i] + datain[2][i]` ignores vectors 4..n; lines 9 and 11 also print debug text. Expected derivation: 5 vectors: x 70-100-27+57+0=0, y -46+94+63-100-11=0, z 86+24-63-47+0=0 -> YES. Source trace: After discarding debug lines (list dump, 70, 94, -63), totsum x = 70-100-27 = -57 != 0 -> final NO.",
+      "sourceHash": "0a029088b90def118bb5f63aa608a6ffa1c8fe6894a2c152e6486e05f715b8cf",
+      "sourceRanges": [
+        [
+          9,
+          12
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/69/submission/4819366",
       "test": "0022"
     },
     "6948679": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "ce363251036006a54d43bec08ac9ef11408fd071c7e97b530cbb6912bd7a274c",
+      "LFProofHash": "0b51240fac58691c8c937066324b2918d782ba842b1ede673e0ab9c9d3248ead",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 8,
+          "lines": [
+            "for x in range(n):",
+            "\ta, b, c = map(int, input().split())",
+            "\tx += a",
+            "\ty += b",
+            "\tz += c"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "originalInputHash": "7e52a1a21984581e5bdeddaa8d2a7b8f2c09ffa97767e25435d543cae995b3c7",
+      "originalTimeout": false,
+      "reason": "Line 4 `for x in range(n)` reuses accumulator x as loop variable, so line 6 `x += a` restarts each iteration; final x = (n-1)+a_n. Expected derivation: (3,-1,7)+(-5,2,-4)+(2,-1,-3) = (0,0,0) -> YES. Source trace: last iteration x=2, x+=2 -> 4; y=0,z=0; 4!=0 -> NO.",
+      "sourceHash": "d89e7552e84b625b942e91c31058184d5028ed69aedbb46c7fe0b588034ef974",
+      "sourceRanges": [
+        [
+          4,
+          8
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/69/submission/6948679",
       "test": "0002"
     },
     "6989322": {
+      "LFActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "LFExpectedOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+      "LFInputHash": "bd42fc4b8ecb90104329118417980b2a897cd18c8c152cbb54fbe88aeffac09a",
+      "LFProofHash": "0b51240fac58691c8c937066324b2918d782ba842b1ede673e0ab9c9d3248ead",
+      "exactSourceExcerpts": [
+        {
+          "first": 9,
+          "last": 12,
+          "lines": [
+            "    for element in sa:",
+            "        sa2.append(int(element))",
+            "    total+=sum(sa2)",
+            "if total==0:"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+      "originalInputHash": "85997dbe44e095832eeaa66de23d7d27c55323fb149cd512b776d98d57e7c6ca",
+      "originalTimeout": false,
+      "reason": "Line 11 `total+=sum(sa2)` collapses x,y,z into one scalar; equilibrium requires each coordinate sum to be zero. Expected derivation: (0,2,-2)+(1,-1,3)+(-3,0,0) = (-2,1,1) -> NO. Source trace: total = 0+2 + 3 + -3 = 0 -> YES.",
+      "sourceHash": "5697f5c0caee39d73e534a93b46e4e91b33e44d8a6fe055350b5782e92e967e8",
+      "sourceRanges": [
+        [
+          9,
+          12
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/69/submission/6989322",
       "test": "0027"
-    }
-  },
-  "incorrectAnalysis": {
-    "4819366": {
-      "kind": "wrong-answer",
-      "reason": "terminal force-balance decision ignores vectors after the third",
-      "test": "0022"
     }
   },
   "independentFreshRunHash": "edbbef3d4231c4745127ff4de1247c111fefda9e09172e951c0e417624355bb8",
   "independentLFReplayHash": "0b51240fac58691c8c937066324b2918d782ba842b1ede673e0ab9c9d3248ead",
   "independentSemanticCheckHash": "14072c1be7c644c489be9ebc1fdae508520a11f738d028633cb8a0342534aaed",
   "independentStressHash": "4ea945d5168c0bdaf3a4b71aa6bc98ac239aa7b03127e36563371f9801a4e72a",
+  "originalExecutionEvidenceHash": "26c6c801303243bf9f2112268345c1559d999234aacd3c7420fb5dc9bb4c4edb",
   "packageHash": "5140681dbcdeb337f0247885a0e625ada97779a0289f79c56e26529b9bd63460",
   "qualificationBasis": "generated",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -148,23 +293,25 @@
       "LFReplayVerdicts": {
         "WA": 24
       },
-      "algorithmicWitnessCount": 2,
+      "algorithmicWitnessCount": 1,
       "algorithmicWrongAnswer": true,
       "builderFailedTest": "0022",
       "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "correct terminal decision plus debug output": 22,
-        "terminal force-balance decision ignores vectors after the third": 2
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
       "language": "Python 3",
       "normalWrongAnswerCount": 24,
-      "outcome": "algorithmic-WA",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 1,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "0a029088b90def118bb5f63aa608a6ffa1c8fe6894a2c152e6486e05f715b8cf",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/69/submission/4819366",
       "submissionId": "4819366",
       "testVerdicts": {
@@ -181,7 +328,11 @@
           "0022"
         ],
         "origin": "independent-mutation",
-        "reason": "terminal force-balance decision ignores vectors after the third",
+        "originalActualOutputHash": "0be6359874661dbe4b3c24c7434da0c1becbb4753c8215eb9bf495bb769b3009",
+        "originalExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+        "originalInputHash": "69d2de0fc6ac81ee91387a899f816b78326442440f8441d3f6197d9556c6b144",
+        "reason": "Line 12 `totsum[i] = datain[0][i] + datain[1][i] + datain[2][i]` ignores vectors 4..n; lines 9 and 11 also print debug text.",
+        "selectedOriginalTest": "0022",
         "test": "independent-0011"
       }
     },
@@ -190,26 +341,25 @@
         "AC": 11,
         "WA": 12
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 12
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 12,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 12,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "d89e7552e84b625b942e91c31058184d5028ed69aedbb46c7fe0b588034ef974",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/69/submission/6948679",
       "submissionId": "6948679",
       "testVerdicts": {
@@ -225,7 +375,11 @@
           "0002"
         ],
         "origin": "tests/0002",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+        "originalInputHash": "7e52a1a21984581e5bdeddaa8d2a7b8f2c09ffa97767e25435d543cae995b3c7",
+        "reason": "Line 4 `for x in range(n)` reuses accumulator x as loop variable, so line 6 `x += a` restarts each iteration; final x = (n-1)+a_n.",
+        "selectedOriginalTest": "0002",
         "test": "lf-0002"
       }
     },
@@ -234,26 +388,25 @@
         "AC": 12,
         "WA": 1
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0027",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 1
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 1,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 1,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 1,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "5697f5c0caee39d73e534a93b46e4e91b33e44d8a6fe055350b5782e92e967e8",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/69/submission/6989322",
       "submissionId": "6989322",
       "testVerdicts": {
@@ -269,7 +422,11 @@
           "0027"
         ],
         "origin": "tests/0027",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+        "originalExpectedOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+        "originalInputHash": "85997dbe44e095832eeaa66de23d7d27c55323fb149cd512b776d98d57e7c6ca",
+        "reason": "Line 11 `total+=sum(sa2)` collapses x,y,z into one scalar; equilibrium requires each coordinate sum to be zero.",
+        "selectedOriginalTest": "0027",
         "test": "lf-0027"
       }
     },
@@ -278,26 +435,25 @@
         "AC": 10,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "b2da3bbe2d996ccec92e4b0e464ed8ea616f1feb8c9b6738917f9703cc2cba6b",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/69/submission/10361454",
       "submissionId": "10361454",
       "testVerdicts": {
@@ -313,7 +469,11 @@
           "0002"
         ],
         "origin": "tests/0002",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+        "originalInputHash": "7e52a1a21984581e5bdeddaa8d2a7b8f2c09ffa97767e25435d543cae995b3c7",
+        "reason": "Lines 8-9 `y = x + int(c[1])`, `z = x + int(c[2])` use x instead of y/z, so y,z are not accumulated.",
+        "selectedOriginalTest": "0002",
         "test": "lf-0002"
       }
     },
@@ -323,26 +483,25 @@
         "RE": 8,
         "WA": 6
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 6
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 6,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 6,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 5,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "69a2eb81a08fae2a8fca5edbdef617951ee0f3450f75c600e050790cd46c9616",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/69/submission/12978893",
       "submissionId": "12978893",
       "testVerdicts": {
@@ -359,7 +518,11 @@
           "0002"
         ],
         "origin": "tests/0002",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+        "originalInputHash": "7e52a1a21984581e5bdeddaa8d2a7b8f2c09ffa97767e25435d543cae995b3c7",
+        "reason": "Lines 25-27 sum result[j][i] over i,j < t-1 (wrong ranges, transposed); line 30 `if s==0` compares a list to int, always False, so it can never print YES.",
+        "selectedOriginalTest": "0002",
         "test": "lf-0002"
       }
     }
@@ -367,13 +530,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 4,
+      "bytes": 389086,
+      "name": "rating-1000-source-review-batch4.json",
+      "sha256": "de8c7b37f70b0356c91c2ac393453ebcab2031858e514fd24cadd083c0a7c19e"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "fa25e7ffd29fa9eeb755bd6bc9fbde082df1216e3f89d302eecdf9eed3c5fea6",
+  "sourceSemanticReviewPath": "source-review/proofs/69A.json",
   "stressCases": 40,
-  "testPairs": 219,
-  "unconfirmedSourceIds": [
-    "6948679",
-    "6989322",
-    "10361454",
-    "12978893"
-  ]
+  "testPairs": 219
 }

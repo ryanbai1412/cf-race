@@ -1,62 +1,211 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
-    "algorithmicallyWrong": false,
+    "algorithmicallyWrong": true,
     "coverage": true,
     "deterministicGeneration": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "generatedBasis": true,
     "hashes": true,
     "independentOracle": true,
     "inputConstraints": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "701b65832e42c51d8fffc230c310ae98e071bc8271f1aad5c97994cb59ddbabd",
   "generatedQualificationHash": "68bbaecb0321bb793d30bf16f75020b16e876eaff4fdd68a6b31324481e3a68d",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
-  "historicalIncorrectAnalysis": {
+  "incorrectAnalysis": {
     "14960630": {
+      "LFActualOutputHash": "d6a1a767319c3bf2a337b16e3a14916f63e432872e0f8df1cb73b32a8b338ae4",
+      "LFExpectedOutputHash": "40510175845988f13f6162ed8526f0b09f73384467fa855e1e79b44a56562a58",
+      "LFInputHash": "48bb0545bb55c9f9bb704e72b68043a874d20a0cc96beb5ce193fcf203281854",
+      "LFProofHash": "eb443bb650c76eed033e5e85b940ca37b5adfac3349c7183f76f5516976ee64d",
+      "exactSourceExcerpts": [
+        {
+          "first": 7,
+          "last": 11,
+          "lines": [
+            "b,time=dict(b),1",
+            "for i in range(a[1],0,-1):",
+            "    time+=1",
+            "    try:",
+            "        if time<b[i]:time+=b[i]-time+1"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "d6a1a767319c3bf2a337b16e3a14916f63e432872e0f8df1cb73b32a8b338ae4",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "3b7b041d37d1d693c3afe25d2af7d56ad2ee7b98eddb2cc1a055c1117e55542e",
+      "originalInputHash": "912de5d9b7b130304e90d25283ea7d5f2f89088e2407a570c78e1a3341d2808e",
+      "originalTimeout": false,
+      "reason": "Initializes time=1 rather than0 and increments before each floor check, including the starting floor; extra +1 appears without any waiting. Expected derivation: Elevator starts at1000 at time0, reaches floor1 at999 after passenger arrival1, then ground at1000. At least1000 seconds travel is necessary and sufficient; answer1000. Source trace: b={1:1},time=1. The loop over floors1000..1 runs1000 increments, with no waiting because time is always>=1. Final time1001 is printed.",
+      "sourceHash": "8f28e098c03d76260137a5c8adbe014fe0ad94c1688cf2895e95b6cd02150fb4",
+      "sourceRanges": [
+        [
+          7,
+          11
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/608/submission/14960630",
       "test": "0005"
     },
     "14960841": {
+      "LFActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "LFExpectedOutputHash": "40510175845988f13f6162ed8526f0b09f73384467fa855e1e79b44a56562a58",
+      "LFInputHash": "48bb0545bb55c9f9bb704e72b68043a874d20a0cc96beb5ce193fcf203281854",
+      "LFProofHash": "eb443bb650c76eed033e5e85b940ca37b5adfac3349c7183f76f5516976ee64d",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 7,
+          "lines": [
+            "maxi =0",
+            "passage, nbFloor = list(map(int,input().split()))",
+            "for i in range(passage):",
+            "   floor, attente = list(map(int,sys.stdin.readline().split()))",
+            "   maxi = max(maxi,floor+attente)",
+            "print(maxi)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "3b7b041d37d1d693c3afe25d2af7d56ad2ee7b98eddb2cc1a055c1117e55542e",
+      "originalInputHash": "912de5d9b7b130304e90d25283ea7d5f2f89088e2407a570c78e1a3341d2808e",
+      "originalTimeout": false,
+      "reason": "Starts maximum at0, omitting the baseline travel time nbFloor=s from the initial top floor. Expected derivation: From top1000 elevator needs1000 seconds to ground; passenger floor1/time1 is already waiting when reached at999. Answer1000=max(s,fi+ti). Source trace: maxi starts0, only passenger updates it to1+1=2; nbFloor1000 is never used and source prints2.",
+      "sourceHash": "2dfea5902714767695c0982a4715b073ab7ee98e8730ba1d768599a03064a337",
+      "sourceRanges": [
+        [
+          2,
+          7
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/608/submission/14960841",
       "test": "0005"
     },
     "14965940": {
+      "LFActualOutputHash": "2a13d08b77e841dde8fa50888d58f457890adaed3ab59fe5230df8f51b445480",
+      "LFExpectedOutputHash": "81a83544cf93c245178cbc1620030f1123f435af867c79d87135983c52ab39d9",
+      "LFInputHash": "74ab0ed36e46470c5821875ade393e03a562a6ad5a5bfb4d7549abda30f22f27",
+      "LFProofHash": "eb443bb650c76eed033e5e85b940ca37b5adfac3349c7183f76f5516976ee64d",
+      "exactSourceExcerpts": [
+        {
+          "first": 8,
+          "last": 9,
+          "lines": [
+            "    d.update({f:t})",
+            "k=d.get(s,0)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "2a13d08b77e841dde8fa50888d58f457890adaed3ab59fe5230df8f51b445480",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1d8fa3c8ab49d50b30fccbbd901735d5896a5d7959a5ad7ccecb79c1c849cc66",
+      "originalInputHash": "74ab0ed36e46470c5821875ade393e03a562a6ad5a5bfb4d7549abda30f22f27",
+      "originalTimeout": false,
+      "reason": "d.update overwrites duplicate-floor arrivals with the last input instead of retaining their maximum; loses the passenger at floor1000/time1000 when later floor1000/time789 arrives. Expected derivation: All61 passengers have valid floors/times1..1000. Minimal completion time is max(s,max(fi+ti)): travel baseline s, and each passenger imposes ti+fi; descending with waits attains the max. Passenger(1000,1000) imposes2000, the largest, and is achievable. Source trace: Second top-floor entry replaces d[1000]=1000 with789. k starts789. Before floor932,k=856, then k=max(857,952)=952 at that floor. All other retained lower-floor ti+fi<=1884 (max is932+952), while overwritten top contributes1789. Continuing932 floors yields1884, which omits the actual late top passenger.",
+      "sourceHash": "f207278ebe29acc618bba63931c87c2193cdef7dcbd8b3e171e730746b7a9d64",
+      "sourceRanges": [
+        [
+          8,
+          9
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/608/submission/14965940",
       "test": "0026"
     },
     "15042486": {
+      "LFActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "LFExpectedOutputHash": "40510175845988f13f6162ed8526f0b09f73384467fa855e1e79b44a56562a58",
+      "LFInputHash": "48bb0545bb55c9f9bb704e72b68043a874d20a0cc96beb5ce193fcf203281854",
+      "LFProofHash": "eb443bb650c76eed033e5e85b940ca37b5adfac3349c7183f76f5516976ee64d",
+      "exactSourceExcerpts": [
+        {
+          "first": 9,
+          "last": 12,
+          "lines": [
+            "for i in range(n):",
+            "    if sb[i]==max(sb):",
+            "        break",
+            "print(sb[i]+ok[i])"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "3b7b041d37d1d693c3afe25d2af7d56ad2ee7b98eddb2cc1a055c1117e55542e",
+      "originalInputHash": "912de5d9b7b130304e90d25283ea7d5f2f89088e2407a570c78e1a3341d2808e",
+      "originalTimeout": false,
+      "reason": "Ignores baseline top-floor travel s and does not maximize arrival+floor, only arrival. Expected derivation: s1000 means1000 seconds mandatory descent; passenger(1,1) is available upon reaching floor1 at999. Optimal completion1000. Source trace: ok=[1],sb=[1]. i0 is the first maximum of sb, so output sb[0]+ok[0]=2; the initial top floor is never used.",
+      "sourceHash": "c87e0111e80fac5412690ca818388e94e24236b2b340e8b54caa390eaf65a393",
+      "sourceRanges": [
+        [
+          9,
+          12
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/608/submission/15042486",
       "test": "0005"
     },
     "15059564": {
+      "LFActualOutputHash": "10159baf262b43a92d95db59dae1f72c645127301661e0a3ce4e38b295a97c58",
+      "LFExpectedOutputHash": "19581e27de7ced00ff1ce50b2047e7a567c76b1cbaebabe5ef03f7c3017bb5b7",
+      "LFInputHash": "fff1cd34480fb34812fe1d0d7ef788c2e3459f769092c7c5e8ed0c6e400cb776",
+      "LFProofHash": "eb443bb650c76eed033e5e85b940ca37b5adfac3349c7183f76f5516976ee64d",
+      "exactSourceExcerpts": [
+        {
+          "first": 7,
+          "last": 12,
+          "lines": [
+            "    ok.append(max(int(t),int(s)-int(f)))",
+            "    fl.append(int(f))",
+            "for i in range(n):",
+            "    if ok[i]==max(ok):",
+            "        break",
+            "ans=max(ok)+fl[i]"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "10159baf262b43a92d95db59dae1f72c645127301661e0a3ce4e38b295a97c58",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "69fa4dd4fdc0b43ba7ca7c997539c4500f03ab9b220228e2b1e97bd305397806",
+      "originalInputHash": "1293165f5e5538582de84cc0d84b8d591da80eb4f414513b1fb9cd119bf4fe11",
+      "originalTimeout": false,
+      "reason": "Maximizes pickup time alone rather than total completion time pickup+floor; a low floor can have a later pickup but a smaller completion bound. Expected derivation: s7, passengers(6,3),(1,5). Baseline7, bounds6+3=9 and1+5=6, so answer9. Descend1 second to6, wait2 seconds to3, then descend6 toground at9. Source trace: ok values max(3,1)=3 and max(5,6)=6; it selects second passenger index1,floor1, yielding6+1=7. The ans==902 patch does not fire. The code has an actual problem-specific but incorrect algorithm despite its irrelevant hard-coded patch.",
+      "sourceHash": "4801f222952798c9b398745a4c7dbbac0a6f38379014cba31e4d17806daecdb9",
+      "sourceRanges": [
+        [
+          7,
+          12
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/608/submission/15059564",
       "test": "0008"
     }
   },
-  "incorrectAnalysis": {},
   "independentFreshRunHash": "2ab5e0daed0b4274a9cc959202147904a2694d114a92a9d5e7bd4145b4119527",
   "independentLFReplayHash": "eb443bb650c76eed033e5e85b940ca37b5adfac3349c7183f76f5516976ee64d",
   "independentSemanticCheckHash": "f713faefe72ada7e4dc20370a93d5a8df6940a1a32193d2e377a72bd8af63107",
   "independentStressHash": "d3606ada2903e21d3a441ef224fc2caa7c6bdf6fecc1ebdde25ea62087999fd1",
+  "originalExecutionEvidenceHash": "701b65832e42c51d8fffc230c310ae98e071bc8271f1aad5c97994cb59ddbabd",
   "packageHash": "22c7f4926d72bd86c7b800c0b1b9196f95367c4256a8f3e03aa68971e983486d",
   "qualificationBasis": "generated",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -143,26 +292,25 @@
         "AC": 7,
         "WA": 8
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 8
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 8,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 8,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 5,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "8f28e098c03d76260137a5c8adbe014fe0ad94c1688cf2895e95b6cd02150fb4",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/608/submission/14960630",
       "submissionId": "14960630",
       "testVerdicts": {
@@ -178,7 +326,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "d6a1a767319c3bf2a337b16e3a14916f63e432872e0f8df1cb73b32a8b338ae4",
+        "originalExpectedOutputHash": "3b7b041d37d1d693c3afe25d2af7d56ad2ee7b98eddb2cc1a055c1117e55542e",
+        "originalInputHash": "912de5d9b7b130304e90d25283ea7d5f2f89088e2407a570c78e1a3341d2808e",
+        "reason": "Initializes time=1 rather than0 and increments before each floor check, including the starting floor; extra +1 appears without any waiting.",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     },
@@ -187,26 +339,25 @@
         "AC": 9,
         "WA": 3
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 3
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 3,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 3,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 2,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "2dfea5902714767695c0982a4715b073ab7ee98e8730ba1d768599a03064a337",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/608/submission/14960841",
       "submissionId": "14960841",
       "testVerdicts": {
@@ -222,7 +373,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "originalExpectedOutputHash": "3b7b041d37d1d693c3afe25d2af7d56ad2ee7b98eddb2cc1a055c1117e55542e",
+        "originalInputHash": "912de5d9b7b130304e90d25283ea7d5f2f89088e2407a570c78e1a3341d2808e",
+        "reason": "Starts maximum at0, omitting the baseline travel time nbFloor=s from the initial top floor.",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     },
@@ -231,26 +386,25 @@
         "AC": 8,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0026",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "f207278ebe29acc618bba63931c87c2193cdef7dcbd8b3e171e730746b7a9d64",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/608/submission/14965940",
       "submissionId": "14965940",
       "testVerdicts": {
@@ -266,7 +420,11 @@
           "0026"
         ],
         "origin": "tests/0026",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "2a13d08b77e841dde8fa50888d58f457890adaed3ab59fe5230df8f51b445480",
+        "originalExpectedOutputHash": "1d8fa3c8ab49d50b30fccbbd901735d5896a5d7959a5ad7ccecb79c1c849cc66",
+        "originalInputHash": "74ab0ed36e46470c5821875ade393e03a562a6ad5a5bfb4d7549abda30f22f27",
+        "reason": "d.update overwrites duplicate-floor arrivals with the last input instead of retaining their maximum; loses the passenger at floor1000/time1000 when later floor1000/time789 arrives.",
+        "selectedOriginalTest": "0026",
         "test": "lf-0026"
       }
     },
@@ -275,26 +433,25 @@
         "AC": 8,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "c87e0111e80fac5412690ca818388e94e24236b2b340e8b54caa390eaf65a393",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/608/submission/15042486",
       "submissionId": "15042486",
       "testVerdicts": {
@@ -310,7 +467,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "originalExpectedOutputHash": "3b7b041d37d1d693c3afe25d2af7d56ad2ee7b98eddb2cc1a055c1117e55542e",
+        "originalInputHash": "912de5d9b7b130304e90d25283ea7d5f2f89088e2407a570c78e1a3341d2808e",
+        "reason": "Ignores baseline top-floor travel s and does not maximize arrival+floor, only arrival.",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     },
@@ -319,26 +480,25 @@
         "AC": 10,
         "WA": 12
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0008",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 12
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 12,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 12,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "4801f222952798c9b398745a4c7dbbac0a6f38379014cba31e4d17806daecdb9",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/608/submission/15059564",
       "submissionId": "15059564",
       "testVerdicts": {
@@ -354,7 +514,11 @@
           "0008"
         ],
         "origin": "tests/0008",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "10159baf262b43a92d95db59dae1f72c645127301661e0a3ce4e38b295a97c58",
+        "originalExpectedOutputHash": "69fa4dd4fdc0b43ba7ca7c997539c4500f03ab9b220228e2b1e97bd305397806",
+        "originalInputHash": "1293165f5e5538582de84cc0d84b8d591da80eb4f414513b1fb9cd119bf4fe11",
+        "reason": "Maximizes pickup time alone rather than total completion time pickup+floor; a low floor can have a later pickup but a smaller completion bound.",
+        "selectedOriginalTest": "0008",
         "test": "lf-0008"
       }
     }
@@ -362,14 +526,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 3,
+      "bytes": 840772,
+      "name": "batch-3-source-semantics-report.json",
+      "sha256": "13a95ff57fc4d6b97aec98a2cea133fcb944543e9d5421886be5e8b7bb7631a9"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "0a6f0349133f69e952c92122cae4d1a0fe29deadfaaf8e2815ddb06dfba1853d",
+  "sourceSemanticReviewPath": "source-review/proofs/608A.json",
   "stressCases": 40,
-  "testPairs": 213,
-  "unconfirmedSourceIds": [
-    "14960630",
-    "14960841",
-    "14965940",
-    "15042486",
-    "15059564"
-  ]
+  "testPairs": 213
 }

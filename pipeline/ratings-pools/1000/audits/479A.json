@@ -1,28 +1,209 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 1,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "c480a6caf1f2e99e29b605eb72b85d07f70155fc6863a025ee6ae33713b7a2f4",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "207671697": {
+      "LFActualOutputHash": "a4b2c5db15348c29451e18b8307e5ef81625ea638e807935f39ceaa8d9ac7758",
+      "LFExpectedOutputHash": "39fa9ec190eee7b6f4dff1100d6343e10918d044c75eac8f9e9a2596173f80c9",
+      "LFInputHash": "e7cd4282612d1d2bb4b529d3bbb6b752f08d6fbd612eb4c5c08ffc7b3dc75827",
+      "LFProofHash": "bae4edd985f39001de46539376fa65dd46a0b7111a0e35453d56708a2d733325",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 11,
+          "lines": [
+            "r1 = (a + b) * c",
+            "r2 = a * (b + c)",
+            "r3 = a + (b * c)",
+            "r4 = a * b + c",
+            "",
+            "m = max(r1, r2, r3, r4)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "a4b2c5db15348c29451e18b8307e5ef81625ea638e807935f39ceaa8d9ac7758",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "a7b785fcacb4beb3fa3061e79befd2eb06605e1a407e42dd565709459f4304eb",
+      "originalInputHash": "4e819affdfbc770f8a48c2f9156e2c35995087811ed49bdd8a0d0cbd6518bd1c",
+      "originalTimeout": false,
+      "reason": "Candidate list omits a*b*c and a+b+c. Expected derivation: For (2,10,3), legal candidates a+b+c=15, (a+b)*c=36, a*(b+c)=26, a+b*c=32, a*b+c=23 and a*b*c=60. Max is 60, no number reordering allowed. Source trace: r1=36, r2=26, r3=32, r4=23. max of those four is 36 and is printed; the optimal all-multiplication expression is never considered.",
+      "sourceHash": "d803fba0bc46e8f547426990dd5bf353d764d3e32119c21b24351464db35d862",
+      "sourceRanges": [
+        [
+          6,
+          11
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/479/submission/207671697",
+      "test": "0002"
+    },
+    "208069193": {
+      "LFActualOutputHash": "7ee29791fc17e986b97128845622b077fb45e349fdb80523fac9dba879b4ad60",
+      "LFExpectedOutputHash": "f5ca38f748a1d6eaf726b8a42fb575c3c71f1864a8143301782de13da2d9202b",
+      "LFInputHash": "b2d719b1d590a4fa35e790312333279e2b7f730ed294eeaadab0b8b3790bd7d3",
+      "LFProofHash": "bae4edd985f39001de46539376fa65dd46a0b7111a0e35453d56708a2d733325",
+      "exactSourceExcerpts": [
+        {
+          "first": 9,
+          "last": 10,
+          "lines": [
+            "if (a+c)*b>m:",
+            "    m=(a+c)*b"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "7ee29791fc17e986b97128845622b077fb45e349fdb80523fac9dba879b4ad60",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "8ce88a8842c1584e3d6871e84e166e3b513c3ce2a9da6166760c7af1645dea29",
+      "originalInputHash": "e7ff2a081beb43fca72eb0c38f1becefced9867f551853ec380a1ce410163b92",
+      "originalTimeout": false,
+      "reason": "Uses (a+c)*b (illegal nonadjacent sum) instead of a*(b+c), omitting a valid optimal candidate. Expected derivation: For (5,1,3), legal candidate values in order sum,(a+b)*c,a*(b+c),a+b*c,a*b+c,product are 9,18,20,8,8,15. Thus answer 20. Source trace: m changes from 0 to 9, then 18. Illegal (5+3)*1=8 and product 15 do not improve it. Source prints 18 because the required 5*(1+3)=20 is absent.",
+      "sourceHash": "8f41e6676a4aa97962e6bb72ff2b4812d32498a3d28179b6e5aa4d19376712d3",
+      "sourceRanges": [
+        [
+          9,
+          10
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/479/submission/208069193",
+      "test": "0006"
+    },
+    "208552802": {
+      "LFActualOutputHash": "24dbafa5dd6b1413a158c6db7c042ac08a5f6d61a878e81fa9b05694328e0421",
+      "LFExpectedOutputHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+      "LFInputHash": "ccce065269620747ca153e9a430d44b175cdc1f7e0958741b567250a1d6b1d95",
+      "LFProofHash": "bae4edd985f39001de46539376fa65dd46a0b7111a0e35453d56708a2d733325",
+      "exactSourceExcerpts": [
+        {
+          "first": 7,
+          "last": 12,
+          "lines": [
+            "exp_1=int(a[0])+int(b[0])*int(c[0])",
+            "exp_2=int(a[0])*(int(b[0])+int(c[0]))",
+            "exp_3=int(a[0])*int(b[0])*int(c[0])",
+            "exp_4=(int(a[0])+int(b[0]))*int(c[0])",
+            "results+=(exp_1,exp_2,exp_3,exp_4)",
+            "print(max(results))"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "24dbafa5dd6b1413a158c6db7c042ac08a5f6d61a878e81fa9b05694328e0421",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "originalInputHash": "ccce065269620747ca153e9a430d44b175cdc1f7e0958741b567250a1d6b1d95",
+      "originalTimeout": false,
+      "reason": "Arithmetic candidate list lacks a+b+c; for all ones the correct all-sum candidate exceeds every listed value. Expected derivation: For (1,1,1), adding all three gives 3. Every multiplication can only reduce a sum of positive ones: listed mixed candidates are 2,2,1,2. Legal maximum is 3. Source trace: The echo is irrelevant. exp_1=2, exp_2=2, exp_3=1, exp_4=2 and the final max(results) is 2, so the mathematical answer remains wrong even after discarding debug text.",
+      "sourceHash": "d6d57370b45bfb9c1aa8771994547de00de0d3c533a93591d762a9a5fbea119a",
+      "sourceRanges": [
+        [
+          7,
+          12
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/479/submission/208552802",
+      "test": "0030"
+    },
+    "208553210": {
+      "LFActualOutputHash": "6169555d9248be7e184f52250129b0d66c9932af74f4ac7bc716c20013fca362",
+      "LFExpectedOutputHash": "98010bd9270f9b100b6214a21754fd33bdc8d41b2bc9f9dd16ff54d3c34ffd71",
+      "LFInputHash": "f0a72e200ac7e38675bb1f275c134e34233b10089fb22f67ccdd5b6d5311320c",
+      "LFProofHash": "bae4edd985f39001de46539376fa65dd46a0b7111a0e35453d56708a2d733325",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 7,
+          "lines": [
+            "elif max(a,b,c)==b:",
+            "    print(max(a*b*c,b*(a+c),a+b+c))"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "6169555d9248be7e184f52250129b0d66c9932af74f4ac7bc716c20013fca362",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "2be814ef1c9172dc56be984fb90eae70215203c95f89bf9451ab7139ef566e1e",
+      "originalInputHash": "5e7cb943f1cb7a1d85e773a54ccbf9f1075fe9a21dfa0ff80bceefc2188d0311",
+      "originalTimeout": false,
+      "reason": "When b is largest it considers b*(a+c), which reorders the problem's fixed sequence and is illegal. Expected derivation: For (6,7,1), legal sum,(a+b)*c,a*(b+c),a+b*c,a*b+c,product values are 14,13,48,13,43,42. Maximum 48. Source trace: max(a,b,c)=7=b, so the middle branch takes max(42,7*(6+1)=49,14)=49 and prints it; 49 is from an illegal expression.",
+      "sourceHash": "4d75ea306ce8ce3abb300d500d0be44cb6c9040aed3b7bb899e7bc5d7cc8fb91",
+      "sourceRanges": [
+        [
+          6,
+          7
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/479/submission/208553210",
+      "test": "0008"
+    },
+    "208909364": {
+      "LFActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "LFExpectedOutputHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+      "LFInputHash": "ccce065269620747ca153e9a430d44b175cdc1f7e0958741b567250a1d6b1d95",
+      "LFProofHash": "bae4edd985f39001de46539376fa65dd46a0b7111a0e35453d56708a2d733325",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 14,
+          "lines": [
+            "s1=a+b*c",
+            "s2=a*(b+c)",
+            "s3=a*b*c",
+            "s4=(a+b)*c",
+            "max=s1",
+            "if s2>max:",
+            "    max=s2",
+            "if s3>max:",
+            "    max=s3",
+            "if s4>max:",
+            "    max=s4"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "originalInputHash": "78941bfd40aa197d4cf851c9d2493f0813749d55882abcbe95d40751beb66300",
+      "originalTimeout": false,
+      "reason": "Never includes all-sum a+b+c among the candidates. Expected derivation: For three ones, all-sum=3 is the maximum; legal mixed candidates are 2 and all-product is 1. Source trace: s1=2,s2=2,s3=1,s4=2. max starts at 2 and none of the strict comparisons changes it, so prints 2.",
+      "sourceHash": "62778459fb2e7993098f1392f7f9e8107854377676017350dc8ffc595b8a842b",
+      "sourceRanges": [
+        [
+          4,
+          14
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/479/submission/208909364",
+      "test": "0003"
+    }
+  },
   "independentFreshRunHash": "adfbe0c0251ac5b5004a5cd62e6876192846240d401db44ac8f427a4dd3ad897",
   "independentLFReplayHash": "bae4edd985f39001de46539376fa65dd46a0b7111a0e35453d56708a2d733325",
   "independentSemanticCheckHash": "c8321606873747e4bc3dcc9e40773192b350edc0da683137e293cfaec31a0f17",
   "independentStressHash": "d154a74f0ec1989d4d2de1b184ccfb8b01506c52dcb2342beb3fd028923c9c8e",
+  "originalExecutionEvidenceHash": "c480a6caf1f2e99e29b605eb72b85d07f70155fc6863a025ee6ae33713b7a2f4",
   "packageHash": "fc92df438cf70c821c8b402350aa235973e232a9ba10d7758bf8833b0ddfdd01",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -109,26 +290,25 @@
         "AC": 5,
         "WA": 18
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 18
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 18,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 18,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 15,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "d803fba0bc46e8f547426990dd5bf353d764d3e32119c21b24351464db35d862",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/479/submission/207671697",
       "submissionId": "207671697",
       "testVerdicts": {
@@ -144,7 +324,11 @@
           "0002"
         ],
         "origin": "tests/0002",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "a4b2c5db15348c29451e18b8307e5ef81625ea638e807935f39ceaa8d9ac7758",
+        "originalExpectedOutputHash": "a7b785fcacb4beb3fa3061e79befd2eb06605e1a407e42dd565709459f4304eb",
+        "originalInputHash": "4e819affdfbc770f8a48c2f9156e2c35995087811ed49bdd8a0d0cbd6518bd1c",
+        "reason": "Candidate list omits a*b*c and a+b+c.",
+        "selectedOriginalTest": "0002",
         "test": "lf-0002"
       }
     },
@@ -153,26 +337,25 @@
         "AC": 7,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0006",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "8f41e6676a4aa97962e6bb72ff2b4812d32498a3d28179b6e5aa4d19376712d3",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/479/submission/208069193",
       "submissionId": "208069193",
       "testVerdicts": {
@@ -188,7 +371,11 @@
           "0006"
         ],
         "origin": "tests/0006",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "7ee29791fc17e986b97128845622b077fb45e349fdb80523fac9dba879b4ad60",
+        "originalExpectedOutputHash": "8ce88a8842c1584e3d6871e84e166e3b513c3ce2a9da6166760c7af1645dea29",
+        "originalInputHash": "e7ff2a081beb43fca72eb0c38f1becefced9867f551853ec380a1ce410163b92",
+        "reason": "Uses (a+c)*b (illegal nonadjacent sum) instead of a*(b+c), omitting a valid optimal candidate.",
+        "selectedOriginalTest": "0006",
         "test": "lf-0006"
       }
     },
@@ -196,23 +383,25 @@
       "LFReplayVerdicts": {
         "WA": 23
       },
-      "algorithmicWitnessCount": 4,
+      "algorithmicWitnessCount": 1,
       "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "correct terminal value plus debug input echo": 19,
-        "terminal arithmetic value is wrong after disregarding debug input echo": 4
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
       "language": "Python 3",
       "normalWrongAnswerCount": 23,
-      "outcome": "algorithmic-WA",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 4,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "d6d57370b45bfb9c1aa8771994547de00de0d3c533a93591d762a9a5fbea119a",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/479/submission/208552802",
       "submissionId": "208552802",
       "testVerdicts": {
@@ -228,7 +417,11 @@
           "0030"
         ],
         "origin": "tests/0030",
-        "reason": "terminal arithmetic value is wrong after disregarding debug input echo",
+        "originalActualOutputHash": "24dbafa5dd6b1413a158c6db7c042ac08a5f6d61a878e81fa9b05694328e0421",
+        "originalExpectedOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+        "originalInputHash": "ccce065269620747ca153e9a430d44b175cdc1f7e0958741b567250a1d6b1d95",
+        "reason": "Arithmetic candidate list lacks a+b+c; for all ones the correct all-sum candidate exceeds every listed value.",
+        "selectedOriginalTest": "0030",
         "test": "lf-0030"
       }
     },
@@ -237,26 +430,25 @@
         "AC": 10,
         "WA": 11
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0008",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 11
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 11,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 11,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "4d75ea306ce8ce3abb300d500d0be44cb6c9040aed3b7bb899e7bc5d7cc8fb91",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/479/submission/208553210",
       "submissionId": "208553210",
       "testVerdicts": {
@@ -272,7 +464,11 @@
           "0008"
         ],
         "origin": "tests/0008",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "6169555d9248be7e184f52250129b0d66c9932af74f4ac7bc716c20013fca362",
+        "originalExpectedOutputHash": "2be814ef1c9172dc56be984fb90eae70215203c95f89bf9451ab7139ef566e1e",
+        "originalInputHash": "5e7cb943f1cb7a1d85e773a54ccbf9f1075fe9a21dfa0ff80bceefc2188d0311",
+        "reason": "When b is largest it considers b*(a+c), which reorders the problem's fixed sequence and is illegal.",
+        "selectedOriginalTest": "0008",
         "test": "lf-0008"
       }
     },
@@ -281,26 +477,25 @@
         "AC": 10,
         "WA": 9
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 9
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 9,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 9,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 9,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "62778459fb2e7993098f1392f7f9e8107854377676017350dc8ffc595b8a842b",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/479/submission/208909364",
       "submissionId": "208909364",
       "testVerdicts": {
@@ -317,7 +512,11 @@
           "0030"
         ],
         "origin": "tests/0030",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "originalExpectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "originalInputHash": "78941bfd40aa197d4cf851c9d2493f0813749d55882abcbe95d40751beb66300",
+        "reason": "Never includes all-sum a+b+c among the candidates.",
+        "selectedOriginalTest": "0003",
         "test": "lf-0030"
       }
     }
@@ -325,13 +524,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 3,
+      "bytes": 840772,
+      "name": "batch-3-source-semantics-report.json",
+      "sha256": "13a95ff57fc4d6b97aec98a2cea133fcb944543e9d5421886be5e8b7bb7631a9"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "680446740802d01aae319bb29756e26c6df0b50d63dbef159e786729e34ff7d1",
+  "sourceSemanticReviewPath": "source-review/proofs/479A.json",
   "stressCases": 40,
-  "testPairs": 93,
-  "unconfirmedSourceIds": [
-    "207671697",
-    "208069193",
-    "208553210",
-    "208909364"
-  ]
+  "testPairs": 93
 }

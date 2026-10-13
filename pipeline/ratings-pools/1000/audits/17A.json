@@ -1,6 +1,6 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
+  "algorithmicIncorrectKilled": 4,
   "approved": false,
   "checks": {
     "coverage": true,
@@ -12,16 +12,154 @@
     "sourceAttribution": true
   },
   "evidenceHash": "ec9c0f04ae79a9893b10d447e60a57d6a62fe6e2314534d9dd96329c41d4b7f3",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "13661778": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "e48bcc41a5c09d5c7b11df3eccdb66d4e06ff7464e545515f46c8dbab6a8f443",
+      "LFProofHash": "09463088d777c86e2251556e354f02ff3fdc63e67699ef5348f62f60d21e4f73",
+      "exactSourceExcerpts": [
+        {
+          "first": 21,
+          "last": 23,
+          "lines": [
+            "if ans == k:",
+            "    print('YES')",
+            "else: print('NO')"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "originalInputHash": "b095d9e2779a0f561dc0764efd00703d98572e5a7a40a56f4ea8d1d631ab15e5",
+      "originalTimeout": false,
+      "reason": "line 21 `if ans == k:` Expected derivation: Count primes p in [2,n] with p = q + q' + 1 for neighboring primes q<q'; answer YES iff count >= k. Qualifying primes: 13(5+7),19(7+11),31(13+17),37(17+19),43(19+23),53,... n=1000, k=0 -> YES. Source trace: ans > 0 (13, 19, ... counted) -> ans != 0 -> prints NO.",
+      "sourceHash": "7b4998c234b1a20010a11f86282b5ccc9667d3997953e4aaef0e44353bc0395a",
+      "sourceRanges": [
+        [
+          21,
+          23
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/17/submission/13661778",
+      "test": "0032"
+    },
+    "19779858": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "8788c75d524e09dd5c352b64aced051f70069971bcdcc543697e327fe62a3f36",
+      "LFProofHash": "09463088d777c86e2251556e354f02ff3fdc63e67699ef5348f62f60d21e4f73",
+      "exactSourceExcerpts": [
+        {
+          "first": 12,
+          "last": 17,
+          "lines": [
+            "for i in range(2,n//2+2):",
+            "    if is_simple(i):",
+            "        q.append(i)",
+            "for i in range(len(q)-1):",
+            "    if is_simple(q[i]+q[i+1]+1):",
+            "        w+=1"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "originalInputHash": "cc65c0da60b5513ab2c2bbceff7f4c6e53ece49cf2b3260791be3b1414364595",
+      "originalTimeout": false,
+      "reason": "line 12 `range(2,n//2+2)` bound Expected derivation: Count primes p in [2,n] with p = q + q' + 1 for neighboring primes q<q'; answer YES iff count >= k. Qualifying primes: 13(5+7),19(7+11),31(13+17),37(17+19),43(19+23),53,... n=43, k=5: 13,19,31,37,43 -> 5 -> YES. Source trace: q = primes 2..19 (23 excluded because bound is 23 exclusive); pairs give 13,19,31,37 -> w=4 < 5 -> NO.",
+      "sourceHash": "39d72e7e7c76dab57cb0b39939832ed73bc65d3b81a71bf3c2f6e646cd54ca09",
+      "sourceRanges": [
+        [
+          12,
+          17
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/17/submission/19779858",
+      "test": "0008"
+    },
+    "4834598": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "80772e2c999ef0ff5e085773272358a18911029b3be890ffc28bc341097bf388",
+      "LFProofHash": "09463088d777c86e2251556e354f02ff3fdc63e67699ef5348f62f60d21e4f73",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 6,
+          "lines": [
+            "    return [2] + [i for i in range(3, n, 2) if t[i]]"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "originalInputHash": "8c3ed13daa86214390d031eacbcecc75d62ca9cee8e16a88f1508542ad521b37",
+      "originalTimeout": false,
+      "reason": "line 6 `range(3, n, 2)` (upper bound should be n+1) Expected derivation: Count primes p in [2,n] with p = q + q' + 1 for neighboring primes q<q'; answer YES iff count >= k. Qualifying primes: 13(5+7),19(7+11),31(13+17),37(17+19),43(19+23),53,... n=37: 13,19,31,37 -> 4 >= 4 -> YES. Source trace: p = 2..31 (37 excluded); qualifying sums in set: 13,19,31 -> s=3 < 4 -> 'YNEOS'[True::2] = 'NO'.",
+      "sourceHash": "ae3a6322f34ccb54f4bd7334f866d0328cc7ecaa3f74680701e442e796602d41",
+      "sourceRanges": [
+        [
+          6,
+          6
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/17/submission/4834598",
+      "test": "0007"
+    },
+    "9919372": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "e48bcc41a5c09d5c7b11df3eccdb66d4e06ff7464e545515f46c8dbab6a8f443",
+      "LFProofHash": "09463088d777c86e2251556e354f02ff3fdc63e67699ef5348f62f60d21e4f73",
+      "exactSourceExcerpts": [
+        {
+          "first": 22,
+          "last": 24,
+          "lines": [
+            "if count == k: ",
+            "    print(\"YES\")",
+            "else: print(\"NO\")"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "originalInputHash": "b095d9e2779a0f561dc0764efd00703d98572e5a7a40a56f4ea8d1d631ab15e5",
+      "originalTimeout": false,
+      "reason": "line 22 `if count == k:` Expected derivation: Count primes p in [2,n] with p = q + q' + 1 for neighboring primes q<q'; answer YES iff count >= k. Qualifying primes: 13(5+7),19(7+11),31(13+17),37(17+19),43(19+23),53,... n=1000, k=0: at least 0 qualifying primes trivially -> YES. Source trace: count > 0 (e.g. 13, 19 qualify) so count != 0 -> prints NO.",
+      "sourceHash": "9e2bfdc847548dafb469e2fc66d237a3a6ce737a2d125a7d9a348dcc9e0f205f",
+      "sourceRanges": [
+        [
+          22,
+          24
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/17/submission/9919372",
+      "test": "0032"
+    }
+  },
   "independentFreshRunHash": "95cac8d0a834378f15de8d443092dbaab3e5c5033cea4d22b497285cd4594df3",
   "independentLFReplayHash": "09463088d777c86e2251556e354f02ff3fdc63e67699ef5348f62f60d21e4f73",
   "independentSemanticCheckHash": "213f189e379a58b83126a45b1add2bd04f3469b7774c9298c8d02caaf8b950e4",
   "independentStressHash": "01040280d02720472fc2472272eed13292f517f1cfa5017befd7f0aeb239ce64",
+  "originalExecutionEvidenceHash": "ec9c0f04ae79a9893b10d447e60a57d6a62fe6e2314534d9dd96329c41d4b7f3",
   "packageHash": "2c0981c3163fd9e02265a3c16efbdf4f28d406afc662462d068be6e9467b4c88",
   "qualificationBasis": "official",
   "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
+    "15442637: reviewer-reject"
   ],
   "references": [
     {
@@ -109,26 +247,25 @@
         "AC": 10,
         "WA": 5
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0007",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 5
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 5,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 5,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 5,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "ae3a6322f34ccb54f4bd7334f866d0328cc7ecaa3f74680701e442e796602d41",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/17/submission/4834598",
       "submissionId": "4834598",
       "testVerdicts": {
@@ -144,7 +281,11 @@
           "0007"
         ],
         "origin": "tests/0007",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+        "originalInputHash": "8c3ed13daa86214390d031eacbcecc75d62ca9cee8e16a88f1508542ad521b37",
+        "reason": "line 6 `range(3, n, 2)` (upper bound should be n+1)",
+        "selectedOriginalTest": "0007",
         "test": "lf-0007"
       }
     },
@@ -153,26 +294,25 @@
         "AC": 8,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0032",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "9e2bfdc847548dafb469e2fc66d237a3a6ce737a2d125a7d9a348dcc9e0f205f",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/17/submission/9919372",
       "submissionId": "9919372",
       "testVerdicts": {
@@ -189,7 +329,11 @@
           "0081"
         ],
         "origin": "tests/0032",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+        "originalInputHash": "b095d9e2779a0f561dc0764efd00703d98572e5a7a40a56f4ea8d1d631ab15e5",
+        "reason": "line 22 `if count == k:`",
+        "selectedOriginalTest": "0032",
         "test": "lf-0032"
       }
     },
@@ -198,26 +342,25 @@
         "AC": 8,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0032",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "7b4998c234b1a20010a11f86282b5ccc9667d3997953e4aaef0e44353bc0395a",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/17/submission/13661778",
       "submissionId": "13661778",
       "testVerdicts": {
@@ -234,7 +377,11 @@
           "0081"
         ],
         "origin": "tests/0032",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+        "originalInputHash": "b095d9e2779a0f561dc0764efd00703d98572e5a7a40a56f4ea8d1d631ab15e5",
+        "reason": "line 21 `if ans == k:`",
+        "selectedOriginalTest": "0032",
         "test": "lf-0032"
       }
     },
@@ -248,21 +395,23 @@
       "builderFailedTest": "0007",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 14
+        "source-reviewed defect with included normal-exit wrong answer": 0
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
+      "exclusionReason": "reviewer-reject: Output differs, but the program computes an unrelated quantity (divisor count of n), i.e. wrong-problem/unrelated algorithm; it is not a genuine flawed attempt at this problem's algorithm, so rejected as a semantic wrong reference.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-semantics-reject",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "a5cc0e127a7f0c82ede5729511ab1d9fec8e180774f764ffedab3a0081981006",
+      "sourceSemanticExclusionReasons": [
+        "reviewer-reject"
+      ],
+      "sourceSemanticReviewStatus": "reject",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/17/submission/15442637",
       "submissionId": "15442637",
       "testVerdicts": {
@@ -287,26 +436,25 @@
         "AC": 10,
         "WA": 4
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0008",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 4
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 4,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 4,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 4,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "39d72e7e7c76dab57cb0b39939832ed73bc65d3b81a71bf3c2f6e646cd54ca09",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/17/submission/19779858",
       "submissionId": "19779858",
       "testVerdicts": {
@@ -322,7 +470,11 @@
           "0008"
         ],
         "origin": "tests/0008",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+        "originalInputHash": "cc65c0da60b5513ab2c2bbceff7f4c6e53ece49cf2b3260791be3b1414364595",
+        "reason": "line 12 `range(2,n//2+2)` bound",
+        "selectedOriginalTest": "0008",
         "test": "lf-0008"
       }
     }
@@ -330,14 +482,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 1,
+      "bytes": 387441,
+      "name": "batch1-source-semantics-review.json",
+      "sha256": "ca43961fef2540e778e5dfc2d517ba9ae59958c8198fecf0e801108165b0e722"
+    }
+  ],
+  "sourceReviewStatus": "reject",
+  "sourceSemanticReviewHash": "827d6a322d0e4e2f85c3217a3b7d79c66b948f52af4a2c1a4177232a41d5aca4",
+  "sourceSemanticReviewPath": "source-review/proofs/17A.json",
   "stressCases": 40,
-  "testPairs": 85,
-  "unconfirmedSourceIds": [
-    "4834598",
-    "9919372",
-    "13661778",
-    "15442637",
-    "19779858"
-  ]
+  "testPairs": 85
 }

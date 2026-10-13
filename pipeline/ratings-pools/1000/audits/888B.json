@@ -1,28 +1,210 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "667db4432e7ce636f41c89754d60c98173fbde8a2f237ddb90ff0c28184e5be6",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "32515527": {
+      "LFActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "LFExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "LFInputHash": "b693f0047a1a4d63344ac28b9032a61bd350120dc82806555279a1740a96ec78",
+      "LFProofHash": "fe31e6b1f13b175771d0d8c8365263ba8a4d171058711ecad814083373d9cddd",
+      "exactSourceExcerpts": [
+        {
+          "first": 14,
+          "last": 18,
+          "lines": [
+            "    c += 1",
+            "    if x == 0 and y == 0:",
+            "        cl.append(c)",
+            "        c = 0",
+            "print(sum(cl))"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "originalInputHash": "b693f0047a1a4d63344ac28b9032a61bd350120dc82806555279a1740a96ec78",
+      "originalTimeout": false,
+      "reason": "lines 15-17 only credit contiguous segments of the walk that return to (0,0); commands may be dropped individually, so returns are not required along the actual walk. Expected derivation: tests/0029: 'RDLD': U=0,D=2,L=1,R=1 -> keep R and L -> 2. Source trace: R(1,0) D(1,-1) L(0,-1) D(0,-2): origin never revisited, cl=[] -> sum 0.",
+      "sourceHash": "8e1c400b8bf9456c86ca3b57ca009f05b7ec27bd1b1900e14389952044953a6c",
+      "sourceRanges": [
+        [
+          14,
+          18
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/888/submission/32515527",
+      "test": "0029"
+    },
+    "32516004": {
+      "LFActualOutputHash": "a4b2c5db15348c29451e18b8307e5ef81625ea638e807935f39ceaa8d9ac7758",
+      "LFExpectedOutputHash": "f74efabef12ea619e30b79bddef89cffa9dda494761681ca862cff2871a85980",
+      "LFInputHash": "1fb11c119ca7516c47a1f5920778cce14712f505c51e2c5cd6cac22b16f86c27",
+      "LFProofHash": "fe31e6b1f13b175771d0d8c8365263ba8a4d171058711ecad814083373d9cddd",
+      "exactSourceExcerpts": [
+        {
+          "first": 12,
+          "last": 20,
+          "lines": [
+            "    if (a[0] != 0 and a[1] != 0",
+            "        and a[0] == a[1]):",
+            "        res.append(a[0]+a[1])",
+            "    if (a[2] != 0 and a[3] != 0",
+            "        and a[2] == a[3]):",
+            "        res.append(a[2]+a[3])",
+            "    if (a[0] != 0 and a[1] != 0 and a[2] != 0 and a[3] != 0",
+            "        and a[0] == a[1] == a[2] == a[3]):",
+            "        res.append(a[0]+a[1]+a[2]+a[3])"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "a4b2c5db15348c29451e18b8307e5ef81625ea638e807935f39ceaa8d9ac7758",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "bad8a8c24e18664287f4f20cb8de2b089525d51f939c537b471f2d273fb66f3f",
+      "originalInputHash": "e2f002c90eacbcc20f01a24a34b8183a7d703451890ca46628f01ee30d115275",
+      "originalTimeout": false,
+      "reason": "lines 12-20 record a single axis (or all-four-equal) value at balanced PREFIX moments instead of 2*min(U,D)+2*min(L,R) over the whole string. Expected derivation: tests/0004 (88 cmds): U=18, D=22, L=20, R=28 -> 2*18+2*20 = 76. Source trace: Self-authored recomputation of lines 8-20's recorded values on this string: the largest recorded value is 36 (=2*18, when U==D==18 in a prefix); combined sums are never formed. Prints 36.",
+      "sourceHash": "8382ea5dcb3b196b9ac3b1f8ee41ece6190f89341996c488b1aa7c0b07a48c88",
+      "sourceRanges": [
+        [
+          12,
+          20
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/888/submission/32516004",
+      "test": "0004"
+    },
+    "32516121": {
+      "LFActualOutputHash": "673650f936cb3b0a2f93ce09d81be10748b1b203c19e8176b4eefc1964a0cf3a",
+      "LFExpectedOutputHash": "f74efabef12ea619e30b79bddef89cffa9dda494761681ca862cff2871a85980",
+      "LFInputHash": "1fb11c119ca7516c47a1f5920778cce14712f505c51e2c5cd6cac22b16f86c27",
+      "LFProofHash": "fe31e6b1f13b175771d0d8c8365263ba8a4d171058711ecad814083373d9cddd",
+      "exactSourceExcerpts": [
+        {
+          "first": 18,
+          "last": 21,
+          "lines": [
+            "    if x == 0 and y == 0:",
+            "        flag = 1",
+            "        print (step)",
+            "        break"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "673650f936cb3b0a2f93ce09d81be10748b1b203c19e8176b4eefc1964a0cf3a",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "bad8a8c24e18664287f4f20cb8de2b089525d51f939c537b471f2d273fb66f3f",
+      "originalInputHash": "e2f002c90eacbcc20f01a24a34b8183a7d703451890ca46628f01ee30d115275",
+      "originalTimeout": false,
+      "reason": "lines 18-21 `print(step); break` at the first return to (0,0) - answers with the first closed prefix rather than 2*min(U,D)+2*min(L,R). Expected derivation: tests/0004: U=18,D=22,L=20,R=28 -> 76. Source trace: Position first returns to (0,0) after 40 commands (self-computed); prints 40 and stops.",
+      "sourceHash": "9e5a4a41c12183925bab5d865e9be5cb584b7754eecd10a60d40f2aac6001ada",
+      "sourceRanges": [
+        [
+          18,
+          21
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/888/submission/32516121",
+      "test": "0004"
+    },
+    "32519516": {
+      "LFActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "LFExpectedOutputHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+      "LFInputHash": "9c329bb6e99973ee46d9484a11053075188bab1afb5eb8ff5063c9d4c0895558",
+      "LFProofHash": "fe31e6b1f13b175771d0d8c8365263ba8a4d171058711ecad814083373d9cddd",
+      "exactSourceExcerpts": [
+        {
+          "first": 3,
+          "last": 11,
+          "lines": [
+            "for x in input().split():",
+            "    a.append(x)",
+            "hori=0",
+            "vert=0",
+            "if a.count('L')==a.count('R'):",
+            "    hori+=1",
+            "if a.count('D')==a.count('U'):",
+            "    vert+=1",
+            "print(hori+vert)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+      "originalInputHash": "4504670a6adaa8d16add0ac6338461a873c13419ad69f8f8b0c6b22020acafc1",
+      "originalTimeout": false,
+      "reason": "line 3 `input().split()` yields one token 'LDUR', so a.count('L') etc. are 0; and lines 7-11 output hori+vert flags instead of 2*min(U,D)+2*min(L,R). Expected derivation: tests/0001: 'LDUR': U=D=L=R=1 -> 4 (all commands). Source trace: a=['LDUR']; a.count('L')=a.count('R')=0 -> hori=1; a.count('D')=a.count('U')=0 -> vert=1; prints 2.",
+      "sourceHash": "3d33e63df37cce6bf52678f67bd58628b112b04a47bd89bfe21deb4db5e72fbc",
+      "sourceRanges": [
+        [
+          3,
+          11
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/888/submission/32519516",
+      "test": "0001"
+    },
+    "32519609": {
+      "LFActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "LFExpectedOutputHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+      "LFInputHash": "9c329bb6e99973ee46d9484a11053075188bab1afb5eb8ff5063c9d4c0895558",
+      "LFProofHash": "fe31e6b1f13b175771d0d8c8365263ba8a4d171058711ecad814083373d9cddd",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 4,
+          "lines": [
+            "print(min(u, d)+min(l, r))"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+      "originalInputHash": "4504670a6adaa8d16add0ac6338461a873c13419ad69f8f8b0c6b22020acafc1",
+      "originalTimeout": false,
+      "reason": "line 4 missing factor 2: each matched pair contributes two executed commands. Expected derivation: tests/0001: 'LDUR' -> 2*1+2*1 = 4. Source trace: u=d=l=r=1 -> 1+1 = 2.",
+      "sourceHash": "d17e3ab5101e10dcf2ef1b4f791fd1eae9c79c2758614166e8b2b7abc68ed56b",
+      "sourceRanges": [
+        [
+          4,
+          4
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/888/submission/32519609",
+      "test": "0001"
+    }
+  },
   "independentFreshRunHash": "b2a95697ad2256d6788758b205195d7a5a270d2f725441f5c8a66cff119787fb",
   "independentLFReplayHash": "fe31e6b1f13b175771d0d8c8365263ba8a4d171058711ecad814083373d9cddd",
   "independentSemanticCheckHash": "237a91764b233adb97b0c6534854d3cebd69507c2d0c6779e5b62f9effce0341",
   "independentStressHash": "66d631463c889b2342b0765ada23ebe384c741337f65e13d12e811a86d7ff636",
+  "originalExecutionEvidenceHash": "667db4432e7ce636f41c89754d60c98173fbde8a2f237ddb90ff0c28184e5be6",
   "packageHash": "4fff83e4bff47364ee2c666117b77c42b5e730f89d3921aebef833dc090b8ee7",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -109,26 +291,25 @@
         "AC": 4,
         "WA": 18
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 18
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 18,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": false,
       "language": "Python 3",
       "normalWrongAnswerCount": 18,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 10,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "8e1c400b8bf9456c86ca3b57ca009f05b7ec27bd1b1900e14389952044953a6c",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/888/submission/32515527",
       "submissionId": "32515527",
       "testVerdicts": {
@@ -144,7 +325,11 @@
           "0029"
         ],
         "origin": "tests/0029",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "originalExpectedOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "originalInputHash": "b693f0047a1a4d63344ac28b9032a61bd350120dc82806555279a1740a96ec78",
+        "reason": "lines 15-17 only credit contiguous segments of the walk that return to (0,0); commands may be dropped individually, so returns are not required along the actual walk.",
+        "selectedOriginalTest": "0029",
         "test": "lf-0029"
       }
     },
@@ -153,26 +338,25 @@
         "AC": 3,
         "WA": 20
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 20
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 20,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 20,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "8382ea5dcb3b196b9ac3b1f8ee41ece6190f89341996c488b1aa7c0b07a48c88",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/888/submission/32516004",
       "submissionId": "32516004",
       "testVerdicts": {
@@ -188,7 +372,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "a4b2c5db15348c29451e18b8307e5ef81625ea638e807935f39ceaa8d9ac7758",
+        "originalExpectedOutputHash": "bad8a8c24e18664287f4f20cb8de2b089525d51f939c537b471f2d273fb66f3f",
+        "originalInputHash": "e2f002c90eacbcc20f01a24a34b8183a7d703451890ca46628f01ee30d115275",
+        "reason": "lines 12-20 record a single axis (or all-four-equal) value at balanced PREFIX moments instead of 2*min(U,D)+2*min(L,R) over the whole string.",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     },
@@ -197,26 +385,25 @@
         "AC": 1,
         "WA": 22
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 22
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 22,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 22,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "9e5a4a41c12183925bab5d865e9be5cb584b7754eecd10a60d40f2aac6001ada",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/888/submission/32516121",
       "submissionId": "32516121",
       "testVerdicts": {
@@ -232,7 +419,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "673650f936cb3b0a2f93ce09d81be10748b1b203c19e8176b4eefc1964a0cf3a",
+        "originalExpectedOutputHash": "bad8a8c24e18664287f4f20cb8de2b089525d51f939c537b471f2d273fb66f3f",
+        "originalInputHash": "e2f002c90eacbcc20f01a24a34b8183a7d703451890ca46628f01ee30d115275",
+        "reason": "lines 18-21 `print(step); break` at the first return to (0,0) - answers with the first closed prefix rather than 2*min(U,D)+2*min(L,R).",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     },
@@ -240,26 +431,25 @@
       "LFReplayVerdicts": {
         "WA": 23
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 23
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 23,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 23,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "3d33e63df37cce6bf52678f67bd58628b112b04a47bd89bfe21deb4db5e72fbc",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/888/submission/32519516",
       "submissionId": "32519516",
       "testVerdicts": {
@@ -275,7 +465,11 @@
           "0001"
         ],
         "origin": "tests/0001",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "originalExpectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "originalInputHash": "4504670a6adaa8d16add0ac6338461a873c13419ad69f8f8b0c6b22020acafc1",
+        "reason": "line 3 `input().split()` yields one token 'LDUR', so a.count('L') etc. are 0; and lines 7-11 output hori+vert flags instead of 2*min(U,D)+2*min(L,R).",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     },
@@ -283,26 +477,25 @@
       "LFReplayVerdicts": {
         "WA": 22
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 22
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 22,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 22,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "d17e3ab5101e10dcf2ef1b4f791fd1eae9c79c2758614166e8b2b7abc68ed56b",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/888/submission/32519609",
       "submissionId": "32519609",
       "testVerdicts": {
@@ -318,7 +511,11 @@
           "0001"
         ],
         "origin": "tests/0001",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "originalExpectedOutputHash": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "originalInputHash": "4504670a6adaa8d16add0ac6338461a873c13419ad69f8f8b0c6b22020acafc1",
+        "reason": "line 4 missing factor 2: each matched pair contributes two executed commands.",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     }
@@ -326,14 +523,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 3,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 5,
+      "bytes": 295543,
+      "name": "batch5-source-review.json",
+      "sha256": "b428fe8eb83846ca1692f87dfcd5d3bc7a98bf5bc8c3f856cd1173fc9dcbfb5a"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "4242c355fe99a77dca629c8ca5144988ecc8dcea8a501107ca693273aadf93cd",
+  "sourceSemanticReviewPath": "source-review/proofs/888B.json",
   "stressCases": 40,
-  "testPairs": 90,
-  "unconfirmedSourceIds": [
-    "32515527",
-    "32516004",
-    "32516121",
-    "32519516",
-    "32519609"
-  ]
+  "testPairs": 90
 }

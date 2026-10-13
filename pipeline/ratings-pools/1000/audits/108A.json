@@ -1,6 +1,6 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 1,
+  "algorithmicIncorrectKilled": 4,
   "approved": false,
   "checks": {
     "coverage": true,
@@ -12,16 +12,163 @@
     "sourceAttribution": true
   },
   "evidenceHash": "fc6a22018e2ecd9b8bc1c3d6067c3d18617c1f64b576bf40e0c4f395de1788ad",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "4328397": {
+      "LFActualOutputHash": "1ab04eced65a60bcfdd5bc63d87c3a118f8a61b635beab6b99405b46b7dd5e3f",
+      "LFExpectedOutputHash": "0f669166d3bf23e75c785e3b2d86dd68f1cdeb6b07d63341daa2fbdd4c544107",
+      "LFInputHash": "e2d4ec278002b52761da830f4ecbe0061ae725d179cdc3a8ca76a14117a44893",
+      "LFProofHash": "4824fdd8655c0f0b70ba429468db03f6c37d6df60b01a97d9bf958a7725ed4cf",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 3,
+          "lines": [
+            "s=str([(z+1)%24,20][z/5==3])",
+            "print(s+':'+s[::-1])"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "1ab04eced65a60bcfdd5bc63d87c3a118f8a61b635beab6b99405b46b7dd5e3f",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "92ef4ab2317bb0ee062c672f643da8822c306594f7ab2a1b499fbed56b27a5c4",
+      "originalInputHash": "e2d4ec278002b52761da830f4ecbe0061ae725d179cdc3a8ca76a14117a44893",
+      "originalTimeout": false,
+      "reason": "line 2 `s=str([(z+1)%24,20][z/5==3])` never considers palindromes later in the same hour and never skips invalid mirrored minutes; also no zero padding Expected derivation: 14:11: same-hour palindrome 14:41 exists (41>11), so answer 14:41. Source trace: z=14, m=11; z/5=2.8 !=3 -> s=str(15)='15'; prints '15:51'.",
+      "sourceHash": "a9a97ec64cc654406f4de53f582f46b72fdb73eaf098fc457b5fc2ae4e80d31f",
+      "sourceRanges": [
+        [
+          2,
+          3
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/108/submission/4328397",
+      "test": "0061"
+    },
+    "4710751": {
+      "LFActualOutputHash": "2729ef5085e1879bf70f1075d24661364562821e0b09c8463cd97ca738fb81a9",
+      "LFExpectedOutputHash": "07b9fcbb6ab70f1c6819e4f2276cc4b307905e077675aadb2e4076fefcd68ecd",
+      "LFInputHash": "76cf6811b724f3a3e56706ecb5a1098e54d2147165147471e7f72af90a6c041c",
+      "LFProofHash": "4824fdd8655c0f0b70ba429468db03f6c37d6df60b01a97d9bf958a7725ed4cf",
+      "exactSourceExcerpts": [
+        {
+          "first": 3,
+          "last": 5,
+          "lines": [
+            "if n[3:] >= t:",
+            "    h = str(int(n[:2]) + 1)",
+            "    print(h + ':' + h[1] + h[0])"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "2729ef5085e1879bf70f1075d24661364562821e0b09c8463cd97ca738fb81a9",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "8eef7c5cd436f9cf49adc879c1cb7f9b72e0a0844bb39063ffbacf5d179d92f3",
+      "originalInputHash": "bf9201628bae28e37ae044c84eb8021a3a713b101d275e23e56dbdc047c0b7f9",
+      "originalTimeout": false,
+      "reason": "line 4 `h = str(int(n[:2]) + 1)` without %24 wrap or validity check Expected derivation: 23:59: 23:32 has passed; no later palindrome today, next is 00:00. Source trace: t='32'; n[3:]='59'>='32' -> h=str(24)='24'; prints '24:42'.",
+      "sourceHash": "43de5a312892dbc055c464540de25e7ec9740ae97b7ad887db594c4d047d7908",
+      "sourceRanges": [
+        [
+          3,
+          5
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/108/submission/4710751",
+      "test": "0002"
+    },
+    "4929766": {
+      "LFActualOutputHash": "2729ef5085e1879bf70f1075d24661364562821e0b09c8463cd97ca738fb81a9",
+      "LFExpectedOutputHash": "07b9fcbb6ab70f1c6819e4f2276cc4b307905e077675aadb2e4076fefcd68ecd",
+      "LFInputHash": "76cf6811b724f3a3e56706ecb5a1098e54d2147165147471e7f72af90a6c041c",
+      "LFProofHash": "4824fdd8655c0f0b70ba429468db03f6c37d6df60b01a97d9bf958a7725ed4cf",
+      "exactSourceExcerpts": [
+        {
+          "first": 3,
+          "last": 7,
+          "lines": [
+            "a = str(int(a) + 1)",
+            "while a != a[::-1]:",
+            "    if a == \"2359\":",
+            "        a = \"0000\"",
+            "    a = str(int(a) + 1)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "2729ef5085e1879bf70f1075d24661364562821e0b09c8463cd97ca738fb81a9",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "8eef7c5cd436f9cf49adc879c1cb7f9b72e0a0844bb39063ffbacf5d179d92f3",
+      "originalInputHash": "bf9201628bae28e37ae044c84eb8021a3a713b101d275e23e56dbdc047c0b7f9",
+      "originalTimeout": false,
+      "reason": "line 3 increments before the loop so line 5 `a == \"2359\"` never matches for input 23:59; line 7 int increment walks through invalid minutes/hours Expected derivation: 23:59 -> next palindromic time 00:00. Source trace: a='2359' -> line 3 a='2360'; loop increments 2361..2442 (never equals '2359'); '2442' palindrome -> prints '24:42'.",
+      "sourceHash": "2d8d282bfb583385d1d563cf2111060437c0d4f3e9cd5d44450ecc573448f07b",
+      "sourceRanges": [
+        [
+          3,
+          7
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/108/submission/4929766",
+      "test": "0002"
+    },
+    "9008465": {
+      "LFActualOutputHash": "35ef0bb2195dcce7c71893f6cf0afdc3a9d8cadf019d582f37aec67ccdc0c3c9",
+      "LFExpectedOutputHash": "f5aa36e5d657037efcbcd254a3e5b3907d39ec43183d8554e65d2e813602a657",
+      "LFInputHash": "1ab04eced65a60bcfdd5bc63d87c3a118f8a61b635beab6b99405b46b7dd5e3f",
+      "LFProofHash": "4824fdd8655c0f0b70ba429468db03f6c37d6df60b01a97d9bf958a7725ed4cf",
+      "exactSourceExcerpts": [
+        {
+          "first": 7,
+          "last": 18,
+          "lines": [
+            "if(h >= 0 and h < 5):",
+            "    h += 1",
+            "    print(\"0\" + str(h) + \":\" + str(h) + \"0\")",
+            "elif((h >= 11 and h < 15) or (h >= 21 and h < 23)):",
+            "    h += 1",
+            "    print(str(h) + \":\" + str(h)[::-1])",
+            "elif(h == 5):",
+            "    print(\"11:11\")",
+            "elif(h == 15):",
+            "    print(\"21:12\")",
+            "elif(h == 23):",
+            "    print(\"00:00\")"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "35ef0bb2195dcce7c71893f6cf0afdc3a9d8cadf019d582f37aec67ccdc0c3c9",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "b61313e3be2da9ce8143ec9380d73ce5350dfcf945adff5458e94153bd5b8113",
+      "originalInputHash": "12bc886f71ac05ea4b3df29d4db930f2624ed6196eec33f2ee8bf364471eb8b3",
+      "originalTimeout": false,
+      "reason": "line 15-16 `elif(h == 15): print(\"21:12\")` skips 20:02; minutes never read Expected derivation: 15:51 is itself palindromic; the soonest strictly later palindrome is 20:02. Source trace: h=15 -> line 15 branch prints '21:12'.",
+      "sourceHash": "56eced0072dcf6678a3cdd4949d9ca0f69f639cc27611d0cbe3ec503324f9b8c",
+      "sourceRanges": [
+        [
+          7,
+          18
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/108/submission/9008465",
+      "test": "0003"
+    }
+  },
   "independentFreshRunHash": "02d95faf2d30ca08ee23693b223e29eb4b744f490a74f41c512c4f7b8d9e1a76",
   "independentLFReplayHash": "4824fdd8655c0f0b70ba429468db03f6c37d6df60b01a97d9bf958a7725ed4cf",
   "independentSemanticCheckHash": "75b3c0f98ea939be4d74795b9a7d3d40f67ae0d81c4f7de82d74a321703296c3",
   "independentStressHash": "359853757b65b7766e91e98d82f81ff614c92133802f92a73685b818eec57ccb",
+  "originalExecutionEvidenceHash": "fc6a22018e2ecd9b8bc1c3d6067c3d18617c1f64b576bf40e0c4f395de1788ad",
   "packageHash": "f1a431592b2f7e84b49824bda7ef5b751481221d19a7e37a49164af4b5a69b32",
   "qualificationBasis": "official",
   "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
+    "9008626: reviewer-unconfirmed; empty-stdout-not-computed-wrong-answer"
   ],
   "references": [
     {
@@ -109,27 +256,25 @@
         "AC": 4,
         "WA": 18
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 12,
-        "same clock time; only zero padding differs": 6
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 12,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": false,
       "language": "Python 3",
       "normalWrongAnswerCount": 18,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 8,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "a9a97ec64cc654406f4de53f582f46b72fdb73eaf098fc457b5fc2ae4e80d31f",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/108/submission/4328397",
       "submissionId": "4328397",
       "testVerdicts": {
@@ -138,16 +283,19 @@
       },
       "testsRun": 74,
       "witness": {
-        "actualOutputHash": "a18736e88910bc168ddfd39a413f4b9323802c5a4303d33f74dd50dd5cfca72a",
-        "expectedOutputHash": "b62f69de3df41b49e22cf8064fbb991cdfcdb7593c5f0e7ebde111e2e763b6c5",
-        "inputHash": "8981a3cc6af592dd9057b33edad8a68e05b7decbf550e866952dfe11f259adb8",
+        "actualOutputHash": "1ab04eced65a60bcfdd5bc63d87c3a118f8a61b635beab6b99405b46b7dd5e3f",
+        "expectedOutputHash": "0f669166d3bf23e75c785e3b2d86dd68f1cdeb6b07d63341daa2fbdd4c544107",
+        "inputHash": "e2d4ec278002b52761da830f4ecbe0061ae725d179cdc3a8ca76a14117a44893",
         "matchingPackageTests": [
-          "0034",
-          "0037"
+          "0061"
         ],
-        "origin": "tests/0037",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
-        "test": "lf-0037"
+        "origin": "tests/0061",
+        "originalActualOutputHash": "1ab04eced65a60bcfdd5bc63d87c3a118f8a61b635beab6b99405b46b7dd5e3f",
+        "originalExpectedOutputHash": "92ef4ab2317bb0ee062c672f643da8822c306594f7ab2a1b499fbed56b27a5c4",
+        "originalInputHash": "e2d4ec278002b52761da830f4ecbe0061ae725d179cdc3a8ca76a14117a44893",
+        "reason": "line 2 `s=str([(z+1)%24,20][z/5==3])` never considers palindromes later in the same hour and never skips invalid mirrored minutes; also no zero padding",
+        "selectedOriginalTest": "0061",
+        "test": "lf-0061"
       }
     },
     {
@@ -155,26 +303,25 @@
         "AC": 9,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "43de5a312892dbc055c464540de25e7ec9740ae97b7ad887db594c4d047d7908",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/108/submission/4710751",
       "submissionId": "4710751",
       "testVerdicts": {
@@ -193,7 +340,11 @@
           "0039"
         ],
         "origin": "tests/0039",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "2729ef5085e1879bf70f1075d24661364562821e0b09c8463cd97ca738fb81a9",
+        "originalExpectedOutputHash": "8eef7c5cd436f9cf49adc879c1cb7f9b72e0a0844bb39063ffbacf5d179d92f3",
+        "originalInputHash": "bf9201628bae28e37ae044c84eb8021a3a713b101d275e23e56dbdc047c0b7f9",
+        "reason": "line 4 `h = str(int(n[:2]) + 1)` without %24 wrap or validity check",
+        "selectedOriginalTest": "0002",
         "test": "lf-0039"
       }
     },
@@ -203,26 +354,25 @@
         "RE": 3,
         "WA": 12
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 12
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 12,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 12,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "2d8d282bfb583385d1d563cf2111060437c0d4f3e9cd5d44450ecc573448f07b",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/108/submission/4929766",
       "submissionId": "4929766",
       "testVerdicts": {
@@ -241,7 +391,11 @@
           "0039"
         ],
         "origin": "tests/0039",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "2729ef5085e1879bf70f1075d24661364562821e0b09c8463cd97ca738fb81a9",
+        "originalExpectedOutputHash": "8eef7c5cd436f9cf49adc879c1cb7f9b72e0a0844bb39063ffbacf5d179d92f3",
+        "originalInputHash": "bf9201628bae28e37ae044c84eb8021a3a713b101d275e23e56dbdc047c0b7f9",
+        "reason": "line 3 increments before the loop so line 5 `a == \"2359\"` never matches for input 23:59; line 7 int increment walks through invalid minutes/hours",
+        "selectedOriginalTest": "0002",
         "test": "lf-0039"
       }
     },
@@ -250,27 +404,25 @@
         "AC": 3,
         "WA": 20
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 16,
-        "empty output requires additional source-level defect review": 4
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 16,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 20,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "56eced0072dcf6678a3cdd4949d9ca0f69f639cc27611d0cbe3ec503324f9b8c",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/108/submission/9008465",
       "submissionId": "9008465",
       "testVerdicts": {
@@ -287,7 +439,11 @@
           "0042"
         ],
         "origin": "tests/0042",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "35ef0bb2195dcce7c71893f6cf0afdc3a9d8cadf019d582f37aec67ccdc0c3c9",
+        "originalExpectedOutputHash": "b61313e3be2da9ce8143ec9380d73ce5350dfcf945adff5458e94153bd5b8113",
+        "originalInputHash": "12bc886f71ac05ea4b3df29d4db930f2624ed6196eec33f2ee8bf364471eb8b3",
+        "reason": "line 15-16 `elif(h == 15): print(\"21:12\")` skips 20:02; minutes never read",
+        "selectedOriginalTest": "0003",
         "test": "lf-0042"
       }
     },
@@ -296,22 +452,29 @@
         "AC": 10,
         "WA": 11
       },
-      "algorithmicWitnessCount": 11,
-      "algorithmicWrongAnswer": true,
+      "algorithmicWitnessCount": 0,
+      "algorithmicWrongAnswer": false,
       "builderFailedTest": "0008",
-      "builderFailureAlgorithmicallyProven": true,
+      "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "palindromic clock search omits hours 06-09 and 16-19": 11
+        "source-reviewed defect with included normal-exit wrong answer": 0
       },
+      "exclusionReason": "reviewer-unconfirmed; empty-stdout-not-computed-wrong-answer: Every included normal-termination CE for this ref (11 tests: hours 06-09/16-19) has EMPTY output. Hand-tracing the existing branches shows they compute correct times except zero-padding ('10:1','20:2'). No included test shows a computed wrong value, so a computed-answer semantic witness cannot be established; whether silent no-output from a missing case counts is a parent policy decision.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
       "language": "Python 3",
       "normalWrongAnswerCount": 11,
-      "outcome": "algorithmic-WA",
+      "outcome": "source-semantics-unconfirmed",
       "packageWitnessCount": 11,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "f450a750cea45443044df6858c9b2f8c2cb8b95a13c1aefe5b682238139eba18",
+      "sourceSemanticExclusionReasons": [
+        "reviewer-unconfirmed",
+        "empty-stdout-not-computed-wrong-answer"
+      ],
+      "sourceSemanticReviewStatus": "unconfirmed",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/108/submission/9008626",
       "submissionId": "9008626",
       "testVerdicts": {
@@ -335,13 +498,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 1,
+      "bytes": 387441,
+      "name": "batch1-source-semantics-review.json",
+      "sha256": "ca43961fef2540e778e5dfc2d517ba9ae59958c8198fecf0e801108165b0e722"
+    }
+  ],
+  "sourceReviewStatus": "unconfirmed",
+  "sourceSemanticReviewHash": "330890b6879df87ad44c44496dd6c53d8cba1d95b795a9236b66d3e336d65314",
+  "sourceSemanticReviewPath": "source-review/proofs/108A.json",
   "stressCases": 40,
-  "testPairs": 74,
-  "unconfirmedSourceIds": [
-    "4328397",
-    "4710751",
-    "4929766",
-    "9008465"
-  ]
+  "testPairs": 74
 }

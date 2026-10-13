@@ -1,28 +1,202 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "968e9fc014680022a3e71a134dc13a51d449b6a5c956c2c45fd4a62cc320b19e",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "6753503": {
+      "LFActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "LFExpectedOutputHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+      "LFInputHash": "d3dabde40c493302ba29993201a709e7aaeaeb5035074ae46c25c2b856a29d77",
+      "LFProofHash": "664b32a66eed8d5f3d13e8d7e7130f70607316d87770846276dbba663e5432e6",
+      "exactSourceExcerpts": [
+        {
+          "first": 9,
+          "last": 12,
+          "lines": [
+            "    for i in range(len(linea)):",
+            "        suma+=linea[i]",
+            "    suma=suma/m",
+            "    print(math.ceil(suma))"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+      "originalInputHash": "1553465aa548c847f654cdc616dc4e38eb688cc511f41ca65422cf73d1d46d81",
+      "originalTimeout": false,
+      "reason": "Treats indivisible ordered groups as freely packable individual passengers. Expected derivation: Capacity4 and groups1,3,2,3,4,1 pack in ordered buses [1,3],[2],[3],[4],[1]. Each boundary is forced by the next group, so minimum5 buses. Source trace: suma=14; suma/m=3.5 and ceil returns4, ignoring unavoidable empty seats.",
+      "sourceHash": "90bfc592a1b3b74dc0c0bb21e42df326d6ef4eebcc44ba3f83b5e71dea16a7fc",
+      "sourceRanges": [
+        [
+          9,
+          12
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/435/submission/6753503",
+      "test": "0005"
+    },
+    "6755760": {
+      "LFActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "LFExpectedOutputHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+      "LFInputHash": "986977bda2a76287f9d25f23d27a500653b443e9764dc84119819b67d27ecc1b",
+      "LFProofHash": "664b32a66eed8d5f3d13e8d7e7130f70607316d87770846276dbba663e5432e6",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 8,
+          "lines": [
+            "s = k = 0",
+            "for i in a:",
+            "    k += i",
+            "    if k > m: s, k = s + 1, i",
+            "print(s)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "originalInputHash": "986111397bdf213dcbb8d705c34ba1b99ac128d7313c5c370dd32867eefc0ddf",
+      "originalTimeout": false,
+      "reason": "Starts s=0 and increments only at transitions, never counting the initial/final occupied bus. Expected derivation: Capacity3, groups2,3,2,1 pack [2],[3],[2,1], requiring3 buses. Source trace: k goes2 then5 -> s1,k3; next k5 -> s2,k2; final k3 fits. print(s)=2. This is a wrong bus-count variable, not omitted output count/header.",
+      "sourceHash": "c2b84f21e04012faf82febffc877562d947a7e3324448ec85845ef30dc359405",
+      "sourceRanges": [
+        [
+          4,
+          8
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/435/submission/6755760",
+      "test": "0001"
+    },
+    "6760559": {
+      "LFActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "LFExpectedOutputHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+      "LFInputHash": "263ca9c77a725468378278dd9f4873da79f61d2622e5e5a57dd9e34ecf3718ef",
+      "LFProofHash": "664b32a66eed8d5f3d13e8d7e7130f70607316d87770846276dbba663e5432e6",
+      "exactSourceExcerpts": [
+        {
+          "first": 7,
+          "last": 10,
+          "lines": [
+            "    cap = a[i]",
+            "    while i < n - 1 and a[i] + a[i+1] <= m:",
+            "        i += 1",
+            "        cap += a[i]"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+      "originalInputHash": "8de3c6b3fa504619d76bbca5f2ae66c60d28b91f010c3e5a056a35bc8b6d6419",
+      "originalTimeout": false,
+      "reason": "Checks only a[i]+a[i+1]<=m instead of cap+a[i+1]<=m; previous loaded groups are excluded from feasibility. Expected derivation: Capacity8: [6,1,1] fills first bus, [1,4] uses5 seats on second, [5] cannot join it and needs third. Ordered boundaries prove3 buses. Source trace: Pair checks6+1,1+1,1+1,1+4 all pass, accumulating13 passengers in first modeled bus. Only4+5 fails, so final5 starts second bus; output2.",
+      "sourceHash": "7c20ec485018b5a1333b83b00972212d4138683f7ac42bbe0e795c430c3b5080",
+      "sourceRanges": [
+        [
+          7,
+          10
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/435/submission/6760559",
+      "test": "0006"
+    },
+    "6816449": {
+      "LFActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "LFExpectedOutputHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+      "LFInputHash": "d3dabde40c493302ba29993201a709e7aaeaeb5035074ae46c25c2b856a29d77",
+      "LFProofHash": "664b32a66eed8d5f3d13e8d7e7130f70607316d87770846276dbba663e5432e6",
+      "exactSourceExcerpts": [
+        {
+          "first": 3,
+          "last": 5,
+          "lines": [
+            "s = sum(a)",
+            "k = s // m if s % m == 0 else s // m + 1",
+            "print(k)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+      "originalInputHash": "1553465aa548c847f654cdc616dc4e38eb688cc511f41ca65422cf73d1d46d81",
+      "originalTimeout": false,
+      "reason": "Ignores the fixed-order no-splitting group constraint. Expected derivation: Capacity4 requires the ordered blocks [1,3],[2],[3],[4],[1], hence5 buses. Source trace: s=14, s//4=3 and remainder2, so k=4.",
+      "sourceHash": "103d21259e6bf301a4706ae4d50eebade213365e638ed4a01c72249dc14e2b84",
+      "sourceRanges": [
+        [
+          3,
+          5
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/435/submission/6816449",
+      "test": "0005"
+    },
+    "6856942": {
+      "LFActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "LFExpectedOutputHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+      "LFInputHash": "d3dabde40c493302ba29993201a709e7aaeaeb5035074ae46c25c2b856a29d77",
+      "LFProofHash": "664b32a66eed8d5f3d13e8d7e7130f70607316d87770846276dbba663e5432e6",
+      "exactSourceExcerpts": [
+        {
+          "first": 3,
+          "last": 6,
+          "lines": [
+            "sum=0",
+            "for a in L:",
+            "    sum+=a",
+            "print(-sum//m*-1)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+      "originalInputHash": "1553465aa548c847f654cdc616dc4e38eb688cc511f41ca65422cf73d1d46d81",
+      "originalTimeout": false,
+      "reason": "Uses a passenger-volume lower bound as if it were feasible for fixed-order indivisible groups. Expected derivation: Groups1,3,2,3,4,1 under capacity4 need5 buses: [1,3],[2],[3],[4],[1]. Source trace: sum=14; (-14)//4=-4; multiplying by -1 prints4. This is valid arithmetic for the wrong packing model, not a formatting/numeric-notation issue.",
+      "sourceHash": "f20a0beef39e3470626657abea7ae28b8b87f6ec7aa7ce1b91bda35d0fcd8db0",
+      "sourceRanges": [
+        [
+          3,
+          6
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/435/submission/6856942",
+      "test": "0005"
+    }
+  },
   "independentFreshRunHash": "73764e7d86a1265dbbe9470b9ee1e20f64acd07abba3fcdec0cd44cfff7ebcb5",
   "independentLFReplayHash": "664b32a66eed8d5f3d13e8d7e7130f70607316d87770846276dbba663e5432e6",
   "independentSemanticCheckHash": "55248ff46e43efc1fc79bdb08228b0645fd6b95ec8f1663fa7f29589996a9990",
   "independentStressHash": "fd508c30c94622670483a43e3726c5c31aa945ff7a9554f591d29d7071d99581",
+  "originalExecutionEvidenceHash": "968e9fc014680022a3e71a134dc13a51d449b6a5c956c2c45fd4a62cc320b19e",
   "packageHash": "7f774264120b9af6fdf1814db43ac2c563cf9c242193b67b695f712efb626810",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -109,26 +283,25 @@
         "AC": 5,
         "WA": 17
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 17
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 17,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 17,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "90bfc592a1b3b74dc0c0bb21e42df326d6ef4eebcc44ba3f83b5e71dea16a7fc",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/435/submission/6753503",
       "submissionId": "6753503",
       "testVerdicts": {
@@ -144,7 +317,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+        "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "originalInputHash": "1553465aa548c847f654cdc616dc4e38eb688cc511f41ca65422cf73d1d46d81",
+        "reason": "Treats indivisible ordered groups as freely packable individual passengers.",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     },
@@ -152,26 +329,25 @@
       "LFReplayVerdicts": {
         "WA": 23
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 23
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 23,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 23,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 14,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "c2b84f21e04012faf82febffc877562d947a7e3324448ec85845ef30dc359405",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/435/submission/6755760",
       "submissionId": "6755760",
       "testVerdicts": {
@@ -186,7 +362,11 @@
           "0001"
         ],
         "origin": "tests/0001",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "originalExpectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "originalInputHash": "986111397bdf213dcbb8d705c34ba1b99ac128d7313c5c370dd32867eefc0ddf",
+        "reason": "Starts s=0 and increments only at transitions, never counting the initial/final occupied bus.",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     },
@@ -195,26 +375,25 @@
         "AC": 5,
         "WA": 17
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0006",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 17
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 17,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 17,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "7c20ec485018b5a1333b83b00972212d4138683f7ac42bbe0e795c430c3b5080",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/435/submission/6760559",
       "submissionId": "6760559",
       "testVerdicts": {
@@ -230,7 +409,11 @@
           "0006"
         ],
         "origin": "tests/0006",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "originalExpectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "originalInputHash": "8de3c6b3fa504619d76bbca5f2ae66c60d28b91f010c3e5a056a35bc8b6d6419",
+        "reason": "Checks only a[i]+a[i+1]<=m instead of cap+a[i+1]<=m; previous loaded groups are excluded from feasibility.",
+        "selectedOriginalTest": "0006",
         "test": "lf-0006"
       }
     },
@@ -239,26 +422,25 @@
         "AC": 5,
         "WA": 17
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 17
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 17,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 17,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "103d21259e6bf301a4706ae4d50eebade213365e638ed4a01c72249dc14e2b84",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/435/submission/6816449",
       "submissionId": "6816449",
       "testVerdicts": {
@@ -274,7 +456,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+        "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "originalInputHash": "1553465aa548c847f654cdc616dc4e38eb688cc511f41ca65422cf73d1d46d81",
+        "reason": "Ignores the fixed-order no-splitting group constraint.",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     },
@@ -283,26 +469,25 @@
         "AC": 5,
         "WA": 17
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 17
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 17,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 17,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "f20a0beef39e3470626657abea7ae28b8b87f6ec7aa7ce1b91bda35d0fcd8db0",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/435/submission/6856942",
       "submissionId": "6856942",
       "testVerdicts": {
@@ -318,7 +503,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+        "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "originalInputHash": "1553465aa548c847f654cdc616dc4e38eb688cc511f41ca65422cf73d1d46d81",
+        "reason": "Uses a passenger-volume lower bound as if it were feasible for fixed-order indivisible groups.",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     }
@@ -326,14 +515,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 2,
+      "bytes": 816646,
+      "name": "batch-2-source-semantics-review.json",
+      "sha256": "37ab4aefa3b89e88955bddd18c024454d0b0b929d93e2f380e20f499ef9f0612"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "452cdbfde76717f059a9a016ca9faae119e9e5958260538149a60ca1085cec27",
+  "sourceSemanticReviewPath": "source-review/proofs/435A.json",
   "stressCases": 40,
-  "testPairs": 97,
-  "unconfirmedSourceIds": [
-    "6753503",
-    "6755760",
-    "6760559",
-    "6816449",
-    "6856942"
-  ]
+  "testPairs": 97
 }

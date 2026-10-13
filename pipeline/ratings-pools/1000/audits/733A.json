@@ -1,28 +1,231 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "7b9b24ce37bafc03ea6d802e476fdcf163423f7ef4a05f9bcbfd439a3b977f81",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "45093038": {
+      "LFActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "LFExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "LFInputHash": "c0cde77fa8fef97d476c10aad3d2d54fcc2f336140d073651c2dcccf1e379fd6",
+      "LFProofHash": "b6e1f901bfd0ead495dca04ace79d453ccfabec0325bf12ba13f4876d536bcaa",
+      "exactSourceExcerpts": [
+        {
+          "first": 5,
+          "last": 9,
+          "lines": [
+            "for i in range(len(s)):",
+            "    if s[i] in v:",
+            "        j = max(i-q, j)",
+            "        q = i",
+            "print(j)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "originalInputHash": "65be7a95a3a5b68952c6ee7d6d7429270e8b24f632656ba2bf161885dcdbf6b3",
+      "originalTimeout": false,
+      "reason": "Lines 5-9: never includes the final jump from the last vowel (or start) to position n (after the string); with no vowels j stays 1. Expected derivation: \"B\": stops at 0 and n+1=2 only -> answer 2. Source trace: no vowel -> j=1 printed.",
+      "sourceHash": "4ffdec3043ab0ffdd57f18a2bff3d955a34f29a05b323a36077eb3c7612ae082",
+      "sourceRanges": [
+        [
+          5,
+          9
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/733/submission/45093038",
+      "test": "0004"
+    },
+    "47327840": {
+      "LFActualOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "LFExpectedOutputHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+      "LFInputHash": "225a46291ea3bc53be19104b508a81b8c0027d7a0e6b89a1ad8203e690e179d1",
+      "LFProofHash": "b6e1f901bfd0ead495dca04ace79d453ccfabec0325bf12ba13f4876d536bcaa",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 8,
+          "lines": [
+            "for i in range(0,len(s)):",
+            "    if s[i]=='A' or s[i]=='E' or s[i]=='I' or s[i]=='O' or s[i]=='U' or s[i]=='Y':",
+            "        ans=max(pd,ans)",
+            "        pd=0",
+            "    else :",
+            "        pd+=1",
+            "print(ans)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+      "originalInputHash": "5de88569f21247c2a2e6d3d484a755e723acf4e42a0e9366ead16f5dfb6e3355",
+      "originalTimeout": false,
+      "reason": "Line 4 `ans=max(pd,ans)` records run length instead of jump length run+1, and the trailing consonant run after the last vowel is never folded in (no post-loop max). Expected derivation: ABABBBACFEYUKOTT: stops 0,1,3,7,10,11,12,14,17 -> max gap 4 (3..7). Source trace: runs before vowels 0,1,3,2,0,0,1 -> ans=3 printed; trailing \"TT\" ignored.",
+      "sourceHash": "95761a81d652cd2a4f7c9f72e091a04b4eb4c4d27475004cb55ebd4a78693150",
+      "sourceRanges": [
+        [
+          2,
+          8
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/733/submission/47327840",
+      "test": "0001"
+    },
+    "47328199": {
+      "LFActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "LFExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "LFInputHash": "c0cde77fa8fef97d476c10aad3d2d54fcc2f336140d073651c2dcccf1e379fd6",
+      "LFProofHash": "b6e1f901bfd0ead495dca04ace79d453ccfabec0325bf12ba13f4876d536bcaa",
+      "exactSourceExcerpts": [
+        {
+          "first": 1,
+          "last": 13,
+          "lines": [
+            "s=input();pd=1;ans=1",
+            "if s[0]=='A' or s[0]=='E' or s[0]=='I' or s[0]=='O' or s[0]=='U' or s[0]=='Y':",
+            "    ans=max(pd,ans)",
+            "    pd=1",
+            "else :",
+            "    pd+=1",
+            "for i in range(0,len(s)):",
+            "    if s[i]=='A' or s[i]=='E' or s[i]=='I' or s[i]=='O' or s[i]=='U' or s[i]=='Y':",
+            "        ans=max(pd,ans)",
+            "        pd=1",
+            "    else :",
+            "        pd+=1",
+            "print(ans)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "originalInputHash": "65be7a95a3a5b68952c6ee7d6d7429270e8b24f632656ba2bf161885dcdbf6b3",
+      "originalTimeout": false,
+      "reason": "Line 13 prints ans without folding the final pd (jump to the end); lines 2-6 double-count s[0]. Expected derivation: \"B\" -> 2. Source trace: pd: 1->2 (line 6) ->3 (loop); no vowel -> ans=1 printed.",
+      "sourceHash": "9143d0409f58c149287bfde06af9c411d1a1ae4ce02e3804672dace1d4fa1190",
+      "sourceRanges": [
+        [
+          1,
+          13
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/733/submission/47328199",
+      "test": "0004"
+    },
+    "47870382": {
+      "LFActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "LFExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "LFInputHash": "c0cde77fa8fef97d476c10aad3d2d54fcc2f336140d073651c2dcccf1e379fd6",
+      "LFProofHash": "b6e1f901bfd0ead495dca04ace79d453ccfabec0325bf12ba13f4876d536bcaa",
+      "exactSourceExcerpts": [
+        {
+          "first": 9,
+          "last": 17,
+          "lines": [
+            "for c in way:",
+            "    if c in vowels:",
+            "        if jump > max_jump:",
+            "            max_jump = jump",
+            "        jump = 1",
+            "    else:",
+            "        jump += 1",
+            "",
+            "print(max_jump)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "originalInputHash": "65be7a95a3a5b68952c6ee7d6d7429270e8b24f632656ba2bf161885dcdbf6b3",
+      "originalTimeout": false,
+      "reason": "Lines 9-17: no update of max_jump with the final jump after the loop (jump to end of string). Expected derivation: \"B\" -> 2. Source trace: jump becomes 2 but never compared -> prints 1.",
+      "sourceHash": "3167eece6d09951113ce432606347db1ca758d75925085aa32f17c029613a1c7",
+      "sourceRanges": [
+        [
+          9,
+          17
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/733/submission/47870382",
+      "test": "0004"
+    },
+    "48110470": {
+      "LFActualOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "LFExpectedOutputHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+      "LFInputHash": "225a46291ea3bc53be19104b508a81b8c0027d7a0e6b89a1ad8203e690e179d1",
+      "LFProofHash": "b6e1f901bfd0ead495dca04ace79d453ccfabec0325bf12ba13f4876d536bcaa",
+      "exactSourceExcerpts": [
+        {
+          "first": 1,
+          "last": 1,
+          "lines": [
+            "inputString = input() + 'A'"
+          ]
+        },
+        {
+          "first": 6,
+          "last": 9,
+          "lines": [
+            "for c in inputString:",
+            "    step = 0 if c in volwelSet else step+1",
+            "    requireStep = step if step > requireStep else requireStep",
+            "print(requireStep)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+      "originalInputHash": "5de88569f21247c2a2e6d3d484a755e723acf4e42a0e9366ead16f5dfb6e3355",
+      "originalTimeout": false,
+      "reason": "Line 7 `step = 0 if vowel else step+1` measures consonant run length; required jump is run+1 (start step=1/reset to 1). Expected derivation: ABABBBACFEYUKOTT -> 4. Source trace: max consonant run \"BBB\" = 3 -> prints 3.",
+      "sourceHash": "f092238920685fc9b72b29293bca6072a3b73945396fd6e4cfa84ac9c59784d9",
+      "sourceRanges": [
+        [
+          1,
+          1
+        ],
+        [
+          6,
+          9
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/733/submission/48110470",
+      "test": "0001"
+    }
+  },
   "independentFreshRunHash": "b842ce0da47aac04f30cf7e53c6d6a13a0e4069f3c3850f32ed1238b0eac2b25",
   "independentLFReplayHash": "b6e1f901bfd0ead495dca04ace79d453ccfabec0325bf12ba13f4876d536bcaa",
   "independentSemanticCheckHash": "e4f5044a757a92573f3f552ec5f9a1ef5264064c82a77e80233f773b68b9176a",
   "independentStressHash": "316a7eb99ca6a55578390fcdcd0fc4f4d4a33ce3a227920ce10a27ffe82f831a",
+  "originalExecutionEvidenceHash": "7b9b24ce37bafc03ea6d802e476fdcf163423f7ef4a05f9bcbfd439a3b977f81",
   "packageHash": "839d224744502e7381b55a8a67af1543329ec3ee1538de9ddb7bbb6a5f133ca0",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -109,26 +312,25 @@
         "AC": 9,
         "WA": 12
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 12
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 12,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 12,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "4ffdec3043ab0ffdd57f18a2bff3d955a34f29a05b323a36077eb3c7612ae082",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/733/submission/45093038",
       "submissionId": "45093038",
       "testVerdicts": {
@@ -145,7 +347,11 @@
           "0111"
         ],
         "origin": "tests/0111",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "originalExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+        "originalInputHash": "65be7a95a3a5b68952c6ee7d6d7429270e8b24f632656ba2bf161885dcdbf6b3",
+        "reason": "Lines 5-9: never includes the final jump from the last vowel (or start) to position n (after the string); with no vowels j stays 1.",
+        "selectedOriginalTest": "0004",
         "test": "lf-0111"
       }
     },
@@ -153,26 +359,25 @@
       "LFReplayVerdicts": {
         "WA": 23
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 23
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 23,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 23,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 14,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "95761a81d652cd2a4f7c9f72e091a04b4eb4c4d27475004cb55ebd4a78693150",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/733/submission/47327840",
       "submissionId": "47327840",
       "testVerdicts": {
@@ -187,7 +392,11 @@
           "0001"
         ],
         "origin": "tests/0001",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+        "originalExpectedOutputHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+        "originalInputHash": "5de88569f21247c2a2e6d3d484a755e723acf4e42a0e9366ead16f5dfb6e3355",
+        "reason": "Line 4 `ans=max(pd,ans)` records run length instead of jump length run+1, and the trailing consonant run after the last vowel is never folded in (no post-loop max).",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     },
@@ -196,26 +405,25 @@
         "AC": 9,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "9143d0409f58c149287bfde06af9c411d1a1ae4ce02e3804672dace1d4fa1190",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/733/submission/47328199",
       "submissionId": "47328199",
       "testVerdicts": {
@@ -232,7 +440,11 @@
           "0111"
         ],
         "origin": "tests/0111",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "originalExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+        "originalInputHash": "65be7a95a3a5b68952c6ee7d6d7429270e8b24f632656ba2bf161885dcdbf6b3",
+        "reason": "Line 13 prints ans without folding the final pd (jump to the end); lines 2-6 double-count s[0].",
+        "selectedOriginalTest": "0004",
         "test": "lf-0111"
       }
     },
@@ -241,26 +453,25 @@
         "AC": 9,
         "WA": 12
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 12
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 12,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 12,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "3167eece6d09951113ce432606347db1ca758d75925085aa32f17c029613a1c7",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/733/submission/47870382",
       "submissionId": "47870382",
       "testVerdicts": {
@@ -277,7 +488,11 @@
           "0111"
         ],
         "origin": "tests/0111",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "originalExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+        "originalInputHash": "65be7a95a3a5b68952c6ee7d6d7429270e8b24f632656ba2bf161885dcdbf6b3",
+        "reason": "Lines 9-17: no update of max_jump with the final jump after the loop (jump to end of string).",
+        "selectedOriginalTest": "0004",
         "test": "lf-0111"
       }
     },
@@ -286,26 +501,25 @@
         "AC": 1,
         "WA": 22
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 22
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 22,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 22,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 14,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "f092238920685fc9b72b29293bca6072a3b73945396fd6e4cfa84ac9c59784d9",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/733/submission/48110470",
       "submissionId": "48110470",
       "testVerdicts": {
@@ -321,7 +535,11 @@
           "0001"
         ],
         "origin": "tests/0001",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+        "originalExpectedOutputHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+        "originalInputHash": "5de88569f21247c2a2e6d3d484a755e723acf4e42a0e9366ead16f5dfb6e3355",
+        "reason": "Line 7 `step = 0 if vowel else step+1` measures consonant run length; required jump is run+1 (start step=1/reset to 1).",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     }
@@ -329,14 +547,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 4,
+      "bytes": 389086,
+      "name": "rating-1000-source-review-batch4.json",
+      "sha256": "de8c7b37f70b0356c91c2ac393453ebcab2031858e514fd24cadd083c0a7c19e"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "4b3104afdf30fd7f56c0f15b20494ac6e6efd19c1c71dad947c2e6c4cd92c617",
+  "sourceSemanticReviewPath": "source-review/proofs/733A.json",
   "stressCases": 40,
-  "testPairs": 146,
-  "unconfirmedSourceIds": [
-    "45093038",
-    "47327840",
-    "47328199",
-    "47870382",
-    "48110470"
-  ]
+  "testPairs": 146
 }

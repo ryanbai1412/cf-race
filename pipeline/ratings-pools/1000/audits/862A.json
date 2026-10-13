@@ -1,6 +1,6 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 1,
+  "algorithmicIncorrectKilled": 4,
   "approved": false,
   "checks": {
     "coverage": true,
@@ -12,16 +12,163 @@
     "sourceAttribution": true
   },
   "evidenceHash": "06d513ffa09d8e6d858cdee26175b280024430c572e9c79f7c1fce3a90a6e7d6",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "30841204": {
+      "LFActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "LFExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "LFInputHash": "5d8df25c1730887e4660e8ea4972149e4d686345be312d7232aff8853f935da1",
+      "LFProofHash": "f5247f1e4851d7f1e758c52037ae328f9ab5bfce786e38bd092f56a94fb68ab6",
+      "exactSourceExcerpts": [
+        {
+          "first": 5,
+          "last": 12,
+          "lines": [
+            "if(x in arr):",
+            "    for i in arr:",
+            "        if(i<=x):",
+            "            ans+=1",
+            "    ans=x-ans",
+            "    ans+=1",
+            "    if(ans==0):",
+            "        ans=1"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+      "originalInputHash": "bcfc30706b8e876a8bb6873af73cab2b1dd90b8982614e367d163899ee7ca667",
+      "originalTimeout": false,
+      "reason": "lines 7-10: when x is present cnt counts x itself (i<=x), so x-cnt = missing-1, and +1 only restores the missing count; the required +1 for erasing x is lost (off by one). Expected derivation: tests/0012: n=100, x=100, 100 distinct values, 100 present, only 97 missing from [0,100). Need add 97 and erase 100 -> 2. Source trace: x in arr; cnt=#(i<=100)=100; ans=100-100+1=1; ans!=0 -> print 1.",
+      "sourceHash": "1d58a17ea00024e14d8ea6a3879c961f2bc53e12199de2676c3a1b7832da806c",
+      "sourceRanges": [
+        [
+          5,
+          12
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/862/submission/30841204",
+      "test": "0012"
+    },
+    "30950555": {
+      "LFActualOutputHash": "6f3e559bbd93fa2f9b25cbd9b5f348a4b20c902d8e6498de5c28d73df8e2f571",
+      "LFExpectedOutputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "LFInputHash": "d6be1e03e9fdb574b8191afb44c65f839d56b87d0030ba8acba4b5df692d645e",
+      "LFProofHash": "f5247f1e4851d7f1e758c52037ae328f9ab5bfce786e38bd092f56a94fb68ab6",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 12,
+          "lines": [
+            "    if mex > target:",
+            "        if mex in set:",
+            "            set -= [mex]",
+            "        else:",
+            "            #print(set[-1])",
+            "            del set[-1]",
+            "        return 0"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "6f3e559bbd93fa2f9b25cbd9b5f348a4b20c902d8e6498de5c28d73df8e2f571",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "originalInputHash": "53e20b74cbd9d89c7524af0d9e8b90e08ececfbe7adfd3e5b32b78c29b64d746",
+      "originalTimeout": false,
+      "reason": "lines 6-11: when mex>target the code checks `mex in set` (always false by definition of mex) and falls to `del set[-1]`, deleting the LAST list element instead of the element equal to target, so it performs many useless erasures. Expected derivation: tests/0024: n=77, x=0, 0 present at list index 25. Only erasing 0 is needed -> 1. Source trace: Each iteration: mex>0 -> del set[-1]. Elements are deleted from the end until 0 (index 25) is removed: 77-25=52 deletions, then mex==0 returns 1. Prints 52.",
+      "sourceHash": "bb1243794ca4b6a435806849d72a34d49209916bdc697b82c5f70d5dfd97a162",
+      "sourceRanges": [
+        [
+          6,
+          12
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/862/submission/30950555",
+      "test": "0024"
+    },
+    "31060959": {
+      "LFActualOutputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+      "LFExpectedOutputHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "LFInputHash": "ffd4d0ca94d7de35f0746cc6507d94cab065cb36f748fe1dd94026979ce52f88",
+      "LFProofHash": "f5247f1e4851d7f1e758c52037ae328f9ab5bfce786e38bd092f56a94fb68ab6",
+      "exactSourceExcerpts": [
+        {
+          "first": 8,
+          "last": 11,
+          "lines": [
+            "if len(m1)!=0 :",
+            "    print (len(m1))",
+            "else:",
+            "    print(len(m2))"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "originalInputHash": "0c545fa9ba3d6e2535ad866e1ff7f7aaca7b8166c881adc2a537552af4abe625",
+      "originalTimeout": false,
+      "reason": "line 9 omits +1 when x present; line 11 prints len(m2) (count of elements <= x) when nothing is missing, instead of [x in set]. Expected derivation: tests/0006: n=10,x=5, set {1,2,3,4,59,45,0,58,51,91}: 0..4 all present, 5 absent -> already evil, 0. Source trace: c sorted; m2=[0,1,2,3,4]; m1=[] -> else -> print len(m2)=5.",
+      "sourceHash": "e25cbc7fd1da3cabcf34d1d98cfc1e6c197da2891150b6f9d881719cf320815c",
+      "sourceRanges": [
+        [
+          8,
+          11
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/862/submission/31060959",
+      "test": "0006"
+    },
+    "31225506": {
+      "LFActualOutputHash": "ff393127b5a059b172af9b9eed820368071cf24d46df1b8326623c8e79178379",
+      "LFExpectedOutputHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+      "LFInputHash": "e35ece029dedc865782ded8344d9080b23d8e09a6a87691cbfe0a523fd7aff0b",
+      "LFProofHash": "f5247f1e4851d7f1e758c52037ae328f9ab5bfce786e38bd092f56a94fb68ab6",
+      "exactSourceExcerpts": [
+        {
+          "first": 15,
+          "last": 17,
+          "lines": [
+            "    elif x < data[0]:",
+            "        d = list(range(x, data[0]))",
+            "        return len(d) - 1"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "ff393127b5a059b172af9b9eed820368071cf24d46df1b8326623c8e79178379",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+      "originalInputHash": "440237335c6a9e27d22773e4bcc86cc0075b6a4f59983ba36985f891ef5c2971",
+      "originalTimeout": false,
+      "reason": "lines 15-17: when x < min element returns len(range(x,data[0]))-1 = data[0]-x-1 instead of x (all of 0..x-1 missing, x absent). Expected derivation: tests/0005: n=10,x=5, set {91..100}: 0..4 missing (5 adds), 5 absent -> 5. Source trace: sorted data[0]=91; 91<5<92 false; 5<91 -> len(range(5,91))-1 = 86-1 = 85.",
+      "sourceHash": "1ee858ba30c73e8152c49aa74f62328da29872a2d2834872d74c31eeb18b9555",
+      "sourceRanges": [
+        [
+          15,
+          17
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/862/submission/31225506",
+      "test": "0005"
+    }
+  },
   "independentFreshRunHash": "e126d5217039335d5e02bcb6ee27a23dd784cc4c5a83b1e84886083b8b5003d6",
   "independentLFReplayHash": "f5247f1e4851d7f1e758c52037ae328f9ab5bfce786e38bd092f56a94fb68ab6",
   "independentSemanticCheckHash": "f03532b99700c622408a092aab7d232f841bf5a5adf309184eae098fe5c63a57",
   "independentStressHash": "30d86676fa14c21fcf7044752988180dbb728087abcb42ee1b9648422325978d",
+  "originalExecutionEvidenceHash": "06d513ffa09d8e6d858cdee26175b280024430c572e9c79f7c1fce3a90a6e7d6",
   "packageHash": "ddb123a34d1792eb027784e4c7442fbf01c8901ba9004bc349582f956b70c671",
   "qualificationBasis": "official",
   "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
+    "31223464: empty-stdout-not-computed-wrong-answer"
   ],
   "references": [
     {
@@ -109,26 +256,25 @@
         "AC": 9,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0012",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "1d58a17ea00024e14d8ea6a3879c961f2bc53e12199de2676c3a1b7832da806c",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/862/submission/30841204",
       "submissionId": "30841204",
       "testVerdicts": {
@@ -144,7 +290,11 @@
           "0012"
         ],
         "origin": "tests/0012",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "originalExpectedOutputHash": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+        "originalInputHash": "bcfc30706b8e876a8bb6873af73cab2b1dd90b8982614e367d163899ee7ca667",
+        "reason": "lines 7-10: when x is present cnt counts x itself (i<=x), so x-cnt = missing-1, and +1 only restores the missing count; the required +1 for erasing x is lost (off by one).",
+        "selectedOriginalTest": "0012",
         "test": "lf-0012"
       }
     },
@@ -154,26 +304,25 @@
         "TLE": 2,
         "WA": 3
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0012",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 3
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "TIME_LIMIT_EXCEEDED",
       "freshVerdict": "TLE",
-      "historicalAlgorithmicWitnessCount": 3,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": false,
       "language": "Python 3",
       "normalWrongAnswerCount": 3,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 3,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "bb1243794ca4b6a435806849d72a34d49209916bdc697b82c5f70d5dfd97a162",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/862/submission/30950555",
       "submissionId": "30950555",
       "testVerdicts": {
@@ -190,7 +339,11 @@
           "0024"
         ],
         "origin": "tests/0024",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "6f3e559bbd93fa2f9b25cbd9b5f348a4b20c902d8e6498de5c28d73df8e2f571",
+        "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+        "originalInputHash": "53e20b74cbd9d89c7524af0d9e8b90e08ececfbe7adfd3e5b32b78c29b64d746",
+        "reason": "lines 6-11: when mex>target the code checks `mex in set` (always false by definition of mex) and falls to `del set[-1]`, deleting the LAST list element instead of the element equal to target, so it performs many useless erasures.",
+        "selectedOriginalTest": "0024",
         "test": "lf-0024"
       }
     },
@@ -199,26 +352,25 @@
         "AC": 8,
         "WA": 15
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0006",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 15
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 15,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 15,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "e25cbc7fd1da3cabcf34d1d98cfc1e6c197da2891150b6f9d881719cf320815c",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/862/submission/31060959",
       "submissionId": "31060959",
       "testVerdicts": {
@@ -234,7 +386,11 @@
           "0006"
         ],
         "origin": "tests/0006",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+        "originalExpectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+        "originalInputHash": "0c545fa9ba3d6e2535ad866e1ff7f7aaca7b8166c881adc2a537552af4abe625",
+        "reason": "line 9 omits +1 when x present; line 11 prints len(m2) (count of elements <= x) when nothing is missing, instead of [x in set].",
+        "selectedOriginalTest": "0006",
         "test": "lf-0006"
       }
     },
@@ -243,22 +399,28 @@
         "AC": 9,
         "WA": 13
       },
-      "algorithmicWitnessCount": 13,
-      "algorithmicWrongAnswer": true,
+      "algorithmicWitnessCount": 0,
+      "algorithmicWrongAnswer": false,
       "builderFailedTest": "0007",
-      "builderFailureAlgorithmicallyProven": true,
+      "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "x beyond last set value is not considered": 13
+        "source-reviewed defect with included normal-exit wrong answer": 0
       },
+      "exclusionReason": "empty-stdout-not-computed-wrong-answer: Algorithmic loop-bound defect: the counting range is wrong (score 0 vs 99), not a mere missing print. Disclosure: observed stdout is empty (normal exit 0); parent should note emptyOutput=true.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "algorithmic-WA",
+      "outcome": "source-semantics-reject",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "bff0c60fa01b3fced6ebe538a6be15f3a0005d9b47065962b83898a2b4716102",
+      "sourceSemanticExclusionReasons": [
+        "empty-stdout-not-computed-wrong-answer"
+      ],
+      "sourceSemanticReviewStatus": "reject",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/862/submission/31223464",
       "submissionId": "31223464",
       "testVerdicts": {
@@ -283,26 +445,25 @@
         "AC": 6,
         "WA": 17
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 17
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 17,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 17,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "1ee858ba30c73e8152c49aa74f62328da29872a2d2834872d74c31eeb18b9555",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/862/submission/31225506",
       "submissionId": "31225506",
       "testVerdicts": {
@@ -319,7 +480,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "ff393127b5a059b172af9b9eed820368071cf24d46df1b8326623c8e79178379",
+        "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "originalInputHash": "440237335c6a9e27d22773e4bcc86cc0075b6a4f59983ba36985f891ef5c2971",
+        "reason": "lines 15-17: when x < min element returns len(range(x,data[0]))-1 = data[0]-x-1 instead of x (all of 0..x-1 missing, x absent).",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     }
@@ -327,13 +492,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 3,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 5,
+      "bytes": 295543,
+      "name": "batch5-source-review.json",
+      "sha256": "b428fe8eb83846ca1692f87dfcd5d3bc7a98bf5bc8c3f856cd1173fc9dcbfb5a"
+    }
+  ],
+  "sourceReviewStatus": "reject",
+  "sourceSemanticReviewHash": "5bea9d1218ca626b98ef745a3164852d14846ac924b5528f2d697825572604d8",
+  "sourceSemanticReviewPath": "source-review/proofs/862A.json",
   "stressCases": 40,
-  "testPairs": 102,
-  "unconfirmedSourceIds": [
-    "30841204",
-    "30950555",
-    "31060959",
-    "31225506"
-  ]
+  "testPairs": 102
 }

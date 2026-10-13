@@ -1,28 +1,203 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "8982ce91e61e8461f45ea16426337f3204d1f65f71ab085c12f1b16d079eeaec",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "30905845": {
+      "LFActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "LFExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "LFInputHash": "3f648b0c148ec99f7ce529f2e7b63a02b4c307cd6ec6b1d9ef85936d5de34bb3",
+      "LFProofHash": "c2f2af83302ac0d8c9092e4f8f4fc1ae35f6a579c2a75837a14ac80ada9215cc",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 7,
+          "lines": [
+            "    if s[x].islower()and s[x]!=s[x+1]:",
+            "        j+=1"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "originalInputHash": "3f648b0c148ec99f7ce529f2e7b63a02b4c307cd6ec6b1d9ef85936d5de34bb3",
+      "originalTimeout": false,
+      "reason": "line 6 `s[x].islower() and s[x]!=s[x+1]` counts adjacent letter changes (run count) rather than DISTINCT letters, so repeated non-adjacent letters are counted multiple times. Expected derivation: tests/0096: 'BcABbCAZCAacacAAZcBBBbZZ'; uppercase-free segments are c, b, acac, c, b; max distinct = |{a,c}| = 2. Source trace: Segment 'acac' followed by 'A': a!=c, c!=a, a!=c, c!=A -> j=4; at 'A' m=max(m,4)=4. Other segments give 1. Prints 4.",
+      "sourceHash": "adf15f30626362f2e9bcdd06cdb1f9d374ff436be78ca2fba1205ae3e409f5ef",
+      "sourceRanges": [
+        [
+          6,
+          7
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/864/submission/30905845",
+      "test": "0096"
+    },
+    "30908312": {
+      "LFActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "LFExpectedOutputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "LFInputHash": "2ca6ff62f75b34051d34914c29499688dd1a80a1e6f2fc3d316ca2ed7f9952c3",
+      "LFProofHash": "c2f2af83302ac0d8c9092e4f8f4fc1ae35f6a579c2a75837a14ac80ada9215cc",
+      "exactSourceExcerpts": [
+        {
+          "first": 5,
+          "last": 8,
+          "lines": [
+            "for i in range(n):",
+            "    if s[i] == s[i].upper():",
+            "        l.append(s[j:i])",
+            "        j = i + 1"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "originalInputHash": "01de1d4176d3942255f66ec127cede84a4ff2e99be06740c6b95e5d34301176e",
+      "originalTimeout": false,
+      "reason": "lines 5-8 only append a segment when an uppercase letter is met; the trailing segment s[j:n] after the last uppercase (or the whole string when there is none) is never appended. Expected derivation: tests/0004: n=1, s='a': one lowercase letter, pretty set {1} -> 1. Source trace: 'a'=='A'? no -> nothing appended; l=[] -> m stays 0 -> prints 0.",
+      "sourceHash": "553059e7350e3180313db1520a0dcc343a1b68dfb25a852bd18d4019b48f2cdd",
+      "sourceRanges": [
+        [
+          5,
+          8
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/864/submission/30908312",
+      "test": "0004"
+    },
+    "30940785": {
+      "LFActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "LFExpectedOutputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "LFInputHash": "3066fba4c58edd5d0238d22a6f82c77aabe12fd82b0aa91dd8da24f406c928c6",
+      "LFProofHash": "c2f2af83302ac0d8c9092e4f8f4fc1ae35f6a579c2a75837a14ac80ada9215cc",
+      "exactSourceExcerpts": [
+        {
+          "first": 12,
+          "last": 20,
+          "lines": [
+            "for ch in string:",
+            "    if ch.islower():",
+            "        if not ch in distinct:",
+            "            distinct.add(ch)",
+            "    else:",
+            "        if longest_distinct < len(distinct):",
+            "            longest_distinct = len(distinct)",
+            "        distinct.clear()",
+            "print(longest_distinct)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "originalInputHash": "3066fba4c58edd5d0238d22a6f82c77aabe12fd82b0aa91dd8da24f406c928c6",
+      "originalTimeout": false,
+      "reason": "no max update after the loop (line 20 prints longest_distinct directly), so the final segment after the last uppercase is never considered. Expected derivation: tests/0075: n=3, s='Zzz': segment 'zz' has 1 distinct lowercase -> 1. Source trace: 'Z': longest=max(0,0)=0, clear; 'z','z' -> distinct={z}; loop ends; prints 0.",
+      "sourceHash": "014e7c27459db1e83672f5d1c8631dda35c46567bf160f07135c9b26b4c137b5",
+      "sourceRanges": [
+        [
+          12,
+          20
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/864/submission/30940785",
+      "test": "0075"
+    },
+    "31037437": {
+      "LFActualOutputHash": "5378796307535df3ec8d8b15a2e2dc5641419c3d3060cfe32238c0fa973f7aa3",
+      "LFExpectedOutputHash": "2c624232cdd221771294dfbb310aca000a0df6ac8b66b696d90ef06fdefb64a3",
+      "LFInputHash": "af54227d2a651095193bdbafd87e6710f5ffd282512bd915ef4fe4e51607c4d1",
+      "LFProofHash": "c2f2af83302ac0d8c9092e4f8f4fc1ae35f6a579c2a75837a14ac80ada9215cc",
+      "exactSourceExcerpts": [
+        {
+          "first": 10,
+          "last": 12,
+          "lines": [
+            "        if(i != prev):",
+            "            prev = i",
+            "            count += 1"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "5378796307535df3ec8d8b15a2e2dc5641419c3d3060cfe32238c0fa973f7aa3",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "e0c18a6a8d48da87994c100bbb324c758d413e95f0fa5135bd0738a692b4d56f",
+      "originalInputHash": "6eb22f8c4cc0c7fd35559d5baab4ff638748c1da4ba31bfb68e0d43940a6f702",
+      "originalTimeout": false,
+      "reason": "lines 10-12 compare only with the previous character (`i != prev`), counting runs instead of distinct letters; additionally the last segment is never folded into mx (no update after loop, line 18). Expected derivation: tests/0006 (200 chars): splitting on uppercase, the best segment 'zxzqzcqsqzsiisswqitswz' has 8 distinct letters {z,x,q,c,s,i,w,t}; max over all segments is 8 (self-authored set computation). Source trace: Same segment, closed by uppercase 'C': number of adjacent changes = 20 (runs of equal letters: only 'ii' and 'ss' merge, 22-2). count=20 -> mx=20; no other segment exceeds it; prints 20.",
+      "sourceHash": "2a0f17e2e804ff143bd8567b277740fd0066e40bb12e2ba6622c77cd50adf612",
+      "sourceRanges": [
+        [
+          10,
+          12
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/864/submission/31037437",
+      "test": "0006"
+    },
+    "31037722": {
+      "LFActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "LFExpectedOutputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "LFInputHash": "2ca6ff62f75b34051d34914c29499688dd1a80a1e6f2fc3d316ca2ed7f9952c3",
+      "LFProofHash": "c2f2af83302ac0d8c9092e4f8f4fc1ae35f6a579c2a75837a14ac80ada9215cc",
+      "exactSourceExcerpts": [
+        {
+          "first": 11,
+          "last": 13,
+          "lines": [
+            "        if(i != prev and pos):",
+            "            prev = i",
+            "            count += 1"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "originalInputHash": "01de1d4176d3942255f66ec127cede84a4ff2e99be06740c6b95e5d34301176e",
+      "originalTimeout": false,
+      "reason": "line 11 `if(i != prev and pos)`: lowercase letters before the first uppercase are never counted (pos False); plus run-count instead of distinct and no final update after loop. Expected derivation: tests/0004: n=1, s='a' -> 1. Source trace: 'a': pos False -> not counted; loop ends; mx=0 -> prints 0.",
+      "sourceHash": "e4cc840b9247f54a03a89bebe4e6a04212ce84c89372f2008c17cdf41bab821f",
+      "sourceRanges": [
+        [
+          11,
+          13
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/864/submission/31037722",
+      "test": "0004"
+    }
+  },
   "independentFreshRunHash": "9450c20eb5ba3e878de4761b4fd7881464a165e89e23304b9b6cd89b98dd7c4f",
   "independentLFReplayHash": "c2f2af83302ac0d8c9092e4f8f4fc1ae35f6a579c2a75837a14ac80ada9215cc",
   "independentSemanticCheckHash": "185d072aaad369e8f012f2da711fb1b9561d0467382370a58c5908ea03e2375a",
   "independentStressHash": "793f6a0fb3b5f89502cd88849b16f57e3f2ddbceecc858fafca9bbc42e4bf361",
+  "originalExecutionEvidenceHash": "8982ce91e61e8461f45ea16426337f3204d1f65f71ab085c12f1b16d079eeaec",
   "packageHash": "c43295ed01e5048b2c0c47103a987749e99e352cf359bf6d802bebb6a9d63927",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -109,26 +284,25 @@
         "AC": 12,
         "WA": 10
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 10
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 10,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": false,
       "language": "Python 3",
       "normalWrongAnswerCount": 10,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 6,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "adf15f30626362f2e9bcdd06cdb1f9d374ff436be78ca2fba1205ae3e409f5ef",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/864/submission/30905845",
       "submissionId": "30905845",
       "testVerdicts": {
@@ -144,7 +318,11 @@
           "0096"
         ],
         "origin": "tests/0096",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+        "originalExpectedOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "originalInputHash": "3f648b0c148ec99f7ce529f2e7b63a02b4c307cd6ec6b1d9ef85936d5de34bb3",
+        "reason": "line 6 `s[x].islower() and s[x]!=s[x+1]` counts adjacent letter changes (run count) rather than DISTINCT letters, so repeated non-adjacent letters are counted multiple times.",
+        "selectedOriginalTest": "0096",
         "test": "lf-0096"
       }
     },
@@ -153,26 +331,25 @@
         "AC": 9,
         "WA": 12
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 12
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 12,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 12,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "553059e7350e3180313db1520a0dcc343a1b68dfb25a852bd18d4019b48f2cdd",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/864/submission/30908312",
       "submissionId": "30908312",
       "testVerdicts": {
@@ -188,7 +365,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+        "originalInputHash": "01de1d4176d3942255f66ec127cede84a4ff2e99be06740c6b95e5d34301176e",
+        "reason": "lines 5-8 only append a segment when an uppercase letter is met; the trailing segment s[j:n] after the last uppercase (or the whole string when there is none) is never appended.",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     },
@@ -197,26 +378,25 @@
         "AC": 9,
         "WA": 9
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0075",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 9
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 9,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 9,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 9,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "014e7c27459db1e83672f5d1c8631dda35c46567bf160f07135c9b26b4c137b5",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/864/submission/30940785",
       "submissionId": "30940785",
       "testVerdicts": {
@@ -232,7 +412,11 @@
           "0075"
         ],
         "origin": "tests/0075",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "originalExpectedOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "originalInputHash": "3066fba4c58edd5d0238d22a6f82c77aabe12fd82b0aa91dd8da24f406c928c6",
+        "reason": "no max update after the loop (line 20 prints longest_distinct directly), so the final segment after the last uppercase is never considered.",
+        "selectedOriginalTest": "0075",
         "test": "lf-0075"
       }
     },
@@ -241,26 +425,25 @@
         "AC": 6,
         "WA": 17
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0006",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 17
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 17,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 17,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 14,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "2a0f17e2e804ff143bd8567b277740fd0066e40bb12e2ba6622c77cd50adf612",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/864/submission/31037437",
       "submissionId": "31037437",
       "testVerdicts": {
@@ -276,7 +459,11 @@
           "0006"
         ],
         "origin": "tests/0006",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "5378796307535df3ec8d8b15a2e2dc5641419c3d3060cfe32238c0fa973f7aa3",
+        "originalExpectedOutputHash": "e0c18a6a8d48da87994c100bbb324c758d413e95f0fa5135bd0738a692b4d56f",
+        "originalInputHash": "6eb22f8c4cc0c7fd35559d5baab4ff638748c1da4ba31bfb68e0d43940a6f702",
+        "reason": "lines 10-12 compare only with the previous character (`i != prev`), counting runs instead of distinct letters; additionally the last segment is never folded into mx (no update after loop, line 18).",
+        "selectedOriginalTest": "0006",
         "test": "lf-0006"
       }
     },
@@ -285,26 +472,25 @@
         "AC": 6,
         "WA": 16
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 16
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 16,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 16,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "e4cc840b9247f54a03a89bebe4e6a04212ce84c89372f2008c17cdf41bab821f",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/864/submission/31037722",
       "submissionId": "31037722",
       "testVerdicts": {
@@ -320,7 +506,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+        "originalInputHash": "01de1d4176d3942255f66ec127cede84a4ff2e99be06740c6b95e5d34301176e",
+        "reason": "line 11 `if(i != prev and pos)`: lowercase letters before the first uppercase are never counted (pos False); plus run-count instead of distinct and no final update after loop.",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     }
@@ -328,14 +518,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 3,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 5,
+      "bytes": 295543,
+      "name": "batch5-source-review.json",
+      "sha256": "b428fe8eb83846ca1692f87dfcd5d3bc7a98bf5bc8c3f856cd1173fc9dcbfb5a"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "5da2ed5dc3e0f55305f4030808b7081165c2f8a71bb09a734f746d86d5fa8b93",
+  "sourceSemanticReviewPath": "source-review/proofs/864B.json",
   "stressCases": 40,
-  "testPairs": 141,
-  "unconfirmedSourceIds": [
-    "30905845",
-    "30908312",
-    "30940785",
-    "31037437",
-    "31037722"
-  ]
+  "testPairs": 141
 }

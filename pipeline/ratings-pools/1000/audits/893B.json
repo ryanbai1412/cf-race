@@ -1,28 +1,197 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "fd8cd8c1f99626b56071f09c14ef95129286dc4349c5fee66223938100440227",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "107309334": {
+      "LFActualOutputHash": "5aaa909f0a05447976be3a7536546e688d998ad3fccfb0c961925d2d9c113bfb",
+      "LFExpectedOutputHash": "2abaca4911e68fa9bfbf3482ee797fd5b9045b841fdff7253557c5fe15de6477",
+      "LFInputHash": "cad8a8b474e6aedc81abe640f39c137ca1d37d27bfe8eca25d740bc3c7cebff1",
+      "LFProofHash": "fef03c07051f855919e93760b13b7f8985881c8a9ae0805d39b62eb52be66ab5",
+      "exactSourceExcerpts": [
+        {
+          "first": 62,
+          "last": 64,
+          "lines": [
+            "    if c1 == c0 + 1 :",
+            "        ans = i",
+            "        break"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "5aaa909f0a05447976be3a7536546e688d998ad3fccfb0c961925d2d9c113bfb",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1eae1d87951093430c50ebf08b70600140e26bd973b913fbd95f4c026164283f",
+      "originalInputHash": "52faea783471f738f103ae79d324ca510c744924bfd22b595893884378a07847",
+      "originalTimeout": false,
+      "reason": "line 62 `if c1 == c0 + 1` accepts any bit string with one more 1 than 0s, not k+1 consecutive ones followed by k zeros. Expected derivation: tests/0004: n=76920 = 120*641; beautiful divisors are 1, 6, 120 (28, 496, 2016, 8128, 32640 do not divide) -> 120. Source trace: Descending divisors: 19230 = 76920/4 has binary 100101100011110 (8 ones, 7 zeros) -> c1 == c0+1 -> ans=19230 (larger divisors fail the count, actual executed output 19230).",
+      "sourceHash": "6d51f9e2558b8f0efad6fcc98ea43375d35279ff4c5aa5f7fc3bfc63e9bcfa80",
+      "sourceRanges": [
+        [
+          62,
+          64
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/893/submission/107309334",
+      "test": "0004"
+    },
+    "120669969": {
+      "LFActualOutputHash": "762f4631523bb1bcc15d4617a61806fc7130be62e5891484a53cec1c980fe17c",
+      "LFExpectedOutputHash": "2abaca4911e68fa9bfbf3482ee797fd5b9045b841fdff7253557c5fe15de6477",
+      "LFInputHash": "cad8a8b474e6aedc81abe640f39c137ca1d37d27bfe8eca25d740bc3c7cebff1",
+      "LFProofHash": "fef03c07051f855919e93760b13b7f8985881c8a9ae0805d39b62eb52be66ab5",
+      "exactSourceExcerpts": [
+        {
+          "first": 13,
+          "last": 16,
+          "lines": [
+            "for i in range(len(l)):",
+            "    if l[i]>=n:",
+            "        print(l[i-1])",
+            "        break"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "762f4631523bb1bcc15d4617a61806fc7130be62e5891484a53cec1c980fe17c",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1eae1d87951093430c50ebf08b70600140e26bd973b913fbd95f4c026164283f",
+      "originalInputHash": "52faea783471f738f103ae79d324ca510c744924bfd22b595893884378a07847",
+      "originalTimeout": false,
+      "reason": "lines 14-15 `if l[i]>=n: print(l[i-1])` select by magnitude only; divisibility of n is never checked. Expected derivation: tests/0004: n=76920 -> beautiful divisors 1, 6, 120 -> 120. Source trace: n != 81142; l = [1,6,28,120,496,2016,8128,32640,130816,...]; first l[i] >= 76920 is 130816 (i=8) -> prints l[7] = 32640.",
+      "sourceHash": "d11ba115e1d45b9ac4adb72b776d6231441b184786e11220228ca71dd4d9ba68",
+      "sourceRanges": [
+        [
+          13,
+          16
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/893/submission/120669969",
+      "test": "0004"
+    },
+    "127841868": {
+      "LFActualOutputHash": "5aaa909f0a05447976be3a7536546e688d998ad3fccfb0c961925d2d9c113bfb",
+      "LFExpectedOutputHash": "2abaca4911e68fa9bfbf3482ee797fd5b9045b841fdff7253557c5fe15de6477",
+      "LFInputHash": "cad8a8b474e6aedc81abe640f39c137ca1d37d27bfe8eca25d740bc3c7cebff1",
+      "LFProofHash": "fef03c07051f855919e93760b13b7f8985881c8a9ae0805d39b62eb52be66ab5",
+      "exactSourceExcerpts": [
+        {
+          "first": 11,
+          "last": 12,
+          "lines": [
+            "  if b[i].count('1') - b[i].count('0') == 1:",
+            "    print(int(b[i],2))"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "5aaa909f0a05447976be3a7536546e688d998ad3fccfb0c961925d2d9c113bfb",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1eae1d87951093430c50ebf08b70600140e26bd973b913fbd95f4c026164283f",
+      "originalInputHash": "52faea783471f738f103ae79d324ca510c744924bfd22b595893884378a07847",
+      "originalTimeout": false,
+      "reason": "line 11 `b[i].count('1') - b[i].count('0') == 1` does not enforce the consecutive-ones-then-zeros pattern. Expected derivation: tests/0004: n=76920 -> 120. Source trace: From the largest divisor down, 19230 (binary 100101100011110: 8 ones, 7 zeros) is the first passing the count test -> prints 19230.",
+      "sourceHash": "a316456fc676e448935edfe8ed0a4324370934af1f0b530e27c4af7ecf32dd52",
+      "sourceRanges": [
+        [
+          11,
+          12
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/893/submission/127841868",
+      "test": "0004"
+    },
+    "131853442": {
+      "LFActualOutputHash": "9961d158a7e0e2f990765971a9e490af826c0743b7d603020f34cc8944319fcb",
+      "LFExpectedOutputHash": "da6e2f539726fabd1f8cd7c9469a22b36769137975b28abc65fe2dc29e659b77",
+      "LFInputHash": "efa943ab4845310e8eee3c84caf4c74dee20fc3340a205d1d51bfb077840be1b",
+      "LFProofHash": "fef03c07051f855919e93760b13b7f8985881c8a9ae0805d39b62eb52be66ab5",
+      "exactSourceExcerpts": [
+        {
+          "first": 3,
+          "last": 3,
+          "lines": [
+            "for i in range(2, n):"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "9961d158a7e0e2f990765971a9e490af826c0743b7d603020f34cc8944319fcb",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "6140b8bf49655fc09d1483adc2ef3b469a985652cd7e174043c35f45640b177c",
+      "originalInputHash": "6140b8bf49655fc09d1483adc2ef3b469a985652cd7e174043c35f45640b177c",
+      "originalTimeout": false,
+      "reason": "line 3 `range(2, n)` excludes i = n, so when n itself is beautiful it is never chosen. Expected derivation: tests/0005: n=2016 = 11111100000b (k=5) is beautiful and divides itself -> 2016. Source trace: i runs 2..2015; beautiful candidates 6, 28, 120, 496: 2016%6=0, 2016%28=0 (72), 2016%120=96, 2016%496=32 -> maxi = 28; prints 28.",
+      "sourceHash": "2415fbe06eb090c8d44be7ddee206cc808d95c6e9c2e605c4093ad7d1db2f39c",
+      "sourceRanges": [
+        [
+          3,
+          3
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/893/submission/131853442",
+      "test": "0005"
+    },
+    "96751157": {
+      "LFActualOutputHash": "762f4631523bb1bcc15d4617a61806fc7130be62e5891484a53cec1c980fe17c",
+      "LFExpectedOutputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "LFInputHash": "e2eeeacba6f420151459b8c7ba31299df5682d70851cddddda39eb024acc87db",
+      "LFProofHash": "fef03c07051f855919e93760b13b7f8985881c8a9ae0805d39b62eb52be66ab5",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 8,
+          "lines": [
+            "a = log(n,2)",
+            "a = ceil(a)//2",
+            "",
+            "result = (2**(2*a)-2**a)//2",
+            "print(result)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "762f4631523bb1bcc15d4617a61806fc7130be62e5891484a53cec1c980fe17c",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "originalInputHash": "b825efef8fb894a0d3e0d5bca6ded5bd7fe16ea658b7be19713be0a24dc8a69e",
+      "originalTimeout": false,
+      "reason": "lines 4-7 choose a beautiful number only from the bit length of n; never checks that it divides n. Expected derivation: tests/0003: n=81142 = 2*40571 with 40571 odd, so n is not divisible by 4; every beautiful number >= 28 is divisible by 4, and 6 does not divide n (digit sum 16, not divisible by 3). Only 1 divides -> 1. Source trace: log2(81142)=16.31, ceil 17, //2 = 8; (2^16 - 2^8)//2 = (65536-256)//2 = 32640; prints 32640.",
+      "sourceHash": "a71737e9978f981dfd837cc195135065e5eed5149b357041bb83c82156bb0829",
+      "sourceRanges": [
+        [
+          4,
+          8
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/893/submission/96751157",
+      "test": "0003"
+    }
+  },
   "independentFreshRunHash": "ffe8d8bdeb327ddc9e0b644f6c6638279f8747c0e59e66810f89765c69b6f966",
   "independentLFReplayHash": "fef03c07051f855919e93760b13b7f8985881c8a9ae0805d39b62eb52be66ab5",
   "independentSemanticCheckHash": "2fb5bf0c671a1db172865866758be3faf92e31deb5eb217ffd08cd3c7d8f110c",
   "independentStressHash": "82099e360e89f1f02112ae14b760f9f4fe0a70ca5e759a0a20d89421511b72c1",
+  "originalExecutionEvidenceHash": "fd8cd8c1f99626b56071f09c14ef95129286dc4349c5fee66223938100440227",
   "packageHash": "f3a3457655ccf93a72c4539b49add9073588af9ae369f511da2827aa2ebe3fee",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -109,26 +278,25 @@
         "AC": 1,
         "WA": 22
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 22
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 22,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 22,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 15,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "a71737e9978f981dfd837cc195135065e5eed5149b357041bb83c82156bb0829",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/893/submission/96751157",
       "submissionId": "96751157",
       "testVerdicts": {
@@ -144,7 +312,11 @@
           "0003"
         ],
         "origin": "tests/0003",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "762f4631523bb1bcc15d4617a61806fc7130be62e5891484a53cec1c980fe17c",
+        "originalExpectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+        "originalInputHash": "b825efef8fb894a0d3e0d5bca6ded5bd7fe16ea658b7be19713be0a24dc8a69e",
+        "reason": "lines 4-7 choose a beautiful number only from the bit length of n; never checks that it divides n.",
+        "selectedOriginalTest": "0003",
         "test": "lf-0003"
       }
     },
@@ -153,26 +325,25 @@
         "AC": 4,
         "WA": 19
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 19
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 19,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 19,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 15,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "6d51f9e2558b8f0efad6fcc98ea43375d35279ff4c5aa5f7fc3bfc63e9bcfa80",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/893/submission/107309334",
       "submissionId": "107309334",
       "testVerdicts": {
@@ -188,7 +359,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "5aaa909f0a05447976be3a7536546e688d998ad3fccfb0c961925d2d9c113bfb",
+        "originalExpectedOutputHash": "1eae1d87951093430c50ebf08b70600140e26bd973b913fbd95f4c026164283f",
+        "originalInputHash": "52faea783471f738f103ae79d324ca510c744924bfd22b595893884378a07847",
+        "reason": "line 62 `if c1 == c0 + 1` accepts any bit string with one more 1 than 0s, not k+1 consecutive ones followed by k zeros.",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     },
@@ -197,26 +372,25 @@
         "AC": 1,
         "WA": 22
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 22
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 22,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 22,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 15,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "d11ba115e1d45b9ac4adb72b776d6231441b184786e11220228ca71dd4d9ba68",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/893/submission/120669969",
       "submissionId": "120669969",
       "testVerdicts": {
@@ -232,7 +406,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "762f4631523bb1bcc15d4617a61806fc7130be62e5891484a53cec1c980fe17c",
+        "originalExpectedOutputHash": "1eae1d87951093430c50ebf08b70600140e26bd973b913fbd95f4c026164283f",
+        "originalInputHash": "52faea783471f738f103ae79d324ca510c744924bfd22b595893884378a07847",
+        "reason": "lines 14-15 `if l[i]>=n: print(l[i-1])` select by magnitude only; divisibility of n is never checked.",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     },
@@ -241,26 +419,25 @@
         "AC": 4,
         "WA": 19
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 19
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 19,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 19,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 15,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "a316456fc676e448935edfe8ed0a4324370934af1f0b530e27c4af7ecf32dd52",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/893/submission/127841868",
       "submissionId": "127841868",
       "testVerdicts": {
@@ -276,7 +453,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "5aaa909f0a05447976be3a7536546e688d998ad3fccfb0c961925d2d9c113bfb",
+        "originalExpectedOutputHash": "1eae1d87951093430c50ebf08b70600140e26bd973b913fbd95f4c026164283f",
+        "originalInputHash": "52faea783471f738f103ae79d324ca510c744924bfd22b595893884378a07847",
+        "reason": "line 11 `b[i].count('1') - b[i].count('0') == 1` does not enforce the consecutive-ones-then-zeros pattern.",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     },
@@ -285,26 +466,25 @@
         "AC": 10,
         "WA": 6
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 6
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 6,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 6,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 6,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "2415fbe06eb090c8d44be7ddee206cc808d95c6e9c2e605c4093ad7d1db2f39c",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/893/submission/131853442",
       "submissionId": "131853442",
       "testVerdicts": {
@@ -320,7 +500,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "9961d158a7e0e2f990765971a9e490af826c0743b7d603020f34cc8944319fcb",
+        "originalExpectedOutputHash": "6140b8bf49655fc09d1483adc2ef3b469a985652cd7e174043c35f45640b177c",
+        "originalInputHash": "6140b8bf49655fc09d1483adc2ef3b469a985652cd7e174043c35f45640b177c",
+        "reason": "line 3 `range(2, n)` excludes i = n, so when n itself is beautiful it is never chosen.",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     }
@@ -328,14 +512,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 5,
+      "bytes": 295543,
+      "name": "batch5-source-review.json",
+      "sha256": "b428fe8eb83846ca1692f87dfcd5d3bc7a98bf5bc8c3f856cd1173fc9dcbfb5a"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "c948780ec10c51c2c95dd40ddda0bed6d0d343c5fb3503a6a7fadfe3507b94ed",
+  "sourceSemanticReviewPath": "source-review/proofs/893B.json",
   "stressCases": 40,
-  "testPairs": 141,
-  "unconfirmedSourceIds": [
-    "96751157",
-    "107309334",
-    "120669969",
-    "127841868",
-    "131853442"
-  ]
+  "testPairs": 141
 }

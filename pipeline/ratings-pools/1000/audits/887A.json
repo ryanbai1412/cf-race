@@ -1,28 +1,193 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "48166fd892b54b1699a97612058baf1b3bfd39fdaf0e8c1f5755b42c9e740515",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "32035475": {
+      "LFActualOutputHash": "564739ea8fa5926d4fa5c9734fed462061960a22e6b8d5c06e94969d97891bf2",
+      "LFExpectedOutputHash": "8a798890fe93817163b10b5f7bd2ca4d25d84c52739a645a889c173eee7d9d3d",
+      "LFInputHash": "e33c1814c6b5aebe2883e49106c078257be7e2ca0cd25dd10f561e8c3e19a036",
+      "LFProofHash": "9749dd35f5be908b0dc703ba5df927ff55bce87c3fced0388808f30c7b7fa624",
+      "exactSourceExcerpts": [
+        {
+          "first": 7,
+          "last": 10,
+          "lines": [
+            "for j in range(i, len(s)):",
+            "    if s[j] == '0':",
+            "        k += 1",
+            "if k > 5:"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "564739ea8fa5926d4fa5c9734fed462061960a22e6b8d5c06e94969d97891bf2",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "8a798890fe93817163b10b5f7bd2ca4d25d84c52739a645a889c173eee7d9d3d",
+      "originalInputHash": "9120920dac1ca5789e12bcd6baa3010aff602fe0f191b01a06fd192577c14c11",
+      "originalTimeout": false,
+      "reason": "line 7 `range(i, len(s))` uses the zero COUNT i as a string index instead of the position of the first '1', so the counted suffix is unrelated. Expected derivation: tests/0001: '100010001': first '1' at index 0 is followed by 6 zeros (indices 1,2,3,5,6,7) -> keep 1000000 = 64 -> yes. Source trace: i=6 zeros; s[6:]='001' has k=2 zeros; 2>5 false -> 'no'.",
+      "sourceHash": "68eff52417aaa4ae30dbead689a24cd123a78c701398bb7611d98a3531efb49c",
+      "sourceRanges": [
+        [
+          7,
+          10
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/887/submission/32035475",
+      "test": "0001"
+    },
+    "32035812": {
+      "LFActualOutputHash": "5040625b1fb6fa4af07226683f6e6003b29e5e70b16f8cfb24be7a752393f0ee",
+      "LFExpectedOutputHash": "9390298f3fb0c5b160498935d79cb139aef28e1c47358b4bbba61862b9c26e59",
+      "LFInputHash": "896b2927c8bff9e41a6deb995410dfa0bbcc8a6a31410cadd905cd3e4a8adb7f",
+      "LFProofHash": "9749dd35f5be908b0dc703ba5df927ff55bce87c3fced0388808f30c7b7fa624",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 4,
+          "lines": [
+            "n=int(s)",
+            "if len(str(n))>6:",
+            "    print('yes')"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "5040625b1fb6fa4af07226683f6e6003b29e5e70b16f8cfb24be7a752393f0ee",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "9390298f3fb0c5b160498935d79cb139aef28e1c47358b4bbba61862b9c26e59",
+      "originalInputHash": "721c825b7baeb2e6d7c9511c8af81a8d745409b3336c92ecdc850511a476865f",
+      "originalTimeout": false,
+      "reason": "line 3 `len(str(n))>6` ignores whether six zeros follow a 1; any long string without zeros is accepted. Expected derivation: tests/0004: one hundred '1's, no '0' at all -> no subsequence divisible by 64 except none -> no. Source trace: n = int('1'*100); len(str(n)) = 100 > 6 -> 'yes'.",
+      "sourceHash": "7deebda0629bbfe814ad1e091dec538f7105395c58f1752fd00421e90848e20c",
+      "sourceRanges": [
+        [
+          2,
+          4
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/887/submission/32035812",
+      "test": "0004"
+    },
+    "32036620": {
+      "LFActualOutputHash": "5040625b1fb6fa4af07226683f6e6003b29e5e70b16f8cfb24be7a752393f0ee",
+      "LFExpectedOutputHash": "9390298f3fb0c5b160498935d79cb139aef28e1c47358b4bbba61862b9c26e59",
+      "LFInputHash": "2f1ab4cf0adb400efabfa05a6c1ca3791de7c1d2edadfba882dc9c8dba1992bb",
+      "LFProofHash": "9749dd35f5be908b0dc703ba5df927ff55bce87c3fced0388808f30c7b7fa624",
+      "exactSourceExcerpts": [
+        {
+          "first": 9,
+          "last": 10,
+          "lines": [
+            "if countZeros(number) >= 6:",
+            "\tprint (\"yes\")"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "5040625b1fb6fa4af07226683f6e6003b29e5e70b16f8cfb24be7a752393f0ee",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "9390298f3fb0c5b160498935d79cb139aef28e1c47358b4bbba61862b9c26e59",
+      "originalInputHash": "de832b1314866654def7ef206dfe3c4bf2f8f03c2c3d09c95932aa5c971bfab9",
+      "originalTimeout": false,
+      "reason": "line 9 `countZeros(number) >= 6` with no check for a '1' before the six zeros. Expected derivation: tests/0011: '000000' contains no '1'; only representable number is 0 (not positive) -> no. Source trace: countZeros('000000') = 6 >= 6 -> 'yes'.",
+      "sourceHash": "6c3dfd29309cd3d08a9740520fbf61e4a7eda027199dd5044950a09e4e358caa",
+      "sourceRanges": [
+        [
+          9,
+          10
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/887/submission/32036620",
+      "test": "0011"
+    },
+    "32037090": {
+      "LFActualOutputHash": "5040625b1fb6fa4af07226683f6e6003b29e5e70b16f8cfb24be7a752393f0ee",
+      "LFExpectedOutputHash": "9390298f3fb0c5b160498935d79cb139aef28e1c47358b4bbba61862b9c26e59",
+      "LFInputHash": "2f1ab4cf0adb400efabfa05a6c1ca3791de7c1d2edadfba882dc9c8dba1992bb",
+      "LFProofHash": "9749dd35f5be908b0dc703ba5df927ff55bce87c3fced0388808f30c7b7fa624",
+      "exactSourceExcerpts": [
+        {
+          "first": 1,
+          "last": 1,
+          "lines": [
+            "print(\"no\"if input().count(\"0\")<6 else\"yes\")"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "5040625b1fb6fa4af07226683f6e6003b29e5e70b16f8cfb24be7a752393f0ee",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "9390298f3fb0c5b160498935d79cb139aef28e1c47358b4bbba61862b9c26e59",
+      "originalInputHash": "de832b1314866654def7ef206dfe3c4bf2f8f03c2c3d09c95932aa5c971bfab9",
+      "originalTimeout": false,
+      "reason": "line 1 `input().count(\"0\")<6` - ignores position of a leading '1'. Expected derivation: tests/0011: '000000' -> no (no '1'). Source trace: count('0')=6, not <6 -> 'yes'.",
+      "sourceHash": "de1d02717321734e049de15d7c3a7f2f9739bcb848227ea9ceb16314e3e667eb",
+      "sourceRanges": [
+        [
+          1,
+          1
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/887/submission/32037090",
+      "test": "0011"
+    },
+    "32037196": {
+      "LFActualOutputHash": "5040625b1fb6fa4af07226683f6e6003b29e5e70b16f8cfb24be7a752393f0ee",
+      "LFExpectedOutputHash": "9390298f3fb0c5b160498935d79cb139aef28e1c47358b4bbba61862b9c26e59",
+      "LFInputHash": "af900b823dc6c0e4f290811161f0b895f97b0b6c292b72cb920b28c393f3a1b7",
+      "LFProofHash": "9749dd35f5be908b0dc703ba5df927ff55bce87c3fced0388808f30c7b7fa624",
+      "exactSourceExcerpts": [
+        {
+          "first": 3,
+          "last": 3,
+          "lines": [
+            "if a[a.index('1'):].count('0') >= 5:"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "5040625b1fb6fa4af07226683f6e6003b29e5e70b16f8cfb24be7a752393f0ee",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "9390298f3fb0c5b160498935d79cb139aef28e1c47358b4bbba61862b9c26e59",
+      "originalInputHash": "4d57c7c85bb280f69c29b58c77d24fbb2ac9d2c7526871c9c43b7f82bbbc2053",
+      "originalTimeout": false,
+      "reason": "line 3 `.count('0') >= 5` off-by-one threshold (needs >= 6). Expected derivation: tests/0007 (100 chars): first '1' at index 0, total zeros after it = 5 (self-counted) -> at most 100000b=32 -> no. Source trace: a.index('1')=0; suffix zero count 5 >= 5 -> 'yes'.",
+      "sourceHash": "5574e074d2c1f27f234425a634d9b4c7d684cdd4e5cd4a8a2244caaf886273b8",
+      "sourceRanges": [
+        [
+          3,
+          3
+        ]
+      ],
+      "sourceReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
+      "sourceUrl": "https://codeforces.com/contest/887/submission/32037196",
+      "test": "0007"
+    }
+  },
   "independentFreshRunHash": "f2ce665d6febdac07964bf2ff0d92e7338bf186c1cab37ce0964d0ad83624903",
   "independentLFReplayHash": "9749dd35f5be908b0dc703ba5df927ff55bce87c3fced0388808f30c7b7fa624",
   "independentSemanticCheckHash": "6032bc382c5ce1dd3bb1f7beed62ac87297be95ca031783b332387555b89fc49",
   "independentStressHash": "0849884afc00408e9ab0d3c0b24498bd1c4c21fe4ef2710d54cd4774b0eff98c",
+  "originalExecutionEvidenceHash": "48166fd892b54b1699a97612058baf1b3bfd39fdaf0e8c1f5755b42c9e740515",
   "packageHash": "6e6a96f28817bf503cc5650a903f39747d3fb02fae600b7ed28aa305900ffa0a",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -109,26 +274,25 @@
         "AC": 6,
         "WA": 14
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0001",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 14
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 14,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 14,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "68eff52417aaa4ae30dbead689a24cd123a78c701398bb7611d98a3531efb49c",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/887/submission/32035475",
       "submissionId": "32035475",
       "testVerdicts": {
@@ -144,7 +308,11 @@
           "0001"
         ],
         "origin": "tests/0001",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "564739ea8fa5926d4fa5c9734fed462061960a22e6b8d5c06e94969d97891bf2",
+        "originalExpectedOutputHash": "8a798890fe93817163b10b5f7bd2ca4d25d84c52739a645a889c173eee7d9d3d",
+        "originalInputHash": "9120920dac1ca5789e12bcd6baa3010aff602fe0f191b01a06fd192577c14c11",
+        "reason": "line 7 `range(i, len(s))` uses the zero COUNT i as a string index instead of the position of the first '1', so the counted suffix is unrelated.",
+        "selectedOriginalTest": "0001",
         "test": "lf-0001"
       }
     },
@@ -153,26 +321,25 @@
         "AC": 8,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "7deebda0629bbfe814ad1e091dec538f7105395c58f1752fd00421e90848e20c",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/887/submission/32035812",
       "submissionId": "32035812",
       "testVerdicts": {
@@ -189,7 +356,11 @@
           "0166"
         ],
         "origin": "tests/0004",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "5040625b1fb6fa4af07226683f6e6003b29e5e70b16f8cfb24be7a752393f0ee",
+        "originalExpectedOutputHash": "9390298f3fb0c5b160498935d79cb139aef28e1c47358b4bbba61862b9c26e59",
+        "originalInputHash": "721c825b7baeb2e6d7c9511c8af81a8d745409b3336c92ecdc850511a476865f",
+        "reason": "line 3 `len(str(n))>6` ignores whether six zeros follow a 1; any long string without zeros is accepted.",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     },
@@ -198,26 +369,25 @@
         "AC": 10,
         "WA": 12
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0011",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 12
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 12,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 12,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "6c3dfd29309cd3d08a9740520fbf61e4a7eda027199dd5044950a09e4e358caa",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/887/submission/32036620",
       "submissionId": "32036620",
       "testVerdicts": {
@@ -233,7 +403,11 @@
           "0011"
         ],
         "origin": "tests/0011",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "5040625b1fb6fa4af07226683f6e6003b29e5e70b16f8cfb24be7a752393f0ee",
+        "originalExpectedOutputHash": "9390298f3fb0c5b160498935d79cb139aef28e1c47358b4bbba61862b9c26e59",
+        "originalInputHash": "de832b1314866654def7ef206dfe3c4bf2f8f03c2c3d09c95932aa5c971bfab9",
+        "reason": "line 9 `countZeros(number) >= 6` with no check for a '1' before the six zeros.",
+        "selectedOriginalTest": "0011",
         "test": "lf-0011"
       }
     },
@@ -242,26 +416,25 @@
         "AC": 10,
         "WA": 12
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0011",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 12
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 12,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 12,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "de1d02717321734e049de15d7c3a7f2f9739bcb848227ea9ceb16314e3e667eb",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/887/submission/32037090",
       "submissionId": "32037090",
       "testVerdicts": {
@@ -277,7 +450,11 @@
           "0011"
         ],
         "origin": "tests/0011",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "5040625b1fb6fa4af07226683f6e6003b29e5e70b16f8cfb24be7a752393f0ee",
+        "originalExpectedOutputHash": "9390298f3fb0c5b160498935d79cb139aef28e1c47358b4bbba61862b9c26e59",
+        "originalInputHash": "de832b1314866654def7ef206dfe3c4bf2f8f03c2c3d09c95932aa5c971bfab9",
+        "reason": "line 1 `input().count(\"0\")<6` - ignores position of a leading '1'.",
+        "selectedOriginalTest": "0011",
         "test": "lf-0011"
       }
     },
@@ -287,26 +464,25 @@
         "RE": 1,
         "WA": 9
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0007",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 9
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 9,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 9,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 9,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "5574e074d2c1f27f234425a634d9b4c7d684cdd4e5cd4a8a2244caaf886273b8",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-2b782d5c288647919fcafa2848b7662b",
       "sourceUrl": "https://codeforces.com/contest/887/submission/32037196",
       "submissionId": "32037196",
       "testVerdicts": {
@@ -323,7 +499,11 @@
           "0007"
         ],
         "origin": "tests/0007",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "5040625b1fb6fa4af07226683f6e6003b29e5e70b16f8cfb24be7a752393f0ee",
+        "originalExpectedOutputHash": "9390298f3fb0c5b160498935d79cb139aef28e1c47358b4bbba61862b9c26e59",
+        "originalInputHash": "4d57c7c85bb280f69c29b58c77d24fbb2ac9d2c7526871c9c43b7f82bbbc2053",
+        "reason": "line 3 `.count('0') >= 5` off-by-one threshold (needs >= 6).",
+        "selectedOriginalTest": "0007",
         "test": "lf-0007"
       }
     }
@@ -331,14 +511,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 5,
+      "bytes": 295543,
+      "name": "batch5-source-review.json",
+      "sha256": "b428fe8eb83846ca1692f87dfcd5d3bc7a98bf5bc8c3f856cd1173fc9dcbfb5a"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "06c03478121d4650dedf072cda9efb47f3b8f829339a8266cb239148c9dfa68f",
+  "sourceSemanticReviewPath": "source-review/proofs/887A.json",
   "stressCases": 22,
-  "testPairs": 166,
-  "unconfirmedSourceIds": [
-    "32035475",
-    "32035812",
-    "32036620",
-    "32037090",
-    "32037196"
-  ]
+  "testPairs": 166
 }

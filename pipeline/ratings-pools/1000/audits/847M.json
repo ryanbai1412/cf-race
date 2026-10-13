@@ -1,28 +1,213 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "851e5e099ce96e6dab4e0955d1b6e7d8f6688ff163c2cb02a5443774b94d2ace",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "30465954": {
+      "LFActualOutputHash": "747f3da511cff074b6277b86d7de3591bf4242e9c53cc478ec7c1b7859a15b5d",
+      "LFExpectedOutputHash": "20d71d454c927f950cee034bb084d6e27e8208b8d2639ffd5bf6d842c0664c3f",
+      "LFInputHash": "92fa2ed2824f6ed6b4114339645f535a1273960a463afdc2a67e6ea9f89629c6",
+      "LFProofHash": "7079c7834617be5bae5ccee562d469ac287e9587eecd595f31f2cf24b4344e51",
+      "exactSourceExcerpts": [
+        {
+          "first": 4,
+          "last": 8,
+          "lines": [
+            "for i in range(1,n-1):",
+            "    if a[1]+d!=a[2]:",
+            "        print(a[n-1])",
+            "        exit()",
+            "print(a[n-1]+d)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "747f3da511cff074b6277b86d7de3591bf4242e9c53cc478ec7c1b7859a15b5d",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "17d904b4fe9204476cf13ee26b01776d120d4d63fb9af5482f276dbf9bb33e5d",
+      "originalInputHash": "02259e059c8f774ef3313885a266c075e0c0ab26524622b3931605219dbb12a5",
+      "originalTimeout": false,
+      "reason": "Line 5 `if a[1]+d!=a[2]` uses constant indices, so only the first three terms are ever checked. Expected derivation: -1000,-995,-990,-984,... is not an AP (-990->-984 is +6) -> answer t_n = -955. Source trace: a[1]+d=-990==a[2] each iteration -> prints -955+5 = -950.",
+      "sourceHash": "74f01d36bfbdfa2ad37fa5eb34f2d1b6095d1c5bbb0d2da2f8e8214de0e068d1",
+      "sourceRanges": [
+        [
+          4,
+          8
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/847/submission/30465954",
+      "test": "0017"
+    },
+    "30471828": {
+      "LFActualOutputHash": "0d30a47b87915d4d0555189c00b0543b164ec3c7ce7f97117c37794565b286d0",
+      "LFExpectedOutputHash": "37aa1ccf80e481832b2db282d4d4f895ee1e31219b7d0f6aee8dc8968828341b",
+      "LFInputHash": "e97a73f3a4f207bbbd5621af3e7f51d56d8bc1f3c23dafc88b1f6f3014c6b112",
+      "LFProofHash": "7079c7834617be5bae5ccee562d469ac287e9587eecd595f31f2cf24b4344e51",
+      "exactSourceExcerpts": [
+        {
+          "first": 5,
+          "last": 15,
+          "lines": [
+            "f = 0;",
+            "for q in range(0, n - 1):",
+            "    if f != 0 and A[q + 1] - A[q] != res:",
+            "        w = 0;",
+            "        break;",
+            "    elif f == 0:",
+            "        res = A[q + 1] - A[q];",
+            "if w == 0:",
+            "    print(A[len(A) - 1]);",
+            "else:",
+            "    print(A[len(A) - 1] + res);"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "0d30a47b87915d4d0555189c00b0543b164ec3c7ce7f97117c37794565b286d0",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "5f85a2e6c616db09bdd2e10a0617b020e62914d27bc782238c6db875cdddcd3b",
+      "originalInputHash": "b6b22205cdd6b02e95c967cc4c9bf2a67d2bb7e0744c59d7d6496a6551a8e5e1",
+      "originalTimeout": false,
+      "reason": "f is never set to non-zero (line 5, lines 10-11), so the check on line 7 never runs; res becomes the last difference and w stays 1. Expected derivation: 5,1,-5: diffs -4,-6 -> not AP -> -5. Source trace: res=-6 -> -5+(-6) = -11.",
+      "sourceHash": "9a0aaaa984fafa84d8b0a1c16139b1ecc189176245efb67d75da0ed3e4179cd9",
+      "sourceRanges": [
+        [
+          5,
+          15
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/847/submission/30471828",
+      "test": "0003"
+    },
+    "30472050": {
+      "LFActualOutputHash": "0f90e0b3538d04df294950dcec75952d7e07f1bb044e73e795c410d677b3c268",
+      "LFExpectedOutputHash": "37aa1ccf80e481832b2db282d4d4f895ee1e31219b7d0f6aee8dc8968828341b",
+      "LFInputHash": "2b05e97efa3656c58d43cac2f366655f46b29ddeb527bdbb8b55c2b3ee2c1fe6",
+      "LFProofHash": "7079c7834617be5bae5ccee562d469ac287e9587eecd595f31f2cf24b4344e51",
+      "exactSourceExcerpts": [
+        {
+          "first": 8,
+          "last": 15,
+          "lines": [
+            "        d=s[1]-s[0]",
+            "        for i in range(2,n):",
+            "            if((s[i]-s[i-1])==d):",
+            "                if(i==n-1):",
+            "                    return (s[i] + d)",
+            "                continue",
+            "            else:",
+            "                return s[i]"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "0f90e0b3538d04df294950dcec75952d7e07f1bb044e73e795c410d677b3c268",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "5f85a2e6c616db09bdd2e10a0617b020e62914d27bc782238c6db875cdddcd3b",
+      "originalInputHash": "76c4b76c019083e65ac250bbf960ca504313265c32f8b60c74ae7077bbb4f4aa",
+      "originalTimeout": false,
+      "reason": "Line 15 `return s[i]` returns the term at the first mismatch instead of the last term s[n-1]. Expected derivation: 4,1,-3,-5: diffs -3,-4 -> not AP -> -5. Source trace: i=2 mismatch -> returns s[2] = -3.",
+      "sourceHash": "cc3fe6a5dada4aaeb7f6bbe1b954a1139b4a0fc22f9ae7d7548800a4283e3c65",
+      "sourceRanges": [
+        [
+          8,
+          15
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/847/submission/30472050",
+      "test": "0016"
+    },
+    "30630955": {
+      "LFActualOutputHash": "cfeb3721a817579ed0f8bf7235b8b586be2d1f6426e5f7e4c3d3d62a3015f8d7",
+      "LFExpectedOutputHash": "37aa1ccf80e481832b2db282d4d4f895ee1e31219b7d0f6aee8dc8968828341b",
+      "LFInputHash": "e97a73f3a4f207bbbd5621af3e7f51d56d8bc1f3c23dafc88b1f6f3014c6b112",
+      "LFProofHash": "7079c7834617be5bae5ccee562d469ac287e9587eecd595f31f2cf24b4344e51",
+      "exactSourceExcerpts": [
+        {
+          "first": 5,
+          "last": 5,
+          "lines": [
+            "print(ar[len(ar)-1]+(ar[1]-ar[0]))"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "cfeb3721a817579ed0f8bf7235b8b586be2d1f6426e5f7e4c3d3d62a3015f8d7",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "5f85a2e6c616db09bdd2e10a0617b020e62914d27bc782238c6db875cdddcd3b",
+      "originalInputHash": "b6b22205cdd6b02e95c967cc4c9bf2a67d2bb7e0744c59d7d6496a6551a8e5e1",
+      "originalTimeout": false,
+      "reason": "Line 5 performs no AP check at all. Expected derivation: 5,1,-5 not AP -> -5. Source trace: -5 + (1-5) = -9.",
+      "sourceHash": "ab7c3389292030e26eeec81a1e2bafac198cfb0e300d422e6b84e334e9fcba80",
+      "sourceRanges": [
+        [
+          5,
+          5
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/847/submission/30630955",
+      "test": "0003"
+    },
+    "30916599": {
+      "LFActualOutputHash": "83c02ac2d48c863dab2ccf6870455aadfc2cec073b8db269b517c879d76aa6d9",
+      "LFExpectedOutputHash": "ab9828ca390581b72629069049793ba3c99bb8e5e9e7b97a55c71957e04df9a3",
+      "LFInputHash": "6e0a941eddd2a7835a1fd687ae8df7cc21152352225a6c380fce35a7f74c2db9",
+      "LFProofHash": "7079c7834617be5bae5ccee562d469ac287e9587eecd595f31f2cf24b4344e51",
+      "exactSourceExcerpts": [
+        {
+          "first": 15,
+          "last": 20,
+          "lines": [
+            "\t\t\tif checkAP(numList):",
+            "\t\t\t\tans = 2 * numList[-1] - numList[-2]",
+            "\t\t\t\tif abs(ans) <= 1000:",
+            "\t\t\t\t\tprint(ans)",
+            "\t\t\t\telse:",
+            "\t\t\t\t\tprint( 1000 if ans > 1000 else -1000)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "83c02ac2d48c863dab2ccf6870455aadfc2cec073b8db269b517c879d76aa6d9",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "70aaa1aeb9c8c8ad65941708b29c751a3354a081424c2188ff2dc322a0ffdb16",
+      "originalInputHash": "a38cb743fd45fe5c1e7b0bbd9d61ef8f27b4aad4b6aa2601f6b3cf90319982ae",
+      "originalTimeout": false,
+      "reason": "Lines 17-20 clamp the prediction to [-1000,1000]; statement says it may exceed 1000. Expected derivation: 900,1000 AP -> 1100. Source trace: ans=1100 -> clamped -> 1000.",
+      "sourceHash": "8ef5e78ae0dd77f269203faf54870aa59b43c2da538163cab18a0192a96520ab",
+      "sourceRanges": [
+        [
+          15,
+          20
+        ]
+      ],
+      "sourceReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
+      "sourceUrl": "https://codeforces.com/contest/847/submission/30916599",
+      "test": "0004"
+    }
+  },
   "independentFreshRunHash": "c70f4bf8b7fc54f8c02b17e810e12fae08f4eb1ef76e6dc4c7473fdf3d25cba3",
   "independentLFReplayHash": "7079c7834617be5bae5ccee562d469ac287e9587eecd595f31f2cf24b4344e51",
   "independentSemanticCheckHash": "571f5f5cd93f92dbd8b11c7e8d0f451ac88f6baff2ab889907598e6831d34c69",
   "independentStressHash": "98769cb2f4bea54af2109e0568e7765e2e09a17454e268c13ceea3273e5fa0a0",
+  "originalExecutionEvidenceHash": "851e5e099ce96e6dab4e0955d1b6e7d8f6688ff163c2cb02a5443774b94d2ace",
   "packageHash": "3e2b956a13763cfd6b2f19478c76b598c994ef8163f26ff00508ec043f087163",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -109,26 +294,25 @@
         "AC": 9,
         "WA": 3
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0017",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 3
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 3,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 3,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 2,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "74f01d36bfbdfa2ad37fa5eb34f2d1b6095d1c5bbb0d2da2f8e8214de0e068d1",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/847/submission/30465954",
       "submissionId": "30465954",
       "testVerdicts": {
@@ -144,7 +328,11 @@
           "0017"
         ],
         "origin": "tests/0017",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "747f3da511cff074b6277b86d7de3591bf4242e9c53cc478ec7c1b7859a15b5d",
+        "originalExpectedOutputHash": "17d904b4fe9204476cf13ee26b01776d120d4d63fb9af5482f276dbf9bb33e5d",
+        "originalInputHash": "02259e059c8f774ef3313885a266c075e0c0ab26524622b3931605219dbb12a5",
+        "reason": "Line 5 `if a[1]+d!=a[2]` uses constant indices, so only the first three terms are ever checked.",
+        "selectedOriginalTest": "0017",
         "test": "lf-0017"
       }
     },
@@ -153,26 +341,25 @@
         "AC": 1,
         "WA": 21
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 21
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 21,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 21,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "9a0aaaa984fafa84d8b0a1c16139b1ecc189176245efb67d75da0ed3e4179cd9",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/847/submission/30471828",
       "submissionId": "30471828",
       "testVerdicts": {
@@ -188,7 +375,11 @@
           "0003"
         ],
         "origin": "tests/0003",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "0d30a47b87915d4d0555189c00b0543b164ec3c7ce7f97117c37794565b286d0",
+        "originalExpectedOutputHash": "5f85a2e6c616db09bdd2e10a0617b020e62914d27bc782238c6db875cdddcd3b",
+        "originalInputHash": "b6b22205cdd6b02e95c967cc4c9bf2a67d2bb7e0744c59d7d6496a6551a8e5e1",
+        "reason": "f is never set to non-zero (line 5, lines 10-11), so the check on line 7 never runs; res becomes the last difference and w stays 1.",
+        "selectedOriginalTest": "0003",
         "test": "lf-0003"
       }
     },
@@ -197,26 +388,25 @@
         "AC": 5,
         "WA": 17
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0016",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 17
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 17,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 17,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "cc3fe6a5dada4aaeb7f6bbe1b954a1139b4a0fc22f9ae7d7548800a4283e3c65",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/847/submission/30472050",
       "submissionId": "30472050",
       "testVerdicts": {
@@ -232,7 +422,11 @@
           "0016"
         ],
         "origin": "tests/0016",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "0f90e0b3538d04df294950dcec75952d7e07f1bb044e73e795c410d677b3c268",
+        "originalExpectedOutputHash": "5f85a2e6c616db09bdd2e10a0617b020e62914d27bc782238c6db875cdddcd3b",
+        "originalInputHash": "76c4b76c019083e65ac250bbf960ca504313265c32f8b60c74ae7077bbb4f4aa",
+        "reason": "Line 15 `return s[i]` returns the term at the first mismatch instead of the last term s[n-1].",
+        "selectedOriginalTest": "0016",
         "test": "lf-0016"
       }
     },
@@ -241,26 +435,25 @@
         "AC": 4,
         "WA": 18
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 18
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 18,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 18,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "ab7c3389292030e26eeec81a1e2bafac198cfb0e300d422e6b84e334e9fcba80",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/847/submission/30630955",
       "submissionId": "30630955",
       "testVerdicts": {
@@ -276,7 +469,11 @@
           "0003"
         ],
         "origin": "tests/0003",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "cfeb3721a817579ed0f8bf7235b8b586be2d1f6426e5f7e4c3d3d62a3015f8d7",
+        "originalExpectedOutputHash": "5f85a2e6c616db09bdd2e10a0617b020e62914d27bc782238c6db875cdddcd3b",
+        "originalInputHash": "b6b22205cdd6b02e95c967cc4c9bf2a67d2bb7e0744c59d7d6496a6551a8e5e1",
+        "reason": "Line 5 performs no AP check at all.",
+        "selectedOriginalTest": "0003",
         "test": "lf-0003"
       }
     },
@@ -285,26 +482,25 @@
         "AC": 10,
         "WA": 7
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0004",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 7
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 7,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 7,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 7,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "8ef5e78ae0dd77f269203faf54870aa59b43c2da538163cab18a0192a96520ab",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-c8e3ef39feba42778afe758fb31f14da",
       "sourceUrl": "https://codeforces.com/contest/847/submission/30916599",
       "submissionId": "30916599",
       "testVerdicts": {
@@ -320,7 +516,11 @@
           "0004"
         ],
         "origin": "tests/0004",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "83c02ac2d48c863dab2ccf6870455aadfc2cec073b8db269b517c879d76aa6d9",
+        "originalExpectedOutputHash": "70aaa1aeb9c8c8ad65941708b29c751a3354a081424c2188ff2dc322a0ffdb16",
+        "originalInputHash": "a38cb743fd45fe5c1e7b0bbd9d61ef8f27b4aad4b6aa2601f6b3cf90319982ae",
+        "reason": "Lines 17-20 clamp the prediction to [-1000,1000]; statement says it may exceed 1000.",
+        "selectedOriginalTest": "0004",
         "test": "lf-0004"
       }
     }
@@ -328,14 +528,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 4,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 4,
+      "bytes": 389086,
+      "name": "rating-1000-source-review-batch4.json",
+      "sha256": "de8c7b37f70b0356c91c2ac393453ebcab2031858e514fd24cadd083c0a7c19e"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "c463d9fd62c5e427bf111bf55da66a163a4ae890b03f6a674ffd8117c9230630",
+  "sourceSemanticReviewPath": "source-review/proofs/847M.json",
   "stressCases": 40,
-  "testPairs": 89,
-  "unconfirmedSourceIds": [
-    "30465954",
-    "30471828",
-    "30472050",
-    "30630955",
-    "30916599"
-  ]
+  "testPairs": 89
 }

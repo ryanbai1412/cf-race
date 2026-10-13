@@ -1,62 +1,215 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
-    "algorithmicallyWrong": false,
+    "algorithmicallyWrong": true,
     "coverage": true,
     "deterministicGeneration": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "generatedBasis": true,
     "hashes": true,
     "independentOracle": true,
     "inputConstraints": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "bc146b91d402821658959be2327989a76ae375d8e9b0e2122df0930cf4b14be8",
   "generatedQualificationHash": "277775fbfaa462ffe965602865c4c4d67c98f6e9c7af00cfe49232c53602bc87",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
-  "historicalIncorrectAnalysis": {
+  "incorrectAnalysis": {
     "138318991": {
+      "LFActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "LFExpectedOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+      "LFInputHash": "af9a46ae5e98fd26ed4732abc3c492dbb3bf4b51f1eed699d7e87fb85befcaca",
+      "LFProofHash": "380355b1f7ebca48b90d47e98f86cbc4d97de4e95a5ea6777e608a57fef2c3f6",
+      "exactSourceExcerpts": [
+        {
+          "first": 7,
+          "last": 9,
+          "lines": [
+            "for a in range(n-1):",
+            "  if (rec[a+1][0]>rec[a][0] and rec[a+1][0]>rec[a][1]) and (rec[a+1][1]>rec[a][0] and rec[a+1][1]>rec[a][1]):",
+            "    nah='NO'"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "originalInputHash": "3eab8852ab5e18b4a6f6bfc5eb6ff47fbbb77630cdb8c4b64a5a7ac4c2af21ed",
+      "originalTimeout": false,
+      "reason": "line 8 compares raw rec[a+1] with raw rec[a] instead of with the chosen previous height Expected derivation: Greedy: first height = max(w1,h1); each next height = largest side <= previous height; if neither side fits -> NO, else YES. Test 0007 (10 10/8 8/8 15/9 9): heights 10, 8, 8, then 9x9 cannot be <=8 -> NO. Source trace: a=0: (8,8) vs (10,10) not greater; a=1: (8,15) vs (8,8): 8>8 false; a=2: (9,9) vs (8,15): 9>15 false -> nah stays YES.",
+      "sourceHash": "ccca6c9bb5fdf4040c3360cabfb43d7cc788735e0b0253207d826c2b32f32255",
+      "sourceRanges": [
+        [
+          7,
+          9
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/1008/submission/138318991",
       "test": "0007"
     },
     "141819080": {
+      "LFActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "LFExpectedOutputHash": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+      "LFInputHash": "af9a46ae5e98fd26ed4732abc3c492dbb3bf4b51f1eed699d7e87fb85befcaca",
+      "LFProofHash": "380355b1f7ebca48b90d47e98f86cbc4d97de4e95a5ea6777e608a57fef2c3f6",
+      "exactSourceExcerpts": [
+        {
+          "first": 3,
+          "last": 7,
+          "lines": [
+            "w, h = map(int, input().split())",
+            "for i in range(a-1):",
+            "    w1, h1 = map(int, input().split())",
+            "    if w1 > max(w,h) and h1 > max(w, h):",
+            "        res = 'NO'"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+      "originalInputHash": "3eab8852ab5e18b4a6f6bfc5eb6ff47fbbb77630cdb8c4b64a5a7ac4c2af21ed",
+      "originalTimeout": false,
+      "reason": "line 6 uses fixed `max(w,h)` from line 3; no update of the current height Expected derivation: Greedy: first height = max(w1,h1); each next height = largest side <= previous height; if neither side fits -> NO, else YES. Test 0007 -> NO. Source trace: max(10,10)=10; (8,8), (8,15) [8>10 false], (9,9) never both >10 -> res YES.",
+      "sourceHash": "eb5630cb75ad3ebed8807f9e575c9dc415e5c8ae46fece95f421a9bb38395744",
+      "sourceRanges": [
+        [
+          3,
+          7
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/1008/submission/141819080",
       "test": "0007"
     },
     "145803410": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "d705258209c14d34dba614b1f9f25a987e761a09669681a05235d64f4469831b",
+      "LFProofHash": "380355b1f7ebca48b90d47e98f86cbc4d97de4e95a5ea6777e608a57fef2c3f6",
+      "exactSourceExcerpts": [
+        {
+          "first": 6,
+          "last": 8,
+          "lines": [
+            "    if i == 0:",
+            "        a = w",
+            "        b = h"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+      "originalInputHash": "ace5add0bbd6e73069f7f361158d049a7e0de7b7c3b76c153d5f613057306c70",
+      "originalTimeout": false,
+      "reason": "line 8 `b = h` (should be max(w,h)) Expected derivation: Greedy: first height = max(w1,h1); each next height = largest side <= previous height; if neither side fits -> NO, else YES. Test 0005: greedy heights 706794178, 641644550, 406274173, 345348548, 241724251, 213953908, 185314264, 152702033, 105991807, 61409204 -> YES. Source trace: b=103578427 after first rect (x=706794178 > b, y=103578427 <= b -> b=103578427); second (431808055,641644550): both > b -> flag False -> prints NO.",
+      "sourceHash": "096879afb5e5a98049d11112d6a4161cf5c5645ec08504e27347d1b7c4126753",
+      "sourceRanges": [
+        [
+          6,
+          8
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/1008/submission/145803410",
       "test": "0005"
     },
     "147110972": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "d705258209c14d34dba614b1f9f25a987e761a09669681a05235d64f4469831b",
+      "LFProofHash": "380355b1f7ebca48b90d47e98f86cbc4d97de4e95a5ea6777e608a57fef2c3f6",
+      "exactSourceExcerpts": [
+        {
+          "first": 5,
+          "last": 13,
+          "lines": [
+            "for i in range(num_tests - 1):",
+            "    x,y = map(int, input().split())",
+            "    if min(x,y) <= answer[-1]:",
+            "        answer.append(min(x,y))",
+            "    else:",
+            "        print('NO')",
+            "        break",
+            "if len(answer) == num_tests:",
+            "    print('YES')"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+      "originalInputHash": "ace5add0bbd6e73069f7f361158d049a7e0de7b7c3b76c153d5f613057306c70",
+      "originalTimeout": false,
+      "reason": "lines 7-8 `min(x,y)` choice Expected derivation: Greedy: first height = max(w1,h1); each next height = largest side <= previous height; if neither side fits -> NO, else YES. Test 0005: greedy heights 706794178, 641644550, 406274173, 345348548, 241724251, 213953908, 185314264, 152702033, 105991807, 61409204 -> YES. Source trace: heights 706794178, 431808055, 406274173, 345348548, 241724251, 213953908, 16672343; 8th min 152702033 > 16672343 -> prints NO, break (len 7 != 10 so no YES).",
+      "sourceHash": "bb64b76745760a5e7da338c30615358972206ef6d71a6ce36632a7386f57e181",
+      "sourceRanges": [
+        [
+          5,
+          13
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/1008/submission/147110972",
       "test": "0005"
     },
     "148066794": {
+      "LFActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "LFExpectedOutputHash": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "LFInputHash": "d705258209c14d34dba614b1f9f25a987e761a09669681a05235d64f4469831b",
+      "LFProofHash": "380355b1f7ebca48b90d47e98f86cbc4d97de4e95a5ea6777e608a57fef2c3f6",
+      "exactSourceExcerpts": [
+        {
+          "first": 9,
+          "last": 15,
+          "lines": [
+            "        if x>=h:",
+            "            x = h",
+            "        elif x>= w:",
+            "            x = w",
+            "        else:",
+            "            nonAscending = False",
+            "            break"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+      "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+      "originalInputHash": "ace5add0bbd6e73069f7f361158d049a7e0de7b7c3b76c153d5f613057306c70",
+      "originalTimeout": false,
+      "reason": "lines 9-12 prefer h over the maximal fitting side Expected derivation: Greedy: first height = max(w1,h1); each next height = largest side <= previous height; if neither side fits -> NO, else YES. Test 0005: greedy heights 706794178, 641644550, 406274173, 345348548, 241724251, 213953908, 185314264, 152702033, 105991807, 61409204 -> YES. Source trace: x: 706794178 -> 641644550 -> 406274173 -> 345348548 -> 241724251 -> 213953908 -> 16672343 (h chosen though w=185314264 fits) -> (553496707,152702033) none <= x -> NO.",
+      "sourceHash": "2b8ced313bc376853447247bde7606321802ee4e76356f32b743af77ba161348",
+      "sourceRanges": [
+        [
+          9,
+          15
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/1008/submission/148066794",
       "test": "0005"
     }
   },
-  "incorrectAnalysis": {},
   "independentFreshRunHash": "1a2c6707954bbe1b7f149167e23e0d65b27e47c33c03d69fc75e529e27d485ba",
   "independentLFReplayHash": "380355b1f7ebca48b90d47e98f86cbc4d97de4e95a5ea6777e608a57fef2c3f6",
   "independentSemanticCheckHash": "94099564b14a0c57d54da639e16daf3d74e7f64e632e16668df72a97fcb239e7",
   "independentStressHash": "325d4575baf853dd756ce2bd090c41af2e91ed7d8ed47d8c633cc85e520ebef9",
+  "originalExecutionEvidenceHash": "bc146b91d402821658959be2327989a76ae375d8e9b0e2122df0930cf4b14be8",
   "packageHash": "40b9f71bd94f1cef60f0e69cdcff757c50e45e40be6e709bda99a4f34a2e0ff3",
   "qualificationBasis": "generated",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -143,26 +296,25 @@
         "AC": 8,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0007",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 11,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "ccca6c9bb5fdf4040c3360cabfb43d7cc788735e0b0253207d826c2b32f32255",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/1008/submission/138318991",
       "submissionId": "138318991",
       "testVerdicts": {
@@ -178,7 +330,11 @@
           "0007"
         ],
         "origin": "tests/0007",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+        "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+        "originalInputHash": "3eab8852ab5e18b4a6f6bfc5eb6ff47fbbb77630cdb8c4b64a5a7ac4c2af21ed",
+        "reason": "line 8 compares raw rec[a+1] with raw rec[a] instead of with the chosen previous height",
+        "selectedOriginalTest": "0007",
         "test": "lf-0007"
       }
     },
@@ -187,26 +343,25 @@
         "AC": 8,
         "WA": 12
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0007",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 12
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 12,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 12,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 10,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "eb5630cb75ad3ebed8807f9e575c9dc415e5c8ae46fece95f421a9bb38395744",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/1008/submission/141819080",
       "submissionId": "141819080",
       "testVerdicts": {
@@ -222,7 +377,11 @@
           "0007"
         ],
         "origin": "tests/0007",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+        "originalExpectedOutputHash": "4f1e37b4ecc384b4939c4a21fcf06548708ebd635a8494ab181b18625332a6e5",
+        "originalInputHash": "3eab8852ab5e18b4a6f6bfc5eb6ff47fbbb77630cdb8c4b64a5a7ac4c2af21ed",
+        "reason": "line 6 uses fixed `max(w,h)` from line 3; no update of the current height",
+        "selectedOriginalTest": "0007",
         "test": "lf-0007"
       }
     },
@@ -231,26 +390,25 @@
         "AC": 9,
         "WA": 3
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 3
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 3,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 3,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 2,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "096879afb5e5a98049d11112d6a4161cf5c5645ec08504e27347d1b7c4126753",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/1008/submission/145803410",
       "submissionId": "145803410",
       "testVerdicts": {
@@ -266,7 +424,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+        "originalInputHash": "ace5add0bbd6e73069f7f361158d049a7e0de7b7c3b76c153d5f613057306c70",
+        "reason": "line 8 `b = h` (should be max(w,h))",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     },
@@ -275,26 +437,25 @@
         "AC": 9,
         "WA": 6
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 6
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 6,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 6,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 5,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "bb64b76745760a5e7da338c30615358972206ef6d71a6ce36632a7386f57e181",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/1008/submission/147110972",
       "submissionId": "147110972",
       "testVerdicts": {
@@ -310,7 +471,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+        "originalInputHash": "ace5add0bbd6e73069f7f361158d049a7e0de7b7c3b76c153d5f613057306c70",
+        "reason": "lines 7-8 `min(x,y)` choice",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     },
@@ -319,26 +484,25 @@
         "AC": 9,
         "WA": 6
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0005",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 6
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 6,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 6,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 5,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "2b8ced313bc376853447247bde7606321802ee4e76356f32b743af77ba161348",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/1008/submission/148066794",
       "submissionId": "148066794",
       "testVerdicts": {
@@ -354,7 +518,11 @@
           "0005"
         ],
         "origin": "tests/0005",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "cfe72034a9f298fb79a6c1f2302673bb449c826d446b3efafdde95e6c48dc3ca",
+        "originalExpectedOutputHash": "1c26f033eaad3de797860ebf899ae5969130ab20e8e1c492678b4eedd4cc3005",
+        "originalInputHash": "ace5add0bbd6e73069f7f361158d049a7e0de7b7c3b76c153d5f613057306c70",
+        "reason": "lines 9-12 prefer h over the maximal fitting side",
+        "selectedOriginalTest": "0005",
         "test": "lf-0005"
       }
     }
@@ -362,14 +530,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 2,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 1,
+      "bytes": 387441,
+      "name": "batch1-source-semantics-review.json",
+      "sha256": "ca43961fef2540e778e5dfc2d517ba9ae59958c8198fecf0e801108165b0e722"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "74c7bf430332b29dd4a6577653edfb354e81a4b9ef0a5ead8ffedf00a239fb5b",
+  "sourceSemanticReviewPath": "source-review/proofs/1008B.json",
   "stressCases": 40,
-  "testPairs": 210,
-  "unconfirmedSourceIds": [
-    "138318991",
-    "141819080",
-    "145803410",
-    "147110972",
-    "148066794"
-  ]
+  "testPairs": 210
 }

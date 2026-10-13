@@ -1,6 +1,6 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
+  "algorithmicIncorrectKilled": 4,
   "approved": false,
   "checks": {
     "coverage": true,
@@ -12,16 +12,175 @@
     "sourceAttribution": true
   },
   "evidenceHash": "dc83b3af6b703686028a2c0db2da81ab7dab14aa9b1512db4a17230fb81e12e6",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "105263762": {
+      "LFActualOutputHash": "6169555d9248be7e184f52250129b0d66c9932af74f4ac7bc716c20013fca362",
+      "LFExpectedOutputHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+      "LFInputHash": "f224cedcd9e504fb032cc4b28032ba405af5bca835e3f1fd5ceafb39139fb199",
+      "LFProofHash": "987baee2e6db0ee99cb829f52b91b0784e7aeda197f8725946bafb509b880f07",
+      "exactSourceExcerpts": [
+        {
+          "first": 11,
+          "last": 24,
+          "lines": [
+            "    for j in range(k,n):",
+            "        ",
+            "        if x[t]!=lst[j]:",
+            "            # print(x[t])",
+            "            c+=1",
+            "        ",
+            "        t+=1",
+            "        if t==k:",
+            "            t=0",
+            "    x1=lst.count(2)",
+            "    x2=lst.count(1)",
+            "    v=[x1,x2,c]",
+            "    v.sort()",
+            "    print(v[0])"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "6169555d9248be7e184f52250129b0d66c9932af74f4ac7bc716c20013fca362",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+      "originalInputHash": "7b0d34c13b5daece954643ec0aebb6e6572c41700c21749fa756d2aa36dca419",
+      "originalTimeout": false,
+      "reason": "Minimizes only three candidate patterns; the optimal independently chosen majority for each residue may be none of those. Expected derivation: Each of the two residue classes must be constant independently. Per-column counts in the bound100-element input give minorities summing5; choosing the majority in each column gives5 changes. Source trace: Initial period is[2,2]. c equals the total number of ones; x1 counts all twos, x2 all ones. Their minimum is49, so it outputs49 instead of independently selecting a mixed period.",
+      "sourceHash": "c0cb4f57e759344889602d4ddebed6cee6136a284a3d9135d1c7bd8e746492a1",
+      "sourceRanges": [
+        [
+          11,
+          24
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/371/submission/105263762",
+      "test": "0018"
+    },
+    "121431883": {
+      "LFActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "LFExpectedOutputHash": "2c624232cdd221771294dfbb310aca000a0df6ac8b66b696d90ef06fdefb64a3",
+      "LFInputHash": "8afc1bb9e69fe4c9410b125cfdd1022a42a8a0950a7d812fb0de4fed767ab20b",
+      "LFProofHash": "987baee2e6db0ee99cb829f52b91b0784e7aeda197f8725946bafb509b880f07",
+      "exactSourceExcerpts": [
+        {
+          "first": 14,
+          "last": 19,
+          "lines": [
+            "    if i in seen and seen[i] != num:",
+            "        ans[i] = 1",
+            "    else:",
+            "        seen[i] = num",
+            "",
+            "print(sum(ans))"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "e0c18a6a8d48da87994c100bbb324c758d413e95f0fa5135bd0738a692b4d56f",
+      "originalInputHash": "997590c184929fbd90aa37b4545090fcc2cb6f16b5c0557732fa1c1cd6b2dfe2",
+      "originalTimeout": false,
+      "reason": "ans[i]=1 is just a boolean for a mixed class; it fails to count every required minority-element change. Expected derivation: The only class has8 ones and92 twos, so the minimum changes is8. Source trace: seen[0]=1 from first element. A2 sets ans[0]=1; all subsequent mismatches keep overwriting1, so sum(ans)=1.",
+      "sourceHash": "dbbd50486f1ce48733a513c9946bd5ec5de0e9d75583911988c532544b4eff9e",
+      "sourceRanges": [
+        [
+          14,
+          19
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/371/submission/121431883",
+      "test": "0007"
+    },
+    "86087892": {
+      "LFActualOutputHash": "4b9258d432ecb4511cfe5471a58f3feea9e8aa513e1d32294894693827d3b0d4",
+      "LFExpectedOutputHash": "2c624232cdd221771294dfbb310aca000a0df6ac8b66b696d90ef06fdefb64a3",
+      "LFInputHash": "8afc1bb9e69fe4c9410b125cfdd1022a42a8a0950a7d812fb0de4fed767ab20b",
+      "LFProofHash": "987baee2e6db0ee99cb829f52b91b0784e7aeda197f8725946bafb509b880f07",
+      "exactSourceExcerpts": [
+        {
+          "first": 32,
+          "last": 33,
+          "lines": [
+            "\tif one_cnt != 0 and two_cnt != 0: # a change needs to be made",
+            "\t\tchanges += abs(one_cnt - two_cnt)"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "4b9258d432ecb4511cfe5471a58f3feea9e8aa513e1d32294894693827d3b0d4",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "e0c18a6a8d48da87994c100bbb324c758d413e95f0fa5135bd0738a692b4d56f",
+      "originalInputHash": "997590c184929fbd90aa37b4545090fcc2cb6f16b5c0557732fa1c1cd6b2dfe2",
+      "originalTimeout": false,
+      "reason": "Adds abs(one_cnt-two_cnt) instead of min(one_cnt,two_cnt) for mixed columns. Expected derivation: With k=1 the whole array must be constant. Eight ones and92 twos require changing8 ones, answer8. Source trace: The single column has one_cnt=8,two_cnt=92, so changes=abs(8-92)=84.",
+      "sourceHash": "5b61444ce0440519bce6ec91db628a0e9d3de00f58c396ede0257f22e6475f2c",
+      "sourceRanges": [
+        [
+          32,
+          33
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/371/submission/86087892",
+      "test": "0007"
+    },
+    "86136201": {
+      "LFActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "LFExpectedOutputHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "LFInputHash": "94a5dd60e7f4c5111df65c4723f7a0f548df7b71c8b69893b41d908f63d38b25",
+      "LFProofHash": "987baee2e6db0ee99cb829f52b91b0784e7aeda197f8725946bafb509b880f07",
+      "exactSourceExcerpts": [
+        {
+          "first": 33,
+          "last": 44,
+          "lines": [
+            "check = True",
+            "for lists in master:",
+            "\tif count(master, lists) > 1:",
+            "\t\tcheck = False",
+            "",
+            "answer = 0",
+            "",
+            "if check ==True:",
+            "\treference = common(a)",
+            "\tfor i in a:",
+            "\t\tif i != reference:",
+            "\t\t\tanswer += 1"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "originalInputHash": "2422d417b44f0551d9a3ee0aa9591a68e0455a4665ba06cb638f1ba7c6cea886",
+      "originalTimeout": false,
+      "reason": "When blocks have no duplicates it forces a constant array, though each residue class may have its own value. Expected derivation: n=k=2: the entire array [2,1] is already one full period, so0 changes. Source trace: master=[['2','1']]; its count is1 so check=True. common(a) chooses '1' on a tie. The element '2' differs, so answer=1.",
+      "sourceHash": "b12598246e2b229928638088ab63d3a664d3a981c789b4fdd673c2331eb14a17",
+      "sourceRanges": [
+        [
+          33,
+          44
+        ]
+      ],
+      "sourceReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
+      "sourceUrl": "https://codeforces.com/contest/371/submission/86136201",
+      "test": "0009"
+    }
+  },
   "independentFreshRunHash": "b644cc3b20a6e961ac0a43300e35bb3ecbcf203382f619822d290437bb7dfeda",
   "independentLFReplayHash": "987baee2e6db0ee99cb829f52b91b0784e7aeda197f8725946bafb509b880f07",
   "independentSemanticCheckHash": "60932ea27e7f0740b6e108f625e5a8f23d2de83b7b0b6da52f7be1741c2a78e5",
   "independentStressHash": "644f170fbc8aad7c03611d043600c9aa8ecf4889704798f8bd1f4460d4463618",
+  "originalExecutionEvidenceHash": "dc83b3af6b703686028a2c0db2da81ab7dab14aa9b1512db4a17230fb81e12e6",
   "packageHash": "d785ab0eac33bf96ce2b92d7f16526dd1e63f482bcad2093473f6ba64233941d",
   "qualificationBasis": "official",
   "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
+    "95556018: reviewer-reject; no-identical-normal-original-package-execution"
   ],
   "references": [
     {
@@ -109,26 +268,25 @@
         "AC": 7,
         "WA": 16
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0007",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 16
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 16,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 16,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "5b61444ce0440519bce6ec91db628a0e9d3de00f58c396ede0257f22e6475f2c",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/371/submission/86087892",
       "submissionId": "86087892",
       "testVerdicts": {
@@ -144,7 +302,11 @@
           "0007"
         ],
         "origin": "tests/0007",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4b9258d432ecb4511cfe5471a58f3feea9e8aa513e1d32294894693827d3b0d4",
+        "originalExpectedOutputHash": "e0c18a6a8d48da87994c100bbb324c758d413e95f0fa5135bd0738a692b4d56f",
+        "originalInputHash": "997590c184929fbd90aa37b4545090fcc2cb6f16b5c0557732fa1c1cd6b2dfe2",
+        "reason": "Adds abs(one_cnt-two_cnt) instead of min(one_cnt,two_cnt) for mixed columns.",
+        "selectedOriginalTest": "0007",
         "test": "lf-0007"
       }
     },
@@ -153,26 +315,25 @@
         "AC": 6,
         "WA": 16
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0009",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 16
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 16,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 16,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "b12598246e2b229928638088ab63d3a664d3a981c789b4fdd673c2331eb14a17",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/371/submission/86136201",
       "submissionId": "86136201",
       "testVerdicts": {
@@ -188,7 +349,11 @@
           "0009"
         ],
         "origin": "tests/0009",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "originalExpectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+        "originalInputHash": "2422d417b44f0551d9a3ee0aa9591a68e0455a4665ba06cb638f1ba7c6cea886",
+        "reason": "When blocks have no duplicates it forces a constant array, though each residue class may have its own value.",
+        "selectedOriginalTest": "0009",
         "test": "lf-0009"
       }
     },
@@ -201,21 +366,24 @@
       "builderFailedTest": "0001",
       "builderFailureAlgorithmicallyProven": false,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 23
+        "source-reviewed defect with included normal-exit wrong answer": 0
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
+      "exclusionReason": "reviewer-reject; no-identical-normal-original-package-execution: {'CRLF': 'The executed selected input is verified LF only; no carriage returns are present. Package CRLF relationships are recorded separately and do not create the selected defect.', 'countOrHeaderOmission': 'No pass is based only on a missing count/header. Where the task asks a count/value, a wrong computed count/result variable is demonstrated; list-layout differences are ignored.', 'debugOrPromptOutput': 'The substantive wrong result is traced; unrelated diagnostic/prompt text is not used to establish the defect.', 'entrypointLanguageCrashTimeout': 'Python3 is recorded and an exact matching normal execution record has exitCode0, timeoutFalse, WA and actual-output hash. Complete source has active top-level/main logic; for 7274102 its candidate search runs and falsely finds no match, not an absent entrypoint.', 'placeholderOrUnrelated': 'REJECT: complete source is an alphabet dial algorithm, not K-periodic-array logic. Numeric21 vs1 alone does not qualify it.', 'presentationAndEquivalentNotation': 'Only the mathematical answer/selected candidate/count is compared after ignoring whitespace and equivalent numeric notation. The expected derivation and actual branch trace explain distinct values/decisions, not a generic numeric inequality classifier.', 'sourceSpecificCausality': \"There is no k-periodic-array logic, no parsed n/k, and no read of the array. This is unrelated code and cannot qualify as a wrong implementation. It reads only '6 2'. Dial character distances are9 ('a' to '6' modulo26),4 ('6' to space),8 (space to '2'), sum21. The executed21 is evidence of an unrelated program, not qualifying algorithmic WA.\"}",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 23,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 23,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-semantics-reject",
       "packageWitnessCount": 13,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "b5e8789160803c2c280401885bf5636e6b068a71ea74c5a4e748f248b14c729f",
+      "sourceSemanticExclusionReasons": [
+        "reviewer-reject",
+        "no-identical-normal-original-package-execution"
+      ],
+      "sourceSemanticReviewStatus": "reject",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/371/submission/95556018",
       "submissionId": "95556018",
       "testVerdicts": {
@@ -240,26 +408,25 @@
         "AC": 9,
         "WA": 11
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0018",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 11
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 11,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 11,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 10,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "c0cb4f57e759344889602d4ddebed6cee6136a284a3d9135d1c7bd8e746492a1",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/371/submission/105263762",
       "submissionId": "105263762",
       "testVerdicts": {
@@ -275,7 +442,11 @@
           "0018"
         ],
         "origin": "tests/0018",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "6169555d9248be7e184f52250129b0d66c9932af74f4ac7bc716c20013fca362",
+        "originalExpectedOutputHash": "7fb2aaeaf3eef66b52db104118c30f62899f5f0df520350a94a8fcb843c0dfdf",
+        "originalInputHash": "7b0d34c13b5daece954643ec0aebb6e6572c41700c21749fa756d2aa36dca419",
+        "reason": "Minimizes only three candidate patterns; the optimal independently chosen majority for each residue may be none of those.",
+        "selectedOriginalTest": "0018",
         "test": "lf-0018"
       }
     },
@@ -284,26 +455,25 @@
         "AC": 7,
         "WA": 16
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0007",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 16
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 16,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 16,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "dbbd50486f1ce48733a513c9946bd5ec5de0e9d75583911988c532544b4eff9e",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-af0186f1813747d5a199c6ef7df831c2",
       "sourceUrl": "https://codeforces.com/contest/371/submission/121431883",
       "submissionId": "121431883",
       "testVerdicts": {
@@ -319,7 +489,11 @@
           "0007"
         ],
         "origin": "tests/0007",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "originalExpectedOutputHash": "e0c18a6a8d48da87994c100bbb324c758d413e95f0fa5135bd0738a692b4d56f",
+        "originalInputHash": "997590c184929fbd90aa37b4545090fcc2cb6f16b5c0557732fa1c1cd6b2dfe2",
+        "reason": "ans[i]=1 is just a boolean for a mixed class; it fails to count every required minority-element change.",
+        "selectedOriginalTest": "0007",
         "test": "lf-0007"
       }
     }
@@ -327,14 +501,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 3,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 2,
+      "bytes": 816646,
+      "name": "batch-2-source-semantics-review.json",
+      "sha256": "37ab4aefa3b89e88955bddd18c024454d0b0b929d93e2f380e20f499ef9f0612"
+    }
+  ],
+  "sourceReviewStatus": "reject",
+  "sourceSemanticReviewHash": "17ff99d400e54619af5a7a95689f274970ba5a09de80916d269836ac42a49a76",
+  "sourceSemanticReviewPath": "source-review/proofs/371A.json",
   "stressCases": 40,
-  "testPairs": 87,
-  "unconfirmedSourceIds": [
-    "86087892",
-    "86136201",
-    "95556018",
-    "105263762",
-    "121431883"
-  ]
+  "testPairs": 87
 }

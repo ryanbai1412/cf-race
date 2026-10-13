@@ -1,62 +1,220 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
-    "algorithmicallyWrong": false,
+    "algorithmicallyWrong": true,
     "coverage": true,
     "deterministicGeneration": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "generatedBasis": true,
     "hashes": true,
     "independentOracle": true,
     "inputConstraints": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "b5ef9a5d0f0d0a250be7ad6b66e5b746ace734d24b4cd61cc7475c736db389b1",
   "generatedQualificationHash": "41fa0fb38fe4e56dcc1ce6f6f7cd144486130a0c3052fafc62f7d2e73330ea55",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
-  "historicalIncorrectAnalysis": {
+  "incorrectAnalysis": {
     "10347338": {
+      "LFActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "LFExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "LFInputHash": "4ebb780c55b8740dc61ee5a642ff281feec5757b2dba1baef5c8165fa0f0146e",
+      "LFProofHash": "616722bbd8b5a15f79fd9fe4279abcbfae4488d510f83bd945468a68cdc4e631",
+      "exactSourceExcerpts": [
+        {
+          "first": 14,
+          "last": 20,
+          "lines": [
+            "for i in range(1,101):",
+            "    if d[i]==4:",
+            "        n4=n4+1",
+            "    elif d[i]==2 or d[i]==3:",
+            "        n2=n2+1",
+            "",
+            "print(n4+(n2//2))"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "originalInputHash": "c3239e9f2119dc451d657e0e0541d2665f386c34227e3fc8bf15e270f713ad62",
+      "originalTimeout": false,
+      "reason": "line 15 `d[i]==4` and line 17 `d[i]==2 or d[i]==3` ignore counts >=5 Expected derivation: Each frame needs two pairs of equal sticks (square uses two pairs of the same length). Answer = (sum over lengths of floor(count/2)) // 2. counts {1:2,2:3,3:2,4:5,5:1,6:1} -> 5 pairs -> 2. Source trace: n4=0 (no count exactly 4); n2: lengths 1,2,3 -> 3; prints 0+3//2=1.",
+      "sourceHash": "7480a619b04c3d51580f01670ea0551c597095a2159e9201d9672119ab0287db",
+      "sourceRanges": [
+        [
+          14,
+          20
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/127/submission/10347338",
       "test": "0006"
     },
     "38907404": {
+      "LFActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "LFExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "LFInputHash": "f93b68d004fa60324c62cb5e3ba5989af21e82bc68b9f22b6b9f41e47a2973d4",
+      "LFProofHash": "616722bbd8b5a15f79fd9fe4279abcbfae4488d510f83bd945468a68cdc4e631",
+      "exactSourceExcerpts": [
+        {
+          "first": 8,
+          "last": 17,
+          "lines": [
+            "    if(hm[i]>=4):",
+            "        c+=hm[i]//4",
+            "        hm[i]-=c*hm[i]",
+            "    elif(hm[i]>=2):",
+            "        for j in range(i+1,110):",
+            "            if(hm[j]>=2 and hm[j]<4):",
+            "                c+=1",
+            "                hm[i]-=2",
+            "                hm[j]-=2",
+            "                break"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "originalInputHash": "9f8fe122716d11826af56a2066bb33f4d32a0f76e457370018ffa9d0528a54a7",
+      "originalTimeout": false,
+      "reason": "line 9 `c+=hm[i]//4`, line 10 `hm[i]-=c*hm[i]`, line 13 `hm[j]>=2 and hm[j]<4` Expected derivation: Each frame needs two pairs of equal sticks (square uses two pairs of the same length). Answer = (sum over lengths of floor(count/2)) // 2. lengths 1 x2, 2 x6 -> pairs 1+3=4 -> 2. Source trace: i=1: hm=2, search j>1 with 2<=hm[j]<4: hm[2]=6 rejected -> nothing; i=2: 6>=4 -> c=1, hm[2]=0; prints 1.",
+      "sourceHash": "dc874fc22816ace8021bbe3fd58a053095d68f4326b176ca1a308d87c12b1893",
+      "sourceRanges": [
+        [
+          8,
+          17
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/127/submission/38907404",
       "test": "0041"
     },
     "39725484": {
+      "LFActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "LFExpectedOutputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "LFInputHash": "d7cb7fe663d683713b2bcc99373de6371219b472d59cee04a92cb98406d6c634",
+      "LFProofHash": "616722bbd8b5a15f79fd9fe4279abcbfae4488d510f83bd945468a68cdc4e631",
+      "exactSourceExcerpts": [
+        {
+          "first": 10,
+          "last": 17,
+          "lines": [
+            "for i in range(len(lista)):",
+            "    if (fill[i]>=4):",
+            "        four += fill[i]//4",
+            "        fill[i]=fill[i]%4",
+            "    if(fill[i]>=2):",
+            "        two+=fill[i]//2",
+            "        fill[i]=fill[i]%2",
+            "print(four+two//2)"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "originalInputHash": "cdd79351d0d56ac69631b910c3a70dd158f5c4a0c3d346870c30da6be2ff610a",
+      "originalTimeout": false,
+      "reason": "line 10 `for i in range(len(lista))` (wrong index domain) Expected derivation: Each frame needs two pairs of equal sticks (square uses two pairs of the same length). Answer = (sum over lengths of floor(count/2)) // 2. 1 100 1 100: one pair of 1, one pair of 100 -> 1 frame. Source trace: fill[1]=2, fill[100]=2; loop i=0..3 sees only fill[1] -> two=1; length 100 never visited; prints 0+1//2=0.",
+      "sourceHash": "ee82d8c8d7ff8c371bf36e4b209438b1a3d84b3a27de4b0ed5c93e6456363358",
+      "sourceRanges": [
+        [
+          10,
+          17
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/127/submission/39725484",
       "test": "0016"
     },
     "39725933": {
+      "LFActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "LFExpectedOutputHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "LFInputHash": "5fbc271f2e1b910e37bea96133fc94daf0093e98664559b22d22c09d73a155d7",
+      "LFProofHash": "616722bbd8b5a15f79fd9fe4279abcbfae4488d510f83bd945468a68cdc4e631",
+      "exactSourceExcerpts": [
+        {
+          "first": 7,
+          "last": 7,
+          "lines": [
+            "print((int)(sum([x/2 for x in daa.values()])//2))"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "originalInputHash": "15d721be7cbefb65298249469ea9ab56911e8aa319446b19e6959625062bf09b",
+      "originalTimeout": false,
+      "reason": "line 7 `x/2` (should be x//2) Expected derivation: Each frame needs two pairs of equal sticks (square uses two pairs of the same length). Answer = (sum over lengths of floor(count/2)) // 2. 3 3 3 5: one pair of 3 -> 0 frames. Source trace: values {3:3,5:1}: 1.5+0.5=2.0; 2.0//2=1.0 -> int -> prints 1.",
+      "sourceHash": "02a4f0d0ffdc9d881ed017c245a297229a1fcbeeb131b29c925e7f1e72ea0df7",
+      "sourceRanges": [
+        [
+          7,
+          7
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/127/submission/39725933",
       "test": "0003"
     },
     "4370661": {
+      "LFActualOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "LFExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "LFInputHash": "4ebb780c55b8740dc61ee5a642ff281feec5757b2dba1baef5c8165fa0f0146e",
+      "LFProofHash": "616722bbd8b5a15f79fd9fe4279abcbfae4488d510f83bd945468a68cdc4e631",
+      "exactSourceExcerpts": [
+        {
+          "first": 14,
+          "last": 19,
+          "lines": [
+            "while i < len(counts)-1:",
+            "    if counts[i] >= 4:",
+            "        cnt += counts[i]//2",
+            "    elif counts[i] >= 2 and counts[i+1] >= 2:",
+            "        cnt += min(counts[i], counts[i+1])//2",
+            "    i += 2"
+          ]
+        }
+      ],
       "kind": "wrong-answer",
-      "reason": "computed numeric answer differs from independent mathematical oracle",
+      "originalActualOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "originalInputHash": "c3239e9f2119dc451d657e0e0541d2665f386c34227e3fc8bf15e270f713ad62",
+      "originalTimeout": false,
+      "reason": "line 16 `cnt += counts[i]//2` (pairs counted as frames) and lines 17-19 adjacent-pairing with step 2 Expected derivation: Each frame needs two pairs of equal sticks (square uses two pairs of the same length). Answer = (sum over lengths of floor(count/2)) // 2. counts {1:2,2:3,3:2,4:5,5:1,6:1}: pairs 1+1+1+2=5 -> 2 frames. Source trace: counts sorted [5,3,2,2,1,1]; i=0: 5>=4 -> cnt=2; i=2: 2,2 -> cnt=3; i=4: none; prints 3.",
+      "sourceHash": "f840488d305e6a914e0cd7678cf5d23d7be9aaad9af0c66c18c8362e874b0070",
+      "sourceRanges": [
+        [
+          14,
+          19
+        ]
+      ],
+      "sourceReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
+      "sourceUrl": "https://codeforces.com/contest/127/submission/4370661",
       "test": "0006"
     }
   },
-  "incorrectAnalysis": {},
   "independentFreshRunHash": "8b87adf632ac4fbea530ea8c7fa7cac41bf40e4afdb4653551b3818a233ca2df",
   "independentLFReplayHash": "616722bbd8b5a15f79fd9fe4279abcbfae4488d510f83bd945468a68cdc4e631",
   "independentSemanticCheckHash": "cea506e5ff88ffe704eecb234e6485f66d63df5221fa9e5a736430714238f4e7",
   "independentStressHash": "a49371d05c664a0d7683c8da2fbd91f4cab25fd06c336e795958f709454f8fd6",
+  "originalExecutionEvidenceHash": "b5ef9a5d0f0d0a250be7ad6b66e5b746ace734d24b4cd61cc7475c736db389b1",
   "packageHash": "dd4ed6a24def75a5e7f524373d5d0a0bea8b2018036acb512b13a19f7a9e6ee8",
   "qualificationBasis": "generated",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -143,26 +301,25 @@
         "AC": 6,
         "WA": 17
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0006",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 17
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 17,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 17,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "f840488d305e6a914e0cd7678cf5d23d7be9aaad9af0c66c18c8362e874b0070",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/127/submission/4370661",
       "submissionId": "4370661",
       "testVerdicts": {
@@ -178,7 +335,11 @@
           "0006"
         ],
         "origin": "tests/0006",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+        "originalExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+        "originalInputHash": "c3239e9f2119dc451d657e0e0541d2665f386c34227e3fc8bf15e270f713ad62",
+        "reason": "line 16 `cnt += counts[i]//2` (pairs counted as frames) and lines 17-19 adjacent-pairing with step 2",
+        "selectedOriginalTest": "0006",
         "test": "lf-0006"
       }
     },
@@ -187,26 +348,25 @@
         "AC": 8,
         "WA": 15
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0006",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 15
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 15,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 15,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "7480a619b04c3d51580f01670ea0551c597095a2159e9201d9672119ab0287db",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/127/submission/10347338",
       "submissionId": "10347338",
       "testVerdicts": {
@@ -222,7 +382,11 @@
           "0006"
         ],
         "origin": "tests/0006",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "originalExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+        "originalInputHash": "c3239e9f2119dc451d657e0e0541d2665f386c34227e3fc8bf15e270f713ad62",
+        "reason": "line 15 `d[i]==4` and line 17 `d[i]==2 or d[i]==3` ignore counts >=5",
+        "selectedOriginalTest": "0006",
         "test": "lf-0006"
       }
     },
@@ -231,26 +395,25 @@
         "AC": 10,
         "WA": 10
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0041",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 10
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 10,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 10,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 10,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "dc874fc22816ace8021bbe3fd58a053095d68f4326b176ca1a308d87c12b1893",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/127/submission/38907404",
       "submissionId": "38907404",
       "testVerdicts": {
@@ -266,7 +429,11 @@
           "0041"
         ],
         "origin": "tests/0041",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "originalExpectedOutputHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+        "originalInputHash": "9f8fe122716d11826af56a2066bb33f4d32a0f76e457370018ffa9d0528a54a7",
+        "reason": "line 9 `c+=hm[i]//4`, line 10 `hm[i]-=c*hm[i]`, line 13 `hm[j]>=2 and hm[j]<4`",
+        "selectedOriginalTest": "0041",
         "test": "lf-0041"
       }
     },
@@ -275,26 +442,25 @@
         "AC": 10,
         "WA": 12
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0016",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 12
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 12,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 12,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "ee82d8c8d7ff8c371bf36e4b209438b1a3d84b3a27de4b0ed5c93e6456363358",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/127/submission/39725484",
       "submissionId": "39725484",
       "testVerdicts": {
@@ -310,7 +476,11 @@
           "0016"
         ],
         "origin": "tests/0016",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "originalExpectedOutputHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "originalInputHash": "cdd79351d0d56ac69631b910c3a70dd158f5c4a0c3d346870c30da6be2ff610a",
+        "reason": "line 10 `for i in range(len(lista))` (wrong index domain)",
+        "selectedOriginalTest": "0016",
         "test": "lf-0016"
       }
     },
@@ -319,26 +489,25 @@
         "AC": 2,
         "WA": 20
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0003",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "computed numeric answer differs from independent mathematical oracle": 20
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 20,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 20,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "02a4f0d0ffdc9d881ed017c245a297229a1fcbeeb131b29c925e7f1e72ea0df7",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-0ea6b794d36b4e6fa8837fe3172f511f",
       "sourceUrl": "https://codeforces.com/contest/127/submission/39725933",
       "submissionId": "39725933",
       "testVerdicts": {
@@ -354,7 +523,11 @@
           "0003"
         ],
         "origin": "tests/0003",
-        "reason": "computed numeric answer differs from independent mathematical oracle",
+        "originalActualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "originalExpectedOutputHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "originalInputHash": "15d721be7cbefb65298249469ea9ab56911e8aa319446b19e6959625062bf09b",
+        "reason": "line 7 `x/2` (should be x//2)",
+        "selectedOriginalTest": "0003",
         "test": "lf-0003"
       }
     }
@@ -362,14 +535,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 3,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 1,
+      "bytes": 387441,
+      "name": "batch1-source-semantics-review.json",
+      "sha256": "ca43961fef2540e778e5dfc2d517ba9ae59958c8198fecf0e801108165b0e722"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "b734cbdf18ff9b9eca48b8fdc491616960fbdd7b4f918a78f8fd6230693c5b97",
+  "sourceSemanticReviewPath": "source-review/proofs/127B.json",
   "stressCases": 40,
-  "testPairs": 281,
-  "unconfirmedSourceIds": [
-    "4370661",
-    "10347338",
-    "38907404",
-    "39725484",
-    "39725933"
-  ]
+  "testPairs": 281
 }

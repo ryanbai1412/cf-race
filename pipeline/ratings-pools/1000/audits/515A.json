@@ -1,28 +1,197 @@
 {
   "acceptedPassed": 5,
-  "algorithmicIncorrectKilled": 0,
-  "approved": false,
+  "algorithmicIncorrectKilled": 5,
+  "approved": true,
   "checks": {
     "coverage": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "hashes": true,
     "noSpecialChecker": true,
-    "sourceAlgorithmSemantics": false,
+    "sourceAlgorithmSemantics": true,
     "sourceAttribution": true
   },
   "evidenceHash": "6f303b69fe331c8fa0e05e67bd3368401ef98cf1b0c113ce1a0e2aa6abdc5252",
-  "historicalAlgorithmicIncorrectKilled": 5,
-  "historicalGateApproved": true,
+  "incorrectAnalysis": {
+    "75217007": {
+      "LFActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "LFExpectedOutputHash": "1ea442a134b2a184bd5d40104401f2a37fbc09ccf3f4bc9da161c6099be3691d",
+      "LFInputHash": "6675fa7c929361ea720c50e4c3d2663b7d39d8ddd10e9a329eef76667b0528f0",
+      "LFProofHash": "8523afcaf3b8258a8b344ccbe66b9805c26e73371a4be0ae60f687283c76d2dc",
+      "exactSourceExcerpts": [
+        {
+          "first": 7,
+          "last": 10,
+          "lines": [
+            "if a+b>s or (s-a-b)%2 == 1:",
+            "\tprint(\"NO\")",
+            "else:",
+            "\tprint(\"YES\")"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "193050346fd34a6daa994a51c19bf0e2bbdec20a4465e3fd6ae2fdd4d3b5a6e9",
+      "originalInputHash": "8f0c708e8e60393d4ec451f1bf148e51fc54e3bfd03daa7edc660b9bf84afec1",
+      "originalTimeout": false,
+      "reason": "Uses a+b as the distance instead of abs(a)+abs(b), allowing cancellation between negative and positive coordinates. Expected derivation: Coordinates are within +/-10^9; s=725111473<=2*10^9. Manhattan distance is 453961301+271150176=725111477, four more than s. No s-step path can reach the target. Source trace: Signed a+b=-182811125 does not exceed s; s-a-b=907922598 is even. Both rejection predicates are false, so YES is printed.",
+      "sourceHash": "4dba584dd841bb1831405bdf711d06826e646e560ba4db90c369f62d2e6e4a17",
+      "sourceRanges": [
+        [
+          7,
+          10
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/515/submission/75217007",
+      "test": "0009"
+    },
+    "75219078": {
+      "LFActualOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+      "LFExpectedOutputHash": "1ea442a134b2a184bd5d40104401f2a37fbc09ccf3f4bc9da161c6099be3691d",
+      "LFInputHash": "6675fa7c929361ea720c50e4c3d2663b7d39d8ddd10e9a329eef76667b0528f0",
+      "LFProofHash": "8523afcaf3b8258a8b344ccbe66b9805c26e73371a4be0ae60f687283c76d2dc",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 4,
+          "lines": [
+            "s1 = a+b-1",
+            "if s1<=s and s1%2!=s%2:",
+            "    print(\"Yes\")"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "193050346fd34a6daa994a51c19bf0e2bbdec20a4465e3fd6ae2fdd4d3b5a6e9",
+      "originalInputHash": "8f0c708e8e60393d4ec451f1bf148e51fc54e3bfd03daa7edc660b9bf84afec1",
+      "originalTimeout": false,
+      "reason": "s1=a+b-1 uses signed rather than Manhattan distance; the parity transform cannot repair this missing absolute-value bound. Expected derivation: Manhattan distance 725111477 exceeds s=725111473 by4. Valid coordinates/step bounds; no route of s steps exists. Source trace: s1=-182811126<=725111473; Python s1%2=0 differs from s%2=1. The conjunction is true and Yes is printed.",
+      "sourceHash": "6c7841d401d2ed1af073d06c9dcef9e63e506b3b095be2957ac9fb2d2257f46a",
+      "sourceRanges": [
+        [
+          2,
+          4
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/515/submission/75219078",
+      "test": "0009"
+    },
+    "75285648": {
+      "LFActualOutputHash": "31375587f8bedb1f33f6eca3d8cee94ab70845a6dd1a7c7eeb929f4aa7dc10ab",
+      "LFExpectedOutputHash": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+      "LFInputHash": "b65bd4beabefa893473304664ca2a4b650db1db691be8612c005dd4740aae7ee",
+      "LFProofHash": "8523afcaf3b8258a8b344ccbe66b9805c26e73371a4be0ae60f687283c76d2dc",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 2,
+          "lines": [
+            "if a+b % 2 == s % 2 and s >= a + b: print(\"Yes\")"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "31375587f8bedb1f33f6eca3d8cee94ab70845a6dd1a7c7eeb929f4aa7dc10ab",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "97f9973acffcd86691239b33272f810880ca14c4476a24e88abdf294518cbc65",
+      "originalInputHash": "53e0b2223d688c2b2e8ba3a487303ed8933d312edeeed49d89da19d975b2ace1",
+      "originalTimeout": false,
+      "reason": "a+b%2 parses as a+(b%2), not (a+b)%2, so it compares a generally large integer to s%2. Expected derivation: For positive coordinates (10,15), distance is25. Exactly25 moves (10 right,15 up) reach the target, so YES. Source trace: b%2=1, so a+b%2=11 while s%2=1. First comparison is false; source prints No despite s>=a+b being true.",
+      "sourceHash": "e44244010db2db7b2fa8cc823dc64ff0a2508bba77f9303c918804bfe95b8f4b",
+      "sourceRanges": [
+        [
+          2,
+          2
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/515/submission/75285648",
+      "test": "0002"
+    },
+    "75286266": {
+      "LFActualOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+      "LFExpectedOutputHash": "1ea442a134b2a184bd5d40104401f2a37fbc09ccf3f4bc9da161c6099be3691d",
+      "LFInputHash": "6675fa7c929361ea720c50e4c3d2663b7d39d8ddd10e9a329eef76667b0528f0",
+      "LFProofHash": "8523afcaf3b8258a8b344ccbe66b9805c26e73371a4be0ae60f687283c76d2dc",
+      "exactSourceExcerpts": [
+        {
+          "first": 2,
+          "last": 2,
+          "lines": [
+            "if s >= a + b and (a+b)%2== s%2: print(\"Yes\")"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "193050346fd34a6daa994a51c19bf0e2bbdec20a4465e3fd6ae2fdd4d3b5a6e9",
+      "originalInputHash": "8f0c708e8e60393d4ec451f1bf148e51fc54e3bfd03daa7edc660b9bf84afec1",
+      "originalTimeout": false,
+      "reason": "s>=a+b uses signed sum, not abs(a)+abs(b). Expected derivation: Distance is725111477 while only725111473 moves are available, so NO; all input bounds hold. Source trace: s>=-182811125 is true and (-182811125)%2=1=s%2. The conjunction accepts and prints Yes.",
+      "sourceHash": "c4946929da7db60da42a310013b8c0b8dde07491638e2b424c466879360d5dfc",
+      "sourceRanges": [
+        [
+          2,
+          2
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/515/submission/75286266",
+      "test": "0009"
+    },
+    "75319847": {
+      "LFActualOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+      "LFExpectedOutputHash": "1ea442a134b2a184bd5d40104401f2a37fbc09ccf3f4bc9da161c6099be3691d",
+      "LFInputHash": "d6014613c4b5113943b62f362deb1ede0e1ed2c77e378d760c9ed9be74d6fccb",
+      "LFProofHash": "8523afcaf3b8258a8b344ccbe66b9805c26e73371a4be0ae60f687283c76d2dc",
+      "exactSourceExcerpts": [
+        {
+          "first": 26,
+          "last": 31,
+          "lines": [
+            "if s % 2 == 0:",
+            "    if(a + b) % 2 == 1:",
+            "        if (a + b) > s:",
+            "            print(\"No\")",
+            "        else:",
+            "            print(\"Yes\")"
+          ]
+        }
+      ],
+      "kind": "wrong-answer",
+      "originalActualOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+      "originalExitCode": 0,
+      "originalExpectedOutputHash": "193050346fd34a6daa994a51c19bf0e2bbdec20a4465e3fd6ae2fdd4d3b5a6e9",
+      "originalInputHash": "83bec8f3ac52385f20faea85ed5249ed23b422bef8e0f7ef5e4d583f4a8c3fe8",
+      "originalTimeout": false,
+      "reason": "For even s and odd a+b it prints Yes when a+b<=s despite parity mismatch; all distance branches also omit absolute values. Expected derivation: For (-606037695,998320124), Manhattan distance=1604357819 is odd and exceeds even s=820674098. Either distance or parity proves impossibility. Source trace: s is even, a+b=392282429 is odd, and that signed sum<=820674098. Lines27..31 select the inner else and print Yes.",
+      "sourceHash": "4147e96142798a9cc98c7070ca6471ef9dfdef606f27251cef2724fde1c11203",
+      "sourceRanges": [
+        [
+          26,
+          31
+        ]
+      ],
+      "sourceReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
+      "sourceUrl": "https://codeforces.com/contest/515/submission/75319847",
+      "test": "0006"
+    }
+  },
   "independentFreshRunHash": "334e7d5085cb5afc4767ee5707357b1709bdd9cc43fdd3817088800db45dece2",
   "independentLFReplayHash": "8523afcaf3b8258a8b344ccbe66b9805c26e73371a4be0ae60f687283c76d2dc",
   "independentSemanticCheckHash": "b9503fe43b623cdae7df21241941c796185e1759d631f852d597f78ef13c91bb",
   "independentStressHash": "7bd5f4bcbf580069ab5e6ddef5f35525138bd555472dca7d5a12a3cee76d9f97",
+  "originalExecutionEvidenceHash": "6f303b69fe331c8fa0e05e67bd3368401ef98cf1b0c113ce1a0e2aa6abdc5252",
   "packageHash": "aaf5c70868f5c4e327ec20c2f067bbac3ffb0ba49071bcc23c91efc2c9ea3f08",
   "qualificationBasis": "official",
-  "reasons": [
-    "Source-specific algorithmic defect review is not established for selected wrong references; historical executable gate passage alone is insufficient. Approval held pending the source-semantics review queue."
-  ],
+  "reasons": [],
   "references": [
     {
       "algorithmicWrongAnswer": false,
@@ -109,26 +278,25 @@
         "AC": 10,
         "WA": 8
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0009",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 8
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 8,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 8,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 8,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "4dba584dd841bb1831405bdf711d06826e646e560ba4db90c369f62d2e6e4a17",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/515/submission/75217007",
       "submissionId": "75217007",
       "testVerdicts": {
@@ -144,7 +312,11 @@
           "0009"
         ],
         "origin": "tests/0009",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "a115e91c2e84c3078fa06914eff28d07590ddfaa47a55fb4f31dd7c5b3566194",
+        "originalExpectedOutputHash": "193050346fd34a6daa994a51c19bf0e2bbdec20a4465e3fd6ae2fdd4d3b5a6e9",
+        "originalInputHash": "8f0c708e8e60393d4ec451f1bf148e51fc54e3bfd03daa7edc660b9bf84afec1",
+        "reason": "Uses a+b as the distance instead of abs(a)+abs(b), allowing cancellation between negative and positive coordinates.",
+        "selectedOriginalTest": "0009",
         "test": "lf-0009"
       }
     },
@@ -153,26 +325,25 @@
         "AC": 10,
         "WA": 8
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0009",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 8
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 8,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 8,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 8,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "6c7841d401d2ed1af073d06c9dcef9e63e506b3b095be2957ac9fb2d2257f46a",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/515/submission/75219078",
       "submissionId": "75219078",
       "testVerdicts": {
@@ -188,7 +359,11 @@
           "0009"
         ],
         "origin": "tests/0009",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+        "originalExpectedOutputHash": "193050346fd34a6daa994a51c19bf0e2bbdec20a4465e3fd6ae2fdd4d3b5a6e9",
+        "originalInputHash": "8f0c708e8e60393d4ec451f1bf148e51fc54e3bfd03daa7edc660b9bf84afec1",
+        "reason": "s1=a+b-1 uses signed rather than Manhattan distance; the parity transform cannot repair this missing absolute-value bound.",
+        "selectedOriginalTest": "0009",
         "test": "lf-0009"
       }
     },
@@ -197,26 +372,25 @@
         "AC": 5,
         "WA": 17
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0002",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 17
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 17,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 17,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 13,
       "samplePassed": false,
       "sandboxCompiled": true,
       "sourceHash": "e44244010db2db7b2fa8cc823dc64ff0a2508bba77f9303c918804bfe95b8f4b",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/515/submission/75285648",
       "submissionId": "75285648",
       "testVerdicts": {
@@ -232,7 +406,11 @@
           "0002"
         ],
         "origin": "tests/0002",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "31375587f8bedb1f33f6eca3d8cee94ab70845a6dd1a7c7eeb929f4aa7dc10ab",
+        "originalExpectedOutputHash": "97f9973acffcd86691239b33272f810880ca14c4476a24e88abdf294518cbc65",
+        "originalInputHash": "53e0b2223d688c2b2e8ba3a487303ed8933d312edeeed49d89da19d975b2ace1",
+        "reason": "a+b%2 parses as a+(b%2), not (a+b)%2, so it compares a generally large integer to s%2.",
+        "selectedOriginalTest": "0002",
         "test": "lf-0002"
       }
     },
@@ -241,26 +419,25 @@
         "AC": 10,
         "WA": 8
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0009",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 8
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 8,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 8,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 8,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "c4946929da7db60da42a310013b8c0b8dde07491638e2b424c466879360d5dfc",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/515/submission/75286266",
       "submissionId": "75286266",
       "testVerdicts": {
@@ -276,7 +453,11 @@
           "0009"
         ],
         "origin": "tests/0009",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+        "originalExpectedOutputHash": "193050346fd34a6daa994a51c19bf0e2bbdec20a4465e3fd6ae2fdd4d3b5a6e9",
+        "originalInputHash": "8f0c708e8e60393d4ec451f1bf148e51fc54e3bfd03daa7edc660b9bf84afec1",
+        "reason": "s>=a+b uses signed sum, not abs(a)+abs(b).",
+        "selectedOriginalTest": "0009",
         "test": "lf-0009"
       }
     },
@@ -285,26 +466,25 @@
         "AC": 9,
         "WA": 13
       },
-      "algorithmicWitnessCount": 0,
-      "algorithmicWrongAnswer": false,
+      "algorithmicWitnessCount": 1,
+      "algorithmicWrongAnswer": true,
       "builderFailedTest": "0006",
-      "builderFailureAlgorithmicallyProven": false,
+      "builderFailureAlgorithmicallyProven": true,
       "classificationReasons": {
-        "LF input produces different answer content, not an encoding/token-representation defect": 13
+        "source-reviewed defect with included normal-exit wrong answer": 1
       },
-      "exclusionReason": "Previously executed output mismatch exists; concrete source-level algorithmic defect review is not established.",
       "expected": "WRONG_ANSWER",
       "freshVerdict": "WA",
-      "historicalAlgorithmicWitnessCount": 13,
-      "historicalAlgorithmicWrongAnswerClaim": true,
-      "historicalBuilderFailureAlgorithmicallyProven": true,
       "language": "Python 3",
       "normalWrongAnswerCount": 13,
-      "outcome": "source-semantics-unconfirmed",
+      "outcome": "source-reviewed-algorithmic-WA",
       "packageWitnessCount": 12,
       "samplePassed": true,
       "sandboxCompiled": true,
       "sourceHash": "4147e96142798a9cc98c7070ca6471ef9dfdef606f27251cef2724fde1c11203",
+      "sourceSemanticExclusionReasons": [],
+      "sourceSemanticReviewStatus": "pass",
+      "sourceSemanticReviewer": "devin-ffbc5705fd7e41f78ac1d07f9a8339ba",
       "sourceUrl": "https://codeforces.com/contest/515/submission/75319847",
       "submissionId": "75319847",
       "testVerdicts": {
@@ -320,7 +500,11 @@
           "0006"
         ],
         "origin": "tests/0006",
-        "reason": "LF input produces different answer content, not an encoding/token-representation defect",
+        "originalActualOutputHash": "927580bf287560d4a26a5d6e129f91ffa9cb63031b1a8c772be6ec584e65e82b",
+        "originalExpectedOutputHash": "193050346fd34a6daa994a51c19bf0e2bbdec20a4465e3fd6ae2fdd4d3b5a6e9",
+        "originalInputHash": "83bec8f3ac52385f20faea85ed5249ed23b422bef8e0f7ef5e4d583f4a8c3fe8",
+        "reason": "For even s and odd a+b it prints Yes when a+b<=s despite parity mismatch; all distance branches also omit absolute values.",
+        "selectedOriginalTest": "0006",
         "test": "lf-0006"
       }
     }
@@ -328,14 +512,20 @@
   "reviewUrl": "https://staging.itsdev.in/sessions/68758b6526f04ae29b11a13065c57b9a",
   "reviewer": "devin-68758b6526f04ae29b11a13065c57b9a",
   "samplePairs": 4,
-  "sourceSemanticsReviewStatus": "unconfirmed",
+  "sourceReviewBindingSupplementSHA256": "ef131f1c30bc4d3c255a47238d98e06ea6f7ce4129a3d7be69edef6b2fa7e4fb",
+  "sourceReviewComplete": true,
+  "sourceReviewInputsSHA256": "19ab115b63cb991ec952bd544b1aa8b95f4a6c4e2c6ac96eade69ec2811d22c5",
+  "sourceReviewReports": [
+    {
+      "batch": 3,
+      "bytes": 840772,
+      "name": "batch-3-source-semantics-report.json",
+      "sha256": "13a95ff57fc4d6b97aec98a2cea133fcb944543e9d5421886be5e8b7bb7631a9"
+    }
+  ],
+  "sourceReviewStatus": "pass",
+  "sourceSemanticReviewHash": "4e4182df2c7a3d4427d1f7f33fdcd26fe1beec566dd1efeb82a89f97c9a98ad5",
+  "sourceSemanticReviewPath": "source-review/proofs/515A.json",
   "stressCases": 40,
-  "testPairs": 71,
-  "unconfirmedSourceIds": [
-    "75217007",
-    "75219078",
-    "75285648",
-    "75286266",
-    "75319847"
-  ]
+  "testPairs": 71
 }
