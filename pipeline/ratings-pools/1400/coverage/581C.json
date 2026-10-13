@@ -1,0 +1,54 @@
+{
+ "adversarial": [
+  {
+   "reason": "greedy must pick smallest remainders first",
+   "test": "0067"
+  },
+  {
+   "reason": "leftover k exceeds total capacity",
+   "test": "0068"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "k=0",
+   "test": "0062"
+  },
+  {
+   "reason": "all 100, k max",
+   "test": "0063"
+  },
+  {
+   "reason": "all zeros single",
+   "test": "0064"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 2,
+   "boundary": 3,
+   "maxSize": 2,
+   "random": 143
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "n in [1,1e5], k in [0,1e7], a_i in [0,100]",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_g.P581C.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "n=1e5 random, k=1e7",
+   "test": "0065"
+  },
+  {
+   "reason": "n=1e5 random, k moderate",
+   "test": "0066"
+  }
+ ],
+ "packageHash": "9199642fbc39b1220cfb136c7965d1d4e5f34c48fdeae5a0274b4f3b6e6a5687",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

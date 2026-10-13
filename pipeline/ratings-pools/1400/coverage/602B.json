@@ -1,0 +1,50 @@
+{
+ "adversarial": [
+  {
+   "reason": "staircase 1 1 2 2 3 3 ...",
+   "test": "0035"
+  },
+  {
+   "reason": "x x+1 x+2 window must shrink correctly",
+   "test": "0036"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "n=2 equal",
+   "test": "0031"
+  },
+  {
+   "reason": "n=2 differ by one at max",
+   "test": "0032"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 2,
+   "boundary": 2,
+   "maxSize": 2,
+   "random": 144
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "n in [2,1e5]; a_i in [1,1e5]; |a_{i+1}-a_i|<=1",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_g.P602B.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "n=1e5 random walk",
+   "test": "0033"
+  },
+  {
+   "reason": "n=1e5 alternating 1 2 (answer n)",
+   "test": "0034"
+  }
+ ],
+ "packageHash": "faea671136f408a4c83cec63700addad43b2564a56b55824acaf09418283543f",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

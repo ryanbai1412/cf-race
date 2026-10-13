@@ -1,0 +1,54 @@
+{
+ "adversarial": [
+  {
+   "reason": "case swaps only, YAY must be taken first",
+   "test": "0036"
+  },
+  {
+   "reason": "taking WHOOPS first would lose YAY",
+   "test": "0037"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "length 1 exact",
+   "test": "0031"
+  },
+  {
+   "reason": "length 1 wrong case",
+   "test": "0032"
+  },
+  {
+   "reason": "length 1 no match",
+   "test": "0033"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 2,
+   "boundary": 3,
+   "maxSize": 2,
+   "random": 143
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "|s| in [1,2e5], |s|<=|t|<=2e5, letters only",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_g.P518B.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "|s|=|t|=2e5 random letters",
+   "test": "0034"
+  },
+  {
+   "reason": "|s|=1, |t|=2e5",
+   "test": "0035"
+  }
+ ],
+ "packageHash": "d9f94d535596a1604ade2cc4bfb08ba91f4f38949e072ef55fbd77d8d7d560c8",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

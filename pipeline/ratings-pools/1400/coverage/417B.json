@@ -1,0 +1,46 @@
+{
+ "adversarial": [
+  {
+   "reason": "repeated x allowed",
+   "test": "0038"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "single x=0",
+   "test": "0034"
+  },
+  {
+   "reason": "single x=1",
+   "test": "0035"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 1,
+   "boundary": 2,
+   "maxSize": 2,
+   "random": 145
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "n in [1,1e5]; x in [0,1e5], k in [1,1e5]",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_f.P417B.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "1e5 increasing for one participant",
+   "test": "0036"
+  },
+  {
+   "reason": "1e5 one gap at end",
+   "test": "0037"
+  }
+ ],
+ "packageHash": "4e681c07761fd36a946b7aa8c0f2ef9b73eceeeb90bd121c6e8f7a41fcfa976f",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

@@ -1,0 +1,46 @@
+{
+ "adversarial": [
+  {
+   "reason": "insertion color absent",
+   "test": "0022"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "single ball same color",
+   "test": "0019"
+  },
+  {
+   "reason": "two equal balls destroyed",
+   "test": "0020"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 1,
+   "boundary": 2,
+   "maxSize": 2,
+   "random": 145
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "n,k in [1,100]; 1<=x<=k; c_i in [1,k]; no three equal contiguous",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_b.P430B.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "n=100 nested chain fully destroyed after inserting 1",
+   "test": "0021"
+  },
+  {
+   "reason": "n=100 alternating no chain",
+   "test": "0023"
+  }
+ ],
+ "packageHash": "d617782097b01d6eb8f16b006fcbe5a17310264c9f9773638187b669a0b645c1",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

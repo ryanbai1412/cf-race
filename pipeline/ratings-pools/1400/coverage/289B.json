@@ -1,0 +1,46 @@
+{
+ "adversarial": [
+  {
+   "reason": "one cell breaks residue",
+   "test": "0035"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "1x1",
+   "test": "0031"
+  },
+  {
+   "reason": "impossible residue",
+   "test": "0032"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 1,
+   "boundary": 2,
+   "maxSize": 2,
+   "random": 145
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "n,m in [1,100]; d in [1,1e4]; a in [1,1e4]",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_f.P289B.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "100x100 d=1 extremes",
+   "test": "0033"
+  },
+  {
+   "reason": "100x100 d=7 same residue random",
+   "test": "0034"
+  }
+ ],
+ "packageHash": "9d887a9713d895c4f13d600cbd95d518645d7f8a1afb84b6bb7a951299df73ff",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

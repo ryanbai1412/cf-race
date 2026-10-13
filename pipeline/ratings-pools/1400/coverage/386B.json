@@ -1,0 +1,50 @@
+{
+ "adversarial": [
+  {
+   "reason": "difference exactly T counts",
+   "test": "0033"
+  },
+  {
+   "reason": "difference T+1 excluded",
+   "test": "0034"
+  },
+  {
+   "reason": "all equal times",
+   "test": "0036"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "single student",
+   "test": "0031"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 3,
+   "boundary": 1,
+   "maxSize": 2,
+   "random": 144
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "n in [1,100]; n values t_i in [1,1000]; T in [1,1000]",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_b.P386B.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "100 random, T=1000 covers all",
+   "test": "0032"
+  },
+  {
+   "reason": "100 random tight T=1",
+   "test": "0035"
+  }
+ ],
+ "packageHash": "5532362f5e623aefde01c09c0862116505083b09c46bf63a1fdc4ef533a1a51b",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

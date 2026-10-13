@@ -447,9 +447,18 @@ class P19A:
         names50 = ["".join(r.choice(LOWER + UPPER) for _ in range(30)) for _ in range(50)]
         names50 = [x[:28] + LOWER[i // 26] + (UPPER + LOWER)[i % 52] for i, x in enumerate(names50)]
         assert len(set(names50)) == 50
+        draw_names = ["Team" + (UPPER + LOWER)[k] for k in range(50)]
+        while True:
+            dx = {(i, j): r.randint(0, 100) for i in range(50) for j in range(i + 1, 50)}
+            draws = make(draw_names, lambda i, j: (dx[(i, j)], dx[(i, j)]))
+            try:
+                _cup(draws, True)
+                break
+            except Exception:
+                pass
         return [("boundary", "n=2", make(["b", "A"], lambda i, j: (0, 1))),
                 ("maxSize", "n=50 strict ordering by index", make(names50, lambda i, j: (100, 0))),
-                ("maxSize", "n=50 all draws, ranking by goals scored (case-variant names)", make(["Team" + (UPPER + LOWER)[k] for k in range(50)], lambda i, j: (100 - i, 100 - i))),
+                ("maxSize", "n=50 all draws, ranking by goals scored (case-variant names)", draws),
                 ("adversarial", "names differing only by case; uppercase sorts first", make(["b", "B", "a", "A"], lambda i, j: {(0, 1): (3, 0), (0, 2): (2, 0), (0, 3): (5, 1), (1, 2): (1, 0), (1, 3): (4, 0), (2, 3): (0, 0)}[(i, j)])),
                 ("adversarial", "tie on points and difference decided by scored", "4\nA\nB\nC\nD\nA-B 3:3\nA-C 0:0\nA-D 1:1\nB-C 2:2\nB-D 0:0\nC-D 1:1\n")]
 

@@ -1536,3 +1536,141 @@ class P987C:
                 ("maxSize", "n=3000 decreasing -> -1", J(n, list(range(n, 0, -1)), [1] * n)),
                 ("maxSize", "n=3000 few distinct sizes", J(n, [r.randint(1, 3) for _ in range(n)], [r.randint(1, 10**8) for _ in range(n)])),
                 ("adversarial", "cheap triple must be strictly increasing", "5\n1 1 2 2 3\n1 100 100 1 1\n")]
+
+
+HEROES77 = ["Anka", "Chapay", "Cleo", "Troll", "Dracul", "Snowy", "Hexadecimal"]
+
+
+def _p77(s):
+    rows = s.split("\n")
+    n = int(rows[0])
+    likes = []
+    for row in rows[1:1 + n]:
+        p, w, q = row.split()
+        likes.append((HEROES77.index(p), HEROES77.index(q)))
+    return likes, list(map(int, rows[1 + n].split()))
+
+
+@problem("77A", "0<=n<=42 distinct 'p likes q' among 7 heroes, p!=q; 1<=a,b,c<=2e9", 300)
+class P77A:
+    def V(s):
+        L = LR(s)
+        n, = L.ints([(0, 42)])
+        seen = set()
+        for _ in range(n):
+            parts = L.line().split(" ")
+            need(len(parts) == 3 and parts[1] == "likes" and parts[0] in HEROES77 and parts[2] in HEROES77, "bad liking")
+            need(parts[0] != parts[2] and (parts[0], parts[2]) not in seen, "self or duplicate liking")
+            seen.add((parts[0], parts[2]))
+        L.ints([(1, 2 * 10**9)] * 3)
+        L.done()
+
+    def S(s):
+        likes, xp = _p77(s)
+        best = None
+        for code in range(3 ** 7):
+            t = [(code // 3 ** i) % 3 for i in range(7)]
+            sz = [t.count(j) for j in range(3)]
+            if 0 in sz:
+                continue
+            got = [xp[t[i]] // sz[t[i]] for i in range(7)]
+            key = (max(got) - min(got), -sum(t[p] == t[q] for p, q in likes))
+            best = key if best is None or key < best else best
+        return f"{best[0]} {-best[1]}"
+
+    def B(s):
+        likes, xp = _p77(s)
+        res = []
+        for sizes in permutations(range(1, 6), 3):
+            if sum(sizes) != 7:
+                continue
+            for team_a in combinations(range(7), sizes[0]):
+                rest = [h for h in range(7) if h not in team_a]
+                for team_b in combinations(rest, sizes[1]):
+                    team_c = [h for h in rest if h not in team_b]
+                    exp = [xp[0] // sizes[0], xp[1] // sizes[1], xp[2] // sizes[2]]
+                    team = {}
+                    for idx, grp in enumerate((team_a, team_b, team_c)):
+                        for h in grp:
+                            team[h] = idx
+                    res.append((max(exp) - min(exp), -sum(team[p] == team[q] for p, q in likes)))
+        d, l = min(res)
+        return f"{d} {-l}"
+
+    def SMALL(r):
+        pairs = [(p, q) for p in range(7) for q in range(7) if p != q]
+        ch = r.sample(pairs, r.randint(0, 42))
+        return J(len(ch), *[f"{HEROES77[p]} likes {HEROES77[q]}" for p, q in ch], [r.randint(1, 50) for _ in range(3)])
+
+    def G():
+        r = rng("77A")
+        allp = [f"{HEROES77[p]} likes {HEROES77[q]}" for p in range(7) for q in range(7) if p != q]
+        sh = allp[:]
+        r.shuffle(sh)
+        B = 2 * 10**9
+        return [("boundary", "n=0 minimal experience", "0\n1 1 1\n"),
+                ("boundary", "n=0 all max experience", J(0, (B, B, B))),
+                ("maxSize", "n=42 all likings, equal experience", J(42, *sh, (B, B, B))),
+                ("maxSize", "n=42 all likings, distinct max experience", J(42, *allp, (B, B - 1, 1))),
+                ("adversarial", "mutual likes only, skewed rewards", "4\nAnka likes Chapay\nChapay likes Anka\nCleo likes Troll\nTroll likes Cleo\n2000000000 1 1\n"),
+                ("adversarial", "one-direction chain", J(6, *[f"{HEROES77[i]} likes {HEROES77[i + 1]}" for i in range(6)], (7, 7, 7)))]
+
+
+@problem("838A", "2<=n,m<=2500; n binary strings of length m", 120)
+class P838A:
+    def V(s):
+        L = LR(s)
+        n, m = L.ints([(2, 2500), (2, 2500)])
+        for _ in range(n):
+            row = L.line()
+            need(len(row) == m and set(row) <= {"0", "1"}, "bad row")
+        L.done()
+
+    def S(s):
+        import numpy as np
+        rows = s.split("\n")
+        n, m = map(int, rows[0].split())
+        g = np.array([[c == "1" for c in rows[1 + i].strip()] for i in range(n)], dtype=np.int64)
+        N, M = 2 * n, 2 * m
+        P = np.zeros((N + 1, M + 1), dtype=np.int64)
+        P[1:n + 1, 1:m + 1] = g.cumsum(0).cumsum(1)
+        P[n + 1:, 1:m + 1] = P[n:n + 1, 1:m + 1]
+        P[:, m + 1:] = P[:, m:m + 1]
+        best = None
+        for k in range(2, max(n, m) + 1):
+            bn, bm = -(-n // k), -(-m // k)
+            xs, ys = np.arange(bn + 1) * k, np.arange(bm + 1) * k
+            Q = P[np.ix_(xs, ys)]
+            ones = Q[1:, 1:] - Q[:-1, 1:] - Q[1:, :-1] + Q[:-1, :-1]
+            cost = int(np.minimum(ones, k * k - ones).sum())
+            best = cost if best is None else min(best, cost)
+        return str(best)
+
+    def B(s):
+        rows = s.split("\n")
+        n, m = map(int, rows[0].split())
+        g = [rows[1 + i].strip() for i in range(n)]
+        best = None
+        for k in range(2, max(n, m) + 1):
+            bn, bm = -(-n // k), -(-m // k)
+            tot = 0
+            for bi in range(bn):
+                for bj in range(bm):
+                    ones = sum(1 for i in range(bi * k, bi * k + k) for j in range(bj * k, bj * k + k) if i < n and j < m and g[i][j] == "1")
+                    tot += min(ones, k * k - ones)
+            best = tot if best is None else min(best, tot)
+        return str(best)
+
+    def SMALL(r):
+        n, m = r.randint(2, 7), r.randint(2, 7)
+        return J((n, m), *["".join(r.choice("01") for _ in range(m)) for _ in range(n)])
+
+    def G():
+        r = rng("838A")
+        N = 2500
+        return [("boundary", "2x2 all zero", "2 2\n00\n00\n"), ("boundary", "2x2 all one", "2 2\n11\n11\n"),
+                ("maxSize", "2500x2500 random", J((N, N), *["".join(r.choice("01") for _ in range(N)) for _ in range(N)])),
+                ("maxSize", "2500x2500 all ones", J((N, N), *["1" * N] * N)),
+                ("maxSize", "2x2500 alternating", J((2, N), "01" * (N // 2), "10" * (N // 2))),
+                ("adversarial", "prime dims 2477x2399 checkerboard", J((2477, 2399), *[("01" * 1200)[i % 2:i % 2 + 2399] for i in range(2477)])),
+                ("adversarial", "padding matters: 3x3 ones", "3 3\n111\n111\n111\n")]

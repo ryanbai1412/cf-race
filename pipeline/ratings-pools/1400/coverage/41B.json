@@ -1,0 +1,46 @@
+{
+ "adversarial": [
+  {
+   "reason": "price higher than budget at start",
+   "test": "0035"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "n=1",
+   "test": "0031"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 1,
+   "boundary": 1,
+   "maxSize": 3,
+   "random": 145
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "n,b in [1,2000]; a_i in [1,2000]",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_f.P41B.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "n=2000 buy 1 sell 2000",
+   "test": "0032"
+  },
+  {
+   "reason": "n=2000 decreasing",
+   "test": "0033"
+  },
+  {
+   "reason": "n=2000 random",
+   "test": "0034"
+  }
+ ],
+ "packageHash": "70c9c03b3b3bd4f70bf40e765379edbb45ac2ac55bf9bb9d82d03f92cd42a514",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}

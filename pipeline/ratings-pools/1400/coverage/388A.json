@@ -1,0 +1,46 @@
+{
+ "adversarial": [
+  {
+   "reason": "0..99 single pile",
+   "test": "0040"
+  }
+ ],
+ "boundary": [
+  {
+   "reason": "single box strength 0",
+   "test": "0037"
+  }
+ ],
+ "checkerSemantics": "token comparison; unique answer per statement review; expected outputs from authored reference agree with the independent oracle on every test",
+ "generatedBasis": {
+  "authoredPairs": 150,
+  "categories": {
+   "adversarial": 1,
+   "boundary": 1,
+   "maxSize": 3,
+   "random": 145
+  },
+  "mode": "extensive"
+ },
+ "inputConstraints": {
+  "rules": "n in [1,100]; n values x_i in [0,100]",
+  "upstreamContradictions": "none: every supplied official/open-r1 pair passed both validators; candidates with invalid upstream pairs are quarantined",
+  "validator": "strict authored validator probs_b.P388A.V filters every authored input; independent oracle re-validates every official/open-r1/authored/sample input and exits 1 on violation"
+ },
+ "maxSize": [
+  {
+   "reason": "100 zeros",
+   "test": "0038"
+  },
+  {
+   "reason": "100 boxes strength 100",
+   "test": "0039"
+  },
+  {
+   "reason": "100 random small strengths",
+   "test": "0041"
+  }
+ ],
+ "packageHash": "6f3ab24ba997e1c6053512a076d3e29b84127a2766d6ac3329377c6ea315253b",
+ "statementComplete": "statement/input/output/examples present in pinned open-r1/codeforces row (row_gate passed); reviewed by worker and by independent oracle author"
+}
