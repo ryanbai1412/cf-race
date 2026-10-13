@@ -35,6 +35,17 @@ MULTI_REPAIRS = {
     '495B': [('≤ 109)', '≤ 10<sup>9</sup>)', 1)],
     '597A': [('≤ 1018;', '≤ 10<sup>18</sup>;', 1),
              ('- 1018 ≤ a ≤ b ≤ 1018)', '- 10<sup>18</sup> ≤ a ≤ b ≤ 10<sup>18</sup>)', 1)],
+    '244B': [('≤ 109)', '≤ 10<sup>9</sup>)', 1)],
+    '317A': [('- 1018 ≤ x, y, m ≤ 1018)', '- 10<sup>18</sup> ≤ x, y, m ≤ 10<sup>18</sup>)', 1)],
+    '913C': [('≤ 109)', '≤ 10<sup>9</sup>)', 2), ('volume 2i - 1 liters', 'volume 2<sup>i - 1</sup> liters', 1)],
+    '992B': [('≤ 109,', '≤ 10<sup>9</sup>,', 1), ('≤ 109)', '≤ 10<sup>9</sup>)', 1)],
+    '319A': [('2n members', '2<sup>n</sup> members', 2), ('0 to 2n - 1', '0 to 2<sup>n</sup> - 1', 1), ('(109 + 7)', '(10<sup>9</sup> + 7)', 2)],
+    '23B': [('≤ 105)', '≤ 10<sup>5</sup>)', 2)],
+    '71C': [('≤ 105)', '≤ 10<sup>5</sup>)', 1)],
+    '246D': [('≤ 105)', '≤ 10<sup>5</sup>)', 2)],
+    '407B': [('≤ 103)', '≤ 10<sup>3</sup>)', 1), ('(109 + 7)', '(10<sup>9</sup> + 7)', 1)],
+    '525C': [('≤ 105)', '≤ 10<sup>5</sup>)', 1), ('≤ 106)', '≤ 10<sup>6</sup>)', 1)],
+    '534C': [('≤ 2·105,', '≤ 2·10<sup>5</sup>,', 1), ('≤ 106)', '≤ 10<sup>6</sup>)', 1)],
 }
 
 
@@ -43,8 +54,21 @@ def repair_spec(pid):
         old, new, attestation = REPAIRS[pid]
         return [(old, new, 1)], [attestation]
     repairs = MULTI_REPAIRS[pid]
-    exponents = {value for _, new, _ in repairs for value in re.findall(r'<sup>(\d+)</sup>', new)}
-    return repairs, [f'10<sup class="upper-index">{value}</sup>' for value in sorted(exponents)]
+    powers = {power for _, new, _ in repairs for power in re.findall(r'(\d+)<sup>([^<]+)</sup>', new)}
+    return repairs, [f'{base}<sup class="upper-index">{value}</sup>' for base, value in sorted(powers)]
+
+
+def has_attestation(text, value):
+    if value in text:
+        return True
+    power = re.fullmatch(r'(\d+)(?:<sup class="upper-index">([^<]+)</sup>|\^\{([^}]+)\})', value)
+    if not power:
+        return False
+    base, html_power, tex_power = power.groups()
+    exponent = html_power or tex_power
+    if f'{base}^{{{exponent}}}' in text:
+        return True
+    return exponent.isdigit() and base + exponent.translate(str.maketrans('0123456789', '⁰¹²³⁴⁵⁶⁷⁸⁹')) in text
 
 
 def normalize(pid):
@@ -56,8 +80,13 @@ def normalize(pid):
         raise ValueError('changed package before documented normalization')
     source_path = BASE / 'statement-sources' / (pid + '.json')
     source = read_json(source_path)
+    if 'capturedTextSha256' in source:
+        captured = (BASE / source['capturedTextPath']).read_bytes()
+        if (hashlib.sha256(captured).hexdigest() != source['capturedTextSha256']
+                or captured.decode('utf-8').rstrip('\n') != source['content']['formatI'].rstrip('\n')):
+            raise ValueError('public readable extraction attestation changed')
     if (source['id'] != pid or source['content']['locale'] != 'en'
-            or any(value not in source['content']['formatI'] for value in attestations)):
+            or any(not has_attestation(source['content']['formatI'], value) for value in attestations)):
         raise ValueError('original English constraint attestation absent')
     statement = package / 'statement.html'
     original = statement.read_bytes()

@@ -115,6 +115,25 @@ class StatementNormalizationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'attestation absent'):
             normalize_statement.normalize('235A')
 
+    def test_unicode_and_tex_powers_are_exact_not_flattened(self):
+        for text in ('10⁹', '10^{9}', '10<sup class="upper-index">9</sup>'):
+            self.assertTrue(normalize_statement.has_attestation(text, '10<sup class="upper-index">9</sup>'))
+        for text in ('109', '10⁸', '10^{18}'):
+            self.assertFalse(normalize_statement.has_attestation(text, '10<sup class="upper-index">9</sup>'))
+        self.assertTrue(normalize_statement.has_attestation('2^{i - 1}', '2<sup class="upper-index">i - 1</sup>'))
+        self.assertFalse(normalize_statement.has_attestation('2i - 1', '2<sup class="upper-index">i - 1</sup>'))
+
+    def test_readable_capture_tampering_is_blocked(self):
+        import hashlib
+        capture = self.base / 'statement-sources' / '235A.public-source.txt'
+        capture.write_text('10⁶\n')
+        write_json(self.source, {'id': '235A', 'content': {'locale': 'en', 'formatI': '10⁶'},
+                                'capturedTextPath': 'statement-sources/235A.public-source.txt',
+                                'capturedTextSha256': hashlib.sha256(capture.read_bytes()).hexdigest()})
+        capture.write_text('10⁵\n')
+        with self.assertRaisesRegex(ValueError, 'attestation changed'):
+            normalize_statement.normalize('235A')
+
     def test_ambiguous_replacement_is_blocked(self):
         (self.package / 'statement.html').write_text('≤ 106) ≤ 106)')
         self.bind()
