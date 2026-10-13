@@ -1,0 +1,1335 @@
+{
+  "acceptedSourceCount": 5,
+  "approved": false,
+  "byteVerification": {
+    "allOfficialIncludedPairsExact": true,
+    "allReferenceMatches": true,
+    "allSampleBytesExact": true,
+    "evidenceHash": "2c58b7de7ed3ca114ef4171a50fd8c64479107d59d077fa13a44002cc52aead0",
+    "generated": null,
+    "innerFileCount": 63,
+    "packageHash": "caecfc3d9131a00b125eadd076c1d0d7970485442c853f0d428b5830fdb27ae0",
+    "pairHashes": true,
+    "rating800": true,
+    "statementExactPinnedRendering": true
+  },
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": true,
+    "hashes": true,
+    "independentReference": true,
+    "inputConstraints": true,
+    "lexicalValidatorUnchanged": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementComplete": true,
+    "supplementaryAcceptedComparison": true
+  },
+  "coverageReview": {
+    "additionalCoverage": "All valid binary strings through length 8, singleton zero/one, all ones, alternating and maximum zero tails.",
+    "apiRating": 800,
+    "apiSnapshotHash": "064c4396494cd7a813222335d396816a314d39fad3d9c8680726ab784458b7e0",
+    "basis": {
+      "officialAdvertised": 14,
+      "officialComplete": true,
+      "officialIncluded": 14,
+      "openR1Generated": 0,
+      "workerGenerated": 2
+    },
+    "checkerSuitability": "Exact deterministic integer/string/array answer; whitespace-token checker is appropriate; no any-answer, floating-point tolerance or special checker.",
+    "extraAndRecipeIndependentlyChecked": true,
+    "inputConstraints": "n in 1..100; length-n binary string; no leading zero except singleton 0",
+    "recipe": {
+      "bytes": 803,
+      "path": "worker/recipes/976A.py",
+      "sha256": "78019b988b2c5ab3037039b5cb712119fb7edd49383ae2296b82b34dadfd4a24"
+    },
+    "recipeExecution": {
+      "bytes": 2582,
+      "compiled": true,
+      "compilerFlags": [
+        "-O2",
+        "-std=c++17",
+        "-DONLINE_JUDGE"
+      ],
+      "executionVersion": 2,
+      "failedTest": "recipe",
+      "path": "proof/976A/recipe-run.json",
+      "sha256": "818af140fa025ba641e241b39435a395577663e30028d57c2201c44bd2054ec1",
+      "testsRun": 1,
+      "verdict": "WA"
+    },
+    "recipeResults": {
+      "bytes": 1555,
+      "path": "proof/976A/recipe-output.json",
+      "sha256": "d5e78e4868df5b8cd8797ffc213e0ef01a827be9710e52c99e28e56a7386309c"
+    },
+    "retainedCoverageCases": {
+      "adversarial": [
+        {
+          "inputHash": "d7d4addd2c6fbb24f99b8b446e32ccd51db8237ac57483eac70fbc98bb2593c1",
+          "outputHash": "ad57366865126e55649ecb23ae1d48887544976efea46a48eb5d85a6eeb4d306",
+          "reason": "many ones merge to one",
+          "reviewedAgainstActualInput": true,
+          "test": "0015"
+        }
+      ],
+      "boundary": [
+        {
+          "inputHash": "8516632d770e25405fd0efa2c5504c30d462fe85ee635f83173f7983394d28a8",
+          "outputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+          "reason": "single 0 (input already in upstream suite)",
+          "reviewedAgainstActualInput": true,
+          "test": "0007"
+        },
+        {
+          "inputHash": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+          "outputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+          "reason": "single 1 (input already in upstream suite)",
+          "reviewedAgainstActualInput": true,
+          "test": "0002"
+        }
+      ],
+      "maxSize": [
+        {
+          "inputHash": "74de6a44c9349a845889129109c72b5a9dfb20ab8ad7182297c8debcff94719d",
+          "outputHash": "3857e1437825c1931bf32873b0c05dd657be3b84902ff7c738cd9cfee4f981f6",
+          "reason": "n=100 1 then 99 zeros (input already in upstream suite)",
+          "reviewedAgainstActualInput": true,
+          "test": "0004"
+        },
+        {
+          "inputHash": "1223ce9bea9893c5b6e810d4b55601511c11262339ea20c8d5fa7755c0a51ed6",
+          "outputHash": "4cbe2f9515eeca8c2ea6ea0b6fb0f78f6493bbcf91993c004f009eabd681bf25",
+          "reason": "n=100 alternating",
+          "reviewedAgainstActualInput": true,
+          "test": "0016"
+        }
+      ]
+    },
+    "semanticRule": "Swaps allow ones to merge to one and zero count stays fixed; zero remains zero.",
+    "statementHash": "1e4a83eb5440004dd3a28a0c5c1e75b031093253d6ae5bacfd8624549819d125",
+    "statementProvenance": {
+      "bytes": 486411551,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00005-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "fd11e585063299408af6ebc747ee1b6e0529e69ba32eaabe7c18931b6a3d8763",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00005-of-00011.parquet"
+    },
+    "statementReview": "Full pinned statement including input/output and note read; no statement defect found.",
+    "statementRowHash": "fce6860482da73f7362f33bcfb3ca838b57afe7233f100c68127b9b5fcca86e6",
+    "uniqueAnswer": true
+  },
+  "evidenceHash": "2c58b7de7ed3ca114ef4171a50fd8c64479107d59d077fa13a44002cc52aead0",
+  "freshSubmissions": [
+    {
+      "datasetVerdict": "OK",
+      "language": "C++17 (GCC 7-32)",
+      "pinnedPublicRow": {
+        "bytes": 1090,
+        "path": "public-proof/submission-37750588.json",
+        "sha256": "fc9aaec88a34250dc9020959eaba938b97691e2f063470bcdee38aa7a26d5267"
+      },
+      "rerun": {
+        "bytes": 5900,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": null,
+        "path": "proof/976A/37750588.json",
+        "sha256": "1203db2a386ffb83833a6b3ba672070e82a56c862caba93eb09603c261101ff1",
+        "testsRun": 16,
+        "verdict": "AC"
+      },
+      "sourceHash": "53be4687a001d2f5604e832d6342e7b3d3b609d302046d9755eebd8ab52ae963",
+      "sourceProvenance": {
+        "bytes": 146731286,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00034-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "6d1f79c0f00682aa5a00a20686185087c78f281cdc65296f6b1736e409030cdd",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00034-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 1471,
+        "path": "W/800/state/976A/sources/37750588.json",
+        "sha256": "08c9e7c4bb1b9ebc681f022290ee5ade9f2ea229eedf79b270162f314de8619e"
+      },
+      "submissionId": "37750588",
+      "url": "https://codeforces.com/contest/976/submission/37750588"
+    },
+    {
+      "datasetVerdict": "OK",
+      "language": "GNU C++11",
+      "pinnedPublicRow": {
+        "bytes": 2774,
+        "path": "public-proof/submission-37750598.json",
+        "sha256": "ab573a7e1b57d3fadf2b08475932c29669fdb35d4f00f0e55db625157347764d"
+      },
+      "rerun": {
+        "bytes": 5880,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": null,
+        "path": "proof/976A/37750598.json",
+        "sha256": "eaa85a668eb2e070857721b84298a064e08ce648006cb9bb0b62ac96487b5193",
+        "testsRun": 16,
+        "verdict": "AC"
+      },
+      "sourceHash": "dc7c265be0e04874060fb714bb604ba9e2e5d9f7d8c841c5ac42e4e4bee124a2",
+      "sourceProvenance": {
+        "bytes": 146731286,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00034-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "6d1f79c0f00682aa5a00a20686185087c78f281cdc65296f6b1736e409030cdd",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00034-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 3155,
+        "path": "W/800/state/976A/sources/37750598.json",
+        "sha256": "f472fc8418f19351f3e1dcb18dbd1bf4dcda8b1f876bd74d9fec4987f68b197e"
+      },
+      "submissionId": "37750598",
+      "url": "https://codeforces.com/contest/976/submission/37750598"
+    },
+    {
+      "datasetVerdict": "OK",
+      "language": "C++14 (GCC 6-32)",
+      "pinnedPublicRow": {
+        "bytes": 1525,
+        "path": "public-proof/submission-37750599.json",
+        "sha256": "8b2035c8e8b45fca8ab517fab1149cde1aebaf68a9daecf1f2a34d0ce640b0da"
+      },
+      "rerun": {
+        "bytes": 5893,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": null,
+        "path": "proof/976A/37750599.json",
+        "sha256": "a7f89aee89d171c6b588dbfc871cd5516914228fdc1226d927c3e42f3d43234b",
+        "testsRun": 16,
+        "verdict": "AC"
+      },
+      "sourceHash": "dd8209f40ae5d47f1daab2f0e350d2d3f302c54c508980397ae4e0aa855aa0e7",
+      "sourceProvenance": {
+        "bytes": 146731286,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00034-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "6d1f79c0f00682aa5a00a20686185087c78f281cdc65296f6b1736e409030cdd",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00034-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 1906,
+        "path": "W/800/state/976A/sources/37750599.json",
+        "sha256": "c79c79228a7044f007ae5c1d1c178299c1c3517d371da697affb49223bf3ad79"
+      },
+      "submissionId": "37750599",
+      "url": "https://codeforces.com/contest/976/submission/37750599"
+    },
+    {
+      "datasetVerdict": "OK",
+      "language": "C++14 (GCC 6-32)",
+      "pinnedPublicRow": {
+        "bytes": 1363,
+        "path": "public-proof/submission-37750604.json",
+        "sha256": "06eb9f2f521ddf488e56716d61711661eea328ca52d628771420d5b17856656e"
+      },
+      "rerun": {
+        "bytes": 5886,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": null,
+        "path": "proof/976A/37750604.json",
+        "sha256": "81760714f8ba9c4411dee6cfde485a9b01eadacc2c488acec298f26192bd142e",
+        "testsRun": 16,
+        "verdict": "AC"
+      },
+      "sourceHash": "7e31141cb38869cec9b5e90a1f307b62a1e5a090138fd6352ac50b51e065007f",
+      "sourceProvenance": {
+        "bytes": 146731286,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00034-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "6d1f79c0f00682aa5a00a20686185087c78f281cdc65296f6b1736e409030cdd",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00034-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 1744,
+        "path": "W/800/state/976A/sources/37750604.json",
+        "sha256": "1b4f9ca4aa4e7aa66b13acf9359d8f74bd4b9a40fe3dda676af24d96665df7d1"
+      },
+      "submissionId": "37750604",
+      "url": "https://codeforces.com/contest/976/submission/37750604"
+    },
+    {
+      "datasetVerdict": "OK",
+      "language": "C++14 (GCC 6-32)",
+      "pinnedPublicRow": {
+        "bytes": 783,
+        "path": "public-proof/submission-37750607.json",
+        "sha256": "05d593f8d33b0d0ad0397286c8cfb88d80197635f243a9049eca09c4c03dde2e"
+      },
+      "rerun": {
+        "bytes": 5886,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": null,
+        "path": "proof/976A/37750607.json",
+        "sha256": "c770e56aecd39a3a74fdf96ba0d15157661a788f37822b16a671fdf7e3f6a8c8",
+        "testsRun": 16,
+        "verdict": "AC"
+      },
+      "sourceHash": "5cc16196aa612f16a023e33b0b8b130963b293c57c4c9623c2820ce35019f988",
+      "sourceProvenance": {
+        "bytes": 146731286,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00034-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "6d1f79c0f00682aa5a00a20686185087c78f281cdc65296f6b1736e409030cdd",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00034-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 1164,
+        "path": "W/800/state/976A/sources/37750607.json",
+        "sha256": "236713febf5687b3143a36fa9ff2a40663ffc2a7ffc01256cbe0affb8e66c9d2"
+      },
+      "submissionId": "37750607",
+      "url": "https://codeforces.com/contest/976/submission/37750607"
+    },
+    {
+      "datasetVerdict": "WRONG_ANSWER",
+      "language": "Python 3",
+      "lfRerun": {
+        "bytes": 503,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "0007",
+        "path": "proof/976A/37768059-lf.json",
+        "sha256": "1c6a065067ac5a312c07c593948e21993db6f03c8a864ad0f4831e13f79bd86b",
+        "testsRun": 1,
+        "verdict": "WA"
+      },
+      "pinnedPublicRow": {
+        "bytes": 468,
+        "path": "public-proof/submission-37768059.json",
+        "sha256": "2facad2bdb64a0cd29ea2579a1f6713086b94f267b4f7243d89f40e3d829146f"
+      },
+      "qualifiesAsAlgorithmicallyWrong": false,
+      "rerun": {
+        "bytes": 5853,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "0007",
+        "path": "proof/976A/37768059.json",
+        "sha256": "da30e98a567d0443657427f302c6c0302f5dfc034e2265c345ee4fa0c0aa7dbb",
+        "testsRun": 16,
+        "verdict": "WA"
+      },
+      "sourceHash": "70a17a05fb3680e4eef6b7e5abe83e81ec791f4a4a8463070f20c37930b25f28",
+      "sourceProvenance": {
+        "bytes": 146731286,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00034-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "6d1f79c0f00682aa5a00a20686185087c78f281cdc65296f6b1736e409030cdd",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00034-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 850,
+        "path": "W/800/state/976A/sources/37768059.json",
+        "sha256": "fe36cc87cf991bca8ac9250d70e2b249d387aa952d97215f45013378197ba9fb"
+      },
+      "submissionId": "37768059",
+      "url": "https://codeforces.com/contest/976/submission/37768059",
+      "wrongSourceReviewKind": "missing-output"
+    },
+    {
+      "datasetVerdict": "WRONG_ANSWER",
+      "language": "Python 3",
+      "lfRerun": {
+        "bytes": 506,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "0007",
+        "path": "proof/976A/37768569-lf.json",
+        "sha256": "6954700a3272ccc9748e621486c2601f1a726111096cd34b976044204cf74137",
+        "testsRun": 1,
+        "verdict": "WA"
+      },
+      "pinnedPublicRow": {
+        "bytes": 478,
+        "path": "public-proof/submission-37768569.json",
+        "sha256": "28f08fcb2b7ca65f51ab08b93f89c2c025df618642e32abc91302b928875a58f"
+      },
+      "qualifiesAsAlgorithmicallyWrong": true,
+      "rerun": {
+        "bytes": 5850,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "0007",
+        "path": "proof/976A/37768569.json",
+        "sha256": "862a78861118bec75a4abafca55f7bc9bbc76e831ca6b55b7730e27bb0e79d6a",
+        "testsRun": 16,
+        "verdict": "WA"
+      },
+      "sourceHash": "7855b60fbb4325a35735808e362ef7ed536b757ada63bcee3d6021eb1943bd84",
+      "sourceProvenance": {
+        "bytes": 146731286,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00034-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "6d1f79c0f00682aa5a00a20686185087c78f281cdc65296f6b1736e409030cdd",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00034-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 860,
+        "path": "W/800/state/976A/sources/37768569.json",
+        "sha256": "bd74bb5711faa42a4551bcbe657f0146536455a8d4a2de22269f6efd14b21ec0"
+      },
+      "submissionId": "37768569",
+      "url": "https://codeforces.com/contest/976/submission/37768569",
+      "wrongSourceReviewKind": "wrong-answer"
+    },
+    {
+      "datasetVerdict": "WRONG_ANSWER",
+      "language": "Python 3",
+      "lfRerun": {
+        "bytes": 558,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "0002",
+        "path": "proof/976A/37769658-lf.json",
+        "sha256": "3a4b9456a4331a785980a0a0bbc01d0a3e1a4e85be6430f7defb6fa37310f571",
+        "testsRun": 1,
+        "verdict": "WA"
+      },
+      "pinnedPublicRow": {
+        "bytes": 604,
+        "path": "public-proof/submission-37769658.json",
+        "sha256": "1df2a9ad99a09398e4fea264a4fa1c74b4060600c738aa7d2a952694ef8f9bb9"
+      },
+      "qualifiesAsAlgorithmicallyWrong": false,
+      "rerun": {
+        "bytes": 5952,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "0002",
+        "path": "proof/976A/37769658.json",
+        "sha256": "253d1783ce6aa8a1e73f45693976994b0658813cc9e1dd02e37e013a4dd00285",
+        "testsRun": 16,
+        "verdict": "WA"
+      },
+      "sourceHash": "7eec3647f4a452337b13b57801cfcaeb84cd83c95b900de853eacae52a6d4640",
+      "sourceProvenance": {
+        "bytes": 146731286,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00034-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "6d1f79c0f00682aa5a00a20686185087c78f281cdc65296f6b1736e409030cdd",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00034-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 986,
+        "path": "W/800/state/976A/sources/37769658.json",
+        "sha256": "77a913bfef4d59e3992a50510677c794e264d4118fe033e0da7a23f7775ef7a3"
+      },
+      "submissionId": "37769658",
+      "url": "https://codeforces.com/contest/976/submission/37769658",
+      "wrongSourceReviewKind": "presentation-only"
+    },
+    {
+      "datasetVerdict": "WRONG_ANSWER",
+      "language": "Python 3",
+      "lfRerun": {
+        "bytes": 519,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "0007",
+        "path": "proof/976A/37769776-lf.json",
+        "sha256": "d07db42695654f2917eaf36e6b30596ab1225d0f919a90279b75d63cfec40986",
+        "testsRun": 1,
+        "verdict": "WA"
+      },
+      "pinnedPublicRow": {
+        "bytes": 449,
+        "path": "public-proof/submission-37769776.json",
+        "sha256": "28744d1b2609ea9f331af8984085c75cd3d691a3b331cfa80122c4b2f1397232"
+      },
+      "qualifiesAsAlgorithmicallyWrong": true,
+      "rerun": {
+        "bytes": 5849,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "0007",
+        "path": "proof/976A/37769776.json",
+        "sha256": "901cb66d3e34016bf04a950853fd2f7be772083d2ea7cd819834598078144e31",
+        "testsRun": 16,
+        "verdict": "WA"
+      },
+      "sourceHash": "2eff2b55ec8a3d5f8a24a24b21adb45323aea9be45b164c53d49cff454df4d92",
+      "sourceProvenance": {
+        "bytes": 146731286,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00034-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "6d1f79c0f00682aa5a00a20686185087c78f281cdc65296f6b1736e409030cdd",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00034-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 831,
+        "path": "W/800/state/976A/sources/37769776.json",
+        "sha256": "63d58fb6a5caee86d04980455fb767e22f70953beeb54ef3d55ec8aefe3bb094"
+      },
+      "submissionId": "37769776",
+      "url": "https://codeforces.com/contest/976/submission/37769776",
+      "wrongSourceReviewKind": "wrong-answer"
+    },
+    {
+      "datasetVerdict": "WRONG_ANSWER",
+      "language": "Python 3",
+      "lfRerun": {
+        "bytes": 506,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "0007",
+        "path": "proof/976A/37771085-lf.json",
+        "sha256": "d2c3a91987c3e0bd169d55e24fbc6fe6436746847262384d26fa7e4cbb7eea3c",
+        "testsRun": 1,
+        "verdict": "WA"
+      },
+      "pinnedPublicRow": {
+        "bytes": 886,
+        "path": "public-proof/submission-37771085.json",
+        "sha256": "d4c01f50ea0e907665d8492087c0d28673de7f4bfa25dd77959f3807afedf806"
+      },
+      "qualifiesAsAlgorithmicallyWrong": true,
+      "rerun": {
+        "bytes": 5858,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "0007",
+        "path": "proof/976A/37771085.json",
+        "sha256": "c4518af06cc8199728bb7ff2ace2cefac704f8da234c9304b606e0ebdaf585fb",
+        "testsRun": 16,
+        "verdict": "WA"
+      },
+      "sourceHash": "3b2802c4df03f3d1cd1e1f969d29496c9d45fae2df04498e274f0811b3254ebe",
+      "sourceProvenance": {
+        "bytes": 146731286,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00034-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "6d1f79c0f00682aa5a00a20686185087c78f281cdc65296f6b1736e409030cdd",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00034-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 1268,
+        "path": "W/800/state/976A/sources/37771085.json",
+        "sha256": "8782170f65c82120acc917c214b7095482128fe5f663e67bb350ee77880fe219"
+      },
+      "submissionId": "37771085",
+      "url": "https://codeforces.com/contest/976/submission/37771085",
+      "wrongSourceReviewKind": "wrong-answer"
+    }
+  ],
+  "id": "976A",
+  "incorrectAnalysis": {
+    "37768059": {
+      "algorithmicDefectUnderIntendedDomain": false,
+      "completeSourceRead": true,
+      "counterexample": {
+        "actualOutputLF": "",
+        "actualOutputLFHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "actualOutputOriginal": "10\n",
+        "actualOutputOriginalHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+        "expectedOutput": "0\r\n",
+        "expectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+        "independentExpectedTokens": [
+          "0"
+        ],
+        "inputLF": "1\n0\n",
+        "inputLFHash": "5d90ef7fc0d040fd56a1e48697cfa99e0dfaf4fd803aefefc3b5053ec1d36aea",
+        "inputOriginalHash": "8516632d770e25405fd0efa2c5504c30d462fe85ee635f83173f7983394d28a8",
+        "lfExitCode": 0,
+        "lfTimeout": false,
+        "lfVerdict": "WA",
+        "originalVerdict": "WA",
+        "test": "0007"
+      },
+      "exclusionReason": "missing-output",
+      "faultCode": "elif len(s)==1 and s[0]==0:",
+      "faultLineRange": [
+        10,
+        10
+      ],
+      "faultyImplementedStep": "Compares a character to integer zero, then falls through without printing on LF-normalized one-character input.",
+      "inputDomainCaveat": null,
+      "intendedInputConstraintsAndExpectedOutputVerified": true,
+      "kind": "missing-output",
+      "mathematicalExplanation": "For correct string 0 no swap or 11 merge is possible, so the optimum is 0. Original CRLF is mistaken as length 2 and prints 10; included LF prints nothing. Missing-print/CRLF behavior cannot count as an algorithmic kill.",
+      "pinnedPublicRow": {
+        "bytes": 468,
+        "path": "public-proof/submission-37768059.json",
+        "sha256": "2facad2bdb64a0cd29ea2579a1f6713086b94f267b4f7243d89f40e3d829146f"
+      },
+      "proof": {
+        "fullSuite": {
+          "bytes": 5853,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": "0007",
+          "path": "proof/976A/37768059.json",
+          "sha256": "da30e98a567d0443657427f302c6c0302f5dfc034e2265c345ee4fa0c0aa7dbb",
+          "testsRun": 16,
+          "verdict": "WA"
+        },
+        "lfInput": {
+          "bytes": 4,
+          "path": "proof/976A/37768059-failed.in",
+          "sha256": "5d90ef7fc0d040fd56a1e48697cfa99e0dfaf4fd803aefefc3b5053ec1d36aea"
+        },
+        "lfRun": {
+          "bytes": 503,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": "0007",
+          "path": "proof/976A/37768059-lf.json",
+          "sha256": "1c6a065067ac5a312c07c593948e21993db6f03c8a864ad0f4831e13f79bd86b",
+          "testsRun": 1,
+          "verdict": "WA"
+        },
+        "originalOutput": {
+          "bytes": 3,
+          "path": "proof/976A/37768059-failed.out",
+          "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469"
+        }
+      },
+      "publicSubmissionUrl": "https://codeforces.com/contest/976/submission/37768059",
+      "qualifiesAsAlgorithmicallyWrong": false,
+      "reason": "Compares a character to integer zero, then falls through without printing on LF-normalized one-character input. For correct string 0 no swap or 11 merge is possible, so the optimum is 0. Original CRLF is mistaken as length 2 and prints 10; included LF prints nothing. Missing-print/CRLF behavior cannot count as an algorithmic kill.",
+      "recordedTestUnchanged": true,
+      "sourceExcerpt": "7:   ct=s.count('0')\n8:   t='1'+ '0'*ct  \n9:   print (t)\n10: elif len(s)==1 and s[0]==0:\n11:   print (cq)",
+      "sourceHash": "70a17a05fb3680e4eef6b7e5abe83e81ec791f4a4a8463070f20c37930b25f28",
+      "sourceLineRange": [
+        7,
+        11
+      ],
+      "sourceProvenance": {
+        "bytes": 146731286,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00034-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "6d1f79c0f00682aa5a00a20686185087c78f281cdc65296f6b1736e409030cdd",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00034-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 850,
+        "path": "W/800/state/976A/sources/37768059.json",
+        "sha256": "fe36cc87cf991bca8ac9250d70e2b249d387aa952d97215f45013378197ba9fb"
+      },
+      "test": "0007",
+      "validUnderCurrentStatement": true
+    },
+    "37768569": {
+      "algorithmicDefectUnderIntendedDomain": true,
+      "completeSourceRead": true,
+      "counterexample": {
+        "actualOutputLF": "10\n",
+        "actualOutputLFHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+        "actualOutputOriginal": "10\n",
+        "actualOutputOriginalHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+        "expectedOutput": "0\r\n",
+        "expectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+        "independentExpectedTokens": [
+          "0"
+        ],
+        "inputLF": "1\n0\n",
+        "inputLFHash": "5d90ef7fc0d040fd56a1e48697cfa99e0dfaf4fd803aefefc3b5053ec1d36aea",
+        "inputOriginalHash": "8516632d770e25405fd0efa2c5504c30d462fe85ee635f83173f7983394d28a8",
+        "lfExitCode": 0,
+        "lfTimeout": false,
+        "lfVerdict": "WA",
+        "originalVerdict": "WA",
+        "test": "0007"
+      },
+      "faultCode": "print('1'+m)",
+      "faultLineRange": [
+        10,
+        10
+      ],
+      "faultyImplementedStep": "Unconditionally inserts a leading 1 even for the original zero string.",
+      "inputDomainCaveat": null,
+      "intendedInputConstraintsAndExpectedOutputVerified": true,
+      "kind": "wrong-answer",
+      "mathematicalExplanation": "Starting from 0, swaps and 11 merges cannot create a 1. Correct minimum is 0; the source constructs 10, whose binary value is 2.",
+      "pinnedPublicRow": {
+        "bytes": 478,
+        "path": "public-proof/submission-37768569.json",
+        "sha256": "28f08fcb2b7ca65f51ab08b93f89c2c025df618642e32abc91302b928875a58f"
+      },
+      "proof": {
+        "fullSuite": {
+          "bytes": 5850,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": "0007",
+          "path": "proof/976A/37768569.json",
+          "sha256": "862a78861118bec75a4abafca55f7bc9bbc76e831ca6b55b7730e27bb0e79d6a",
+          "testsRun": 16,
+          "verdict": "WA"
+        },
+        "lfInput": {
+          "bytes": 4,
+          "path": "proof/976A/37768569-failed.in",
+          "sha256": "5d90ef7fc0d040fd56a1e48697cfa99e0dfaf4fd803aefefc3b5053ec1d36aea"
+        },
+        "lfRun": {
+          "bytes": 506,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": "0007",
+          "path": "proof/976A/37768569-lf.json",
+          "sha256": "6954700a3272ccc9748e621486c2601f1a726111096cd34b976044204cf74137",
+          "testsRun": 1,
+          "verdict": "WA"
+        },
+        "originalOutput": {
+          "bytes": 3,
+          "path": "proof/976A/37768569-failed.out",
+          "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469"
+        }
+      },
+      "publicSubmissionUrl": "https://codeforces.com/contest/976/submission/37768569",
+      "qualifiesAsAlgorithmicallyWrong": true,
+      "reason": "Unconditionally inserts a leading 1 even for the original zero string. Starting from 0, swaps and 11 merges cannot create a 1. Correct minimum is 0; the source constructs 10, whose binary value is 2.",
+      "recordedTestUnchanged": true,
+      "sourceExcerpt": "7:         counter=counter+1\n8: for j in range(n-counter):\n9:     m=m+'0'\n10: print('1'+m)",
+      "sourceHash": "7855b60fbb4325a35735808e362ef7ed536b757ada63bcee3d6021eb1943bd84",
+      "sourceLineRange": [
+        7,
+        10
+      ],
+      "sourceProvenance": {
+        "bytes": 146731286,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00034-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "6d1f79c0f00682aa5a00a20686185087c78f281cdc65296f6b1736e409030cdd",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00034-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 860,
+        "path": "W/800/state/976A/sources/37768569.json",
+        "sha256": "bd74bb5711faa42a4551bcbe657f0146536455a8d4a2de22269f6efd14b21ec0"
+      },
+      "test": "0007",
+      "validUnderCurrentStatement": true
+    },
+    "37769658": {
+      "algorithmicDefectUnderIntendedDomain": false,
+      "completeSourceRead": true,
+      "counterexample": {
+        "actualOutputLF": "<map object at 0x7560c6cc5c30>\n",
+        "actualOutputLFHash": "fe2da2afbedd675c0bb2642af74b0f569e831587cc3be04678d6224a756636e4",
+        "actualOutputOriginal": "<map object at 0x759b36a85c30>\n",
+        "actualOutputOriginalHash": "b556873b6168e725aa7c857363f1f3354777ba547b63241499b3399ab469d162",
+        "expectedOutput": "1\r\n",
+        "expectedOutputHash": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+        "independentExpectedTokens": [
+          "1"
+        ],
+        "inputLF": "1\n1\n",
+        "inputLFHash": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba",
+        "inputOriginalHash": "2a93ef399846526811d56221542f541f9397cd39f0b6718c7fbb44c08d2735fc",
+        "lfExitCode": 0,
+        "lfTimeout": false,
+        "lfVerdict": "WA",
+        "originalVerdict": "WA",
+        "test": "0002"
+      },
+      "exclusionReason": "presentation-only",
+      "faultCode": "print(st)",
+      "faultLineRange": [
+        9,
+        9
+      ],
+      "faultyImplementedStep": "Prints a map object's representation on the singleton branch instead of the contained character.",
+      "inputDomainCaveat": null,
+      "intendedInputConstraintsAndExpectedOutputVerified": true,
+      "kind": "presentation-only",
+      "mathematicalExplanation": "For input 1, neither operation changes the number, so expected string is 1. Materializing the map for printing passes this exact LF test; the observed map-address output is a Python presentation artifact.",
+      "pinnedPublicRow": {
+        "bytes": 604,
+        "path": "public-proof/submission-37769658.json",
+        "sha256": "1df2a9ad99a09398e4fea264a4fa1c74b4060600c738aa7d2a952694ef8f9bb9"
+      },
+      "presentationIsolationDiagnostic": {
+        "actualOutput": "1\n",
+        "bytes": 672,
+        "countedSourceUnmodified": true,
+        "diagnosticOnly": true,
+        "modifiedCopy": {
+          "bytes": 282,
+          "path": "proof/976A/presentation-diagnostic-37769658.source",
+          "sha256": "4d1bdaa5c72be9d1cb0e97ddd7c17410397c8641b49a05d353bdc19a9bd60382"
+        },
+        "path": "proof/976A/presentation-diagnostic-37769658.json",
+        "sha256": "6d98802957bc2ae085ef4600ef8973b54824a577012441cdd45278824b06c4fe",
+        "verdict": "AC"
+      },
+      "proof": {
+        "fullSuite": {
+          "bytes": 5952,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": "0002",
+          "path": "proof/976A/37769658.json",
+          "sha256": "253d1783ce6aa8a1e73f45693976994b0658813cc9e1dd02e37e013a4dd00285",
+          "testsRun": 16,
+          "verdict": "WA"
+        },
+        "lfInput": {
+          "bytes": 4,
+          "path": "proof/976A/37769658-failed.in",
+          "sha256": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba"
+        },
+        "lfRun": {
+          "bytes": 558,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": "0002",
+          "path": "proof/976A/37769658-lf.json",
+          "sha256": "3a4b9456a4331a785980a0a0bbc01d0a3e1a4e85be6430f7defb6fa37310f571",
+          "testsRun": 1,
+          "verdict": "WA"
+        },
+        "originalOutput": {
+          "bytes": 31,
+          "path": "proof/976A/37769658-failed.out",
+          "sha256": "b556873b6168e725aa7c857363f1f3354777ba547b63241499b3399ab469d162"
+        }
+      },
+      "publicSubmissionUrl": "https://codeforces.com/contest/976/submission/37769658",
+      "qualifiesAsAlgorithmicallyWrong": false,
+      "reason": "Prints a map object's representation on the singleton branch instead of the contained character. For input 1, neither operation changes the number, so expected string is 1. Materializing the map for printing passes this exact LF test; the observed map-address output is a Python presentation artifact.",
+      "recordedTestUnchanged": true,
+      "sourceExcerpt": "6: #st = str(st)\n7: \n8: if n == 1:\n9:     print(st)\n10: else:\n11:     zeroc = 0\n12:     answ = '1'",
+      "sourceHash": "7eec3647f4a452337b13b57801cfcaeb84cd83c95b900de853eacae52a6d4640",
+      "sourceLineRange": [
+        6,
+        12
+      ],
+      "sourceProvenance": {
+        "bytes": 146731286,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00034-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "6d1f79c0f00682aa5a00a20686185087c78f281cdc65296f6b1736e409030cdd",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00034-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 986,
+        "path": "W/800/state/976A/sources/37769658.json",
+        "sha256": "77a913bfef4d59e3992a50510677c794e264d4118fe033e0da7a23f7775ef7a3"
+      },
+      "test": "0002",
+      "validUnderCurrentStatement": true
+    },
+    "37769776": {
+      "algorithmicDefectUnderIntendedDomain": true,
+      "completeSourceRead": true,
+      "counterexample": {
+        "actualOutputLF": "10\n",
+        "actualOutputLFHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+        "actualOutputOriginal": "10\n",
+        "actualOutputOriginalHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+        "expectedOutput": "0\r\n",
+        "expectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+        "independentExpectedTokens": [
+          "0"
+        ],
+        "inputLF": "1\n0\n",
+        "inputLFHash": "5d90ef7fc0d040fd56a1e48697cfa99e0dfaf4fd803aefefc3b5053ec1d36aea",
+        "inputOriginalHash": "8516632d770e25405fd0efa2c5504c30d462fe85ee635f83173f7983394d28a8",
+        "lfExitCode": 0,
+        "lfTimeout": false,
+        "lfVerdict": "WA",
+        "originalVerdict": "WA",
+        "test": "0007"
+      },
+      "faultCode": "s[0]==0",
+      "faultLineRange": [
+        5,
+        5
+      ],
+      "faultyImplementedStep": "The intended zero guard compares string to integer and therefore always constructs a leading 1 in the else branch.",
+      "inputDomainCaveat": null,
+      "intendedInputConstraintsAndExpectedOutputVerified": true,
+      "kind": "wrong-answer",
+      "mathematicalExplanation": "For the valid original string 0, a 1 cannot be created by either allowed operation. The source prints 10 instead of 0 on both original and LF input.",
+      "pinnedPublicRow": {
+        "bytes": 449,
+        "path": "public-proof/submission-37769776.json",
+        "sha256": "28744d1b2609ea9f331af8984085c75cd3d691a3b331cfa80122c4b2f1397232"
+      },
+      "proof": {
+        "fullSuite": {
+          "bytes": 5849,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": "0007",
+          "path": "proof/976A/37769776.json",
+          "sha256": "901cb66d3e34016bf04a950853fd2f7be772083d2ea7cd819834598078144e31",
+          "testsRun": 16,
+          "verdict": "WA"
+        },
+        "lfInput": {
+          "bytes": 4,
+          "path": "proof/976A/37769776-failed.in",
+          "sha256": "5d90ef7fc0d040fd56a1e48697cfa99e0dfaf4fd803aefefc3b5053ec1d36aea"
+        },
+        "lfRun": {
+          "bytes": 519,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": "0007",
+          "path": "proof/976A/37769776-lf.json",
+          "sha256": "d07db42695654f2917eaf36e6b30596ab1225d0f919a90279b75d63cfec40986",
+          "testsRun": 1,
+          "verdict": "WA"
+        },
+        "originalOutput": {
+          "bytes": 3,
+          "path": "proof/976A/37769776-failed.out",
+          "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469"
+        }
+      },
+      "publicSubmissionUrl": "https://codeforces.com/contest/976/submission/37769776",
+      "qualifiesAsAlgorithmicallyWrong": true,
+      "reason": "The intended zero guard compares string to integer and therefore always constructs a leading 1 in the else branch. For the valid original string 0, a 1 cannot be created by either allowed operation. The source prints 10 instead of 0 on both original and LF input.",
+      "recordedTestUnchanged": true,
+      "sourceExcerpt": "2: s=input('')\n3: t=''\n4: ct = 0\n5: if len(s)==1 and s[0]==0:\n6:   print (ct)\n7: else:\n8:   ct=s.count('0')",
+      "sourceHash": "2eff2b55ec8a3d5f8a24a24b21adb45323aea9be45b164c53d49cff454df4d92",
+      "sourceLineRange": [
+        2,
+        8
+      ],
+      "sourceProvenance": {
+        "bytes": 146731286,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00034-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "6d1f79c0f00682aa5a00a20686185087c78f281cdc65296f6b1736e409030cdd",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00034-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 831,
+        "path": "W/800/state/976A/sources/37769776.json",
+        "sha256": "63d58fb6a5caee86d04980455fb767e22f70953beeb54ef3d55ec8aefe3bb094"
+      },
+      "test": "0007",
+      "validUnderCurrentStatement": true
+    },
+    "37771085": {
+      "algorithmicDefectUnderIntendedDomain": true,
+      "completeSourceRead": true,
+      "counterexample": {
+        "actualOutputLF": "10\n",
+        "actualOutputLFHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+        "actualOutputOriginal": "10\n",
+        "actualOutputOriginalHash": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+        "expectedOutput": "0\r\n",
+        "expectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+        "independentExpectedTokens": [
+          "0"
+        ],
+        "inputLF": "1\n0\n",
+        "inputLFHash": "5d90ef7fc0d040fd56a1e48697cfa99e0dfaf4fd803aefefc3b5053ec1d36aea",
+        "inputOriginalHash": "8516632d770e25405fd0efa2c5504c30d462fe85ee635f83173f7983394d28a8",
+        "lfExitCode": 0,
+        "lfTimeout": false,
+        "lfVerdict": "WA",
+        "originalVerdict": "WA",
+        "test": "0007"
+      },
+      "faultCode": "if countOfOne == '1':",
+      "faultLineRange": [
+        11,
+        11
+      ],
+      "faultyImplementedStep": "Compares an integer ones-count to string '1' and starts answer at '1' even for the zero-only number.",
+      "inputDomainCaveat": null,
+      "intendedInputConstraintsAndExpectedOutputVerified": true,
+      "kind": "wrong-answer",
+      "mathematicalExplanation": "The zero input contains no 1 and cannot acquire any under the allowed operations. The output 10 is impossible and exceeds the correct minimum 0.",
+      "pinnedPublicRow": {
+        "bytes": 886,
+        "path": "public-proof/submission-37771085.json",
+        "sha256": "d4c01f50ea0e907665d8492087c0d28673de7f4bfa25dd77959f3807afedf806"
+      },
+      "proof": {
+        "fullSuite": {
+          "bytes": 5858,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": "0007",
+          "path": "proof/976A/37771085.json",
+          "sha256": "c4518af06cc8199728bb7ff2ace2cefac704f8da234c9304b606e0ebdaf585fb",
+          "testsRun": 16,
+          "verdict": "WA"
+        },
+        "lfInput": {
+          "bytes": 4,
+          "path": "proof/976A/37771085-failed.in",
+          "sha256": "5d90ef7fc0d040fd56a1e48697cfa99e0dfaf4fd803aefefc3b5053ec1d36aea"
+        },
+        "lfRun": {
+          "bytes": 506,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": "0007",
+          "path": "proof/976A/37771085-lf.json",
+          "sha256": "d2c3a91987c3e0bd169d55e24fbc6fe6436746847262384d26fa7e4cbb7eea3c",
+          "testsRun": 1,
+          "verdict": "WA"
+        },
+        "originalOutput": {
+          "bytes": 3,
+          "path": "proof/976A/37771085-failed.out",
+          "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469"
+        }
+      },
+      "publicSubmissionUrl": "https://codeforces.com/contest/976/submission/37771085",
+      "qualifiesAsAlgorithmicallyWrong": true,
+      "reason": "Compares an integer ones-count to string '1' and starts answer at '1' even for the zero-only number. The zero input contains no 1 and cannot acquire any under the allowed operations. The output 10 is impossible and exceeds the correct minimum 0.",
+      "recordedTestUnchanged": true,
+      "sourceExcerpt": "8:         if j == '1':\n9:             countOfOne += 1\n10:     countOfZero = len(a) - countOfOne\n11:     if countOfOne == '1':\n12:         return '0'\n13:     answer = '1'\n14:     countOfOne -= 1",
+      "sourceHash": "3b2802c4df03f3d1cd1e1f969d29496c9d45fae2df04498e274f0811b3254ebe",
+      "sourceLineRange": [
+        8,
+        14
+      ],
+      "sourceProvenance": {
+        "bytes": 146731286,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00034-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "6d1f79c0f00682aa5a00a20686185087c78f281cdc65296f6b1736e409030cdd",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00034-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 1268,
+        "path": "W/800/state/976A/sources/37771085.json",
+        "sha256": "8782170f65c82120acc917c214b7095482128fe5f663e67bb350ee77880fe219"
+      },
+      "test": "0007",
+      "validUnderCurrentStatement": true
+    }
+  },
+  "packageBytesUnmodified": true,
+  "packageHash": "caecfc3d9131a00b125eadd076c1d0d7970485442c853f0d428b5830fdb27ae0",
+  "publication": "Not requested or performed; local gate uses require_approval=False only.",
+  "qualificationBasis": "official",
+  "qualifyingIncorrectSourceCount": 3,
+  "rating": 800,
+  "reason": "Only 3/5 counted incorrect sources qualify; 37768059: missing-output; 37769658: presentation-only",
+  "reviewUrl": "https://staging.itsdev.in/sessions/0fc5d539cb4f4c698a8a547f6d768030",
+  "reviewer": "devin-0fc5d539cb4f4c698a8a547f6d768030",
+  "sandbox": {
+    "bounded": true,
+    "checkerHash": "bd6f01aef953afe25e6446da0b1a3530b65540798d4724fb46b499e89de45765",
+    "compilerFlags": [
+      "-O2",
+      "-std=c++17",
+      "-DONLINE_JUDGE"
+    ],
+    "executionVersion": 2,
+    "harnessHash": "bbd781088efcc16c1f713e7079edb30d2e97cd279a7e7f4c3206a2ba0d6c4fbe",
+    "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+    "network": "none",
+    "runnerHash": "356a5daaaaebf0b2e6b1014ca3774816de3b5e7739034c81804329a36020b293"
+  },
+  "schemaVersion": 1,
+  "sourceReviewCount": 5,
+  "status": "rejected",
+  "supplementaryProof": {
+    "acceptedComparisons": [
+      {
+        "stress": {
+          "bytes": 18397,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": null,
+          "path": "proof/976A/stress-37750588.json",
+          "sha256": "3e31e59ce83f16dde9d387b9c408612dfa780d799525c375efccfd68436cc611",
+          "testsRun": 50,
+          "verdict": "AC"
+        },
+        "submissionId": "37750588",
+        "supplemental": {
+          "bytes": 85499,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": null,
+          "path": "proof/976A/supplemental-37750588.json",
+          "sha256": "da361879b1bc6374a000196f4c588723c7cf63a725bf44c8bc166fe91a0d86dd",
+          "testsRun": 258,
+          "verdict": "AC"
+        }
+      },
+      {
+        "stress": {
+          "bytes": 18320,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": null,
+          "path": "proof/976A/stress-37750598.json",
+          "sha256": "43a54daea64e25286f1be2e6a8d001a120a37bc85e4903c0807c1073ad74f19e",
+          "testsRun": 50,
+          "verdict": "AC"
+        },
+        "submissionId": "37750598",
+        "supplemental": {
+          "bytes": 85160,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": null,
+          "path": "proof/976A/supplemental-37750598.json",
+          "sha256": "35bbbac828285bf2ba2c0cb62be7b09371ace5eff730ed0de078760cc5e04069",
+          "testsRun": 258,
+          "verdict": "AC"
+        }
+      }
+    ],
+    "author": "devin-0fc5d539cb4f4c698a8a547f6d768030",
+    "checkedSamplesAndTests": 18,
+    "coverageReviewed": "All valid binary strings through length 8, singleton zero/one, all ones, alternating and maximum zero tails.",
+    "currentStatementDomainSignedOff": true,
+    "domain": "n in 1..100; length-n binary string; no leading zero except singleton 0",
+    "everyInputAndExpectedTokenMatched": true,
+    "fourInvalidInputsRejected": true,
+    "referenceExecution": {
+      "bytes": 19099,
+      "compiled": true,
+      "compilerFlags": [
+        "-O2",
+        "-std=c++17",
+        "-DONLINE_JUDGE"
+      ],
+      "executionVersion": 2,
+      "failedTest": "audit",
+      "path": "proof/976A/independent-run.json",
+      "sha256": "20c7ae80da4cfef723b4d75c966c8ac4f1b3e709da6f8a9873932693341dc16e",
+      "testsRun": 1,
+      "verdict": "WA"
+    },
+    "referenceImplementation": {
+      "bytes": 7733,
+      "path": "independent.py",
+      "sha256": "45048f5852a5d9fea12eae8a44c43862e983918f0cfe0d5bc175108033a28416"
+    },
+    "referenceMethod": "BFS enumerates all reachable swaps and 11 merges through length 8; invariant argument for large inputs.",
+    "referenceOutput": {
+      "bytes": 13937,
+      "path": "proof/976A/independent-output.json",
+      "sha256": "544c58c694f8757dec93450b450dc22f26cfac34f7d328dc7c41ec87c4f33dbc"
+    },
+    "stressPairs": 50,
+    "stressReferenceExecution": {
+      "bytes": 8518,
+      "compiled": true,
+      "compilerFlags": [
+        "-O2",
+        "-std=c++17",
+        "-DONLINE_JUDGE"
+      ],
+      "executionVersion": 2,
+      "failedTest": "generate",
+      "path": "proof/976A/stress-reference-run.json",
+      "sha256": "82780860c922ee403f5185d741ffcf5c1c2b7934f23e36b31f4b3cfaf31ff3ee",
+      "testsRun": 1,
+      "verdict": "WA"
+    },
+    "stressSeed": 101013,
+    "stressTests": {
+      "bytes": 6004,
+      "path": "proof/976A/stress-tests.json",
+      "sha256": "2db314c4aecd4a3d10616141635057ba9c008c1d9e48eeb5a3471e6c3168fa8f"
+    },
+    "supplementalPairs": 258,
+    "supplementalTests": {
+      "bytes": 16027,
+      "path": "proof/976A/supplemental-tests.json",
+      "sha256": "3a5c2af7ead8a030412fcd8b659a3d767d506555504fc84b0639b969e8da6760"
+    },
+    "validatorMutationExecution": {
+      "bytes": 1021,
+      "compiled": true,
+      "compilerFlags": [
+        "-O2",
+        "-std=c++17",
+        "-DONLINE_JUDGE"
+      ],
+      "executionVersion": 2,
+      "failedTest": "invalid-inputs",
+      "path": "proof/976A/mutation-run.json",
+      "sha256": "a9fd1451831fbb1b1ca0ffdf0f3061c53b043b2b19ff9a8122986769bc699621",
+      "testsRun": 1,
+      "verdict": "WA"
+    },
+    "validatorMutationResults": {
+      "bytes": 366,
+      "path": "proof/976A/mutation-results.json",
+      "sha256": "3dc5b456eda92fafc25ad7d4090f7b5cfe7fdd4047d129e8e5cc48e1284f8312"
+    }
+  }
+}

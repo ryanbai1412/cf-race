@@ -1,0 +1,1457 @@
+{
+  "acceptedSourceCount": 5,
+  "approved": false,
+  "byteVerification": {
+    "allOfficialIncludedPairsExact": true,
+    "allReferenceMatches": true,
+    "allSampleBytesExact": true,
+    "evidenceHash": "fad98041f7adcf2e3786059256f55f42c9c86a2b91950cafedea58073f2991e8",
+    "generated": {
+      "count": 150,
+      "distinctInputs": 150,
+      "generatorExactRepeat": true,
+      "oracleSource": {
+        "attribution": "Public Codeforces submission (open-r1/codeforces-submissions); not a different-agent audit.",
+        "distinctAcceptedAvailable": 4016,
+        "language": "GNU C++11",
+        "reservedOldest": 25,
+        "source": {
+          "bytes": 141219443,
+          "dataset": "open-r1/codeforces-submissions",
+          "path": "data/train-00000-of-00036.parquet",
+          "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+          "sha256": "bacfc2870c80dc2c895194ce769282f35f9e817a577804489f428ff18671e235",
+          "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00000-of-00036.parquet"
+        },
+        "sourceHash": "ca99ce2e93b5c95435b887a0f488a60c8f761236b715d3ecea7290befd60a9b8",
+        "submissionId": "40348899",
+        "url": "https://codeforces.com/contest/1009/submission/40348899"
+      },
+      "publicOracleEveryPairAndSampleAC": true,
+      "retainedExecutionAndOracleHashesMatch": true
+    },
+    "innerFileCount": 371,
+    "packageHash": "e743f2fc3a5210962882c050f0c121f5992bf662d5b5942e00295f157f9770d1",
+    "pairHashes": true,
+    "rating800": true,
+    "statementExactPinnedRendering": true
+  },
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "independentReference": true,
+    "inputConstraints": true,
+    "lexicalValidatorUnchanged": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementComplete": true,
+    "supplementaryAcceptedComparison": true
+  },
+  "coverageReview": {
+    "additionalCoverage": "Exhaustive n,m=1..3 with values {1,2}, equality/blocked first bill/exhausted wallet, both 1000-size arrays and random stress.",
+    "apiRating": 800,
+    "apiSnapshotHash": "064c4396494cd7a813222335d396816a314d39fad3d9c8680726ab784458b7e0",
+    "basis": {
+      "basis": "generated",
+      "generatorMode": "extensive",
+      "officialAdvertised": 19,
+      "officialComplete": false,
+      "officialIncluded": 13,
+      "officialRole": "supplementary",
+      "openR1Generated": 4,
+      "workerGenerated": 150
+    },
+    "checkerSuitability": "Exact deterministic integer/string/array answer; whitespace-token checker is appropriate; no any-answer, floating-point tolerance or special checker.",
+    "extraAndRecipeIndependentlyChecked": true,
+    "inputConstraints": "n,m in 1..1000; n costs and m bill values each in 1..1000",
+    "recipe": {
+      "bytes": 1283,
+      "path": "worker/genrecipes/1009A.py",
+      "sha256": "65a8ec62f0d09371f0e9c708497fd39c8fa86e52875947641cbf0a971512251e"
+    },
+    "recipeExecution": {
+      "bytes": 13106,
+      "compiled": true,
+      "compilerFlags": [
+        "-O2",
+        "-std=c++17",
+        "-DONLINE_JUDGE"
+      ],
+      "executionVersion": 2,
+      "failedTest": "recipe",
+      "path": "proof/1009A/recipe-run.json",
+      "sha256": "9e3c54da183c30a73217a1a9b275961bfc2b031bb5065926d716732ba0124e58",
+      "testsRun": 1,
+      "verdict": "WA"
+    },
+    "recipeResults": {
+      "bytes": 9448,
+      "path": "proof/1009A/recipe-output.json",
+      "sha256": "b3b3f186b2de7394d6d4af4c7f165ec8d073f749f507b73ef24d6c93074bdba3"
+    },
+    "retainedCoverageCases": {
+      "adversarial": [
+        {
+          "inputHash": "0104c7e6a3000a0d6e12d299cc45e87fdf3ee11d2d6f4a31a730112f6345acc3",
+          "outputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "reason": "more bills than games",
+          "reviewedAgainstActualInput": true,
+          "test": "0019"
+        }
+      ],
+      "boundary": [
+        {
+          "inputHash": "cd1dcad6d706dd94b78dcd9820707760bdbed42e9dd251f48891d604b6d61001",
+          "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "reason": "single exact bill",
+          "reviewedAgainstActualInput": true,
+          "test": "0018"
+        }
+      ],
+      "maxSize": [
+        {
+          "inputHash": "af41ba6a2c6207f925d769967de74031885a8b52f7271875d89646a91a639161",
+          "outputHash": "83c02ac2d48c863dab2ccf6870455aadfc2cec073b8db269b517c879d76aa6d9",
+          "reason": "n=m=1000",
+          "reviewedAgainstActualInput": true,
+          "test": "0020"
+        }
+      ]
+    },
+    "semanticRule": "A failed game keeps the first bill; a bought game consumes that bill with no change; equality succeeds.",
+    "statementHash": "76a6f69937c7e76daacadeee75dabc12b6723c0048dd0b055e27428de5ab7822",
+    "statementProvenance": {
+      "bytes": 486411551,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00005-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "fd11e585063299408af6ebc747ee1b6e0529e69ba32eaabe7c18931b6a3d8763",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00005-of-00011.parquet"
+    },
+    "statementReview": "Full pinned statement including input/output and note read; no statement defect found.",
+    "statementRowHash": "950248849b6ac120d8f5eeb194fb21fbebc18dbe6f372ec90b84b4a1f05d34a9",
+    "uniqueAnswer": true
+  },
+  "evidenceHash": "fad98041f7adcf2e3786059256f55f42c9c86a2b91950cafedea58073f2991e8",
+  "freshSubmissions": [
+    {
+      "datasetVerdict": "OK",
+      "language": "GNU C++11",
+      "pinnedPublicRow": {
+        "bytes": 834,
+        "path": "public-proof/submission-40321787.json",
+        "sha256": "977f3b3658531d046e4c26a920bc3a1524e320d503cf050b2fd46c442efe6443"
+      },
+      "rerun": {
+        "bytes": 53895,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": null,
+        "path": "proof/1009A/40321787.json",
+        "sha256": "0cea6c147342ed3823f424065dcd4a2067e8faccba5505db063e0cb1869d514e",
+        "testsRun": 167,
+        "verdict": "AC"
+      },
+      "sourceHash": "5129f75f9b57a4060a633f6ad01d67c8e0fb5ab3f2015e5ea2db808009c7ade3",
+      "sourceProvenance": {
+        "bytes": 141219443,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00000-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "bacfc2870c80dc2c895194ce769282f35f9e817a577804489f428ff18671e235",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00000-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 1215,
+        "path": "W/800/state/1009A/sources/40321787.json",
+        "sha256": "fbec480d7c01bb89f11cd914b9b59743e342316fb5c6851f3b3cdc06b94f3809"
+      },
+      "submissionId": "40321787",
+      "url": "https://codeforces.com/contest/1009/submission/40321787"
+    },
+    {
+      "datasetVerdict": "OK",
+      "language": "C++17 (GCC 7-32)",
+      "pinnedPublicRow": {
+        "bytes": 691,
+        "path": "public-proof/submission-40321789.json",
+        "sha256": "318197205a5637440852bc710adf1c06587aa5278d60d4dec556bbc9d9a7a7ec"
+      },
+      "rerun": {
+        "bytes": 54111,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": null,
+        "path": "proof/1009A/40321789.json",
+        "sha256": "38acdf3fa276009a171b29818cadb119dbe8177adeecbd005eb7594873d0d417",
+        "testsRun": 167,
+        "verdict": "AC"
+      },
+      "sourceHash": "090296a7ec11550e7b79c33aa19771b3d3b6ca1fce99b7c600cff326c21cacbf",
+      "sourceProvenance": {
+        "bytes": 167802918,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00035-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "4fdaf008cd04a6626fffd9bdddd43c4d86f2d8b6309b813880c7198a0323686b",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00035-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 1077,
+        "path": "W/800/state/1009A/sources/40321789.json",
+        "sha256": "d931c8575200fbc9045a82811ea7b73fbd18e87432477d1d180adf28effaa016"
+      },
+      "submissionId": "40321789",
+      "url": "https://codeforces.com/contest/1009/submission/40321789"
+    },
+    {
+      "datasetVerdict": "OK",
+      "language": "C++17 (GCC 7-32)",
+      "pinnedPublicRow": {
+        "bytes": 909,
+        "path": "public-proof/submission-40321790.json",
+        "sha256": "892992f0073b45a0a1f46e0c055c5863fcaaa97cf15a4e40bdd45d3534531809"
+      },
+      "rerun": {
+        "bytes": 53908,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": null,
+        "path": "proof/1009A/40321790.json",
+        "sha256": "364c046dba963d9f8496ebf9c0ad81e11e4d0d097866371365a38591303d86dc",
+        "testsRun": 167,
+        "verdict": "AC"
+      },
+      "sourceHash": "5ecd1cc48d25c0a86ca7d1f8afd25926f6561002926a107076f1632bdcca1dec",
+      "sourceProvenance": {
+        "bytes": 141219443,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00000-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "bacfc2870c80dc2c895194ce769282f35f9e817a577804489f428ff18671e235",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00000-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 1289,
+        "path": "W/800/state/1009A/sources/40321790.json",
+        "sha256": "0679be701884c80068479bc40eaa93dab9cca024efd1a76ed5eff08e67b2317e"
+      },
+      "submissionId": "40321790",
+      "url": "https://codeforces.com/contest/1009/submission/40321790"
+    },
+    {
+      "datasetVerdict": "OK",
+      "language": "C++14 (GCC 6-32)",
+      "pinnedPublicRow": {
+        "bytes": 831,
+        "path": "public-proof/submission-40321792.json",
+        "sha256": "01f3cd73fc95173671ee00d2e6de51ff9baba0b9636a33a366f05c87bff72b53"
+      },
+      "rerun": {
+        "bytes": 53908,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": null,
+        "path": "proof/1009A/40321792.json",
+        "sha256": "be802a81ffb0a735580e018777ace5c342fdcea1a58b6d96d209bf261b15543a",
+        "testsRun": 167,
+        "verdict": "AC"
+      },
+      "sourceHash": "944875c5bf03475a65a438bd8c0ead50321ae00bff3bed6731e2eb3ba442b443",
+      "sourceProvenance": {
+        "bytes": 141219443,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00000-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "bacfc2870c80dc2c895194ce769282f35f9e817a577804489f428ff18671e235",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00000-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 1217,
+        "path": "W/800/state/1009A/sources/40321792.json",
+        "sha256": "36b8d3a405b21aaf269bb7c810036b0a5777186ed2bef6f9ae1e3af14c6fa1b5"
+      },
+      "submissionId": "40321792",
+      "url": "https://codeforces.com/contest/1009/submission/40321792"
+    },
+    {
+      "datasetVerdict": "OK",
+      "language": "C++17 (GCC 7-32)",
+      "pinnedPublicRow": {
+        "bytes": 914,
+        "path": "public-proof/submission-40321797.json",
+        "sha256": "5687d1c219f791ea1358ff5d7cc0d557cc463f77eae6591bdd971f30acad12d8"
+      },
+      "rerun": {
+        "bytes": 54134,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": null,
+        "path": "proof/1009A/40321797.json",
+        "sha256": "6d37ad0607af03f0a39ab20d090912b87117a040e181c6692e141db80049cf01",
+        "testsRun": 167,
+        "verdict": "AC"
+      },
+      "sourceHash": "53b0343d719683fb1c1f9f62c05645b5eec7ad253ba40638c8c3673359c606d4",
+      "sourceProvenance": {
+        "bytes": 141219443,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00000-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "bacfc2870c80dc2c895194ce769282f35f9e817a577804489f428ff18671e235",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00000-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 1295,
+        "path": "W/800/state/1009A/sources/40321797.json",
+        "sha256": "050c0314d81e039a9ff69840424dca6c52c533fe9ff7ed182eecdd34cca763c8"
+      },
+      "submissionId": "40321797",
+      "url": "https://codeforces.com/contest/1009/submission/40321797"
+    },
+    {
+      "datasetVerdict": "WRONG_ANSWER",
+      "language": "Python 3",
+      "lfRerun": {
+        "bytes": 505,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "0001",
+        "path": "proof/1009A/40377740-lf.json",
+        "sha256": "2ba831f2bb1c8564a3e1d05c1ac9e1a1f052ed0722fec0119705e7410c5c8f76",
+        "testsRun": 1,
+        "verdict": "WA"
+      },
+      "pinnedPublicRow": {
+        "bytes": 584,
+        "path": "public-proof/submission-40377740.json",
+        "sha256": "65a74f77cf91c169889eea1cf2ada25d026f19375307cc710259a0fcfaff817b"
+      },
+      "qualifiesAsAlgorithmicallyWrong": true,
+      "rerun": {
+        "bytes": 53625,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "0001",
+        "path": "proof/1009A/40377740.json",
+        "sha256": "3f251364ca52ddada7e38b10ff9dbdc299b9e3b688b0dedcd05a0e2279978b76",
+        "testsRun": 167,
+        "verdict": "WA"
+      },
+      "sourceHash": "f4a8f9d57db9632c25178e6b844ac986cc6280e1638a00e9e0adfc646531e679",
+      "sourceProvenance": {
+        "bytes": 141219443,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00000-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "bacfc2870c80dc2c895194ce769282f35f9e817a577804489f428ff18671e235",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00000-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 971,
+        "path": "W/800/state/1009A/sources/40377740.json",
+        "sha256": "5d50f3539e02be21b366f61769d2f8db2092de250136f09ebed152a5f37b6d2c"
+      },
+      "submissionId": "40377740",
+      "url": "https://codeforces.com/contest/1009/submission/40377740",
+      "wrongSourceReviewKind": "wrong-answer"
+    },
+    {
+      "datasetVerdict": "WRONG_ANSWER",
+      "language": "Python 3",
+      "lfRerun": {
+        "bytes": 534,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "0001",
+        "path": "proof/1009A/40391201-lf.json",
+        "sha256": "bc302fe5fcd76aad241a2a3cee27dd80080a3e71cfa319e9ad2e3565c1fd0bf1",
+        "testsRun": 1,
+        "verdict": "WA"
+      },
+      "pinnedPublicRow": {
+        "bytes": 1847,
+        "path": "public-proof/submission-40391201.json",
+        "sha256": "1a1e67bc2cf1e2d93fd0f564afe4f24e084bb9d8d573190c068b4ddd674bb558"
+      },
+      "qualifiesAsAlgorithmicallyWrong": false,
+      "rerun": {
+        "bytes": 231730,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "0001",
+        "path": "proof/1009A/40391201.json",
+        "sha256": "bd32df4fff00cd278f7afdeb9e5a9681f5ba8e4c2d3a1b3a52120d076281678f",
+        "testsRun": 167,
+        "verdict": "WA"
+      },
+      "sourceHash": "47e8a6fba2b3fc569183af7d2d8889b8925de01e6330956bc3c1cb7e82ade824",
+      "sourceProvenance": {
+        "bytes": 141219443,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00000-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "bacfc2870c80dc2c895194ce769282f35f9e817a577804489f428ff18671e235",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00000-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 2233,
+        "path": "W/800/state/1009A/sources/40391201.json",
+        "sha256": "07d4cb90ed65c2132e99c1f77b7a11deaed1c5a5161d570e64b5187d0ac47c53"
+      },
+      "submissionId": "40391201",
+      "url": "https://codeforces.com/contest/1009/submission/40391201",
+      "wrongSourceReviewKind": "presentation-only"
+    },
+    {
+      "datasetVerdict": "WRONG_ANSWER",
+      "language": "Python 3",
+      "lfRerun": {
+        "bytes": 535,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "0001",
+        "path": "proof/1009A/40483800-lf.json",
+        "sha256": "9456daf21b5e57cb7789f1817b558d422e362290fcd74d0da7bc059dffb3a492",
+        "testsRun": 1,
+        "verdict": "WA"
+      },
+      "pinnedPublicRow": {
+        "bytes": 548,
+        "path": "public-proof/submission-40483800.json",
+        "sha256": "f81222c8ed6a73522be5a1ab444aa7cff6f98931f008c2ba5e6026628d4a8500"
+      },
+      "qualifiesAsAlgorithmicallyWrong": false,
+      "rerun": {
+        "bytes": 309747,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "0001",
+        "path": "proof/1009A/40483800.json",
+        "sha256": "769a773c8a626178a9b8319565a6edb255c36a0f5c8bf27c34162929b77892b5",
+        "testsRun": 167,
+        "verdict": "WA"
+      },
+      "sourceHash": "13a588062dc7a2354f990906ae1fac4b10845aa2ab06a7c86134b1f2a792b999",
+      "sourceProvenance": {
+        "bytes": 141219443,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00000-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "bacfc2870c80dc2c895194ce769282f35f9e817a577804489f428ff18671e235",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00000-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 935,
+        "path": "W/800/state/1009A/sources/40483800.json",
+        "sha256": "243e0c3074ee22070c421c55ad8f3b91d9f5a843b2c8df3cc0d4ab928e1d148b"
+      },
+      "submissionId": "40483800",
+      "url": "https://codeforces.com/contest/1009/submission/40483800",
+      "wrongSourceReviewKind": "presentation-only"
+    },
+    {
+      "datasetVerdict": "WRONG_ANSWER",
+      "language": "Python 3",
+      "lfRerun": {
+        "bytes": 503,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "0001",
+        "path": "proof/1009A/40483910-lf.json",
+        "sha256": "0505df05b8c0559fc096e62f09a13fcd12db2642bea5b30cd431cd30809b8671",
+        "testsRun": 1,
+        "verdict": "WA"
+      },
+      "pinnedPublicRow": {
+        "bytes": 512,
+        "path": "public-proof/submission-40483910.json",
+        "sha256": "5c2f7f49b56aea10c12dc3d4e60a86b2752ca03d108fac61ebc98ff7cccede27"
+      },
+      "qualifiesAsAlgorithmicallyWrong": false,
+      "rerun": {
+        "bytes": 57978,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "0001",
+        "path": "proof/1009A/40483910.json",
+        "sha256": "a03eab0e63df6986c145985b46bb7fce0379660e30bf32084aac6ca0f55f37dd",
+        "testsRun": 167,
+        "verdict": "WA"
+      },
+      "sourceHash": "73cdcd55e31735c9f00c7d11bf1db819fc35eeba00014181987810f8b36631f3",
+      "sourceProvenance": {
+        "bytes": 141219443,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00000-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "bacfc2870c80dc2c895194ce769282f35f9e817a577804489f428ff18671e235",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00000-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 899,
+        "path": "W/800/state/1009A/sources/40483910.json",
+        "sha256": "aa08f380efd0ad90d79ef56e21f51bad6bccd78ebb0924b3ba311b641ec6ffce"
+      },
+      "submissionId": "40483910",
+      "url": "https://codeforces.com/contest/1009/submission/40483910",
+      "wrongSourceReviewKind": "missing-output"
+    },
+    {
+      "datasetVerdict": "WRONG_ANSWER",
+      "language": "Python 3",
+      "lfRerun": {
+        "bytes": 519,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "0002",
+        "path": "proof/1009A/40550486-lf.json",
+        "sha256": "b4934102362fbe7fddf98d89ce262f9ae2600935e75b273b386301cfba564665",
+        "testsRun": 1,
+        "verdict": "WA"
+      },
+      "pinnedPublicRow": {
+        "bytes": 564,
+        "path": "public-proof/submission-40550486.json",
+        "sha256": "8c3ab791695a17d457d69d5c6488b7ef21509277f7d2c83fe5a0f2a5ed0c8ed9"
+      },
+      "qualifiesAsAlgorithmicallyWrong": true,
+      "rerun": {
+        "bytes": 53796,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "0002",
+        "path": "proof/1009A/40550486.json",
+        "sha256": "15434afda935461bed6e1e3bd778321caa0b3871ba60c739bc5469d71c8b121b",
+        "testsRun": 167,
+        "verdict": "WA"
+      },
+      "sourceHash": "7672b8ba5c9deed0d25c6eb0b35dffb5c6079402cbe7ef3197c6622bf0099759",
+      "sourceProvenance": {
+        "bytes": 141219443,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00000-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "bacfc2870c80dc2c895194ce769282f35f9e817a577804489f428ff18671e235",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00000-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 950,
+        "path": "W/800/state/1009A/sources/40550486.json",
+        "sha256": "46472fff58b6f8e88332a9edbbb6c317d2e6519df3d45b9968cd17e6721d0e3d"
+      },
+      "submissionId": "40550486",
+      "url": "https://codeforces.com/contest/1009/submission/40550486",
+      "wrongSourceReviewKind": "wrong-answer"
+    }
+  ],
+  "generatedQualification": {
+    "count": 150,
+    "distinctInputs": 150,
+    "generatorExactRepeat": true,
+    "generatorMetadata": {
+      "bytes": 2045,
+      "path": "W/800/packages/1009A/qualification/generation.json",
+      "sha256": "a98b9580866bdae80fde195f9e7413d8783603b3dd7adc02e2125e3cfea32b8d"
+    },
+    "generatorSource": {
+      "bytes": 3321,
+      "path": "W/800/packages/1009A/qualification/generator.py",
+      "sha256": "6ced0b98b73fc55e5530b6849bdb536393ab9cf7c1bbb1586a7bacb8c292e2e1"
+    },
+    "openR1GeneratedAttribution": {
+      "bytes": 32379,
+      "path": "public-proof/generated-1009A.json",
+      "sha256": "94d5ce497fb40e5d80105456e64c9f0df1a743cf2b9ad3b22714c8fa2f803c54"
+    },
+    "oracleMetadata": {
+      "bytes": 35970,
+      "path": "W/800/packages/1009A/qualification/oracle.json",
+      "sha256": "542fe20f8fa9937208eacbc88132fd00d60e21aae0388682445adb1ff1c0381c"
+    },
+    "oracleSource": {
+      "bytes": 741,
+      "path": "W/800/packages/1009A/qualification/oracle.cpp",
+      "sha256": "ca99ce2e93b5c95435b887a0f488a60c8f761236b715d3ecea7290befd60a9b8"
+    },
+    "ownGeneration": [
+      {
+        "bytes": 659032,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "seed",
+        "path": "proof/1009A/generator-0.json",
+        "sha256": "82f886ad4a7d979ea3647c4ab440ed91e35cdf211a1c89670631a90274e566bc",
+        "testsRun": 1,
+        "verdict": "WA"
+      },
+      {
+        "bytes": 659022,
+        "compiled": true,
+        "compilerFlags": [
+          "-O2",
+          "-std=c++17",
+          "-DONLINE_JUDGE"
+        ],
+        "executionVersion": 2,
+        "failedTest": "seed",
+        "path": "proof/1009A/generator-1.json",
+        "sha256": "ac050d794709e24a464e3ceee23ef4696307f95d3e472587550aa2145fbbc29e",
+        "testsRun": 1,
+        "verdict": "WA"
+      }
+    ],
+    "ownOracleRun": {
+      "bytes": 55669,
+      "compiled": true,
+      "compilerFlags": [
+        "-O2",
+        "-std=c++17",
+        "-DONLINE_JUDGE"
+      ],
+      "executionVersion": 2,
+      "failedTest": null,
+      "path": "proof/1009A/oracle-run.json",
+      "sha256": "2fd30356bc9dbdc1994dfd3617895362827180e9803450be489575a251d86478",
+      "testsRun": 170,
+      "verdict": "AC"
+    },
+    "ownOutputs": [
+      {
+        "bytes": 493888,
+        "path": "proof/1009A/generator-0-output.json",
+        "sha256": "8a5f60b27c01d2a8f6402c21056e38bc894bede319ad979a47005e47be0fed4c"
+      },
+      {
+        "bytes": 493888,
+        "path": "proof/1009A/generator-1-output.json",
+        "sha256": "8a5f60b27c01d2a8f6402c21056e38bc894bede319ad979a47005e47be0fed4c"
+      }
+    ],
+    "publicOracleEveryPairAndSampleAC": true,
+    "retainedExecutionAndOracleHashesMatch": true,
+    "separateGeneratorOracleValidatorReviewerIdentities": true
+  },
+  "id": "1009A",
+  "incorrectAnalysis": {
+    "40377740": {
+      "algorithmicDefectUnderIntendedDomain": true,
+      "completeSourceRead": true,
+      "counterexample": {
+        "actualOutputLF": "2\n",
+        "actualOutputLFHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "actualOutputOriginal": "2\n",
+        "actualOutputOriginalHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+        "expectedOutput": "3\r\n",
+        "expectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "independentExpectedTokens": [
+          "3"
+        ],
+        "inputLF": "5 4\n2 4 5 2 4\n5 3 4 6\n",
+        "inputLFHash": "efa5a07a190d92a935de257e4717a127ff54df6f6e15863263d3f5e7d952a853",
+        "inputOriginalHash": "a16b6767d01ee0fd2ea5c8d1877e43fca6ebf087755270887843210eb66041d7",
+        "lfExitCode": 0,
+        "lfTimeout": false,
+        "lfVerdict": "WA",
+        "originalVerdict": "WA",
+        "test": "0001"
+      },
+      "faultCode": "g < has_bill[0]",
+      "faultLineRange": [
+        6,
+        6
+      ],
+      "faultyImplementedStep": "Requires strictly greater bill value instead of allowing equality.",
+      "inputDomainCaveat": null,
+      "intendedInputConstraintsAndExpectedOutputVerified": true,
+      "kind": "wrong-answer",
+      "mathematicalExplanation": "In the sample, the final game costs 4 and current bill is 4. It must be bought after two earlier purchases, total three; strict comparison rejects it and returns two.",
+      "pinnedPublicRow": {
+        "bytes": 584,
+        "path": "public-proof/submission-40377740.json",
+        "sha256": "65a74f77cf91c169889eea1cf2ada25d026f19375307cc710259a0fcfaff817b"
+      },
+      "proof": {
+        "fullSuite": {
+          "bytes": 53625,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": "0001",
+          "path": "proof/1009A/40377740.json",
+          "sha256": "3f251364ca52ddada7e38b10ff9dbdc299b9e3b688b0dedcd05a0e2279978b76",
+          "testsRun": 167,
+          "verdict": "WA"
+        },
+        "lfInput": {
+          "bytes": 22,
+          "path": "proof/1009A/40377740-failed.in",
+          "sha256": "efa5a07a190d92a935de257e4717a127ff54df6f6e15863263d3f5e7d952a853"
+        },
+        "lfRun": {
+          "bytes": 505,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": "0001",
+          "path": "proof/1009A/40377740-lf.json",
+          "sha256": "2ba831f2bb1c8564a3e1d05c1ac9e1a1f052ed0722fec0119705e7410c5c8f76",
+          "testsRun": 1,
+          "verdict": "WA"
+        },
+        "originalOutput": {
+          "bytes": 2,
+          "path": "proof/1009A/40377740-failed.out",
+          "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3"
+        }
+      },
+      "publicSubmissionUrl": "https://codeforces.com/contest/1009/submission/40377740",
+      "qualifiesAsAlgorithmicallyWrong": true,
+      "reason": "Requires strictly greater bill value instead of allowing equality. In the sample, the final game costs 4 and current bill is 4. It must be bought after two earlier purchases, total three; strict comparison rejects it and returns two.",
+      "recordedTestUnchanged": true,
+      "sourceExcerpt": "3: has_bill     = [int(x) for x in input().split()]\n4: cnt = 0\n5: for g in games_cost:\n6:     if has_bill and g < has_bill[0]:\n7:         has_bill.pop(0)\n8:         cnt += 1\n9: ",
+      "sourceHash": "f4a8f9d57db9632c25178e6b844ac986cc6280e1638a00e9e0adfc646531e679",
+      "sourceLineRange": [
+        3,
+        9
+      ],
+      "sourceProvenance": {
+        "bytes": 141219443,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00000-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "bacfc2870c80dc2c895194ce769282f35f9e817a577804489f428ff18671e235",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00000-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 971,
+        "path": "W/800/state/1009A/sources/40377740.json",
+        "sha256": "5d50f3539e02be21b366f61769d2f8db2092de250136f09ebed152a5f37b6d2c"
+      },
+      "test": "0001",
+      "validUnderCurrentStatement": true
+    },
+    "40391201": {
+      "algorithmicDefectUnderIntendedDomain": false,
+      "completeSourceRead": true,
+      "counterexample": {
+        "actualOutputLF": "2 5\n2 3\n4 4\n3\n",
+        "actualOutputLFHash": "9f73f0404c23db04395cdb325ac701ba738c4b5f37e7395c02babf12be2bd2af",
+        "actualOutputOriginal": "2 5\n2 3\n4 4\n3\n",
+        "actualOutputOriginalHash": "9f73f0404c23db04395cdb325ac701ba738c4b5f37e7395c02babf12be2bd2af",
+        "expectedOutput": "3\r\n",
+        "expectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "independentExpectedTokens": [
+          "3"
+        ],
+        "inputLF": "5 4\n2 4 5 2 4\n5 3 4 6\n",
+        "inputLFHash": "efa5a07a190d92a935de257e4717a127ff54df6f6e15863263d3f5e7d952a853",
+        "inputOriginalHash": "a16b6767d01ee0fd2ea5c8d1877e43fca6ebf087755270887843210eb66041d7",
+        "lfExitCode": 0,
+        "lfTimeout": false,
+        "lfVerdict": "WA",
+        "originalVerdict": "WA",
+        "test": "0001"
+      },
+      "exclusionReason": "presentation-only",
+      "faultCode": "print(game[i] , wallet[0])",
+      "faultLineRange": [
+        10,
+        10
+      ],
+      "faultyImplementedStep": "Prints each bought game's price and bill before the final correct purchase count.",
+      "inputDomainCaveat": null,
+      "intendedInputConstraintsAndExpectedOutputVerified": true,
+      "kind": "presentation-only",
+      "mathematicalExplanation": "On the recorded five-game sample it correctly buys three games and prints final 3. Removing only transaction debug prints passes the LF test; possible wallet-index errors elsewhere do not count here.",
+      "pinnedPublicRow": {
+        "bytes": 1847,
+        "path": "public-proof/submission-40391201.json",
+        "sha256": "1a1e67bc2cf1e2d93fd0f564afe4f24e084bb9d8d573190c068b4ddd674bb558"
+      },
+      "presentationIsolationDiagnostic": {
+        "actualOutput": "3\n",
+        "bytes": 671,
+        "countedSourceUnmodified": true,
+        "diagnosticOnly": true,
+        "modifiedCopy": {
+          "bytes": 1384,
+          "path": "proof/1009A/presentation-diagnostic-40391201.source",
+          "sha256": "f6625246469a65b8edafd4087abaa0d19cd2a4ef1e9992a7ff444f74e7f0e209"
+        },
+        "path": "proof/1009A/presentation-diagnostic-40391201.json",
+        "sha256": "11374f40b9c166955418174f71a71edce586bdf95cb36f6d5becfff08830be03",
+        "verdict": "AC"
+      },
+      "proof": {
+        "fullSuite": {
+          "bytes": 231730,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": "0001",
+          "path": "proof/1009A/40391201.json",
+          "sha256": "bd32df4fff00cd278f7afdeb9e5a9681f5ba8e4c2d3a1b3a52120d076281678f",
+          "testsRun": 167,
+          "verdict": "WA"
+        },
+        "lfInput": {
+          "bytes": 22,
+          "path": "proof/1009A/40391201-failed.in",
+          "sha256": "efa5a07a190d92a935de257e4717a127ff54df6f6e15863263d3f5e7d952a853"
+        },
+        "lfRun": {
+          "bytes": 534,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": "0001",
+          "path": "proof/1009A/40391201-lf.json",
+          "sha256": "bc302fe5fcd76aad241a2a3cee27dd80080a3e71cfa319e9ad2e3565c1fd0bf1",
+          "testsRun": 1,
+          "verdict": "WA"
+        },
+        "originalOutput": {
+          "bytes": 14,
+          "path": "proof/1009A/40391201-failed.out",
+          "sha256": "9f73f0404c23db04395cdb325ac701ba738c4b5f37e7395c02babf12be2bd2af"
+        }
+      },
+      "publicSubmissionUrl": "https://codeforces.com/contest/1009/submission/40391201",
+      "qualifiesAsAlgorithmicallyWrong": false,
+      "reason": "Prints each bought game's price and bill before the final correct purchase count. On the recorded five-game sample it correctly buys three games and prints final 3. Removing only transaction debug prints passes the LF test; possible wallet-index errors elsewhere do not count here.",
+      "recordedTestUnchanged": true,
+      "sourceExcerpt": "7:     count = 0\n8:     for i in range(len(game)):\n9:         if game[i] <= wallet[0]:\n10:             print(game[i] , wallet[0])\n11:             wallet = wallet[1: ]\n12:             count+=1\n13:     print(count)",
+      "sourceHash": "47e8a6fba2b3fc569183af7d2d8889b8925de01e6330956bc3c1cb7e82ade824",
+      "sourceLineRange": [
+        7,
+        13
+      ],
+      "sourceProvenance": {
+        "bytes": 141219443,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00000-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "bacfc2870c80dc2c895194ce769282f35f9e817a577804489f428ff18671e235",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00000-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 2233,
+        "path": "W/800/state/1009A/sources/40391201.json",
+        "sha256": "07d4cb90ed65c2132e99c1f77b7a11deaed1c5a5161d570e64b5187d0ac47c53"
+      },
+      "test": "0001",
+      "validUnderCurrentStatement": true
+    },
+    "40483800": {
+      "algorithmicDefectUnderIntendedDomain": false,
+      "completeSourceRead": true,
+      "counterexample": {
+        "actualOutputLF": "[5, 3, 4, 6]\n",
+        "actualOutputLFHash": "c3da1b092b34b7d13cf00a22dc36b612d7678be4ce8c64336c13f1ed14c05917",
+        "actualOutputOriginal": "[5, 3, 4, 6]\n",
+        "actualOutputOriginalHash": "c3da1b092b34b7d13cf00a22dc36b612d7678be4ce8c64336c13f1ed14c05917",
+        "expectedOutput": "3\r\n",
+        "expectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "independentExpectedTokens": [
+          "3"
+        ],
+        "inputLF": "5 4\n2 4 5 2 4\n5 3 4 6\n",
+        "inputLFHash": "efa5a07a190d92a935de257e4717a127ff54df6f6e15863263d3f5e7d952a853",
+        "inputOriginalHash": "a16b6767d01ee0fd2ea5c8d1877e43fca6ebf087755270887843210eb66041d7",
+        "lfExitCode": 0,
+        "lfTimeout": false,
+        "lfVerdict": "WA",
+        "originalVerdict": "WA",
+        "test": "0001"
+      },
+      "exclusionReason": "presentation-only",
+      "faultCode": "print(c)",
+      "faultLineRange": [
+        12,
+        12
+      ],
+      "faultyImplementedStep": "Prints the wallet list instead of the purchase count.",
+      "inputDomainCaveat": null,
+      "intendedInputConstraintsAndExpectedOutputVerified": true,
+      "kind": "presentation-only",
+      "mathematicalExplanation": "For this exact sample the internal count is 3, the required answer. Replacing only print(c) with print(count) passes. Its pointer policy is faulty on other cases but cannot be substituted for this recorded presentation failure.",
+      "pinnedPublicRow": {
+        "bytes": 548,
+        "path": "public-proof/submission-40483800.json",
+        "sha256": "f81222c8ed6a73522be5a1ab444aa7cff6f98931f008c2ba5e6026628d4a8500"
+      },
+      "presentationIsolationDiagnostic": {
+        "actualOutput": "3\n",
+        "bytes": 653,
+        "countedSourceUnmodified": true,
+        "diagnosticOnly": true,
+        "modifiedCopy": {
+          "bytes": 231,
+          "path": "proof/1009A/presentation-diagnostic-40483800.source",
+          "sha256": "0a0183a43b5124885bf92608a99f2a6ab00344399cef6cf756fcb9b53b1b682a"
+        },
+        "path": "proof/1009A/presentation-diagnostic-40483800.json",
+        "sha256": "0c3b6cd4ce7a7fd953057b2c860c40a22afafef061fcb65ae72407a246d6f564",
+        "verdict": "AC"
+      },
+      "proof": {
+        "fullSuite": {
+          "bytes": 309747,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": "0001",
+          "path": "proof/1009A/40483800.json",
+          "sha256": "769a773c8a626178a9b8319565a6edb255c36a0f5c8bf27c34162929b77892b5",
+          "testsRun": 167,
+          "verdict": "WA"
+        },
+        "lfInput": {
+          "bytes": 22,
+          "path": "proof/1009A/40483800-failed.in",
+          "sha256": "efa5a07a190d92a935de257e4717a127ff54df6f6e15863263d3f5e7d952a853"
+        },
+        "lfRun": {
+          "bytes": 535,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": "0001",
+          "path": "proof/1009A/40483800-lf.json",
+          "sha256": "9456daf21b5e57cb7789f1817b558d422e362290fcd74d0da7bc059dffb3a492",
+          "testsRun": 1,
+          "verdict": "WA"
+        },
+        "originalOutput": {
+          "bytes": 13,
+          "path": "proof/1009A/40483800-failed.out",
+          "sha256": "c3da1b092b34b7d13cf00a22dc36b612d7678be4ce8c64336c13f1ed14c05917"
+        }
+      },
+      "publicSubmissionUrl": "https://codeforces.com/contest/1009/submission/40483800",
+      "qualifiesAsAlgorithmicallyWrong": false,
+      "reason": "Prints the wallet list instead of the purchase count. For this exact sample the internal count is 3, the required answer. Replacing only print(c) with print(count) passes. Its pointer policy is faulty on other cases but cannot be substituted for this recorded presentation failure.",
+      "recordedTestUnchanged": true,
+      "sourceExcerpt": "9:         count += 1\n10:         i += 1\n11:     j += 1\n12: print(c)",
+      "sourceHash": "13a588062dc7a2354f990906ae1fac4b10845aa2ab06a7c86134b1f2a792b999",
+      "sourceLineRange": [
+        9,
+        12
+      ],
+      "sourceProvenance": {
+        "bytes": 141219443,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00000-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "bacfc2870c80dc2c895194ce769282f35f9e817a577804489f428ff18671e235",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00000-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 935,
+        "path": "W/800/state/1009A/sources/40483800.json",
+        "sha256": "243e0c3074ee22070c421c55ad8f3b91d9f5a843b2c8df3cc0d4ab928e1d148b"
+      },
+      "test": "0001",
+      "validUnderCurrentStatement": true
+    },
+    "40483910": {
+      "algorithmicDefectUnderIntendedDomain": false,
+      "completeSourceRead": true,
+      "counterexample": {
+        "actualOutputLF": "",
+        "actualOutputLFHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "actualOutputOriginal": "",
+        "actualOutputOriginalHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "expectedOutput": "3\r\n",
+        "expectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "independentExpectedTokens": [
+          "3"
+        ],
+        "inputLF": "5 4\n2 4 5 2 4\n5 3 4 6\n",
+        "inputLFHash": "efa5a07a190d92a935de257e4717a127ff54df6f6e15863263d3f5e7d952a853",
+        "inputOriginalHash": "a16b6767d01ee0fd2ea5c8d1877e43fca6ebf087755270887843210eb66041d7",
+        "lfExitCode": 0,
+        "lfTimeout": false,
+        "lfVerdict": "WA",
+        "originalVerdict": "WA",
+        "test": "0001"
+      },
+      "exclusionReason": "missing-output",
+      "faultCode": "for now in money:",
+      "faultLineRange": [
+        6,
+        6
+      ],
+      "faultyImplementedStep": "Loops over bills and never prints count.",
+      "inputDomainCaveat": null,
+      "intendedInputConstraintsAndExpectedOutputVerified": true,
+      "kind": "missing-output",
+      "mathematicalExplanation": "The recorded sample requires three purchases. There is no emitted algorithmic result; even though string comparisons and bill progression can be wrong elsewhere, missing print is explicitly excluded.",
+      "pinnedPublicRow": {
+        "bytes": 512,
+        "path": "public-proof/submission-40483910.json",
+        "sha256": "5c2f7f49b56aea10c12dc3d4e60a86b2752ca03d108fac61ebc98ff7cccede27"
+      },
+      "proof": {
+        "fullSuite": {
+          "bytes": 57978,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": "0001",
+          "path": "proof/1009A/40483910.json",
+          "sha256": "a03eab0e63df6986c145985b46bb7fce0379660e30bf32084aac6ca0f55f37dd",
+          "testsRun": 167,
+          "verdict": "WA"
+        },
+        "lfInput": {
+          "bytes": 22,
+          "path": "proof/1009A/40483910-failed.in",
+          "sha256": "efa5a07a190d92a935de257e4717a127ff54df6f6e15863263d3f5e7d952a853"
+        },
+        "lfRun": {
+          "bytes": 503,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": "0001",
+          "path": "proof/1009A/40483910-lf.json",
+          "sha256": "0505df05b8c0559fc096e62f09a13fcd12db2642bea5b30cd431cd30809b8671",
+          "testsRun": 1,
+          "verdict": "WA"
+        },
+        "originalOutput": {
+          "bytes": 0,
+          "path": "proof/1009A/40483910-failed.out",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "publicSubmissionUrl": "https://codeforces.com/contest/1009/submission/40483910",
+      "qualifiesAsAlgorithmicallyWrong": false,
+      "reason": "Loops over bills and never prints count. The recorded sample requires three purchases. There is no emitted algorithmic result; even though string comparisons and bill progression can be wrong elsewhere, missing print is explicitly excluded.",
+      "recordedTestUnchanged": true,
+      "sourceExcerpt": "3: money=input().split(\" \")\n4: start_g=0\n5: count=0\n6: for now in money:\n7:     if now>games[start_g]:\n8:         start_g=start_g+1\n9:         count=count+1",
+      "sourceHash": "73cdcd55e31735c9f00c7d11bf1db819fc35eeba00014181987810f8b36631f3",
+      "sourceLineRange": [
+        3,
+        9
+      ],
+      "sourceProvenance": {
+        "bytes": 141219443,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00000-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "bacfc2870c80dc2c895194ce769282f35f9e817a577804489f428ff18671e235",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00000-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 899,
+        "path": "W/800/state/1009A/sources/40483910.json",
+        "sha256": "aa08f380efd0ad90d79ef56e21f51bad6bccd78ebb0924b3ba311b641ec6ffce"
+      },
+      "test": "0001",
+      "validUnderCurrentStatement": true
+    },
+    "40550486": {
+      "algorithmicDefectUnderIntendedDomain": true,
+      "completeSourceRead": true,
+      "counterexample": {
+        "actualOutputLF": "1\n",
+        "actualOutputLFHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "actualOutputOriginal": "1\n",
+        "actualOutputOriginalHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "expectedOutput": "0\r\n",
+        "expectedOutputHash": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+        "independentExpectedTokens": [
+          "0"
+        ],
+        "inputLF": "5 2\n20 40 50 20 40\n19 20\n",
+        "inputLFHash": "e03d3a992eb0c9eafac5cd95a568f439f3df874e6e779fc1147f42cc1500cc65",
+        "inputOriginalHash": "2121cd4ccedf204b0cd3e45e6027356aecfba63b2b92b43064ae0527102ef451",
+        "lfExitCode": 0,
+        "lfTimeout": false,
+        "lfVerdict": "WA",
+        "originalVerdict": "WA",
+        "test": "0002"
+      },
+      "faultCode": "else:\n        j+=1",
+      "faultLineRange": [
+        11,
+        12
+      ],
+      "faultyImplementedStep": "Discards the current bill when a game is too expensive, rather than retaining the bill and moving to the next game.",
+      "inputDomainCaveat": null,
+      "intendedInputConstraintsAndExpectedOutputVerified": true,
+      "kind": "wrong-answer",
+      "mathematicalExplanation": "For costs [20,40,50,20,40] and bills [19,20], bill 19 cannot buy any game and must stay first, so zero purchases. The source skips 19 then uses 20 for the first game and incorrectly returns one.",
+      "pinnedPublicRow": {
+        "bytes": 564,
+        "path": "public-proof/submission-40550486.json",
+        "sha256": "8c3ab791695a17d457d69d5c6488b7ef21509277f7d2c83fe5a0f2a5ed0c8ed9"
+      },
+      "proof": {
+        "fullSuite": {
+          "bytes": 53796,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": "0002",
+          "path": "proof/1009A/40550486.json",
+          "sha256": "15434afda935461bed6e1e3bd778321caa0b3871ba60c739bc5469d71c8b121b",
+          "testsRun": 167,
+          "verdict": "WA"
+        },
+        "lfInput": {
+          "bytes": 25,
+          "path": "proof/1009A/40550486-failed.in",
+          "sha256": "e03d3a992eb0c9eafac5cd95a568f439f3df874e6e779fc1147f42cc1500cc65"
+        },
+        "lfRun": {
+          "bytes": 519,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": "0002",
+          "path": "proof/1009A/40550486-lf.json",
+          "sha256": "b4934102362fbe7fddf98d89ce262f9ae2600935e75b273b386301cfba564665",
+          "testsRun": 1,
+          "verdict": "WA"
+        },
+        "originalOutput": {
+          "bytes": 2,
+          "path": "proof/1009A/40550486-failed.out",
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        }
+      },
+      "publicSubmissionUrl": "https://codeforces.com/contest/1009/submission/40550486",
+      "qualifiesAsAlgorithmicallyWrong": true,
+      "reason": "Discards the current bill when a game is too expensive, rather than retaining the bill and moving to the next game. For costs [20,40,50,20,40] and bills [19,20], bill 19 cannot buy any game and must stay first, so zero purchases. The source skips 19 then uses 20 for the first game and incorrectly returns one.",
+      "recordedTestUnchanged": true,
+      "sourceExcerpt": "8:         ans+=1\n9:         i+=1\n10:         j+=1\n11:     else:\n12:         j+=1\n13: print(ans)",
+      "sourceHash": "7672b8ba5c9deed0d25c6eb0b35dffb5c6079402cbe7ef3197c6622bf0099759",
+      "sourceLineRange": [
+        8,
+        13
+      ],
+      "sourceProvenance": {
+        "bytes": 141219443,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00000-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "bacfc2870c80dc2c895194ce769282f35f9e817a577804489f428ff18671e235",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00000-of-00036.parquet"
+      },
+      "sourceRecord": {
+        "bytes": 950,
+        "path": "W/800/state/1009A/sources/40550486.json",
+        "sha256": "46472fff58b6f8e88332a9edbbb6c317d2e6519df3d45b9968cd17e6721d0e3d"
+      },
+      "test": "0002",
+      "validUnderCurrentStatement": true
+    }
+  },
+  "packageBytesUnmodified": true,
+  "packageHash": "e743f2fc3a5210962882c050f0c121f5992bf662d5b5942e00295f157f9770d1",
+  "publication": "Not requested or performed; local gate uses require_approval=False only.",
+  "qualificationBasis": "generated",
+  "qualifyingIncorrectSourceCount": 2,
+  "rating": 800,
+  "reason": "Only 2/5 counted incorrect sources qualify; 40391201: presentation-only; 40483800: presentation-only; 40483910: missing-output",
+  "reviewUrl": "https://staging.itsdev.in/sessions/0fc5d539cb4f4c698a8a547f6d768030",
+  "reviewer": "devin-0fc5d539cb4f4c698a8a547f6d768030",
+  "sandbox": {
+    "bounded": true,
+    "checkerHash": "bd6f01aef953afe25e6446da0b1a3530b65540798d4724fb46b499e89de45765",
+    "compilerFlags": [
+      "-O2",
+      "-std=c++17",
+      "-DONLINE_JUDGE"
+    ],
+    "executionVersion": 2,
+    "harnessHash": "bbd781088efcc16c1f713e7079edb30d2e97cd279a7e7f4c3206a2ba0d6c4fbe",
+    "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+    "network": "none",
+    "runnerHash": "356a5daaaaebf0b2e6b1014ca3774816de3b5e7739034c81804329a36020b293"
+  },
+  "schemaVersion": 1,
+  "sourceReviewCount": 5,
+  "status": "rejected",
+  "supplementaryProof": {
+    "acceptedComparisons": [
+      {
+        "stress": {
+          "bytes": 16549,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": null,
+          "path": "proof/1009A/stress-40321787.json",
+          "sha256": "7e0a2fc2cc5f7c7ebb22f3180a8565640e51977256fa49af9bf587d6ec8a6ba8",
+          "testsRun": 50,
+          "verdict": "AC"
+        },
+        "submissionId": "40321787",
+        "supplemental": {
+          "bytes": 65417,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": null,
+          "path": "proof/1009A/supplemental-40321787.json",
+          "sha256": "0d233b4b122f90f133b4c03f8bf552166e2cb757d25740ec01270ddbd4e28671",
+          "testsRun": 200,
+          "verdict": "AC"
+        }
+      },
+      {
+        "stress": {
+          "bytes": 16615,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": null,
+          "path": "proof/1009A/stress-40321789.json",
+          "sha256": "b85912181abaf6ac2a8a8f0cfb7471edd899e78a936c71cf905552f8be45b8de",
+          "testsRun": 50,
+          "verdict": "AC"
+        },
+        "submissionId": "40321789",
+        "supplemental": {
+          "bytes": 65442,
+          "compiled": true,
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "failedTest": null,
+          "path": "proof/1009A/supplemental-40321789.json",
+          "sha256": "8761fe661ee804b5b3ce2b917d0c1d379cd52b6f6c0bc407059db837b1c06f8a",
+          "testsRun": 200,
+          "verdict": "AC"
+        }
+      }
+    ],
+    "author": "devin-0fc5d539cb4f4c698a8a547f6d768030",
+    "checkedSamplesAndTests": 170,
+    "coverageReviewed": "Exhaustive n,m=1..3 with values {1,2}, equality/blocked first bill/exhausted wallet, both 1000-size arrays and random stress.",
+    "currentStatementDomainSignedOff": true,
+    "domain": "n,m in 1..1000; n costs and m bill values each in 1..1000",
+    "everyInputAndExpectedTokenMatched": true,
+    "fourInvalidInputsRejected": true,
+    "referenceExecution": {
+      "bytes": 60027,
+      "compiled": true,
+      "compilerFlags": [
+        "-O2",
+        "-std=c++17",
+        "-DONLINE_JUDGE"
+      ],
+      "executionVersion": 2,
+      "failedTest": "audit",
+      "path": "proof/1009A/independent-run.json",
+      "sha256": "d434a4f74b5101344e33f691a9ed3baa96bdf74acc380e1196db9d75ed0ce048",
+      "testsRun": 1,
+      "verdict": "WA"
+    },
+    "referenceImplementation": {
+      "bytes": 7733,
+      "path": "independent.py",
+      "sha256": "45048f5852a5d9fea12eae8a44c43862e983918f0cfe0d5bc175108033a28416"
+    },
+    "referenceMethod": "Deque wallet simulation over games, independently of builder indexed wallet.",
+    "referenceOutput": {
+      "bytes": 44643,
+      "path": "proof/1009A/independent-output.json",
+      "sha256": "b8ad2c64a160b88a7fdfbbfad78f01a0c40ecd04ba909ef66dc7b59dac343f7e"
+    },
+    "stressPairs": 50,
+    "stressReferenceExecution": {
+      "bytes": 277342,
+      "compiled": true,
+      "compilerFlags": [
+        "-O2",
+        "-std=c++17",
+        "-DONLINE_JUDGE"
+      ],
+      "executionVersion": 2,
+      "failedTest": "generate",
+      "path": "proof/1009A/stress-reference-run.json",
+      "sha256": "c20f51bba02275f3b657f9b3e3013e8396c707474da1726ae465d1d9908d8f56",
+      "testsRun": 1,
+      "verdict": "WA"
+    },
+    "stressSeed": 101013,
+    "stressTests": {
+      "bytes": 207624,
+      "path": "proof/1009A/stress-tests.json",
+      "sha256": "4b8cd397b531e354175c7b02070ef56b58f09febddf7f672054f0aee72f361d7"
+    },
+    "supplementalPairs": 200,
+    "supplementalTests": {
+      "bytes": 35538,
+      "path": "proof/1009A/supplemental-tests.json",
+      "sha256": "1a0d07f6a4a7d43efbaf35efad1e9bbe3fe6a28791b5fe507c865ad91f4a3f04"
+    },
+    "validatorMutationExecution": {
+      "bytes": 1041,
+      "compiled": true,
+      "compilerFlags": [
+        "-O2",
+        "-std=c++17",
+        "-DONLINE_JUDGE"
+      ],
+      "executionVersion": 2,
+      "failedTest": "invalid-inputs",
+      "path": "proof/1009A/mutation-run.json",
+      "sha256": "8a2205658e799c549e5ea0520f9748ce25ea8c138e2f6411504c92d0174b47b9",
+      "testsRun": 1,
+      "verdict": "WA"
+    },
+    "validatorMutationResults": {
+      "bytes": 379,
+      "path": "proof/1009A/mutation-results.json",
+      "sha256": "7c1bb083ea685ee62841a0af5a3b9ee25684a6abe035e0d136e4b0ec562a7eac"
+    }
+  }
+}
