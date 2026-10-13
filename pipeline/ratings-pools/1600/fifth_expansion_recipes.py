@@ -83,7 +83,7 @@ def parse(pid, text):
 
 def answer(pid, data):
     if pid=='500B':
-        values,matrix=data;n=len(values);seen=set();result=values[:]
+        values,matrix=data;n=len(values);seen=set();result=list(values)
         for start in range(n):
             if start in seen:
                 continue
