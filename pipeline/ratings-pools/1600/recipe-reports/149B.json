@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "id": "149B",
+  "rating": 1600,
+  "role": "recipe-author",
+  "status": "authored-local-checks-pending",
+  "qualification": false,
+  "independentAudit": false,
+  "validatedProblemCountContribution": 0,
+  "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
+  "scope": "Additive recipe only. Parent integrates, executes public programs in the pinned sandbox, qualifies, and obtains a different-agent audit.",
+  "inputs": {
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "archiveBytes": 4542856,
+    "member": "inputs/149B.json",
+    "bytes": 49664,
+    "sha256": "8092f813c6e38faea4b96eda5972f2503806f6df58e5b7cf8b66fd4a2af5cc18",
+    "manifestSha256": "c5aa6b8341d4ab6814424de54e241e91390fdc4c079e7f1daa4379bf07075381",
+    "sourceRowHash": "643cb7c494cdc19c3f47241d8f8ca0a4baf17e0c00d15d968f5e39fb81f2077e",
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "verification": "Archive bytes and SHA256 matched the request; member bytes/SHA256 matched its manifest; pool_contract.digest(sourceRow) matched sourceRowHash. No sibling input rows read. Full upstream shard provenance below is supplied provenance, not a new upstream download by this author.",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "suppliedSourceRowProvenance": {
+      "dataset": "open-r1/codeforces",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "path": "data/train-00010-of-00011.parquet",
+      "bytes": 179423559,
+      "sha256": "d6bb6c0510d9bc14630fe19892faf29dd8954e081f7143b032a9963bfcfb2acb"
+    },
+    "preservedContent": {
+      "officialTestsCanonicalDigest": "82d55b52eb7961df4804b208268484837767952aa653e6d4ee0783a329011818",
+      "samplesCanonicalDigest": "37cc986deef6e65920fe7b8ed99b961b7a81140774ae1144c109368f520023f5",
+      "descriptionSha256": "7057468ddde9e0a770f751718c87643b2e9a4a3c902c762427716fb2f2f423da",
+      "inputFormatSha256": "9cb8765d11517476a1cd3d20bd69fa43b831c1d0e3362de6a0d55ee93dfea543",
+      "outputFormatSha256": "4282c72795e7e3d422224f52b71ce7b1e246ec9aef260792b1436e1cd9daf924",
+      "noteSha256": "ee7f98b475882d53ba6775e97a9dc880b4983d42c5a75fe176a9d96d575be0d6",
+      "originalBytesModified": false
+    }
+  },
+  "documentationRead": [
+    "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
+    "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md",
+    "pipeline/ratings-pools/1600/normalize_statement.py"
+  ],
+  "publicStatement": {
+    "url": "https://codeforces.me/problemset/problem/149/B",
+    "locale": "en",
+    "savedBody": "statement-sources/149B.recipe-author.original.txt",
+    "savedBodySha256": "18d2a6101ab5b1a6d065e6c16c4327239b75c035f112ee998847152d16aada9d",
+    "representation": "Unedited complete webfetch readable public-page extraction, including tool URL header; SHA256 binds saved UTF-8 file, not raw HTTP HTML.",
+    "directFetchNote": "Direct urllib request with ?locale=en returned HTTP 403; public uncredentialed webfetch of the no-query English page succeeded. No proxy token or authentication bypass used.",
+    "exactConstraintQuotes": [
+      "The lengths of strings a and b are from 1 to 5 characters, inclusive.",
+      "characters A, B, ..., Z correspond to numbers 10, 11, ..., 35.",
+      "Note that on Mars any positional numeral systems with positive radix strictly larger than one are possible."
+    ],
+    "normalizationNeeded": false,
+    "exactSourceCorrectionProposal": [],
+    "explanation": "No lost exponent constraint or absent image/question. Scalar clock bounds 0..23/0..59, digit mapping, leading zeroes, and unlimited radix agree with the original English statement. Source bytes are unchanged."
+  },
+  "constraints": {
+    "layout": "Exactly one a:b line; a,b each 1..5 ASCII digits or uppercase Latin letters; LF, CRLF or missing terminal newline accepted.",
+    "base": "All integer radixes >=2; every digit must be less than the radix, no cap at 36.",
+    "hours": "0..23 inclusive",
+    "minutes": "0..59 inclusive",
+    "output": "Unique sorted integer token sequence, or sole 0 / -1 sentinel. Output whitespace is permitted; order and multiplicity are checked."
+  },
+  "oracle": {
+    "efficient": "Map symbols to digits; if all non-units digits of both parts are zero, return -1 only if constant clock values are legal. Otherwise enumerate bases max(2,maxDigit+1)..59 using Horner evaluation. A nonconstant part has a nonzero coefficient at exponent >=1, hence is >=base; all finite valid bases are <=59.",
+    "independentReference": "Generate legal hours 0..23 and minutes 0..59 in each base by repeated quotient/remainder encoding, skip unavailable remainder symbols >=36, compare canonical strings after removing leading zeroes. At base 60 all representable clock values are single digits, so matching that base proves the input is constant and valid for unbounded larger bases. No shared Horner evaluation or answer() call in the inverse reference.",
+    "publicProgramsExecuted": false
+  },
+  "authoredSuite": {
+    "plannedCount": 160,
+    "deterministic": true,
+    "seeds": [
+      1600149,
+      1491600
+    ],
+    "coverage": [
+      "minimum lengths and clock values",
+      "both components at maximum legal length 5",
+      "all 36 one-symbol hour and minute values",
+      "leading zeroes and constant invalid hours",
+      "finite ranges above 36 through 59",
+      "base/digit admissibility including forbidden base 1",
+      "exact inclusive 23/59 boundaries",
+      "five-digit binary and higher-degree values",
+      "fixed-seed small polynomials and full-alphabet/asymmetric lengths"
+    ],
+    "independentCheckDesign": {
+      "ternaryLengths1Through3": 1521,
+      "allOneSymbolPairs": 1296,
+      "binaryLengths1Through5": 3844,
+      "randomFullAlphabet": 200,
+      "randomRepresentableWithZeroPadding": 200,
+      "authoredPairs": 160,
+      "totalExpected": 7221
+    },
+    "note": "Counts describe authored tests/check design, not independent qualification; no generated runtime test files or package files committed."
+  },
+  "sourceMotivations": [
+    {
+      "submissionId": "144022939",
+      "sourceSha256": "189140e3c05da0072445c28efd5e1136c8016fd94bf4e9a68b0c50316726c629",
+      "lines": [
+        22,
+        23,
+        28
+      ],
+      "observation": "Static inspection: declares all constant-looking pairs infinite without validating the hour; begins base search at max digit, not max digit +1. Motivates 00O:00000 and 22:00. No execution or kill claim."
+    },
+    {
+      "submissionId": "146656201",
+      "sourceSha256": "728cd53a39a2556f85d53dcdd14ca6e1895ee3b0100f7b6ebe1694b137a379f7",
+      "lines": [
+        7,
+        10,
+        21
+      ],
+      "observation": "Static inspection: uppercase letters take ord(char)-48, and base starts at the max digit itself. Motivates exhaustive alphabet and base/digit boundaries. No execution or kill claim."
+    },
+    {
+      "submissionId": "180181680",
+      "sourceSha256": "8728a5494acb76fae59893ed07181fb699a5da1bfa08c4e3bbc23a9a66e09a23",
+      "lines": [
+        76,
+        91,
+        92
+      ],
+      "observation": "Static inspection: only searches range(minimum,36), and infers infinity from filling that truncated range. Motivates 0:10, 0:11, 0:1N, and 0:Z. No execution or kill claim."
+    }
+  ],
+  "notCountedAsProof": "No selected source executions, 5AC/5WA claims, sixth-oracle choice, sandbox kills, or audit/signoff. Presentation, CRLF, TLE-only, debug, and nondeterministic failures are not used as algorithmic evidence.",
+  "upstreamReview": {
+    "officialCount": 77,
+    "sampleCount": 3,
+    "generatedCount": 0,
+    "suppliedOfficialComplete": true,
+    "status": "pending-local-checks",
+    "failedPairs": [],
+    "originalPairsModified": false
+  },
+  "checks": {
+    "status": "pending",
+    "unittestMethods": 9,
+    "bruteAssertions": null,
+    "ast": null,
+    "diffCheck": null
+  }
+}
