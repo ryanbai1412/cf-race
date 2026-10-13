@@ -1,0 +1,152 @@
+{
+  "authoredTests": {
+    "byCategory": {
+      "adversarial": 122,
+      "boundary": 19,
+      "maxSize": 14
+    },
+    "count": 155,
+    "maxSizeCases": "14 cases with |s|=4000, including a=0 all zeros (answer 64032004000000), a=10^9, interval sum exactly 36000, highly composite a=735134400",
+    "minimumCases": "|s|=1 for every digit, a=0 and a=10^9",
+    "motivation": "Selected public WA/TLE sources were inspected only, never executed: 19763711 prints |s|^2 for a=0; 33535913 and 5338173 print 0 for a=0 (5338173 also divides by sum(s)=0 on all-zero strings); 33530016 breaks when ts>a so a=0 counts only zero*zero; 33536046 counts the (1,a) pair once and restricts sums below a//2; plus interval sum 36000 off-by-one for arrays sized exactly 36000, 32-bit overflow, divisors above the digit-sum range, square a. TLE-only sources (5196397, 33536409, 204012455 etc.) are correct-but-slow and not used as algorithmic motivation.",
+    "mutantKills": {
+      "32-bit answer": 2,
+      "a=0 counts one order only": 33,
+      "a=0 counts only zero*zero": 33,
+      "a=0 prints 0": 37,
+      "a=0 prints |s|^2": 50,
+      "interval sums capped below 36000": 1,
+      "pair (1,a) counted once": 9
+    },
+    "seed": 3640364
+  },
+  "checks": {
+    "bruteChecks": {
+      "364A": 11700
+    },
+    "commands": [
+      "python3 -m unittest test_recipe_364A (from pipeline/ratings-pools/1600)",
+      "python3 -c ast.parse",
+      "git diff --check",
+      "extras byte-identical under PYTHONHASHSEED=1 and 2"
+    ],
+    "unittestAssertionCalls": 2256,
+    "unittestMethods": 8
+  },
+  "constraints": {
+    "a": [
+      0,
+      1000000000
+    ],
+    "aToken": "canonical non-negative decimal, no sign/leading zeros/separators",
+    "answerRange": "0..(4000*4001/2)^2=64032004000000 (needs 64-bit)",
+    "lineLayout": "line1 a, line2 s; LF or CRLF; exactly two lines, no blank/extra lines, no spaces",
+    "sAlphabet": "0-9 (leading zeros allowed)",
+    "sLength": [
+      1,
+      4000
+    ]
+  },
+  "exclusion": null,
+  "files": {
+    "recipe_364A.py": "a78a50ee1feeed9c90f60d719104d83349f679168199f3601b159c28a48c8388",
+    "statement-sources/364A.recipe-author.original.html": "746e29353cbc2a04551ca2497b3d529bcfdee01aee21330dfc52decaa2fbee3e",
+    "test_recipe_364A.py": "828793415e9aaf23dc139f252fef4235264f832aa5a287e4de4c8aecbc28fa6b"
+  },
+  "id": "364A",
+  "inputs": {
+    "archiveBytes": 4542856,
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "file": "inputs/364A.json",
+    "fileBytes": 46239,
+    "fileSha256": "0a53a01eef0f79d3b33bec7b212c98252b718350c6632646f18410c599e25f88",
+    "manifestEntryMatches": true,
+    "manifestSha256": "c5aa6b8341d4ab6814424de54e241e91390fdc4c079e7f1daa4379bf07075381",
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "sourceRowHash": "6d18fa0de349d4e5b405b6564bba397e403770afcad71e832ac7eaa980889475",
+    "sourceRowHashRecomputed": "6d18fa0de349d4e5b405b6564bba397e403770afcad71e832ac7eaa980889475",
+    "sourceShard": {
+      "bytes": 110782908,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00009-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "7b0a8a962a669eeeafc769ccaf05ed5a3b29f2128489e28f8873cad265acfc17",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00009-of-00011.parquet"
+    }
+  },
+  "notAnAudit": true,
+  "officialReview": {
+    "failures": [],
+    "lineEndings": "All 46 official inputs/outputs are CRLF with a trailing CRLF; parser uses splitlines so CR is accepted. Samples are LF without trailing newline.",
+    "malformedOrContradictoryPairs": [],
+    "officialComplete": false,
+    "officialTestsInRow": 46,
+    "openR1GeneratedTests": "Row reports generated_tests=7 but generated test bytes are not in this input; not reviewed here. Parent must validate them with parse() before use.",
+    "result": "All 46 official pairs and 2 samples parse within constraints and match answer(); test_official_pairs also re-derives every official output with quadratic_oracle().",
+    "samples": 2,
+    "testsetSize": 83
+  },
+  "oracle": {
+    "efficient": "answer(): prefix-sum value histogram; for a>0 iterate divisors d<=sqrt(a) with d,a/d<=sum(s), interval counts via sum over prefix values h[p]*h[p+v]; a=0 uses 2*c0*T-c0^2.",
+    "independent": [
+      "literal_rectangles(): 2D prefix sums over the actual product matrix b_ij=s_i*s_j, enumerates every (x,y,z,t) (n<=9 in brute_checks, n<=8 in tests)",
+      "histogram_oracle(): full interval-sum histogram via big-integer (Kronecker) autocorrelation of the prefix histogram, full scan over every x in 0..S (used on every extras case including max size)",
+      "quadratic_oracle(): O(n^2) direct interval sums and an all-pairs product match (n<=300)"
+    ]
+  },
+  "problem": {
+    "aliases": [
+      "365/C"
+    ],
+    "customChecker": false,
+    "fileIO": false,
+    "floatingOutput": false,
+    "inputMode": "stdio",
+    "interactive": false,
+    "memoryLimitMB": 256.0,
+    "multipleValidOutputs": false,
+    "sourceId": "364/A",
+    "statementComplete": "Full pinned description/input_format/output_format/examples read; no image, note or omitted question. Matches the public English statement apart from the flattened exponent in the a bound.",
+    "timeLimitSeconds": 1.0,
+    "title": "Matrix"
+  },
+  "role": "recipe-author",
+  "semantics": "Line 1: integer a, 0<=a<=10^9 (exponent attested from the public English statement). Line 2: digit string s, 1<=|s|<=4000. Unique integer: number of (x<=y, z<=t) whose rectangle sum of s_i*s_j equals a; the sum factorises as (s_x+..+s_y)*(s_z+..+s_t), so the answer is the number of ordered pairs of substrings whose digit sums multiply to a. Oracle: interval-sum counts for the divisors d of a with d, a/d <= 9|s|; a=0 gives 2*c0*T-c0^2 with T=|s|(|s|+1)/2. Independently checked by literal rectangle enumeration on the product matrix and a full big-integer autocorrelation histogram with a complete divisor scan.",
+  "sourceCorrectionProposal": {
+    "evidence": "Public statement markup 0 ≤ a ≤ 10<sup class=\"upper-index\">9</sup>; official tests 15 and 26 use a=1000000000, consistent with 10^9 and impossible under a literal 109 bound.",
+    "field": "sourceRow.input_format",
+    "from": "(0 ≤ a ≤ 109)",
+    "needed": true,
+    "note": "Proposal only; no imported statement, row, sample, test, or source bytes were changed.",
+    "occurrences": 1,
+    "otherFields": "No other flattened numerals: '1 ≤ |s| ≤ 4000' is literal in the public statement; description/output_format/examples have no exponents.",
+    "to": "(0 ≤ a ≤ 10<sup>9</sup>)"
+  },
+  "statementAttestation": {
+    "attestedMarkup": "The first line contains integer <span class=\"tex-span\"><i>a</i></span> (<span class=\"tex-span\">0 ≤ <i>a</i> ≤ 10<sup class=\"upper-index\">9</sup></span>), the second line contains a string of decimal integers <span class=\"tex-span\"><i>s</i></span> (<span class=\"tex-span\">1 ≤ |<i>s</i>| ≤ 4000</span>).",
+    "bodyBytes": 58184,
+    "bodySha256": "b5fbd13f317109e20ad8e7e73e0e7276de6616d2f0da6e668781176691debc4b",
+    "capturedAt": "2026-10-13T02:07:45Z",
+    "copy": {
+      "bodyByteRange": [
+        36341,
+        39245
+      ],
+      "bytes": 2904,
+      "kind": "byte-exact excerpt of the full HTTP body: the complete <div class=\"problem-statement\"> element (statement, input, output, examples)",
+      "reason": "Page chrome outside the statement element is not needed and has trailing whitespace; full-body SHA256 retained so the excerpt is verifiable against a fresh fetch.",
+      "sha256": "746e29353cbc2a04551ca2497b3d529bcfdee01aee21330dfc52decaa2fbee3e"
+    },
+    "copyPath": "statement-sources/364A.recipe-author.original.html",
+    "crossCheck": "Statement samples (10/12345->6, 16/4398...765->40) and time/memory limits match the pinned row content. cf-p.vercel.app proxy not used.",
+    "locale": "en",
+    "sourceUrl": "https://codeforces.me/problemset/problem/364/A?locale=en",
+    "transport": "Public unauthenticated HTTP GET (curl, browser User-Agent), HTTP 200; raw response body unchanged."
+  },
+  "statusNote": "Recipe authored only. Not a qualification, audit, or signoff; parent qualification and a different-agent audit are still required.",
+  "validated": false
+}
