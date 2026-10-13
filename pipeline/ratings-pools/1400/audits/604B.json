@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "65d9bdec22c8e5471e7f22779367de67a42aa71e3c7ac086e4ba71cb141baef5",
+  "incorrectAnalysis": {
+    "14594310": {
+      "kind": "wrong-answer",
+      "reason": "Only tries two fixed pairings (consecutive smallest bells s1+s2,s3+s4,... or largest-with-smallest from the two ends, which wrongly pairs bells that should be singles) and takes the min; the optimal pairing is s_i with s_{2(n-k)+1-i} among the 2(n-k) smallest. On test 0013 it prints 10623 instead of 9986.",
+      "test": "0013"
+    },
+    "14604370": {
+      "kind": "wrong-answer",
+      "reason": "Binary-search feasibility greedily pairs each bell with its adjacent smaller neighbour b[i-1] from the top instead of with the smallest unpaired bell, overcounting boxes; on n=10,k=5 (15 15 20 28 38 44 46 52 69 94) it prints 163 instead of 109.",
+      "test": "0009"
+    },
+    "14604632": {
+      "kind": "wrong-answer",
+      "reason": "Two-pointer feasibility check initialises p2=0 instead of n-1, so the loop only ever looks at b[0] and reports any m>=max(s) as feasible; on n=2,k=1 (2 5) it prints 5 instead of 7.",
+      "test": "0001"
+    },
+    "14606425": {
+      "kind": "wrong-answer",
+      "reason": "Pairs adjacent smallest bells (s1+s2, s3+s4, ...) until the rest fit as singles, instead of pairing smallest with largest among the bells that must be paired; on n=10,k=5 (15 15 20 28 38 44 46 52 69 94) it prints 94 instead of 109.",
+      "test": "0009"
+    },
+    "14610976": {
+      "kind": "wrong-answer",
+      "reason": "Closed-form guess only considers the single sum s[t]+s[t+1] (or s[t-1]+s[t]) around index t=n-k plus the remaining singles, ignoring the required pairings s_i+s_{2t-1-i}; on n=10,k=5 (15 15 20 28 38 44 46 52 69 94) it prints 94 instead of 109.",
+      "test": "0009"
+    }
+  },
+  "packageHash": "20d54dcbd8511ed21f66b94fea29ce775fbc35870491cfa672abc401085b0a10",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/60ebaedc1f414405873cf54165fb2fbe",
+  "reviewer": "devin-audit-session-60ebaedc1f414405873cf54165fb2fbe"
+}

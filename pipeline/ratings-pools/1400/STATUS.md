@@ -63,3 +63,10 @@ Owned paths only: pipeline/ratings-pools/1400/, pipeline/problems/<ids>/, proble
 - Source shortfall: 437C (2 incorrect), 492C (2 accepted, 0 incorrect).
 - 762B/799B/816B generator JSON exceeded sandbox 8 MiB output cap; second max case shrunk (one true max case kept), rerunning.
 - Shared defects reported to parent: CRLF official inputs unnormalized; first-5-by-id incorrect selection admits non-attempts.
+
+## Status 2026-10-13 01:06 UTC
+- Audit 10 (60ebaedc...) approved 226A 652A 604B; rejected 77A (25020964 solves CF 71A) and 816B (29293156 recorded TLE@0009 is a timing artifact, output correct). Imported; gate_all: 41 pass.
+- Never-run 5/5 candidates resolved: 81A quarantined (9 open-r1 generated inputs length 200001 > 2e5), 987C (3 generated inputs contain s_i=0 < 1),
+  994B (4 generated inputs with values > 1e9), 689A (pinned statement text puts 0 under 7 in its LaTeX array; official tests (e.g. 0023 '1468'->NO) require 0 under 8;
+  independent oracle followed the text and disagrees on 14 official tests -> statement/test inconsistency quarantined, not repaired).
+- 954B regenerated after label fix: fresh execution-passed, CRLF scan ok; awaiting re-audit. 799B, 838A validating.

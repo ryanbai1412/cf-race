@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "5904401253e001f92fa2f089432f9a8772b81c106067b08d378980fcfd03c98c",
+  "incorrectAnalysis": {
+    "16922498": {
+      "kind": "wrong-answer",
+      "reason": "Declares -1 whenever b>a before checking whether the caterpillar already reaches the apple during the first afternoon (8 h from 2 pm); on h1=999,h2=1000,a=1,b=1000 it reaches at 999+8>=1000 on day 0 but the program prints -1 (expected 0).",
+      "test": "0007"
+    },
+    "16922655": {
+      "kind": "complexity",
+      "reason": "Impossibility test uses strict a<b, so a==b with h1+8a<h2 falls into the while(True) simulation with zero net daily progress and never terminates; on h1=500,h2=509,a=b=1 it loops forever (expected -1).",
+      "test": "0010"
+    },
+    "16923316": {
+      "kind": "wrong-answer",
+      "reason": "Height model h1+(slips+1)*hours*a-slips*b is wrong: night slip is b per hour for 12 hours but subtracted only once per night, and later days are counted as 12 climbing hours from the start including the first 8-hour afternoon; on h1=1,h2=1000,a=2,b=1 it prints 43 instead of 82.",
+      "test": "0005"
+    },
+    "16923414": {
+      "kind": "wrong-answer",
+      "reason": "Prints -1 whenever b>a without first checking whether h1+8a>=h2 (reached on the first afternoon); on h1=999,h2=1000,a=1,b=1000 it prints -1 instead of 0.",
+      "test": "0007"
+    },
+    "16923727": {
+      "kind": "complexity",
+      "reason": "Impossibility check uses strict a<b, so for a==b with h1+8a<h2 the day/night loop has zero net progress and never terminates; on h1=500,h2=509,a=b=1 it runs forever instead of printing -1.",
+      "test": "0010"
+    }
+  },
+  "packageHash": "6b681f0fc8801e226e094b127f3204973fe3fbb6a28ce8ef8e8ced64066cd878",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/60ebaedc1f414405873cf54165fb2fbe",
+  "reviewer": "devin-audit-session-60ebaedc1f414405873cf54165fb2fbe"
+}

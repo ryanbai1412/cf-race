@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceHash": "a94ba4a06c59407251fd255506d2367e95d23e5ef6b87e3616ba9be66ae08178",
+  "incorrectAnalysis": {
+    "11998618": {
+      "kind": "complexity",
+      "reason": "Computes pow(3,n) as an exact big integer and only then reduces mod m; for n=331358794 that is a ~525-million-bit integer, far beyond the 2 s limit (correct approach is modular exponentiation pow(3,n,m)).",
+      "test": "0006"
+    },
+    "21696165": {
+      "kind": "wrong-answer",
+      "reason": "Prints pow(3,n,m)-1 without reducing modulo m; when m divides 3^n (test: n=451688701, m=6561=3^8) the residue is 0 and it prints -1 instead of m-1=6560.",
+      "test": "0047"
+    },
+    "21696171": {
+      "kind": "wrong-answer",
+      "reason": "Normalisation guard checks r<0 before subtracting 1 (pow(3,n,m) is never negative), so (3^n mod m)-1 is still unreduced; on n=451688701, m=6561=3^8 it prints -1 instead of 6560.",
+      "test": "0047"
+    },
+    "51590219": {
+      "kind": "complexity",
+      "reason": "Evaluates 3**n as an exact big integer before taking % m; for n=331358794 the exact power has ~158 million decimal digits and cannot be computed within 2 s (needs pow(3,n,m)).",
+      "test": "0006"
+    },
+    "55486527": {
+      "kind": "wrong-answer",
+      "reason": "Prints pow(3,n,m)-1 with no final mod m; for m | 3^n (n=451688701, m=6561=3^8) it outputs -1 instead of the residue 6560.",
+      "test": "0047"
+    }
+  },
+  "packageHash": "393ee1f27b113d737328f2c91ae5578579bb372fc7dd7a90bf3d93da6668cef5",
+  "qualificationBasis": "generated",
+  "reviewUrl": "https://staging.itsdev.in/sessions/60ebaedc1f414405873cf54165fb2fbe",
+  "reviewer": "devin-audit-session-60ebaedc1f414405873cf54165fb2fbe"
+}
