@@ -1,0 +1,437 @@
+{
+  "authorScope": "No gate/product/registration changes, no official byte rewrites, no public-source execution, no qualification, no audit/signoff, no independent validation credit.",
+  "authoredRecipeTests": 0,
+  "constraints": {
+    "fileIO": false,
+    "input": "Exactly one integer n on the first and only line; 1 <= n <= 100000.",
+    "interactive": false,
+    "output": "Exactly n nonnegative integers, one per line, each at most 10^18. Screen values may exceed 10^18.",
+    "transitions": "Start at level 1 with screen 2. At level k, p presses add k*p; the resulting positive square has integer root divisible by k+1, then the level increases. Because the starting screen is divisible by k, every intermediate plus press remains divisible by k.",
+    "uniqueOutput": false
+  },
+  "exclusion": {
+    "checkerMismatch": "pipeline/checker.py compares tokens (with only YES/NO case and optional float exceptions), not legal game-state transitions.",
+    "code": "multiple-valid-outputs-requires-semantic-checker",
+    "publicDescriptionQuote": "Please note that ZS the Coder wants to find just any sequence of presses allowing him to reach level",
+    "publicOutputQuote": "It is guaranteed that at least one solution exists. If there are multiple solutions, print any of them.",
+    "reason": "The task requests any legal construction, not a unique or minimal one. An exact-token recipe would reject correct solutions. No recipe or recipe unit-test module is authored."
+  },
+  "id": "715A",
+  "nonUniquenessProof": {
+    "acceptedSourceInspection": {
+      "exactLines": [
+        "\tfor (ll i = 1; i <= N; i++) {",
+        "\t\tprintf(\"%lld\\n\", i == 1 ? 2 : i * (i + 1) * (i + 1) - (i - 1));",
+        "\t}"
+      ],
+      "executed": false,
+      "lines": [
+        10,
+        12
+      ],
+      "manualTraceForInput3": "2, 17, 46 (i=1 special case; for i=2: 2*3*3-1=17; for i=3: 3*4*4-2=46), differing from public example 14,16,46.",
+      "passedTestCount": 15.0,
+      "provenance": {
+        "bytes": 147585489,
+        "dataset": "open-r1/codeforces-submissions",
+        "path": "data/train-00027-of-00036.parquet",
+        "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+        "sha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/resolve/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/data/train-00027-of-00036.parquet"
+      },
+      "sourceSha256": "2ee1816466387710f2993d30618c00beab6c2883d30b604e2a8a20380289a962",
+      "submissionId": "20685912",
+      "testset": "TESTS",
+      "url": "https://codeforces.com/contest/715/submission/20685912",
+      "verdict": "OK"
+    },
+    "binding": "The first witness is official_tests[0] and the second is examples[0], for the same legal n=3. Both are legal and their numeric tokens differ.",
+    "boundedExhaustiveCheck": {
+      "assertions": 201,
+      "input": "1\n",
+      "method": "Enumerate each press count and every root 1..15; 2+p <= 202, so this covers all squares in the bounded search. Compare with an independent isqrt transition check.",
+      "pressesEnumerated": [
+        0,
+        200
+      ],
+      "scope": "Only this bounded one-level space, not an enumeration of the complete 10^18 output domain.",
+      "validPressCounts": [
+        2,
+        14,
+        34,
+        62,
+        98,
+        142,
+        194
+      ]
+    },
+    "witnesses": [
+      {
+        "input": "3\n",
+        "output": "2\n17\n46\n",
+        "trace": [
+          {
+            "level": 1,
+            "nextLevel": 2,
+            "presses": 2,
+            "screenAfterRoot": 2,
+            "screenBefore": 2,
+            "screenBeforeRoot": 4
+          },
+          {
+            "level": 2,
+            "nextLevel": 3,
+            "presses": 17,
+            "screenAfterRoot": 6,
+            "screenBefore": 2,
+            "screenBeforeRoot": 36
+          },
+          {
+            "level": 3,
+            "nextLevel": 4,
+            "presses": 46,
+            "screenAfterRoot": 12,
+            "screenBefore": 6,
+            "screenBeforeRoot": 144
+          }
+        ]
+      },
+      {
+        "input": "3\n",
+        "output": "14\n16\n46\n",
+        "trace": [
+          {
+            "level": 1,
+            "nextLevel": 2,
+            "presses": 14,
+            "screenAfterRoot": 4,
+            "screenBefore": 2,
+            "screenBeforeRoot": 16
+          },
+          {
+            "level": 2,
+            "nextLevel": 3,
+            "presses": 16,
+            "screenAfterRoot": 6,
+            "screenBefore": 4,
+            "screenBeforeRoot": 36
+          },
+          {
+            "level": 3,
+            "nextLevel": 4,
+            "presses": 46,
+            "screenAfterRoot": 12,
+            "screenBefore": 6,
+            "screenBeforeRoot": 144
+          }
+        ]
+      }
+    ]
+  },
+  "publicStatement": {
+    "attribution": "Codeforces, Codeforces Round 372 (Div. 1), problem A; public English statement mirrored by codeforces.me.",
+    "bodyBytes": 66347,
+    "bodySha256": "076c4212ed61d990c8fb0b1131243772cd00a90837f596e2c977f80fb7e0d8e6",
+    "canonicalProblemUrl": "https://codeforces.com/problemset/problem/715/A",
+    "capturePolicy": "GET response preserved locally outside the repository; no public statement copy committed because the instruction requires exclusion report only.",
+    "problemStatementDivSha256": "da5d416f34bd7dfe5c0150a676ee56608edfde373c34b9511f7e9af7533657ba",
+    "retrievedAt": "2026-10-13",
+    "url": "https://codeforces.me/problemset/problem/715/A?locale=en"
+  },
+  "qualification": null,
+  "rating": 1600,
+  "role": "recipe-author",
+  "schemaVersion": 1,
+  "sourceVerification": {
+    "archiveBytes": 4542856,
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "computedSourceRowHash": "9195d455f2e62c90ef11d09bba692a477f01a330f77983aedb27343ca7e6763e",
+    "datasetCardsRead": [
+      "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
+      "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md"
+    ],
+    "inputBytes": 7803641,
+    "inputPath": "inputs/715A.json",
+    "inputSha256": "0eeffa1d89ae34a97b18e9427d063e574cf76cf4336da6045951c8deaf6d24cd",
+    "manifestPath": "inputs/MANIFEST.json",
+    "manifestPinsMatch": true,
+    "manifestSha256": "c5aa6b8341d4ab6814424de54e241e91390fdc4c079e7f1daa4379bf07075381",
+    "matchesManifest": true,
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "preservation": "Original archive, row, statement, official tests, examples, and public sources are unchanged. Only this exclusion report is committed.",
+    "sourceIndexHash": "13e84be465573f5408ededff7cf55c33295005e3cf905b5159bc373373baa504",
+    "sourceRowHash": "9195d455f2e62c90ef11d09bba692a477f01a330f77983aedb27343ca7e6763e",
+    "upstreamRowProvenance": {
+      "bytes": 289522359,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00000-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "898933339ad702a38a922b793275df0f3c32fc8746e95b71a57d14dd56c85bc0",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00000-of-00011.parquet"
+    },
+    "upstreamShardVerification": "Full-shard byte verification is provided by the authenticated attachment provenance; this author reverified the assigned file and canonical row, not the 289522359-byte upstream shard."
+  },
+  "statementNormalizationProposal": {
+    "applied": false,
+    "inputBoundNeedsCorrection": false,
+    "replacements": [
+      {
+        "field": "description",
+        "from": "x = m2",
+        "occurrences": 1,
+        "publicAttestation": "<i>x</i> = <i>m</i><sup class=\"upper-index\">2</sup>",
+        "to": "x = m<sup>2</sup>"
+      },
+      {
+        "field": "output_format",
+        "from": "1018",
+        "occurrences": 2,
+        "publicAttestation": "10<sup class=\"upper-index\">18</sup>",
+        "to": "10<sup>18</sup>"
+      },
+      {
+        "field": "note",
+        "from": "1018",
+        "occurrences": 1,
+        "publicAttestation": "2 + 999999999999999998·1 = 10<sup class=\"upper-index\">18</sup>",
+        "to": "10<sup>18</sup>"
+      },
+      {
+        "field": "note",
+        "from": "109 + 44500000000·2 = 9·1010",
+        "occurrences": 1,
+        "publicAttestation": "10<sup class=\"upper-index\">9</sup> + 44500000000·2 = 9·10<sup class=\"upper-index\">10</sup>",
+        "to": "10<sup>9</sup> + 44500000000·2 = 9·10<sup>10</sup>"
+      }
+    ],
+    "scope": "Only the stated exact exponent-markup replacements, if a future semantic-checker path uses the statement; do not modify the pinned row."
+  },
+  "status": "excluded",
+  "suppliedPairReview": {
+    "contradictions": [],
+    "exampleCount": 3,
+    "examples": [
+      {
+        "errors": [],
+        "finalScreen": 12,
+        "index": 0,
+        "inputSha256": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+        "maxPresses": 46,
+        "maxScreen": 144,
+        "n": 3,
+        "outputLines": 3,
+        "outputSha256": "9178df7cdc00e72801c5ac7aa0d70a043d61be2af9991049c9c7a99c13e2c886"
+      },
+      {
+        "errors": [],
+        "finalScreen": 300000,
+        "index": 1,
+        "inputSha256": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+        "maxPresses": 999999999999999998,
+        "maxScreen": 1000000000000000000,
+        "n": 2,
+        "outputLines": 2,
+        "outputSha256": "ba9b3096c7ebdcbd1b3868cc105213fb7c932abad2bc4c4be03ec43de6f7bb6e"
+      },
+      {
+        "errors": [],
+        "finalScreen": 20,
+        "index": 2,
+        "inputSha256": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+        "maxPresses": 97,
+        "maxScreen": 400,
+        "n": 4,
+        "outputLines": 4,
+        "outputSha256": "03ab19d1ab444f25e7901f8707a8d2cb64afe68a774ab553fc9df7f413be4fc4"
+      }
+    ],
+    "failedUpstreamPairs": [],
+    "method": "Self-authored Python integer transition validation with math.isqrt; checks exact input/output line layout, n range, press-count range, every positive square, and divisibility after leveling. This is a legality check, not a unique-answer oracle or qualification.",
+    "official": [
+      {
+        "errors": [],
+        "finalScreen": 12,
+        "index": 0,
+        "inputSha256": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
+        "maxPresses": 46,
+        "maxScreen": 144,
+        "n": 3,
+        "outputLines": 3,
+        "outputSha256": "9546279003049907aa551cdfc91531c75b9f2b2fefe5ed2f6ca0919d9665d4a8"
+      },
+      {
+        "errors": [],
+        "finalScreen": 6,
+        "index": 1,
+        "inputSha256": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b",
+        "maxPresses": 17,
+        "maxScreen": 36,
+        "n": 2,
+        "outputLines": 2,
+        "outputSha256": "9a29592856753cf3a1236ff7cbe8f0a39c915121d9d4920bb1a2419621ceb76a"
+      },
+      {
+        "errors": [],
+        "finalScreen": 20,
+        "index": 2,
+        "inputSha256": "7c468f5e59f2871b946e051445493bbcace531d597edbbcc9935e7d02d025114",
+        "maxPresses": 97,
+        "maxScreen": 400,
+        "n": 4,
+        "outputLines": 4,
+        "outputSha256": "ed01bc29ce579464b4c82840fe3739cd403de8148e74ee7695214646fca2d620"
+      },
+      {
+        "errors": [],
+        "finalScreen": 2,
+        "index": 3,
+        "inputSha256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+        "maxPresses": 2,
+        "maxScreen": 4,
+        "n": 1,
+        "outputLines": 1,
+        "outputSha256": "df4e26a04a444901b95afef44e4a96cfae34690fff2ad2c66389c70079cdff2b"
+      },
+      {
+        "errors": [],
+        "finalScreen": 10000100000,
+        "index": 4,
+        "inputSha256": "5e7fdeb146334b292a336c2d6f43cfb0eff41100f6bb067e593318f71beb3ebe",
+        "maxPresses": 1000020000000001,
+        "maxScreen": 100002000010000000000,
+        "n": 100000,
+        "outputLines": 100000,
+        "outputSha256": "416b06e6d750f9c723c0e252f745ec5b5cbd251971929e7478871580d8b49b90"
+      },
+      {
+        "errors": [],
+        "finalScreen": 4066272,
+        "index": 5,
+        "inputSha256": "6140b8bf49655fc09d1483adc2ef3b469a985652cd7e174043c35f45640b177c",
+        "maxPresses": 8201668609,
+        "maxScreen": 16534567977984,
+        "n": 2016,
+        "outputLines": 2016,
+        "outputSha256": "bf29d9715edd266b01d403e6276bfc6cdb081fe0332811149c7353746a494d6b"
+      },
+      {
+        "errors": [],
+        "finalScreen": 152411370,
+        "index": 6,
+        "inputSha256": "49ba83ac312e418f75c3fdc25844174e9be305278d5860afb423fca2af760faa",
+        "maxPresses": 1881670761676,
+        "maxScreen": 23229225705276900,
+        "n": 12345,
+        "outputLines": 12345,
+        "outputSha256": "ffb355dd2629bbc8d927375afdca05754fdb3347464a16ab52cfb4dfb5bf49fb"
+      },
+      {
+        "errors": [],
+        "finalScreen": 9999500006,
+        "index": 7,
+        "inputSha256": "4b7a6533cfee556697180a58f390441121609aa7ded45fdf72eea85af7be00ea",
+        "maxPresses": 999930001499992,
+        "maxScreen": 99990000369994000036,
+        "n": 99997,
+        "outputLines": 99997,
+        "outputSha256": "565fd8293f9acd27d8fd8306f127b512eb8c293c4fe3a0a1371b6633cfa361cb"
+      },
+      {
+        "errors": [],
+        "finalScreen": 9999700002,
+        "index": 8,
+        "inputSha256": "922c41331e454a67ecaffb154cbc5b615dc639692daa8d15377beaef408db312",
+        "maxPresses": 999960000400001,
+        "maxScreen": 99994000129998800004,
+        "n": 99998,
+        "outputLines": 99998,
+        "outputSha256": "4e0341d5a094a581345fb9161dfb8505ccbc7c75f18d22a2ac763270942e867f"
+      },
+      {
+        "errors": [],
+        "finalScreen": 99990000,
+        "index": 9,
+        "inputSha256": "3eaf9d51cb95a290f1273046ce384d44f701d6bcdffaf7dabde18bd15b4a8d09",
+        "maxPresses": 999899990002,
+        "maxScreen": 9998000100000000,
+        "n": 9999,
+        "outputLines": 9999,
+        "outputSha256": "2fb9e788c842c70d4de41fe1c2895c8a859ad67c6275fbcfdaa35db94bec65ba"
+      },
+      {
+        "errors": [],
+        "finalScreen": 9999900000,
+        "index": 10,
+        "inputSha256": "f10f86317a3e7ba4915f0dd53e8f9cadb491885834942adff6b3073fcad5ff6b",
+        "maxPresses": 999989999900002,
+        "maxScreen": 99998000010000000000,
+        "n": 99999,
+        "outputLines": 99999,
+        "outputSha256": "602042aa123b1fa8173d1aeb9575a68d5c84f64f75cc800874acac4668b9bcd9"
+      },
+      {
+        "errors": [],
+        "finalScreen": 317677152,
+        "index": 11,
+        "inputSha256": "7fcb15d8fe83eb34ec2727dbf8c54a57678b9ad1bd80ef4d0c123ed8902d7943",
+        "maxPresses": 5662277539426,
+        "maxScreen": 100918772902831104,
+        "n": 17823,
+        "outputLines": 17823,
+        "outputSha256": "16a1c1e6b57ef434fe8eb859d9dc52d36a054503b17fe4db0c87e5193f4f7282"
+      },
+      {
+        "errors": [],
+        "finalScreen": 493839506,
+        "index": 12,
+        "inputSha256": "343783473bf128684158e68536b3d599644446701d2c005227a8f58c37a7a813",
+        "maxPresses": 10974595319617,
+        "maxScreen": 243877457686324036,
+        "n": 22222,
+        "outputLines": 22222,
+        "outputSha256": "52d4e399d0e8ee86fed2323797f7e2c18356bbb54b5ae7e5bffcbf862575d69d"
+      },
+      {
+        "errors": [],
+        "finalScreen": 848993906,
+        "index": 13,
+        "inputSha256": "c3b806e1962980ea55936f535df41560ea61ce725c15f34d49d490dd858f31f0",
+        "maxPresses": 24737984403892,
+        "maxScreen": 720790652425136836,
+        "n": 29137,
+        "outputLines": 29137,
+        "outputSha256": "b0939e96253f8197e1b229976a961dac5136fd4b7db6e1d3ccbd390c3fee17e5"
+      },
+      {
+        "errors": [],
+        "finalScreen": 56,
+        "index": 14,
+        "inputSha256": "9b6dd0f55d1cea37555db317f53a0631f694bd46df8018cc2aeed3d9e2f32f5f",
+        "maxPresses": 442,
+        "maxScreen": 3136,
+        "n": 7,
+        "outputLines": 7,
+        "outputSha256": "5edcf74dd44c594914dda5629f7db307cc56526ae6b78cab7d5b4010cf0f38ec"
+      }
+    ],
+    "officialCount": 15,
+    "sampleOfficialDifferences": [
+      {
+        "classification": "Different legal constructions, not a contradiction.",
+        "exampleIndex": 0,
+        "n": 3,
+        "officialIndex": 0
+      },
+      {
+        "classification": "Different legal constructions, not a contradiction.",
+        "exampleIndex": 1,
+        "n": 2,
+        "officialIndex": 1
+      }
+    ]
+  },
+  "title": "Plus and Square Root"
+}
