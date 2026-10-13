@@ -1,7 +1,7 @@
 {
   "id": "411B",
   "role": "recipe-author",
-  "status": "authored-local-checks-pending-not-qualified",
+  "status": "authored-local-checks-passed-not-qualified",
   "baseCommit": "5b28d333386f24f8ed15eb55b8c18627c6326070",
   "branch": "devin/1791857500-author-411b",
   "inputVerification": {
@@ -72,7 +72,16 @@
     "generatedTestsField": 14,
     "generatedTestsFieldType": "integer count, not supplied input/output pairs",
     "qualificationBlocker": "Incomplete official suite: the row contains 16 of the stated 46 official pairs. Authoring does not resolve qualification.",
-    "pairReview": {"status": "pending", "failedUpstreamPairs": null}
+    "pairReview": {
+      "status": "passed",
+      "officialPairsReviewed": 16,
+      "samplePairsReviewed": 3,
+      "checks": "Every supplied pair parsed within the source-attested dimensions, ranges, row layout and output-line layout; expected values matched both the efficient oracle and the separate pairwise reference.",
+      "failedUpstreamPairs": [],
+      "contradictions": [],
+      "duplicates": "Official pair 10 is byte-identical to pair 5. Both were reviewed; original bytes were preserved. This is not an extra distinct test.",
+      "note": "No source statement, input, sample or expected output was repaired. Incompleteness remains the qualification blocker."
+    }
   },
   "sourceInspection": {
     "scope": "Inspection only. No downloaded public source was compiled or executed. Observations motivate authored tests, not algorithmic-failure proofs or qualification.",
@@ -109,16 +118,38 @@
     "mutationTests": "Self-authored conceptual mutants for idle-as-cell, forgotten cell locks, dead-writer participation, omitted cell k, and overwritten lock times. They are not executions of public submissions."
   },
   "authoredSuite": {
-    "plannedCount": 160,
+    "count": 160,
+    "uniqueInputs": 160,
+    "categoryCounts": {"boundary": 23, "adversarial": 132, "maxSize": 5},
+    "suiteDigestMethod": "pool_contract.digest(extras('411B'))",
+    "suiteDigest": "ad728a9b9741511c08eed75529c85b4911a3a88947519fe99ddfe35747bbe138",
     "categories": ["boundary", "adversarial", "maxSize"],
     "maximumDimensionCases": 5,
     "construction": "Unique deterministic individual pairs: manual minima and semantic traps with row reversals, 12 delayed-lock schedules, highest-cell cascades for k=1..10, five 100x100 matrices with k=100, and fixed-seed dense/sparse/delayed small random matrices to reach 160.",
     "seeds": {"extras": 4111600, "bruteRandom": 4112026},
     "exhaustiveDimensions": [[1,1,1], [1,3,2], [2,1,3], [2,2,2], [2,3,2], [3,2,2], [3,3,1], [3,2,3], [4,2,1]],
-    "plannedCrossChecks": {"exhaustive": 6448, "random": 500, "generated": 160},
+    "crossChecks": {"exhaustive": 6448, "random": 500, "generated": 160, "total": 7108},
     "countingUnit": "One whole answer-vector comparison against the independently implemented pairwise reference; no per-token inflation."
   },
-  "localValidation": {"status": "pending-push-first"},
+  "localValidation": {
+    "status": "passed",
+    "pushFirst": true,
+    "targetedUnittest": {
+      "command": "RECIPE_411B_INPUT_ARCHIVE=<authenticated-source-archive> python3 -m unittest discover -s pipeline/ratings-pools/1600 -p 'test_recipe_411B.py' -v",
+      "methodsPassed": 12,
+      "methodsSkipped": 0,
+      "failures": 0,
+      "coverage": "Strict input/output layouts and range rejection; hand-derived answers; five conceptual mutation witnesses contained in extras; all 160 generated pairs independently reference-checked; known maximum-dimension answers; real brute_checks; cross-process PYTHONHASHSEED determinism; statement/input hashes; all upstream pairs.",
+      "developmentFix": "First local run exposed a test import-path error loading pool_contract dependencies. Fixed in the owned unit-test file, pushed, and reran successfully. No oracle mismatch occurred."
+    },
+    "bruteAssertions": 7108,
+    "assertionMeaning": "6448 exhaustive matrices plus 500 fixed-seed random matrices plus 160 generated cases, each checked as a whole answer vector against a different algorithm. This is not a count of unique validated problems, public submission executions, or individual output tokens.",
+    "additionalSuppliedPairReferenceComparisons": 19,
+    "syntax": "AST parse passed for both owned Python modules; report JSON parsed successfully.",
+    "whitespace": "git diff --check 5b28d33..HEAD passed.",
+    "determinism": "Generated suite identical under PYTHONHASHSEED=1 and 97.",
+    "validationScope": "Author-local functional checks only, not a separate-agent audit or qualification."
+  },
   "qualification": {
     "performed": false,
     "auditPerformed": false,
