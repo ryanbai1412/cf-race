@@ -1,0 +1,158 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementComplete": true
+  },
+  "evidenceHash": "fedfd15c55f4d8f571a5a2764d93b0544ce7dc20822258323655acf2912b5e23",
+  "incorrectAnalysis": {
+    "16877965": {
+      "kind": "wrong-answer",
+      "reason": "Lookup table maps needed value 1 to 8, but only the four aces (counted as 1) give 11 points, so n=11 must be 4.",
+      "test": "0004"
+    },
+    "3961166": {
+      "kind": "wrong-answer",
+      "reason": "Hard-codes n=20 -> 17; the correct count of ten-valued second cards (10/J/Q/K in 4 suits minus the already-used queen of spades) is 15.",
+      "test": "0002"
+    },
+    "4644834": {
+      "kind": "wrong-answer",
+      "reason": "For n=25 computes n-10=15 and falls into the else-branch printing 15; no card is worth 15 points, so the answer is 0 (fails to bound needed value to <=11).",
+      "test": "0007"
+    },
+    "9735200": {
+      "kind": "wrong-answer",
+      "reason": "Case analysis only handles needed values 1..11 and n==10; for n=25 (needed 15, unreachable) no branch fires so the required answer 0 is never produced. Reviewer judgment: this is an omitted algorithmic case (not a computed-but-unprinted answer); parent may treat empty output stricter.",
+      "test": "0007"
+    },
+    "9741875": {
+      "kind": "wrong-answer",
+      "reason": "Uses a%10 so n=25 maps to needed 5 -> prints 4; ignores that n>21 needs >11 points which no card provides (answer 0).",
+      "test": "0007"
+    }
+  },
+  "packageHash": "3957ed973e457115a6ea3cd67b7f932722f319014cdee21c6cd35f020dcdc1e4",
+  "rerunResults": {
+    "16877965": {
+      "expected": "WRONG_ANSWER",
+      "lfNormalizedFailedTestVerdict": "WA",
+      "proof": "reruns/104A/16877965.json",
+      "proofSha256": "74efbc6cdd857d04c0638e99c7bfe25266b19de05ef0989e40d7f6654dbd187c",
+      "recordedFailedTest": "0004",
+      "rerunFailedTest": "0004",
+      "rerunVerdict": "WA",
+      "samplesVerdict": "AC",
+      "testsRun": 25
+    },
+    "3961166": {
+      "expected": "WRONG_ANSWER",
+      "lfNormalizedFailedTestVerdict": "WA",
+      "proof": "reruns/104A/3961166.json",
+      "proofSha256": "77f9d94e5320ca3b2b3598d7e84290bba1046036b16eb675a5fe5e4ab1c6ad88",
+      "recordedFailedTest": "0002",
+      "rerunFailedTest": "0002",
+      "rerunVerdict": "WA",
+      "samplesVerdict": "WA",
+      "testsRun": 25
+    },
+    "4644834": {
+      "expected": "WRONG_ANSWER",
+      "lfNormalizedFailedTestVerdict": "WA",
+      "proof": "reruns/104A/4644834.json",
+      "proofSha256": "ba3b71e7eeafa122ea491d47b50a00068a60598109fbd361fea1b180c7e2fc24",
+      "recordedFailedTest": "0007",
+      "rerunFailedTest": "0007",
+      "rerunVerdict": "WA",
+      "samplesVerdict": "AC",
+      "testsRun": 25
+    },
+    "589250": {
+      "expected": "OK",
+      "lfNormalizedFailedTestVerdict": null,
+      "proof": "reruns/104A/589250.json",
+      "proofSha256": "16d6079619de618c99ab966019bbe342c46670d9a63db02fb3c94b7bbfc8c260",
+      "recordedFailedTest": null,
+      "rerunFailedTest": null,
+      "rerunVerdict": "AC",
+      "samplesVerdict": "AC",
+      "testsRun": 25
+    },
+    "589254": {
+      "expected": "OK",
+      "lfNormalizedFailedTestVerdict": null,
+      "proof": "reruns/104A/589254.json",
+      "proofSha256": "468a579f4fcc347802bd04b2c59fe4e0a789fbf3b231682960dceda542a16ea4",
+      "recordedFailedTest": null,
+      "rerunFailedTest": null,
+      "rerunVerdict": "AC",
+      "samplesVerdict": "AC",
+      "testsRun": 25
+    },
+    "589263": {
+      "expected": "OK",
+      "lfNormalizedFailedTestVerdict": null,
+      "proof": "reruns/104A/589263.json",
+      "proofSha256": "99413e817cb4b63309f03291d51798f3c3462a523a76f54e3ebbbf798b737e7e",
+      "recordedFailedTest": null,
+      "rerunFailedTest": null,
+      "rerunVerdict": "AC",
+      "samplesVerdict": "AC",
+      "testsRun": 25
+    },
+    "589277": {
+      "expected": "OK",
+      "lfNormalizedFailedTestVerdict": null,
+      "proof": "reruns/104A/589277.json",
+      "proofSha256": "4446fa65469e16f8d0df9dcbf7eabce83aadea7f5ea7a9d893ad620317317537",
+      "recordedFailedTest": null,
+      "rerunFailedTest": null,
+      "rerunVerdict": "AC",
+      "samplesVerdict": "AC",
+      "testsRun": 25
+    },
+    "589281": {
+      "expected": "OK",
+      "lfNormalizedFailedTestVerdict": null,
+      "proof": "reruns/104A/589281.json",
+      "proofSha256": "3cfa30ba0f92c7d64e34f75c8ba35fece13d72b7a164fbf38b506c9080e87bb9",
+      "recordedFailedTest": null,
+      "rerunFailedTest": null,
+      "rerunVerdict": "AC",
+      "samplesVerdict": "AC",
+      "testsRun": 25
+    },
+    "9735200": {
+      "expected": "WRONG_ANSWER",
+      "lfNormalizedFailedTestVerdict": "WA",
+      "proof": "reruns/104A/9735200.json",
+      "proofSha256": "2ab52050fceef6cc594fdf96ea6c27c030fbeb08f867055860016438a935c784",
+      "recordedFailedTest": "0007",
+      "rerunFailedTest": "0007",
+      "rerunVerdict": "WA",
+      "samplesVerdict": "AC",
+      "testsRun": 25
+    },
+    "9741875": {
+      "expected": "WRONG_ANSWER",
+      "lfNormalizedFailedTestVerdict": "WA",
+      "proof": "reruns/104A/9741875.json",
+      "proofSha256": "35b507f6f75063919bf1c560bc769692d059912c3bc57f7e961c12928e200944",
+      "recordedFailedTest": "0007",
+      "rerunFailedTest": "0007",
+      "rerunVerdict": "WA",
+      "samplesVerdict": "AC",
+      "testsRun": 25
+    }
+  },
+  "reviewUrl": "https://staging.itsdev.in/sessions/410e54ebf9824d968b54f1e686353310",
+  "reviewer": "devin-410e54ebf9824d968b54f1e686353310"
+}

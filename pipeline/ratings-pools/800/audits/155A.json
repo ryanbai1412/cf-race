@@ -1,0 +1,161 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementComplete": true
+  },
+  "evidenceHash": "8c2d3844df4661afdb45f16b3807fbbca34f0439cbee1b72f3cf613b482e5b53",
+  "incorrectAnalysis": {
+    "187712085": {
+      "kind": "wrong-answer",
+      "reason": "Compares the scores as strings (lexicographic) and its range(n-1) loop never evaluates the last contest; 100 36 53 7 81 yields 4, correct 2.",
+      "test": "0005"
+    },
+    "187984071": {
+      "kind": "wrong-answer",
+      "reason": "Loop range(1,len-1) skips the last contest (and min update is a no-op expression); the final 7242 is a new maximum, so it outputs 3 instead of 4.",
+      "test": "0002"
+    },
+    "188069014": {
+      "kind": "wrong-answer",
+      "reason": "Counts adjacent non-decreasing steps instead of new strict records against all previous; on 2 1 the new minimum 1 is missed (0, correct 1).",
+      "test": "0004"
+    },
+    "188346789": {
+      "kind": "wrong-answer",
+      "reason": "Counts adjacent increases only, ignoring new minimums and non-adjacent records; 2 1 -> 0, correct 1.",
+      "test": "0004"
+    },
+    "188347970": {
+      "kind": "wrong-answer",
+      "reason": "Prints min(adjacent increases, adjacent decreases) rather than counting strict records; 2 1 -> min(0,1)=0, correct 1.",
+      "test": "0004"
+    }
+  },
+  "packageHash": "4f6a7f6fa02889f322f8710eb6c587a9a5b9da22bcae7dcb07e04f7ced9be0b5",
+  "qualificationBasis": "generated",
+  "rerunResults": {
+    "1221145": {
+      "expected": "OK",
+      "lfNormalizedFailedTestVerdict": null,
+      "proof": "reruns/155A/1221145.json",
+      "proofSha256": "8a11fc0bbbf935bd60e36965b5c050cc841bcea06eeba49bcd5f0d7e69554c25",
+      "recordedFailedTest": null,
+      "rerunFailedTest": null,
+      "rerunVerdict": "AC",
+      "samplesVerdict": "AC",
+      "testsRun": 181
+    },
+    "1221146": {
+      "expected": "OK",
+      "lfNormalizedFailedTestVerdict": null,
+      "proof": "reruns/155A/1221146.json",
+      "proofSha256": "6f20f1d759ea61106375ed658c7c4890f8b5f819cdc7c42a100fd9d77a80fdce",
+      "recordedFailedTest": null,
+      "rerunFailedTest": null,
+      "rerunVerdict": "AC",
+      "samplesVerdict": "AC",
+      "testsRun": 181
+    },
+    "1221148": {
+      "expected": "OK",
+      "lfNormalizedFailedTestVerdict": null,
+      "proof": "reruns/155A/1221148.json",
+      "proofSha256": "582851e434aa2768d86ff7f2f762f81a3d5db7478498c54945553915c0688d9d",
+      "recordedFailedTest": null,
+      "rerunFailedTest": null,
+      "rerunVerdict": "AC",
+      "samplesVerdict": "AC",
+      "testsRun": 181
+    },
+    "1221149": {
+      "expected": "OK",
+      "lfNormalizedFailedTestVerdict": null,
+      "proof": "reruns/155A/1221149.json",
+      "proofSha256": "b272c321793cb7acd041007c5055b9a313709bfdced33f854067fa96afe84153",
+      "recordedFailedTest": null,
+      "rerunFailedTest": null,
+      "rerunVerdict": "AC",
+      "samplesVerdict": "AC",
+      "testsRun": 181
+    },
+    "1221150": {
+      "expected": "OK",
+      "lfNormalizedFailedTestVerdict": null,
+      "proof": "reruns/155A/1221150.json",
+      "proofSha256": "0d9864516d00dbcb1d538becb58f2c0a7b6dc7361f6a0e54e06b0852587f2c7e",
+      "recordedFailedTest": null,
+      "rerunFailedTest": null,
+      "rerunVerdict": "AC",
+      "samplesVerdict": "AC",
+      "testsRun": 181
+    },
+    "187712085": {
+      "expected": "WRONG_ANSWER",
+      "lfNormalizedFailedTestVerdict": "WA",
+      "proof": "reruns/155A/187712085.json",
+      "proofSha256": "3fe7565d0d38463d5e3b9706a7e1a3e4f18b0c9938f819df8bea9cdb05a9517d",
+      "recordedFailedTest": "0005",
+      "rerunFailedTest": "0005",
+      "rerunVerdict": "WA",
+      "samplesVerdict": "AC",
+      "testsRun": 181
+    },
+    "187984071": {
+      "expected": "WRONG_ANSWER",
+      "lfNormalizedFailedTestVerdict": "WA",
+      "proof": "reruns/155A/187984071.json",
+      "proofSha256": "2a2b7293e8c1e13c323fa7fba9161e4a04bb0c33dfae06f8916af43db012c875",
+      "recordedFailedTest": "0002",
+      "rerunFailedTest": "0002",
+      "rerunVerdict": "WA",
+      "samplesVerdict": "WA",
+      "testsRun": 181
+    },
+    "188069014": {
+      "expected": "WRONG_ANSWER",
+      "lfNormalizedFailedTestVerdict": "WA",
+      "proof": "reruns/155A/188069014.json",
+      "proofSha256": "c1d9d34c58ade4be08ada0dea93a3ccd92cecf9a5e9c750b3e8335e4be392d9e",
+      "recordedFailedTest": "0004",
+      "rerunFailedTest": "0004",
+      "rerunVerdict": "WA",
+      "samplesVerdict": "AC",
+      "testsRun": 181
+    },
+    "188346789": {
+      "expected": "WRONG_ANSWER",
+      "lfNormalizedFailedTestVerdict": "WA",
+      "proof": "reruns/155A/188346789.json",
+      "proofSha256": "61519539223d129ad3cb4dbc9ff5244923a4baa2ac8d061b1d6240d0c290ed65",
+      "recordedFailedTest": "0004",
+      "rerunFailedTest": "0004",
+      "rerunVerdict": "WA",
+      "samplesVerdict": "AC",
+      "testsRun": 181
+    },
+    "188347970": {
+      "expected": "WRONG_ANSWER",
+      "lfNormalizedFailedTestVerdict": "WA",
+      "proof": "reruns/155A/188347970.json",
+      "proofSha256": "4f1f55bee42e6d7b839efaab3a951775e92f516d21811fefed21aac09512310d",
+      "recordedFailedTest": "0004",
+      "rerunFailedTest": "0004",
+      "rerunVerdict": "WA",
+      "samplesVerdict": "AC",
+      "testsRun": 181
+    }
+  },
+  "reviewUrl": "https://staging.itsdev.in/sessions/410e54ebf9824d968b54f1e686353310",
+  "reviewer": "devin-410e54ebf9824d968b54f1e686353310"
+}

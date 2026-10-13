@@ -1,0 +1,158 @@
+{
+  "approved": true,
+  "checks": {
+    "algorithmicallyWrong": true,
+    "coverage": true,
+    "fiveAcceptedFiveIncorrect": true,
+    "fullTests": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true,
+    "statementComplete": true
+  },
+  "evidenceHash": "b660093fe02fc97a345bb72c9957871ec3eda297834e2c0393babba9af92af10",
+  "incorrectAnalysis": {
+    "44944571": {
+      "kind": "wrong-answer",
+      "reason": "Custom gcd fx is not Euclid (swaps to b=a,a=c); fx(73,99) returns 26 instead of 1, so the simulated game removes wrong stone counts and reports Simon winning (0) instead of 1.",
+      "test": "0005"
+    },
+    "45033245": {
+      "kind": "wrong-answer",
+      "reason": "gcd loop uses range(1,min(a,b)) which excludes min itself; on 12 24 26 Antisimon's gcd(24,24) becomes 12 instead of 24, changing the game and the winner (prints 0, correct 1).",
+      "test": "0010"
+    },
+    "45122506": {
+      "kind": "wrong-answer",
+      "reason": "Subtracts the fixed gcd(a,b) every turn instead of gcd(player's number, remaining n); for 95 26 29 this yields odd parity 0 while the real game gives 1.",
+      "test": "0004"
+    },
+    "45452404": {
+      "kind": "wrong-answer",
+      "reason": "Decides by parity of n/gcd(a,b) instead of simulating gcd(own, n) per move; 95 26 29 -> 0, correct 1.",
+      "test": "0004"
+    },
+    "45452910": {
+      "kind": "wrong-answer",
+      "reason": "Loop stops when n equals the current gcd (does not let that player take the last stones and pass the turn) and tests s//2==1 instead of parity; 3 5 9 -> 1, correct 0.",
+      "test": "0001"
+    }
+  },
+  "packageHash": "da1bab1cfcf9cc9b515fc2e3b0d9ff7eaa3396102e5e7bee3d5e420eaf321168",
+  "rerunResults": {
+    "44944571": {
+      "expected": "WRONG_ANSWER",
+      "lfNormalizedFailedTestVerdict": "WA",
+      "proof": "reruns/119A/44944571.json",
+      "proofSha256": "2bcaf6c2a2df7b5b11bc9131541291d7b31ebc93ec86bccfbe054f1e7af86d21",
+      "recordedFailedTest": "0005",
+      "rerunFailedTest": "0005",
+      "rerunVerdict": "WA",
+      "samplesVerdict": "AC",
+      "testsRun": 45
+    },
+    "45033245": {
+      "expected": "WRONG_ANSWER",
+      "lfNormalizedFailedTestVerdict": "WA",
+      "proof": "reruns/119A/45033245.json",
+      "proofSha256": "129f27e64191decd84a43bc05dd8a1dca9e557a29a64f7cb276c1f1bab74721c",
+      "recordedFailedTest": "0010",
+      "rerunFailedTest": "0010",
+      "rerunVerdict": "WA",
+      "samplesVerdict": "AC",
+      "testsRun": 45
+    },
+    "45122506": {
+      "expected": "WRONG_ANSWER",
+      "lfNormalizedFailedTestVerdict": "WA",
+      "proof": "reruns/119A/45122506.json",
+      "proofSha256": "14cf10147ec76be56f41f875b42b07233550474d3254c2afb3ddcea7e235adfb",
+      "recordedFailedTest": "0004",
+      "rerunFailedTest": "0004",
+      "rerunVerdict": "WA",
+      "samplesVerdict": "AC",
+      "testsRun": 45
+    },
+    "45452404": {
+      "expected": "WRONG_ANSWER",
+      "lfNormalizedFailedTestVerdict": "WA",
+      "proof": "reruns/119A/45452404.json",
+      "proofSha256": "c710baea4270090b0622cc5cbdc7f21d673fdfe145bb5b40f02aad21696e92b1",
+      "recordedFailedTest": "0004",
+      "rerunFailedTest": "0004",
+      "rerunVerdict": "WA",
+      "samplesVerdict": "AC",
+      "testsRun": 45
+    },
+    "45452910": {
+      "expected": "WRONG_ANSWER",
+      "lfNormalizedFailedTestVerdict": "WA",
+      "proof": "reruns/119A/45452910.json",
+      "proofSha256": "90a5dbdb36ab5c40a57a3a6f957f02c756e9e740c1c8b3ee9adac0a9bd879f3c",
+      "recordedFailedTest": "0001",
+      "rerunFailedTest": "0001",
+      "rerunVerdict": "WA",
+      "samplesVerdict": "WA",
+      "testsRun": 45
+    },
+    "759388": {
+      "expected": "OK",
+      "lfNormalizedFailedTestVerdict": null,
+      "proof": "reruns/119A/759388.json",
+      "proofSha256": "3c36d9d6634d6b97e8b6cb2d08f0f2e8fb274edaef816c3ceb02ad2316b39c9f",
+      "recordedFailedTest": null,
+      "rerunFailedTest": null,
+      "rerunVerdict": "AC",
+      "samplesVerdict": "AC",
+      "testsRun": 45
+    },
+    "759389": {
+      "expected": "OK",
+      "lfNormalizedFailedTestVerdict": null,
+      "proof": "reruns/119A/759389.json",
+      "proofSha256": "bbcdb9fef5d577173af167fc3efff29b988997f694a96472b231ca6943e80121",
+      "recordedFailedTest": null,
+      "rerunFailedTest": null,
+      "rerunVerdict": "AC",
+      "samplesVerdict": "AC",
+      "testsRun": 45
+    },
+    "759391": {
+      "expected": "OK",
+      "lfNormalizedFailedTestVerdict": null,
+      "proof": "reruns/119A/759391.json",
+      "proofSha256": "a201e526e9fb508a42e63325b070450ac3c0d9620e6278d107b5deb22693b62a",
+      "recordedFailedTest": null,
+      "rerunFailedTest": null,
+      "rerunVerdict": "AC",
+      "samplesVerdict": "AC",
+      "testsRun": 45
+    },
+    "759393": {
+      "expected": "OK",
+      "lfNormalizedFailedTestVerdict": null,
+      "proof": "reruns/119A/759393.json",
+      "proofSha256": "cdd65e7f709f761b5317ccef6390a8354117132b67bbeb6b520b77c4082ac831",
+      "recordedFailedTest": null,
+      "rerunFailedTest": null,
+      "rerunVerdict": "AC",
+      "samplesVerdict": "AC",
+      "testsRun": 45
+    },
+    "759394": {
+      "expected": "OK",
+      "lfNormalizedFailedTestVerdict": null,
+      "proof": "reruns/119A/759394.json",
+      "proofSha256": "1a4d0b0366fcbdcb6128d9e5b3902d3fc6c0b6cea6829a4c468caf4eaa07f100",
+      "recordedFailedTest": null,
+      "rerunFailedTest": null,
+      "rerunVerdict": "AC",
+      "samplesVerdict": "AC",
+      "testsRun": 45
+    }
+  },
+  "reviewUrl": "https://staging.itsdev.in/sessions/410e54ebf9824d968b54f1e686353310",
+  "reviewer": "devin-410e54ebf9824d968b54f1e686353310"
+}
