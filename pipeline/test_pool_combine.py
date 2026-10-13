@@ -7,7 +7,7 @@ import tarfile
 import tempfile
 import unittest
 
-from pool_combine import extract, relative_name, replay, verify_manifest
+from pool_combine import extract, relative_name, replay, replay_snapshot, verify_manifest
 from pool_contract import digest, manifest, write_json
 from pool_sandbox import COMPILER_FLAGS, EXECUTION_VERSION, IMAGE
 from pool_sources import PINS, sha_file
@@ -252,6 +252,37 @@ class ReplayTests(unittest.TestCase):
         record["path"] = "link"
         with self.assertRaises(ValueError):
             self.run_replay()
+
+    def snapshot(self):
+        write_json(self.root / "index.json", self.index)
+        return {"bundleIndex": "index.json", "bundleIndexHash": digest(self.index),
+                "bundleIndexFileSHA256": sha_file(self.root / "index.json"),
+                "technicalCounts": {str(r): int(r == 1200) for r in (800, 1000, 1200, 1400, 1600)},
+                "technicalPackages": [{k: self.index["entries"][0][k] for k in
+                                       ("id", "rating", "packageHash", "evidenceHash", "auditHash")} ]}
+
+    def test_snapshot_reconstructs_exact_index(self):
+        report = replay_snapshot(self.snapshot(), self.root, self.root / "result.json")
+        self.assertEqual(report["technicalTotal"], 1)
+
+    def test_snapshot_changed_hash_and_count(self):
+        snapshot = self.snapshot()
+        snapshot["bundleIndexHash"] = "0" * 64
+        with self.assertRaises(ValueError):
+            replay_snapshot(snapshot, self.root, self.root / "result.json")
+        snapshot = self.snapshot(); snapshot["technicalCounts"]["800"] = 1
+        with self.assertRaises(ValueError):
+            replay_snapshot(snapshot, self.root, self.root / "result.json")
+
+    def test_snapshot_changed_package_ledger(self):
+        snapshot = self.snapshot(); snapshot["technicalPackages"][0]["auditHash"] = "0" * 64
+        with self.assertRaises(ValueError):
+            replay_snapshot(snapshot, self.root, self.root / "result.json")
+
+    def test_snapshot_unsafe_path(self):
+        snapshot = self.snapshot(); snapshot["bundleIndex"] = "../index.json"
+        with self.assertRaises(ValueError):
+            replay_snapshot(snapshot, self.root, self.root / "result.json")
 
 
 if __name__ == "__main__":

@@ -209,6 +209,22 @@ def replay(index, root, output):
     return report
 
 
+def replay_snapshot(snapshot, root, output):
+    root = Path(root).resolve()
+    path = root / relative_name(snapshot["bundleIndex"])
+    if any(p.is_symlink() for p in (path, *path.parents)) or not path.resolve().is_relative_to(root):
+        raise ValueError("unsafe snapshot index path")
+    index = read_json(path)
+    if sha_file(path) != snapshot["bundleIndexFileSHA256"] or digest(index) != snapshot["bundleIndexHash"]:
+        raise ValueError("snapshot index bytes changed")
+    packages = [{k: entry[k] for k in ("id", "rating", "packageHash", "evidenceHash", "auditHash")}
+                for entry in index["entries"]]
+    counts = {str(r): sum(entry["rating"] == r for entry in packages) for r in RATINGS}
+    if packages != snapshot["technicalPackages"] or counts != snapshot["technicalCounts"]:
+        raise ValueError("snapshot package ledger/count disagreement")
+    return replay(index, root, output)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
@@ -227,7 +243,9 @@ def main():
         write_json(args.output, result)
         print(json.dumps({k: v for k, v in result.items() if k != "files"}))
     else:
-        result = replay(read_json(args.index), args.root, args.output)
+        index = read_json(args.index)
+        run = replay_snapshot if "bundleIndex" in index else replay
+        result = run(index, args.root, args.output)
         print(json.dumps({k: v for k, v in result.items() if k != "entries"}))
 
 
