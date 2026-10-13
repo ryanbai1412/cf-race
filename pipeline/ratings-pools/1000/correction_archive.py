@@ -8,6 +8,11 @@ from correction_replay import BASE, HERE, original_bytes
 from correction_triage import read
 
 
+def active_ids(evidence_dir, quarantined):
+    return sorted(path.stem for path in evidence_dir.glob("*.json")
+                  if path.stem not in quarantined)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--audit", type=Path, required=True)
@@ -17,9 +22,20 @@ def main():
     if not args.output_dir.is_dir():
         raise ValueError("output directory must already exist")
     audit = read(args.audit)
+    quarantine_path = HERE / "correction_quarantine_batch03.json"
+    quarantine = read(quarantine_path) if quarantine_path.exists() else {"problems": {}}
     locked = {}
     from pool_contract import digest, manifest
     pointer_corrections = {row["problem"]: row for row in audit["evidencePointerCorrections"]}
+    for pid, held in quarantine["problems"].items():
+        finding = audit["problems"].get(pid, {})
+        if (pid not in audit["excludedIds"]
+                or held["originalPackageHash"] != finding.get("packageHash")
+                or held["originalEvidenceHash"] != finding.get("evidenceHash")):
+            raise ValueError(f"stale quarantine binding: {pid}")
+        if "recoveryEvidenceHash" in held and (
+                digest(read(BASE / "evidence" / f"{pid}.json")) != held["recoveryEvidenceHash"]):
+            raise ValueError(f"quarantined evidence changed: {pid}")
     for pid in audit["passedIds"]:
         package, original = original_bytes(pid)
         finding = audit["problems"][pid]
@@ -34,7 +50,7 @@ def main():
                        "pointerCorrection": pointer_corrections.get(pid)}
         if finding["packageHash"] != original["packageHash"]:
             raise ValueError(f"release-held original package changed: {pid}")
-    ids = sorted(path.stem for path in (BASE / "evidence").glob("*.json"))
+    ids = active_ids(BASE / "evidence", quarantine["problems"])
     if not ids:
         raise ValueError("no completed correction evidence")
     renewed = {}
@@ -110,6 +126,7 @@ def main():
                   "priorMechanicallyPassingButReleaseHeld": len(locked),
                   "unchangedPriorReleaseHeldBindings": locked,
                   "originallyExcluded": audit["excludedIds"],
+                  "quarantinedNotAuditReady": quarantine,
                   "newRecovery": renewed,
                   "auditStatus": "new recovery needs a DIFFERENT source-level auditor; no new validation claimed",
                   "archive": record}

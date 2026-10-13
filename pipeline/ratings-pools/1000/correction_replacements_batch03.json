@@ -69,8 +69,25 @@
     "test": "0003"
   },
   "400A": {
-    "additionalReplacements": [],
+    "additionalReplacements": [
+      {
+        "defect": "Treats divisibility of the total X count by the row count as sufficient, instead of checking complete X columns.",
+        "sourceHash": "ee7b5251d4c27a973eb18de3e654ccdbd94dbdee244c6e60cef5c38ef585d28d",
+        "submissionId": "58994452",
+        "test": "0001"
+      }
+    ],
     "defect": "Counts rows of X's rather than a completely filled column, yielding legal but infeasible layouts.",
+    "excludePreviouslyClaimed": [
+      "26706990"
+    ],
+    "excludedPriorReferenceReasons": {
+      "26706990": {
+        "publicVerdict": "WRONG_ANSWER",
+        "reason": "Computes the correct dimensions, failing only their prescribed output order; not an algorithmic wrong-dimensions witness.",
+        "sourceHash": "445432f13e5a71f13881299ba774b6085f7caa19778d5854bfd684f560b00684"
+      }
+    },
     "sourceHash": "e3bbfdcbd240148d2ff0752991d9c719887cee231fb941a9f071d05509d37d21",
     "submissionId": "53117043",
     "test": "0001"
@@ -272,9 +289,25 @@
         "sourceHash": "cd00e2a87ac71ec1fc31d14d4e25fddd0e51f5a81cda49a043d795aa2a041c2c",
         "submissionId": "27699229",
         "test": "0004"
+      },
+      {
+        "defect": "Adds two after floor(n/2)-1 for odd n, overshooting the required answer by one.",
+        "sourceHash": "c09b211a5e239b80ca73dfee1747fdf96ece42a0bd15427663802b118b299250",
+        "submissionId": "28299641",
+        "test": "0004"
       }
     ],
     "defect": "Subtracts one from floor(n/2), an off-by-one for odd n.",
+    "excludePreviouslyClaimed": [
+      "26883661"
+    ],
+    "excludedPriorReferenceReasons": {
+      "26883661": {
+        "publicVerdict": "WRONG_ANSWER",
+        "reason": "Emits non-integral 0.5 for an integer-output problem; withheld conservatively as malformed output.",
+        "sourceHash": "a0b2b60b2f53e05df51f1033249d7789cd0e52d3b74d2fe23e5573353a192d2f"
+      }
+    },
     "sourceHash": "356862f5b312d647707cfad8acebdd025846b20ac75e48c7b6a433fad31f6887",
     "submissionId": "27146063",
     "test": "0004"
@@ -294,10 +327,10 @@
         "test": "0001"
       },
       {
-        "defect": "Reverses the text of the input and compares character offsets with canteen values instead of last-visit positions.",
-        "sourceHash": "ef14907ca838d4e78ecd41670b698f5c4c555ea5f8d238ba9edaa285f026973c",
-        "submissionId": "32979247",
-        "test": "0002"
+        "defect": "Returns the last first-seen canteen rather than the canteen with the earliest last visit.",
+        "sourceHash": "d34a0f4d567c0e89abd20e5b2466d5bd2e154563d78462bba449b40567ae1689",
+        "submissionId": "76232419",
+        "test": "0001"
       }
     ],
     "defect": "Outputs the reverse-list index instead of the chosen canteen value.",

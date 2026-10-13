@@ -30,6 +30,7 @@ PROPOSALS = {
     ],
     "400A": [
         ("53117043", "0001", "Counts rows of X's rather than a completely filled column, yielding legal but infeasible layouts."),
+        ("58994452", "0001", "Treats divisibility of the total X count by the row count as sufficient, instead of checking complete X columns."),
     ],
     "404A": [
         ("112183068", "0004", "Checks the main diagonal and only the anti-diagonal corners, rejecting a valid five-by-five X."),
@@ -73,12 +74,13 @@ PROPOSALS = {
     "804A": [
         ("27146063", "0004", "Subtracts one from floor(n/2), an off-by-one for odd n."),
         ("27699229", "0004", "Combines the odd-n branch with an extra n/2 term rather than floor(n/2)."),
+        ("28299641", "0004", "Adds two after floor(n/2)-1 for odd n, overshooting the required answer by one."),
     ],
     "886B": [
         ("32317833", "0004", "Outputs the reverse-list index instead of the chosen canteen value."),
         ("32341376", "0004", "Tracks a repeated value's offset instead of the canteen requested latest."),
         ("32350638", "0001", "Initializes the minimum at minus one; no nonnegative last-seen index can replace it."),
-        ("32979247", "0002", "Reverses the text of the input and compares character offsets with canteen values instead of last-visit positions."),
+        ("76232419", "0001", "Returns the last first-seen canteen rather than the canteen with the earliest last visit."),
     ],
     "990A": [
         ("39115520", "0006", "Compares arbitrary n to 2m rather than the nearest multiple of m."),
@@ -88,12 +90,18 @@ PROPOSALS = {
 
 
 EXCLUSIONS = {
+    "400A": {
+        "26706990": "Computes the correct dimensions, failing only their prescribed output order; not an algorithmic wrong-dimensions witness.",
+    },
     "447B": {
         "17606252": "Emits the extended letter string, not a numeric value witness.",
         "34659469": "Emits the extended letter string, not a numeric value witness.",
     },
     "742A": {
         "145923027": "Full original replay has a first TLE on exponent 999999999; not a normally terminating wrong-value witness.",
+    },
+    "804A": {
+        "26883661": "Emits non-integral 0.5 for an integer-output problem; withheld conservatively as malformed output.",
     },
 }
 
