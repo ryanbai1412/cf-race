@@ -10583,9 +10583,120 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Placement loop bounds omit final row/column for side lengths>1 and the break condition skips interior positions; fails to enumerate valid minimum placements.",
+      "reason": "For dimensions above one the loop omits the last valid origin; the additional break also skips interior origins. On 0005 it misses the bottom 2-by-1 rectangle in the right column containing only one occupied cell and reports 2.",
       "sourceHash": "9c05be691914c7f5b94dbfde48b58bdd164bfd9af0002adea0f8fc78b175ed18",
-      "test": "0005"
+      "test": "0005",
+      "semanticReview": {
+        "sourceHash": "9c05be691914c7f5b94dbfde48b58bdd164bfd9af0002adea0f8fc78b175ed18",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Sets placement extents d=a,e=b (subtracting one only for unit dimensions), enumerates range(n-d) by range(m-e), conditionally breaks at interior origins, then repeats with dimensions swapped and minimizes counted occupied cells.",
+        "faultyLogic": "For dimensions above one the loop omits the last valid origin; the additional break also skips interior origins. On 0005 it misses the bottom 2-by-1 rectangle in the right column containing only one occupied cell and reports 2.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 39,
+            "code": "n,m=map(int,input().split())\narr=[]\nfor i in range(n):\n        lis=list(map(int,input().split()))\n        arr.append(lis)\na,b=map(int,input().split())\nd=a\ne=b\nlis=[]\nif a==1:\n    d=d-1\nif b==1:\n    e=e-1\nfor i in range(n-d):\n    for j in range(m-e):\n        if i != 0 and j != 0 and i != n - a - 1 and j != m - b - 1:\n            break\n        c=0\n        for k in range(0,a,1):\n            for l in range(0,b,1):\n\n                if arr[i+k][j+l]==1:\n                    c=c+1\n\n        lis.append(c)\n\nfor i in range(n-e):\n    for j in range(m-d):\n        if i != 0 and j != 0 and i != n - a - 1 and j != m - b - 1:\n            break\n        c=0\n        for k in range(0,b,1):\n            for l in range(0,a,1):\n\n                if arr[i+k][j+l]==1:\n                    c=c+1\n        lis.append(c)\nlis.sort()\nprint(lis[0])"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/48B/sources/118220806.json",
+        "sourceRecordSha256": "c7869e85c9d36e4d1167d763d6d3e2c969a6d07eac3e708ce47cfdf7d875763d",
+        "originalFullExecutionLog": {
+          "path": "reruns/48B/source-118220806.json",
+          "sha256": "8309b9b8bd2cce2de3ad57e1536ca0bee7f67135189cd904de53c07c9edb657d",
+          "sourceHash": "9c05be691914c7f5b94dbfde48b58bdd164bfd9af0002adea0f8fc78b175ed18"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0005",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/48B/lf-118220806.json",
+          "lfLogSha256": "84388390b391f0aa07c91c54ee011a8219b59e6969d4ed7d277f74594ad3c593",
+          "lfOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "lfOutputBase64": "Mgo=",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0005",
+          "includedTestPath": "1200/packages/48B/tests/0005.in",
+          "validLFInput": "3 2\n1 1\n1 1\n1 0\n2 1\n",
+          "validLFInputSha256": "ba36db39dfac5afb0f348780a44ac382df2eb22807142b7a2090ff185a5cd868",
+          "originalInputSha256": "7811c74f62567ed5c03aa83720dd51c5219ffa3d39e25c969322275abe877ccd",
+          "constraintsExplanation": "Both board dimensions are 1..50, every supplied cell is binary, exactly n*m cells exist, and requested side lengths are 1..50; at least one full orientation fits. Partial/truncated rectangles are not legal placements.",
+          "correctAnswer": "1",
+          "mathematicalDerivation": "The permitted dimensions are 2x1 and 1x2. Explicitly summing occupied cells at every in-bounds origin gives the row-major counts in the certificate; there are 7 valid oriented placements and none has sum below 1. At 1-based row 2, column 2, height 2, width 1, the cells are [[1], [0]], summing to 1. Thus the minimum is 1; truncated or out-of-bounds rectangles are not permitted.",
+          "mathematicalCertificate": {
+            "orientations": [
+              {
+                "height": 1,
+                "width": 2,
+                "validPlacementCount": 3,
+                "allPlacementCountsRowMajor": [
+                  2,
+                  2,
+                  1
+                ],
+                "minimum": 1
+              },
+              {
+                "height": 2,
+                "width": 1,
+                "validPlacementCount": 4,
+                "allPlacementCountsRowMajor": [
+                  2,
+                  2,
+                  2,
+                  1
+                ],
+                "minimum": 1
+              }
+            ],
+            "minimumPlacement": {
+              "row": 2,
+              "column": 2,
+              "height": 2,
+              "width": 1,
+              "cells": [
+                [
+                  1
+                ],
+                [
+                  0
+                ]
+              ],
+              "occupied": 1
+            }
+          },
+          "actualAnswer": "2",
+          "actualOutputBase64": "Mgo=",
+          "actualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "lfExecutionLog": {
+            "path": "reruns/48B/lf-118220806.json",
+            "sha256": "84388390b391f0aa07c91c54ee011a8219b59e6969d4ed7d277f74594ad3c593",
+            "sourceHash": "9c05be691914c7f5b94dbfde48b58bdd164bfd9af0002adea0f8fc78b175ed18",
+            "runTest": "0005"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/48B/118220806-0005.json",
+            "sha256": "4d8598dee91d11535c5a86339bd65a862b5da039fb19baf1128b8d8e681bc48d"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0005"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0005 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     },
     "13311802": {
       "counted": false,
@@ -10610,9 +10721,44 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Prints the entire flattened input matrix and rectangle dimensions before the answer. Counted sample numeric answer is correct (0); rejection is solely debug/echoed-input output.",
+      "reason": "The recorded 0001 has 1-by-1 rectangles and the computed final scalar is correctly 0. The two preceding prints are echoed input/debug text, not independent mathematical wrongness; no diagnostic-stripped wrong result is claimed.",
       "sourceHash": "6a5d364e343eb6f8b0c63acbefc75c334d890f0c708fed50c810774cfc6153dd",
-      "test": "0001"
+      "test": "0001",
+      "semanticReview": {
+        "sourceHash": "6a5d364e343eb6f8b0c63acbefc75c334d890f0c708fed50c810774cfc6153dd",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Flattens the matrix, prints that matrix and dimension list as diagnostics, then uses horizontal/vertical sliding updates to enumerate both rectangle orientations and minimizes occupied-cell sums.",
+        "faultyLogic": "The recorded 0001 has 1-by-1 rectangles and the computed final scalar is correctly 0. The two preceding prints are echoed input/debug text, not independent mathematical wrongness; no diagnostic-stripped wrong result is claimed.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 35,
+            "code": "z=map(int,input().split())\ng=range\nn,m=z\nM=[]\nfor i in g(n):\n M+=list(map(int,input().split()))\nprint(M)\np=list(map(int,input().split()))\nprint(p)\n# this is  supposed to be at least (a,b) && (a,b) in dimensions \nR=[[0 for x in g(m)]for y in g(n)]\nx=2500\n\nfor k in g(2):\n for r in g(n-p[k]+1):\n  for c in g(m-p[1-k]+1):\n   if(0==c):\n    if(0==r):\n     R[0][0]=0\n     for u in g(p[k]):\n      for v in g(p[1-k]):\n       R[0][0]+=M[u*m+v]\n    else:\n     R[r][c]=R[r-1][c]\n     for v in g(c,c+p[1-k]):\n      R[r][c]-=M[(r-1)*m+v]\n      R[r][c]+=M[(r+p[k]-1)*m+v]\n   else:\n     R[r][c]=R[r][c-1]\n     for u in g(r,r+p[k]):\n      t=1\n      R[r][c]-=M[u*m+c-1]\n      R[r][c]+=M[u*m+c+p[1-k]-1]\n   x=min(x,R[r][c])\nprint(x)"
+          }
+        ],
+        "algorithmicWrong": false,
+        "countedForUnchangedEvidence": false,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/48B/sources/13311802.json",
+        "sourceRecordSha256": "1893fb0896083a6ce4e94d975d04843d6789f27f9fd42d9106eeef9faba5739c",
+        "originalFullExecutionLog": {
+          "path": "reruns/48B/source-13311802.json",
+          "sha256": "1268e0baf4e03119e64351a810cc3025c152dc246708ef2a92a673c70ad9c0d6",
+          "sourceHash": "6a5d364e343eb6f8b0c63acbefc75c334d890f0c708fed50c810774cfc6153dd"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0001",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/48B/lf-13311802.json",
+          "lfLogSha256": "eaf7ca0d07a0b882647aeaee7a5bf6216bc869932260f410465e5a029f2ca8d5",
+          "lfOutputHash": "0fada8d7e42f2f85314d796717d3860c072ccc4a24d22e69fbe336649563a818",
+          "lfOutputBase64": "WzEsIDAsIDEsIDFdClsxLCAxXQowCg==",
+          "counted": false
+        },
+        "excludedNonAlgorithmicCauses": "The recorded 0001 has 1-by-1 rectangles and the computed final scalar is correctly 0. The two preceding prints are echoed input/debug text, not independent mathematical wrongness; no diagnostic-stripped wrong result is claimed. The checker outcome alone is not treated as mathematical wrongness. No diagnostic-stripped copy or new execution was used."
+      }
     },
     "42304638": {
       "counted": true,
@@ -10637,9 +10783,117 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Does not reset invalid-placement flag b between the original and rotated orientation. When original orientation exceeds bounds, a valid rotation is skipped and sentinel 1e10 is printed.",
+      "reason": "The invalid flag b is reset only before the first orientation, not before the rotated one. On 0006 the impossible 3-by-2 orientation sets b=True, so the valid 2-by-3 rotated rectangle is also discarded and it prints 10000000000.0 instead of 3 occupied cells.",
       "sourceHash": "2f4768c744b3e5b4b64b5076fcd8d8403a3abae4c2f83db1baea30923a3e96a5",
-      "test": "0006"
+      "test": "0006",
+      "semanticReview": {
+        "sourceHash": "2f4768c744b3e5b4b64b5076fcd8d8403a3abae4c2f83db1baea30923a3e96a5",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "At every grid origin explicitly counts cells in both requested rectangle orientations. Catches out-of-bounds indexing and sets b to an invalid-placement flag, using sentinel 1e10 for invalid placements.",
+        "faultyLogic": "The invalid flag b is reset only before the first orientation, not before the rotated one. On 0006 the impossible 3-by-2 orientation sets b=True, so the valid 2-by-3 rotated rectangle is also discarded and it prints 10000000000.0 instead of 3 occupied cells.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 38,
+            "code": "n, m = map(int, input().split())\na = []\nans = 1e10\nfor i in range(n):\n    temp = input().split()\n    a.append(temp)\nn1, m1 = map(int, input().split())\nfor i in range(n):\n    for j in range(m):\n        #\n        now = 0\n        b = False\n        for i1 in range(n1):\n            for j1 in range(m1):\n                try:\n                    if a[i + i1][j + j1] == '1':\n                        now += 1\n                except Exception:\n                    b = 1\n                    break\n            if b == 1:\n                now = 1e10\n                break\n        ans = min(ans, now)\n        now = 0\n        for i1 in range(m1):\n            for j1 in range(n1):\n                try:\n                    if a[i + i1][j + j1] == '1':\n                        now += 1\n                except Exception:\n                    b = 1\n                    break\n            if b == 1:\n                now = 1e10\n                break\n        ans = min(ans, now)\nprint(ans)"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/48B/sources/42304638.json",
+        "sourceRecordSha256": "f51c1833f2001dfb8b1ff0dc473fd84323c1ca58f296c90043bca437db0baae8",
+        "originalFullExecutionLog": {
+          "path": "reruns/48B/source-42304638.json",
+          "sha256": "a5084ce7f1ce797aafc94259b32d51e06df82308d9fd44c7fe388bf6a8aea19a",
+          "sourceHash": "2f4768c744b3e5b4b64b5076fcd8d8403a3abae4c2f83db1baea30923a3e96a5"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0006",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/48B/lf-42304638.json",
+          "lfLogSha256": "3cbf5863b533b4004ac8c1bc0b93d88af19d7ea5b165a9acf6dbad4e1cc6c991",
+          "lfOutputHash": "d6652b61c36e0553fa2ba89520e641077c62180f3acdf0228e4ef8cef901f700",
+          "lfOutputBase64": "MTAwMDAwMDAwMDAuMAo=",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0006",
+          "includedTestPath": "1200/packages/48B/tests/0006.in",
+          "validLFInput": "2 3\n1 0 1\n0 1 0\n3 2\n",
+          "validLFInputSha256": "e9884be45b48e779e4c4f6a91817410504fd8c094beaa5ae3477a3d8e554b1bd",
+          "originalInputSha256": "7f298f0a9985999a0eb90d9b64d328c9c925b233c9d1f1b833e0d85743b1ba7e",
+          "constraintsExplanation": "Both board dimensions are 1..50, every supplied cell is binary, exactly n*m cells exist, and requested side lengths are 1..50; at least one full orientation fits. Partial/truncated rectangles are not legal placements.",
+          "correctAnswer": "3",
+          "mathematicalDerivation": "The permitted dimensions are 3x2 and 2x3. Explicitly summing occupied cells at every in-bounds origin gives the row-major counts in the certificate; there are 1 valid oriented placements and none has sum below 3. At 1-based row 1, column 1, height 2, width 3, the cells are [[1, 0, 1], [0, 1, 0]], summing to 3. Thus the minimum is 3; truncated or out-of-bounds rectangles are not permitted.",
+          "mathematicalCertificate": {
+            "orientations": [
+              {
+                "height": 2,
+                "width": 3,
+                "validPlacementCount": 1,
+                "allPlacementCountsRowMajor": [
+                  3
+                ],
+                "minimum": 3
+              },
+              {
+                "height": 3,
+                "width": 2,
+                "validPlacementCount": 0,
+                "allPlacementCountsRowMajor": [],
+                "minimum": null
+              }
+            ],
+            "minimumPlacement": {
+              "row": 1,
+              "column": 1,
+              "height": 2,
+              "width": 3,
+              "cells": [
+                [
+                  1,
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ]
+              ],
+              "occupied": 3
+            }
+          },
+          "actualAnswer": "10000000000.0",
+          "actualOutputBase64": "MTAwMDAwMDAwMDAuMAo=",
+          "actualOutputHash": "d6652b61c36e0553fa2ba89520e641077c62180f3acdf0228e4ef8cef901f700",
+          "lfExecutionLog": {
+            "path": "reruns/48B/lf-42304638.json",
+            "sha256": "3cbf5863b533b4004ac8c1bc0b93d88af19d7ea5b165a9acf6dbad4e1cc6c991",
+            "sourceHash": "2f4768c744b3e5b4b64b5076fcd8d8403a3abae4c2f83db1baea30923a3e96a5",
+            "runTest": "0006"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/48B/42304638-0006.json",
+            "sha256": "27954428004be99f0098316b31e1b55a928d1c8020f53fb04151cd8751dacaef"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0006"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0006 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     },
     "42658603": {
       "counted": true,
@@ -10664,9 +10918,170 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Slices [:a] even when a exceeds row width, treating undersized out-of-bounds rectangles as valid placements; no width guard before each orientation.",
+      "reason": "sq checks available height but not width. Python row slice [:a] silently truncates when a exceeds width, accepting an undersized rectangle. On 0015 the swapped call requests width 9 in an 8-column board, sums only 8 columns over 4 rows and lowers the answer to 18, below any valid 9-row,4-column placement.",
       "sourceHash": "2475ff2b8a94228af7383f274047816a0daeff9f84e9080b47f5b85764ad3fe6",
-      "test": "0015"
+      "test": "0015",
+      "semanticReview": {
+        "sourceHash": "2475ff2b8a94228af7383f274047816a0daeff9f84e9080b47f5b85764ad3fe6",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Defines row-sum and column-sum helpers and a horizontal sliding-window routine sq. For each starting row it sums b rows of the first a columns, slides across columns, tracks a minimum, then repeats with a,b swapped.",
+        "faultyLogic": "sq checks available height but not width. Python row slice [:a] silently truncates when a exceeds width, accepting an undersized rectangle. On 0015 the swapped call requests width 9 in an 8-column board, sums only 8 columns over 4 rows and lowers the answer to 18, below any valid 9-row,4-column placement.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 47,
+            "code": "def fs(v,a,hc,b):\n\tsm=0\n\tfor c in range(hc,hc+b):\n\t\tsm+=sum(v[c][:a])\n\treturn sm\n\ndef sp(v,wc,hc,b):\n\tsm=0\n\tfor c in range(hc,hc+b):\n\t\tsm+=v[c][wc]\n\treturn sm\n\ndef gm(sm,ms):\n\tif sm<ms:\n\t\tms=sm\n\treturn ms\n\ndef isn(ms):\n\treturn ms==0\n\ndef sq(v,h,w,a,b,ms):\n\t#print('h-b',list(range(h-b+1)))\n\t#print('w-a',list(range(w-a)))\n\tif isn(ms):\n\t\treturn 0\n\tfor d in range(h-b+1):\n\t\tsm=fs(v,a,d,b)\n\t\t#print('f>> z={} x={} sum={}'.format(d,0,sm))\n\t\tms=gm(sm,ms)\n\t\tfor c in range(w-a):\n\t\t\tsm-=sp(v,c,d,b)\n\t\t\tsm+=sp(v,c+a,d,b)\t\t\t\n\t\t\t#print('c>> z={} x={} sum={}'.format(d,c+1,sm))\n\t\t\tms=gm(sm,ms)\n\t\t\tif isn(ms):\n\t\t\t\treturn 0\n\treturn ms\n\nh,w=[int(wc) for wc in input().split(' ')]\nv=[]\nfor c in range(h):\n\tv.append([int(wc) for wc in input().split(' ')])\na,b=[int(x) for x in input().split(' ')]\nms=sq(v,h,w,a,b,a*b)\n#print('***')\nms=sq(v,h,w,b,a,ms)\nprint(ms)"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/48B/sources/42658603.json",
+        "sourceRecordSha256": "553628a11e675c11374b2b1645cb0c2ab27431d9d24a8db6934ec842268b463f",
+        "originalFullExecutionLog": {
+          "path": "reruns/48B/source-42658603.json",
+          "sha256": "bfb4085c50c53a717d833c33cae308516ec269fce08c7e92a4088f9d297a8e6a",
+          "sourceHash": "2475ff2b8a94228af7383f274047816a0daeff9f84e9080b47f5b85764ad3fe6"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0015",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/48B/lf-42658603.json",
+          "lfLogSha256": "ba790d56ac3290f5aa6ab94d791b50a2fad9729284208e04849a99648f9b3458",
+          "lfOutputHash": "7ee29791fc17e986b97128845622b077fb45e349fdb80523fac9dba879b4ad60",
+          "lfOutputBase64": "MTgK",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0015",
+          "includedTestPath": "1200/packages/48B/tests/0015.in",
+          "validLFInput": "10 8\n1 1 0 1 1 1 0 0\n0 1 0 1 1 1 1 1\n1 1 0 0 1 0 0 1\n0 1 1 1 1 0 1 0\n0 1 1 0 1 1 0 1\n0 1 1 0 0 1 0 1\n1 0 0 0 1 1 0 1\n0 1 1 0 1 1 1 1\n0 1 1 1 0 1 0 1\n1 1 0 1 1 0 1 1\n4 9\n",
+          "validLFInputSha256": "d468f8203dce4adca48ec3dc5eb52d95dbc2dfb9f434ca2690c585cc73d9b3cc",
+          "originalInputSha256": "b6443bd7c4054b496414ed6af9584dc2367a4fad25b8831e6acb1b6630f75a57",
+          "constraintsExplanation": "Both board dimensions are 1..50, every supplied cell is binary, exactly n*m cells exist, and requested side lengths are 1..50; at least one full orientation fits. Partial/truncated rectangles are not legal placements.",
+          "correctAnswer": "20",
+          "mathematicalDerivation": "The permitted dimensions are 4x9 and 9x4. Explicitly summing occupied cells at every in-bounds origin gives the row-major counts in the certificate; there are 10 valid oriented placements and none has sum below 20. At 1-based row 1, column 1, height 9, width 4, the cells are [[1, 1, 0, 1], [0, 1, 0, 1], [1, 1, 0, 0], [0, 1, 1, 1], [0, 1, 1, 0], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [0, 1, 1, 1]], summing to 20. Thus the minimum is 20; truncated or out-of-bounds rectangles are not permitted.",
+          "mathematicalCertificate": {
+            "orientations": [
+              {
+                "height": 4,
+                "width": 9,
+                "validPlacementCount": 0,
+                "allPlacementCountsRowMajor": [],
+                "minimum": null
+              },
+              {
+                "height": 9,
+                "width": 4,
+                "validPlacementCount": 10,
+                "allPlacementCountsRowMajor": [
+                  20,
+                  24,
+                  23,
+                  21,
+                  24,
+                  20,
+                  24,
+                  22,
+                  21,
+                  25
+                ],
+                "minimum": 20
+              }
+            ],
+            "minimumPlacement": {
+              "row": 1,
+              "column": 1,
+              "height": 9,
+              "width": 4,
+              "cells": [
+                [
+                  1,
+                  1,
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  1,
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  1,
+                  1
+                ],
+                [
+                  0,
+                  1,
+                  1,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  1,
+                  0
+                ],
+                [
+                  1,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  1,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  1,
+                  1
+                ]
+              ],
+              "occupied": 20
+            }
+          },
+          "actualAnswer": "18",
+          "actualOutputBase64": "MTgK",
+          "actualOutputHash": "7ee29791fc17e986b97128845622b077fb45e349fdb80523fac9dba879b4ad60",
+          "lfExecutionLog": {
+            "path": "reruns/48B/lf-42658603.json",
+            "sha256": "ba790d56ac3290f5aa6ab94d791b50a2fad9729284208e04849a99648f9b3458",
+            "sourceHash": "2475ff2b8a94228af7383f274047816a0daeff9f84e9080b47f5b85764ad3fe6",
+            "runTest": "0015"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/48B/42658603-0015.json",
+            "sha256": "20c0eb805f805feedd924343c976988b1ae22920b8287f62c7ba7f995fdad7e1"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0015"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0015 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     },
     "5342962": {
       "counted": true,
@@ -10691,9 +11106,136 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Enumerates only the a-by-b orientation and never b-by-a; rotated placement gives smaller count on the recorded input.",
+      "reason": "It never enumerates the allowed rotated b-by-a orientation. On 0002 the unrotated minimum is 3 but a rotated 3-row,2-column placement contains only 2 occupied cells.",
       "sourceHash": "41e0fd0a109f1fb779e064122bd4f21bf7867a1a6a0786db15da4be58c52a180",
-      "test": "0002"
+      "test": "0002",
+      "semanticReview": {
+        "sourceHash": "41e0fd0a109f1fb779e064122bd4f21bf7867a1a6a0786db15da4be58c52a180",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Builds a 2D prefix sum for occupied cells, enumerates all placements of a rows by b columns, and prints their minimum sum.",
+        "faultyLogic": "It never enumerates the allowed rotated b-by-a orientation. On 0002 the unrotated minimum is 3 but a rotated 3-row,2-column placement contains only 2 occupied cells.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 10,
+            "code": "n, m = map(int, input().split())\nt = [[0] * (m + 1)] + [[] for i in range(n)]\nt[1] = [0] + list(map(int, input().split()))\nfor j in range(2, m + 1): t[1][j] += t[1][j - 1]\nfor i in range(2, n + 1):\n    t[i] = [0] + list(map(int, input().split()))\n    for j in range(2, m + 1): t[i][j] += t[i][j - 1]\n    for j in range(1, m + 1): t[i][j] += t[i - 1][j]\na, b = map(int, input().split())\nprint(min(t[i + a][j + b] + t[i][j] - t[i + a][j] - t[i][j + b] for i in range(n - a + 1) for j in range(m - b + 1)))"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/48B/sources/5342962.json",
+        "sourceRecordSha256": "d08ac31abd76444b35dc996fa3b2bcb09dccd6e26ea9fe149fd877ca51d47411",
+        "originalFullExecutionLog": {
+          "path": "reruns/48B/source-5342962.json",
+          "sha256": "1a66d0c39a041ac2545cc4a417cd133c86e2644db87681a5e72598e3328303dd",
+          "sourceHash": "41e0fd0a109f1fb779e064122bd4f21bf7867a1a6a0786db15da4be58c52a180"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0002",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/48B/lf-5342962.json",
+          "lfLogSha256": "cd1f1abcc26728edfbaac01dc4fba9392bf619fca43b4d0276e5ade1f7a3473a",
+          "lfOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+          "lfOutputBase64": "Mwo=",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0002",
+          "includedTestPath": "1200/packages/48B/tests/0002.in",
+          "validLFInput": "4 5\n0 0 1 0 1\n0 1 1 1 0\n1 0 1 0 1\n1 1 1 1 1\n2 3\n",
+          "validLFInputSha256": "aa454e367e6932b3b5e144b64181994170c597c12cf41d70ff20e59ec85132c4",
+          "originalInputSha256": "5f2527667e24f9efe52343d402986c59adbaf0fe30887b2c13b091a362ff151c",
+          "constraintsExplanation": "Both board dimensions are 1..50, every supplied cell is binary, exactly n*m cells exist, and requested side lengths are 1..50; at least one full orientation fits. Partial/truncated rectangles are not legal placements.",
+          "correctAnswer": "2",
+          "mathematicalDerivation": "The permitted dimensions are 2x3 and 3x2. Explicitly summing occupied cells at every in-bounds origin gives the row-major counts in the certificate; there are 17 valid oriented placements and none has sum below 2. At 1-based row 1, column 1, height 3, width 2, the cells are [[0, 0], [0, 1], [1, 0]], summing to 2. Thus the minimum is 2; truncated or out-of-bounds rectangles are not permitted.",
+          "mathematicalCertificate": {
+            "orientations": [
+              {
+                "height": 2,
+                "width": 3,
+                "validPlacementCount": 9,
+                "allPlacementCountsRowMajor": [
+                  3,
+                  4,
+                  4,
+                  4,
+                  4,
+                  4,
+                  5,
+                  4,
+                  5
+                ],
+                "minimum": 3
+              },
+              {
+                "height": 3,
+                "width": 2,
+                "validPlacementCount": 8,
+                "allPlacementCountsRowMajor": [
+                  2,
+                  4,
+                  4,
+                  3,
+                  4,
+                  5,
+                  5,
+                  4
+                ],
+                "minimum": 2
+              }
+            ],
+            "minimumPlacement": {
+              "row": 1,
+              "column": 1,
+              "height": 3,
+              "width": 2,
+              "cells": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  0
+                ]
+              ],
+              "occupied": 2
+            }
+          },
+          "actualAnswer": "3",
+          "actualOutputBase64": "Mwo=",
+          "actualOutputHash": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+          "lfExecutionLog": {
+            "path": "reruns/48B/lf-5342962.json",
+            "sha256": "cd1f1abcc26728edfbaac01dc4fba9392bf619fca43b4d0276e5ade1f7a3473a",
+            "sourceHash": "41e0fd0a109f1fb779e064122bd4f21bf7867a1a6a0786db15da4be58c52a180",
+            "runTest": "0002"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/48B/5342962-0002.json",
+            "sha256": "2c5a68fd6c692886bf4fa28ca9e9a054c6669d0288eaab79f55190b6e4ccfeb9"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0002"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0002 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     }
   },
   "originalTestAccounting": {
@@ -11584,7 +12126,7 @@
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
-    "13311802: Prints the entire flattened input matrix and rectangle dimensions before the answer. Counted sample numeric answer is correct (0); rejection is solely debug/echoed-input output."
+    "13311802: The recorded 0001 has 1-by-1 rectangles and the computed final scalar is correctly 0. The two preceding prints are echoed input/debug text, not independent mathematical wrongness; no diagnostic-stripped wrong result is claimed."
   ],
   "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
   "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
@@ -11608,5 +12150,21 @@
     "allProvenanceFilesMatch": true,
     "archiveHash": "7849f2e635ab0f7c658a70c514145fcf312aca9fe31359c7a3444d2a5aaf5f70",
     "fileCount": 323
+  },
+  "semanticReviewSummary": {
+    "version": 1,
+    "sourceReviewCount": 5,
+    "genuineAlgorithmicWrongSources": 4,
+    "countedForUnchangedEvidence": 4,
+    "allFullSourcesRead": true,
+    "exactLineNumbering": "code.splitlines(), 1-based; sourceLines includes complete source, not just selected fragments",
+    "originalExecutionArchive": {
+      "url": "https://staging.itsdev.in/attachments/e051d034-5880-47e1-8e87-e5df8f751340/audit1200-batch2-evidence.tar.gz",
+      "sha256": "9857b69a4beb2a025d4d2a999f52dd0024aadba1539bbdc3907ca0e1d0b86a9d"
+    },
+    "newPublicProgramExecutions": 0,
+    "parentVerificationRequired": true,
+    "upstreamCrosscheckStatus": "Parent reports pinned upstream statement/API/source verification complete; not repeated by this source-semantic reviewer.",
+    "evidencePolicy": "Original source, package, evidence, execution logs and recorded failedTest remain unchanged. Additional existing included LF WA proofs are supplemental and do not silently replace original counted evidence."
   }
 }

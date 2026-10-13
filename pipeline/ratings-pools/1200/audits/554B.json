@@ -9721,7 +9721,7 @@
         "observedTimeout": false
       },
       "freshFailedTest": "0001",
-      "kind": "output-artifact",
+      "kind": "unrelated-placeholder",
       "lfNormalization": {
         "inputHash": "86c7b205d23cd107b94f2fdadb4b740a54edfa182c9361e911b7cf96ee470ca2",
         "log": "reruns/554B/lf-11750625.json",
@@ -9731,9 +9731,44 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Does not read the board or compute a result; prints the Python input builtin object. Debug/non-solution output cannot count as algorithmic wrongness.",
+      "reason": "This is an unfinished/debug stub, not an executable board/column-flip algorithm. Printed builtin representation is not a mathematical result.",
       "sourceHash": "20d47ee38639f32a1d307aea7690e130bee87812a8024539174f4fdc6c5bf178",
-      "test": "0001"
+      "test": "0001",
+      "semanticReview": {
+        "sourceHash": "20d47ee38639f32a1d307aea7690e130bee87812a8024539174f4fdc6c5bf178",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Imports string, creates an unused dict, reads only the size line, and prints the Python builtin input function object. It never reads or processes the binary board.",
+        "faultyLogic": "This is an unfinished/debug stub, not an executable board/column-flip algorithm. Printed builtin representation is not a mathematical result.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 5,
+            "code": "import string\n\ndic = {}\nline = str(input())\nprint(input)"
+          }
+        ],
+        "algorithmicWrong": false,
+        "countedForUnchangedEvidence": false,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/554B/sources/11750625.json",
+        "sourceRecordSha256": "73f8938e99a8b68802bec0e53e947ebb54b0e95e00cf90741073803345498229",
+        "originalFullExecutionLog": {
+          "path": "reruns/554B/source-11750625.json",
+          "sha256": "03a7ecaf7163bb0cc3a3645f61d21cdcc24d8f1c874908fbc8014cf500ba94fb",
+          "sourceHash": "20d47ee38639f32a1d307aea7690e130bee87812a8024539174f4fdc6c5bf178"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0001",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/554B/lf-11750625.json",
+          "lfLogSha256": "d97e2b3190401f774485921a565e48a42bf1404a92dcba95d53bfda6aa378e21",
+          "lfOutputHash": "08afcc2d5e6fb4df568bdf76f496bc0572a6073bc28b4cfb0198481ac6e65e7d",
+          "lfOutputBase64": "PGJ1aWx0LWluIGZ1bmN0aW9uIGlucHV0Pgo=",
+          "counted": false
+        },
+        "excludedNonAlgorithmicCauses": "This is an unfinished/debug stub, not an executable board/column-flip algorithm. Printed builtin representation is not a mathematical result. The checker outcome alone is not treated as mathematical wrongness. No diagnostic-stripped copy or new execution was used."
+      }
     },
     "11750652": {
       "counted": false,
@@ -9748,7 +9783,7 @@
         "observedTimeout": false
       },
       "freshFailedTest": "0001",
-      "kind": "output-artifact",
+      "kind": "unrelated-placeholder",
       "lfNormalization": {
         "inputHash": "86c7b205d23cd107b94f2fdadb4b740a54edfa182c9361e911b7cf96ee470ca2",
         "log": "reruns/554B/lf-11750652.json",
@@ -9758,12 +9793,47 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Reads only the first line and emits no output. Empty-output stub is not an algorithmic counterexample.",
+      "reason": "An unfinished no-output stub, with no executed algorithm for cleaning rows. Missing output is excluded, even though the checker calls it WA.",
       "sourceHash": "65aebd2a928029fca301f72d723b89efcc9e63046b1b7790f16789b579b80e2c",
-      "test": "0001"
+      "test": "0001",
+      "semanticReview": {
+        "sourceHash": "65aebd2a928029fca301f72d723b89efcc9e63046b1b7790f16789b579b80e2c",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Imports string, creates an unused dict, and stores the decimal character length of the one input size line as a string; exits without printing or reading the board.",
+        "faultyLogic": "An unfinished no-output stub, with no executed algorithm for cleaning rows. Missing output is excluded, even though the checker calls it WA.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 4,
+            "code": "import string\n\ndic = {}\nline = str(len(input()))"
+          }
+        ],
+        "algorithmicWrong": false,
+        "countedForUnchangedEvidence": false,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/554B/sources/11750652.json",
+        "sourceRecordSha256": "961e959653a0604137c4a95999f9978eb158d4d519e143217a43b7099bf03ae3",
+        "originalFullExecutionLog": {
+          "path": "reruns/554B/source-11750652.json",
+          "sha256": "08c6839eb75a8849b4c7660aa99bb2f32852cecd5794ed5c9a2168daf208262e",
+          "sourceHash": "65aebd2a928029fca301f72d723b89efcc9e63046b1b7790f16789b579b80e2c"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0001",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/554B/lf-11750652.json",
+          "lfLogSha256": "a1c67c8acf8cd550cf2d471afbb8b566413a9f9a82111ded2a5f435de89715d7",
+          "lfOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "lfOutputBase64": "",
+          "counted": false
+        },
+        "excludedNonAlgorithmicCauses": "An unfinished no-output stub, with no executed algorithm for cleaning rows. Missing output is excluded, even though the checker calls it WA. The checker outcome alone is not treated as mathematical wrongness. No diagnostic-stripped copy or new execution was used."
+      }
     },
     "11750674": {
-      "counted": true,
+      "counted": false,
       "counterexample": {
         "expectedOutputFile": "1200/packages/554B/tests/0002.out",
         "expectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
@@ -9775,7 +9845,7 @@
         "observedTimeout": false
       },
       "freshFailedTest": "0002",
-      "kind": "wrong-answer",
+      "kind": "unrelated-placeholder",
       "lfNormalization": {
         "inputHash": "b5bfba473459d1dd4188eb7537a32166703a2484e09668598f1a38ed2540598a",
         "log": "reruns/554B/lf-11750674.json",
@@ -9785,12 +9855,47 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Prints the character count of the size line, never reads the board. LF still prints 1 instead of 3 for the all-identical 3-by-3 matrix; not merely CRLF.",
+      "reason": "Its numeric 1 on the n=3 case is only an unrelated size-string length. This is not a genuine implementation of the stated problem, despite a numeric LF mismatch; it must not count as algorithmic wrongness.",
       "sourceHash": "ffe5b7aa8dbc3dcc69e0bcbd9f10c779cb79196df69737135811712a9fbfa6ee",
-      "test": "0002"
+      "test": "0002",
+      "semanticReview": {
+        "sourceHash": "ffe5b7aa8dbc3dcc69e0bcbd9f10c779cb79196df69737135811712a9fbfa6ee",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Reads just the first size line and prints its character length. Does not read n board rows or use row equality or column flips.",
+        "faultyLogic": "Its numeric 1 on the n=3 case is only an unrelated size-string length. This is not a genuine implementation of the stated problem, despite a numeric LF mismatch; it must not count as algorithmic wrongness.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 5,
+            "code": "import string\n\ndic = {}\nline = str(input())\nprint(len(line))"
+          }
+        ],
+        "algorithmicWrong": false,
+        "countedForUnchangedEvidence": false,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/554B/sources/11750674.json",
+        "sourceRecordSha256": "ff7a4e0e02e9503a3dfe21200bcfd95bbda8f05f62e7aac64aaad23333cac6a1",
+        "originalFullExecutionLog": {
+          "path": "reruns/554B/source-11750674.json",
+          "sha256": "5291e8adc57430f9b1db8487bc4f19a84f1e7f0e196e5d1f1daf6c0e64e3c892",
+          "sourceHash": "ffe5b7aa8dbc3dcc69e0bcbd9f10c779cb79196df69737135811712a9fbfa6ee"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0002",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/554B/lf-11750674.json",
+          "lfLogSha256": "1272d68e6a5b6529b9c97a2e5f5aa110e39034dff638bafed498b6805f1764f5",
+          "lfOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "lfOutputBase64": "MQo=",
+          "counted": false
+        },
+        "excludedNonAlgorithmicCauses": "Its numeric 1 on the n=3 case is only an unrelated size-string length. This is not a genuine implementation of the stated problem, despite a numeric LF mismatch; it must not count as algorithmic wrongness. The checker outcome alone is not treated as mathematical wrongness. No diagnostic-stripped copy or new execution was used."
+      }
     },
     "11750736": {
-      "counted": true,
+      "counted": false,
       "counterexample": {
         "expectedOutputFile": "1200/packages/554B/tests/0002.out",
         "expectedOutputHash": "24ba1e99dc06b19351323aae0d7370243d586475a634b7f6ff7927fbc72cfaed",
@@ -9802,7 +9907,7 @@
         "observedTimeout": false
       },
       "freshFailedTest": "0002",
-      "kind": "wrong-answer",
+      "kind": "unrelated-placeholder",
       "lfNormalization": {
         "inputHash": "b5bfba473459d1dd4188eb7537a32166703a2484e09668598f1a38ed2540598a",
         "log": "reruns/554B/lf-11750736.json",
@@ -9812,9 +9917,44 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Turns only the size line into a string representation of a list and counts characters of that representation rather than complete board rows.",
+      "reason": "Counting characters of the size-list representation is unrelated to counting simultaneously cleanable board rows. No board is read. Numeric 2 on n=3 is still a placeholder/unrelated calculation, not an algorithmic solution attempt.",
       "sourceHash": "aecf0ca89ea5424bc98b8afcaba7cc18333f70b3f9809981db551586de492cc4",
-      "test": "0002"
+      "test": "0002",
+      "semanticReview": {
+        "sourceHash": "aecf0ca89ea5424bc98b8afcaba7cc18333f70b3f9809981db551586de492cc4",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Reads only the size line, splits that single input string on newline, converts the resulting list to its repr string, and counts character frequencies in that representation, printing their maximum.",
+        "faultyLogic": "Counting characters of the size-list representation is unrelated to counting simultaneously cleanable board rows. No board is read. Numeric 2 on n=3 is still a placeholder/unrelated calculation, not an algorithmic solution attempt.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 17,
+            "code": "import string\n\ndic = {}\nlines = str(input().split('\\n'))\n\nfor line in lines:\n\tif line in dic:\n\t\tdic[line] += 1\n\telse:\n\t\tdic[line] = 1\n\nmax = 0\nfor key in dic:\n\tif dic[key] > max:\n\t\tmax = dic[key]\n\nprint(max)"
+          }
+        ],
+        "algorithmicWrong": false,
+        "countedForUnchangedEvidence": false,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/554B/sources/11750736.json",
+        "sourceRecordSha256": "a275babbcc18e4fd61335b17e8a7728467b863f8976f1580593f9f13ad0fd94e",
+        "originalFullExecutionLog": {
+          "path": "reruns/554B/source-11750736.json",
+          "sha256": "065321335a1a01afd5bb9f0c78c729336dfeccdfb9f987cc6d21ca565df89259",
+          "sourceHash": "aecf0ca89ea5424bc98b8afcaba7cc18333f70b3f9809981db551586de492cc4"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0002",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/554B/lf-11750736.json",
+          "lfLogSha256": "64bf04807780ccb276fcb86f474c3e6d0156ab32ca91cc926720e7875637edbc",
+          "lfOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "lfOutputBase64": "Mgo=",
+          "counted": false
+        },
+        "excludedNonAlgorithmicCauses": "Counting characters of the size-list representation is unrelated to counting simultaneously cleanable board rows. No board is read. Numeric 2 on n=3 is still a placeholder/unrelated calculation, not an algorithmic solution attempt. The checker outcome alone is not treated as mathematical wrongness. No diagnostic-stripped copy or new execution was used."
+      }
     },
     "11752088": {
       "counted": true,
@@ -9839,9 +9979,86 @@
         "verdict": "WA"
       },
       "observedVerdict": "WA",
-      "reason": "Treats complementary rows as simultaneously cleanable although one common column-flip mask cannot make both all ones. On rows 10 and 01, prints 2 instead of 1.",
+      "reason": "It counts both identical and complementary rows together because constant-zero and constant-one transformed rows both pass. One common column-flip mask cannot make complementary rows both all ones. On 0013 rows 10 and 01 it reports 2, although either row needs the opposite mask and the optimum is 1.",
       "sourceHash": "2d18de8d831ea72240a38951844ed2c729ee50e90d7d05715a6926a68fdce190",
-      "test": "0013"
+      "test": "0013",
+      "semanticReview": {
+        "sourceHash": "2d18de8d831ea72240a38951844ed2c729ee50e90d7d05715a6926a68fdce190",
+        "fullSourceRead": true,
+        "implementedAlgorithm": "Reads the board. For each reference row i and bit x, XORs every later row against the reference and x, and counts that row if all transformed entries are equal (not necessarily one). Maximizes this count.",
+        "faultyLogic": "It counts both identical and complementary rows together because constant-zero and constant-one transformed rows both pass. One common column-flip mask cannot make complementary rows both all ones. On 0013 rows 10 and 01 it reports 2, although either row needs the opposite mask and the optimum is 1.",
+        "sourceLines": [
+          {
+            "start": 1,
+            "end": 16,
+            "code": "n=int(input())\nb=[input() for _ in range(n)]\nans=0\nfor i in range(n):\n    for x in range(2):\n        cur=0\n        for j in range(i,n):\n            u=[int(b[j][0])^x^int(b[i][0])]\n            cur += 1\n            for k in range(1,n):\n                u+=[int(b[j][k])^x^int(b[i][k])]\n                if u[-1]!=u[-2]:\n                    cur -= 1\n                    break\n        ans = max(ans,cur)\nprint(ans)"
+          }
+        ],
+        "algorithmicWrong": true,
+        "countedForUnchangedEvidence": true,
+        "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
+        "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
+        "sourceRecordPath": "1200/state/554B/sources/11752088.json",
+        "sourceRecordSha256": "edc4fa599be2de1ad73799c46ff13ec930fe804bb2f25cdc3fd48dfa8d532bdd",
+        "originalFullExecutionLog": {
+          "path": "reruns/554B/source-11752088.json",
+          "sha256": "4f46f2048c24129158cad5d9d66257da17daf7fd4d6ff58c60818cf1b518299d",
+          "sourceHash": "2d18de8d831ea72240a38951844ed2c729ee50e90d7d05715a6926a68fdce190"
+        },
+        "diagnosticSourceCopyUsed": false,
+        "recordedFailureReview": {
+          "test": "0013",
+          "lfVerdict": "WA",
+          "lfLog": "reruns/554B/lf-11752088.json",
+          "lfLogSha256": "81c53ab8c56a66a7b2f416e761058c6c82a8df129bbce79a9d38ff0503071b75",
+          "lfOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "lfOutputBase64": "Mgo=",
+          "counted": true
+        },
+        "counterexample": {
+          "test": "0013",
+          "includedTestPath": "1200/packages/554B/tests/0013.in",
+          "validLFInput": "2\n10\n01\n",
+          "validLFInputSha256": "547dfb306cb0a4a3d4fd05128945aa007344dec892276096d30d5bab4d3b2afa",
+          "originalInputSha256": "d5925b6a5db1e2a3de37fe9ebf65dab69a8e02290b3fe8fd73e63ab71b573cd6",
+          "constraintsExplanation": "n=2 is in 1..100; exactly n binary rows of length n. A flip applies to a whole column shared by every row; clean means all ones.",
+          "correctAnswer": "1",
+          "mathematicalDerivation": "One common column-flip mask f cleans row r exactly when r XOR f is all ones, so f must equal the complement of r. Two simultaneously cleanable rows must therefore be identical. The actual row multiplicities are {'10': 1, '01': 1}; their maximum is 1, attained by complementing row 10. Complementary but nonidentical rows need different masks and cannot both be cleaned.",
+          "mathematicalCertificate": {
+            "rowMultiplicities": {
+              "10": 1,
+              "01": 1
+            },
+            "selectedRow": "10",
+            "flipMask": "01"
+          },
+          "actualAnswer": "2",
+          "actualOutputBase64": "Mgo=",
+          "actualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "lfExecutionLog": {
+            "path": "reruns/554B/lf-11752088.json",
+            "sha256": "81c53ab8c56a66a7b2f416e761058c6c82a8df129bbce79a9d38ff0503071b75",
+            "sourceHash": "2d18de8d831ea72240a38951844ed2c729ee50e90d7d05715a6926a68fdce190",
+            "runTest": "0013"
+          },
+          "sourceBindingReceipt": {
+            "path": "proofs/554B/11752088-0013.json",
+            "sha256": "8185a275fdea350db7eca191ef7734bcec77b92e4ce66b97560b7fec7e9898b5"
+          },
+          "executionContext": {
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "executionVersion": 2,
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ]
+          },
+          "supplementalSemanticProof": false,
+          "originalRecordedFailedTest": "0013"
+        },
+        "excludedNonAlgorithmicCauses": "The fully executed source reads this problem input and computes the answer described above, not a constant/unrelated placeholder or an unexecuted routine. Included test 0013 is valid LF with independently checked constraints; the captured run exits 0, has no timeout or stderr, and emits exactly 1 numeric answer token(s), with no diagnostics or echoed input. Those tokens differ in mathematical value from the proved answer, not in whitespace, capitalization, printf formatting, or CRLF handling. The recorded LF counterexample itself qualifies."
+      }
     }
   },
   "originalTestAccounting": {
@@ -10660,8 +10877,10 @@
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
-    "11750625: Does not read the board or compute a result; prints the Python input builtin object. Debug/non-solution output cannot count as algorithmic wrongness.",
-    "11750652: Reads only the first line and emits no output. Empty-output stub is not an algorithmic counterexample."
+    "11750625: This is an unfinished/debug stub, not an executable board/column-flip algorithm. Printed builtin representation is not a mathematical result.",
+    "11750652: An unfinished no-output stub, with no executed algorithm for cleaning rows. Missing output is excluded, even though the checker calls it WA.",
+    "11750674: Its numeric 1 on the n=3 case is only an unrelated size-string length. This is not a genuine implementation of the stated problem, despite a numeric LF mismatch; it must not count as algorithmic wrongness.",
+    "11750736: Counting characters of the size-list representation is unrelated to counting simultaneously cleanable board rows. No board is read. Numeric 2 on n=3 is still a placeholder/unrelated calculation, not an algorithmic solution attempt."
   ],
   "reviewUrl": "https://staging.itsdev.in/sessions/b932b061f15c4a5e938b1e08b76a6657",
   "reviewer": "devin-b932b061f15c4a5e938b1e08b76a6657",
@@ -10685,5 +10904,21 @@
     "allProvenanceFilesMatch": true,
     "archiveHash": "5fc4e5361db7a96210b0c5829ac03d082a7af0806469f86462495bb9a234a1ff",
     "fileCount": 299
+  },
+  "semanticReviewSummary": {
+    "version": 1,
+    "sourceReviewCount": 5,
+    "genuineAlgorithmicWrongSources": 1,
+    "countedForUnchangedEvidence": 1,
+    "allFullSourcesRead": true,
+    "exactLineNumbering": "code.splitlines(), 1-based; sourceLines includes complete source, not just selected fragments",
+    "originalExecutionArchive": {
+      "url": "https://staging.itsdev.in/attachments/e051d034-5880-47e1-8e87-e5df8f751340/audit1200-batch2-evidence.tar.gz",
+      "sha256": "9857b69a4beb2a025d4d2a999f52dd0024aadba1539bbdc3907ca0e1d0b86a9d"
+    },
+    "newPublicProgramExecutions": 0,
+    "parentVerificationRequired": true,
+    "upstreamCrosscheckStatus": "Parent reports pinned upstream statement/API/source verification complete; not repeated by this source-semantic reviewer.",
+    "evidencePolicy": "Original source, package, evidence, execution logs and recorded failedTest remain unchanged. Additional existing included LF WA proofs are supplemental and do not silently replace original counted evidence."
   }
 }
