@@ -862,7 +862,7 @@
     "preservation": "Original CRLF input/output bytes retained in attachment. Parser only interprets line endings in memory; no expected output repair."
   },
   "localChecks": {
-    "status": "8 targeted unittest methods passed, no skips, AST passed; final rerun after storing exact public body in JSON pending.",
+    "status": "PASS: 8 targeted unittest methods, no skips; both Python AST parses; git diff --check over additive base diff; clean working tree after push.",
     "targetedUnittest": "CF138A_SOURCE_INPUT=<pinned inputs/138A.json> PYTHONPATH=pipeline:pipeline/ratings-pools/1600 python3 -m unittest discover -s pipeline/ratings-pools/1600 -p test_recipe_138A.py -v",
     "testMethods": 8,
     "skipped": 0,
@@ -870,6 +870,18 @@
     "officialAndSamplePairsReviewed": 52,
     "upstreamFailures": 0,
     "diffCheckNote": "First git diff --check flagged trailing whitespace in unchanged public raw HTML. Removed the optional standalone HTML and preserved identical bytes in statementAttestation.bodyUtf8; raw body SHA256 remains unchanged.",
-    "untrustedProgramsExecuted": 0
-  }
+    "untrustedProgramsExecuted": 0,
+    "astSyntax": "passed for recipe_138A.py and test_recipe_138A.py",
+    "gitDiffCheck": "passed: git diff --check 5b28d33..HEAD"
+  },
+  "datasetDocsRead": [
+    {
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md",
+      "note": "Read pinned card before public statement requests. Incomplete official suites are explicitly flagged; original generated_tests integer is a count, not supplied test bytes."
+    },
+    {
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md",
+      "note": "Read pinned card before additional requests. Public verdict/source metadata do not themselves establish actual execution or genuine algorithmic wrongness."
+    }
+  ]
 }
