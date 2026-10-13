@@ -1,0 +1,485 @@
+{
+  "id": "305C",
+  "role": "recipe-author",
+  "notAuditNotSignoffNotValidated": true,
+  "baseCommit": "5b28d333",
+  "inputs": {
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "archiveBytes": 4542856,
+    "file": "inputs/305C.json",
+    "fileBytes": 44040,
+    "fileSha256": "71b2414e1df56c1c40483e54aaaeec4640d2d9bbd9a3504712324a2e64047825",
+    "manifestEntry": {
+      "bytes": 44040,
+      "sha256": "71b2414e1df56c1c40483e54aaaeec4640d2d9bbd9a3504712324a2e64047825"
+    },
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "sourceRowHash": "c304b9c5ab0461d84b847a6eaad316305bf5558b382cdef09c075b95d98e0d87",
+    "sourceRowHashRecomputed": "c304b9c5ab0461d84b847a6eaad316305bf5558b382cdef09c075b95d98e0d87",
+    "sourceShard": {
+      "bytes": 486411551,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00005-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "fd11e585063299408af6ebc747ee1b6e0529e69ba32eaabe7c18931b6a3d8763",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00005-of-00011.parquet"
+    }
+  },
+  "semantics": "Line 1: n, 1<=n<=10^5; line 2: n integers 0<=a_i<=2*10^9, non-decreasing (exponent markup restored from the original statement). Output the minimum count of added powers 2^b (b>=0) making the total 2^v-1 for some v>=0. With S=sum 2^a_i, the optimum is v=bitlength(S) and the answer bitlength(S)-popcount(S), a unique integer (up to 2000000011). Oracle carries equal exponents upward in one sorted pass; independently checked by exhaustive minimum-coin DP over every v for small inputs and by big-integer bit-plane popcount for large ones.",
+  "oracle": "Single sorted pass over runs of equal exponents with an integer carry: before each new value, flush carry bits into positions pos..value-1 (counting set bits and the highest set position); then add the run length. Answer = highest set bit + 1 - number of set bits of S = sum 2^a_i. Minimality: any target 2^v-1 >= S needs v >= bitlength(S); the gap 2^v-1-S needs popcount(gap) powers (binary representation is the unique minimum), and popcount(2^v-1-S) = v - popcount(S) is minimised at v = bitlength(S). b>=0 and v>=0 never bind since S>=1.",
+  "bruteChecks": 2891,
+  "bruteReference": {
+    "exhaustiveMinCoinDP": "Every non-decreasing array for (n,max a) in (1,13),(2,11),(3,9),(4,7),(5,6),(6,5),(7,4),(8,3): 2061 inputs. Reference enumerates every v with 2^v-1>=S and takes a literal min-coin DP over powers of two for the gap (no popcount formula); oracle and the big-integer reference both asserted equal.",
+    "randomMinCoinDP": "400 fixed-seed (305777) random arrays n<=12, a<=10 vs min-coin DP.",
+    "randomBigInt": "300 fixed-seed random arrays n<=300 with clustered or wide exponents up to 2*10^9 vs exact big-integer reference (runs split at gaps>40, which carries from <=10^5 items cannot cross; S built from count bit-planes; popcount/bitlength read from the integer).",
+    "extras": "All 130 authored extras (including every n=10^5 case) re-derived by the big-integer reference.",
+    "unitTests": "test_recipe_305C.py also checks a third closed-form reference (bitlength-popcount on Python ints) for extras with max(a)<=5000, official pairs/samples, layout rejection, PYTHONHASHSEED determinism, and that re-implemented wrong algorithms of 3911483/51991582/39338055 fail every case labelled with their ID."
+  },
+  "extras": {
+    "count": 130,
+    "categories": {
+      "boundary": 13,
+      "adversarial": 110,
+      "maxSize": 7
+    },
+    "seed": 305003,
+    "totalInputBytes": 5650866,
+    "includes": "minima n=1 a=0/1; a=2*10^9 and 2*10^9-1; carries past 2*10^9; extreme span 0..2*10^9; carry cascades, carries merging into following runs, 2^k zeros and 2^k-1 equal values (k up to 16); 32/64-bit boundary exponents; 70 fixed-seed random cases; 7 legal maximum n=10^5 cases (all 2*10^9 giving the largest answer 2000000011, all zeros, distinct top exponents, full 10^5 carry chain, random wide, random [2e9-40,2e9], random 0..16).",
+    "motivation": "Selected WA sources: printing min(a) (3911483), one-pass adjacent merge without cascade (51991582), set merge never inserting the carry (39338055), assorted broken carry walks (4083302, 4449179, 5126960, 35136076, 35141013). TLE sources compute S as a Python big integer; max-exponent cases target that, but those are TLE-only and not algorithmic witnesses."
+  },
+  "exclusionCheck": {
+    "interactive": false,
+    "fileIO": false,
+    "floating": false,
+    "multipleValidOutputs": false,
+    "customChecker": false,
+    "imageMissing": false,
+    "note": "stdin/stdout, single integer output that is uniquely determined; token comparison exact."
+  },
+  "officialReview": {
+    "officialCount": 6,
+    "testsetSize": 26,
+    "officialComplete": false,
+    "samples": 2,
+    "failures": [],
+    "lineEndings": "All 6 supplied official tests use CRLF in input and output; samples are LF without trailing newline. parse() uses strip().splitlines(), keeping the exact 2-line layout.",
+    "generatedTests": "The pinned row reports 22 open-r1 generated tests (generated_tests=22) that are not in the input file; the parent must run review()/parse over them via rated_pool.generated_tests and quarantine any malformed one without repair.",
+    "note": "Official suite incomplete (6 of 26 present). Every supplied official pair and sample parses within constraints and matches the oracle."
+  },
+  "failedUpstreamPairs": [],
+  "selectedSubmissions": {
+    "count": 32,
+    "executed": false,
+    "entries": [
+      {
+        "submissionId": "3736706",
+        "verdict": "OK",
+        "language": "GNU C++",
+        "passedTestCount": 26.0,
+        "sourceBytes": 783,
+        "sourceSha256": "15598852c90c822f257ab9af6e77592603babd3fb4cd2acf38590f12b2bfb4a6",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed"
+      },
+      {
+        "submissionId": "3736960",
+        "verdict": "OK",
+        "language": "GNU C++",
+        "passedTestCount": 26.0,
+        "sourceBytes": 578,
+        "sourceSha256": "f86b8b6d654fac4c7ba495baa9dc3f7f57eb9e6ebfcabd79b79b2cdab8575013",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed"
+      },
+      {
+        "submissionId": "3737297",
+        "verdict": "OK",
+        "language": "GNU C++",
+        "passedTestCount": 26.0,
+        "sourceBytes": 1000,
+        "sourceSha256": "4efb94a7e09923dbdab60a9549862f42ccdfe0a92c3fd45ef81a6a85bcb61b89",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed"
+      },
+      {
+        "submissionId": "3737701",
+        "verdict": "OK",
+        "language": "GNU C++",
+        "passedTestCount": 26.0,
+        "sourceBytes": 326,
+        "sourceSha256": "e4551af2767a115ada4adba475e1ecf6697aced006f2ef7ca82749299681fa49",
+        "parquet": "data/train-00035-of-00036.parquet",
+        "parquetSha256": "4fdaf008cd04a6626fffd9bdddd43c4d86f2d8b6309b813880c7198a0323686b"
+      },
+      {
+        "submissionId": "3737812",
+        "verdict": "OK",
+        "language": "GNU C++",
+        "passedTestCount": 26.0,
+        "sourceBytes": 341,
+        "sourceSha256": "4131b1e6c056d422dbc171c98b3866f8f4ff242abeca800620dcdb8eb9bd8e21",
+        "parquet": "data/train-00035-of-00036.parquet",
+        "parquetSha256": "4fdaf008cd04a6626fffd9bdddd43c4d86f2d8b6309b813880c7198a0323686b"
+      },
+      {
+        "submissionId": "3737886",
+        "verdict": "OK",
+        "language": "GNU C++0x",
+        "passedTestCount": 26.0,
+        "sourceBytes": 937,
+        "sourceSha256": "54abdd51d1bed5ea79653a0d15a40f1f906ed6fc4e982221f566d6c843ebe3bf",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed"
+      },
+      {
+        "submissionId": "3738124",
+        "verdict": "OK",
+        "language": "GNU C++",
+        "passedTestCount": 26.0,
+        "sourceBytes": 764,
+        "sourceSha256": "0c3c00ab6e812053b4e0082702fa45a670fef87b560e659eed8d6f28db9f5edd",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed"
+      },
+      {
+        "submissionId": "3738174",
+        "verdict": "OK",
+        "language": "GNU C++",
+        "passedTestCount": 26.0,
+        "sourceBytes": 531,
+        "sourceSha256": "afe28fdbd06d0d176195baf808475463ac9a98eaede828650187e12c81b223a6",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed"
+      },
+      {
+        "submissionId": "3738219",
+        "verdict": "OK",
+        "language": "GNU C++0x",
+        "passedTestCount": 26.0,
+        "sourceBytes": 1268,
+        "sourceSha256": "b4767c1129831fa89394dee95e7ef4d6b4ec54fff754f27fa93f6849ae40f776",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed"
+      },
+      {
+        "submissionId": "3738323",
+        "verdict": "OK",
+        "language": "GNU C++",
+        "passedTestCount": 26.0,
+        "sourceBytes": 577,
+        "sourceSha256": "54ea0f9f3b227dd9127fdb7df3b131fee865e58b7eafc48018c33bd04f12f3d2",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed"
+      },
+      {
+        "submissionId": "3738596",
+        "verdict": "OK",
+        "language": "GNU C++0x",
+        "passedTestCount": 26.0,
+        "sourceBytes": 636,
+        "sourceSha256": "f60bc4a8ebee9056946bdb40adc112bc6571018469490e9eca0903ba278f5f4d",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed"
+      },
+      {
+        "submissionId": "3738712",
+        "verdict": "OK",
+        "language": "GNU C++",
+        "passedTestCount": 26.0,
+        "sourceBytes": 1064,
+        "sourceSha256": "974a404846ceaef0b564f466c8786b84ac744b394505057e5d28a8ac7b8c062a",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed"
+      },
+      {
+        "submissionId": "3761521",
+        "verdict": "TIME_LIMIT_EXCEEDED",
+        "language": "Python 3",
+        "passedTestCount": 2.0,
+        "sourceBytes": 533,
+        "sourceSha256": "407de71db271d300737968d459d96c248aaceced9b83f0e629cfa4546aafddfa",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "authorReading": "TLE: builds S=sum 2**a_i as a Python big integer then repeatedly subtracts highest powers; correct method, infeasible for a_i up to 2*10^9 (TLE-only, not algorithmic)."
+      },
+      {
+        "submissionId": "3761607",
+        "verdict": "TIME_LIMIT_EXCEEDED",
+        "language": "Python 3",
+        "passedTestCount": 2.0,
+        "sourceBytes": 649,
+        "sourceSha256": "f75dbb2675082892e0bacf56370186a25f9360928b35f17e3ac34a7818955890",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "authorReading": "TLE: same big-integer method with binary-searched highest power; TLE-only."
+      },
+      {
+        "submissionId": "3911483",
+        "verdict": "WRONG_ANSWER",
+        "language": "Python 3",
+        "passedTestCount": 2.0,
+        "sourceBytes": 170,
+        "sourceSha256": "026fc170698cac2fdb046e96798748b09fccefbee2b0bc7818a3dcd702f3d8da",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "authorReading": "WA: prints min(a); ignores the rest of the array. Killed by e.g. [1,1] (answer 2, prints 1); unit test re-implements it."
+      },
+      {
+        "submissionId": "4083302",
+        "verdict": "WRONG_ANSWER",
+        "language": "Python 3",
+        "passedTestCount": 2.0,
+        "sourceBytes": 399,
+        "sourceSha256": "6638d68e24f63901ce954fae3d85136172b5a2f3c9c5731e048b49c92a9947f0",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "authorReading": "WA: run-length carry walk adds the first value v to the answer when starting and counts zero bits; author reading only, no execution."
+      },
+      {
+        "submissionId": "4449179",
+        "verdict": "WRONG_ANSWER",
+        "language": "Python 3",
+        "passedTestCount": 7.0,
+        "sourceBytes": 405,
+        "sourceSha256": "1674858226bdf2745a6938f08850b90910d92b8f2c7a0c4f6e53185b23be48a3",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "authorReading": "WA: run-length carry walk with an a[i-1] wrap-around comparison at i=0 and ad hoc stop condition; author reading only."
+      },
+      {
+        "submissionId": "5092672",
+        "verdict": "TIME_LIMIT_EXCEEDED",
+        "language": "Python 3",
+        "passedTestCount": 2.0,
+        "sourceBytes": 552,
+        "sourceSha256": "ecc3153973d31ebaa056a10b6ead7f3b317007fdd0efaa8725c3ad5abae7942a",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "authorReading": "TLE: big-integer sum then greedy decomposition of 2^v-1-S; TLE-only."
+      },
+      {
+        "submissionId": "5126960",
+        "verdict": "WRONG_ANSWER",
+        "language": "Python 3",
+        "passedTestCount": 2.0,
+        "sourceBytes": 352,
+        "sourceSha256": "591863bb68394579f8204dcec6b9e7275ac011b78eebc88d9c070102b9bd160a",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "authorReading": "WA: carry walk where `if x ^ 1: s += 0` is a no-op so odd leftover bits are never accounted; author reading only."
+      },
+      {
+        "submissionId": "5494111",
+        "verdict": "TIME_LIMIT_EXCEEDED",
+        "language": "Python 3",
+        "passedTestCount": 2.0,
+        "sourceBytes": 166,
+        "sourceSha256": "ecefffb6a0af8955bfa966f51d12cbeda2229bdbb0252eb639194e24db7d4805",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "authorReading": "TLE: big-integer sum then counts zero bits via ans/=2 (float division of a huge int would also overflow); not used as an algorithmic witness."
+      },
+      {
+        "submissionId": "8134893",
+        "verdict": "TIME_LIMIT_EXCEEDED",
+        "language": "Python 3",
+        "passedTestCount": 2.0,
+        "sourceBytes": 402,
+        "sourceSha256": "a738871647558e2c16ca4ddc6853df7181f61f323c5fa64b20a7a31a527d591e",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "authorReading": "TLE: big-integer sum with math.log; TLE-only on large exponents."
+      },
+      {
+        "submissionId": "8806392",
+        "verdict": "TIME_LIMIT_EXCEEDED",
+        "language": "Python 3",
+        "passedTestCount": 2.0,
+        "sourceBytes": 263,
+        "sourceSha256": "4f06d518462139a06abf9b77c1c773cd01765f7de8b362a5dd409ee4cf0435cc",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "authorReading": "TLE: loop over every exponent up to max(a) with a.count(i) (O(n*max)); TLE-only."
+      },
+      {
+        "submissionId": "9202353",
+        "verdict": "TIME_LIMIT_EXCEEDED",
+        "language": "Python 3",
+        "passedTestCount": 2.0,
+        "sourceBytes": 299,
+        "sourceSha256": "3fa100eafaf27bcf06de5017fc99072d7a742f0e19b10de8107e06b350776282",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "authorReading": "TLE: list-rebuilding carry simulation, quadratic; TLE-only."
+      },
+      {
+        "submissionId": "9954410",
+        "verdict": "TIME_LIMIT_EXCEEDED",
+        "language": "Python 3",
+        "passedTestCount": 2.0,
+        "sourceBytes": 264,
+        "sourceSha256": "a57804d9a1576fe3c9ac23322420c7403cb5f678f5422be49376e8c36490e22c",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "authorReading": "TLE: walks v upward one exponent at a time to 2*10^9; TLE-only."
+      },
+      {
+        "submissionId": "35136076",
+        "verdict": "WRONG_ANSWER",
+        "language": "Python 3",
+        "passedTestCount": 6.0,
+        "sourceBytes": 638,
+        "sourceSha256": "50b4639822508b1a770076ae24def32e098feaf9bc729c9e2d236b4d9d8da954",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "authorReading": "WA: treats a_i as a budget subtracted from cur (cur -= a), not as an exponent; wrong model; author reading only."
+      },
+      {
+        "submissionId": "35141013",
+        "verdict": "WRONG_ANSWER",
+        "language": "Python 3",
+        "passedTestCount": 6.0,
+        "sourceBytes": 790,
+        "sourceSha256": "8f4f5d31d53caf966cfa6237a565652cff6fc96711b932cd9333caeca9762756",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "authorReading": "WA: carry walk tracking diff of odd counts; ans = max(arr) - (diff-1) mishandles carry beyond the last run; author reading only."
+      },
+      {
+        "submissionId": "39338055",
+        "verdict": "WRONG_ANSWER",
+        "language": "Python 3",
+        "passedTestCount": 6.0,
+        "sourceBytes": 352,
+        "sourceSha256": "8217c042f733030f7ade171c4a7411c798a4d388c91dc600e1c4b73ea7316400",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "authorReading": "WA: set-based merge never inserts the carried exponent (only removes) so [0,0] prints 0 instead of 1; unit test re-implements it."
+      },
+      {
+        "submissionId": "51872674",
+        "verdict": "TIME_LIMIT_EXCEEDED",
+        "language": "Python 3",
+        "passedTestCount": 2.0,
+        "sourceBytes": 315,
+        "sourceSha256": "c423745d27543566bf9810668bae5e8f0505243d33d4435f082505743b6731d9",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "authorReading": "TLE: counts zero bits of big-integer S (= bitlength-popcount, the correct answer); TLE-only."
+      },
+      {
+        "submissionId": "51872999",
+        "verdict": "TIME_LIMIT_EXCEEDED",
+        "language": "Python 3",
+        "passedTestCount": 2.0,
+        "sourceBytes": 387,
+        "sourceSha256": "ac7c38b48912f7175db9503b217059aa70bf72861e6972b3cbc6e7ef1d65a145",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "authorReading": "TLE: same zero-bit count of big-integer S; TLE-only."
+      },
+      {
+        "submissionId": "51991582",
+        "verdict": "WRONG_ANSWER",
+        "language": "Python 3",
+        "passedTestCount": 6.0,
+        "sourceBytes": 182,
+        "sourceSha256": "a4e47275c2437b7d0b1c61530e5542bb77c2fa86ce9b913ea679bf0e25c5c9a7",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "authorReading": "WA: single forward pass merging only adjacent equal pairs; carries that create a value larger than a later element are never merged. Killed by [0,0,0,0] and [0,0,1,1,1]; unit test re-implements it."
+      },
+      {
+        "submissionId": "52215720",
+        "verdict": "TIME_LIMIT_EXCEEDED",
+        "language": "Python 3",
+        "passedTestCount": 2.0,
+        "sourceBytes": 177,
+        "sourceSha256": "78c947e41555a778c28aab28268724695a471b0ce8b564a1d6e96fd6b11cce15",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "authorReading": "TLE: zero-bit count of bin(S); correct formula, TLE-only."
+      },
+      {
+        "submissionId": "52216235",
+        "verdict": "TIME_LIMIT_EXCEEDED",
+        "language": "Python 3",
+        "passedTestCount": 2.0,
+        "sourceBytes": 171,
+        "sourceSha256": "a45314b75e6d3132fbe99d5ffbe1e3acf76821f696daa7e09d6837c6ba837a29",
+        "parquet": "data/train-00022-of-00036.parquet",
+        "parquetSha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed",
+        "authorReading": "TLE: zero-bit count of bin(S); correct formula, TLE-only."
+      }
+    ],
+    "note": "Author read sources only; no public program executed. 12 OK (C++ map/set carry simulations), 12 TLE (all big-integer or O(max a) loops, TLE-only), 8 WA. Genuine-WA classification and sixth-oracle selection are left to parent qualification."
+  },
+  "statementAttestation": {
+    "url": "https://codeforces.me/problemset/problem/305/C?locale=en",
+    "transport": "public HTTP GET, status 200, fetched 2026-10-13",
+    "bodyBytes": 60010,
+    "bodySha256": "ad3fecee2ea18888e2cc2ef7b903d207def387cbe2002a7fb60bf44436754c54",
+    "problemStatementDivByteRange": [
+      37547,
+      41071
+    ],
+    "problemStatementDivSha256": "ec9293b1bdde80417dbbb30ac4ec8f6453c1e250a4248d0af05302d0b3ce7b29",
+    "committedCopy": "pipeline/ratings-pools/1600/statement-sources/305C.recipe-author.original.html",
+    "agreement": "Original HTML text matches the pinned row word for word except that the row flattened <sup class=\"upper-index\"> exponents. The original shows 2<sup>a_i</sup>, 2<sup>b</sup>, 2<sup>v</sup> - 1, 1 ≤ n ≤ 10<sup>5</sup>, 0 ≤ a_i ≤ 2·10<sup>9</sup>, 2<sup>3</sup> - 1 = 7 and 2<sup>0</sup>, 2<sup>1</sup>, 2<sup>2</sup>. Official tests (a=2000000000, answer 2000000000) and samples are consistent with this reading."
+  },
+  "statementNormalizationNeeded": "exponent markup",
+  "sourceCorrectionProposal": {
+    "format": "MULTI_REPAIRS style [field, pinned-row text, restored text, occurrences]; original bytes stay unchanged, normalisation applied only to the package statement by the parent.",
+    "repairs": [
+      [
+        "description",
+        "2a1, 2a2, ..., 2an",
+        "2<sup>a1</sup>, 2<sup>a2</sup>, ..., 2<sup>an</sup>",
+        1
+      ],
+      [
+        "description",
+        "form 2b (b ≥ 0)",
+        "form 2<sup>b</sup> (b ≥ 0)",
+        1
+      ],
+      [
+        "description",
+        "equalled 2v - 1",
+        "equalled 2<sup>v</sup> - 1",
+        1
+      ],
+      [
+        "input_format",
+        "(1 ≤ n ≤ 105)",
+        "(1 ≤ n ≤ 10<sup>5</sup>)",
+        1
+      ],
+      [
+        "input_format",
+        "(0 ≤ ai ≤ 2·109)",
+        "(0 ≤ ai ≤ 2·10<sup>9</sup>)",
+        1
+      ],
+      [
+        "note",
+        "equals 23 - 1 = 7",
+        "equals 2<sup>3</sup> - 1 = 7",
+        1
+      ],
+      [
+        "note",
+        "numbers 20, 21, 22.",
+        "numbers 2<sup>0</sup>, 2<sup>1</sup>, 2<sup>2</sup>.",
+        1
+      ]
+    ]
+  },
+  "recipeFiles": [
+    "pipeline/ratings-pools/1600/recipe_305C.py",
+    "pipeline/ratings-pools/1600/test_recipe_305C.py"
+  ]
+}
