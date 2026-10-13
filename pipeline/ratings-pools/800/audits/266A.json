@@ -1,0 +1,259 @@
+{
+ "approved": true,
+ "checks": {
+  "algorithmicallyWrong": true,
+  "coverage": true,
+  "fiveAcceptedFiveIncorrect": true,
+  "fullTests": true,
+  "hashes": true,
+  "inputConstraints": true,
+  "noSpecialChecker": true,
+  "sourceAttribution": true,
+  "statementComplete": true
+ },
+ "evidenceHash": "b15d0d53c48e72f84f2110a9257e7c2d0b4ae1c136a52908a84379ba3f8f84ce",
+ "incorrectAnalysis": {
+  "222560535": {
+   "actualLF": "2\n",
+   "actualRaw": "2\n",
+   "algorithmic": true,
+   "expected": "1\n",
+   "explanation": "RRG has runs R,G so 2 stones remain and 3-2=1 must be removed; program prints len(b)=2",
+   "faultyCode": [
+    "b+=a[-1]",
+    "print(len(b))"
+   ],
+   "inputHasCRLF": true,
+   "inputLF": "3\nRRG\n",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "reason": "builds the run-compressed string (stones kept) and prints its length instead of the number removed n-len(b)",
+   "sourceHash": "c3bd10a61e0625023d9120a7e826855603fbcdd59e4107f06785a0b0503dfe5a",
+   "sourceLines": [
+    11,
+    12
+   ],
+   "sourceProvenance": {
+    "dataset": "open-r1/codeforces-submissions",
+    "path": "data/train-00030-of-00036.parquet",
+    "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+    "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7"
+   },
+   "sourceUrl": "https://codeforces.com/contest/266/submission/222560535",
+   "test": "0001",
+   "verdictLF": "WA",
+   "verdictRaw": "WA"
+  },
+  "222569428": {
+   "actualLF": "2\n",
+   "actualRaw": "2\n",
+   "algorithmic": true,
+   "expected": "1\n",
+   "explanation": "RGGBG: i=2 G==G counts 1 (correct); at i=3 w becomes 2 (G) not 3 (B); at i=4 s[2]=G==s[4]=G counts a second removal although B separates them; prints 2, answer 1",
+   "faultyCode": [
+    "    if s[w] == s[i] :",
+    "        error += 1",
+    "    else :",
+    "        w += 1"
+   ],
+   "inputHasCRLF": true,
+   "inputLF": "5\nRGGBG\n",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "reason": "on a color change advances the comparison pointer by one (w+=1) instead of moving it to the current stone (w=i), so later stones are compared against a stale stone",
+   "sourceHash": "c0eb213e0e96d8b438bcacc801bc913ffb7df2f6018de797167a82e80cd7cb99",
+   "sourceLines": [
+    9,
+    12
+   ],
+   "sourceProvenance": {
+    "dataset": "open-r1/codeforces-submissions",
+    "path": "data/train-00030-of-00036.parquet",
+    "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+    "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7"
+   },
+   "sourceUrl": "https://codeforces.com/contest/266/submission/222569428",
+   "test": "0008",
+   "verdictLF": "WA",
+   "verdictRaw": "WA"
+  },
+  "222569769": {
+   "actualLF": "2\n",
+   "actualRaw": "2\n",
+   "algorithmic": true,
+   "expected": "1\n",
+   "explanation": "RGGBG: counts (G,G) at i=2 and then compares s[2]=G with s[4]=G across the B, prints 2, answer 1",
+   "faultyCode": [
+    "        if s[w] == s[i] :",
+    "            error += 1",
+    "        else :",
+    "            w += 1"
+   ],
+   "inputHasCRLF": true,
+   "inputLF": "5\nRGGBG\n",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "reason": "same stale-pointer defect: w+=1 on a color change instead of w=i (independent submission, distinct source hash)",
+   "sourceHash": "012209c9a0fe1a38fd6a9444136d5c77c95a6572eea04ccf4ce6d53a8456d15a",
+   "sourceLines": [
+    9,
+    12
+   ],
+   "sourceProvenance": {
+    "dataset": "open-r1/codeforces-submissions",
+    "path": "data/train-00030-of-00036.parquet",
+    "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+    "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7"
+   },
+   "sourceUrl": "https://codeforces.com/contest/266/submission/222569769",
+   "test": "0008",
+   "verdictLF": "WA",
+   "verdictRaw": "WA"
+  },
+  "222610498": {
+   "actualLF": "0\n",
+   "actualRaw": "0\n",
+   "algorithmic": true,
+   "expected": "1\n",
+   "explanation": "RBBR: color[0]=R != color[1]=B on every iteration so nothing is popped; the adjacent BB pair requires 1 removal; prints 0",
+   "faultyCode": [
+    "    if color[0] == color[1]:",
+    "        color.pop(0)"
+   ],
+   "inputHasCRLF": true,
+   "inputLF": "4\nRBBR\n",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "reason": "only ever compares the first two stones, so duplicates not at the front of the row are never removed",
+   "sourceHash": "7a4bc1274e2dd6708e7640112a503445012348cf00b9429136aa543bcfda046a",
+   "sourceLines": [
+    7,
+    8
+   ],
+   "sourceProvenance": {
+    "dataset": "open-r1/codeforces-submissions",
+    "path": "data/train-00030-of-00036.parquet",
+    "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+    "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7"
+   },
+   "sourceUrl": "https://codeforces.com/contest/266/submission/222610498",
+   "test": "0007",
+   "verdictLF": "WA",
+   "verdictRaw": "WA"
+  },
+  "222676238": {
+   "actualLF": "0\n",
+   "actualRaw": "0\n",
+   "algorithmic": true,
+   "expected": "1\n",
+   "explanation": "RBBR: first change at i=0 so prints 0; the equal adjacent pair (B,B) at positions 2-3 requires 1 removal",
+   "faultyCode": [
+    "    if (stone_list[i] != stone_list[i + 1]): ",
+    "        found = True",
+    "        break",
+    "if found: ",
+    "    print(i)"
+   ],
+   "inputHasCRLF": true,
+   "inputLF": "4\nRBBR\n",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "reason": "prints the index of the first color change (length of the leading equal run minus 1) instead of counting all equal adjacent pairs",
+   "sourceHash": "07d2a3be5b7719d104889ccf435e948ef1886eb7d07aa22388287639ec57d8fb",
+   "sourceLines": [
+    10,
+    14
+   ],
+   "sourceProvenance": {
+    "dataset": "open-r1/codeforces-submissions",
+    "path": "data/train-00030-of-00036.parquet",
+    "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+    "sha256": "236e38b561874c83a403cedb1a0eacce883cbc43519f709034d70e41ea2ec8a7"
+   },
+   "sourceUrl": "https://codeforces.com/contest/266/submission/222676238",
+   "test": "0007",
+   "verdictLF": "WA",
+   "verdictRaw": "WA"
+  }
+ },
+ "packageHash": "da0642745d240b2377a5ecd8c95fde13a94c7c8a1bc4b00998b7fd02fae9b201",
+ "qualificationBasis": "official",
+ "reviewUrl": "https://staging.itsdev.in/sessions/cc95519355f04cde8dd169765db3c419",
+ "reviewer": "devin-cc95519355f04cde8dd169765db3c419",
+ "supplementary": {
+  "authoredInputs": 1386,
+  "pairsSha256": "5244166b0a896b56dc79c9213bfd8ecbe677159334114a01a7a500565300ad10",
+  "reference": {
+   "independentOf": "builder solve() and all counted sources",
+   "path": "indep/ref_266A.py",
+   "sha256": "b9cb434bb0ee18fb44ff83bb931f768e7f668aa191fedd1de5f93bf0a245f0ef"
+  },
+  "runs": {
+   "reference": {
+    "failedTest": null,
+    "path": "indep/results/266A-reference.json",
+    "sha256": "b2483238b6f4d2e6f1554f6ad5eaf0cd5df3a88c75c5f48ec0dde9b4de3c8646",
+    "testsRun": 42,
+    "verdict": "AC"
+   },
+   "supp-2984476": {
+    "failedTest": null,
+    "path": "indep/results/266A-supp-2984476.json",
+    "sha256": "deef8c7884dd23d4a21f98ad978037ab8f1c9217e423889564f2ebff3f4f46d1",
+    "testsRun": 1386,
+    "verdict": "AC"
+   },
+   "supp-2984477": {
+    "failedTest": null,
+    "path": "indep/results/266A-supp-2984477.json",
+    "sha256": "61899dd1f11d07806d04803af72f5a4dd1c894dda86bdc3843e1d54a5e00c586",
+    "testsRun": 1386,
+    "verdict": "AC"
+   },
+   "supp-2984481": {
+    "failedTest": null,
+    "path": "indep/results/266A-supp-2984481.json",
+    "sha256": "2c66ae828042b13153fa6f2f7eb0e9ad25a8fa516ccb79c3ba4e21093fb62fd8",
+    "testsRun": 1386,
+    "verdict": "AC"
+   },
+   "supp-2984482": {
+    "failedTest": null,
+    "path": "indep/results/266A-supp-2984482.json",
+    "sha256": "1b1f91e6fb2fadf62b4f33f2126566fb4d56f8f579a8a0850424dd50e2213295",
+    "testsRun": 1386,
+    "verdict": "AC"
+   },
+   "supp-2984483": {
+    "failedTest": null,
+    "path": "indep/results/266A-supp-2984483.json",
+    "sha256": "aa2023c4f20ca4ce23e0f58e2b5cad86cffa28eefe36dcf17d1a11c12d024d4a",
+    "testsRun": 1386,
+    "verdict": "AC"
+   },
+   "supp-validator": {
+    "failedTest": null,
+    "path": "indep/results/266A-supp-validator.json",
+    "sha256": "a6ace6a4185ebbdcd1f2edb550f63687fe6e5fc358a7224b49a5aa283653c446",
+    "testsRun": 1386,
+    "verdict": "AC"
+   },
+   "validator": {
+    "failedTest": null,
+    "path": "indep/results/266A-validator.json",
+    "sha256": "51ac3727f49a7c78516ac74afdc2335784cf795da8fcd35dcc892abb80839a20",
+    "testsRun": 42,
+    "verdict": "AC"
+   }
+  },
+  "suppGenerator": {
+   "path": "indep/supp.py",
+   "seed": 20261013,
+   "sha256": "1a687cd5788f61538dcfafa6ac31478ed309c2d1d82e37a7777222407aff8b9a"
+  },
+  "validator": {
+   "path": "indep/val_266A.py",
+   "sha256": "5c22837493a41fef7a42fe598f1ceab681306ba961aa256207f9b9dda74a7ebc"
+  }
+ }
+}

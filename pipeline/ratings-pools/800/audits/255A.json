@@ -1,0 +1,262 @@
+{
+ "approved": true,
+ "checks": {
+  "algorithmicallyWrong": true,
+  "coverage": true,
+  "fiveAcceptedFiveIncorrect": true,
+  "fullTests": true,
+  "hashes": true,
+  "inputConstraints": true,
+  "noSpecialChecker": true,
+  "sourceAttribution": true,
+  "statementComplete": true
+ },
+ "evidenceHash": "914d117b6d387401ea3153523aa25a81cbf4eb9563b580d3a0fa65f4fa0eb6cb",
+ "incorrectAnalysis": {
+  "59783285": {
+   "actualLF": "biceps\n",
+   "actualRaw": "biceps\n",
+   "algorithmic": true,
+   "expected": "chest\n",
+   "explanation": "values give chest=8+6=14, biceps=2+3=5, back=2 so answer chest; index sums give chest=0+3=3, biceps=1+4=5, back=2, neither strict-chest nor strict-back branch holds, falls to else 'biceps'",
+   "faultyCode": [
+    "\tchest += i",
+    "",
+    "for i in range(1,n,3):",
+    "\tbiceps+= i",
+    "",
+    "for i in range(2,n,3):",
+    "\tback += i"
+   ],
+   "inputHasCRLF": true,
+   "inputLF": "5\n8 2 2 6 3\n",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "reason": "accumulates the loop index i into each muscle total instead of the value l[i]",
+   "sourceHash": "cd3e3f1ab3ce2408ca14d53b17f796145fe5d816d36b3abc8f8bd1a9f9e3df97",
+   "sourceLines": [
+    7,
+    13
+   ],
+   "sourceProvenance": {
+    "dataset": "open-r1/codeforces-submissions",
+    "path": "data/train-00022-of-00036.parquet",
+    "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+    "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed"
+   },
+   "sourceUrl": "https://codeforces.com/contest/255/submission/59783285",
+   "test": "0005",
+   "verdictLF": "WA",
+   "verdictRaw": "WA"
+  },
+  "60236537": {
+   "actualLF": "biceps\n",
+   "actualRaw": "biceps\n",
+   "algorithmic": true,
+   "expected": "back\n",
+   "explanation": "chest=13+8+9+9+3=42, biceps=14+5+16+5+7=47, back=19+17+15+6=57; chest>biceps false, then biceps>chest true so prints 'biceps' although back=57 is the unique maximum",
+   "faultyCode": [
+    "elif biceps>chest and biceps>chest:"
+   ],
+   "inputHasCRLF": true,
+   "inputLF": "14\n13 14 19 8 5 17 9 16 15 9 5 6 3 7\n",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "reason": "biceps branch compares biceps>chest twice and never biceps>back, so biceps is printed whenever it merely beats chest",
+   "sourceHash": "960c4c030215b516371ee242ba0305e82908313dff816545804f00f86fec4a1d",
+   "sourceLines": [
+    15,
+    15
+   ],
+   "sourceProvenance": {
+    "dataset": "open-r1/codeforces-submissions",
+    "path": "data/train-00022-of-00036.parquet",
+    "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+    "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed"
+   },
+   "sourceUrl": "https://codeforces.com/contest/255/submission/60236537",
+   "test": "0013",
+   "verdictLF": "WA",
+   "verdictRaw": "WA"
+  },
+  "61426967": {
+   "actualLF": "chest\n",
+   "actualRaw": "chest\n",
+   "algorithmic": true,
+   "expected": "biceps\n",
+   "explanation": "totals chest=2, biceps=8, back=0; tuples sort by name: back < bicep < chest, last is 'chest' though biceps=8 is the maximum (the 'bicep' spelling is not reached; fixing it does not change the output)",
+   "faultyCode": [
+    "mapped=zip(x,c)",
+    "print(sorted(list((mapped)))[-1][0])"
+   ],
+   "inputHasCRLF": true,
+   "inputLF": "2\n2 8\n",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "reason": "argmax by sorting (name,total) tuples orders by the name string first, so the last element is always ('chest',...) independent of totals",
+   "sourceHash": "85887ea06a76e4a64bbdf260679d500a42b226f488071ec26380dc0b4b3677e9",
+   "sourceLines": [
+    7,
+    8
+   ],
+   "sourceProvenance": {
+    "dataset": "open-r1/codeforces-submissions",
+    "path": "data/train-00022-of-00036.parquet",
+    "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+    "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed"
+   },
+   "sourceUrl": "https://codeforces.com/contest/255/submission/61426967",
+   "test": "0001",
+   "verdictLF": "WA",
+   "verdictRaw": "WA"
+  },
+  "62389946": {
+   "actualLF": "biceps\n",
+   "actualRaw": "biceps\n",
+   "algorithmic": true,
+   "expected": "back\n",
+   "explanation": "chest=5, biceps=1, back=10; lista=[5,10,1], lista[2]=1 != chest, lista[2]==biceps so prints 'biceps' instead of the maximum back=10",
+   "faultyCode": [
+    "lista=[chest,back,biceps]",
+    "y=sorted(lista)",
+    "if(lista[2]==chest):",
+    "  print(\"chest\") ",
+    "if(lista[2]==biceps):"
+   ],
+   "inputHasCRLF": true,
+   "inputLF": "3\n5 1 10\n",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "reason": "max selection inspects lista[2] of the unsorted list (which is always biceps) instead of the sorted maximum y[2]; the second check is a separate if/else, so 'biceps' (or 'back') is decided by biceps==biceps",
+   "sourceHash": "74279b88e4fe4a747c0e166f3ac01ab46d5c52dd0ddfa203087c6e0278fe81b5",
+   "sourceLines": [
+    12,
+    16
+   ],
+   "sourceProvenance": {
+    "dataset": "open-r1/codeforces-submissions",
+    "path": "data/train-00022-of-00036.parquet",
+    "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+    "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed"
+   },
+   "sourceUrl": "https://codeforces.com/contest/255/submission/62389946",
+   "test": "0002",
+   "verdictLF": "WA",
+   "verdictRaw": "WA"
+  },
+  "63230834": {
+   "actualLF": "chest\n",
+   "actualRaw": "chest\n",
+   "algorithmic": true,
+   "expected": "back\n",
+   "explanation": "correct chest=5, biceps=1, back=10 -> back; stride-2 sums sum1=5+10=15, sum2=1, sum3=10, sum1>sum2 and sum1>sum3 -> prints 'chest'",
+   "faultyCode": [
+    "for i in range(0,n,2):",
+    "    sum1=sum1+l[i]",
+    "for i in range(1,n,2):",
+    "    sum2=sum2+l[i]",
+    "for i in range(2,n,2):"
+   ],
+   "inputHasCRLF": true,
+   "inputLF": "3\n5 1 10\n",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "reason": "uses stride 2 instead of the cyclic stride 3, so exercise i is not assigned to muscle i mod 3 and sums overlap",
+   "sourceHash": "8bedd00c0458537eac4f88ba38d7aa386ced76e2c18bf2a0a4249d0a9e359581",
+   "sourceLines": [
+    6,
+    10
+   ],
+   "sourceProvenance": {
+    "dataset": "open-r1/codeforces-submissions",
+    "path": "data/train-00022-of-00036.parquet",
+    "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+    "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed"
+   },
+   "sourceUrl": "https://codeforces.com/contest/255/submission/63230834",
+   "test": "0002",
+   "verdictLF": "WA",
+   "verdictRaw": "WA"
+  }
+ },
+ "packageHash": "c9336c89c10006b0e417b3f0931676b174f234441d688b29015b678696746c4e",
+ "qualificationBasis": "official",
+ "reviewUrl": "https://staging.itsdev.in/sessions/cc95519355f04cde8dd169765db3c419",
+ "reviewer": "devin-cc95519355f04cde8dd169765db3c419",
+ "supplementary": {
+  "authoredInputs": 3022,
+  "pairsSha256": "10bafe51bcfa528e9bc54149f2583378941598ff35ee5daf36e7e7cf32a8f1fb",
+  "reference": {
+   "independentOf": "builder solve() and all counted sources",
+   "path": "indep/ref_255A.py",
+   "sha256": "08cec746220a200bb4d151b6c5d4af36ced214adcb87abe46b84b1edfb689990"
+  },
+  "runs": {
+   "reference": {
+    "failedTest": null,
+    "path": "indep/results/255A-reference.json",
+    "sha256": "51c1deafa06a44fac6a39b966f9f930f495ad5ccf895cf861c872b7f9e675fed",
+    "testsRun": 69,
+    "verdict": "AC"
+   },
+   "supp-2773663": {
+    "failedTest": null,
+    "path": "indep/results/255A-supp-2773663.json",
+    "sha256": "9a1dc04be1462bfb272d66e2ae9031daec949d0fd8bd5eabc961aab7ea03e023",
+    "testsRun": 3022,
+    "verdict": "AC"
+   },
+   "supp-2773664": {
+    "failedTest": null,
+    "path": "indep/results/255A-supp-2773664.json",
+    "sha256": "abdd56e597e3afa70412acf5f41aee67aafa2dc566cf5bbab635e5ff0ca82ac8",
+    "testsRun": 3022,
+    "verdict": "AC"
+   },
+   "supp-2773665": {
+    "failedTest": null,
+    "path": "indep/results/255A-supp-2773665.json",
+    "sha256": "4ae31b756775d0da580483912922d336535dd036244df0e8ee320fdcfd18c377",
+    "testsRun": 3022,
+    "verdict": "AC"
+   },
+   "supp-2773666": {
+    "failedTest": null,
+    "path": "indep/results/255A-supp-2773666.json",
+    "sha256": "c0fa36650e5054129d9cb50b42f2f0762b30d35d2d693f6ba1c263d27dbb7a4e",
+    "testsRun": 3022,
+    "verdict": "AC"
+   },
+   "supp-2773668": {
+    "failedTest": null,
+    "path": "indep/results/255A-supp-2773668.json",
+    "sha256": "0a2eefed5c6bc9c91143fbdfd2040789139db88cfb3f2b05a8f69edd3edf4b82",
+    "testsRun": 3022,
+    "verdict": "AC"
+   },
+   "supp-validator": {
+    "failedTest": null,
+    "path": "indep/results/255A-supp-validator.json",
+    "sha256": "b421c57e5b33c2cd7bc16a7484efe2749d2f09b35643727bf1d1bc1ada7fb4bf",
+    "testsRun": 3022,
+    "verdict": "AC"
+   },
+   "validator": {
+    "failedTest": null,
+    "path": "indep/results/255A-validator.json",
+    "sha256": "0bfc485e7c1d5e2810d8b57767124f2c3d578786f05f628f4acb216ddd3a0d97",
+    "testsRun": 69,
+    "verdict": "AC"
+   }
+  },
+  "suppGenerator": {
+   "path": "indep/supp.py",
+   "seed": 20261013,
+   "sha256": "1a687cd5788f61538dcfafa6ac31478ed309c2d1d82e37a7777222407aff8b9a"
+  },
+  "validator": {
+   "path": "indep/val_255A.py",
+   "sha256": "77fcf8097fc8b9dd0003dff259f25d826125fb634fb1053cdd7f553d98912795"
+  }
+ }
+}

@@ -1,0 +1,257 @@
+{
+ "approved": false,
+ "checks": {
+  "algorithmicallyWrong": false,
+  "coverage": false,
+  "fiveAcceptedFiveIncorrect": false,
+  "fullTests": false,
+  "hashes": true,
+  "inputConstraints": false,
+  "noSpecialChecker": true,
+  "sourceAttribution": false,
+  "statementComplete": true
+ },
+ "evidenceHash": "7d183d9cb3e11d1b2a1c8a23b3573e47e202ad0085ad58adc0579b02099fb584",
+ "incorrectAnalysis": {
+  "222632460": {
+   "actualLF": "1\n",
+   "actualRaw": "1\n",
+   "algorithmic": true,
+   "expected": "3\n",
+   "explanation": "1 at row 2 col 5: |2-3|+|5-3| = 3 swaps needed; program prints 3//2 = 1",
+   "faultyCode": [
+    "minimum_moves = moves // 2"
+   ],
+   "inputHasCRLF": true,
+   "inputLF": "0 0 0 0 0\n0 0 0 0 1\n0 0 0 0 0\n0 0 0 0 0\n0 0 0 0 0\n",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "reason": "halves the Manhattan distance although every swap moves the 1 by exactly one row or column",
+   "sourceHash": "ca64aa89f5df2024417e506ebb4785cbbdd5d8d8ad67eec3995f38b442c847ba",
+   "sourceLines": [
+    15,
+    15
+   ],
+   "sourceProvenance": {
+    "dataset": "open-r1/codeforces-submissions",
+    "path": "data/train-00025-of-00036.parquet",
+    "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+    "sha256": "0fe4a49998adbbfce09027033e613e939c46974aa3e25afc6a7b8e2a1f605dbb"
+   },
+   "sourceUrl": "https://codeforces.com/contest/263/submission/222632460",
+   "test": "0001",
+   "verdictLF": "WA",
+   "verdictRaw": "WA"
+  },
+  "222685725": {
+   "actualLF": "7\n",
+   "actualRaw": "",
+   "algorithmic": true,
+   "expected": "3\n",
+   "explanation": "1 at row 2 col 5 (index 4): row term |i| with i=1 is 1, column term |4+2|=6, prints 7 on LF input; answer 3",
+   "faultyCode": [
+    "        print(abs(i) + abs(theList.index('1') +2))   "
+   ],
+   "inputHasCRLF": true,
+   "inputLF": "0 0 0 0 0\n0 0 0 0 1\n0 0 0 0 0\n0 0 0 0 0\n0 0 0 0 0\n",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "reason": "column term abs(index+2) instead of abs(index-2); on raw CRLF input the token is '1\\r' so nothing prints, on LF input the wrong formula prints 7",
+   "sourceHash": "8bc1afdb720c66ced1b2861b4cb74c65a20884a1b198288322ecf4437ac8dd86",
+   "sourceLines": [
+    4,
+    4
+   ],
+   "sourceProvenance": {
+    "dataset": "open-r1/codeforces-submissions",
+    "path": "data/train-00025-of-00036.parquet",
+    "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+    "sha256": "0fe4a49998adbbfce09027033e613e939c46974aa3e25afc6a7b8e2a1f605dbb"
+   },
+   "sourceUrl": "https://codeforces.com/contest/263/submission/222685725",
+   "test": "0001",
+   "verdictLF": "WA",
+   "verdictRaw": "WA"
+  },
+  "222696542": {
+   "actualLF": "",
+   "actualRaw": "",
+   "algorithmic": false,
+   "expected": "0\n",
+   "explanation": "1 at the centre needs 0 moves; no branch prints, output empty",
+   "faultyCode": [
+    "            if list3.index(1) == 0:",
+    "                print(2)",
+    "            elif list3.index(1) == 1:"
+   ],
+   "inputHasCRLF": true,
+   "inputLF": "0 0 0 0 0\n0 0 0 0 0\n0 0 1 0 0\n0 0 0 0 0\n0 0 0 0 0\n",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "reason": "not accepted as algorithmic: hard-coded per-row lookup table with no case for the centre cell (row 3 handles only columns 1-2) and unrelated constants (+8, +2) elsewhere; prints nothing for the centre",
+   "sourceHash": "1a4bca98c8e8c4f4bad62c70b280f5a7ff9e0ddb5438938f3cc81c25aaae3d1f",
+   "sourceLines": [
+    19,
+    21
+   ],
+   "sourceProvenance": {
+    "dataset": "open-r1/codeforces-submissions",
+    "path": "data/train-00025-of-00036.parquet",
+    "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+    "sha256": "0fe4a49998adbbfce09027033e613e939c46974aa3e25afc6a7b8e2a1f605dbb"
+   },
+   "sourceUrl": "https://codeforces.com/contest/263/submission/222696542",
+   "test": "0003",
+   "verdictLF": "WA",
+   "verdictRaw": "WA"
+  },
+  "222698262": {
+   "actualLF": "",
+   "actualRaw": "",
+   "algorithmic": false,
+   "expected": "0\n",
+   "explanation": "1 at the centre needs 0 moves; no branch prints, output empty",
+   "faultyCode": [
+    "            if list3.index(1) == 0:",
+    "                print(2)",
+    "            elif list3.index(1) == 1:",
+    "                print(1)",
+    "",
+    "    for i in list4:",
+    "        if i == 1 and list4.index(1) == 0:",
+    "            print(-3)"
+   ],
+   "inputHasCRLF": true,
+   "inputLF": "0 0 0 0 0\n0 0 0 0 0\n0 0 1 0 0\n0 0 0 0 0\n0 0 0 0 0\n",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "reason": "not accepted as algorithmic: hard-coded lookup table: row 3 has no centre case and rows 4-5 print negative constants (-3..-12); prints nothing for the centre",
+   "sourceHash": "e907990880eab8d6eb46614fa3cc0f80e15a6ca7329a85d16297b16ba8ce5bb7",
+   "sourceLines": [
+    19,
+    26
+   ],
+   "sourceProvenance": {
+    "dataset": "open-r1/codeforces-submissions",
+    "path": "data/train-00025-of-00036.parquet",
+    "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+    "sha256": "0fe4a49998adbbfce09027033e613e939c46974aa3e25afc6a7b8e2a1f605dbb"
+   },
+   "sourceUrl": "https://codeforces.com/contest/263/submission/222698262",
+   "test": "0003",
+   "verdictLF": "WA",
+   "verdictRaw": "WA"
+  },
+  "222716664": {
+   "actualLF": "4\n",
+   "actualRaw": "4\n",
+   "algorithmic": true,
+   "expected": "3\n",
+   "explanation": "1 at row 2 col 1: answer |2-3|+|1-3| = 3; position stays (0,0) and prints |2-0|+|2-0| = 4",
+   "faultyCode": [
+    "        if one:"
+   ],
+   "inputHasCRLF": true,
+   "inputLF": "0 0 0 0 0\n1 0 0 0 0\n0 0 0 0 0\n0 0 0 0 0\n0 0 0 0 0\n",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "reason": "uses the index 0 as falsy, so a 1 in the first column is never recorded and x=y=0 remains",
+   "sourceHash": "ca830b6d85e7c44273212538fdf2976faf050e6ebe9d4dd7bba9440e025d700b",
+   "sourceLines": [
+    7,
+    7
+   ],
+   "sourceProvenance": {
+    "dataset": "open-r1/codeforces-submissions",
+    "path": "data/train-00025-of-00036.parquet",
+    "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+    "sha256": "0fe4a49998adbbfce09027033e613e939c46974aa3e25afc6a7b8e2a1f605dbb"
+   },
+   "sourceUrl": "https://codeforces.com/contest/263/submission/222716664",
+   "test": "0010",
+   "verdictLF": "WA",
+   "verdictRaw": "WA"
+  }
+ },
+ "packageHash": "2505bac2a38405e843abf24f60b9089bf01720170b85396b35c331b1c44113cb",
+ "qualificationBasis": "official",
+ "reason": "counted incorrect 222696542 and 222698262 are hard-coded per-row lookup tables (no centre case, unrelated/negative constants) that print nothing at recorded failedTest 0003; placeholder tables, not algorithmic defects, so fewer than 5 genuine wrong sources",
+ "reviewUrl": "https://staging.itsdev.in/sessions/cc95519355f04cde8dd169765db3c419",
+ "reviewer": "devin-cc95519355f04cde8dd169765db3c419",
+ "supplementary": {
+  "authoredInputs": 25,
+  "pairsSha256": "dba4f7d45187d1fbbc64e933e3bc5110faff50d10c3e91d1cfe811ea15adfd4f",
+  "reference": {
+   "independentOf": "builder solve() and all counted sources",
+   "path": "indep/ref_263A.py",
+   "sha256": "43490d742875c9837e88ff83dbc88e29213e8c5fa96d2e096379d34f29be87b8"
+  },
+  "runs": {
+   "reference": {
+    "failedTest": null,
+    "path": "indep/results/263A-reference.json",
+    "sha256": "dc9d10ed6fe40dd439f9fca4317e1c9d4766c1fd8d4c3eb562814c384fea953d",
+    "testsRun": 27,
+    "verdict": "AC"
+   },
+   "supp-2936885": {
+    "failedTest": null,
+    "path": "indep/results/263A-supp-2936885.json",
+    "sha256": "2ca6962bb7ef0d5379a3c2f6f21817bf302f5824d60321fb5948199a96a5473d",
+    "testsRun": 25,
+    "verdict": "AC"
+   },
+   "supp-2936889": {
+    "failedTest": null,
+    "path": "indep/results/263A-supp-2936889.json",
+    "sha256": "cd0e47005e8b128c1c2093ead194a6669dc9d7653d5adb6112494d978fb00132",
+    "testsRun": 25,
+    "verdict": "AC"
+   },
+   "supp-2936891": {
+    "failedTest": null,
+    "path": "indep/results/263A-supp-2936891.json",
+    "sha256": "e489432759b5324168915f6ca8a68564b3cfa67646e5e1b9d9434eb45ce69a24",
+    "testsRun": 25,
+    "verdict": "AC"
+   },
+   "supp-2936892": {
+    "failedTest": null,
+    "path": "indep/results/263A-supp-2936892.json",
+    "sha256": "44765d733ba720c3e2aca32ba66e3bcdd79927cd983eb64266e4120a729a43ee",
+    "testsRun": 25,
+    "verdict": "AC"
+   },
+   "supp-2936894": {
+    "failedTest": null,
+    "path": "indep/results/263A-supp-2936894.json",
+    "sha256": "735bc43448d8c733beec9b7a40e4c8b890918fa880c64242f4b35c8b19c72d8a",
+    "testsRun": 25,
+    "verdict": "AC"
+   },
+   "supp-validator": {
+    "failedTest": null,
+    "path": "indep/results/263A-supp-validator.json",
+    "sha256": "0cf29a6b5e0300abc7ecb325c67ba40dfaed0711ddc87a2c7e7b5ea2d3216174",
+    "testsRun": 25,
+    "verdict": "AC"
+   },
+   "validator": {
+    "failedTest": null,
+    "path": "indep/results/263A-validator.json",
+    "sha256": "55ce7b6c3e6cf38b054f6b6b5f8f61c33b50704c43c8d96977597987e9cb35bb",
+    "testsRun": 27,
+    "verdict": "AC"
+   }
+  },
+  "suppGenerator": {
+   "path": "indep/supp.py",
+   "seed": 20261013,
+   "sha256": "1a687cd5788f61538dcfafa6ac31478ed309c2d1d82e37a7777222407aff8b9a"
+  },
+  "validator": {
+   "path": "indep/val_263A.py",
+   "sha256": "e97136ef645b3055ceffa75a516f1d53e50dc0c7066e84637368c513c961b697"
+  }
+ }
+}

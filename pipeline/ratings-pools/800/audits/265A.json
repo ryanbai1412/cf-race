@@ -1,0 +1,52 @@
+{
+ "approved": false,
+ "checks": {
+  "algorithmicallyWrong": false,
+  "coverage": false,
+  "fiveAcceptedFiveIncorrect": false,
+  "fullTests": false,
+  "hashes": true,
+  "inputConstraints": false,
+  "noSpecialChecker": true,
+  "sourceAttribution": false,
+  "statementComplete": true
+ },
+ "evidenceHash": "f8e60bfb4810599b7b3a310f526ba636859506c0137630259774606dc42ac81c",
+ "incorrectAnalysis": {
+  "77305851": {
+   "algorithmic": true,
+   "kind": "wrong-answer",
+   "reason": "loop bound min(|s|,|t|) drops instructions when |s|<|t|; on 0007 (|s|=20,|t|=30) LF output 10, answer 15",
+   "test": "0007"
+  },
+  "77455513": {
+   "algorithmic": true,
+   "kind": "wrong-answer",
+   "reason": "prints 0-based pointer instead of 1-based position; on 0001 RGB/RRR pointer=1 so prints 1, answer 2",
+   "test": "0001"
+  },
+  "78578394": {
+   "algorithmic": false,
+   "kind": "wrong-answer",
+   "reason": "wrong-problem code: prints the number of equal adjacent pairs of t (the 266A 'Stones on the Table' computation) and ignores s",
+   "test": "0004"
+  },
+  "81342486": {
+   "algorithmic": false,
+   "kind": "wrong-answer",
+   "reason": "debug prints of every instruction/stone pair and 'match' lines contaminate output (final value also 0-based); not a clean algorithmic counterexample",
+   "test": "0001"
+  },
+  "83930253": {
+   "algorithmic": false,
+   "kind": "wrong-answer",
+   "reason": "compares s[i] with s[p] (s against itself) and never reads the instruction string t; output independent of instructions, not a solution attempt for this problem",
+   "test": "0001"
+  }
+ },
+ "packageHash": "cac8193400179531b854b078f2c57c43c9fb953bb7659a568af843cd7558a8a7",
+ "qualificationBasis": "official",
+ "reason": "counted incorrect 78578394 is wrong-problem code (266A adjacent-pair count on t), 83930253 never uses t, and 81342486 output is contaminated by debug prints",
+ "reviewUrl": "https://staging.itsdev.in/sessions/cc95519355f04cde8dd169765db3c419",
+ "reviewer": "devin-cc95519355f04cde8dd169765db3c419"
+}

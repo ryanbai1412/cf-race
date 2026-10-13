@@ -1,0 +1,274 @@
+{
+ "approved": true,
+ "checks": {
+  "algorithmicallyWrong": true,
+  "coverage": true,
+  "deterministicGeneration": true,
+  "fiveAcceptedFiveIncorrect": true,
+  "fullTests": true,
+  "generatedBasis": true,
+  "hashes": true,
+  "independentOracle": true,
+  "inputConstraints": true,
+  "noSpecialChecker": true,
+  "sourceAttribution": true,
+  "statementComplete": true
+ },
+ "evidenceHash": "1dc67cfbcf853a24df54a56403c84e58bbd7c91fc4d8ced0078726bcce5df8a3",
+ "incorrectAnalysis": {
+  "3879752": {
+   "actualLF": "2\n",
+   "actualRaw": "2\n",
+   "algorithmic": true,
+   "expected": "5\n",
+   "explanation": "n=4, d=2 3 4 9, s=1, t=3: clockwise arc 1->3 = 2+3 = 5, other arc = 4+9 = 13, answer 5; check1=5, check2 = prefix up to s=1 = d[0] = 2, prints min(5,2)=2",
+   "faultyCode": [
+    "check2 = 0",
+    "count = 0",
+    "while count<wantDis[0]:",
+    "\tcheck2+=distance[count]"
+   ],
+   "inputHasCRLF": true,
+   "inputLF": "4\n2 3 4 9\n1 3\n",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "reason": "second candidate sums the prefix d[0..s-2] (from station 1 to s) instead of the complementary arc from t around to s",
+   "sourceHash": "645356f16927b6d4704478bf88bf292b5958cb6597851505c766d1684c7decc0",
+   "sourceLines": [
+    10,
+    13
+   ],
+   "sourceProvenance": {
+    "dataset": "open-r1/codeforces-submissions",
+    "path": "data/train-00022-of-00036.parquet",
+    "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+    "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed"
+   },
+   "sourceUrl": "https://codeforces.com/contest/278/submission/3879752",
+   "test": "0001",
+   "verdictLF": "WA",
+   "verdictRaw": "WA"
+  },
+  "3879758": {
+   "actualLF": "2\n",
+   "actualRaw": "2\n",
+   "algorithmic": true,
+   "expected": "1\n",
+   "explanation": "n=3, d=1 1 1, s=3, t=1: arc 1->3 = 1+1 = 2, opposite arc = d3 = 1, answer 1; program prints check1=2",
+   "faultyCode": [
+    "if wantDis[1]==numStation:"
+   ],
+   "inputHasCRLF": true,
+   "inputLF": "3\n1 1 1\n3 1\n",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "reason": "numStation is the unconverted input() string so the comparison with an int is never true; the program therefore only ever outputs the arc from min(s,t) to max(s,t) and never considers the opposite direction",
+   "sourceHash": "a4331d6e767ef2444d30f808604ddd056836332441f357be1903b1ea219304ff",
+   "sourceLines": [
+    12,
+    12
+   ],
+   "sourceProvenance": {
+    "dataset": "open-r1/codeforces-submissions",
+    "path": "data/train-00022-of-00036.parquet",
+    "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+    "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed"
+   },
+   "sourceUrl": "https://codeforces.com/contest/278/submission/3879758",
+   "test": "0003",
+   "verdictLF": "WA",
+   "verdictRaw": "WA"
+  },
+  "3879951": {
+   "actualLF": "19\n",
+   "actualRaw": "19\n",
+   "algorithmic": true,
+   "expected": "18\n",
+   "explanation": "n=7, d=2 3 17 10 2 2 2, s=4, t=2 -> sorted (2,4): arc 2->4 = 3+17 = 20; other arc = d4..d7 + d1 = 10+2+2+2+2 = 18; program adds d[1]=3 instead of d[0]=2 giving 19, prints min(20,19)=19",
+   "faultyCode": [
+    "count = 1",
+    "while count<wantDis2[0]:",
+    "\tcheck2+=distance[count]"
+   ],
+   "inputHasCRLF": true,
+   "inputLF": "7\n2 3 17 10 2 2 2\n4 2\n",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "reason": "wrap-around arc adds d[1..s-1] (count starts at 1) instead of d[0..s-2], i.e. off by one station when closing the circle",
+   "sourceHash": "23c32f906b8a4b9246ab527c99057cc650dc86d815465f1b34af9d597baf729c",
+   "sourceLines": [
+    15,
+    17
+   ],
+   "sourceProvenance": {
+    "dataset": "open-r1/codeforces-submissions",
+    "path": "data/train-00022-of-00036.parquet",
+    "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+    "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed"
+   },
+   "sourceUrl": "https://codeforces.com/contest/278/submission/3879951",
+   "test": "0007",
+   "verdictLF": "WA",
+   "verdictRaw": "WA"
+  },
+  "6578233": {
+   "actualLF": "16\n",
+   "actualRaw": "16\n",
+   "algorithmic": true,
+   "expected": "18\n",
+   "explanation": "n=7, d=2 3 17 10 2 2 2, stations 4,2 -> a=1, b=3: f=3+17=20; walk from a=1: a->0 immediately rewritten to 6, adds st[6],st[5],st[4],st[3]=2+2+2+10=16 and stops at a=3, missing st[0]=2; prints 16, answer 18",
+   "faultyCode": [
+    "    if a == 0:",
+    "        a = n-1"
+   ],
+   "inputHasCRLF": true,
+   "inputLF": "7\n2 3 17 10 2 2 2\n4 2\n",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "reason": "counter-clockwise walk wraps to n-1 as soon as a reaches 0, before st[0] is added, so the segment d1 is skipped",
+   "sourceHash": "7d89b2e172029908fdaedd92df8ffcfafe7b0a3ec0e2a28d941734225063267f",
+   "sourceLines": [
+    16,
+    17
+   ],
+   "sourceProvenance": {
+    "dataset": "open-r1/codeforces-submissions",
+    "path": "data/train-00022-of-00036.parquet",
+    "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+    "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed"
+   },
+   "sourceUrl": "https://codeforces.com/contest/278/submission/6578233",
+   "test": "0007",
+   "verdictLF": "WA",
+   "verdictRaw": "WA"
+  },
+  "6995003": {
+   "actualLF": "0\n",
+   "actualRaw": "0\n",
+   "algorithmic": true,
+   "expected": "15\n",
+   "explanation": "n=4, d=5 8 2 100, s=4, t=1: range(3,0) is empty so sa6=0 and prints 0; arcs are 5+8+2 = 15 and 100, answer 15",
+   "faultyCode": [
+    "for t in range(sa5[0]-1, sa5[1]-1):"
+   ],
+   "inputHasCRLF": true,
+   "inputLF": "4\n5 8 2 100\n4 1\n",
+   "kind": "wrong-answer",
+   "language": "Python 3",
+   "reason": "does not order s and t, so when s>t the range is empty, the arc sum is 0 and min(0,total) = 0",
+   "sourceHash": "c31ff16b14d0a4ef9d5f38b0364858033d8d550e8806eb62aef4b37d68a44b87",
+   "sourceLines": [
+    8,
+    8
+   ],
+   "sourceProvenance": {
+    "dataset": "open-r1/codeforces-submissions",
+    "path": "data/train-00022-of-00036.parquet",
+    "revision": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068",
+    "sha256": "f02c2771071962c1bcbe4ea2abe0065da7fe10d26b9d0cce177aa7b722f3a4ed"
+   },
+   "sourceUrl": "https://codeforces.com/contest/278/submission/6995003",
+   "test": "0002",
+   "verdictLF": "WA",
+   "verdictRaw": "WA"
+  }
+ },
+ "packageHash": "16db48f9dd749b5daa079321fd03ce3f0b903452d13c1482f29f8a969e77bd08",
+ "qualificationBasis": "generated",
+ "reviewUrl": "https://staging.itsdev.in/sessions/cc95519355f04cde8dd169765db3c419",
+ "reviewer": "devin-cc95519355f04cde8dd169765db3c419",
+ "supplementary": {
+  "authoredInputs": 1558,
+  "pairsSha256": "6f6c258dd1264eb5c51439ed90c6dfc6226b0d1f0937ddccc0fae752689dd4be",
+  "reference": {
+   "independentOf": "builder solve() and all counted sources",
+   "path": "indep/ref_278A.py",
+   "sha256": "7b85ac973996d2a81c24656f946de11b8dc81178d655151c0b72a260ac87c807"
+  },
+  "runs": {
+   "generator-runs": {
+    "path": "indep/results/278A-generator-runs.json",
+    "sha256": "7dbe600d0228f201b2d2078162d4c85c480194b8d1e761910252fef40c892031"
+   },
+   "oracle": {
+    "failedTest": null,
+    "path": "indep/results/278A-oracle.json",
+    "sha256": "94c77986d68079404a7e8f487eb7dff03ddb9c11599166736db406de188c1ecf",
+    "testsRun": 184,
+    "verdict": "AC"
+   },
+   "oracle-supp": {
+    "failedTest": null,
+    "path": "indep/results/278A-oracle-supp.json",
+    "sha256": "3143fb5dc968135a88d79dd624afadaaaa254cbd378dcbe417ed4f6291ced10e",
+    "testsRun": 1558,
+    "verdict": "AC"
+   },
+   "reference": {
+    "failedTest": null,
+    "path": "indep/results/278A-reference.json",
+    "sha256": "c9078621d30a848432dfcafcd62c419081fc5696297c02e37dc394893ae823a9",
+    "testsRun": 184,
+    "verdict": "AC"
+   },
+   "supp-3208183": {
+    "failedTest": null,
+    "path": "indep/results/278A-supp-3208183.json",
+    "sha256": "c73c2c922e42229263ce9d2d4b38ab1ab6ad721d2ab540473afb960c4335342d",
+    "testsRun": 1558,
+    "verdict": "AC"
+   },
+   "supp-3208184": {
+    "failedTest": null,
+    "path": "indep/results/278A-supp-3208184.json",
+    "sha256": "fc8f87fa049353cde8a6e6c6559dd8c99d94c4f52a65731463227665a78a5171",
+    "testsRun": 1558,
+    "verdict": "AC"
+   },
+   "supp-3208185": {
+    "failedTest": null,
+    "path": "indep/results/278A-supp-3208185.json",
+    "sha256": "9841ddce00070011520aa33b7875c820dd064d815073d13068cea396a7866fa6",
+    "testsRun": 1558,
+    "verdict": "AC"
+   },
+   "supp-3208187": {
+    "failedTest": null,
+    "path": "indep/results/278A-supp-3208187.json",
+    "sha256": "ba33bdedaa00fcf5eed65fc63d3711b372e88df71af4ba9906aeab41f443113b",
+    "testsRun": 1558,
+    "verdict": "AC"
+   },
+   "supp-3208190": {
+    "failedTest": null,
+    "path": "indep/results/278A-supp-3208190.json",
+    "sha256": "ea0d576f865872cc67747d5e814e7d480d44e638ce3e10a51edb41fd71d89b19",
+    "testsRun": 1558,
+    "verdict": "AC"
+   },
+   "supp-validator": {
+    "failedTest": null,
+    "path": "indep/results/278A-supp-validator.json",
+    "sha256": "5724ffb16e7e28f48bf15d79444a55b40347006435857e35481a1280cf9b3f96",
+    "testsRun": 1558,
+    "verdict": "AC"
+   },
+   "validator": {
+    "failedTest": null,
+    "path": "indep/results/278A-validator.json",
+    "sha256": "68990115846fa75cfe05a4037d206850145b39d62735fe87e51f9118643d957f",
+    "testsRun": 184,
+    "verdict": "AC"
+   }
+  },
+  "suppGenerator": {
+   "path": "indep/supp.py",
+   "seed": 20261013,
+   "sha256": "1a687cd5788f61538dcfafa6ac31478ed309c2d1d82e37a7777222407aff8b9a"
+  },
+  "validator": {
+   "path": "indep/val_278A.py",
+   "sha256": "6ed03768c72fa8133e976e403db25abe3e26f864131b098a099cc37791a25429"
+  }
+ }
+}
