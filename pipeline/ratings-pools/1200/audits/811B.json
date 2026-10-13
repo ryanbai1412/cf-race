@@ -159,14 +159,54 @@
       "test": "0006"
     },
     "27391950": {
-      "algorithmicallyWrongOnFailedTest": false,
-      "kind": "excluded",
-      "reason": "Presentation-contaminated: every line fails on case alone, so the counted WA is not attributable to the algorithm without a case-normalized diagnostic copy. Not counted under the conservative policy.",
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "0003: correct Yes Yes Yes Yes Yes Yes Yes Yes Yes No, actual 'YES\\nYES\\nYES\\nYES\\nNO\\nYES\\nYES\\nYES\\nYES\\nNO'. P = 10 1 6 7 9 8 4 3 5 2. Query 5 \"1 6 5\": segment [10,1,6,7,9,8] sorts numerically to [1,6,7,8,9,10], so position 5 holds 9 = p5: Yes. The string sort gives [\"1\",\"10\",\"6\",\"7\",\"8\",\"9\"], so position 5 holds \"8\" != \"9\" and the code prints NO (the No boolean). The other 9 queries agree with the expected booleans up to case.",
+      "kind": "wrong-answer",
+      "reason": "Lexicographic string sort ranks \"10\" before \"6\", so for pages >= 10 the sorted segment differs from the numeric sort and the Yes/No boolean is wrong. Output case YES/NO is an additional, incidental presentation defect.",
       "semanticReview": {
-        "algorithmicWrong": false,
-        "excludedNonAlgorithmicCauses": "Presentation-contaminated: every line fails on case alone, so the counted WA is not attributable to the algorithm without a case-normalized diagnostic copy. Not counted under the conservative policy.",
-        "faultyLogic": "Output case is \"YES\"/\"NO\" where the statement requires \"Yes\"/\"No\" (presentation, fails every test). It also sorts decimal strings lexicographically (\"10\" < \"2\").",
-        "implementedAlgorithm": "Keeps P as STRINGS; per query sorts the substring list b lexicographically, splices it in, and prints \"YES\"/\"NO\" depending on whether a[x-1] is unchanged.",
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "YES\nYES\nYES\nYES\nNO\nYES\nYES\nYES\nYES\nNO",
+          "actualOutputHash": "38fb5446a5a3d99c94d13631b138a311201b9ba4e519ce900f69b6f23ed0a506",
+          "constraints": "1<=n,m<=10^4, P is a permutation of 1..n, 1<=l<=x<=r<=n.",
+          "correctAnswer": "Yes Yes Yes Yes Yes Yes Yes Yes Yes No",
+          "derivation": "P = 10 1 6 7 9 8 4 3 5 2. Query 5 \"1 6 5\": segment [10,1,6,7,9,8] sorts numerically to [1,6,7,8,9,10], so position 5 holds 9 = p5: Yes. The string sort gives [\"1\",\"10\",\"6\",\"7\",\"8\",\"9\"], so position 5 holds \"8\" != \"9\" and the code prints NO (the No boolean). The other 9 queries agree with the expected booleans up to case.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "normalExit": true,
+          "packageInputSha256": "f7e1cda66c5816f1c438c204a1e5fa883348b3114a2065cd243846b0b52390bd",
+          "proof": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "output": "YES\nYES\nYES\nYES\nNO\nYES\nYES\nYES\nYES\nNO\n",
+            "outputHash": "38fb5446a5a3d99c94d13631b138a311201b9ba4e519ce900f69b6f23ed0a506",
+            "path": "archive/811B/sub-27391950-lf-0003.json",
+            "receipt": {
+              "sourceFileSha256": "c85ce98263ca2dcf2c00b142634282ff8a07f0f4fab7aac9f9392b2097564520",
+              "sourceHash": "c85ce98263ca2dcf2c00b142634282ff8a07f0f4fab7aac9f9392b2097564520",
+              "sourcePath": "archive/811B/source-27391950.txt",
+              "summaryPath": "archive/811B/summary.json",
+              "summarySha256": "5b28e985c3fe9cc9e69a3c60a0375216262e9b983ce893f0b2cdf43281c2cff0"
+            },
+            "sha256": "51f5c424a61cd9b3b5f0860093674cdc8b43b871a2937b0ef73be0d1d939beea",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "sameAsEvidenceFailedTest": true,
+          "test": "0003",
+          "validLFInput": "10 10\n10 1 6 7 9 8 4 3 5 2\n1 1 1\n4 4 4\n7 7 7\n3 3 3\n1 6 5\n2 6 2\n6 8 7\n1 1 1\n7 9 9\n2 9 4\n",
+          "validLFInputSha256": "cafd4a5697550dd154651aaeb15016c24a23282921fecfbb3f6211aafcc2d753",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Counted on the boolean, not on case: after case-normalizing the observed output, query 5 of included test 0003 is still the wrong boolean. That comes from the string sort (lines 4, 11-13) in the unchanged source, with a normal-exit LF log.",
+        "faultyLogic": "Lexicographic string sort ranks \"10\" before \"6\", so for pages >= 10 the sorted segment differs from the numeric sort and the Yes/No boolean is wrong. Output case YES/NO is an additional, incidental presentation defect.",
+        "implementedAlgorithm": "Keeps P as STRINGS (line 4); per query copies a=p, sorts b=a[l-1:r] lexicographically (lines 11-12), splices it back (line 13), prints \"YES\" if p[x-1]==a[x-1] else \"NO\" (lines 14-17).",
         "language": "Python 3",
         "lfExecution": {
           "compilerFlags": [
@@ -196,9 +236,14 @@
         "sourceHash": "c85ce98263ca2dcf2c00b142634282ff8a07f0f4fab7aac9f9392b2097564520",
         "sourceLines": [
           {
-            "code": "p=list(input().split(\" \"))\nl=-1\nr=-1\nx=-1\nfor y in range(m):\n    a=p\n    l,r,x=(int(q) for q in input().split(\" \"))\n    b=a[l-1:r]\n    b.sort()\n    a=a[:l-1]+b+a[r:]\n    if p[x-1]==a[x-1]:\n        print(\"YES\")\n    else:\n        print(\"NO\")",
-            "end": 17,
+            "code": "p=list(input().split(\" \"))",
+            "end": 4,
             "start": 4
+          },
+          {
+            "code": "for y in range(m):\n    a=p\n    l,r,x=(int(q) for q in input().split(\" \"))\n    b=a[l-1:r]\n    b.sort()\n    a=a[:l-1]+b+a[r:]\n    if p[x-1]==a[x-1]:\n        print(\"YES\")\n    else:\n        print(\"NO\")",
+            "end": 17,
+            "start": 8
           }
         ]
       },
@@ -297,8 +342,12 @@
   "reasons": [
     "Counted incorrect 27387761, 27388404 and 27390600 are TIME_LIMIT_EXCEEDED (correct O(n*m) rank counting, TLE on 0006).",
     "Counted incorrect 27391950 prints \"YES\"/\"NO\" where \"Yes\"/\"No\" is required, so it fails every test on case alone (presentation-contaminated, not counted).",
-    "Only 1 genuine algorithmic wrong answer (27392096)."
+    "27391950 is counted: its string sort gives the wrong boolean on 0003 query 5 independent of case. That leaves 2 genuine algorithmic wrong answers (27391950, 27392096)."
   ],
+  "reclassification": {
+    "previousAuditFileSha256": "428496d7445596ab2826838bfbfbd2be7b6e5d8a3779054de3b384f9a4a37faa",
+    "reason": "Parent primary read: the case-mismatched source also has a genuine boolean fault on its unchanged included failedTest; reclassified from excluded to counted with source-specific proof. Package bytes unchanged."
+  },
   "reviewUrl": "https://staging.itsdev.in/sessions/5e1f99ced59a4a219ae81a8e70c05226",
   "reviewer": "devin-5e1f99ced59a4a219ae81a8e70c05226",
   "sandbox": {
@@ -317,7 +366,7 @@
   },
   "semanticReview": {
     "acceptedSourcesRead": 5,
-    "genuineAlgorithmicWrong": 1,
+    "genuineAlgorithmicWrong": 2,
     "method": "Full code of every accepted and designated-wrong source read by hand; per-source algorithm, fault, exact lines; counted counterexamples derived by hand from the statement, checked against the package answer and an independent brute force, and bound to the normal-exit LF sandbox log.",
     "performed": true,
     "sourcesReviewed": 5

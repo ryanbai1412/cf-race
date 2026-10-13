@@ -1,12 +1,12 @@
 {
-  "approved": false,
+  "approved": true,
   "baseCommit": "d11faff5231965a95044873c99042e2bec7bae2d",
   "bundleSha256": "fd7665582d7f84a4af7e83ac2c4de81621b65e26d2b9a00c078e054eb54e47d1",
   "checks": {
-    "algorithmicallyWrong": false,
+    "algorithmicallyWrong": true,
     "coverage": true,
     "deterministicGeneration": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "generatedBasis": true,
     "hashes": true,
@@ -21,14 +21,54 @@
   "id": "817A",
   "incorrectAnalysis": {
     "27796278": {
-      "algorithmicallyWrongOnFailedTest": false,
-      "kind": "excluded",
-      "reason": "Presentation-contaminated: the lowercase output fails every test regardless of logic. Its counted WA (\"yes\" vs NO) can only be read as a mathematical error by case-normalizing the output, which is a diagnostic interpretation. Not counted under the conservative policy (parent may decide otherwise).",
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "0002: correct NO, actual 'yes'. 1 1 3 6 / 1 5: dx=2 and x=1 give 2 x-steps; dy=5 and y=5 give 1 y-step. Each move changes both coordinates, so the step counts must have equal parity; 2 and 1 differ, so NO. Both divisibility tests pass, so the code prints yes (= YES).",
+      "kind": "wrong-answer",
+      "reason": "Omits the required equal parity of the horizontal and vertical step counts (dx/x and dy/y). Lowercase yes/no is an additional, incidental presentation defect.",
       "semanticReview": {
-        "algorithmicWrong": false,
-        "excludedNonAlgorithmicCauses": "Presentation-contaminated: the lowercase output fails every test regardless of logic. Its counted WA (\"yes\" vs NO) can only be read as a mathematical error by case-normalizing the output, which is a diagnostic interpretation. Not counted under the conservative policy (parent may decide otherwise).",
-        "faultyLogic": "Missing the parity condition (dx/x and dy/y must have equal parity). It also prints lowercase yes/no where the statement requires YES/NO.",
-        "implementedAlgorithm": "Checks only (x1-x2)%a==0 and (y1-y2)%b==0 and prints lowercase \"yes\"/\"no\".",
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "yes",
+          "actualOutputHash": "5040625b1fb6fa4af07226683f6e6003b29e5e70b16f8cfb24be7a752393f0ee",
+          "constraints": "-10^5<=x1,y1,x2,y2<=10^5 and 1<=x,y<=10^5.",
+          "correctAnswer": "NO",
+          "derivation": "1 1 3 6 / 1 5: dx=2 and x=1 give 2 x-steps; dy=5 and y=5 give 1 y-step. Each move changes both coordinates, so the step counts must have equal parity; 2 and 1 differ, so NO. Both divisibility tests pass, so the code prints yes (= YES).",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "normalExit": true,
+          "packageInputSha256": "99fd7f3530ee097e489a11033c0c63dabefa49db6eb51aae5df71cf58a9d65b9",
+          "proof": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "output": "yes\n",
+            "outputHash": "5040625b1fb6fa4af07226683f6e6003b29e5e70b16f8cfb24be7a752393f0ee",
+            "path": "archive/817A/sub-27796278-lf-0002.json",
+            "receipt": {
+              "sourceFileSha256": "0f6ca96d55acf9aa343aa0b069d9a539cbe6b9a08daa25ba70701bebc809b725",
+              "sourceHash": "0f6ca96d55acf9aa343aa0b069d9a539cbe6b9a08daa25ba70701bebc809b725",
+              "sourcePath": "archive/817A/source-27796278.txt",
+              "summaryPath": "archive/817A/summary.json",
+              "summarySha256": "f66ef2bfd957a6d6208036a5439a128160037661061b5f02a806c6f774eb992c"
+            },
+            "sha256": "dcd66f6ab59ad98e17b955a0400e0fa3c936510979730cdd102864f12c557b73",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "sameAsEvidenceFailedTest": true,
+          "test": "0002",
+          "validLFInput": "1 1 3 6\n1 5\n",
+          "validLFInputSha256": "a198fd057031b219f3b971a0e124186e4c219f5a59a1d789209f1de2a2df2431",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Counted on the boolean, not on case: on included test 0002 the case-normalized observed answer YES contradicts the mathematical NO, because of the missing parity check, in the unchanged source with a normal-exit LF log.",
+        "faultyLogic": "Omits the required equal parity of the horizontal and vertical step counts (dx/x and dy/y). Lowercase yes/no is an additional, incidental presentation defect.",
+        "implementedAlgorithm": "Prints yes iff (x1-x2)%a==0 and (y1-y2)%b==0 (lines 3-6), lowercase.",
         "language": "Python 3",
         "lfExecution": {
           "compilerFlags": [
@@ -414,10 +454,10 @@
   "packageHash": "9ae2ee66e3b7a936ad022e9e1ee2935110ad5b7219458324dfa4292298c665f2",
   "qualificationBasis": "generated",
   "rating": 1200,
-  "reasons": [
-    "Counted incorrect 27796278 prints lowercase \"yes\"/\"no\" where \"YES\"/\"NO\" is required, so it fails every test on case alone; reading its WA as a mathematical error would need case normalization (diagnostic interpretation). Excluded under the conservative policy, leaving 4 genuine algorithmic wrong answers (27796689, 27796939, 27797665, 27797920).",
-    "Additional concern: accepted 27796232 declares int x[0] and writes x[0], x[1] (out-of-bounds, undefined behaviour). It passed every supplied test in this sandbox, but its acceptance depends on memory layout."
-  ],
+  "reclassification": {
+    "previousAuditFileSha256": "b673ef6cfefa48e6d95ea04e13b67255e29ea295058847460e9934130f413d37",
+    "reason": "Parent primary read: the case-mismatched source also has a genuine boolean fault on its unchanged included failedTest; reclassified from excluded to counted with source-specific proof. Package bytes unchanged."
+  },
   "reviewUrl": "https://staging.itsdev.in/sessions/5e1f99ced59a4a219ae81a8e70c05226",
   "reviewer": "devin-5e1f99ced59a4a219ae81a8e70c05226",
   "sandbox": {
@@ -436,7 +476,7 @@
   },
   "semanticReview": {
     "acceptedSourcesRead": 5,
-    "genuineAlgorithmicWrong": 4,
+    "genuineAlgorithmicWrong": 5,
     "method": "Full code of every accepted and designated-wrong source read by hand; per-source algorithm, fault, exact lines; counted counterexamples derived by hand from the statement, checked against the package answer and an independent brute force, and bound to the normal-exit LF sandbox log.",
     "performed": true,
     "sourcesReviewed": 5
@@ -628,5 +668,8 @@
         "submissionId": "27797920"
       }
     ]
-  }
+  },
+  "warnings": [
+    "Accepted 27796232 declares int x[0] and writes x[0], x[1] (out of bounds, undefined behaviour). In this pinned sandbox (executionVersion 2, -O2) it gave AC on all 182 package tests and all extra tests, so no runtime contradiction was observed. The acceptance is layout-dependent; the parent may hold 817A on this runtime risk."
+  ]
 }
