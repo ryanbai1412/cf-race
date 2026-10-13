@@ -1,0 +1,591 @@
+{
+  "approved": false,
+  "baseCommit": "d11faff5231965a95044873c99042e2bec7bae2d",
+  "bundleSha256": "fd7665582d7f84a4af7e83ac2c4de81621b65e26d2b9a00c078e054eb54e47d1",
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceFileSha256": "55a41207a74ff47bcb9fb7c1d0d4bb74caa03d23dfddefe1423ac71e0fc8fdb6",
+  "evidenceHash": "bbec624146eabb7470043efdb9567060883821f4e00f941b5f3d1f7f055d054d",
+  "generationMode": "extensive",
+  "id": "787A",
+  "incorrectAnalysis": {
+    "25737083": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "0012: correct 1278, actual '0'. a=b=18, c=d=71. Rick screams at multiples of 18 from 18; Morty at multiples of 71 from 71. The first common time is lcm(18,71) = 1278. The code accepts t=0 since (0-18)%18 = 0 and (0-71)%71 = 0.",
+      "kind": "wrong-answer",
+      "reason": "The scan starts at t = 0 instead of max(b,d). Python % is non-negative for negative t-b, so a time before either first scream is accepted.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "0",
+          "actualOutputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "constraints": "1<=a,b<=100 and 1<=c,d<=100 (two lines of two integers).",
+          "correctAnswer": "1278",
+          "derivation": "a=b=18, c=d=71. Rick screams at multiples of 18 from 18; Morty at multiples of 71 from 71. The first common time is lcm(18,71) = 1278. The code accepts t=0 since (0-18)%18 = 0 and (0-71)%71 = 0.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "normalExit": true,
+          "packageInputSha256": "b7948b2ad04c6fbb8b6f7f99cf67791398b98143e9dd5b1f336fa6fedd1bab3a",
+          "proof": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "output": "0\n",
+            "outputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+            "path": "archive/787A/sub-25737083-lf-0012.json",
+            "receipt": {
+              "sourceFileSha256": "30550f1db8ffe6079840727281f8c739389987472b9f99545c00034b054f13a2",
+              "sourceHash": "30550f1db8ffe6079840727281f8c739389987472b9f99545c00034b054f13a2",
+              "sourcePath": "archive/787A/source-25737083.txt",
+              "summaryPath": "archive/787A/summary.json",
+              "summarySha256": "e0c5fa07ea99e8a2e43133ea3bc6141add0494a5ec3828c1c51c119f9120e453"
+            },
+            "sha256": "af5db3c9501783b5e22107d6d89c674a1722a24bf70eca7d1e4accf0b345eac8",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "sameAsEvidenceFailedTest": true,
+          "test": "0012",
+          "validLFInput": "18 18\n71 71\n",
+          "validLFInputSha256": "589e859e166c7ef046773e04fe00255498d08f2200a062a21c6889505a74b27d",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens; the LF rerun gives the same output; no diagnostics; normal exit, not TLE/RE.",
+        "faultyLogic": "The scan starts at t = 0 instead of max(b,d). Python % is non-negative for negative t-b, so a time before either first scream is accepted.",
+        "implementedAlgorithm": "Checks gcd(a,c) | (b-d), then scans t = 0,1,... and prints the first t with (t-b)%a==0 and (t-d)%c==0.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": 0,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "0\n",
+          "outputHash": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "path": "archive/787A/sub-25737083-lf-0012.json",
+          "receipt": {
+            "sourceFileSha256": "30550f1db8ffe6079840727281f8c739389987472b9f99545c00034b054f13a2",
+            "sourceHash": "30550f1db8ffe6079840727281f8c739389987472b9f99545c00034b054f13a2",
+            "sourcePath": "archive/787A/source-25737083.txt",
+            "summaryPath": "archive/787A/summary.json",
+            "summarySha256": "e0c5fa07ea99e8a2e43133ea3bc6141add0494a5ec3828c1c51c119f9120e453"
+          },
+          "sha256": "af5db3c9501783b5e22107d6d89c674a1722a24bf70eca7d1e4accf0b345eac8",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "problemSemantics": "Rick screams at b, b+a, b+2a, ...; Morty at d, d+c, .... Answer = the smallest t >= max(b,d) with t = b (mod a) and t = d (mod c), or -1. A solution exists iff gcd(a,c) divides d-b, and then t <= max(b,d) + lcm(a,c).",
+        "recordedFailedTest": "0012",
+        "sourceHash": "30550f1db8ffe6079840727281f8c739389987472b9f99545c00034b054f13a2",
+        "sourceLines": [
+          {
+            "code": "g = gcd(a, c)\ndif = abs(b-d)\nif dif%g==0:\n\tfor t in range(1000000):\n\t\tif (t-b)%a==0 and (t-d)%c==0:\n\t\t\tprint(t)\n\t\t\tbreak\nelse:\n\tprint(-1)",
+            "end": 14,
+            "start": 6
+          }
+        ]
+      },
+      "test": "0012"
+    },
+    "25737335": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "0035: correct 100, actual '1'. a=b=1, c=1, d=100. Rick screams at 1,2,3,...; Morty at 100,101,..., so the first common time is 100. With c=1 the condition holds at i=0, so it prints b = 1.",
+      "kind": "wrong-answer",
+      "reason": "Never requires b+a*i >= d, so it can print a Rick time earlier than Morty's first scream.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1",
+          "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "constraints": "1<=a,b<=100 and 1<=c,d<=100 (two lines of two integers).",
+          "correctAnswer": "100",
+          "derivation": "a=b=1, c=1, d=100. Rick screams at 1,2,3,...; Morty at 100,101,..., so the first common time is 100. With c=1 the condition holds at i=0, so it prints b = 1.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "normalExit": true,
+          "packageInputSha256": "4d005404024701267cf26cc7728f358db49cde41e62b8c6a001d36b56d5238c9",
+          "proof": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "output": "1\n",
+            "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+            "path": "archive/787A/sub-25737335-lf-0035.json",
+            "receipt": {
+              "sourceFileSha256": "b6692e847b07d3e9e5b8a43c749f8542c491d9ad8cfaff94136bc62cce1a839f",
+              "sourceHash": "b6692e847b07d3e9e5b8a43c749f8542c491d9ad8cfaff94136bc62cce1a839f",
+              "sourcePath": "archive/787A/source-25737335.txt",
+              "summaryPath": "archive/787A/summary.json",
+              "summarySha256": "e0c5fa07ea99e8a2e43133ea3bc6141add0494a5ec3828c1c51c119f9120e453"
+            },
+            "sha256": "2fc522133648563f33cd9258d3eb63a8c17d6bad4b5b0188ee7da6b4490dfe8d",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "sameAsEvidenceFailedTest": true,
+          "test": "0035",
+          "validLFInput": "1 1\n1 100\n",
+          "validLFInputSha256": "c3919aadae27a5d4dab9dd1d2f28808f92d8f33576451ac1970b5d3d76d0b787",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens; LF rerun same; no diagnostics; normal exit.",
+        "faultyLogic": "Never requires b+a*i >= d, so it can print a Rick time earlier than Morty's first scream.",
+        "implementedAlgorithm": "Finds the smallest i in [0,1e5) with (b-d+a*i)%c==0 and prints b+a*i.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": 0,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "1\n",
+          "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "path": "archive/787A/sub-25737335-lf-0035.json",
+          "receipt": {
+            "sourceFileSha256": "b6692e847b07d3e9e5b8a43c749f8542c491d9ad8cfaff94136bc62cce1a839f",
+            "sourceHash": "b6692e847b07d3e9e5b8a43c749f8542c491d9ad8cfaff94136bc62cce1a839f",
+            "sourcePath": "archive/787A/source-25737335.txt",
+            "summaryPath": "archive/787A/summary.json",
+            "summarySha256": "e0c5fa07ea99e8a2e43133ea3bc6141add0494a5ec3828c1c51c119f9120e453"
+          },
+          "sha256": "2fc522133648563f33cd9258d3eb63a8c17d6bad4b5b0188ee7da6b4490dfe8d",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "problemSemantics": "Rick screams at b, b+a, b+2a, ...; Morty at d, d+c, .... Answer = the smallest t >= max(b,d) with t = b (mod a) and t = d (mod c), or -1. A solution exists iff gcd(a,c) divides d-b, and then t <= max(b,d) + lcm(a,c).",
+        "recordedFailedTest": "0035",
+        "sourceHash": "b6692e847b07d3e9e5b8a43c749f8542c491d9ad8cfaff94136bc62cce1a839f",
+        "sourceLines": [
+          {
+            "code": "breaker=0\nfor i in range(100000):\n    if (b-d+a*i)%c==0:\n        breaker=1\n        ans=(b-d+a*i)\n        break\nif breaker==1:\n    print(int(ans+d))\nelse:\n    print(-1)",
+            "end": 12,
+            "start": 3
+          }
+        ]
+      },
+      "test": "0035"
+    },
+    "25738220": {
+      "algorithmicallyWrongOnFailedTest": true,
+      "counterexample": "0035: correct 100, actual '1'. Same case 1 1 / 1 100: correct 100. At i=0, dp=1 and (1-100)%1 = 0, so it prints 1.",
+      "kind": "wrong-answer",
+      "reason": "No dp >= d requirement (and only c+1 candidates), so early Rick times are accepted.",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1",
+          "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "constraints": "1<=a,b<=100 and 1<=c,d<=100 (two lines of two integers).",
+          "correctAnswer": "100",
+          "derivation": "Same case 1 1 / 1 100: correct 100. At i=0, dp=1 and (1-100)%1 = 0, so it prints 1.",
+          "includedInPackage": true,
+          "lfNormalization": "CRLF->LF on audit copy only",
+          "normalExit": true,
+          "packageInputSha256": "4d005404024701267cf26cc7728f358db49cde41e62b8c6a001d36b56d5238c9",
+          "proof": {
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "exitCode": 0,
+            "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+            "output": "1\n",
+            "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+            "path": "archive/787A/sub-25738220-lf-0035.json",
+            "receipt": {
+              "sourceFileSha256": "0b7f5564a6677292ad6a30cb796bf6b37339889db0a16201bfb3c551bfb979ca",
+              "sourceHash": "0b7f5564a6677292ad6a30cb796bf6b37339889db0a16201bfb3c551bfb979ca",
+              "sourcePath": "archive/787A/source-25738220.txt",
+              "summaryPath": "archive/787A/summary.json",
+              "summarySha256": "e0c5fa07ea99e8a2e43133ea3bc6141add0494a5ec3828c1c51c119f9120e453"
+            },
+            "sha256": "f110449fa32a0d0ab505d748011b8c6d504746fbeeca646c171015bf37a1fe9a",
+            "timeout": false,
+            "verdict": "WA"
+          },
+          "sameAsEvidenceFailedTest": true,
+          "test": "0035",
+          "validLFInput": "1 1\n1 100\n",
+          "validLFInputSha256": "c3919aadae27a5d4dab9dd1d2f28808f92d8f33576451ac1970b5d3d76d0b787",
+          "withinConstraints": true
+        },
+        "excludedNonAlgorithmicCauses": "Integer tokens; LF rerun same; no diagnostics; normal exit.",
+        "faultyLogic": "No dp >= d requirement (and only c+1 candidates), so early Rick times are accepted.",
+        "implementedAlgorithm": "For i in 0..c: dp = b+i*a; prints the first dp with (dp-d)%c==0, else -1.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": 0,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "1\n",
+          "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "path": "archive/787A/sub-25738220-lf-0035.json",
+          "receipt": {
+            "sourceFileSha256": "0b7f5564a6677292ad6a30cb796bf6b37339889db0a16201bfb3c551bfb979ca",
+            "sourceHash": "0b7f5564a6677292ad6a30cb796bf6b37339889db0a16201bfb3c551bfb979ca",
+            "sourcePath": "archive/787A/source-25738220.txt",
+            "summaryPath": "archive/787A/summary.json",
+            "summarySha256": "e0c5fa07ea99e8a2e43133ea3bc6141add0494a5ec3828c1c51c119f9120e453"
+          },
+          "sha256": "f110449fa32a0d0ab505d748011b8c6d504746fbeeca646c171015bf37a1fe9a",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "problemSemantics": "Rick screams at b, b+a, b+2a, ...; Morty at d, d+c, .... Answer = the smallest t >= max(b,d) with t = b (mod a) and t = d (mod c), or -1. A solution exists iff gcd(a,c) divides d-b, and then t <= max(b,d) + lcm(a,c).",
+        "recordedFailedTest": "0035",
+        "sourceHash": "0b7f5564a6677292ad6a30cb796bf6b37339889db0a16201bfb3c551bfb979ca",
+        "sourceLines": [
+          {
+            "code": "ans = -1\nfor i in range (c + 1):\n    dp = i * a + b\n    if ((dp - d) % c == 0):\n        ans = dp\n        break\nprint(ans)",
+            "end": 9,
+            "start": 3
+          }
+        ]
+      },
+      "test": "0035"
+    },
+    "25738368": {
+      "algorithmicallyWrongOnFailedTest": false,
+      "kind": "complexity",
+      "reason": "TLE-only: upstream TIME_LIMIT_EXCEEDED, recorded TLE on 0010 (15 63 / 51 13: gcd 3 does not divide 50, and the parity rules do not fire), no output. Non-termination is not counted.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "TLE-only: upstream TIME_LIMIT_EXCEEDED, recorded TLE on 0010 (15 63 / 51 13: gcd 3 does not divide 50, and the parity rules do not fire), no output. Non-termination is not counted.",
+        "faultyLogic": "Every impossible case not caught by the two parity patterns loops forever.",
+        "implementedAlgorithm": "Walks Rick times b+i*a until one is >= d and congruent to d mod c. Two parity shortcuts print -1 for some impossible cases; there is no general impossibility test.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": -24,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "archive/787A/sub-25738368-lf-0010.json",
+          "receipt": {
+            "sourceFileSha256": "001ccc5845fdda008fd9959fb5e49e93d310b4e14b897b5085d0e6214a0a9034",
+            "sourceHash": "001ccc5845fdda008fd9959fb5e49e93d310b4e14b897b5085d0e6214a0a9034",
+            "sourcePath": "archive/787A/source-25738368.txt",
+            "summaryPath": "archive/787A/summary.json",
+            "summarySha256": "e0c5fa07ea99e8a2e43133ea3bc6141add0494a5ec3828c1c51c119f9120e453"
+          },
+          "sha256": "4d36b6844132b455c6fbbe10f2e68511b83cf6e6a896797eedca3905dbf9b1b9",
+          "timeout": true,
+          "verdict": "TLE"
+        },
+        "problemSemantics": "Rick screams at b, b+a, b+2a, ...; Morty at d, d+c, .... Answer = the smallest t >= max(b,d) with t = b (mod a) and t = d (mod c), or -1. A solution exists iff gcd(a,c) divides d-b, and then t <= max(b,d) + lcm(a,c).",
+        "recordedFailedTest": "0010",
+        "sourceHash": "001ccc5845fdda008fd9959fb5e49e93d310b4e14b897b5085d0e6214a0a9034",
+        "sourceLines": [
+          {
+            "code": "    i = 0\n    while True:\n        rick = b + i * a\n        i += 1\n        if rick >= d and (rick - d) % c == 0:\n            print(rick)\n            exit()\n        if b % 2 == 0 and a % 2 == 0 and d % 2 == 1 and c % 2 == 0:\n            print(-1)\n            exit()\n        elif b % 2 == 1 and a % 2 == 0 and d % 2 == 0 and c % 2 == 0:\n            print(-1)\n            exit()",
+            "end": 19,
+            "start": 7
+          }
+        ]
+      },
+      "test": "0010"
+    },
+    "25738954": {
+      "algorithmicallyWrongOnFailedTest": false,
+      "kind": "complexity",
+      "reason": "TLE-only: upstream TIME_LIMIT_EXCEEDED, recorded TLE on 0010, no output.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "TLE-only: upstream TIME_LIMIT_EXCEEDED, recorded TLE on 0010, no output.",
+        "faultyLogic": "Same non-termination when the sequences never meet and the parity shortcut does not apply.",
+        "implementedAlgorithm": "Parity shortcut for -1, then two-pointer merge of both arithmetic sequences until they meet.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": -24,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "archive/787A/sub-25738954-lf-0010.json",
+          "receipt": {
+            "sourceFileSha256": "a01ff7ec1bdf6c26e987947c020cfc5ff7f2ad0d60f168a952ecdd961c2f0150",
+            "sourceHash": "a01ff7ec1bdf6c26e987947c020cfc5ff7f2ad0d60f168a952ecdd961c2f0150",
+            "sourcePath": "archive/787A/source-25738954.txt",
+            "summaryPath": "archive/787A/summary.json",
+            "summarySha256": "e0c5fa07ea99e8a2e43133ea3bc6141add0494a5ec3828c1c51c119f9120e453"
+          },
+          "sha256": "91a02c05728b5e567a2148eb58f66625a75ea6188ec8fbd907868dceec00a59d",
+          "timeout": true,
+          "verdict": "TLE"
+        },
+        "problemSemantics": "Rick screams at b, b+a, b+2a, ...; Morty at d, d+c, .... Answer = the smallest t >= max(b,d) with t = b (mod a) and t = d (mod c), or -1. A solution exists iff gcd(a,c) divides d-b, and then t <= max(b,d) + lcm(a,c).",
+        "recordedFailedTest": "0010",
+        "sourceHash": "a01ff7ec1bdf6c26e987947c020cfc5ff7f2ad0d60f168a952ecdd961c2f0150",
+        "sourceLines": [
+          {
+            "code": "\tif b % 2 == 0 and d % 2 == 1:\n\t\tif a % 2 == 0 and c % 2 == 0:\n\t\t\tprint(-1)\n\t\t\treturn\n\tif b % 2 == 1 and d % 2 == 0:\n\t\tif a % 2 == 0 and c % 2 == 0:\n\t\t\tprint(-1)\n\t\t\treturn\n\n\ti = j = 0\n\twhile True:\n\t\tif f(b, a, i) > f(d, c, j):\n\t\t\tj += 1\n\t\telif f(b, a, i) < f(d, c, j):\n\t\t\ti += 1\n\t\telse:\n\t\t\tprint(f(b, a, i))\n\t\t\treturn",
+            "end": 25,
+            "start": 8
+          }
+        ]
+      },
+      "test": "0010"
+    }
+  },
+  "packageHash": "7d36f4abe2f562705178cfaba482e791e539c3b63580c405c196ccc744650852",
+  "qualificationBasis": "generated",
+  "rating": 1200,
+  "reasons": [
+    "Counted incorrect 25738368 and 25738954 are TIME_LIMIT_EXCEEDED (non-terminating search on impossible cases; fresh rerun TLE on 0010 with no output). TLE does not qualify, leaving 3 genuine algorithmic wrong answers (25737083, 25737335, 25738220)."
+  ],
+  "reviewUrl": "https://staging.itsdev.in/sessions/5e1f99ced59a4a219ae81a8e70c05226",
+  "reviewer": "devin-5e1f99ced59a4a219ae81a8e70c05226",
+  "sandbox": {
+    "capDrop": "ALL",
+    "compilerFlags": [
+      "-O2",
+      "-std=c++17",
+      "-DONLINE_JUDGE"
+    ],
+    "executionVersion": 2,
+    "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+    "network": "none",
+    "nonRoot": true,
+    "readOnly": true,
+    "runner": "pipeline/pool_sandbox.run"
+  },
+  "semanticReview": {
+    "acceptedSourcesRead": 5,
+    "genuineAlgorithmicWrong": 3,
+    "method": "Full code of every accepted and designated-wrong source read by hand; per-source algorithm, fault, exact lines; counted counterexamples derived by hand from the statement, checked against the package answer and an independent brute force, and bound to the normal-exit LF sandbox log.",
+    "performed": true,
+    "sourcesReviewed": 5
+  },
+  "verified": {
+    "downloadedSourceVerification": "bundled provenance/state hashes only; pinned upstream download cross-check performed by parent",
+    "extraTests": {
+      "cornerMax": 150,
+      "count": 562,
+      "programs": [
+        {
+          "nonAC": 0,
+          "program": "oracle",
+          "sourceHash": "3b92fa476c885fb657ab57b7ee8f2254ca46ac2b14dc7d404a28e6d7ec44aeb4",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "25736494",
+          "sourceHash": "6d1e039ee15d57997c314309a2622a1295c3d123624fd269276d6d4005dc0bb5",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "25736503",
+          "sourceHash": "9176e655f0234c0e7f614007bd4af20337011b4b109f7ad90c182ccd105b7931",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "25736505",
+          "sourceHash": "be6f8dc886b40acaed8dc1c4b3314b5fa8fba4f5fb1423303245d4c0e3e3fd57",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "25736508",
+          "sourceHash": "bc2eb96e9552627df9f86b85302ad5da26db2a8ce2af73447d1a473ed34a9631",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "25736511",
+          "sourceHash": "dede1e20110ebb5cbd858d4b4b2cebcd187a173448659e6a5e87876df4904fb9",
+          "verdict": "AC"
+        }
+      ],
+      "smallBrute": 412,
+      "testsHash": "e9b63588b6a80698123d2ce107553a88b38080ee0c696b714bf402a163c85ed9"
+    },
+    "generator": {
+      "identical": true,
+      "matchesRecorded": true,
+      "outputHashes": [
+        "710d4bbcc31c31d6cff673624e94948d526a3b4414bf655f5519b6774b0fc7f6",
+        "710d4bbcc31c31d6cff673624e94948d526a3b4414bf655f5519b6774b0fc7f6"
+      ],
+      "pairs": 116,
+      "pairsEqualPackageAuthored": true,
+      "pairsHash": "696cdc72487ab4727d664de83a8275d83478f6c8a2bcf5f9e9ea8e56e5126172",
+      "runs": 2
+    },
+    "inputConstraints": "Independent validator: every supplied test and sample input (official, open-r1 generated, worker-generated) satisfies the statement constraints and format.",
+    "oracle": {
+      "packageTests": 174,
+      "sourceHash": "3b92fa476c885fb657ab57b7ee8f2254ca46ac2b14dc7d404a28e6d7ec44aeb4",
+      "testsRun": 176,
+      "verdict": "AC"
+    },
+    "submissions": [
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "C++14 (GCC 6-32)",
+        "logSha256": "39d1c3078103863752e538ae8524e082ffb10328ffa119e4934c992747d3e9c9",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "6d1e039ee15d57997c314309a2622a1295c3d123624fd269276d6d4005dc0bb5",
+        "submissionId": "25736494"
+      },
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "GNU C++11",
+        "logSha256": "8f2b45ae2431d177469c68b2ed62c318089f9f7169623f1ab21db1f2c3ac694d",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "9176e655f0234c0e7f614007bd4af20337011b4b109f7ad90c182ccd105b7931",
+        "submissionId": "25736503"
+      },
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "GNU C++11",
+        "logSha256": "48da17d9191852827d5a811cdb28892fbbeac5012ac363b0cdde818fb6d2a405",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "be6f8dc886b40acaed8dc1c4b3314b5fa8fba4f5fb1423303245d4c0e3e3fd57",
+        "submissionId": "25736505"
+      },
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "GNU C++11",
+        "logSha256": "15ccef1c735f6443f12146c4f667d0d12da55a061d1531c574163da6d29831eb",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "bc2eb96e9552627df9f86b85302ad5da26db2a8ce2af73447d1a473ed34a9631",
+        "submissionId": "25736508"
+      },
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "C++14 (GCC 6-32)",
+        "logSha256": "aecf0b0fc94c99214bbaed2d09545f622dfbdf9a9fb17534c80f642d48c62a4c",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "dede1e20110ebb5cbd858d4b4b2cebcd187a173448659e6a5e87876df4904fb9",
+        "submissionId": "25736511"
+      },
+      {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0012",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "logSha256": "a857bc2c6acd9c088353dbec6430319366719e3ef7fa2e77ac2ae4fb08d181c2",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0012",
+        "recordedVerdict": "WA",
+        "sourceHash": "30550f1db8ffe6079840727281f8c739389987472b9f99545c00034b054f13a2",
+        "submissionId": "25737083"
+      },
+      {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0035",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "logSha256": "bd443b949a42f4678881c4ea73b23e3b5a15bf5bd12bea61a36149ec4589b031",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0035",
+        "recordedVerdict": "WA",
+        "sourceHash": "b6692e847b07d3e9e5b8a43c749f8542c491d9ad8cfaff94136bc62cce1a839f",
+        "submissionId": "25737335"
+      },
+      {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0035",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "logSha256": "4a3c58bbee99f9e95d881c60cfad52ce88901c2f165280c9748f5b212c1ad2a6",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0035",
+        "recordedVerdict": "WA",
+        "sourceHash": "0b7f5564a6677292ad6a30cb796bf6b37339889db0a16201bfb3c551bfb979ca",
+        "submissionId": "25738220"
+      },
+      {
+        "expected": "TIME_LIMIT_EXCEEDED",
+        "freshFailedTest": "0010",
+        "freshVerdict": "TLE",
+        "language": "Python 3",
+        "logSha256": "c75b263dee412a762823c128241af6fbc07dd0b3a1f38b1e8a631558f81a9eb9",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0010",
+        "recordedVerdict": "TLE",
+        "sourceHash": "001ccc5845fdda008fd9959fb5e49e93d310b4e14b897b5085d0e6214a0a9034",
+        "submissionId": "25738368"
+      },
+      {
+        "expected": "TIME_LIMIT_EXCEEDED",
+        "freshFailedTest": "0010",
+        "freshVerdict": "TLE",
+        "language": "Python 3",
+        "logSha256": "a65ed0ead73223fdfdc6c85008c9be6413d960520eda12b160066b8c02157891",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0010",
+        "recordedVerdict": "TLE",
+        "sourceHash": "a01ff7ec1bdf6c26e987947c020cfc5ff7f2ad0d60f168a952ecdd961c2f0150",
+        "submissionId": "25738954"
+      }
+    ]
+  }
+}

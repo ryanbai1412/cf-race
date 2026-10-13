@@ -1,0 +1,475 @@
+{
+  "approved": false,
+  "baseCommit": "d11faff5231965a95044873c99042e2bec7bae2d",
+  "bundleSha256": "fd7665582d7f84a4af7e83ac2c4de81621b65e26d2b9a00c078e054eb54e47d1",
+  "checks": {
+    "algorithmicallyWrong": false,
+    "coverage": true,
+    "deterministicGeneration": true,
+    "fiveAcceptedFiveIncorrect": false,
+    "fullTests": true,
+    "generatedBasis": true,
+    "hashes": true,
+    "independentOracle": true,
+    "inputConstraints": true,
+    "noSpecialChecker": true,
+    "sourceAttribution": true
+  },
+  "evidenceFileSha256": "5bbd91178ded60c81f2bc6a0e23800816b345209a8e9cb9343a25ae532a74adc",
+  "evidenceHash": "e68a350fb098e0ef87ff9aac5e42a6b6e925fdaf5036937cda9da323a8a6fc6c",
+  "generationMode": "extensive",
+  "id": "803B",
+  "incorrectAnalysis": {
+    "26723940": {
+      "algorithmicallyWrongOnFailedTest": false,
+      "kind": "excluded",
+      "reason": "Presentation-only: on LF 0001 it prints \"[2, 1, 0, 1, 0, 0, 1, 2, 3]\", whose numbers equal the expected 2 1 0 1 0 0 1 2 3. Not counted.",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "Presentation-only: on LF 0001 it prints \"[2, 1, 0, 1, 0, 0, 1, 2, 3]\", whose numbers equal the expected 2 1 0 1 0 0 1 2 3. Not counted.",
+        "faultyLogic": "Logically correct; the output is the list repr \"[2, 1, 0, ...]\" (brackets and commas), a presentation defect.",
+        "implementedAlgorithm": "Collects zero positions; dist[j] = min over all zeros of |j-z| (O(n*z)). print(dist) prints the Python list repr.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": 0,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "[2, 1, 0, 1, 0, 0, 1, 2, 3]\n",
+          "outputHash": "e67880bf078da05590c7b9f45e3c0ff15c46fce00cdd8f41e404c54e9f3b9684",
+          "path": "archive/803B/sub-26723940-lf-0001.json",
+          "receipt": {
+            "sourceFileSha256": "72123a08e8a8a76cfc3b87e8abfab19174a5a596426e2eee07a6421d2dea9174",
+            "sourceHash": "72123a08e8a8a76cfc3b87e8abfab19174a5a596426e2eee07a6421d2dea9174",
+            "sourcePath": "archive/803B/source-26723940.txt",
+            "summaryPath": "archive/803B/summary.json",
+            "summarySha256": "69df2c89df7465f4cb27b09613cb7a3b88910e832c5bb7fbfd2cd240fe91b21a"
+          },
+          "sha256": "bd2028ae2547165fc3f9e1211e35c7df0aad9062212547a2e5f8c7fc7b6767f6",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "problemSemantics": "d_i = min over zero positions j of |i-j|. Two linear passes (or BFS from all zeros) compute it; output is n space-separated integers.",
+        "recordedFailedTest": "0001",
+        "sourceHash": "72123a08e8a8a76cfc3b87e8abfab19174a5a596426e2eee07a6421d2dea9174",
+        "sourceLines": [
+          {
+            "code": "for i in range(0,len(Ar)):\n   if Ar[i]==0:\n      zlist.append(i)\nfor j in range(0,len(Ar)):\n   dist[j]=abs(j-zlist[0])\n   for k in range(0,len(zlist)):\n      num=abs(j-zlist[k])\n      if num<=dist[j]:\n         dist[j]=num\nprint(dist)",
+            "end": 15,
+            "start": 6
+          }
+        ]
+      },
+      "test": "0001"
+    },
+    "26724190": {
+      "algorithmicallyWrongOnFailedTest": false,
+      "kind": "complexity",
+      "reason": "TLE-only (recorded TLE on 0139, n=181746, upstream TIME_LIMIT_EXCEEDED).",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "TLE-only (recorded TLE on 0139, n=181746, upstream TIME_LIMIT_EXCEEDED).",
+        "faultyLogic": "Correct but quadratic.",
+        "implementedAlgorithm": "For each i: min(|i-k|) over the zero list (O(n*z)).",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": -24,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "archive/803B/sub-26724190-lf-0139.json",
+          "receipt": {
+            "sourceFileSha256": "899a7426e15fb8d9ea5a57beeec5335562d10e727ec3f5667adc6b94d04043d7",
+            "sourceHash": "899a7426e15fb8d9ea5a57beeec5335562d10e727ec3f5667adc6b94d04043d7",
+            "sourcePath": "archive/803B/source-26724190.txt",
+            "summaryPath": "archive/803B/summary.json",
+            "summarySha256": "69df2c89df7465f4cb27b09613cb7a3b88910e832c5bb7fbfd2cd240fe91b21a"
+          },
+          "sha256": "1a841913c493b1549b22df69efdbf4d5aa78e5fa386a648c2150c10abd77cea7",
+          "timeout": true,
+          "verdict": "TLE"
+        },
+        "problemSemantics": "d_i = min over zero positions j of |i-j|. Two linear passes (or BFS from all zeros) compute it; output is n space-separated integers.",
+        "recordedFailedTest": "0139",
+        "sourceHash": "899a7426e15fb8d9ea5a57beeec5335562d10e727ec3f5667adc6b94d04043d7",
+        "sourceLines": [
+          {
+            "code": "p=[i for i in range(n) if a[i]==0]\nd=[]\nfor i in range(n):\n    m=min([abs(i-k) for k in p])\n    d.append(m)\nprint(' '.join([str(s) for s in d]))",
+            "end": 8,
+            "start": 3
+          }
+        ]
+      },
+      "test": "0139"
+    },
+    "26724533": {
+      "algorithmicallyWrongOnFailedTest": false,
+      "kind": "complexity",
+      "reason": "TLE-only (recorded TLE on 0139, upstream TIME_LIMIT_EXCEEDED).",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "TLE-only (recorded TLE on 0139, upstream TIME_LIMIT_EXCEEDED).",
+        "faultyLogic": "Correct but quadratic.",
+        "implementedAlgorithm": "For each non-zero i: scans all zeros for the minimum distance (O(n*z)).",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": -24,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "archive/803B/sub-26724533-lf-0139.json",
+          "receipt": {
+            "sourceFileSha256": "5df91a82110530860e2d9f227fa766ac35ef20228623127cc9e5a06a5772fbca",
+            "sourceHash": "5df91a82110530860e2d9f227fa766ac35ef20228623127cc9e5a06a5772fbca",
+            "sourcePath": "archive/803B/source-26724533.txt",
+            "summaryPath": "archive/803B/summary.json",
+            "summarySha256": "69df2c89df7465f4cb27b09613cb7a3b88910e832c5bb7fbfd2cd240fe91b21a"
+          },
+          "sha256": "d1583be06a8748c043fac30871ae70e3fee22727fa504f54aa6c44adc68d1a60",
+          "timeout": true,
+          "verdict": "TLE"
+        },
+        "problemSemantics": "d_i = min over zero positions j of |i-j|. Two linear passes (or BFS from all zeros) compute it; output is n space-separated integers.",
+        "recordedFailedTest": "0139",
+        "sourceHash": "5df91a82110530860e2d9f227fa766ac35ef20228623127cc9e5a06a5772fbca",
+        "sourceLines": [
+          {
+            "code": "p=[i for i in range(n) if a[i]==0]\nd=[]\nfor i in range(n):\n    if a[i]==0:\n        m=0\n    else:\n        m=n\n        for k in p:\n            if abs(i-k)<m:\n                m=abs(i-k)\n    d.append(m)\nprint(' '.join([str(s) for s in d]))",
+            "end": 14,
+            "start": 3
+          }
+        ]
+      },
+      "test": "0139"
+    },
+    "26724572": {
+      "algorithmicallyWrongOnFailedTest": false,
+      "kind": "complexity",
+      "reason": "TLE-only (recorded TLE on 0139, upstream TIME_LIMIT_EXCEEDED).",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "TLE-only (recorded TLE on 0139, upstream TIME_LIMIT_EXCEEDED).",
+        "faultyLogic": "Correct but quadratic.",
+        "implementedAlgorithm": "dist[j] = min over zero list (O(n*z)), printed space-separated.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": -24,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "archive/803B/sub-26724572-lf-0139.json",
+          "receipt": {
+            "sourceFileSha256": "8fecc4c1c00e9e372f1fb3fe20fe4c65cb118764aa03d31900306508fd2e4f65",
+            "sourceHash": "8fecc4c1c00e9e372f1fb3fe20fe4c65cb118764aa03d31900306508fd2e4f65",
+            "sourcePath": "archive/803B/source-26724572.txt",
+            "summaryPath": "archive/803B/summary.json",
+            "summarySha256": "69df2c89df7465f4cb27b09613cb7a3b88910e832c5bb7fbfd2cd240fe91b21a"
+          },
+          "sha256": "15814dee81a05c5f2e69bc0f626e6d848b5dfc7ced375069c8f9906a233cd9e6",
+          "timeout": true,
+          "verdict": "TLE"
+        },
+        "problemSemantics": "d_i = min over zero positions j of |i-j|. Two linear passes (or BFS from all zeros) compute it; output is n space-separated integers.",
+        "recordedFailedTest": "0139",
+        "sourceHash": "8fecc4c1c00e9e372f1fb3fe20fe4c65cb118764aa03d31900306508fd2e4f65",
+        "sourceLines": [
+          {
+            "code": "for i in range(0,len(Ar)):\n   if Ar[i]==0:\n      zlist.append(i)\nfor j in range(0,len(Ar)):\n   dist[j]=min(abs(j-zlist[y]) for y in range(0,len(zlist)))\nprint(' '.join(str(x) for x in dist))",
+            "end": 11,
+            "start": 6
+          }
+        ]
+      },
+      "test": "0139"
+    },
+    "26725173": {
+      "algorithmicallyWrongOnFailedTest": false,
+      "kind": "complexity",
+      "reason": "TLE-only (recorded TLE on 0136, upstream TIME_LIMIT_EXCEEDED).",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "excludedNonAlgorithmicCauses": "TLE-only (recorded TLE on 0136, upstream TIME_LIMIT_EXCEEDED).",
+        "faultyLogic": "Correct for canonical tokens but quadratic.",
+        "implementedAlgorithm": "Compares the tokens with \"0\" to find zeros; per i, scans zeros for the minimum distance.",
+        "language": "Python 3",
+        "lfExecution": {
+          "compilerFlags": [
+            "-O2",
+            "-std=c++17",
+            "-DONLINE_JUDGE"
+          ],
+          "executionVersion": 2,
+          "exitCode": -24,
+          "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+          "output": "",
+          "outputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "archive/803B/sub-26725173-lf-0136.json",
+          "receipt": {
+            "sourceFileSha256": "d8030338fceb15f0f5380d84894f879b56ecc4d41ae7f91b25852a05ed80bfc2",
+            "sourceHash": "d8030338fceb15f0f5380d84894f879b56ecc4d41ae7f91b25852a05ed80bfc2",
+            "sourcePath": "archive/803B/source-26725173.txt",
+            "summaryPath": "archive/803B/summary.json",
+            "summarySha256": "69df2c89df7465f4cb27b09613cb7a3b88910e832c5bb7fbfd2cd240fe91b21a"
+          },
+          "sha256": "d9c75c3fabe3c1b3a2b9bf5384845897496fd102dbe9a6e2fc13b8f526487304",
+          "timeout": true,
+          "verdict": "TLE"
+        },
+        "problemSemantics": "d_i = min over zero positions j of |i-j|. Two linear passes (or BFS from all zeros) compute it; output is n space-separated integers.",
+        "recordedFailedTest": "0136",
+        "sourceHash": "d8030338fceb15f0f5380d84894f879b56ecc4d41ae7f91b25852a05ed80bfc2",
+        "sourceLines": [
+          {
+            "code": "b=[i for i in range(n) if a[i]==\"0\"]\nc=\"\"\nfor i in range(n):\n    m=len(a)\n    for j in b:\n        if abs(i-j)<m:\n            m=abs(i-j)\n    c+=\"{} \".format(m)\nprint(c)",
+            "end": 11,
+            "start": 3
+          }
+        ]
+      },
+      "test": "0136"
+    }
+  },
+  "packageHash": "c6adc69984e37e28d40478a81acb4cf86398763d848eefd871007ef3a73ba069",
+  "qualificationBasis": "generated",
+  "rating": 1200,
+  "reasons": [
+    "Counted incorrect 26724190, 26724533, 26724572 and 26725173 are TIME_LIMIT_EXCEEDED (correct O(n*z) nearest-zero scans).",
+    "Counted incorrect 26723940 is presentation-only: it prints the Python list repr \"[2, 1, 0, ...]\" whose numbers equal the expected answer on 0001.",
+    "0 genuine algorithmic wrong answers."
+  ],
+  "reviewUrl": "https://staging.itsdev.in/sessions/5e1f99ced59a4a219ae81a8e70c05226",
+  "reviewer": "devin-5e1f99ced59a4a219ae81a8e70c05226",
+  "sandbox": {
+    "capDrop": "ALL",
+    "compilerFlags": [
+      "-O2",
+      "-std=c++17",
+      "-DONLINE_JUDGE"
+    ],
+    "executionVersion": 2,
+    "image": "python@sha256:5887f265d8d44d8b4734d3658b21d668edf5aaf92e4945bc0c984afbfab105d3",
+    "network": "none",
+    "nonRoot": true,
+    "readOnly": true,
+    "runner": "pipeline/pool_sandbox.run"
+  },
+  "semanticReview": {
+    "acceptedSourcesRead": 5,
+    "genuineAlgorithmicWrong": 0,
+    "method": "Full code of every accepted and designated-wrong source read by hand; per-source algorithm, fault, exact lines; counted counterexamples derived by hand from the statement, checked against the package answer and an independent brute force, and bound to the normal-exit LF sandbox log.",
+    "performed": true,
+    "sourcesReviewed": 5
+  },
+  "verified": {
+    "downloadedSourceVerification": "bundled provenance/state hashes only; pinned upstream download cross-check performed by parent",
+    "extraTests": {
+      "cornerMax": 8,
+      "count": 412,
+      "programs": [
+        {
+          "nonAC": 0,
+          "program": "oracle",
+          "sourceHash": "bac668f9367bf8ec769f78c12d77dd835b28805d5e7085c6bc9b8f115971dad7",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "26721797",
+          "sourceHash": "b2f6f199455f2e6a4af8604ee15d06b9fbe0b6a96756d9e6c046b586bbdb5af5",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "26721880",
+          "sourceHash": "d0a640911f3885f7e915e73ffd5660ff030cfbba34feffc27d14c20f63510f4c",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "26721893",
+          "sourceHash": "66dae3c1d4c482682f76251fb7b80f14411300c48473ad568651e481cea6cd29",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "26721896",
+          "sourceHash": "f17340a53624659a0c88a8ca0b33a2635c719e712e1993164b671eb4e71782dd",
+          "verdict": "AC"
+        },
+        {
+          "nonAC": 0,
+          "program": "26721898",
+          "sourceHash": "2e0e27e80ebc6ae796217f6e9bbd54dc800dc7d6c4dd3acb184998dec897e35b",
+          "verdict": "AC"
+        }
+      ],
+      "smallBrute": 404,
+      "testsHash": "faca3a8607575119df3f7ad4929d811245c95b0c4286b9d234ceed1d0b6979ef"
+    },
+    "generator": {
+      "identical": true,
+      "matchesRecorded": true,
+      "outputHashes": [
+        "23157f6758540290dd0c58bd95fae1aa780fbf3d59001bb83a90f10015e794fc",
+        "23157f6758540290dd0c58bd95fae1aa780fbf3d59001bb83a90f10015e794fc"
+      ],
+      "pairs": 108,
+      "pairsEqualPackageAuthored": true,
+      "pairsHash": "4a50d57948a07bbbddc2233fd7d2324eb89c8a85975fddaa449de99bf4aabedf",
+      "runs": 2
+    },
+    "inputConstraints": "Independent validator: every supplied test and sample input (official, open-r1 generated, worker-generated) satisfies the statement constraints and format.",
+    "oracle": {
+      "packageTests": 249,
+      "sourceHash": "bac668f9367bf8ec769f78c12d77dd835b28805d5e7085c6bc9b8f115971dad7",
+      "testsRun": 252,
+      "verdict": "AC"
+    },
+    "submissions": [
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "GNU C++11",
+        "logSha256": "991be6431cd80b725775df5b0a53334737d9cac315f179ed8559b0ba157ec9f9",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "b2f6f199455f2e6a4af8604ee15d06b9fbe0b6a96756d9e6c046b586bbdb5af5",
+        "submissionId": "26721797"
+      },
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "GNU C++11",
+        "logSha256": "29bb3e4f755fefc97fe534a12e0a292b7410346a5137cfa3e3a3e13ee292494f",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "d0a640911f3885f7e915e73ffd5660ff030cfbba34feffc27d14c20f63510f4c",
+        "submissionId": "26721880"
+      },
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "GNU C++11",
+        "logSha256": "0f8a8b426ad5e9b39aef185a93e199bdec5dc33226d64bb418d19135100e726a",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "66dae3c1d4c482682f76251fb7b80f14411300c48473ad568651e481cea6cd29",
+        "submissionId": "26721893"
+      },
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "GNU C++11",
+        "logSha256": "4cc191054eed70de59157f571242703b9c7de242885e0559f7da60b26c5c1b3e",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "f17340a53624659a0c88a8ca0b33a2635c719e712e1993164b671eb4e71782dd",
+        "submissionId": "26721896"
+      },
+      {
+        "expected": "OK",
+        "freshFailedTest": null,
+        "freshVerdict": "AC",
+        "language": "GNU C++11",
+        "logSha256": "661dde577ab8a7751f74c65da949f05a54f95d456f26f9087ed93902a8be2e9f",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": null,
+        "recordedVerdict": "AC",
+        "sourceHash": "2e0e27e80ebc6ae796217f6e9bbd54dc800dc7d6c4dd3acb184998dec897e35b",
+        "submissionId": "26721898"
+      },
+      {
+        "expected": "WRONG_ANSWER",
+        "freshFailedTest": "0001",
+        "freshVerdict": "WA",
+        "language": "Python 3",
+        "logSha256": "3f9ec101c2abebdef7a82b0e88eaf6da538e84df5001678cd7098903f74c962a",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0001",
+        "recordedVerdict": "WA",
+        "sourceHash": "72123a08e8a8a76cfc3b87e8abfab19174a5a596426e2eee07a6421d2dea9174",
+        "submissionId": "26723940"
+      },
+      {
+        "expected": "TIME_LIMIT_EXCEEDED",
+        "freshFailedTest": "0139",
+        "freshVerdict": "TLE",
+        "language": "Python 3",
+        "logSha256": "b6962f00f56edae11f53ec1bc10ee1fae697e4d44ebe69ff78b8f36ac74a5eb0",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0139",
+        "recordedVerdict": "TLE",
+        "sourceHash": "899a7426e15fb8d9ea5a57beeec5335562d10e727ec3f5667adc6b94d04043d7",
+        "submissionId": "26724190"
+      },
+      {
+        "expected": "TIME_LIMIT_EXCEEDED",
+        "freshFailedTest": "0139",
+        "freshVerdict": "TLE",
+        "language": "Python 3",
+        "logSha256": "5f8fc6e08a9f35e36608fe6840ec338d69a18c7ac4bd7142b31d0122bd939c00",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0139",
+        "recordedVerdict": "TLE",
+        "sourceHash": "5df91a82110530860e2d9f227fa766ac35ef20228623127cc9e5a06a5772fbca",
+        "submissionId": "26724533"
+      },
+      {
+        "expected": "TIME_LIMIT_EXCEEDED",
+        "freshFailedTest": "0139",
+        "freshVerdict": "TLE",
+        "language": "Python 3",
+        "logSha256": "c1a250b1eb2a8db976fd628e48aae953e15f5240e9154a3df7691c01d312bf7d",
+        "perTestVerdictMismatches": [
+          "0147"
+        ],
+        "recordedFailedTest": "0139",
+        "recordedVerdict": "TLE",
+        "sourceHash": "8fecc4c1c00e9e372f1fb3fe20fe4c65cb118764aa03d31900306508fd2e4f65",
+        "submissionId": "26724572"
+      },
+      {
+        "expected": "TIME_LIMIT_EXCEEDED",
+        "freshFailedTest": "0136",
+        "freshVerdict": "TLE",
+        "language": "Python 3",
+        "logSha256": "2b473680717c2c8aae3e85b52272936f2c7036cf1c489c35944e694e333ee07a",
+        "perTestVerdictMismatches": [],
+        "recordedFailedTest": "0136",
+        "recordedVerdict": "TLE",
+        "sourceHash": "d8030338fceb15f0f5380d84894f879b56ecc4d41ae7f91b25852a05ed80bfc2",
+        "submissionId": "26725173"
+      }
+    ]
+  }
+}
