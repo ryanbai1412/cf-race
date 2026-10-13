@@ -1,0 +1,202 @@
+{
+ "approved": true,
+ "archiveHash": "634f210fa0f9341d63af01af9363553623b7f6080705ab8ee11192620495e180",
+ "checks": {
+  "algorithmicallyWrong": true,
+  "coverage": true,
+  "deterministicGeneration": true,
+  "fiveAcceptedFiveIncorrect": true,
+  "fullTests": true,
+  "generatedBasis": true,
+  "hashes": true,
+  "independentOracle": true,
+  "independentOutputs": true,
+  "inputConstraints": true,
+  "noSpecialChecker": true,
+  "sandboxReplay": true,
+  "sourceAttribution": true,
+  "statementComplete": true
+ },
+ "coverageHash": "657799920404f930b9ff184e77f7d7f8bda55cc33e4680e49a1534526ee6c321",
+ "evidenceHash": "7939a7ae0911964d4d8e77003f27299595fd190876880cf80f2f7403a4cf424b",
+ "generatorProofHash": "d21a7194f82869170b484865e589a75eb2a2a2fe1640d98a3e5a779b2d0f1d16",
+ "id": "46C",
+ "incorrectAnalysis": {
+  "37920226": {
+   "actual": "5\n",
+   "exitCode": 0,
+   "expected": "4\n",
+   "kind": "wrong-answer",
+   "lfReplayFirstFailure": "0009",
+   "reason": "Takes the minority species block starting at its first occurrence s.find(c) without trying other cyclic rotations, so it counts misplaced animals in a single arbitrary window instead of the minimum over all n cyclic windows.",
+   "test": "0009",
+   "timeout": false
+  },
+  "39267250": {
+   "actual": "1\n",
+   "exitCode": 0,
+   "expected": "0\n",
+   "kind": "wrong-answer",
+   "lfReplayFirstFailure": "0001",
+   "reason": "Counts hamsters after doubling the string (h = (s+s).count(\"H\") = 2*count(H)), so every window is twice the correct width; on HTH it minimizes T over width-4 windows and returns 1 instead of 0.",
+   "test": "0001",
+   "timeout": false
+  },
+  "47810975": {
+   "actual": "1\n",
+   "exitCode": 0,
+   "expected": "0\n",
+   "kind": "wrong-answer",
+   "lfReplayFirstFailure": "0004",
+   "reason": "Greedy consumption of tiger gaps from both ends is not equivalent to the minimum over cyclic windows; on HTTH (already grouped cyclically) it returns 1 instead of 0.",
+   "test": "0004",
+   "timeout": false
+  },
+  "47811179": {
+   "actual": "0\n",
+   "exitCode": 0,
+   "expected": "2\n",
+   "kind": "wrong-answer",
+   "lfReplayFirstFailure": "0002",
+   "reason": "Prints 0 unless every tiger gap except one equals 1 (c.count(1)>y-1), otherwise runs a two-end greedy; on HTHTHTHHT it returns 0 although two swaps are needed.",
+   "test": "0002",
+   "timeout": false
+  },
+  "91793311": {
+   "actual": "15\n",
+   "exitCode": 0,
+   "expected": "14\n",
+   "kind": "wrong-answer",
+   "lfReplayFirstFailure": "0011",
+   "reason": "Only evaluates two anchored windows (blocks ending at the trailing run of each species) instead of all n cyclic rotations, overestimating the minimum (15 vs 14 on the n=120 test).",
+   "test": "0011",
+   "timeout": false
+  }
+ },
+ "independentAssessment": {
+  "auditTools": {
+   "brute.py": "1642befe65170131b649c56bca3f378d245b57bb083919e5b031301aaea86d8e",
+   "brute_body.py": "b89e8b154926c9935e1a263954571f918fe6820cd44bb2f01a0d0feaf17952a1",
+   "build_audit.py": "e6ed59f59ccb86776978b1004bf2409d08e9851aed915665665c469fd9887e13",
+   "gencheck.py": "ac05640b679e0f59c6e23734e5426d94c7d080a223fe800afcbd2cc37e6991cd",
+   "hfcheck.py": "5a24d1f2d63b5a70599786ba8cd6b5742482e3122344bbe5a88bca48e84d2809",
+   "oracle.py": "6b906e77988cd860f93c602c46d9bc989be28dc02048e73abebfbe953a417d12",
+   "oracle_23B.py": "ffe09780c5efcd64fe8768b0803d49ab89548410604379e948f644057fcb265a",
+   "oracle_28B.py": "32e0680538c0e74a11e2f5676b34a7a77ba739c5323031a1bd57d8e9c91aac4d",
+   "oracle_46C.py": "9a9a6349210171979005c065cb872545bfe3e8346759c2f750afbf143c5e34f0",
+   "oracle_71C.py": "3aca87a66aee19233df3e328a3be1e0860193afe8ece26343adf892d57c5099b",
+   "oraclecheck.py": "3681bdec74fb4acd377c8dc98d3c9451146b5686e496926a4fce65c92dbc773c",
+   "replay.py": "3c22c084ea6b34d35fad0830b1d6f03348905ce7325c01f5b3da1d0341b0c3ad",
+   "variants.py": "469dbc133cb0095a8878e594e5649cf137cd17d9aefea93982228624bb018cbf"
+  },
+  "bruteCrossCheck": "Independent BFS over swap states for every H/T ring with 2<=n<=10 (both species present), 729 cases including all n<=8 exhaustively plus random n=9..10, in pinned offline Docker: 0 mismatches vs the window formula.",
+  "coverage": "Authored tests include n=2 (6), n=1000 (4 authored + 1 upstream), single hamster (8), single tiger (8), already-grouped/wraparound, interleaved, and random dense rings; max answer 250.",
+  "derivation": "With h = count(H), any final arrangement is a cyclic window of h consecutive positions holding all hamsters; one swap fixes one misplaced T inside and one misplaced H outside, so answer = min over the n cyclic windows of width h of the number of T inside.",
+  "generatedDiversity": "151 worker-generated pairs / 146 distinct inputs (>=100); generator re-executed twice from seed 0 in pinned sandbox, both runs reproduce repeatOutputHashes 4017780a...ca4.",
+  "replay": {
+   "206218": {
+    "failedTest": null,
+    "lfFailedTest": null,
+    "maxCpuSeconds": 0.005330999999999999,
+    "perTestEvidenceHashMismatch": [],
+    "samples": "AC",
+    "verdict": "AC"
+   },
+   "206533": {
+    "failedTest": null,
+    "lfFailedTest": null,
+    "maxCpuSeconds": 0.001690000000000011,
+    "perTestEvidenceHashMismatch": [],
+    "samples": "AC",
+    "verdict": "AC"
+   },
+   "206730": {
+    "failedTest": null,
+    "lfFailedTest": null,
+    "maxCpuSeconds": 0.003730999999999929,
+    "perTestEvidenceHashMismatch": [],
+    "samples": "AC",
+    "verdict": "AC"
+   },
+   "206850": {
+    "failedTest": null,
+    "lfFailedTest": null,
+    "maxCpuSeconds": 0.005678999999999962,
+    "perTestEvidenceHashMismatch": [],
+    "samples": "AC",
+    "verdict": "AC"
+   },
+   "206861": {
+    "failedTest": null,
+    "lfFailedTest": null,
+    "maxCpuSeconds": 0.004061000000000092,
+    "perTestEvidenceHashMismatch": [],
+    "samples": "AC",
+    "verdict": "AC"
+   },
+   "37920226": {
+    "failedTest": "0009",
+    "lfFailedTest": "0009",
+    "maxCpuSeconds": 0.020027000000000073,
+    "perTestEvidenceHashMismatch": [],
+    "samples": "AC",
+    "verdict": "WA"
+   },
+   "39267250": {
+    "failedTest": "0001",
+    "lfFailedTest": "0001",
+    "maxCpuSeconds": 0.031289999999999873,
+    "perTestEvidenceHashMismatch": [],
+    "samples": "WA",
+    "verdict": "WA"
+   },
+   "47810975": {
+    "failedTest": "0004",
+    "lfFailedTest": "0004",
+    "maxCpuSeconds": 0.01789800000000008,
+    "perTestEvidenceHashMismatch": [],
+    "samples": "AC",
+    "verdict": "WA"
+   },
+   "47811179": {
+    "failedTest": "0002",
+    "lfFailedTest": "0002",
+    "maxCpuSeconds": 0.02784800000000004,
+    "perTestEvidenceHashMismatch": [],
+    "samples": "WA",
+    "verdict": "WA"
+   },
+   "91793311": {
+    "failedTest": "0011",
+    "lfFailedTest": "0011",
+    "maxCpuSeconds": 0.024601000000000095,
+    "perTestEvidenceHashMismatch": [],
+    "samples": "AC",
+    "verdict": "WA"
+   },
+   "oracle-207116": {
+    "failedTest": null,
+    "lfFailedTest": null,
+    "maxCpuSeconds": 0.003836999999999993,
+    "perTestEvidenceHashMismatch": null,
+    "samples": "AC",
+    "verdict": "AC"
+   }
+  },
+  "sandbox": "pool_sandbox.run (pinned python@sha256:5887f265...d3, --network=none, read-only root, uid 65534, cap-drop ALL, no-new-privileges, 1 CPU, bounded memory/pids/tmpfs); no public source executed on host.",
+  "sixthOracle": "Public accepted submission 207116 (oracle.cpp sha256 93173da8b225983e4a32b53f4880b2ed90be5c2911f0dd841b43056cafae626e) is disjoint from the five AC references ['206218', '206533', '206730', '206850', '206861']; replayed AC on all 181 tests and samples.",
+  "statement": "Full pinned description/input/output/note read; statement.html unchanged from pinned open-r1/codeforces row (no exponent normalization needed: bounds 2..1000 are plain). Input is exactly two lines: n, then a string of n H/T characters with at least one of each; circular arrangement. Output is a single integer (unique), token checker correct, no special checker.",
+  "submissionProvenance": "All 10 counted sources plus the oracle are byte-identical (sha256) to rows in pinned open-r1/codeforces-submissions@07e7bf31 shards, with matching problem 46/C and dataset verdicts (5 OK / 5 WRONG_ANSWER).",
+  "testsChecked": "All 183 package pairs (181 tests + 2 samples) parsed with strict line structure (exactly 2 lines, n in 2..1000, len==n, alphabet {H,T}, both present) by my own oracle and every expected output equals my answer; 0 malformed, 0 mismatches. CRLF present only in the 14 official inputs (byte-preserved, not mutated).",
+  "upstreamRows": "Pinned open-r1/codeforces@fbe3f6e9 row 46/C re-downloaded and SHA-checked: 14 official pairs, 16 open-r1 generated pairs and 2 examples byte-identical to package; official_tests_complete=false, so qualification is the extensive generated basis."
+ },
+ "oracleProofHash": "2bdd096ae5ab54d0daf357d201a8304d55b6fb7534b2424588baf3eeb0f7617b",
+ "packageHash": "cf57299f03e994d5d4a45cef5e59228ff5dd0ef2483e4dd49146c5b516584c6f",
+ "qualificationBasis": "generated",
+ "rating": 1600,
+ "reviewUrl": "https://staging.itsdev.in/sessions/5530f32a77d64925a0c5a1a29797a7c2",
+ "reviewer": "devin-5530f32a77d64925a0c5a1a29797a7c2",
+ "schemaVersion": 1,
+ "testPairsHash": "d9d6c4dd7814bb3fdbe3baa854bd39cf4eca4b52c8a3cc303e2321570c54d1d1",
+ "workerCommit": "3e2cdd3f1770c770adb17221878548006b827c7c"
+}
