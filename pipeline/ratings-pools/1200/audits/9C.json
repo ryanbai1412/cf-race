@@ -13,9 +13,9 @@
     "noSpecialChecker": true,
     "sourceAttribution": true
   },
-  "correctionNote": "9C-only correction after parent review: 16338221 no-output exclusion. No new executions.",
+  "correctionNote": "Correction 2: counted genuine alternate included-LF counterexamples from original full-run logs (708A 20138356/20190640 on 0033, 9C 4922767 on 0038); no new executions.",
   "evidenceHash": "f7de6b015df6700abbee4e28158e84a8448a388003c542df563aae47f2d4427f",
-  "genuineAlgorithmicIncorrect": 1,
+  "genuineAlgorithmicIncorrect": 2,
   "id": "9C",
   "incorrectAnalysis": {
     "11913660": {
@@ -160,23 +160,28 @@
       "test": "0012"
     },
     "4922767": {
-      "kind": "crlf-artifact-not-counted",
-      "reason": "on failedTest 0001 (10) raw CRLF output 8; LF-normalized output 2 (AC), so the recorded failure is the '\\r' character",
+      "kind": "wrong-answer",
+      "reason": "line 3 counts 2^len (includes 0) when the leading digit > 1, plus line 5 precedence bug; included LF test 0038 '9' -> 2, correct 1. Recorded failedTest 0001 is a CRLF artifact and is NOT used as proof. (incorrectAnalysis.test kept equal to evidence.failedTest as the pool contract requires; proof test is semanticReview.counterexample.test)",
       "semanticReview": {
-        "algorithmicWrong": false,
-        "binding": "bindings/9C-4922767.json",
-        "excludedNonAlgorithmicCauses": "CRLF artifact on recorded failedTest 0001: LF-normalized '10' gives 2 (AC, archive/9C/sub-4922767-lf.json); raw WA because the trailing '\\r' (>'1') hits line 3. Not counted; see extraCapturedCase.",
-        "extraCapturedCase": {
-          "actual": "2",
-          "expected": "1",
-          "input": "9\n",
-          "log": "archive/9C/sub-4922767.json",
-          "notCounted": true,
-          "note": "LF-only authored input where the source is wrong; recorded failedTest/counted evidence unchanged.",
-          "outputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
-          "test": "0038"
+        "algorithmicWrong": true,
+        "binding": "correction-2/bindings/9C-4922767.json",
+        "counterexample": {
+          "actualAnswer": "2\n",
+          "actualOutputSha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "alternateToRecordedFailedTest": true,
+          "constraints": "valid per statement (1<=n<=1e9)",
+          "correctAnswer": "1",
+          "derivation": "Count positive integers <= n whose decimal digits are all 0/1. For n=9 the only such number is 1 -> answer 1. Source: f('9') hits line 3 (first digit > '1') and returns 1<<1 = 2.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": false,
+          "originalTestSha256": "2e6d31a5983a91251bfae5aefa1c0a19d8ba3cf601d0e8a706b4cfa9661a6b8a",
+          "packageExpectedOutput": "1",
+          "test": "0038",
+          "validLFInput": "9\n",
+          "validLFInputSha256": "2e6d31a5983a91251bfae5aefa1c0a19d8ba3cf601d0e8a706b4cfa9661a6b8a"
         },
-        "faultyLogic": "Line 5 precedence bug: 1 << ((len(n)-1) + f(n[1:])) instead of (1<<(len-1)) + f(rest); wrong in general but correct for '10'.",
+        "excludedNonAlgorithmicCauses": "None for the counted proof: test 0038 is an included authored LF input (no CR), the program exits 0 within limits and prints a mathematically wrong string/number. The recorded builder failedTest 0001 is CRLF-only and is not relied on.",
+        "faultyLogic": "Line 3 returns 1<<len(n) for a leading digit > 1, i.e. 2^len, which counts the number 0 (the correct count of positive 0/1-digit numbers with <= len digits is 2^len - 1); line 5 also has a shift-precedence bug.",
         "implementedAlgorithm": "Recursive digit DP over the input string: digit>1 -> 1<<len; digit 0 -> recurse; digit 1 -> 1<<(len-1) + f(rest) intended.",
         "lfExecutionLog": {
           "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
@@ -186,15 +191,39 @@
             "-std=c++17",
             "-DONLINE_JUDGE"
           ],
+          "evidenceOutputHashForTest": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
           "executionVersion": 2,
-          "fullRunLog": "archive/9C/sub-4922767.json",
-          "fullRunLogSha256": "206a0d37b3793a932c684cbc3016537a6d9c9d335eb53a696282bc208dad1af2",
+          "exitCode": 0,
           "outputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
-          "path": "archive/9C/sub-4922767-lf.json",
-          "sha256": "e05588e7ca0a1a5b8f5f641171ed6676dc92b511cb8b299ef88bafab33999280",
+          "path": "archive/9C/sub-4922767.json",
+          "sha256": "206a0d37b3793a932c684cbc3016537a6d9c9d335eb53a696282bc208dad1af2",
           "sourceFile": "archive/9C/source-4922767.txt",
           "sourceFileSha256": "58a4c56ef9b089e2c9e232273a4c13b7812ea63fcde6d9b003d371aa446b0d15",
-          "verdict": "AC"
+          "test": "0038",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "recordedFailedTestNonQualifying": {
+          "lfExecutionLog": {
+            "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+            "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "fullRunLog": "archive/9C/sub-4922767.json",
+            "fullRunLogSha256": "206a0d37b3793a932c684cbc3016537a6d9c9d335eb53a696282bc208dad1af2",
+            "outputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+            "path": "archive/9C/sub-4922767-lf.json",
+            "sha256": "e05588e7ca0a1a5b8f5f641171ed6676dc92b511cb8b299ef88bafab33999280",
+            "sourceFile": "archive/9C/source-4922767.txt",
+            "sourceFileSha256": "58a4c56ef9b089e2c9e232273a4c13b7812ea63fcde6d9b003d371aa446b0d15",
+            "verdict": "AC"
+          },
+          "test": "0001",
+          "why": "CRLF artifact on recorded failedTest 0001: LF-normalized '10' gives 2 (AC, archive/9C/sub-4922767-lf.json); raw WA because the trailing '\\r' (>'1') hits line 3. Not counted; see extraCapturedCase."
         },
         "sourceHash": "58a4c56ef9b089e2c9e232273a4c13b7812ea63fcde6d9b003d371aa446b0d15",
         "sourceLines": [
@@ -261,13 +290,12 @@
     }
   },
   "packageHash": "2543c8c148692aed630b752332844f5685f074aa22bebf8bbb7266afbed83ca5",
-  "previousAuditDigest": "27b491941874a46921c78e0bc487173abe4c6e3267b69d75761eb17f4be5e215",
+  "previousAuditDigest": "5b06bd3ed422ad3d224b922161cf786659aec7290a560994089c46ceba487930",
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
     "11913660 fails only by TIME_LIMIT (TLE on 0014, n up to 1e9 brute loop); not algorithmically wrong on supplied tests.",
     "12981408 is counted WA on 0001 only because of a debug print(s) in its loop; removing that line in an audit copy gives the expected 2 (AC).",
-    "4922767 recorded counterexample 0001 ('10\\r\\n') is a CRLF artifact: it recurses over the raw input() string including '\\r'; on the LF-normalized test it outputs 2 (AC).",
     "16338221 reclassified as no-output (not counted): its failing tests 0012/0027/0037 all produce empty output with normal termination; no wrong numeric answer on any included test."
   ],
   "referenceAlgorithm": "count numbers <= n whose decimal digits are only 0/1 (at most 2^10-1 candidates)",

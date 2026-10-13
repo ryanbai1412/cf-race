@@ -1,10 +1,10 @@
 {
-  "approved": false,
+  "approved": true,
   "checks": {
-    "algorithmicallyWrong": false,
+    "algorithmicallyWrong": true,
     "coverage": true,
     "deterministicGeneration": true,
-    "fiveAcceptedFiveIncorrect": false,
+    "fiveAcceptedFiveIncorrect": true,
     "fullTests": true,
     "generatedBasis": true,
     "hashes": true,
@@ -13,28 +13,34 @@
     "noSpecialChecker": true,
     "sourceAttribution": true
   },
+  "correctionNote": "Correction 2: counted genuine alternate included-LF counterexamples from original full-run logs (708A 20138356/20190640 on 0033, 9C 4922767 on 0038); no new executions.",
   "evidenceHash": "45453514a67674cca40cc90a01202c51573c92eb96c801c6947d28b7cb7ecab0",
-  "genuineAlgorithmicIncorrect": 3,
+  "genuineAlgorithmicIncorrect": 5,
   "id": "708A",
   "incorrectAnalysis": {
     "20138356": {
-      "kind": "crlf-artifact-not-counted",
-      "reason": "shifts every character; on its failedTest that is coincidentally correct, WA only from shifting '\\r'",
+      "kind": "wrong-answer",
+      "reason": "always shifts the entire string (lines 4-5); included LF test 0033 'aaaa' -> zzzz, correct aaaz. Recorded failedTest 0001 is a CRLF artifact and is NOT used as proof. (incorrectAnalysis.test kept equal to evidence.failedTest as the pool contract requires; proof test is semanticReview.counterexample.test)",
       "semanticReview": {
-        "algorithmicWrong": false,
-        "binding": "bindings/708A-20138356.json",
-        "excludedNonAlgorithmicCauses": "CRLF artifact on the recorded failedTest: LF-normalized 0001 gives the expected 'bncdenqbdr' (AC, archive/708A/sub-20138356-lf.json); raw WA only because input() keeps '\\r', which line 5 shifts into an extra letter. Not counted; see extraCapturedCase.",
-        "extraCapturedCase": {
-          "actual": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
-          "expected": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-          "input": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-          "log": "archive/708A/sub-20138356.json",
-          "notCounted": true,
-          "note": "LF-only authored input where the source is wrong; recorded failedTest/counted evidence unchanged.",
-          "outputHash": "d37e0cfc8352f1e11ea52b7b0463702397c99db54ca4618df8011ac8c8f0a5a1",
-          "test": "0019"
+        "algorithmicWrong": true,
+        "binding": "correction-2/bindings/708A-20138356.json",
+        "counterexample": {
+          "actualAnswer": "zzzz\n",
+          "actualOutputSha256": "6dedb1cd0d2d36816c016f10a145e673cb2a5d84b16e55bc609b373f601445cb",
+          "alternateToRecordedFailedTest": true,
+          "constraints": "valid per statement (lowercase string 1<=|s|<=1e5)",
+          "correctAnswer": "aaaz",
+          "derivation": "Exactly one non-empty substring must be shifted. For an all-'a' string every shifted position becomes 'z'; the first shifted index i makes position i 'z' while the best alternative keeps 'a' there, so the lexicographic minimum takes i as late as possible: shift only the last character. 'aaaa' -> 'aaaz'; any choice with i<4 puts 'z' at an earlier index and is lexicographically greater. Source (line 5) shifts every character -> 'zzzz'.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": false,
+          "originalTestSha256": "11a77c3d96c06974b53d7f40a577e6813739eb5c811b2a86f59038ea90add772",
+          "packageExpectedOutput": "aaaz",
+          "test": "0033",
+          "validLFInput": "aaaa\n",
+          "validLFInputSha256": "11a77c3d96c06974b53d7f40a577e6813739eb5c811b2a86f59038ea90add772"
         },
-        "faultyLogic": "Wrong in general (shifting any 'a' or anything after an 'a' is suboptimal), but for 'codeforces' (no 'a') shifting the whole string is optimal.",
+        "excludedNonAlgorithmicCauses": "None for the counted proof: test 0033 is an included authored LF input (no CR), the program exits 0 within limits and prints a mathematically wrong string/number. The recorded builder failedTest 0001 is CRLF-only and is not relied on.",
+        "faultyLogic": "Lines 4-5 always shift the whole string; on an all-'a' input this turns every 'a' into 'z' instead of only the last one (also suboptimal whenever the string contains 'a').",
         "implementedAlgorithm": "Shifts every character of the line (the whole string as the substring).",
         "lfExecutionLog": {
           "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
@@ -44,15 +50,39 @@
             "-std=c++17",
             "-DONLINE_JUDGE"
           ],
+          "evidenceOutputHashForTest": "6dedb1cd0d2d36816c016f10a145e673cb2a5d84b16e55bc609b373f601445cb",
           "executionVersion": 2,
-          "fullRunLog": "archive/708A/sub-20138356.json",
-          "fullRunLogSha256": "f91d653915386f0f8ba4ee78a93b4bba9adf19d5a72c6b1386531fd9717bab51",
-          "outputHash": "0702cdff3d823be4686b31a232c53f24a33ab3b85b28485edf940af462b2f704",
-          "path": "archive/708A/sub-20138356-lf.json",
-          "sha256": "75fb7b6488f24a3479104c714f00634445a6e8d71fde7b5d90efe35a370bf6cf",
+          "exitCode": 0,
+          "outputHash": "6dedb1cd0d2d36816c016f10a145e673cb2a5d84b16e55bc609b373f601445cb",
+          "path": "archive/708A/sub-20138356.json",
+          "sha256": "f91d653915386f0f8ba4ee78a93b4bba9adf19d5a72c6b1386531fd9717bab51",
           "sourceFile": "archive/708A/source-20138356.txt",
           "sourceFileSha256": "ce169ef838872b7bea895d52d5372b12d64d791c58580e6e61921573bee6e473",
-          "verdict": "AC"
+          "test": "0033",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "recordedFailedTestNonQualifying": {
+          "lfExecutionLog": {
+            "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+            "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "fullRunLog": "archive/708A/sub-20138356.json",
+            "fullRunLogSha256": "f91d653915386f0f8ba4ee78a93b4bba9adf19d5a72c6b1386531fd9717bab51",
+            "outputHash": "0702cdff3d823be4686b31a232c53f24a33ab3b85b28485edf940af462b2f704",
+            "path": "archive/708A/sub-20138356-lf.json",
+            "sha256": "75fb7b6488f24a3479104c714f00634445a6e8d71fde7b5d90efe35a370bf6cf",
+            "sourceFile": "archive/708A/source-20138356.txt",
+            "sourceFileSha256": "ce169ef838872b7bea895d52d5372b12d64d791c58580e6e61921573bee6e473",
+            "verdict": "AC"
+          },
+          "test": "0001",
+          "why": "CRLF artifact on the recorded failedTest: LF-normalized 0001 gives the expected 'bncdenqbdr' (AC, archive/708A/sub-20138356-lf.json); raw WA only because input() keeps '\\r', which line 5 shifts into an extra letter. Not counted; see extraCapturedCase."
         },
         "sourceHash": "ce169ef838872b7bea895d52d5372b12d64d791c58580e6e61921573bee6e473",
         "sourceLines": [
@@ -118,23 +148,28 @@
       "test": "0006"
     },
     "20190640": {
-      "kind": "crlf-artifact-not-counted",
-      "reason": "correct algorithm; WA on 0006 only because the CR is shifted",
+      "kind": "wrong-answer",
+      "reason": "all-'a' branch shifts the whole string (lines 17-18); included LF test 0033 'aaaa' -> zzzz, correct aaaz. Recorded failedTest 0006 is a CRLF artifact and is NOT used as proof. (incorrectAnalysis.test kept equal to evidence.failedTest as the pool contract requires; proof test is semanticReview.counterexample.test)",
       "semanticReview": {
-        "algorithmicWrong": false,
-        "binding": "bindings/708A-20190640.json",
-        "excludedNonAlgorithmicCauses": "CRLF artifact on the recorded failedTest 0006: LF-normalized gives 'z' (AC); raw WA because '\\r' is treated as a non-'a' letter and shifted to '\\x0c'. Not counted.",
-        "extraCapturedCase": {
-          "actual": "zzzz",
-          "expected": "aaaz",
-          "input": "aaaa\n",
-          "log": "archive/708A/sub-20190640.json",
-          "notCounted": true,
-          "note": "LF-only authored input where the source is wrong; recorded failedTest/counted evidence unchanged.",
-          "outputHash": "6dedb1cd0d2d36816c016f10a145e673cb2a5d84b16e55bc609b373f601445cb",
-          "test": "0033"
+        "algorithmicWrong": true,
+        "binding": "correction-2/bindings/708A-20190640.json",
+        "counterexample": {
+          "actualAnswer": "zzzz\n",
+          "actualOutputSha256": "6dedb1cd0d2d36816c016f10a145e673cb2a5d84b16e55bc609b373f601445cb",
+          "alternateToRecordedFailedTest": true,
+          "constraints": "valid per statement (lowercase string 1<=|s|<=1e5)",
+          "correctAnswer": "aaaz",
+          "derivation": "Exactly one non-empty substring must be shifted. For an all-'a' string every shifted position becomes 'z'; the first shifted index i makes position i 'z' while the best alternative keeps 'a' there, so the lexicographic minimum takes i as late as possible: shift only the last character. 'aaaa' -> 'aaaz'; any choice with i<4 puts 'z' at an earlier index and is lexicographically greater. Source all-'a' branch (lines 17-18) calls shl(s,0,L) -> 'zzzz'.",
+          "includedInPackage": true,
+          "lfNormalizedAuditCopy": false,
+          "originalTestSha256": "11a77c3d96c06974b53d7f40a577e6813739eb5c811b2a86f59038ea90add772",
+          "packageExpectedOutput": "aaaz",
+          "test": "0033",
+          "validLFInput": "aaaa\n",
+          "validLFInputSha256": "11a77c3d96c06974b53d7f40a577e6813739eb5c811b2a86f59038ea90add772"
         },
-        "faultyLogic": "Correct on its recorded failedTest ('a' -> 'z'); for all-'a' strings of length>=2 line 18 shifts everything (e.g. 'aa' -> 'zz' instead of 'az'), see extraCapturedCase.",
+        "excludedNonAlgorithmicCauses": "None for the counted proof: test 0033 is an included authored LF input (no CR), the program exits 0 within limits and prints a mathematically wrong string/number. The recorded builder failedTest 0006 is CRLF-only and is not relied on.",
+        "faultyLogic": "Lines 17-18: in the all-'a' case the whole string is shifted (shl(s,0,L)) instead of only the last character.",
         "implementedAlgorithm": "Skips leading 'a's; if all are 'a' shifts the whole string, else shifts the maximal non-'a' run.",
         "lfExecutionLog": {
           "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
@@ -144,15 +179,39 @@
             "-std=c++17",
             "-DONLINE_JUDGE"
           ],
+          "evidenceOutputHashForTest": "6dedb1cd0d2d36816c016f10a145e673cb2a5d84b16e55bc609b373f601445cb",
           "executionVersion": 2,
-          "fullRunLog": "archive/708A/sub-20190640.json",
-          "fullRunLogSha256": "0e3e6ce86633a0e43d80233bcb127559fd6294439ebe302d021b8bdcbc65d096",
-          "outputHash": "c865f6c5ab8d1b0bcd383a5e1e3879d22681c96bf462c269b7581d523fbe70ab",
-          "path": "archive/708A/sub-20190640-lf.json",
-          "sha256": "e66459ea34bf606da29f109d19a99661336b0a77cf3d6a327f3b637a87f99eb5",
+          "exitCode": 0,
+          "outputHash": "6dedb1cd0d2d36816c016f10a145e673cb2a5d84b16e55bc609b373f601445cb",
+          "path": "archive/708A/sub-20190640.json",
+          "sha256": "0e3e6ce86633a0e43d80233bcb127559fd6294439ebe302d021b8bdcbc65d096",
           "sourceFile": "archive/708A/source-20190640.txt",
           "sourceFileSha256": "ccecd197ce93647f6e339dc15faa916bf68d3a158a39312070dea0b854536bda",
-          "verdict": "AC"
+          "test": "0033",
+          "timeout": false,
+          "verdict": "WA"
+        },
+        "recordedFailedTestNonQualifying": {
+          "lfExecutionLog": {
+            "archive": "https://staging.itsdev.in/attachments/aef47a7e-4716-4548-9975-dfbd27b012df/rating1200-audit-645B-9C-reruns.tar.gz",
+            "archiveSha256": "851d07d71a586c35a1d89ff73c827f2de1a1aa040b568f1cdabb2192876f6564",
+            "compilerFlags": [
+              "-O2",
+              "-std=c++17",
+              "-DONLINE_JUDGE"
+            ],
+            "executionVersion": 2,
+            "fullRunLog": "archive/708A/sub-20190640.json",
+            "fullRunLogSha256": "0e3e6ce86633a0e43d80233bcb127559fd6294439ebe302d021b8bdcbc65d096",
+            "outputHash": "c865f6c5ab8d1b0bcd383a5e1e3879d22681c96bf462c269b7581d523fbe70ab",
+            "path": "archive/708A/sub-20190640-lf.json",
+            "sha256": "e66459ea34bf606da29f109d19a99661336b0a77cf3d6a327f3b637a87f99eb5",
+            "sourceFile": "archive/708A/source-20190640.txt",
+            "sourceFileSha256": "ccecd197ce93647f6e339dc15faa916bf68d3a158a39312070dea0b854536bda",
+            "verdict": "AC"
+          },
+          "test": "0006",
+          "why": "CRLF artifact on the recorded failedTest 0006: LF-normalized gives 'z' (AC); raw WA because '\\r' is treated as a non-'a' letter and shifted to '\\x0c'. Not counted."
         },
         "sourceHash": "ccecd197ce93647f6e339dc15faa916bf68d3a158a39312070dea0b854536bda",
         "sourceLines": [
@@ -271,13 +330,10 @@
     }
   },
   "packageHash": "779445cd55186f5f2c76cda610b99ce994a910e32a4ad722ba4d1cde46485e2b",
-  "previousAuditDigest": "d7273cdfa44f308b8ee88c47a94ab5f78ea2f3034665b2dec23072c5d8fc8484",
+  "previousAuditDigest": "8b9599a920c1a5312bd987c3aa32a924a517b2c2b354e6a1dcb6a48df9c5f986",
   "qualificationBasis": "generated",
   "rating": 1200,
-  "reasons": [
-    "20138356 recorded counterexample 0001 ('codeforces\\r\\n') is a CRLF artifact: input() keeps '\\r', which it shifts into an extra letter; on the LF-normalized test it outputs the expected bncdenqbdr (AC).",
-    "20190640 recorded counterexample 0006 ('a\\r\\n') is a CRLF artifact: the '\\r' is treated as a non-a letter and shifted to '\\x0c'; on the LF-normalized test it outputs the expected z (AC)."
-  ],
+  "reasons": [],
   "referenceAlgorithm": "shift the first maximal run of non-a letters; if the string is all a, change the last a to z",
   "reviewUrl": "https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4",
   "reviewer": "devin-21803116a99741d7a7672cde5aff36d4 (independent rating1200 auditor, https://staging.itsdev.in/sessions/21803116a99741d7a7672cde5aff36d4)",
