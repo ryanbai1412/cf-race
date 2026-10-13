@@ -5,6 +5,40 @@ This local-only CLI targets **100 genuinely validated packages per rating**:
 `executable=true`, legacy packages, and successful execution without audit are
 **not validated**. There is deliberately no publication command.
 
+## Cross-pool snapshot replay
+
+`pool_combine.py` reconstructs hash-pinned immutable archives without executing
+their scripts or public programs. `extract` rejects traversal, duplicate members,
+links, special files, oversized expansion, truncated gzip streams and bad gzip
+checksums. `replay` binds each canonical cross-pool identity to its current
+independent decision, package, evidence, audit and exact public-source bytes. It
+requires five independently recorded algorithmic wrong-answer analyses, not five
+generic timeout or presentation failures. A builder TLE can only contribute when
+the existing independent audit establishes a genuine mathematical wrong answer;
+the combiner does not invent new signoffs or reclassify source defects.
+
+A compact snapshot points to a SHA-bound full index inside the portable archive.
+Its technical ledger and counts must exactly agree with the full index before
+data-only gates run. Provisional, rejected and held records stay in the inventory,
+but cannot enter the technically validated list. Historical and superseded
+decisions are retained by reference, never transferred to replacement bytes.
+
+After downloading the exact archive described by `rated-pools-combined.json`:
+
+```sh
+python3 pipeline/pool_combine.py extract rated-pools-combined-evidence.tar.gz \
+  rated-pools-restored --sha256 "$(python3 -c 'import json; print(json.load(open("pipeline/rated-pools-combined.json"))["archive"]["sha256"])')" \
+  --output rated-pools-extraction.json
+python3 pipeline/pool_combine.py replay pipeline/rated-pools-combined.json \
+  --root rated-pools-restored --output rated-pools-replay.json
+python3 pipeline/test_pool_combine.py
+```
+
+Replay verifies the existing byte-bound decisions; it is not a fresh source-level
+semantic endorsement, legal clearance, content publication or migration. Missing
+or empty content-bound publication approval must still reject every technical
+package. No production, database, Storage, deployment or board operations occur.
+
 ## Prerequisites and public sources
 
 Python 3.10+, `requests`, `pyarrow` and Docker are required. These are the only
