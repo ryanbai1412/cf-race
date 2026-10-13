@@ -1,0 +1,133 @@
+{
+  "aliases": [
+    "785/C"
+  ],
+  "baseCommit": "5b28d33",
+  "datasetCardsRead": {
+    "open-r1/codeforces": {
+      "sha256": "b9971cff0a797603b79d78f49129830b0a1a4b99d9860e392fba126a4ef4dc69",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/raw/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/README.md"
+    },
+    "open-r1/codeforces-submissions": {
+      "sha256": "8352430bd0fbc94cfe8762a9278c18a8494fca567a8aaf29a9e353c3f4627687",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces-submissions/raw/07e7bf31f284b0e90e02dfc7ab675d5821e1c068/README.md"
+    }
+  },
+  "extraCategories": {
+    "adversarial": 140,
+    "boundary": 33,
+    "maxSize": 6
+  },
+  "extraPairs": 179,
+  "extrasDigest": "e915f6416ead86efdefe4861bb4c095de59007a41338369cc2295387407ee59d",
+  "extrasDigestNote": "pool_contract.digest(recipe_785C.extras(\"785C\"))",
+  "extrasMotivation": "Minima (1 1, 1 10^18, small n-m), m=n / m=n±1 / m>>n (sources printing m or m+1), maximum n=10^18 with m=1 (largest answer ~1.414e9 exceeds a 1e9 search bound) and other max cases, n-m at triangular thresholds T(k)-1/T(k)/T(k)+1 for small and k~1e9..1.414e9 (>= vs >, isqrt/floating rounding), 20 fixed-seed cases where the double-sqrt formula of selected WA 207785393 is wrong, random large pairs (64-bit overflow of k(k+1) with wide bounds), fixed-seed random small/medium simulation-checkable cases.",
+  "generatedBasis": "Not claimed. official_tests_complete=true with 223/223 official tests in the row; authored extras are supplementary and not a qualification.",
+  "id": "785C",
+  "independentChecks": {
+    "bruteChecks": {
+      "785C": 43079
+    },
+    "closedForm": "closed_form(): k=(isqrt(8(n-m)+1)-1)//2 adjusted up once; agrees with the oracle on 20000 fixed-seed random large pairs (plus direct minimality T(k)>=n-m>T(k-1)), all 223 official tests and all extras.",
+    "leastKLoop": "Unit test re-derives the answer for 1<=n,m<=60 with a linear least-k loop, separate from both oracle implementations.",
+    "literalSimulation": "brute(): day-by-day statement simulation (add m capped at n, subtract day index floored at 0, stop when empty), no formula. Exhaustive for 1<=n,m<=150 against both the binary-search oracle and the isqrt closed form; 400 fixed-seed random n<10^6,m<4000; every official test/sample with answer<=200000 and every extra with answer<=20000 (unit tests)."
+  },
+  "inputs": {
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "file": "inputs/785C.json",
+    "fileBytes": 42565,
+    "fileSha256": "d464cfae90f58ea4ebe8fca54d34044b88e52fb6e29c0b24d061051446ce4f8c",
+    "manifestEntry": {
+      "bytes": 42565,
+      "sha256": "d464cfae90f58ea4ebe8fca54d34044b88e52fb6e29c0b24d061051446ce4f8c"
+    },
+    "manifestMatches": true,
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "pinsMatchManifest": true,
+    "sourceRowHash": "23fb6b9c608e36c0690e0c49c2ef28c8478d5bff0f9af7a6474a56038c437dc2",
+    "sourceRowHashMatches": true,
+    "sourceRowHashRecomputed": "23fb6b9c608e36c0690e0c49c2ef28c8478d5bff0f9af7a6474a56038c437dc2",
+    "sourceShard": {
+      "bytes": 281027001,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00007-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "7e2117698a2a6c20e2047d0b478a77c58f9644ba25777911fa40145afacf18b2",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00007-of-00011.parquet"
+    }
+  },
+  "officialReview": {
+    "failures": [],
+    "note": "All 223 official pairs (CRLF input and output, single line) and both samples parse within 1<=n,m<=10^18 and match the oracle, the isqrt closed form, and (answers<=200000) the literal simulation. No malformed upstream pair or contradiction. 98 official tests have m>=n.",
+    "officialPairs": 223,
+    "officialTestsComplete": true,
+    "samples": 2,
+    "testsetSize": 223
+  },
+  "oracle": "If m>=n answer n; else binary search the least k in [1,2*10^9] with k(k+1)/2>=n-m and answer m+k (exact Python integers; max answer 1414213563 for n=10^18,m=1). Editorial in the pinned row describes the same reduction.",
+  "parse": "Exactly one line \"n m\": two tokens matching [1-9][0-9]* separated by a single space, 1<=n,m<=10^18; LF or CRLF with an optional single final terminator. Rejects signs, underscores, leading zeros, tabs, padding, extra/missing tokens, split lines and blank trailing lines.",
+  "rating": 1600,
+  "role": "recipe-author (not an independent audit, not a qualification, no signoff)",
+  "selectedSubmissions": {
+    "authorObservationsNonBinding": [
+      "207785393 (WA, passed 15): math.sqrt double formula ceil((-1+sqrt(1+8(n-m)))/2)+m; rounding is wrong near triangular thresholds for large n-m. Python model passes official tests 1..15 and first fails test 16 (999999998765257152 10). 20 extras kill it.",
+      "212028901 (WA, passed 3): prints m+1 when m>=n (expected n); model first fails test 4 (1024 1024). Its m<n branch is a day-by-day simulation (TLE risk) that the author did not model beyond correctness.",
+      "212034643 (WA, passed 2): prints m+1 when m>=n and uses an approximate sqrt(2n)-2 day count with a two-way final adjustment; model first fails test 3 (32 5 -> prints 13, expected 12).",
+      "212025874 (TLE, passed 5): literal simulation, correct but O(answer) days; TLE-only, not an algorithmic counterexample.",
+      "212027059 (TLE, passed 5): skips to day m then simulates; besides being slow it is wrong for n<m (returns m instead of n, e.g. 1 2 -> 2), but its recorded verdict is TLE on test 5 (58044 52909, m<n). Parent auditor must judge.",
+      "All 12 OK sources read as the same m>=n -> n / least k with k(k+1)/2>=n-m reduction (binary search or sqrt with correction)."
+    ],
+    "byVerdict": {
+      "OK": 12,
+      "TIME_LIMIT_EXCEEDED": 2,
+      "WRONG_ANSWER": 3
+    },
+    "count": 17,
+    "executed": false
+  },
+  "semantics": "Single line \"n m\" with 1<=n,m<=10^18 (public English statement shows 10<sup>18</sup>; pinned row flattened it to 1018 and official tests use 1000000000000000000). Barn of capacity n starts full; on day i, m grains are added (capped at n), then i sparrows each eat one grain if any remain. Unique integer: first day at whose end the barn is empty. If m>=n the barn is full every morning and day n empties it, so the answer is n; otherwise the barn stays full through day m and afterwards loses (i-m) net per day, so the answer is m+k for the least k with k(k+1)/2>=n-m. Literal day-by-day simulation exhaustively cross-checks small n,m; an integer-isqrt closed form cross-checks large cases.",
+  "statement": {
+    "attestation": "Original English input specification reads \"(1 ≤ <i>n</i>, <i>m</i> ≤ 10<sup class=\"upper-index\">18</sup>)\".",
+    "committedCopy": "statement-sources/785C.recipe-author.original.html",
+    "committedCopyByteRange": [
+      36080,
+      40715
+    ],
+    "committedCopyNote": "Byte-exact <div class=\"problem-statement\"> element of the public body; page chrome omitted.",
+    "committedCopySha256": "2025f1cb0074ccb6930f55b8daed899b06a927db969d0736ff1566ccd94f7369",
+    "corroboration": "Official tests 0009, 0011, 0012 contain 1000000000000000000 (outside a literal 1018 bound). Description, output format, note and both examples otherwise match the public statement text.",
+    "exclusionChecks": {
+      "customChecker": false,
+      "fileIO": false,
+      "floatingOutput": false,
+      "inputMode": "stdio",
+      "interactive": false,
+      "missingImageOrQuestion": false,
+      "multipleValidOutputs": false
+    },
+    "normalizationProposal": {
+      "MULTI_REPAIRS": {
+        "785C": [
+          [
+            "≤ 1018)",
+            "≤ 10<sup>18</sup>)",
+            1
+          ]
+        ]
+      },
+      "attestationValue": "10<sup class=\"upper-index\">18</sup>",
+      "note": "Parent applies via normalize_statement.py with a statement-sources/785C.json attestation; author did not edit normalize_statement.py or any package. Pinned row bytes unchanged."
+    },
+    "otherFlattening": "None found: no other numeric bound in the statement.",
+    "pinnedInputFormat": "The only line of the input contains two integers n and m (1 ≤ n, m ≤ 1018) — the capacity of the barn and the number of grains that are brought every day.",
+    "publicBodyBytes": 59663,
+    "publicBodySha256": "ba39dfd6bd3ea5e533a8d6e400d67e863cbca63b5622f9ae1baa643e2c1ab248",
+    "publicSourceUrl": "https://codeforces.me/problemset/problem/785/C?locale=en",
+    "transport": "Public HTTP GET (curl, browser user agent); no authentication."
+  },
+  "title": "Anton and Fairy Tale",
+  "validated": false
+}
