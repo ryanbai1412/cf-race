@@ -15,13 +15,16 @@
   },
   "counts": {
     "accepted": 5,
-    "algorithmicallyWrong": 4,
+    "algorithmicallyWrong": 2,
     "excludedKinds": {
-      "excluded-tle": 1
+      "excluded-tle": 1,
+      "excluded-unexecuted-solution": 2
     },
     "extraTests": 450,
     "incorrect": 5,
     "samples": 4,
+    "semanticAlgorithmicallyWrong": 2,
+    "semanticSourcesReviewed": 5,
     "suppliedTests": 131
   },
   "evidenceHash": "5afb02d24d9c66a1639e2b0402c49c31944e1a4afaeb888048fc53136dfd55e8",
@@ -10474,8 +10477,88 @@
         "inputHash": "29be0267bc257ac4dceb64175ea91ff341ff8edfceec6a834c191ab89c38a70d",
         "verdict": "WA"
       },
-      "reason": "Does not accept s==t before shuffling except at a fixed point. Recorded failed test starts and ends at the same non-fixed position, needing zero moves, but returns the positive cycle length.",
+      "reason": "It fails to check s=t before taking a transition except at a fixed point. With s=t=2 in permutation [2,1], it traverses 2->1->2 and reports two instead of the allowed zero.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "2\n",
+          "actualOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "constraints": "n=2,s=t=2 are legal and [2,1] is a permutation of 1..2.",
+          "correctAnswer": "0",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/285B/counterexample-13319703-LF.json",
+              "sha256": "6e299fb099777b7bf7ef449c4751423485aa9717c0429ebaeaabd1541bf096d7"
+            },
+            "logPath": "proofs/285B-13319703.json",
+            "logSHA256": "71557862483fd41c893c25b10b8dd092d21174567f5ed044b08cb9405b542b5a",
+            "outputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+            "rawLogCopy": {
+              "path": "proofs/raw/285B/counterexample-13319703-LF.json",
+              "sha256": "6e299fb099777b7bf7ef449c4751423485aa9717c0429ebaeaabd1541bf096d7"
+            },
+            "runTest": "0012-LF",
+            "sourceHash": "71945cc50378c03a7a3f5cae23776931f65c58518e3b488d3956798c0e4f4d5d",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/285B/source-13319703.json",
+              "sha256": "6927ce9ba659ea5814fb4a9518d623e7eeff2a63f8b5e35043ec4be595e4d414"
+            }
+          },
+          "inputSHA256": "29be0267bc257ac4dceb64175ea91ff341ff8edfceec6a834c191ab89c38a70d",
+          "mathematicalDerivation": "The marble starts at target position 2. The problem allows zero shuffles, which leaves it at 2; no nonnegative number can be smaller than zero. Following the two-cycle is unnecessary.",
+          "originalInputSHA256": "391e03d20086476034ab317b3de179e9f4165f1cdfafd7f5a52e81d55f72203d",
+          "originalOutputSHA256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "71945cc50378c03a7a3f5cae23776931f65c58518e3b488d3956798c0e4f4d5d",
+          "test": "0012",
+          "validLF": "2 2 2\n2 1\n"
+        },
+        "excludedNonAlgorithmicCauses": "The actual permutation-following algorithm executes both transitions; the incorrect minimum is not the mere output of a dead traversal, diagnostic line or CRLF/runtime failure.",
+        "faultyLogic": "It fails to check s=t before taking a transition except at a fixed point. With s=t=2 in permutation [2,1], it traverses 2->1->2 and reports two instead of the allowed zero.",
+        "faultySourceLines": [
+          {
+            "code": "j=0\ni=s\nflag=0\nwhile(j<n):\n    if(i==l[i-1]):\n        if(i==t):\n            flag=1\n            break\n        break\n    i=l[i-1]\n    if(i==t):\n        flag=1\n        j+=1\n        break\n    j+=1\nif(flag):\n    print(j)\nelse:\n    print(-1)",
+            "end": 26,
+            "start": 8
+          }
+        ],
+        "implementedAlgorithm": "Follows the one-based permutation for at most n iterations, recognizes fixed points and target arrivals, and prints the number of performed transitions or -1.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/285B/counterexample-13319703-LF.json",
+            "sha256": "6e299fb099777b7bf7ef449c4751423485aa9717c0429ebaeaabd1541bf096d7"
+          },
+          "recordedFailedTest": "0012",
+          "recordedFailedTestLFOutputHash": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/285B/13319703.py",
+          "sha256": "71945cc50378c03a7a3f5cae23776931f65c58518e3b488d3956798c0e4f4d5d"
+        },
+        "sourceHash": "71945cc50378c03a7a3f5cae23776931f65c58518e3b488d3956798c0e4f4d5d",
+        "sourceLineCount": 26,
+        "sourceLines": [
+          {
+            "code": "n,s,t = input().split()\nn=int(n)\ns=int(s)\nt=int(t)\nl=input().split()\nfor i in range(n):\n    l[i]=int(l[i])\nj=0\ni=s\nflag=0\nwhile(j<n):\n    if(i==l[i-1]):\n        if(i==t):\n            flag=1\n            break\n        break\n    i=l[i-1]\n    if(i==t):\n        flag=1\n        j+=1\n        break\n    j+=1\nif(flag):\n    print(j)\nelse:\n    print(-1)",
+            "end": 26,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "71945cc50378c03a7a3f5cae23776931f65c58518e3b488d3956798c0e4f4d5d",
       "test": "0012"
     },
@@ -10501,8 +10584,49 @@
         "inputHash": "29ad78c6c2f10e324f073bf79e225f95709b8b9df49c29057774c4433865c49e",
         "verdict": "TLE"
       },
-      "reason": "Uses membership in a growing list for cycle detection, making a long cycle quadratic. Recorded failure is TLE and is excluded from algorithmic wrong-answer evidence.",
+      "reason": "Excluded as TLE-only. This is an executed correct orbit model, not a mathematical wrong answer, placeholder, dead solver, diagnostic output or line-ending error.",
       "recordedTestVerdict": "TLE",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Excluded as TLE-only. This is an executed correct orbit model, not a mathematical wrong answer, placeholder, dead solver, diagnostic output or line-ending error.",
+        "faultyLogic": "The orbit and termination rules are logically appropriate; linear membership searches in a growing list make a long orbit quadratic and cause the designated large test to time out.",
+        "faultySourceLines": [
+          {
+            "code": "string = input()\nnumbers = list(map(int, string.split()))\ns, t = numbers[1], numbers[2]\nstring = input()\nglasses = list(map(int, string.split()))\nvalues = []\na = 0\nwhile s != t:\n    if s in values:\n        print(-1)\n        break\n    values.append(s)\n    s = glasses[s - 1]\n    a += 1\nelse:\n    print(a)",
+            "end": 16,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "Repeatedly moves the marble from s to glasses[s-1], counts transitions, and remembers visited positions in a Python list to detect a repeated position; prints -1 for a cycle or the arrival count.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": false,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/285B/counterexample-28645879-LF.json",
+            "sha256": "dac581810eb4702271f9d523efadc7832c9f14adeeb01f54ce90a60c0db3e04f"
+          },
+          "recordedFailedTest": "0018",
+          "recordedFailedTestLFOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "recordedFailedTestLFVerdict": "TLE"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/285B/28645879.py",
+          "sha256": "b4e2e27bfac361f298bcae9dc98f9947e70769e15b0fd4a8eeee2f1e247d47f5"
+        },
+        "sourceHash": "b4e2e27bfac361f298bcae9dc98f9947e70769e15b0fd4a8eeee2f1e247d47f5",
+        "sourceLineCount": 16,
+        "sourceLines": [
+          {
+            "code": "string = input()\nnumbers = list(map(int, string.split()))\ns, t = numbers[1], numbers[2]\nstring = input()\nglasses = list(map(int, string.split()))\nvalues = []\na = 0\nwhile s != t:\n    if s in values:\n        print(-1)\n        break\n    values.append(s)\n    s = glasses[s - 1]\n    a += 1\nelse:\n    print(a)",
+            "end": 16,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "b4e2e27bfac361f298bcae9dc98f9947e70769e15b0fd4a8eeee2f1e247d47f5",
       "test": "0018"
     },
@@ -10518,7 +10642,7 @@
       },
       "freshFailedTest": "0001",
       "freshVerdict": "WA",
-      "kind": "wrong-answer",
+      "kind": "excluded-unexecuted-solution",
       "normalized": {
         "actualOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
         "artifact": {
@@ -10528,8 +10652,49 @@
         "inputHash": "9196ade5cd803d90b1e2fe450b43e26edb0979d53ddf1527021d86764785f363",
         "verdict": "WA"
       },
-      "reason": "Starts temp=s and immediately treats temp==s as a detected cycle before the first move. At its recorded reachable distinct-target case returns -1; LF normalization also remains WA.",
+      "reason": "Excluded as an unexecuted solution under the stricter rule. A numeric LF discrepancy alone is insufficient when the only purported traversal statements are unreachable; this is not counted as a genuine wrong algorithm implementation.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Excluded as an unexecuted solution under the stricter rule. A numeric LF discrepancy alone is insufficient when the only purported traversal statements are unreachable; this is not counted as a genuine wrong algorithm implementation.",
+        "faultyLogic": "When s differs from t the first equality temp==s is always true, so it prints -1 and breaks before executing ANY transition. When s=t the loop is skipped and it prints zero. The proposed orbit algorithm is never run for any input.",
+        "faultySourceLines": [
+          {
+            "code": "s, t = numbers[1], numbers[2]\nstring = input()\nglasses = list(map(int, string.split()))\ntemp = s\na = 0\nwhile s != t:\n    if temp == s:\n        print(-1)\n        break\n    temp = glasses[temp - 1]\n    a += 1\nelse:\n    print(a)",
+            "end": 15,
+            "start": 3
+          }
+        ],
+        "implementedAlgorithm": "Sets temp=s, enters while s!=t, and intends to move temp through the permutation, but checks temp==s before its first transition; s is never updated in the loop.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": false,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/285B/counterexample-28645958-LF.json",
+            "sha256": "618fc42d48eb8050b7018b65eb6a788bc5f83d4cadb5bf9e15b9d3a07939572e"
+          },
+          "recordedFailedTest": "0001",
+          "recordedFailedTestLFOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/285B/28645958.py",
+          "sha256": "984b23cde19bebfcbc5fa56a9643fd485f07258ea543e7f87a8807ef94c8c3bc"
+        },
+        "sourceHash": "984b23cde19bebfcbc5fa56a9643fd485f07258ea543e7f87a8807ef94c8c3bc",
+        "sourceLineCount": 15,
+        "sourceLines": [
+          {
+            "code": "string = input()\nnumbers = list(map(int, string.split()))\ns, t = numbers[1], numbers[2]\nstring = input()\nglasses = list(map(int, string.split()))\ntemp = s\na = 0\nwhile s != t:\n    if temp == s:\n        print(-1)\n        break\n    temp = glasses[temp - 1]\n    a += 1\nelse:\n    print(a)",
+            "end": 15,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "984b23cde19bebfcbc5fa56a9643fd485f07258ea543e7f87a8807ef94c8c3bc",
       "test": "0001"
     },
@@ -10555,8 +10720,88 @@
         "inputHash": "4942c2afb97e1a2aab103a58fe6ad6d33c5453c68df3b55ecfedd69de042c5b2",
         "verdict": "WA"
       },
-      "reason": "Tests the next position rather than checking s==t at time zero. Its recorded s==t case returns one (or a cycle length) rather than zero, also on LF input.",
+      "reason": "It only recognizes t after a transition and omits the zero-shuffle case s=t. For the included fixed point at position 3 it returns one, although no move is needed.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "1\n",
+          "actualOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "constraints": "n=4,s=t=3 are in range; [4,1,3,2] contains every position 1..4 exactly once.",
+          "correctAnswer": "0",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/285B/counterexample-36252348-LF.json",
+              "sha256": "9c5a5c80aedc243ee5a7df6f668a168c4d386a359be1a35e1e8e188a2aceeaf2"
+            },
+            "logPath": "proofs/285B-36252348.json",
+            "logSHA256": "91fd15575082a15b2d3340b29c05b302d2d6ec26d01bddb0fd70602f7f471110",
+            "outputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+            "rawLogCopy": {
+              "path": "proofs/raw/285B/counterexample-36252348-LF.json",
+              "sha256": "9c5a5c80aedc243ee5a7df6f668a168c4d386a359be1a35e1e8e188a2aceeaf2"
+            },
+            "runTest": "0002-LF",
+            "sourceHash": "90b82a80cbc2205597c48e592dd2e22c5e7a943e3c9ba4fb3d9969fa6cb45e1f",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/285B/source-36252348.json",
+              "sha256": "79227e79a019869030f3f5a0ea384126bd5057aa657d097915250397c1cb1b14"
+            }
+          },
+          "inputSHA256": "4942c2afb97e1a2aab103a58fe6ad6d33c5453c68df3b55ecfedd69de042c5b2",
+          "mathematicalDerivation": "Position s=3 already equals target t=3. Zero shuffles keep the marble there and is the smallest possible operation count; p[3]=3 does not require performing a gratuitous one-step shuffle.",
+          "originalInputSHA256": "1f461528d8dffd619c99d3b0697ca8893b296f66d4df5ff3a484db390f13bd5b",
+          "originalOutputSHA256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "90b82a80cbc2205597c48e592dd2e22c5e7a943e3c9ba4fb3d9969fa6cb45e1f",
+          "test": "0002",
+          "validLF": "4 3 3\n4 1 3 2\n"
+        },
+        "excludedNonAlgorithmicCauses": "The active traversal check is reached and evaluates the actual permutation destination. The LF integer 1 is an off-by-one minimum caused by omitted initial-state testing, not a globally unexecuted traversal or presentation fault.",
+        "faultyLogic": "It only recognizes t after a transition and omits the zero-shuffle case s=t. For the included fixed point at position 3 it returns one, although no move is needed.",
+        "faultySourceLines": [
+          {
+            "code": "n,s,t=map(int,input().split())\nl=[int(i) for i in input().split()]\n\ninitial=s-1\nfinal=t-1\n#4 2 1\n#1 2 3 4\n#2 3 4 1\nG=True\nfor i in range(n):\n\tif l[initial]==t:\n\t\tprint(i+1)\n\t\tG=False\n\t\tbreak\n\telse:\n\t\tinitial=l[initial]-1\n\nif G:\n\tprint(-1)",
+            "end": 19,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "Starts at s-1, checks whether the next permutation destination equals t on each of up to n steps, advances otherwise, and prints the first positive transition count or -1.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/285B/counterexample-36252348-LF.json",
+            "sha256": "9c5a5c80aedc243ee5a7df6f668a168c4d386a359be1a35e1e8e188a2aceeaf2"
+          },
+          "recordedFailedTest": "0002",
+          "recordedFailedTestLFOutputHash": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/285B/36252348.py",
+          "sha256": "90b82a80cbc2205597c48e592dd2e22c5e7a943e3c9ba4fb3d9969fa6cb45e1f"
+        },
+        "sourceHash": "90b82a80cbc2205597c48e592dd2e22c5e7a943e3c9ba4fb3d9969fa6cb45e1f",
+        "sourceLineCount": 19,
+        "sourceLines": [
+          {
+            "code": "n,s,t=map(int,input().split())\nl=[int(i) for i in input().split()]\n\ninitial=s-1\nfinal=t-1\n#4 2 1\n#1 2 3 4\n#2 3 4 1\nG=True\nfor i in range(n):\n\tif l[initial]==t:\n\t\tprint(i+1)\n\t\tG=False\n\t\tbreak\n\telse:\n\t\tinitial=l[initial]-1\n\nif G:\n\tprint(-1)",
+            "end": 19,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "90b82a80cbc2205597c48e592dd2e22c5e7a943e3c9ba4fb3d9969fa6cb45e1f",
       "test": "0002"
     },
@@ -10572,7 +10817,7 @@
       },
       "freshFailedTest": "0001",
       "freshVerdict": "WA",
-      "kind": "wrong-answer",
+      "kind": "excluded-unexecuted-solution",
       "normalized": {
         "actualOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
         "artifact": {
@@ -10582,8 +10827,49 @@
         "inputHash": "9196ade5cd803d90b1e2fe450b43e26edb0979d53ddf1527021d86764785f363",
         "verdict": "WA"
       },
-      "reason": "Initializes cur=s then guards the loop with cur!=s, so no shuffle executes. A reachable distinct target at its recorded test outputs -1; LF normalization does not fix it.",
+      "reason": "Excluded under the stricter unexecuted-solution rule. Although the recorded LF numeric answer is wrong, p[cur] is never reached, so that result cannot serve as evidence of an executed shuffling algorithm; the latent index mismatch is not exercised either.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": false,
+        "counterexample": null,
+        "excludedNonAlgorithmicCauses": "Excluded under the stricter unexecuted-solution rule. Although the recorded LF numeric answer is wrong, p[cur] is never reached, so that result cannot serve as evidence of an executed shuffling algorithm; the latent index mismatch is not exercised either.",
+        "faultyLogic": "The loop condition is false at initialization for EVERY input because cur=s. No permutation transition is ever executed; the proposed solution is dead and the output reduces to an initial-position equality test.",
+        "faultySourceLines": [
+          {
+            "code": "n, s, t = (int(x) for x in input().split())\np = [int(x) - 1 for x in input().split()]\ncur, val = s, 0\nwhile cur != s and cur != t:\n    cur, val = p[cur], val + 1\nprint(val if cur == t else -1)",
+            "end": 6,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "Parses the permutation as zero-based values, sets cur=s and val=0, and contains a proposed traversal guarded by cur!=s and cur!=t; the final print returns zero if s=t and -1 otherwise.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": false,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/285B/counterexample-8594918-LF.json",
+            "sha256": "39b85885efefb69c632374c4cbffd8346b4e05e0c2ba686b406e013cb6174d3b"
+          },
+          "recordedFailedTest": "0001",
+          "recordedFailedTestLFOutputHash": "ee3aa64bb94a50845d5024cd4bd20202a4567aed5cd5328c0d97e9920775fc28",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/285B/8594918.py",
+          "sha256": "4f082efbf57d7628be4259a662f2559fee2c7c5c0c81343ddaf422e9104df73c"
+        },
+        "sourceHash": "4f082efbf57d7628be4259a662f2559fee2c7c5c0c81343ddaf422e9104df73c",
+        "sourceLineCount": 6,
+        "sourceLines": [
+          {
+            "code": "n, s, t = (int(x) for x in input().split())\np = [int(x) - 1 for x in input().split()]\ncur, val = s, 0\nwhile cur != s and cur != t:\n    cur, val = p[cur], val + 1\nprint(val if cur == t else -1)",
+            "end": 6,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "4f082efbf57d7628be4259a662f2559fee2c7c5c0c81343ddaf422e9104df73c",
       "test": "0001"
     }
@@ -10599,15 +10885,29 @@
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
-    "Only 4/5 counted incorrect sources establish independently reproduced algorithmic wrong answers; excluded failures cannot qualify."
+    "Only 2/5 original counted counterexamples qualify as completed mathematical wrong answers under the stricter semantic rule; 2/5 sources have a genuine algorithmic defect somewhere in the unchanged included suite. Supplemental cases do not silently replace invalid original proofs."
   ],
   "reviewNotes": [
     "No package/evidence bytes were modified. Extra tests are external to the package.",
     "Independent extras use distinct brute-force/simulation methods, including corner/max cases; both package oracle and one counted accepted source pass all extra tests.",
     "Generator executions use a placeholder expected output; their WA checker status is immaterial. Exit status, no timeout, exact output hashes and generated pair bytes are verified.",
-    "No publication approval is granted by this audit. Only require_approval=False is evaluated."
+    "No publication approval is granted by this audit. Only require_approval=False is evaluated.",
+    "Stricter source-specific semantic review performed on the complete actual code of every one of the five incorrect sources; semanticReview carries full exact line excerpts, implemented algorithms, faulty logic, exclusions and mathematical derivations.",
+    "Original package/evidence/source/execution bytes and original archive remain unchanged. This pass reuses existing LF executions and included LF suite executions; no public program was executed again.",
+    "Parent reports its independent pinned upstream file/source/statement/API cross-check complete; downloadedUpstreamSources remains false because this child did not perform those downloads. No remaining upstream gap is asserted."
   ],
   "reviewUrl": "https://staging.itsdev.in/sessions/3f1eb4a7487f45f39f3bf20d015c0c1c",
   "reviewer": "devin-3f1eb4a7487f45f39f3bf20d015c0c1c",
-  "schemaVersion": 1
+  "schemaVersion": 1,
+  "semanticReviewSummary": {
+    "fullSourcesRead": 5,
+    "genuineAlgorithmicallyWrong": 2,
+    "newProgramExecutions": 0,
+    "oldAuditFileSHA256": "6f00b9ad2d3000a587b1d6b129efc40a13e36bceae9678296e58b9f2777f486c",
+    "oldAuditHash": "837c372a6db3985d6e2b5ac4b8de031457a0ac1cb095469b26cdf022d458eee3",
+    "originalArchiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+    "originalArchiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+    "policy": "Full-source manual review, actual executed algorithm, completed wrong mathematical answer after presentation exclusions; original qualification remains fail-closed and unchanged evidence is not repaired.",
+    "unchangedQualificationWrongCount": 2
+  }
 }

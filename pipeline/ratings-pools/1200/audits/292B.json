@@ -15,13 +15,16 @@
   },
   "counts": {
     "accepted": 5,
-    "algorithmicallyWrong": 4,
+    "algorithmicallyWrong": 3,
     "excludedKinds": {
-      "excluded-line-ending": 1
+      "excluded-line-ending": 1,
+      "excluded-missing-output": 1
     },
     "extraTests": 770,
     "incorrect": 5,
     "samples": 4,
+    "semanticAlgorithmicallyWrong": 5,
+    "semanticSourcesReviewed": 5,
     "suppliedTests": 152
   },
   "evidenceHash": "ef5fc4d8b35fc18b68c8396d22fe00f7d391033b04f1c5e3e6193fb0145c796f",
@@ -12091,8 +12094,88 @@
         "inputHash": "63ae1d8899f72bd41ac5ee143ad28c8b481ef674b8970e23b6f310889ff029df",
         "verdict": "AC"
       },
-      "reason": "At recorded test 0001 the CRLF input yields unknown topology, while replacing CRLF by LF yields the required bus topology. Unstripped carriage returns contaminate string labels in comparisons. Although the source also assumes a special edge orientation/label order, the counted failed test is not algorithmic-wrong evidence.",
+      "reason": "The ORIGINAL recorded 1-2-3-4 input changes from WA to AC under LF and remains excluded from its original qualification. A different unchanged included LF test, 0033, completes with the mathematically wrong unknown class, establishing this real graph-model defect independently of CRLF.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "unknown topology\n",
+          "actualOutputHash": "20b2b35485123a65c18ee094c0a87f1aa3334f1ecf53c96e9270c2240bed23fe",
+          "constraints": "n=4,m=3 meet the minimum graph bounds. Edges (3,4),(4,2),(1,2) are distinct, non-self, within 1..4, and connect all nodes via the stated path.",
+          "correctAnswer": "bus topology",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/292B/source-12227705.json",
+              "sha256": "77354fb1cd68d5f3425353ce1c3b98f5fa6158abb4d4e0ed2b0b6f96f4975512"
+            },
+            "logPath": "proofs/292B-12227705.json",
+            "logSHA256": "1de76833985bf2a47770a56a88eb67597f4bed40f6687bf1477ff65d2001fb35",
+            "outputHash": "20b2b35485123a65c18ee094c0a87f1aa3334f1ecf53c96e9270c2240bed23fe",
+            "rawLogCopy": {
+              "path": "proofs/raw/292B/source-12227705.json",
+              "sha256": "77354fb1cd68d5f3425353ce1c3b98f5fa6158abb4d4e0ed2b0b6f96f4975512"
+            },
+            "runTest": "0033",
+            "sourceHash": "8ab78bc846c556919a4c0eac02dc04311b119f3a975ff318e4e77fdd04396731",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/292B/source-12227705.json",
+              "sha256": "77354fb1cd68d5f3425353ce1c3b98f5fa6158abb4d4e0ed2b0b6f96f4975512"
+            }
+          },
+          "inputSHA256": "8a83d7885fe5005ec5148bb139dd8a264080530ad8fa33e3ef74095b67e94355",
+          "mathematicalDerivation": "The undirected edges form path 3-4-2-1 through all four nodes. Endpoints 3 and 1 have degree one; 4 and 2 have degree two. That is exactly bus topology independent of vertex labels or edge orientation.",
+          "originalInputSHA256": "8a83d7885fe5005ec5148bb139dd8a264080530ad8fa33e3ef74095b67e94355",
+          "originalOutputSHA256": "68d68c34d24453b24651a04f403b4866092435f79f98f0d44e742d3fa698538b",
+          "role": "supplemental-only-does-not-replace-counted-evidence",
+          "sourceHash": "8ab78bc846c556919a4c0eac02dc04311b119f3a975ff318e4e77fdd04396731",
+          "test": "0033",
+          "validLF": "4 3\n3 4\n4 2\n1 2\n"
+        },
+        "excludedNonAlgorithmicCauses": "The ORIGINAL recorded 1-2-3-4 input changes from WA to AC under LF and remains excluded from its original qualification. A different unchanged included LF test, 0033, completes with the mathematically wrong unknown class, establishing this real graph-model defect independently of CRLF.",
+        "faultyLogic": "Bus classification is label-order-dependent and is not an undirected path test. On 3-4-2-1, its key 4 points to 2 instead of the required 5, so it rejects a bus and prints unknown.",
+        "faultySourceLines": [
+          {
+            "code": "def parse(data):\n    res = {}\n    for l in data.split(\"\\n\"):\n        a, b = l.split(\" \")\n        res.setdefault(a,[]).append(b)\n    return res\n\ndef check(data, n, m):\n    if n != m and m != (n-1):\n        return \"unknown topology\"\n    res = parse(data)\n    if m == (n-1):\n        sorted_keys = sorted(list(res.keys()))\n        bus = False\n        for k in sorted_keys:\n            if str(int(k)+1) == res[k][0] and len(res[k]) == 1:\n                pass\n            else:\n                break\n        else:\n            bus = True\n        if bus:\n            return \"bus topology\"\n        if max(res.keys()) == min(res.keys()) and len(set((x[0] for x in res.values()))) == len(list(res.keys())):\n            return \"star topology\"\n    elif n == m:\n        v = []\n        for i in res.values():\n            v.extend(i)\n        if sorted(res.keys()) == sorted(v):\n            return \"ring topology\"\n    return \"unknown topology\"\n\nn, m = input().split(\" \")\nn = int(n)\nm = int(m)\n\nr = []\nfor _ in range(m):\n    r.append(input())\ndata = \"\\n\".join(r)\n\nprint(check(data, n, m))",
+            "end": 43,
+            "start": 1
+          }
+        ],
+        "implementedAlgorithm": "Parses edges as string-keyed, forward-only adjacency. For m=n-1 it accepts a bus only if each key's first neighbor is numerically key+1 and there is one stored neighbor, and has a one-key star rule; for m=n it compares sorted source/target label multisets.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": false,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/292B/counterexample-12227705-LF.json",
+            "sha256": "46c62b9c55644a0eb30ba1381b842f589dff3e6c4af3226bc9c350a0fe1cdac9"
+          },
+          "recordedFailedTest": "0001",
+          "recordedFailedTestLFOutputHash": "68d68c34d24453b24651a04f403b4866092435f79f98f0d44e742d3fa698538b",
+          "recordedFailedTestLFVerdict": "AC"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/292B/12227705.py",
+          "sha256": "8ab78bc846c556919a4c0eac02dc04311b119f3a975ff318e4e77fdd04396731"
+        },
+        "sourceHash": "8ab78bc846c556919a4c0eac02dc04311b119f3a975ff318e4e77fdd04396731",
+        "sourceLineCount": 43,
+        "sourceLines": [
+          {
+            "code": "def parse(data):\n    res = {}\n    for l in data.split(\"\\n\"):\n        a, b = l.split(\" \")\n        res.setdefault(a,[]).append(b)\n    return res\n\ndef check(data, n, m):\n    if n != m and m != (n-1):\n        return \"unknown topology\"\n    res = parse(data)\n    if m == (n-1):\n        sorted_keys = sorted(list(res.keys()))\n        bus = False\n        for k in sorted_keys:\n            if str(int(k)+1) == res[k][0] and len(res[k]) == 1:\n                pass\n            else:\n                break\n        else:\n            bus = True\n        if bus:\n            return \"bus topology\"\n        if max(res.keys()) == min(res.keys()) and len(set((x[0] for x in res.values()))) == len(list(res.keys())):\n            return \"star topology\"\n    elif n == m:\n        v = []\n        for i in res.values():\n            v.extend(i)\n        if sorted(res.keys()) == sorted(v):\n            return \"ring topology\"\n    return \"unknown topology\"\n\nn, m = input().split(\" \")\nn = int(n)\nm = int(m)\n\nr = []\nfor _ in range(m):\n    r.append(input())\ndata = \"\\n\".join(r)\n\nprint(check(data, n, m))",
+            "end": 43,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "8ab78bc846c556919a4c0eac02dc04311b119f3a975ff318e4e77fdd04396731",
       "test": "0001"
     },
@@ -12108,7 +12191,7 @@
       },
       "freshFailedTest": "0005",
       "freshVerdict": "WA",
-      "kind": "wrong-answer",
+      "kind": "excluded-missing-output",
       "normalized": {
         "actualOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "artifact": {
@@ -12118,8 +12201,88 @@
         "inputHash": "83f309bff7db6f66f894eb94c4eca1a896c89771cc522c794189a8f9ddbc1ab3",
         "verdict": "WA"
       },
-      "reason": "Overwrites one outgoing neighbor per vertex and assumes sequential numeric labels. At recorded test 0005, the undirected path 2-1-4-5-3, none of its predicates recognizes the bus and it emits no answer. This is a failed graph model, not harmless whitespace/capitalization; LF has the same outcome.",
+      "reason": "The original failed test 0005 emitted no label, which alone is not a wrong mathematical classification and is excluded from the unchanged qualification. The existing included LF test 0033 instead executes the classifier and emits the wrong label unknown; this supplemental semantic counterexample has no diagnostics or runtime failure and does not replace the original counted evidence.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "unknown topology\n",
+          "actualOutputHash": "20b2b35485123a65c18ee094c0a87f1aa3334f1ecf53c96e9270c2240bed23fe",
+          "constraints": "n=4,m=3 meet the minimum graph bounds. Edges (3,4),(4,2),(1,2) are distinct, non-self, within 1..4, and connect all nodes via the stated path.",
+          "correctAnswer": "bus topology",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/292B/source-14119329.json",
+              "sha256": "c262070f73c377f143b4f2e9cf8c9b7d5cea87958b6f3d22e6424107fd0915d0"
+            },
+            "logPath": "proofs/292B-14119329.json",
+            "logSHA256": "b8a704ffcbf3d1e5700e3af001dd54a9058b849367f8078ec9cec695a8fd386d",
+            "outputHash": "20b2b35485123a65c18ee094c0a87f1aa3334f1ecf53c96e9270c2240bed23fe",
+            "rawLogCopy": {
+              "path": "proofs/raw/292B/source-14119329.json",
+              "sha256": "c262070f73c377f143b4f2e9cf8c9b7d5cea87958b6f3d22e6424107fd0915d0"
+            },
+            "runTest": "0033",
+            "sourceHash": "d8788d2e3b290133109c773ad32104736167c44530658f1b3db81cc7b80953c4",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/292B/source-14119329.json",
+              "sha256": "c262070f73c377f143b4f2e9cf8c9b7d5cea87958b6f3d22e6424107fd0915d0"
+            }
+          },
+          "inputSHA256": "8a83d7885fe5005ec5148bb139dd8a264080530ad8fa33e3ef74095b67e94355",
+          "mathematicalDerivation": "The undirected edges form path 3-4-2-1 through all four nodes. Endpoints 3 and 1 have degree one; 4 and 2 have degree two. That is exactly bus topology independent of vertex labels or edge orientation.",
+          "originalInputSHA256": "8a83d7885fe5005ec5148bb139dd8a264080530ad8fa33e3ef74095b67e94355",
+          "originalOutputSHA256": "68d68c34d24453b24651a04f403b4866092435f79f98f0d44e742d3fa698538b",
+          "role": "supplemental-only-does-not-replace-counted-evidence",
+          "sourceHash": "d8788d2e3b290133109c773ad32104736167c44530658f1b3db81cc7b80953c4",
+          "test": "0033",
+          "validLF": "4 3\n3 4\n4 2\n1 2\n"
+        },
+        "excludedNonAlgorithmicCauses": "The original failed test 0005 emitted no label, which alone is not a wrong mathematical classification and is excluded from the unchanged qualification. The existing included LF test 0033 instead executes the classifier and emits the wrong label unknown; this supplemental semantic counterexample has no diagnostics or runtime failure and does not replace the original counted evidence.",
+        "faultyLogic": "An undirected path need not follow ascending labels and cannot be modeled by one overwritten outgoing neighbor. On included LF test 0033, array [2,0,4,2] matches successor 2 at index zero, then mismatches at index one and prints unknown for a valid bus.",
+        "faultySourceLines": [
+          {
+            "code": "for i in range(m):\n    s1,s2 = [int(i) for i in input().split()]\n    a[s1-1]=s2\nfor i in range(m):\n    if a[i]%n==(i+2)%n:\n        count+=1\n    elif count!=0:\n        print(\"unknown topology\")\n        AAAAAH = True\n        break\nif not AAAAAH:\n    if count == n:\n        print(\"ring topology\")\n    elif count== n-1:\n        print(\"bus topology\")\n    if len(set(a))==2:\n        print(\"star topology\")",
+            "end": 22,
+            "start": 6
+          }
+        ],
+        "implementedAlgorithm": "Overwrites a single directed successor array entry for each first endpoint, compares entries with the expected numeric successor order, and infers ring/bus from successor matches or star from two distinct stored values.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": false,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/292B/counterexample-14119329-LF.json",
+            "sha256": "0c83f1d312e0d663caf0c6b8a492c38e2bcac241b5102e3afbcb638183a321fe"
+          },
+          "recordedFailedTest": "0005",
+          "recordedFailedTestLFOutputHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/292B/14119329.py",
+          "sha256": "d8788d2e3b290133109c773ad32104736167c44530658f1b3db81cc7b80953c4"
+        },
+        "sourceHash": "d8788d2e3b290133109c773ad32104736167c44530658f1b3db81cc7b80953c4",
+        "sourceLineCount": 22,
+        "sourceLines": [
+          {
+            "code": "n,m = [int(i) for i in input().split()]\na = [0 for i in range(n)]\nAAAAAH = False\ncount = 0\ns1,s2 = 0,0\nfor i in range(m):\n    s1,s2 = [int(i) for i in input().split()]\n    a[s1-1]=s2\nfor i in range(m):\n    if a[i]%n==(i+2)%n:\n        count+=1\n    elif count!=0:\n        print(\"unknown topology\")\n        AAAAAH = True\n        break\nif not AAAAAH:\n    if count == n:\n        print(\"ring topology\")\n    elif count== n-1:\n        print(\"bus topology\")\n    if len(set(a))==2:\n        print(\"star topology\")",
+            "end": 22,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "d8788d2e3b290133109c773ad32104736167c44530658f1b3db81cc7b80953c4",
       "test": "0005"
     },
@@ -12145,8 +12308,88 @@
         "inputHash": "ccd440191c10911a49270519c0a00691028cde34c9aa6b2da789f28ee2d0128e",
         "verdict": "WA"
       },
-      "reason": "Tests 0 not in a, which checks dictionary keys 1..n and is always true. It thus calls every graph with m=n a ring, including its recorded non-ring counterexample; LF input still gives ring instead of unknown.",
+      "reason": "0 not in a checks dictionary KEYS, which are initialized as 1..n and therefore never contain zero. It labels every n=m graph a ring regardless of the undirected degrees, including a triangle with a pendant vertex.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "ring topology\n",
+          "actualOutputHash": "d7f814e7104a83d6ab09305a7e888c5e15684911e5751641ce1c6e19f4a5d34c",
+          "constraints": "n=m=4 are legal, all four edges are distinct and non-self within 1..4, and the triangle plus pendant connects every vertex.",
+          "correctAnswer": "unknown topology",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/292B/counterexample-14120049-LF.json",
+              "sha256": "1e459af333ca7d7cb0cbb11de32ddd2791fc0a7fca51e5d72a87fd0f08b973fb"
+            },
+            "logPath": "proofs/292B-14120049.json",
+            "logSHA256": "97eb063db4f19a6bbd24c7bcebfcc531e115103c4cb2429ae78242b61deb4db9",
+            "outputHash": "d7f814e7104a83d6ab09305a7e888c5e15684911e5751641ce1c6e19f4a5d34c",
+            "rawLogCopy": {
+              "path": "proofs/raw/292B/counterexample-14120049-LF.json",
+              "sha256": "1e459af333ca7d7cb0cbb11de32ddd2791fc0a7fca51e5d72a87fd0f08b973fb"
+            },
+            "runTest": "0004-LF",
+            "sourceHash": "201c3c2a8aee7c289568ae3a463d4e7b270e234b7886e13e8fb7a0a7914bfaed",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/292B/source-14120049.json",
+              "sha256": "1fa98959d5733388146f9bbbeeb8e099f272a5952b8fdd1e0708345544792473"
+            }
+          },
+          "inputSHA256": "ccd440191c10911a49270519c0a00691028cde34c9aa6b2da789f28ee2d0128e",
+          "mathematicalDerivation": "Edges 1-2,2-3,3-1 make a triangle, and 1-4 attaches a pendant node. Degrees are (3,2,2,1). Ring requires all degrees two; bus requires exactly two degree-one endpoints and the rest degree two; a four-node star would have three edges and degrees (3,1,1,1). None fits, so unknown topology is correct.",
+          "originalInputSHA256": "d4ff22f1ac1c79717503f7bc8e55b31f77c30beff772ddf74070acc6225e41bd",
+          "originalOutputSHA256": "7439db5034cd3b08688a6d149f1674cbe7c338a95e11b8ece8f7bec14835b80b",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "201c3c2a8aee7c289568ae3a463d4e7b270e234b7886e13e8fb7a0a7914bfaed",
+          "test": "0004",
+          "validLF": "4 4\n1 2\n2 3\n3 1\n1 4\n"
+        },
+        "excludedNonAlgorithmicCauses": "The dictionary and classification branch execute, producing ring topology with normal LF parsing. This is wrong key/value logic and an insufficient graph criterion, not a diagnostic label or wholly unexecuted solution.",
+        "faultyLogic": "0 not in a checks dictionary KEYS, which are initialized as 1..n and therefore never contain zero. It labels every n=m graph a ring regardless of the undirected degrees, including a triangle with a pendant vertex.",
+        "faultySourceLines": [
+          {
+            "code": "a = {}\nfor i in range(n):\n    a[i+1] = 0\nfirst = False\nsecond = False\nthird = False\n\nAAAAAH = False\ncount = 0\nx,y = 0,0\n\nfor i in range(m):\n    x,y = [int(i) for i in input().split()]\n    a[x]=y\n\nif n==m:\n    if 0 not in a:\n        print(\"ring topology\")\n    else:\n        print(\"unknown topology\")\n\nelif n-m==1:\n    for i in a:\n        if a[i]==0:\n            count+=1\n    if count==1 or count==2:\n        print(\"bus topology\")\n    elif count==n-1:\n        print(\"star topology\")\n    else:\n        print(\"unknown topology\")",
+            "end": 33,
+            "start": 3
+          }
+        ],
+        "implementedAlgorithm": "Stores one directed target per first endpoint. For n=m it asks whether zero is absent from the dictionary; for m=n-1 it counts zero-valued entries and labels bus or star by that count.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/292B/counterexample-14120049-LF.json",
+            "sha256": "1e459af333ca7d7cb0cbb11de32ddd2791fc0a7fca51e5d72a87fd0f08b973fb"
+          },
+          "recordedFailedTest": "0004",
+          "recordedFailedTestLFOutputHash": "d7f814e7104a83d6ab09305a7e888c5e15684911e5751641ce1c6e19f4a5d34c",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/292B/14120049.py",
+          "sha256": "201c3c2a8aee7c289568ae3a463d4e7b270e234b7886e13e8fb7a0a7914bfaed"
+        },
+        "sourceHash": "201c3c2a8aee7c289568ae3a463d4e7b270e234b7886e13e8fb7a0a7914bfaed",
+        "sourceLineCount": 33,
+        "sourceLines": [
+          {
+            "code": "n,m = [int(i) for i in input().split()]\n\na = {}\nfor i in range(n):\n    a[i+1] = 0\nfirst = False\nsecond = False\nthird = False\n\nAAAAAH = False\ncount = 0\nx,y = 0,0\n\nfor i in range(m):\n    x,y = [int(i) for i in input().split()]\n    a[x]=y\n\nif n==m:\n    if 0 not in a:\n        print(\"ring topology\")\n    else:\n        print(\"unknown topology\")\n\nelif n-m==1:\n    for i in a:\n        if a[i]==0:\n            count+=1\n    if count==1 or count==2:\n        print(\"bus topology\")\n    elif count==n-1:\n        print(\"star topology\")\n    else:\n        print(\"unknown topology\")",
+            "end": 33,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "201c3c2a8aee7c289568ae3a463d4e7b270e234b7886e13e8fb7a0a7914bfaed",
       "test": "0004"
     },
@@ -12172,8 +12415,88 @@
         "inputHash": "83f309bff7db6f66f894eb94c4eca1a896c89771cc522c794189a8f9ddbc1ab3",
         "verdict": "WA"
       },
-      "reason": "Maintains an input-order-dependent counter of repeated adjacency insertions, including checking dict[first] when updating second, rather than final degrees. Recorded test 0005 is the path 2-1-4-5-3, which it misclassifies as unknown under both CRLF and LF.",
+      "reason": "The counter does not measure the final undirected degrees, and the second update checks the wrong vertex. On the five-node path, the updates increment count for node 1 and node 4 only, yielding 2 instead of n-2=3 and rejecting bus.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "unknown topology\n",
+          "actualOutputHash": "20b2b35485123a65c18ee094c0a87f1aa3334f1ecf53c96e9270c2240bed23fe",
+          "constraints": "n=5,m=4 satisfy 4<=n<=100000 and 3<=m<=100000; endpoints are in 1..5, all edges are distinct and non-self, and path 2-1-4-5-3 proves connectedness.",
+          "correctAnswer": "bus topology",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/292B/counterexample-14120275-LF.json",
+              "sha256": "6ad61f80ab4149321001962d3ef87457f4bbeecf578a746062a3be367b99031b"
+            },
+            "logPath": "proofs/292B-14120275.json",
+            "logSHA256": "06c205503f6186928cf2453179ed751ca3d3a76a319a6ca8af295e98aebd31aa",
+            "outputHash": "20b2b35485123a65c18ee094c0a87f1aa3334f1ecf53c96e9270c2240bed23fe",
+            "rawLogCopy": {
+              "path": "proofs/raw/292B/counterexample-14120275-LF.json",
+              "sha256": "6ad61f80ab4149321001962d3ef87457f4bbeecf578a746062a3be367b99031b"
+            },
+            "runTest": "0005-LF",
+            "sourceHash": "7e854c9485f2e30dc36952428c568bee4f9c476238e2736f634e81e9242e2abb",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/292B/source-14120275.json",
+              "sha256": "193a04a605aa954a2ab3090b6b1f03e15b6ed22cb23338fdc04825f5dc7270f8"
+            }
+          },
+          "inputSHA256": "83f309bff7db6f66f894eb94c4eca1a896c89771cc522c794189a8f9ddbc1ab3",
+          "mathematicalDerivation": "The edges form the undirected path 2-1-4-5-3, covering all five vertices. Endpoints 2 and 3 have degree one; vertices 1,4,5 have degree two. Therefore it is a bus, not a ring (endpoints exist), not a star (no degree-four center), and not unknown.",
+          "originalInputSHA256": "46cc4ced5eb38cee9d57a2c738a7e87d3b43bf27d259b84bc4fea691ebf4df60",
+          "originalOutputSHA256": "b596d02af2e388613cf2d63ec79f1677082241a99ae4425f1baa7bb42a470e94",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "7e854c9485f2e30dc36952428c568bee4f9c476238e2736f634e81e9242e2abb",
+          "test": "0005",
+          "validLF": "5 4\n1 2\n3 5\n1 4\n5 4\n"
+        },
+        "excludedNonAlgorithmicCauses": "Both adjacency updates and the counter-based classifier are executed; the output unknown topology is a wrong classification with no diagnostics, dormant routine or LF parser failure.",
+        "faultyLogic": "The counter does not measure the final undirected degrees, and the second update checks the wrong vertex. On the five-node path, the updates increment count for node 1 and node 4 only, yielding 2 instead of n-2=3 and rejecting bus.",
+        "faultySourceLines": [
+          {
+            "code": "if m >= n-1:\n    for i in range(m):\n        first, second = [int(k) for k in input().split()]\n        if first not in dict:\n            dict[first] = set()\n            dict[first].add(second)\n        else:\n            if len(dict[first]) == 1:\n                count += 1\n            dict[first].add(second)\n        if second not in dict:\n            dict[second] = set()\n            dict[second].add(first)\n        else:\n            if len(dict[first]) == 1:\n                count += 1\n            dict[second].add(first)\nif count == n-2 and m == n-1:\n    print('bus topology')\nelif count == 1:\n    print('star topology')\nelif count == n-1:\n    print('ring topology')\nelse:\n    print('unknown topology')",
+            "end": 29,
+            "start": 5
+          }
+        ],
+        "implementedAlgorithm": "Builds adjacency sets in both directions but increments a counter when adding to a previously size-one set. The second-endpoint update mistakenly tests the FIRST endpoint's set size; final topology is inferred from this counter.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/292B/counterexample-14120275-LF.json",
+            "sha256": "6ad61f80ab4149321001962d3ef87457f4bbeecf578a746062a3be367b99031b"
+          },
+          "recordedFailedTest": "0005",
+          "recordedFailedTestLFOutputHash": "20b2b35485123a65c18ee094c0a87f1aa3334f1ecf53c96e9270c2240bed23fe",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/292B/14120275.py",
+          "sha256": "7e854c9485f2e30dc36952428c568bee4f9c476238e2736f634e81e9242e2abb"
+        },
+        "sourceHash": "7e854c9485f2e30dc36952428c568bee4f9c476238e2736f634e81e9242e2abb",
+        "sourceLineCount": 29,
+        "sourceLines": [
+          {
+            "code": "n, m = [int(k) for k in input().split()]\nans = 'bus topology'\ndict = {}\ncount = 0\nif m >= n-1:\n    for i in range(m):\n        first, second = [int(k) for k in input().split()]\n        if first not in dict:\n            dict[first] = set()\n            dict[first].add(second)\n        else:\n            if len(dict[first]) == 1:\n                count += 1\n            dict[first].add(second)\n        if second not in dict:\n            dict[second] = set()\n            dict[second].add(first)\n        else:\n            if len(dict[first]) == 1:\n                count += 1\n            dict[second].add(first)\nif count == n-2 and m == n-1:\n    print('bus topology')\nelif count == 1:\n    print('star topology')\nelif count == n-1:\n    print('ring topology')\nelse:\n    print('unknown topology')",
+            "end": 29,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "7e854c9485f2e30dc36952428c568bee4f9c476238e2736f634e81e9242e2abb",
       "test": "0005"
     },
@@ -12199,8 +12522,98 @@
         "inputHash": "83f309bff7db6f66f894eb94c4eca1a896c89771cc522c794189a8f9ddbc1ab3",
         "verdict": "WA"
       },
-      "reason": "Stores only node1->node2 and classifies the oriented graph, although input edges are undirected and arbitrarily oriented. Recorded test 0005 is the path 2-1-4-5-3, which is a bus; it outputs unknown under both CRLF and LF.",
+      "reason": "It ignores reverse adjacency and uses directed outdegree one rather than undirected degrees. On the valid five-node path, node 1 has outgoing neighbors 2 and 4, so both path predicates reject it; incoming counts also fail the directed star rule.",
       "recordedTestVerdict": "WA",
+      "semanticReview": {
+        "algorithmicWrong": true,
+        "counterexample": {
+          "actualAnswer": "unknown topology\n",
+          "actualOutputHash": "20b2b35485123a65c18ee094c0a87f1aa3334f1ecf53c96e9270c2240bed23fe",
+          "constraints": "n=5,m=4 satisfy 4<=n<=100000 and 3<=m<=100000; endpoints are in 1..5, all edges are distinct and non-self, and path 2-1-4-5-3 proves connectedness.",
+          "correctAnswer": "bus topology",
+          "execution": {
+            "executionVersion": 2,
+            "existingLFLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/292B/counterexample-4780077-LF.json",
+              "sha256": "b2f7ee94ff050087903c1fb36d8b8776215cecebaa22282e22b9041dda976659"
+            },
+            "logPath": "proofs/292B-4780077.json",
+            "logSHA256": "6eb370943d199042cbd7d8e942946353655b306680b340947862bf196d3d9844",
+            "outputHash": "20b2b35485123a65c18ee094c0a87f1aa3334f1ecf53c96e9270c2240bed23fe",
+            "rawLogCopy": {
+              "path": "proofs/raw/292B/counterexample-4780077-LF.json",
+              "sha256": "b2f7ee94ff050087903c1fb36d8b8776215cecebaa22282e22b9041dda976659"
+            },
+            "runTest": "0005-LF",
+            "sourceHash": "760ff89320e5d81ee79670b18c878b0ec924b514eb6d28e5b12ecbbd5bdcb83d",
+            "sourceIdentityLog": {
+              "archiveRoot": "audit1200-batch2",
+              "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+              "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+              "path": "fresh/292B/source-4780077.json",
+              "sha256": "4679607deee4138d1b04d711310c79dbc49df27fadde47fffb80b3939bce33ed"
+            }
+          },
+          "inputSHA256": "83f309bff7db6f66f894eb94c4eca1a896c89771cc522c794189a8f9ddbc1ab3",
+          "mathematicalDerivation": "The edges form the undirected path 2-1-4-5-3, covering all five vertices. Endpoints 2 and 3 have degree one; vertices 1,4,5 have degree two. Therefore it is a bus, not a ring (endpoints exist), not a star (no degree-four center), and not unknown.",
+          "originalInputSHA256": "46cc4ced5eb38cee9d57a2c738a7e87d3b43bf27d259b84bc4fea691ebf4df60",
+          "originalOutputSHA256": "b596d02af2e388613cf2d63ec79f1677082241a99ae4425f1baa7bb42a470e94",
+          "role": "unchanged-recorded-counterexample",
+          "sourceHash": "760ff89320e5d81ee79670b18c878b0ec924b514eb6d28e5b12ecbbd5bdcb83d",
+          "test": "0005",
+          "validLF": "5 4\n1 2\n3 5\n1 4\n5 4\n"
+        },
+        "excludedNonAlgorithmicCauses": "The bus/ring/star functions are actually called and print unknown topology after their checks. The LF output is a wrong graph class, not recursion/runtime failure, diagnostic output or an unexecuted classifier.",
+        "faultyLogic": "It ignores reverse adjacency and uses directed outdegree one rather than undirected degrees. On the valid five-node path, node 1 has outgoing neighbors 2 and 4, so both path predicates reject it; incoming counts also fail the directed star rule.",
+        "faultySourceLines": [
+          {
+            "code": "def is_ring(cur_node, used={}):\n    if cur_node in used:\n        return True\n    if cur_node not in graph:\n        return False\n    if len(graph[cur_node]) == 0:\n        return False\n    if len(graph[cur_node]) != 1:\n        return False\n    used[cur_node] = True\n    return is_ring(graph[cur_node][0], used)",
+            "end": 17,
+            "start": 7
+          },
+          {
+            "code": "def is_bus(cur_node, used={}):\n    \n    if cur_node in used:\n        return False\n    if cur_node not in graph:\n        return True\n    if len(graph[cur_node]) == 0:\n        return True\n    if len(graph[cur_node]) != 1:\n        return False\n    \n    used[cur_node] = True\n    return is_bus(graph[cur_node][0], used)",
+            "end": 31,
+            "start": 19
+          },
+          {
+            "code": "def is_star():\n    counts = {}\n    used = {}\n    def gen_counts(cur_node):\n        if cur_node not in counts:\n            counts[cur_node] = 0\n        if cur_node in used:\n            return\n        used[cur_node] = True\n        if cur_node not in graph:\n            return\n        for connected in graph[cur_node]:\n            if connected not in counts:\n                counts[connected] = 0\n            counts[connected] += 1\n            gen_counts(connected)\n\n    for i in graph:\n        gen_counts(i)\n\n    n_others, n_centers, n_leaves = 0, 0, 0\n    \n    for n, count in counts.items():\n        if count == 1:\n            n_leaves += 1\n        elif count == 0:\n            n_centers += 1\n        else:\n            n_others += 1\n\n    return (n_others == 0) and (n_centers == 1) and (n_leaves == len(counts.items())-1)\n    \nfor i in range(n_edges):\n    node1, node2 = (int(x) for x in sys.stdin.readline().split())\n    if node1 not in graph:\n        graph[node1] = []\n    graph[node1].append(node2)\n\nif is_bus(1):\n    print(\"bus topology\")\nelif is_ring(1):\n    print(\"ring topology\")\nelif is_star():\n    print(\"star topology\")\nelse:\n    print(\"unknown topology\")",
+            "end": 78,
+            "start": 33
+          }
+        ],
+        "implementedAlgorithm": "Stores only node1->node2 for each undirected input edge. Directed recursive predicates test bus and ring from node 1, followed by a directed incoming-count star predicate.",
+        "qualification": {
+          "countsTowardsUnchangedQualification": true,
+          "originalLFLog": {
+            "archiveRoot": "audit1200-batch2",
+            "archiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+            "archiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+            "path": "fresh/292B/counterexample-4780077-LF.json",
+            "sha256": "b2f7ee94ff050087903c1fb36d8b8776215cecebaa22282e22b9041dda976659"
+          },
+          "recordedFailedTest": "0005",
+          "recordedFailedTestLFOutputHash": "20b2b35485123a65c18ee094c0a87f1aa3334f1ecf53c96e9270c2240bed23fe",
+          "recordedFailedTestLFVerdict": "WA"
+        },
+        "reviewedFullSource": true,
+        "sourceArtifact": {
+          "path": "sources/292B/4780077.py",
+          "sha256": "760ff89320e5d81ee79670b18c878b0ec924b514eb6d28e5b12ecbbd5bdcb83d"
+        },
+        "sourceHash": "760ff89320e5d81ee79670b18c878b0ec924b514eb6d28e5b12ecbbd5bdcb83d",
+        "sourceLineCount": 78,
+        "sourceLines": [
+          {
+            "code": "import sys\nfrom collections import defaultdict\n\nn_nodes, n_edges = (int(x) for x in sys.stdin.readline().split())\ngraph = {}\n\ndef is_ring(cur_node, used={}):\n    if cur_node in used:\n        return True\n    if cur_node not in graph:\n        return False\n    if len(graph[cur_node]) == 0:\n        return False\n    if len(graph[cur_node]) != 1:\n        return False\n    used[cur_node] = True\n    return is_ring(graph[cur_node][0], used)\n\ndef is_bus(cur_node, used={}):\n    \n    if cur_node in used:\n        return False\n    if cur_node not in graph:\n        return True\n    if len(graph[cur_node]) == 0:\n        return True\n    if len(graph[cur_node]) != 1:\n        return False\n    \n    used[cur_node] = True\n    return is_bus(graph[cur_node][0], used)\n\ndef is_star():\n    counts = {}\n    used = {}\n    def gen_counts(cur_node):\n        if cur_node not in counts:\n            counts[cur_node] = 0\n        if cur_node in used:\n            return\n        used[cur_node] = True\n        if cur_node not in graph:\n            return\n        for connected in graph[cur_node]:\n            if connected not in counts:\n                counts[connected] = 0\n            counts[connected] += 1\n            gen_counts(connected)\n\n    for i in graph:\n        gen_counts(i)\n\n    n_others, n_centers, n_leaves = 0, 0, 0\n    \n    for n, count in counts.items():\n        if count == 1:\n            n_leaves += 1\n        elif count == 0:\n            n_centers += 1\n        else:\n            n_others += 1\n\n    return (n_others == 0) and (n_centers == 1) and (n_leaves == len(counts.items())-1)\n    \nfor i in range(n_edges):\n    node1, node2 = (int(x) for x in sys.stdin.readline().split())\n    if node1 not in graph:\n        graph[node1] = []\n    graph[node1].append(node2)\n\nif is_bus(1):\n    print(\"bus topology\")\nelif is_ring(1):\n    print(\"ring topology\")\nelif is_star():\n    print(\"star topology\")\nelse:\n    print(\"unknown topology\")",
+            "end": 78,
+            "start": 1
+          }
+        ]
+      },
       "sourceHash": "760ff89320e5d81ee79670b18c878b0ec924b514eb6d28e5b12ecbbd5bdcb83d",
       "test": "0005"
     }
@@ -12216,15 +12629,29 @@
   "qualificationBasis": "generated",
   "rating": 1200,
   "reasons": [
-    "Only 4/5 counted incorrect sources establish independently reproduced algorithmic wrong answers; excluded failures cannot qualify."
+    "Only 3/5 original counted counterexamples qualify as completed mathematical wrong answers under the stricter semantic rule; 5/5 sources have a genuine algorithmic defect somewhere in the unchanged included suite. Supplemental cases do not silently replace invalid original proofs."
   ],
   "reviewNotes": [
     "No package/evidence bytes were modified. Extra tests are external to the package.",
     "Independent extras use distinct brute-force/simulation methods, including corner/max cases; both package oracle and one counted accepted source pass all extra tests.",
     "Generator executions use a placeholder expected output; their WA checker status is immaterial. Exit status, no timeout, exact output hashes and generated pair bytes are verified.",
-    "No publication approval is granted by this audit. Only require_approval=False is evaluated."
+    "No publication approval is granted by this audit. Only require_approval=False is evaluated.",
+    "Stricter source-specific semantic review performed on the complete actual code of every one of the five incorrect sources; semanticReview carries full exact line excerpts, implemented algorithms, faulty logic, exclusions and mathematical derivations.",
+    "Original package/evidence/source/execution bytes and original archive remain unchanged. This pass reuses existing LF executions and included LF suite executions; no public program was executed again.",
+    "Parent reports its independent pinned upstream file/source/statement/API cross-check complete; downloadedUpstreamSources remains false because this child did not perform those downloads. No remaining upstream gap is asserted."
   ],
   "reviewUrl": "https://staging.itsdev.in/sessions/3f1eb4a7487f45f39f3bf20d015c0c1c",
   "reviewer": "devin-3f1eb4a7487f45f39f3bf20d015c0c1c",
-  "schemaVersion": 1
+  "schemaVersion": 1,
+  "semanticReviewSummary": {
+    "fullSourcesRead": 5,
+    "genuineAlgorithmicallyWrong": 5,
+    "newProgramExecutions": 0,
+    "oldAuditFileSHA256": "5e46ee57b3393d350f189c53825c70d3d6b225592c8b315aa1c6fb5d2599cc9e",
+    "oldAuditHash": "3405ead3f1315b4030101afee75e5d28451c57b1c88d77a25452486ed8dcd824",
+    "originalArchiveSHA256": "660461985fd9f36d2f8f531b9bcd08d9e29c8852a063f6f0e53949dc6c311966",
+    "originalArchiveUrl": "https://staging.itsdev.in/attachments/b5b89d66-bdb9-4c17-b78d-3332d9465d06/audit1200-batch2-evidence.tar.gz",
+    "policy": "Full-source manual review, actual executed algorithm, completed wrong mathematical answer after presentation exclusions; original qualification remains fail-closed and unchanged evidence is not repaired.",
+    "unchangedQualificationWrongCount": 3
+  }
 }
