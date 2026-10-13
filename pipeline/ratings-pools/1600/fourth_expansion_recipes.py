@@ -260,7 +260,7 @@ def extras(pid):
             add(f'1\n{n}\n','minimum/survivor threshold/maximum party','boundary')
         array([1,2,3,100000]*25000,'maximum100000 independent party queries','maxSize')
         array(list(range(1,100001)),'all100000 possible party sizes','maxSize')
-        for _ in range(35):
+        for _ in range(140):
             array([rng.randint(1,100000) for _ in range(rng.randint(1,200))],'fixed-seed multiple queries')
     elif pid == '28B':
         for p,d in (([1],[1]),([2,1],[1,2]),([2,1],[2,2]),([3,2,1],[2,3,3])):
@@ -269,7 +269,7 @@ def extras(pid):
             p = list(range(1,n+1));rng.shuffle(p)
             d = ([1]*n if len(cases)==4 else [n]*n if len(cases)==5 else [2]*n)
             add(f'{n}\n'+' '.join(map(str,p))+'\n'+' '.join(map(str,d))+'\n','maximum connected/isolated/parity components','maxSize')
-        for _ in range(55):
+        for _ in range(140):
             n = rng.randint(1,50);p=list(range(1,n+1));rng.shuffle(p);d=[rng.randint(1,n) for _ in p]
             add(f'{n}\n'+' '.join(map(str,p))+'\n'+' '.join(map(str,d))+'\n','fixed-seed directed initiation but undirected swaps')
     elif pid == '46C':
@@ -277,7 +277,7 @@ def extras(pid):
             add(f'{len(word)}\n{word}\n','wraparound/already grouped/interleaved','boundary')
         for word in ('HT'*500,'H'+'T'*999,'T'+'H'*999,'H'*250+'T'*500+'H'*250):
             add(f'1000\n{word}\n','maximum cyclic animal ring','maxSize')
-        for _ in range(55):
+        for _ in range(140):
             word='HT'+''.join(rng.choice('HT') for _ in range(rng.randint(0,90)))
             add(f'{len(word)}\n{word}\n','fixed-seed animal ring')
     elif pid == '71C':
@@ -285,7 +285,7 @@ def extras(pid):
             array(values,'minimum polygon/cyclic residue/no two-vertex polygon','boundary')
         for values in ([0]*100000,[1]*100000,[int(i%25000==7) for i in range(100000)]):
             array(values,'maximum100000 knights/no polygon/all good/offset square','maxSize')
-        for _ in range(55):
+        for _ in range(140):
             array([rng.randrange(2) for _ in range(rng.randint(3,120))],'fixed-seed composite and prime-sized rings')
     elif pid == '246D':
         def graph(colors,edges,reason,category='adversarial'):
@@ -295,7 +295,7 @@ def extras(pid):
         graph([1,4,4,8,8],[(2,4),(2,5),(3,4),(3,5)],'count distinct colors not edge multiplicity or absent colors')
         graph(list(range(1,100001)),[(i,i+1) for i in range(1,100000)]+[(100000,1)],'maximum colors/n/m cycle','maxSize')
         graph([100000]+[i%9+1 for i in range(1,100000)],[(1,i) for i in range(2,100001)]+[(2,3)],'maximum star with repeated neighbor colors','maxSize')
-        for _ in range(55):
+        for _ in range(140):
             n=rng.randint(2,30);possible=list(itertools.combinations(range(1,n+1),2));rng.shuffle(possible)
             graph([rng.randint(1,10) for _ in range(n)],possible[:rng.randint(1,len(possible))],'fixed-seed simple disconnected/dense graphs')
     elif pid == '407B':
@@ -303,14 +303,14 @@ def extras(pid):
             array(values,'minimum/backtracking/modulus transition','boundary')
         for values in ([1]*1000,list(range(1,1001)),[max(1,i//2) for i in range(1,1001)]):
             array(values,'maximum1000 rooms/long detours/immediate advance','maxSize')
-        for _ in range(55):
+        for _ in range(140):
             array([rng.randint(1,i) for i in range(1,rng.randint(1,100)+1)],'fixed-seed valid backwards portals')
     elif pid == '525C':
         for values in ([2],[2,2,2],[2]*4,[2,3,4,5],[2,2,3,5],[100003,100004,100005,100006],[5,5,4,3,3,2,2,2]):
             array(values,'minimum/no rectangle/one-unit shortening/64-bit area','boundary')
         for values in ([1000000]*100000,[999999,1000000]*50000,[i%999999+2 for i in range(100000)]):
             array(values,'maximum100000 sticks and side lengths','maxSize')
-        for _ in range(55):
+        for _ in range(140):
             array([rng.randint(2,40) for _ in range(rng.randint(1,80))],'fixed-seed spare sticks and competing pairings')
     elif pid == '534C':
         def dice(values,amount,reason,category='adversarial'):
@@ -319,7 +319,7 @@ def extras(pid):
             dice(values,amount,'minimum/single die/both feasible bounds','boundary')
         for amount in (200000,200000000000,100000100000):
             dice([1000000]*200000,amount,'maximum n/di and 64-bit sum','maxSize')
-        for _ in range(55):
+        for _ in range(140):
             values=[rng.randint(1,100) for _ in range(rng.randint(1,80))]
             dice(values,rng.randint(len(values),sum(values)),'fixed-seed dice feasible interval intersection')
     else:
@@ -331,7 +331,7 @@ def extras(pid):
         graph(400,[],'maximum nodes/no railways','maxSize')
         graph(400,list(itertools.combinations(range(1,401),2)),'maximum nodes/all79800 railways/no roads','maxSize')
         graph(400,[(i,i+1) for i in range(1,400)],'maximum399-hop train route and direct road','maxSize')
-        for _ in range(55):
+        for _ in range(140):
             n=rng.randint(2,25)
             graph(n,[edge for edge in itertools.combinations(range(1,n+1),2) if rng.randrange(2)],'fixed-seed graph and complement connectivity')
     return cases
