@@ -1,0 +1,489 @@
+{
+  "baseCommit": "5b28d333",
+  "bruteChecks": 70047,
+  "bruteReference": "Three independent references: brute_scan (literal O(n^2) rescan of alive runs after each step), brute_segments (enumerate every segment and check no destroyed cell, O(n^4) small n), forward_tree (forward-order max-subarray segment tree with blocked leaves). Exhaustive: every n<=5 array over {0,1,2} with every permutation (brute_segments for n<=4); 2000 fixed-seed random cases n<=12 (values up to 10^9); 20 random n in 50..200. Unit test additionally checks every extras case against forward_tree (including all n=10^5 cases) and brute_scan for n<=1000.",
+  "exclusionCheck": {
+    "customChecker": false,
+    "fileIO": false,
+    "floating": false,
+    "imageMissing": false,
+    "interactive": false,
+    "multipleValidOutputs": false,
+    "note": "n integers, each uniquely determined; exact token comparison is correct. No images in the statement."
+  },
+  "extras": {
+    "categories": {
+      "adversarial": 130,
+      "boundary": 15,
+      "maxSize": 5
+    },
+    "count": 150,
+    "includes": "minima n=1 (a=0 and a=10^9), n=2 edges, 32-bit overflow (3*10^9, 4*10^9), zeros inside alive runs, values containing digit 0, bridging of a -512 sentinel, union-find neighbour-vs-root total, multiset erase-by-value duplicates, older run larger than the two newest halves, left/right/middle-out/outside-in/periodic orders, n=1000 cases, five legal n=10^5 cases (all 10^9 random order with first answer 99999*10^9; random values; left-to-right; 0/10^9 middle-out; all zeros), fixed-seed random small fill.",
+    "motivation": "Selected WA logic re-implemented as mutants (not executing the sources) in test_recipe_722C: kadane_sentinel (21118094), dsu_neighbour_value (21340676), digit_split (21358515), zero_sentinel_no_tail (21358756), zero_sentinel (25494731); plus common C++ errors multiset_erase_all, last_split_only, int32_wrap. Each labelled case is asserted to kill its mutant.",
+    "officialGap": "Row official suite has 11 of 49 tests, max n=17; extras add n=1000 and n=10^5.",
+    "seed": 722003,
+    "sha256OfJson": "e4c7e4b62bd94aba282892b4ec32d09601d5bd5460da3e5b77d42be30b03ae64"
+  },
+  "failedUpstreamPairs": [],
+  "id": "722C",
+  "inputs": {
+    "archiveBytes": 4542856,
+    "archiveSha256": "b5d674a6b75b1a5faeaccb187f45c787b70c71508f2e00a3fff922298761d98f",
+    "file": "inputs/722C.json",
+    "fileBytes": 64896,
+    "fileSha256": "7ab0a204dbc4044d5955a7227d2a2e44639df4305225f1ddd15aff8cd54a023d",
+    "manifestEntry": {
+      "bytes": 64896,
+      "sha256": "7ab0a204dbc4044d5955a7227d2a2e44639df4305225f1ddd15aff8cd54a023d"
+    },
+    "manifestMatches": true,
+    "pins": {
+      "open-r1/codeforces": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "open-r1/codeforces-submissions": "07e7bf31f284b0e90e02dfc7ab675d5821e1c068"
+    },
+    "sourceRowHash": "5c19ba3404777baf0830eab9333b76420461dd3d71acadbd94bd8fc7deda590e",
+    "sourceRowHashMatches": true,
+    "sourceRowHashRecomputed": "5c19ba3404777baf0830eab9333b76420461dd3d71acadbd94bd8fc7deda590e",
+    "sourceShard": {
+      "bytes": 337144355,
+      "dataset": "open-r1/codeforces",
+      "path": "data/train-00008-of-00011.parquet",
+      "revision": "fbe3f6e903ee854eec2e69e9d96d0306cde59baf",
+      "sha256": "f138b6d3ff6b7ba5de9ace08eb34146ca3ca19d68d2adbb92b239a2721ce2c4d",
+      "url": "https://huggingface.co/datasets/open-r1/codeforces/resolve/fbe3f6e903ee854eec2e69e9d96d0306cde59baf/data/train-00008-of-00011.parquet"
+    }
+  },
+  "notAuditNotSignoffNotValidated": true,
+  "officialReview": {
+    "failures": [],
+    "generatedTests": "Row declares generated_tests=18; their bytes are not in the input file, so not reviewed here. Parent should run review() over rated_pool.generated_tests.",
+    "lineEndings": "All 11 official tests CRLF with trailing newline; samples LF without trailing newline; parse uses splitlines so both accepted. Every pair parses with exact 3-line layout and matches the oracle; outputs are one integer per line.",
+    "maxOfficialN": 17,
+    "mutantRowFailures": {
+      "digit_split": [
+        "0005",
+        "0006",
+        "0007",
+        "0008",
+        "0009",
+        "0011"
+      ],
+      "dsu_neighbour_value": [
+        "0004",
+        "0005",
+        "0006",
+        "0007",
+        "0008",
+        "0009"
+      ],
+      "kadane_sentinel": [],
+      "zero_sentinel": [
+        "0005",
+        "0006",
+        "0007"
+      ],
+      "zero_sentinel_no_tail": [
+        "0001",
+        "0002",
+        "0003",
+        "0004",
+        "0005",
+        "0006",
+        "0007",
+        "0008",
+        "0009",
+        "0011"
+      ]
+    },
+    "officialComplete": false,
+    "officialCount": 11,
+    "officialCountDeclared": 49,
+    "samples": 3
+  },
+  "oracle": "Reverse insertion: undestroy elements from the last destruction backwards, union adjacent alive cells with iterative path-compressed union-find carrying run totals; running maximum gives the answer after step i-1. O(n alpha(n)).",
+  "recipeFiles": [
+    "pipeline/ratings-pools/1600/recipe_722C.py",
+    "pipeline/ratings-pools/1600/test_recipe_722C.py"
+  ],
+  "role": "recipe-author",
+  "selectedSubmissions": {
+    "count": 32,
+    "entries": [
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 49.0,
+        "sourceBytes": 1450,
+        "sourceSha256": "d85580b48d89e0a10012a5c7ff2cbacbe2bcfe1aa0e8c7228fbd5b19b5ba112f",
+        "submissionId": "21071127",
+        "verdict": "OK"
+      },
+      {
+        "language": "C++14 (GCC 6-32)",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 49.0,
+        "sourceBytes": 1332,
+        "sourceSha256": "2e95f119a982a0c465a54ec8e1f1363c7b6a3a0b395c25ca0450280c3eb493d6",
+        "submissionId": "21071418",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 49.0,
+        "sourceBytes": 919,
+        "sourceSha256": "73cab4f996cd76481c234906b7a8b40f9cda0e7e67e94b61e7162e178e550370",
+        "submissionId": "21071430",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 49.0,
+        "sourceBytes": 6267,
+        "sourceSha256": "67f1aab6a9f55c59bc3bcebb012ec3c061d4501740a6ce09314b732b64af5ae5",
+        "submissionId": "21071750",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 49.0,
+        "sourceBytes": 1141,
+        "sourceSha256": "23db38ca243d0cb6c9b25d32f38138f098100724c52ecb410b1e2e863e86820d",
+        "submissionId": "21072126",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 49.0,
+        "sourceBytes": 1047,
+        "sourceSha256": "90d399435d7d3d0fb906a3011ef22ff52d097f8a621863547bf8f2e8cf056e66",
+        "submissionId": "21072132",
+        "verdict": "OK"
+      },
+      {
+        "language": "C++14 (GCC 6-32)",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 49.0,
+        "sourceBytes": 1216,
+        "sourceSha256": "2ecaead4f372e5189289a8737677a7c832b936e2eed0247ffbb9eb9c76706aa9",
+        "submissionId": "21072522",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 49.0,
+        "sourceBytes": 1069,
+        "sourceSha256": "eb851b001364a3364579c2e6786e3dac3c73448000192025222a7b8b9ac53485",
+        "submissionId": "21072921",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 49.0,
+        "sourceBytes": 978,
+        "sourceSha256": "e60a94ab6f4286062953b9839c56da743f0aaba876038d1f86b759264c8de6cb",
+        "submissionId": "21073246",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 49.0,
+        "sourceBytes": 3476,
+        "sourceSha256": "f35829f4c378c8135d66a4815fc0ec51a982bbd90e58c789576ded6e3d1ff5bd",
+        "submissionId": "21073504",
+        "verdict": "OK"
+      },
+      {
+        "language": "C++14 (GCC 6-32)",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 49.0,
+        "sourceBytes": 843,
+        "sourceSha256": "a8d6a679986e05c7d8d852ef422021056f1eef41daf45aa017c7046f7aed34f3",
+        "submissionId": "21073508",
+        "verdict": "OK"
+      },
+      {
+        "language": "GNU C++11",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 49.0,
+        "sourceBytes": 1234,
+        "sourceSha256": "4f2b70a1f34c960dbe710d2222f8bf195a318072d60d01ff9eb6c02a76da1fc3",
+        "submissionId": "21073658",
+        "verdict": "OK"
+      },
+      {
+        "analysis": "Python Kadane over the array with destroyed cells overwritten by sentinel -1<<9 = -512 (lines 15-18). A destroyed cell between runs whose sums exceed 512 is bridged, e.g. 1000 1000 1000 destroying 2 gives 1488 instead of 1000. None of the 11 row official tests reproduces the recorded failure (all row values <=17 or a single run), so the recorded failing official test is outside the incomplete row; the extras case \"Kadane gives 1488\" kills the re-implemented mutant kadane_sentinel. Also O(n^2).",
+        "authorReading": "algorithmic",
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 5.0,
+        "sourceBytes": 396,
+        "sourceSha256": "f5ece77a51eeb2c0f85f892e4bee1694700ed2941a8df79e745bc7e2bdf2f61b",
+        "submissionId": "21118094",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReading": "TLE-only (not algorithmic proof)",
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 12.0,
+        "sourceBytes": 343,
+        "sourceSha256": "b45b88c16880b977fdac634b9c1ec5e8ca0a1853f80a8c64946c77c1468c9628",
+        "submissionId": "21119214",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "authorReading": "TLE-only (not algorithmic proof)",
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 12.0,
+        "sourceBytes": 412,
+        "sourceSha256": "52c712e10ce4e5c6dc207f9d6a8c131bb2fd795465ff69aea37b6ee5a95577b8",
+        "submissionId": "21165294",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "authorReading": "TLE-only (not algorithmic proof)",
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 12.0,
+        "sourceBytes": 426,
+        "sourceSha256": "a161101e7cc7da6e70e78b6154397d6d7dadbd0f3752688b7f4f219eb1596f05",
+        "submissionId": "21238282",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "analysis": "Reverse-insertion union-find, but the merge adds aa[i] (the neighbour cell value) instead of aa[j] (the neighbour root total) (line 20: aa[a] += aa[i]; lines 14-23 reverse insertion). Re-implemented as dsu_neighbour_value; it first fails row official test 0004 (n=10), consistent with passedTestCount=3. setrecursionlimit(25) additionally makes recursive find raise on deep chains (non-algorithmic RE, not relied on).",
+        "authorReading": "algorithmic",
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 3.0,
+        "sourceBytes": 701,
+        "sourceSha256": "8df4833834912bb1096e0928dae9638eee8b8d3fafcdda644607d28212915c90",
+        "submissionId": "21340676",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "analysis": "Sets destroyed cell to 0, concatenates decimal strings and splits on character \"0\", summing digits (lines 7-14): multi-digit values and legitimate zero values are mishandled. Mutant digit_split first fails row test 0005 (values 12,17,...), consistent with passedTestCount=4.",
+        "authorReading": "algorithmic",
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 4.0,
+        "sourceBytes": 404,
+        "sourceSha256": "d06e3fa09c5f535a33e4342915c74162a7ae78cd527f4ab294329a5265bf0b78",
+        "submissionId": "21358515",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "analysis": "Zero-as-destroyed sentinel and the trailing run is never appended to c (lines 7-18: appends only at el == 0, then print(max(c))), so the last alive run is ignored. Mutant zero_sentinel_no_tail fails sample/test 0001 (prints 4 instead of 5), consistent with passedTestCount=0.",
+        "authorReading": "algorithmic",
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 0.0,
+        "sourceBytes": 382,
+        "sourceSha256": "c0acc31f4d644b98bb92d9e9c3d820ce252624ccffe2f3251f83d94ad5034043",
+        "submissionId": "21358756",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "analysis": "Hard-coded third sample instead of reading input (input() calls commented out); wrong-problem/constant output. Not usable as algorithmic proof.",
+        "authorReading": "non-algorithmic",
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 0.0,
+        "sourceBytes": 2500,
+        "sourceSha256": "52e5ea6d490fd665cfcb89b56fc38352ef545365713f3ccc7bff69db1e963480",
+        "submissionId": "21363809",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReading": "TLE-only (not algorithmic proof)",
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 12.0,
+        "sourceBytes": 877,
+        "sourceSha256": "edbcae1d1defd77c8a2665697bf7b5da750b3d90d0297563801cd10e6823f75a",
+        "submissionId": "21369298",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "authorReading": "TLE-only (not algorithmic proof)",
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 5.0,
+        "sourceBytes": 1333,
+        "sourceSha256": "66cf47c9c6d10e2cc06554f1b4f07c568bc747e0dc73c4cf1c5f8c7afce2a08a",
+        "submissionId": "21562798",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "authorReading": "TLE-only (not algorithmic proof)",
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 14.0,
+        "sourceBytes": 506,
+        "sourceSha256": "4eb40df8a2e6dfe0bf851146c765c1d6ec1fc32a0631a297697abebe39b81a35",
+        "submissionId": "21584594",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "authorReading": "TLE-only (not algorithmic proof)",
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 14.0,
+        "sourceBytes": 823,
+        "sourceSha256": "ad176d0f5b10254669478622b94187a567735f3f4d28d4ce2da6de5e10cf0f49",
+        "submissionId": "21588457",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "analysis": "Prints the debug prefix-sum list print(F) before the answers; presentation/debug contamination. Do not count.",
+        "authorReading": "non-algorithmic",
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 0.0,
+        "sourceBytes": 594,
+        "sourceSha256": "e4b95bd8dc4b3add5613ce5c01b37a2992f485eac3da6226f7a359b2f9b3fc84",
+        "submissionId": "22340145",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReading": "TLE-only (not algorithmic proof)",
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 12.0,
+        "sourceBytes": 306,
+        "sourceSha256": "bb0e427e0cf1ac3b4e6ca852c5d726d108916bb8e85a03936945d68ca9e90444",
+        "submissionId": "22507752",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "authorReading": "TLE-only (not algorithmic proof)",
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 12.0,
+        "sourceBytes": 251,
+        "sourceSha256": "4050e7bbb65688dde9cf78449a9851f5fb2b33d95d8e08aa50062e92c797c3d2",
+        "submissionId": "23768532",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "authorReading": "TLE-only (not algorithmic proof)",
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 12.0,
+        "sourceBytes": 366,
+        "sourceSha256": "458cbcccfc3fade1ee3fbbb6a42f6e2d0a9e063d76253907f3f85e3da16d5e1f",
+        "submissionId": "25493713",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "analysis": "Destroyed cells set to 0 and runs are split at every 0 value, so legitimate a_i=0 inside an alive run splits it (lines 9-19: nums[b-1] = 0, run closed at each == 0); also O(n^2). Mutant zero_sentinel first fails row test 0005 (contains a_5=0), consistent with passedTestCount=4. Minimal witness found by exhaustive search: a=0 1 0 1, order 1 2 3 4: expected 2 1 1 0, mutant 1 1 1 0.",
+        "authorReading": "algorithmic",
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 4.0,
+        "sourceBytes": 501,
+        "sourceSha256": "621865caff08348bffa78660b5bd52da919e396106b8594bad5b2e502220a62a",
+        "submissionId": "25494731",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReading": "TLE-only (not algorithmic proof)",
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 12.0,
+        "sourceBytes": 375,
+        "sourceSha256": "7ffa5d1d7ba8f5bf12ff89174368d12452a9b34ceb225d67aa9402ee5e4832df",
+        "submissionId": "25495380",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      },
+      {
+        "analysis": "Defines destroying_array but never reads input or calls it; prints nothing. Not algorithmic proof.",
+        "authorReading": "non-algorithmic",
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 0.0,
+        "sourceBytes": 610,
+        "sourceSha256": "66bdee9be1206189ddd807ba222cbe108798f77da96626e98f2e38f9456b05c2",
+        "submissionId": "25535788",
+        "verdict": "WRONG_ANSWER"
+      },
+      {
+        "authorReading": "TLE-only (not algorithmic proof)",
+        "language": "Python 3",
+        "parquet": "data/train-00027-of-00036.parquet",
+        "parquetSha256": "a043ccb46adc11535a5275d4bbbbf9017063b2f6f1eadb1cc4a0b936990de0f6",
+        "passedTestCount": 12.0,
+        "sourceBytes": 294,
+        "sourceSha256": "2013d01ae31204417c395abe4acf99ab32664b667ba8617abf5323b90b9deec4",
+        "submissionId": "26412046",
+        "verdict": "TIME_LIMIT_EXCEEDED"
+      }
+    ],
+    "summary": "12 OK (C++), 8 WRONG_ANSWER (Python 3), 12 TIME_LIMIT_EXCEEDED (Python 3). Author reading: 5 WA sources implement a wrong algorithm (21118094, 21340676, 21358515, 21358756, 25494731); 3 are non-algorithmic (21363809 hard-coded sample, 22340145 debug list print, 25535788 never called). All TLEs are TLE-only. So the selected set gives at most 5 genuine WA candidates, with 21118094 not reproduced on any row official test. Parent qualification must verify independently; this is not a signoff."
+  },
+  "semantics": "Three lines: n (1<=n<=10^5); n integers 0<=a_i<=10^9; a permutation of 1..n giving the destruction order. Print n lines, the i-th being the maximum sum of a contiguous segment with no destroyed element after the first i destructions (empty segment = 0, so the last line is 0). Values are non-negative, so only maximal alive runs matter; the unique integer sequence fits in 64 bits (<=10^14). Oracle: reverse insertion with union-find run sums; checked against a literal run scan, an all-segments enumeration, and a forward max-subarray segment tree.",
+  "sourceCorrectionProposal": {
+    "input_format": [
+      [
+        "(0 ≤ ai ≤ 109)",
+        "(0 ≤ ai ≤ 10<sup>9</sup>)",
+        1
+      ]
+    ],
+    "note": "Proposal only; row bytes left unchanged. Same shape as normalize_statement.py MULTI_REPAIRS. Statement-attested by the committed div (sup class upper-index 9)."
+  },
+  "statementAttestation": {
+    "agreement": "Original HTML matches the pinned row text (description, input, output, samples, note) except one lost superscript: input_format \"0 ≤ ai ≤ 109\" is 0 ≤ a<sub>i</sub> ≤ 10<sup class=\"upper-index\">9</sup> in the original. \"1 ≤ n ≤ 100 000\" is written out in both. Subscripts a1..an are plain index markup. Time limit 1 s, memory 256 MB, standard I/O match the row.",
+    "bodyBytes": 59256,
+    "bodySha256": "aab131aa4f24bbe881e3f0dd3fecc099bb899233872fa7db95aa0c9a7e64d0b1",
+    "committedCopy": "pipeline/ratings-pools/1600/statement-sources/722C.recipe-author.original.html",
+    "problemStatementDivByteRange": [
+      36093,
+      40308
+    ],
+    "problemStatementDivSha256": "272ca34efa17e92ec4f880891cd4629951587d5985d06b657f4e3f1a3d335b29",
+    "transport": "public HTTP GET, status 200, fetched 2026-10-13",
+    "url": "https://codeforces.me/problemset/problem/722/C?locale=en"
+  },
+  "statementNormalizationNeeded": "one exponent in input_format: 109 -> 10^9",
+  "unitTestAssertionsNote": "test_recipe_722C runs 11 test methods; brute_checks performs 70047 independent assertions; extras checks re-verify all 150 cases against forward_tree plus brutes where feasible."
+}
