@@ -6,6 +6,7 @@ import { rateLimit } from "@/lib/rate-limit";
 import { judgeOfficialSubmission, submissionLimitReached } from "@/lib/submission-route";
 import { SUBMIT_GRACE_MS, tick, type TournamentGameRow } from "@/lib/tournament";
 import { tournamentSessionSeat } from "@/lib/tournament-auth";
+import { invalidateTournament } from "@/lib/tournament-cache";
 import { TOURNAMENT_MAX_SUBMISSIONS } from "@/lib/tournament-format";
 
 export const maxDuration = 120;
@@ -96,6 +97,7 @@ export async function POST(req: NextRequest) {
     logDbError(`tournament submit: record_tournament_ac ${game.id}`, acErr);
     wonGame = stamped === true;
     await tick(game.tournament_id);
+    invalidateTournament(game.tournament_id);
   }
   return NextResponse.json({ ...judged.result, submissionId: judged.submissionId, solveMs, wonGame });
 }

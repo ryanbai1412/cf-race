@@ -86,13 +86,6 @@ export type TournamentGameRow = {
   finished_at: string | null;
 };
 
-export type TournamentSnapshot = {
-  tournament: TournamentRow;
-  members: TournamentMemberRow[];
-  matches: TournamentMatchRow[];
-  games: TournamentGameRow[];
-};
-
 /** Submissions are accepted for this long after a game's clock hits zero. */
 export const SUBMIT_GRACE_MS = 3000;
 
@@ -112,46 +105,80 @@ export async function newTournamentCode(): Promise<string> {
   throw new Error("could not allocate a tournament code");
 }
 
-export async function loadTournamentByCode(code: string): Promise<TournamentRow | null> {
+export type SessionResult = {
+  outcome: "solved" | "timeout" | "abandoned" | null;
+  solve_ms: number | null;
+};
+
+export type TournamentSnapshot = {
+  tournament: TournamentRow;
+  members: TournamentMemberRow[];
+  matches: TournamentMatchRow[];
+  games: TournamentGameRow[];
+  /** Names of every problem used by a game; only reveal past a game's start. */
+  problemNames: Map<string, string>;
+  /** Outcomes of every game session, keyed by session id. */
+  sessions: Map<string, SessionResult>;
+};
+
+// One round trip. The FK hints are required: tournaments.champion_member_id
+// makes the tournaments<->tournament_members embed ambiguous.
+const SNAPSHOT_SELECT = [
+  "*",
+  "members:tournament_members!tournament_members_tournament_id_fkey(*)",
+  "matches:tournament_matches!tournament_matches_tournament_id_fkey(*)",
+  "games:tournament_games!tournament_games_tournament_id_fkey(*," +
+    "problem:problems(name)," +
+    "sa:sessions!tournament_games_session_a_fkey(outcome,solve_ms)," +
+    "sb:sessions!tournament_games_session_b_fkey(outcome,solve_ms))",
+].join(",");
+
+type EmbeddedGame = TournamentGameRow & {
+  problem: { name: string } | null;
+  sa: SessionResult | null;
+  sb: SessionResult | null;
+};
+
+type EmbeddedTournament = TournamentRow & {
+  members: TournamentMemberRow[];
+  matches: TournamentMatchRow[];
+  games: EmbeddedGame[];
+};
+
+async function loadSnapshotWhere(
+  column: "id" | "code",
+  value: string
+): Promise<TournamentSnapshot | null> {
   const { data, error } = await db()
     .from("tournaments")
-    .select("*")
-    .eq("code", code)
-    .maybeSingle<TournamentRow>();
-  if (error) throw new Error(`loadTournamentByCode: ${error.message}`);
-  return data ?? null;
-}
-
-export async function loadSnapshot(tournamentId: string): Promise<TournamentSnapshot | null> {
-  const [t, m, mt, g] = await Promise.all([
-    db().from("tournaments").select("*").eq("id", tournamentId).maybeSingle<TournamentRow>(),
-    db()
-      .from("tournament_members")
-      .select("*")
-      .eq("tournament_id", tournamentId)
-      .order("joined_at", { ascending: true }),
-    db()
-      .from("tournament_matches")
-      .select("*")
-      .eq("tournament_id", tournamentId)
-      .order("round", { ascending: true })
-      .order("slot", { ascending: true }),
-    db()
-      .from("tournament_games")
-      .select("*")
-      .eq("tournament_id", tournamentId)
-      .order("game_no", { ascending: true }),
-  ]);
-  const failed = [t, m, mt, g].find((r) => r.error);
-  if (failed?.error) throw new Error(`loadSnapshot: ${failed.error.message}`);
-  if (!t.data) return null;
+    .select(SNAPSHOT_SELECT)
+    .eq(column, value)
+    .maybeSingle<EmbeddedTournament>();
+  if (error) throw new Error(`loadSnapshot: ${error.message}`);
+  if (!data) return null;
+  const { members, matches, games: embedded, ...tournament } = data;
+  const problemNames = new Map<string, string>();
+  const sessions = new Map<string, SessionResult>();
+  const games = embedded.map(({ problem, sa, sb, ...g }) => {
+    if (problem) problemNames.set(g.problem_id, problem.name);
+    if (g.session_a && sa) sessions.set(g.session_a, sa);
+    if (g.session_b && sb) sessions.set(g.session_b, sb);
+    return g;
+  });
   return {
-    tournament: t.data,
-    members: (m.data ?? []) as TournamentMemberRow[],
-    matches: (mt.data ?? []) as TournamentMatchRow[],
-    games: (g.data ?? []) as TournamentGameRow[],
+    tournament,
+    members: members.sort(
+      (x, y) => Date.parse(x.joined_at) - Date.parse(y.joined_at) || x.id.localeCompare(y.id)
+    ),
+    matches: matches.sort((x, y) => x.round - y.round || x.slot - y.slot),
+    games: games.sort((x, y) => x.game_no - y.game_no),
+    problemNames,
+    sessions,
   };
 }
+
+export const loadSnapshot = (tournamentId: string) => loadSnapshotWhere("id", tournamentId);
+export const loadSnapshotByCode = (code: string) => loadSnapshotWhere("code", code);
 
 export function activeMembers(members: TournamentMemberRow[]) {
   return members.filter((m) => !m.kicked_at);
@@ -480,7 +507,7 @@ function feedersDone(snap: TournamentSnapshot, match: TournamentMatchRow): boole
  * race-safe (every transition is a guarded update), so it runs lazily on
  * every state poll and after every mutation.
  */
-export async function tick(tournamentId: string): Promise<void> {
+export async function tick(tournamentId: string): Promise<boolean> {
   // One ticker at a time per tournament; a crashed holder's lease expires.
   const nowIso = new Date().toISOString();
   const { data: lease } = await db()
@@ -489,20 +516,58 @@ export async function tick(tournamentId: string): Promise<void> {
     .eq("id", tournamentId)
     .or(`tick_lease.is.null,tick_lease.lt.${nowIso}`)
     .select("id");
-  if (!lease?.length) return;
+  if (!lease?.length) return false;
+  let changed = false;
   try {
     for (let pass = 0; pass < 8; pass++) {
       const snap = await loadSnapshot(tournamentId);
-      if (!snap || snap.tournament.status !== "running") return;
-      const changed = await tickOnce(snap);
-      if (!changed) return;
+      if (!snap || snap.tournament.status !== "running") break;
+      if (!(await tickOnce(snap))) break;
+      changed = true;
     }
+    return changed;
   } finally {
     await db().from("tournaments").update({ tick_lease: null }).eq("id", tournamentId);
   }
 }
 
 const TICK_LEASE_MS = 15_000;
+
+function currentGameOf(snap: TournamentSnapshot, match: TournamentMatchRow) {
+  return snap.games
+    .filter((g) => g.match_id === match.id && !g.finished_at)
+    .sort((x, y) => y.game_no - x.game_no)[0];
+}
+
+/**
+ * Whether tick() has anything to do for this snapshot. Mirrors every
+ * transition guard in tickOnce, so pollers can skip the lease write when
+ * nothing is due.
+ */
+export function tickDue(snap: TournamentSnapshot, now = Date.now()): boolean {
+  if (snap.tournament.status !== "running") return false;
+  const kicked = new Set(snap.members.filter((m) => m.kicked_at).map((m) => m.id));
+  for (const match of snap.matches) {
+    if (match.status === "done") continue;
+    const gone =
+      (match.member_a !== null && kicked.has(match.member_a)) ||
+      (match.member_b !== null && kicked.has(match.member_b));
+    if (gone && (match.status !== "pending" || feedersDone(snap, match))) return true;
+    if (match.status === "pending" && feedersDone(snap, match)) return true;
+    if (match.status === "ready") {
+      const deadline = match.ready_deadline ? new Date(match.ready_deadline).getTime() : 0;
+      if ((match.a_ready_at && match.b_ready_at) || now >= deadline) return true;
+    }
+    if (match.status === "live") {
+      const game = currentGameOf(snap, match);
+      if (game && (game.first_ac_at || now >= new Date(game.ends_at).getTime())) return true;
+    }
+  }
+  const final = snap.matches.find(
+    (m) => m.bracket === "main" && m.round === mainRounds(snap.matches)
+  );
+  return final?.status === "done" && snap.matches.every((m) => m.status === "done");
+}
 
 async function tickOnce(snap: TournamentSnapshot): Promise<boolean> {
   const now = Date.now();
@@ -511,9 +576,7 @@ async function tickOnce(snap: TournamentSnapshot): Promise<boolean> {
 
   for (const match of snap.matches) {
     if (match.status === "done") continue;
-    const currentGame = snap.games
-      .filter((g) => g.match_id === match.id && !g.finished_at)
-      .sort((x, y) => y.game_no - x.game_no)[0];
+    const currentGame = currentGameOf(snap, match);
 
     // Removed players forfeit.
     const aGone = match.member_a !== null && kicked.has(match.member_a);

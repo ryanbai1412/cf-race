@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
 import { db } from "./db";
-import { loadTournamentByCode, type TournamentMemberRow, type TournamentRow } from "./tournament";
-import { currentMember } from "./tournament-auth";
+import { getEffectiveUser } from "./impersonation";
+import {
+  loadSnapshotByCode,
+  type TournamentMemberRow,
+  type TournamentRow,
+  type TournamentSnapshot,
+} from "./tournament";
+import { memberFromList } from "./tournament-auth";
 import { MAX_PARTICIPANTS, normalizeCode } from "./tournament-format";
 
 export const bad = (error: string, status = 400) => NextResponse.json({ error }, { status });
@@ -17,26 +23,33 @@ export async function readJson(req: Request): Promise<Record<string, unknown>> {
   return body && typeof body === "object" ? (body as Record<string, unknown>) : {};
 }
 
-/** Resolve the tournament by code plus the caller's membership. */
+export function codeParam(raw: unknown): string {
+  return typeof raw === "string" ? normalizeCode(raw) : "";
+}
+
+export const noSuchTournament = () => bad("No tournament with that code", 404);
+
+/** Resolve a fresh snapshot by code plus the caller's membership (for mutations). */
 export async function tournamentFromCode(
-  raw: unknown,
-  load: (code: string) => Promise<TournamentRow | null> = loadTournamentByCode
+  raw: unknown
 ): Promise<
-  | { ok: true; t: TournamentRow; me: TournamentMemberRow | null }
+  | { ok: true; t: TournamentRow; me: TournamentMemberRow | null; snap: TournamentSnapshot }
   | { ok: false; response: NextResponse }
 > {
-  const code = typeof raw === "string" ? normalizeCode(raw) : "";
+  const code = codeParam(raw);
   if (!code) return { ok: false, response: bad("missing code") };
-  let t: TournamentRow | null;
   try {
-    t = await load(code);
+    const snap = await loadSnapshotByCode(code);
+    if (!snap) return { ok: false, response: noSuchTournament() };
+    const { me } = await memberFromList(snap.tournament.id, snap.members, async () => {
+      const user = await getEffectiveUser();
+      return user?.id ?? null;
+    });
+    return { ok: true, t: snap.tournament, me, snap };
   } catch (e) {
     console.error(e);
     return { ok: false, response: unavailable() };
   }
-  if (!t) return { ok: false, response: bad("No tournament with that code", 404) };
-  const me = await currentMember(t.id);
-  return { ok: true, t, me };
 }
 
 export async function nameTaken(

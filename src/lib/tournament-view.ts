@@ -1,4 +1,3 @@
-import { db } from "./db";
 import type { Problem } from "./types";
 import {
   activeMembers,
@@ -8,6 +7,7 @@ import {
   type TournamentMemberRow,
   type TournamentSnapshot,
 } from "./tournament";
+import { cachedProblem } from "./tournament-cache";
 import type { Bracket, MatchFormat, Side } from "./tournament-format";
 
 const ONLINE_MS = 45_000;
@@ -115,15 +115,6 @@ export async function buildStateView(
   extra: { kicked: boolean; signedIn: boolean }
 ): Promise<TournamentStateView> {
   const now = Date.now();
-  // Problems stay secret until GO, even from spectators.
-  const revealedIds = Array.from(
-    new Set(snap.games.filter((g) => Date.parse(g.started_at) <= now).map((g) => g.problem_id))
-  );
-  const { data: problems } = revealedIds.length
-    ? await db().from("problems").select("id, name").in("id", revealedIds)
-    : { data: [] };
-  const names = new Map((problems ?? []).map((p) => [p.id as string, p.name as string]));
-
   const matches: MatchView[] = snap.matches.map((m) => ({
     id: m.id,
     bracket: m.bracket,
@@ -147,12 +138,13 @@ export async function buildStateView(
     games: snap.games
       .filter((g) => g.match_id === m.id)
       .map((g) => {
+        // Problems stay secret until GO, even from spectators.
         const revealed = Date.parse(g.started_at) <= now;
         return {
           id: g.id,
           gameNo: g.game_no,
           problemId: revealed ? g.problem_id : null,
-          problemName: revealed ? names.get(g.problem_id) ?? g.problem_id : null,
+          problemName: revealed ? snap.problemNames.get(g.problem_id) ?? g.problem_id : null,
           startAtMs: Date.parse(g.started_at),
           endsAtMs: Date.parse(g.ends_at),
           suddenDeath: g.sudden_death,
@@ -180,12 +172,8 @@ export async function buildStateView(
       const sessionId = side === "a" ? game.session_a : game.session_b;
       if (sessionId) {
         const startAtMs = Date.parse(game.started_at);
-        const [{ data: session }, problem] = await Promise.all([
-          db().from("sessions").select("outcome, solve_ms").eq("id", sessionId).maybeSingle(),
-          startAtMs <= now
-            ? db().from("problems").select("*").eq("id", game.problem_id).maybeSingle<Problem>()
-            : Promise.resolve({ data: null }),
-        ]);
+        const session = snap.sessions.get(sessionId);
+        const problem: Problem | null = startAtMs <= now ? await cachedProblem(game.problem_id) : null;
         myGame = {
           gameId: game.id,
           matchId: cur.id,
@@ -193,9 +181,9 @@ export async function buildStateView(
           side,
           startAtMs,
           endsAtMs: Date.parse(game.ends_at),
-          problem: problem.data ?? null,
-          outcome: (session?.outcome as MyGameView["outcome"]) ?? null,
-          solveMs: (session?.solve_ms as number | null) ?? null,
+          problem,
+          outcome: session?.outcome ?? null,
+          solveMs: session?.solve_ms ?? null,
         };
       }
     }

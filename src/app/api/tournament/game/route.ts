@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { buildSessionReplay } from "@/lib/session-log";
 import { currentMember } from "@/lib/tournament-auth";
 import { tick, type TournamentGameRow, type TournamentMemberRow } from "@/lib/tournament";
+import { invalidateTournament } from "@/lib/tournament-cache";
 
 export const dynamic = "force-dynamic";
 
@@ -39,7 +40,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "not found" }, { status: 404 });
   }
   if (!game.finished_at && Date.now() > Date.parse(game.ends_at)) {
-    await tick(game.tournament_id);
+    if (await tick(game.tournament_id)) invalidateTournament(game.tournament_id);
     const again = await db().from("tournament_games").select("finished_at, winner_member_id").eq("id", gameId).maybeSingle();
     if (again.data) game = { ...game, ...again.data };
   }
