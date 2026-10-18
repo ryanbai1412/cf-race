@@ -1,5 +1,6 @@
 import { randomInt } from "node:crypto";
 import { db, logDbError } from "./db";
+import { pg } from "./pg";
 import {
   COUNTDOWN_MS,
   READY_WINDOW_MS,
@@ -145,16 +146,90 @@ type EmbeddedTournament = TournamentRow & {
   games: EmbeddedGame[];
 };
 
-async function loadSnapshotWhere(
-  column: "id" | "code",
-  value: string
-): Promise<TournamentSnapshot | null> {
+type Lookup = { column: "id" | "code"; value: string };
+
+const SNAPSHOT_READ_TIMEOUT_MS = 10_000;
+// Until the tournament_snapshot migration is applied, re-check this often instead of on every read.
+const SNAPSHOT_FN_RECHECK_MS = 60_000;
+let snapshotFnMissingAt: number | null = null;
+
+const missingFunction = (code: unknown) => code === "42883" || code === "PGRST202";
+
+function markSnapshotFnMissing(): undefined {
+  if (snapshotFnMissingAt === null) {
+    console.warn("[tournament] tournament_snapshot() missing; using the embedded select");
+  }
+  snapshotFnMissingAt = Date.now();
+  return undefined;
+}
+
+async function snapshotViaPostgres(
+  sql: NonNullable<ReturnType<typeof pg>>,
+  { column, value }: Lookup
+): Promise<EmbeddedTournament | null | undefined> {
+  const query =
+    column === "code"
+      ? sql<{ snap: EmbeddedTournament | null }[]>`select public.tournament_snapshot(p_code => ${value}) as snap`
+      : sql<{ snap: EmbeddedTournament | null }[]>`select public.tournament_snapshot(p_id => ${value}::uuid) as snap`;
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => {
+      query.cancel();
+      reject(new Error("loadSnapshot: tournament_snapshot timed out"));
+    }, SNAPSHOT_READ_TIMEOUT_MS);
+  });
+  try {
+    const [row] = await Promise.race([query, timeout]);
+    return row?.snap ?? null;
+  } catch (e) {
+    if (missingFunction((e as { code?: unknown }).code)) return markSnapshotFnMissing();
+    throw new Error(`loadSnapshot: ${(e as Error).message}`);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function snapshotViaRpc({ column, value }: Lookup): Promise<EmbeddedTournament | null | undefined> {
+  const { data, error } = await db().rpc(
+    "tournament_snapshot",
+    column === "code" ? { p_code: value } : { p_id: value },
+    { get: true }
+  );
+  if (error && missingFunction(error.code)) return markSnapshotFnMissing();
+  if (error) throw new Error(`loadSnapshot: ${error.message}`);
+  return (data as EmbeddedTournament | null) ?? null;
+}
+
+async function snapshotViaEmbed({ column, value }: Lookup): Promise<EmbeddedTournament | null> {
   const { data, error } = await db()
     .from("tournaments")
     .select(SNAPSHOT_SELECT)
     .eq(column, value)
     .maybeSingle<EmbeddedTournament>();
   if (error) throw new Error(`loadSnapshot: ${error.message}`);
+  return data;
+}
+
+/**
+ * One round trip: tournament_snapshot() over a direct pooled connection when
+ * DATABASE_URL is set, else as one PostgREST RPC. Falls back to the embedded
+ * select while the function isn't deployed, so app and migration can ship in
+ * either order. undefined from a fast path means "function missing".
+ */
+async function loadEmbedded(lookup: Lookup): Promise<EmbeddedTournament | null> {
+  if (snapshotFnMissingAt === null || Date.now() - snapshotFnMissingAt >= SNAPSHOT_FN_RECHECK_MS) {
+    const sql = pg();
+    const data = await (sql ? snapshotViaPostgres(sql, lookup) : snapshotViaRpc(lookup));
+    if (data !== undefined) {
+      snapshotFnMissingAt = null;
+      return data;
+    }
+  }
+  return snapshotViaEmbed(lookup);
+}
+
+async function loadSnapshotWhere(column: Lookup["column"], value: string): Promise<TournamentSnapshot | null> {
+  const data = await loadEmbedded({ column, value });
   if (!data) return null;
   const { members, matches, games: embedded, ...tournament } = data;
   const problemNames = new Map<string, string>();
