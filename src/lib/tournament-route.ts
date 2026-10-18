@@ -19,7 +19,8 @@ export async function readJson(req: Request): Promise<Record<string, unknown>> {
 
 /** Resolve the tournament by code plus the caller's membership. */
 export async function tournamentFromCode(
-  raw: unknown
+  raw: unknown,
+  load: (code: string) => Promise<TournamentRow | null> = loadTournamentByCode
 ): Promise<
   | { ok: true; t: TournamentRow; me: TournamentMemberRow | null }
   | { ok: false; response: NextResponse }
@@ -28,7 +29,7 @@ export async function tournamentFromCode(
   if (!code) return { ok: false, response: bad("missing code") };
   let t: TournamentRow | null;
   try {
-    t = await loadTournamentByCode(code);
+    t = await load(code);
   } catch (e) {
     console.error(e);
     return { ok: false, response: unavailable() };

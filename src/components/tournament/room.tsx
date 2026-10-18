@@ -27,6 +27,7 @@ const POLL_MS = 3000;
 const POLL_HIDDEN_MS = 10_000;
 const POLL_JITTER_MS = 1000;
 const POLL_MAX_BACKOFF_MS = 30_000;
+const SYNC_DELAY_MS = 1100;
 const SYNC_SPREAD_MS = 750;
 const STATE_TIMEOUT_MS = 15_000;
 
@@ -45,7 +46,9 @@ export function TournamentRoom({ code }: { code: string }) {
   const inFlight = useRef(false);
   const rerun = useRef(false);
   const failures = useRef(0);
-  const refresh = useCallback(async () => {
+  const wantFresh = useRef(false);
+  const refresh = useCallback(async (opts?: { fresh?: boolean }) => {
+    if (opts?.fresh === true) wantFresh.current = true;
     if (inFlight.current) {
       rerun.current = true;
       return;
@@ -54,8 +57,10 @@ export function TournamentRoom({ code }: { code: string }) {
     try {
       do {
         rerun.current = false;
+        const fresh = wantFresh.current;
+        wantFresh.current = false;
         try {
-          const res = await fetch(`/api/tournament/state?code=${code}`, {
+          const res = await fetch(`/api/tournament/state?code=${code}${fresh ? "&fresh=1" : ""}`, {
             cache: "no-store",
             signal: AbortSignal.timeout(STATE_TIMEOUT_MS),
           });
@@ -92,14 +97,14 @@ export function TournamentRoom({ code }: { code: string }) {
     };
   }, [refresh]);
 
-  // Spread broadcast-triggered refetches so every tab doesn't hit the server in the same instant.
+  // Wait out the server's state cache (the sender just refreshed it), then spread refetches so tabs don't all hit at once.
   const syncTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const refreshSoon = useCallback(() => {
     if (syncTimer.current) return;
     syncTimer.current = setTimeout(() => {
       syncTimer.current = null;
       void refresh();
-    }, Math.random() * SYNC_SPREAD_MS);
+    }, SYNC_DELAY_MS + Math.random() * SYNC_SPREAD_MS);
   }, [refresh]);
   useEffect(() => () => {
     if (syncTimer.current) clearTimeout(syncTimer.current);
@@ -132,7 +137,7 @@ export function TournamentRoom({ code }: { code: string }) {
 
   /** Refresh now and nudge everyone else's page. */
   const changed = useCallback(() => {
-    void refresh();
+    void refresh({ fresh: true });
     void channel.current?.send({ type: "broadcast", event: "sync", payload: {} });
   }, [refresh]);
 
