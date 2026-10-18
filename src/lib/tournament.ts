@@ -415,22 +415,30 @@ async function finishMatch(
   return true;
 }
 
-async function pickProblem(snap: TournamentSnapshot): Promise<string | null> {
+async function loadProblemPool(): Promise<string[]> {
   const { data: problems } = await db()
     .from("problems")
     .select("id, tags")
     .neq("id", "warmup-sum");
-  const used = new Set(snap.games.map((g) => g.problem_id));
-  const pool = (problems ?? [])
+  return (problems ?? [])
     .filter((p) => !((p.tags as string[] | null) ?? []).includes("hidden"))
     .map((p) => p.id as string);
+}
+
+async function pickProblem(snap: TournamentSnapshot, problemPool: () => Promise<string[]>): Promise<string | null> {
+  const used = new Set(snap.games.map((g) => g.problem_id));
+  const pool = await problemPool();
   const fresh = pool.filter((id) => !used.has(id));
   const from = fresh.length ? fresh : pool;
   return from.length ? from[randomInt(from.length)] : null;
 }
 
 /** Ready window over (or both ready): create the game + both sessions. */
-async function startGame(snap: TournamentSnapshot, match: TournamentMatchRow): Promise<boolean> {
+async function startGame(
+  snap: TournamentSnapshot,
+  match: TournamentMatchRow,
+  problemPool: () => Promise<string[]>
+): Promise<boolean> {
   const { data: claimed } = await db()
     .from("tournament_matches")
     .update({ status: "live" })
@@ -440,7 +448,7 @@ async function startGame(snap: TournamentSnapshot, match: TournamentMatchRow): P
   if (!claimed?.length) return false;
 
   const series = evaluateSeries(match.format, gameOutcomes(match, snap.games));
-  const problemId = await pickProblem(snap);
+  const problemId = await pickProblem(snap, problemPool);
   if (!series.next || !problemId) {
     await db().from("tournament_matches").update({ status: "ready" }).eq("id", match.id);
     return false;
@@ -709,10 +717,13 @@ async function tickOnce(snap: TournamentSnapshot): Promise<boolean> {
     return Boolean(data?.length);
   }
   const kicked = new Set(snap.members.filter((m) => m.kicked_at).map((m) => m.id));
-  let changed = false;
+  let pool: Promise<string[]> | null = null;
+  const problemPool = () => (pool ??= loadProblemPool());
 
-  for (const match of snap.matches) {
-    if (match.status === "done") continue;
+  // Each match's transition only touches its own rows (plus its own slot in the
+  // next match), so a round's worth of them can go out at once.
+  const advance = async (match: TournamentMatchRow): Promise<boolean> => {
+    if (match.status === "done") return false;
     const currentGame = currentGameOf(snap, match);
 
     if (liveWithoutGame(snap, match, now)) {
@@ -722,8 +733,7 @@ async function tickOnce(snap: TournamentSnapshot): Promise<boolean> {
         .eq("id", match.id)
         .eq("status", "live")
         .select("id");
-      changed = Boolean(data?.length) || changed;
-      continue;
+      return Boolean(data?.length);
     }
 
     // Removed players forfeit.
@@ -733,16 +743,13 @@ async function tickOnce(snap: TournamentSnapshot): Promise<boolean> {
       const aLive = match.member_a !== null && !aGone;
       const bLive = match.member_b !== null && !bGone;
       const winner: Side | null = aLive ? "a" : bLive ? "b" : null;
-      if (currentGame) {
-        changed = (await settleGame(snap, match, currentGame, { winner, decidedBy: "forfeit" })) || changed;
-      } else {
-        changed = (await finishMatch(snap, match, winner, "forfeit")) || changed;
-      }
-      continue;
+      return currentGame
+        ? settleGame(snap, match, currentGame, { winner, decidedBy: "forfeit" })
+        : finishMatch(snap, match, winner, "forfeit");
     }
 
     if (match.status === "pending") {
-      if (!feedersDone(snap, match)) continue;
+      if (!feedersDone(snap, match)) return false;
       if (match.member_a && match.member_b) {
         const { data } = await db()
           .from("tournament_matches")
@@ -750,36 +757,35 @@ async function tickOnce(snap: TournamentSnapshot): Promise<boolean> {
           .eq("id", match.id)
           .eq("status", "pending")
           .select("id");
-        changed = Boolean(data?.length) || changed;
-      } else if (match.member_a || match.member_b) {
-        changed = (await finishMatch(snap, match, match.member_a ? "a" : "b", "bye")) || changed;
-      } else {
-        const { data } = await db()
-          .from("tournament_matches")
-          .update({ status: "done", decided_by: "bye", finished_at: iso(now) })
-          .eq("id", match.id)
-          .eq("status", "pending")
-          .select("id");
-        changed = Boolean(data?.length) || changed;
+        return Boolean(data?.length);
       }
-      continue;
+      if (match.member_a || match.member_b) {
+        return finishMatch(snap, match, match.member_a ? "a" : "b", "bye");
+      }
+      const { data } = await db()
+        .from("tournament_matches")
+        .update({ status: "done", decided_by: "bye", finished_at: iso(now) })
+        .eq("id", match.id)
+        .eq("status", "pending")
+        .select("id");
+      return Boolean(data?.length);
     }
 
     if (match.status === "ready") {
       const deadline = match.ready_deadline ? new Date(match.ready_deadline).getTime() : 0;
       if ((match.a_ready_at && match.b_ready_at) || now >= deadline) {
-        changed = (await startGame(snap, match)) || changed;
+        return startGame(snap, match, problemPool);
       }
-      continue;
+      return false;
     }
 
     if (match.status === "live" && currentGame) {
       const endMs = new Date(currentGame.ends_at).getTime();
-      if (currentGame.first_ac_at || now >= endMs) {
-        changed = (await settleGame(snap, match, currentGame)) || changed;
-      }
+      if (currentGame.first_ac_at || now >= endMs) return settleGame(snap, match, currentGame);
     }
-  }
+    return false;
+  };
+  let changed = (await Promise.all(snap.matches.map(advance))).some(Boolean);
 
   const final = snap.matches.find(
     (m) => m.bracket === "main" && m.round === mainRounds(snap.matches)
