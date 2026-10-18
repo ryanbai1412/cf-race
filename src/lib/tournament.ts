@@ -533,6 +533,25 @@ export async function tick(tournamentId: string): Promise<boolean> {
 
 const TICK_LEASE_MS = 15_000;
 
+// startTournament and startGame are multi-step writes whose rollback can also fail
+// (e.g. the DB going away mid-start). Past this grace, treat the half-written state
+// as abandoned and roll it back so the tournament can't stall forever.
+const ORPHAN_GRACE_MS = 120_000;
+
+function bracketMissing(snap: TournamentSnapshot, now: number): boolean {
+  const started = snap.tournament.started_at ? new Date(snap.tournament.started_at).getTime() : 0;
+  return snap.tournament.status === "running" && snap.matches.length === 0 && now - started >= ORPHAN_GRACE_MS;
+}
+
+function liveWithoutGame(snap: TournamentSnapshot, match: TournamentMatchRow, now: number): boolean {
+  if (match.status !== "live" || currentGameOf(snap, match)) return false;
+  const lastFinished = snap.games
+    .filter((g) => g.match_id === match.id && g.finished_at)
+    .reduce((t, g) => Math.max(t, new Date(g.finished_at as string).getTime()), 0);
+  const deadline = match.ready_deadline ? new Date(match.ready_deadline).getTime() : 0;
+  return now - Math.max(lastFinished, deadline) >= ORPHAN_GRACE_MS;
+}
+
 function currentGameOf(snap: TournamentSnapshot, match: TournamentMatchRow) {
   return snap.games
     .filter((g) => g.match_id === match.id && !g.finished_at)
@@ -546,6 +565,7 @@ function currentGameOf(snap: TournamentSnapshot, match: TournamentMatchRow) {
  */
 export function tickDue(snap: TournamentSnapshot, now = Date.now()): boolean {
   if (snap.tournament.status !== "running") return false;
+  if (bracketMissing(snap, now)) return true;
   const kicked = new Set(snap.members.filter((m) => m.kicked_at).map((m) => m.id));
   for (const match of snap.matches) {
     if (match.status === "done") continue;
@@ -558,6 +578,7 @@ export function tickDue(snap: TournamentSnapshot, now = Date.now()): boolean {
       const deadline = match.ready_deadline ? new Date(match.ready_deadline).getTime() : 0;
       if ((match.a_ready_at && match.b_ready_at) || now >= deadline) return true;
     }
+    if (liveWithoutGame(snap, match, now)) return true;
     if (match.status === "live") {
       const game = currentGameOf(snap, match);
       if (game && (game.first_ac_at || now >= new Date(game.ends_at).getTime())) return true;
@@ -571,12 +592,32 @@ export function tickDue(snap: TournamentSnapshot, now = Date.now()): boolean {
 
 async function tickOnce(snap: TournamentSnapshot): Promise<boolean> {
   const now = Date.now();
+  if (bracketMissing(snap, now)) {
+    const { data } = await db()
+      .from("tournaments")
+      .update({ status: "lobby", started_at: null })
+      .eq("id", snap.tournament.id)
+      .eq("status", "running")
+      .select("id");
+    return Boolean(data?.length);
+  }
   const kicked = new Set(snap.members.filter((m) => m.kicked_at).map((m) => m.id));
   let changed = false;
 
   for (const match of snap.matches) {
     if (match.status === "done") continue;
     const currentGame = currentGameOf(snap, match);
+
+    if (liveWithoutGame(snap, match, now)) {
+      const { data } = await db()
+        .from("tournament_matches")
+        .update(openReady(now))
+        .eq("id", match.id)
+        .eq("status", "live")
+        .select("id");
+      changed = Boolean(data?.length) || changed;
+      continue;
+    }
 
     // Removed players forfeit.
     const aGone = match.member_a !== null && kicked.has(match.member_a);

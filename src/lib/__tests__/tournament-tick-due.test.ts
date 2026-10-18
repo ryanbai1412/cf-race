@@ -142,6 +142,22 @@ describe("tickDue", () => {
     expect(tickDue(snap([live], [game({})], members), NOW)).toBe(true);
   });
 
+  it("is due when a start left the tournament running with no bracket", () => {
+    const fresh = snap([]);
+    fresh.tournament.started_at = iso(-60_000);
+    expect(tickDue(fresh, NOW)).toBe(false);
+    fresh.tournament.started_at = iso(-121_000);
+    expect(tickDue(fresh, NOW)).toBe(true);
+  });
+
+  it("is due when a match went live but its game was never created", () => {
+    const live = match({ status: "live", ready_deadline: iso(-60_000) });
+    expect(tickDue(snap([live]), NOW)).toBe(false);
+    expect(tickDue(snap([{ ...live, ready_deadline: iso(-121_000) }]), NOW)).toBe(true);
+    const settled = game({ ends_at: iso(-200_000), finished_at: iso(-10_000) });
+    expect(tickDue(snap([{ ...live, ready_deadline: iso(-300_000) }], [settled]), NOW)).toBe(false);
+  });
+
   it("is due once every match is done so the tournament can finish", () => {
     const final = match({ status: "done", winner_member_id: "a" });
     expect(tickDue(snap([final]), NOW)).toBe(true);
