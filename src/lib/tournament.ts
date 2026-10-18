@@ -1,5 +1,6 @@
 import { randomInt } from "node:crypto";
 import { db, logDbError } from "./db";
+import { pg } from "./pg";
 import { publishTournamentState } from "./tournament-broadcast";
 import {
   COUNTDOWN_MS,
@@ -146,16 +147,115 @@ type EmbeddedTournament = TournamentRow & {
   games: EmbeddedGame[];
 };
 
-async function loadSnapshotWhere(
-  column: "id" | "code",
-  value: string
-): Promise<TournamentSnapshot | null> {
+type Lookup = { column: "id" | "code"; value: string };
+
+const SNAPSHOT_READ_TIMEOUT_MS = 10_000;
+// Until the tournament_snapshot migration is applied, re-check this often instead of on every read.
+const SNAPSHOT_FN_RECHECK_MS = 60_000;
+let snapshotFnMissingAt: number | null = null;
+// A broken DATABASE_URL (bad password, pooler limits, network) degrades to the RPC for this long.
+const DIRECT_RETRY_MS = 30_000;
+let directFailedAt: number | null = null;
+
+class SnapshotTimeout extends Error {}
+class DirectReadFailed extends Error {}
+
+const missingFunction = (code: unknown) => code === "42883" || code === "PGRST202";
+
+function markSnapshotFnMissing(): undefined {
+  if (snapshotFnMissingAt === null) {
+    console.warn("[tournament] tournament_snapshot() missing; using the embedded select");
+  }
+  snapshotFnMissingAt = Date.now();
+  return undefined;
+}
+
+async function snapshotViaPostgres(
+  sql: NonNullable<ReturnType<typeof pg>>,
+  { column, value }: Lookup
+): Promise<EmbeddedTournament | null | undefined> {
+  const query =
+    column === "code"
+      ? sql<{ snap: EmbeddedTournament | null }[]>`select public.tournament_snapshot(p_code => ${value}) as snap`
+      : sql<{ snap: EmbeddedTournament | null }[]>`select public.tournament_snapshot(p_id => ${value}::uuid) as snap`;
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => {
+      query.cancel();
+      reject(new SnapshotTimeout("loadSnapshot: tournament_snapshot timed out"));
+    }, SNAPSHOT_READ_TIMEOUT_MS);
+  });
+  try {
+    const [row] = await Promise.race([query, timeout]);
+    return row?.snap ?? null;
+  } catch (e) {
+    const code = (e as { code?: unknown }).code;
+    if (missingFunction(code)) return markSnapshotFnMissing();
+    if (e instanceof SnapshotTimeout) throw e;
+    const message = `loadSnapshot: ${(e as Error).message}`;
+    // A slow database would be just as slow over REST, so only connection or setup failures fall back.
+    throw code === "57014" ? new Error(message) : new DirectReadFailed(message);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function snapshotViaRpc({ column, value }: Lookup): Promise<EmbeddedTournament | null | undefined> {
+  const { data, error } = await db().rpc(
+    "tournament_snapshot",
+    column === "code" ? { p_code: value } : { p_id: value },
+    { get: true }
+  );
+  if (error && missingFunction(error.code)) return markSnapshotFnMissing();
+  if (error) throw new Error(`loadSnapshot: ${error.message}`);
+  return (data as EmbeddedTournament | null) ?? null;
+}
+
+async function snapshotViaEmbed({ column, value }: Lookup): Promise<EmbeddedTournament | null> {
   const { data, error } = await db()
     .from("tournaments")
     .select(SNAPSHOT_SELECT)
     .eq(column, value)
     .maybeSingle<EmbeddedTournament>();
   if (error) throw new Error(`loadSnapshot: ${error.message}`);
+  return data;
+}
+
+/**
+ * One round trip: tournament_snapshot() over a direct pooled connection when
+ * DATABASE_URL is set and working, else as one PostgREST RPC. Falls back to the embedded
+ * select while the function isn't deployed, so app and migration can ship in
+ * either order. undefined from a fast path means "function missing".
+ */
+async function snapshotViaFunction(lookup: Lookup): Promise<EmbeddedTournament | null | undefined> {
+  const sql = directFailedAt !== null && Date.now() - directFailedAt < DIRECT_RETRY_MS ? null : pg();
+  if (sql) {
+    try {
+      const data = await snapshotViaPostgres(sql, lookup);
+      directFailedAt = null;
+      return data;
+    } catch (e) {
+      if (!(e instanceof DirectReadFailed)) throw e;
+      console.error(`[tournament] direct read failed, using the RPC for ${DIRECT_RETRY_MS / 1000}s:`, e.message);
+      directFailedAt = Date.now();
+    }
+  }
+  return snapshotViaRpc(lookup);
+}
+
+async function loadEmbedded(lookup: Lookup): Promise<EmbeddedTournament | null> {
+  if (snapshotFnMissingAt === null || Date.now() - snapshotFnMissingAt >= SNAPSHOT_FN_RECHECK_MS) {
+    const data = await snapshotViaFunction(lookup);
+    if (data !== undefined) {
+      snapshotFnMissingAt = null;
+      return data;
+    }
+  }
+  return snapshotViaEmbed(lookup);
+}
+
+async function loadSnapshotWhere(column: Lookup["column"], value: string): Promise<TournamentSnapshot | null> {
+  const data = await loadEmbedded({ column, value });
   if (!data) return null;
   const { members, matches, games: embedded, ...tournament } = data;
   const problemNames = new Map<string, string>();
@@ -540,6 +640,25 @@ export async function tickAndPublish(tournamentId: string): Promise<void> {
 
 const TICK_LEASE_MS = 15_000;
 
+// startTournament and startGame are multi-step writes whose rollback can also fail
+// (e.g. the DB going away mid-start). Past this grace, treat the half-written state
+// as abandoned and roll it back so the tournament can't stall forever.
+const ORPHAN_GRACE_MS = 120_000;
+
+function bracketMissing(snap: TournamentSnapshot, now: number): boolean {
+  const started = snap.tournament.started_at ? new Date(snap.tournament.started_at).getTime() : 0;
+  return snap.tournament.status === "running" && snap.matches.length === 0 && now - started >= ORPHAN_GRACE_MS;
+}
+
+function liveWithoutGame(snap: TournamentSnapshot, match: TournamentMatchRow, now: number): boolean {
+  if (match.status !== "live" || currentGameOf(snap, match)) return false;
+  const lastFinished = snap.games
+    .filter((g) => g.match_id === match.id && g.finished_at)
+    .reduce((t, g) => Math.max(t, new Date(g.finished_at as string).getTime()), 0);
+  const deadline = match.ready_deadline ? new Date(match.ready_deadline).getTime() : 0;
+  return now - Math.max(lastFinished, deadline) >= ORPHAN_GRACE_MS;
+}
+
 function currentGameOf(snap: TournamentSnapshot, match: TournamentMatchRow) {
   return snap.games
     .filter((g) => g.match_id === match.id && !g.finished_at)
@@ -553,6 +672,7 @@ function currentGameOf(snap: TournamentSnapshot, match: TournamentMatchRow) {
  */
 export function tickDue(snap: TournamentSnapshot, now = Date.now()): boolean {
   if (snap.tournament.status !== "running") return false;
+  if (bracketMissing(snap, now)) return true;
   const kicked = new Set(snap.members.filter((m) => m.kicked_at).map((m) => m.id));
   for (const match of snap.matches) {
     if (match.status === "done") continue;
@@ -565,6 +685,7 @@ export function tickDue(snap: TournamentSnapshot, now = Date.now()): boolean {
       const deadline = match.ready_deadline ? new Date(match.ready_deadline).getTime() : 0;
       if ((match.a_ready_at && match.b_ready_at) || now >= deadline) return true;
     }
+    if (liveWithoutGame(snap, match, now)) return true;
     if (match.status === "live") {
       const game = currentGameOf(snap, match);
       if (game && (game.first_ac_at || now >= new Date(game.ends_at).getTime())) return true;
@@ -578,12 +699,32 @@ export function tickDue(snap: TournamentSnapshot, now = Date.now()): boolean {
 
 async function tickOnce(snap: TournamentSnapshot): Promise<boolean> {
   const now = Date.now();
+  if (bracketMissing(snap, now)) {
+    const { data } = await db()
+      .from("tournaments")
+      .update({ status: "lobby", started_at: null })
+      .eq("id", snap.tournament.id)
+      .eq("status", "running")
+      .select("id");
+    return Boolean(data?.length);
+  }
   const kicked = new Set(snap.members.filter((m) => m.kicked_at).map((m) => m.id));
   let changed = false;
 
   for (const match of snap.matches) {
     if (match.status === "done") continue;
     const currentGame = currentGameOf(snap, match);
+
+    if (liveWithoutGame(snap, match, now)) {
+      const { data } = await db()
+        .from("tournament_matches")
+        .update(openReady(now))
+        .eq("id", match.id)
+        .eq("status", "live")
+        .select("id");
+      changed = Boolean(data?.length) || changed;
+      continue;
+    }
 
     // Removed players forfeit.
     const aGone = match.member_a !== null && kicked.has(match.member_a);

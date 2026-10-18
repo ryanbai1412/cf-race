@@ -12,6 +12,7 @@ vi.mock("../tournament-broadcast", () => ({ publishTournamentState: mocks.publis
 vi.mock("../db", () => ({
   logDbError: vi.fn(),
   db: () => ({
+    rpc: async () => ({ data: mocks.snapshot, error: null }),
     from(table: string) {
       const ops: string[] = [];
       const resolve = () => {
