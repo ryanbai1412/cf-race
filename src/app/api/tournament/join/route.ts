@@ -41,6 +41,6 @@ export async function POST(req: NextRequest) {
   if (error || !data) return bad(error?.message ?? "join failed", 500);
   invalidateTournament(t.id);
   setMemberCookie(t.id, token);
-  await publishTournamentState(t.id);
+  publishTournamentState(t.id);
   return NextResponse.json({ ok: true, memberId: data.id, role });
 }

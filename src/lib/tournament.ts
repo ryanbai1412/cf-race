@@ -629,13 +629,13 @@ export async function tick(tournamentId: string): Promise<boolean> {
   } finally {
     await db().from("tournaments").update({ tick_lease: null }).eq("id", tournamentId);
   }
-  if (changed) await publishTournamentState(tournamentId);
+  if (changed) publishTournamentState(tournamentId);
   return changed;
 }
 
 /** Advance, and push the state even if advancing changed nothing (the caller already wrote). */
 export async function tickAndPublish(tournamentId: string): Promise<void> {
-  if (!(await tick(tournamentId))) await publishTournamentState(tournamentId);
+  if (!(await tick(tournamentId))) publishTournamentState(tournamentId);
 }
 
 const TICK_LEASE_MS = 15_000;

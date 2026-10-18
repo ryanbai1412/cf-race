@@ -1,8 +1,9 @@
+import { waitUntil } from "@vercel/functions";
 import { loadSnapshot } from "./tournament";
 import { tournamentTopic } from "./tournament-format";
 import { buildPublicState } from "./tournament-view";
 
-const PUBLISH_TIMEOUT_MS = 3000;
+const PUBLISH_TIMEOUT_MS = 8000;
 // Stays under the project's 256 KB Realtime payload cap; bigger states go out as a bare version nudge.
 const MAX_STATE_BYTES = 200_000;
 
@@ -13,13 +14,14 @@ const pending = new Map<string, { again: boolean; done: Promise<void> }>();
 /**
  * Push the shared public state to every open tab of a tournament. Concurrent
  * calls for one tournament collapse into one follow-up publish, so the last
- * push always reflects the latest writes. Never throws.
+ * push always reflects the latest writes. Runs after the response (the
+ * Realtime broadcast endpoint occasionally takes seconds), so callers never wait.
  */
-export function publishTournamentState(tournamentId: string): Promise<void> {
+export function publishTournamentState(tournamentId: string): void {
   const cur = pending.get(tournamentId);
   if (cur) {
     cur.again = true;
-    return cur.done;
+    return;
   }
   const entry = { again: false, done: Promise.resolve() };
   pending.set(tournamentId, entry);
@@ -37,7 +39,7 @@ export function publishTournamentState(tournamentId: string): Promise<void> {
       pending.delete(tournamentId);
     }
   })();
-  return entry.done;
+  waitUntil(entry.done);
 }
 
 async function publishOnce(tournamentId: string): Promise<void> {

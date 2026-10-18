@@ -100,6 +100,6 @@ async function act(
   if (error) return bad(error.message, 500);
   // A kick mid-tournament forfeits the player's match on the next tick.
   const ticked = t.status === "running" && (await tick(t.id));
-  if (!ticked) await publishTournamentState(t.id);
+  if (!ticked) publishTournamentState(t.id);
   return NextResponse.json({ ok: true });
 }

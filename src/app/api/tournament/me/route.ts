@@ -31,6 +31,6 @@ export async function POST(req: NextRequest) {
   const { error } = await db().from("tournament_members").update(patch).eq("id", me.id);
   invalidateTournament(t.id);
   if (error) return bad(error.message, 500);
-  await publishTournamentState(t.id);
+  publishTournamentState(t.id);
   return NextResponse.json({ ok: true });
 }
