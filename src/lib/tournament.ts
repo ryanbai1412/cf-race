@@ -183,7 +183,8 @@ async function snapshotViaPostgres(
     return row?.snap ?? null;
   } catch (e) {
     if (missingFunction((e as { code?: unknown }).code)) return markSnapshotFnMissing();
-    throw new Error(`loadSnapshot: ${(e as Error).message}`);
+    const message = (e as Error).message;
+    throw new Error(message.startsWith("loadSnapshot:") ? message : `loadSnapshot: ${message}`);
   } finally {
     clearTimeout(timer);
   }

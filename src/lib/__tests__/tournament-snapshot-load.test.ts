@@ -132,7 +132,7 @@ describe("loadSnapshotByCode", () => {
     const pending = Object.assign(new Promise(() => {}), { cancel: vi.fn() });
     mocks.sql = vi.fn(() => pending);
     const result = (await load()).loadSnapshotByCode("ABC234");
-    const assertion = expect(result).rejects.toThrow("timed out");
+    const assertion = expect(result).rejects.toThrow(/^loadSnapshot: tournament_snapshot timed out$/);
     await vi.advanceTimersByTimeAsync(10_000);
     await assertion;
     expect(pending.cancel).toHaveBeenCalled();
