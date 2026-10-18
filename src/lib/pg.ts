@@ -19,7 +19,7 @@ export function pg(): postgres.Sql | null {
           fetch_types: false,
           max: 3,
           idle_timeout: 20,
-          connect_timeout: 10,
+          connect_timeout: 5,
           max_lifetime: 60 * 30,
         })
       : null;

@@ -60,6 +60,7 @@ beforeEach(() => {
   mocks.maybeSingle.mockReset();
   mocks.sql = null;
   vi.spyOn(console, "warn").mockImplementation(() => {});
+  vi.spyOn(console, "error").mockImplementation(() => {});
 });
 
 afterEach(() => {
@@ -136,5 +137,38 @@ describe("loadSnapshotByCode", () => {
     await vi.advanceTimersByTimeAsync(10_000);
     await assertion;
     expect(pending.cancel).toHaveBeenCalled();
+    expect(mocks.rpc).not.toHaveBeenCalled();
+  });
+
+  it("uses the RPC for 30s when the direct connection fails", async () => {
+    vi.useFakeTimers();
+    const sql = fakeSql(() =>
+      Promise.reject(Object.assign(new Error("password authentication failed"), { code: "28P01" }))
+    );
+    mocks.sql = sql;
+    mocks.rpc.mockResolvedValue({ data: row, error: null });
+    const { loadSnapshotByCode } = await load();
+
+    expect((await loadSnapshotByCode("ABC234"))?.tournament.id).toBe("t1");
+    await loadSnapshotByCode("ABC234");
+    expect(sql).toHaveBeenCalledTimes(1);
+    expect(mocks.rpc).toHaveBeenCalledTimes(2);
+
+    vi.advanceTimersByTime(30_000);
+    sql.mockImplementation(() => Object.assign(Promise.resolve([{ snap: row }]), { cancel: vi.fn() }));
+    await loadSnapshotByCode("ABC234");
+    await loadSnapshotByCode("ABC234");
+    expect(sql).toHaveBeenCalledTimes(3);
+    expect(mocks.rpc).toHaveBeenCalledTimes(2);
+  });
+
+  it("surfaces a statement timeout on the direct connection instead of retrying over REST", async () => {
+    mocks.sql = fakeSql(() =>
+      Promise.reject(Object.assign(new Error("canceling statement due to statement timeout"), { code: "57014" }))
+    );
+    await expect((await load()).loadSnapshotByCode("ABC234")).rejects.toThrow(
+      /^loadSnapshot: canceling statement/
+    );
+    expect(mocks.rpc).not.toHaveBeenCalled();
   });
 });

@@ -152,6 +152,12 @@ const SNAPSHOT_READ_TIMEOUT_MS = 10_000;
 // Until the tournament_snapshot migration is applied, re-check this often instead of on every read.
 const SNAPSHOT_FN_RECHECK_MS = 60_000;
 let snapshotFnMissingAt: number | null = null;
+// A broken DATABASE_URL (bad password, pooler limits, network) degrades to the RPC for this long.
+const DIRECT_RETRY_MS = 30_000;
+let directFailedAt: number | null = null;
+
+class SnapshotTimeout extends Error {}
+class DirectReadFailed extends Error {}
 
 const missingFunction = (code: unknown) => code === "42883" || code === "PGRST202";
 
@@ -175,16 +181,19 @@ async function snapshotViaPostgres(
   const timeout = new Promise<never>((_, reject) => {
     timer = setTimeout(() => {
       query.cancel();
-      reject(new Error("loadSnapshot: tournament_snapshot timed out"));
+      reject(new SnapshotTimeout("loadSnapshot: tournament_snapshot timed out"));
     }, SNAPSHOT_READ_TIMEOUT_MS);
   });
   try {
     const [row] = await Promise.race([query, timeout]);
     return row?.snap ?? null;
   } catch (e) {
-    if (missingFunction((e as { code?: unknown }).code)) return markSnapshotFnMissing();
-    const message = (e as Error).message;
-    throw new Error(message.startsWith("loadSnapshot:") ? message : `loadSnapshot: ${message}`);
+    const code = (e as { code?: unknown }).code;
+    if (missingFunction(code)) return markSnapshotFnMissing();
+    if (e instanceof SnapshotTimeout) throw e;
+    const message = `loadSnapshot: ${(e as Error).message}`;
+    // A slow database would be just as slow over REST, so only connection or setup failures fall back.
+    throw code === "57014" ? new Error(message) : new DirectReadFailed(message);
   } finally {
     clearTimeout(timer);
   }
@@ -213,14 +222,29 @@ async function snapshotViaEmbed({ column, value }: Lookup): Promise<EmbeddedTour
 
 /**
  * One round trip: tournament_snapshot() over a direct pooled connection when
- * DATABASE_URL is set, else as one PostgREST RPC. Falls back to the embedded
+ * DATABASE_URL is set and working, else as one PostgREST RPC. Falls back to the embedded
  * select while the function isn't deployed, so app and migration can ship in
  * either order. undefined from a fast path means "function missing".
  */
+async function snapshotViaFunction(lookup: Lookup): Promise<EmbeddedTournament | null | undefined> {
+  const sql = directFailedAt !== null && Date.now() - directFailedAt < DIRECT_RETRY_MS ? null : pg();
+  if (sql) {
+    try {
+      const data = await snapshotViaPostgres(sql, lookup);
+      directFailedAt = null;
+      return data;
+    } catch (e) {
+      if (!(e instanceof DirectReadFailed)) throw e;
+      console.error(`[tournament] direct read failed, using the RPC for ${DIRECT_RETRY_MS / 1000}s:`, e.message);
+      directFailedAt = Date.now();
+    }
+  }
+  return snapshotViaRpc(lookup);
+}
+
 async function loadEmbedded(lookup: Lookup): Promise<EmbeddedTournament | null> {
   if (snapshotFnMissingAt === null || Date.now() - snapshotFnMissingAt >= SNAPSHOT_FN_RECHECK_MS) {
-    const sql = pg();
-    const data = await (sql ? snapshotViaPostgres(sql, lookup) : snapshotViaRpc(lookup));
+    const data = await snapshotViaFunction(lookup);
     if (data !== undefined) {
       snapshotFnMissingAt = null;
       return data;
