@@ -8,17 +8,23 @@ export function memberMap(state: TournamentStateView | null): Map<string, Member
   return new Map((state?.members ?? []).map((m) => [m.id, m]));
 }
 
+const POST_TIMEOUT_MS = 20_000;
+const BUSY = "Server is busy, please try again";
+
 export async function postJson(url: string, body: unknown): Promise<{ ok: boolean; error?: string; data?: Record<string, unknown> }> {
   try {
     const res = await fetch(url, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(body),
+      signal: AbortSignal.timeout(POST_TIMEOUT_MS),
     });
     const data = await res.json().catch(() => ({}));
-    return res.ok ? { ok: true, data } : { ok: false, error: (data as { error?: string }).error ?? `Error ${res.status}` };
-  } catch {
-    return { ok: false, error: "Network error" };
+    if (res.ok) return { ok: true, data };
+    const error = (data as { error?: string }).error;
+    return { ok: false, error: error ?? (res.status >= 500 ? BUSY : `Error ${res.status}`) };
+  } catch (e) {
+    return { ok: false, error: e instanceof DOMException && e.name === "TimeoutError" ? BUSY : "Network error" };
   }
 }
 
