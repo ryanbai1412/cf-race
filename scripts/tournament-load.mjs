@@ -7,7 +7,8 @@
 // between polls). Prints latency percentiles and error rate, and REST calls
 // per poll when the server runs with scripts/count-supabase-fetches.cjs.
 // The tournament and its game sessions are deleted at the end (or on Ctrl-C);
-// rows go to whatever Supabase project the env points at.
+// rows go to the Supabase project the env points at, which must be local
+// (`supabase start`) unless --allow-remote-supabase is passed.
 //
 //   BASE_URL=http://localhost:3100 node scripts/tournament-load.mjs \
 //     --clients 100 --duration 300 --start [--rest-count-dir /tmp/rest-counts]
@@ -29,6 +30,7 @@ const { values: args } = parseArgs({
     "rest-count-dir": { type: "string" },
     "report-every": { type: "string", default: "30" },
     "allow-prod-site": { type: "boolean", default: false },
+    "allow-remote-supabase": { type: "boolean", default: false },
   },
 });
 
@@ -41,6 +43,10 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 if (!SUPABASE_URL || !SERVICE_KEY) {
   console.error("NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are required");
+  process.exit(1);
+}
+if (!["localhost", "127.0.0.1"].includes(new URL(SUPABASE_URL).hostname) && !args["allow-remote-supabase"]) {
+  console.error(`refusing to write load-test rows to ${SUPABASE_URL}; use a local Supabase (supabase start) or pass --allow-remote-supabase`);
   process.exit(1);
 }
 const CLIENTS = Number(args.clients);
