@@ -6,6 +6,12 @@ import { MAX_PARTICIPANTS, normalizeCode } from "./tournament-format";
 
 export const bad = (error: string, status = 400) => NextResponse.json({ error }, { status });
 
+export const unavailable = () =>
+  NextResponse.json(
+    { error: "Server is busy, please retry" },
+    { status: 503, headers: { "Retry-After": "3" } }
+  );
+
 export async function readJson(req: Request): Promise<Record<string, unknown>> {
   const body = await req.json().catch(() => null);
   return body && typeof body === "object" ? (body as Record<string, unknown>) : {};
@@ -20,7 +26,13 @@ export async function tournamentFromCode(
 > {
   const code = typeof raw === "string" ? normalizeCode(raw) : "";
   if (!code) return { ok: false, response: bad("missing code") };
-  const t = await loadTournamentByCode(code);
+  let t: TournamentRow | null;
+  try {
+    t = await loadTournamentByCode(code);
+  } catch (e) {
+    console.error(e);
+    return { ok: false, response: unavailable() };
+  }
   if (!t) return { ok: false, response: bad("No tournament with that code", 404) };
   const me = await currentMember(t.id);
   return { ok: true, t, me };

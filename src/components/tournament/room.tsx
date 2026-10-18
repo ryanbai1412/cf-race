@@ -23,6 +23,12 @@ import { TournamentRace } from "./race";
 import { chime, fmtClock, memberMap, notify, postJson, type MatchView, type TournamentStateView } from "./shared";
 
 const COIN_FRESH_MS = 30_000;
+const POLL_MS = 3000;
+const POLL_HIDDEN_MS = 10_000;
+const POLL_JITTER_MS = 1000;
+const POLL_MAX_BACKOFF_MS = 30_000;
+const SYNC_SPREAD_MS = 750;
+const STATE_TIMEOUT_MS = 15_000;
 
 export function TournamentRoom({ code }: { code: string }) {
   const [state, setState] = useState<TournamentStateView | null>(null);
@@ -36,29 +42,75 @@ export function TournamentRoom({ code }: { code: string }) {
   const serverNow = useCallback(() => Date.now() + clockOffset.current, []);
   const channel = useRef<RealtimeChannel | null>(null);
 
+  const inFlight = useRef(false);
+  const rerun = useRef(false);
+  const failures = useRef(0);
   const refresh = useCallback(async () => {
+    if (inFlight.current) {
+      rerun.current = true;
+      return;
+    }
+    inFlight.current = true;
     try {
-      const res = await fetch(`/api/tournament/state?code=${code}`, { cache: "no-store" });
-      if (res.status === 404) return setNotFound(true);
-      if (!res.ok) return;
-      const d: TournamentStateView = await res.json();
-      clockOffset.current = d.serverNow - Date.now();
-      setState(d);
-    } catch {}
+      do {
+        rerun.current = false;
+        try {
+          const res = await fetch(`/api/tournament/state?code=${code}`, {
+            cache: "no-store",
+            signal: AbortSignal.timeout(STATE_TIMEOUT_MS),
+          });
+          if (res.status === 404) return setNotFound(true);
+          if (!res.ok) throw new Error(String(res.status));
+          const d: TournamentStateView = await res.json();
+          clockOffset.current = d.serverNow - Date.now();
+          failures.current = 0;
+          setState(d);
+        } catch {
+          failures.current++;
+          return;
+        }
+      } while (rerun.current);
+    } finally {
+      inFlight.current = false;
+    }
   }, [code]);
 
   useEffect(() => {
-    void refresh();
-    const iv = setInterval(refresh, 2000);
-    return () => clearInterval(iv);
+    let stopped = false;
+    let timer: ReturnType<typeof setTimeout>;
+    const loop = async () => {
+      await refresh();
+      if (stopped) return;
+      const base = document.hidden ? POLL_HIDDEN_MS : POLL_MS;
+      const backoff = Math.min(POLL_MAX_BACKOFF_MS, base * 2 ** failures.current);
+      timer = setTimeout(loop, backoff + Math.random() * POLL_JITTER_MS);
+    };
+    void loop();
+    return () => {
+      stopped = true;
+      clearTimeout(timer);
+    };
   }, [refresh]);
+
+  // Spread broadcast-triggered refetches so every tab doesn't hit the server in the same instant.
+  const syncTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const refreshSoon = useCallback(() => {
+    if (syncTimer.current) return;
+    syncTimer.current = setTimeout(() => {
+      syncTimer.current = null;
+      void refresh();
+    }, Math.random() * SYNC_SPREAD_MS);
+  }, [refresh]);
+  useEffect(() => () => {
+    if (syncTimer.current) clearTimeout(syncTimer.current);
+  }, []);
 
   useEffect(() => {
     const iv = setInterval(() => setTick((t) => t + 1), 500);
     return () => clearInterval(iv);
   }, []);
 
-  // At GO the problem is only revealed by the next state fetch; don't wait for the 2s poll.
+  // At GO the problem is only revealed by the next state fetch; don't wait for the next poll.
   const awaitingProblem = Boolean(state?.myGame && !state.myGame.problem);
   useEffect(() => {
     if (awaitingProblem && state?.myGame && serverNow() >= state.myGame.startAtMs) void refresh();
@@ -69,14 +121,14 @@ export function TournamentRoom({ code }: { code: string }) {
   useEffect(() => {
     if (!tid) return;
     const ch = supabase().channel(`tournament-${tid}`, { config: { broadcast: { self: false } } });
-    ch.on("broadcast", { event: "sync" }, () => void refresh());
+    ch.on("broadcast", { event: "sync" }, refreshSoon);
     ch.subscribe();
     channel.current = ch;
     return () => {
       void ch.unsubscribe();
       channel.current = null;
     };
-  }, [tid, refresh]);
+  }, [tid, refreshSoon]);
 
   /** Refresh now and nudge everyone else's page. */
   const changed = useCallback(() => {

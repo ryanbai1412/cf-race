@@ -10,7 +10,7 @@ import {
 } from "./tournament";
 import type { Bracket, MatchFormat, Side } from "./tournament-format";
 
-const ONLINE_MS = 15_000;
+const ONLINE_MS = 45_000;
 const ms = (s: string | null) => (s ? new Date(s).getTime() : null);
 const coinView = (c: CoinFlip | null) => (c ? { winner: c.winner, atMs: Date.parse(c.at) } : null);
 

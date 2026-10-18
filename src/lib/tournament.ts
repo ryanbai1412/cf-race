@@ -113,11 +113,12 @@ export async function newTournamentCode(): Promise<string> {
 }
 
 export async function loadTournamentByCode(code: string): Promise<TournamentRow | null> {
-  const { data } = await db()
+  const { data, error } = await db()
     .from("tournaments")
     .select("*")
     .eq("code", code)
     .maybeSingle<TournamentRow>();
+  if (error) throw new Error(`loadTournamentByCode: ${error.message}`);
   return data ?? null;
 }
 
@@ -141,6 +142,8 @@ export async function loadSnapshot(tournamentId: string): Promise<TournamentSnap
       .eq("tournament_id", tournamentId)
       .order("game_no", { ascending: true }),
   ]);
+  const failed = [t, m, mt, g].find((r) => r.error);
+  if (failed?.error) throw new Error(`loadSnapshot: ${failed.error.message}`);
   if (!t.data) return null;
   return {
     tournament: t.data,
