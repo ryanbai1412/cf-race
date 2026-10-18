@@ -1,5 +1,6 @@
 import { randomInt } from "node:crypto";
 import { db, logDbError } from "./db";
+import { publishTournamentState } from "./tournament-broadcast";
 import {
   COUNTDOWN_MS,
   READY_WINDOW_MS,
@@ -256,7 +257,7 @@ export async function startTournament(
     await db().from("tournaments").update({ status: "lobby", started_at: null }).eq("id", t.id);
     return { ok: false, error: error.message, status: 500 };
   }
-  await tick(t.id);
+  await tickAndPublish(t.id);
   return { ok: true };
 }
 
@@ -529,6 +530,13 @@ export async function tick(tournamentId: string): Promise<boolean> {
   } finally {
     await db().from("tournaments").update({ tick_lease: null }).eq("id", tournamentId);
   }
+  if (changed) await publishTournamentState(tournamentId);
+  return changed;
+}
+
+/** Advance, and push the state even if advancing changed nothing (the caller already wrote). */
+export async function tickAndPublish(tournamentId: string): Promise<void> {
+  if (!(await tick(tournamentId))) await publishTournamentState(tournamentId);
 }
 
 const TICK_LEASE_MS = 15_000;
@@ -666,7 +674,7 @@ export async function forceMatchWinner(
   const ok = game
     ? await settleGame(snap, match, game, { winner, decidedBy: "admin" })
     : await finishMatch(snap, match, winner, "admin");
-  await tick(tournamentId);
+  await tickAndPublish(tournamentId);
   return ok;
 }
 
@@ -678,7 +686,7 @@ export async function startMatchNow(tournamentId: string, matchId: string): Prom
     .eq("id", matchId)
     .eq("tournament_id", tournamentId)
     .eq("status", "ready");
-  await tick(tournamentId);
+  await tickAndPublish(tournamentId);
 }
 
 export async function setReady(match: TournamentMatchRow, memberId: string): Promise<boolean> {

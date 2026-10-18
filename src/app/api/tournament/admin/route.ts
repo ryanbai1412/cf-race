@@ -8,8 +8,10 @@ import {
   type TournamentMemberRow,
   type TournamentRow,
   type TournamentSnapshot,
+  tick,
 } from "@/lib/tournament";
 import { invalidateTournament } from "@/lib/tournament-cache";
+import { publishTournamentState } from "@/lib/tournament-broadcast";
 import { MAX_PARTICIPANTS, MIN_PARTICIPANTS, cleanName } from "@/lib/tournament-format";
 import { bad, nameTaken, participantsFull, readJson, tournamentFromCode } from "@/lib/tournament-route";
 
@@ -96,5 +98,8 @@ async function act(
   }
   const { error } = await db().from("tournament_members").update(patch).eq("id", target.id);
   if (error) return bad(error.message, 500);
+  // A kick mid-tournament forfeits the player's match on the next tick.
+  const ticked = t.status === "running" && (await tick(t.id));
+  if (!ticked) await publishTournamentState(t.id);
   return NextResponse.json({ ok: true });
 }

@@ -51,12 +51,14 @@ export function BracketView({
   onSelect,
   onOpenGame,
   focusId,
+  now,
 }: {
   state: TournamentStateView;
   selectedId: string | null;
   onSelect: (matchId: string) => void;
   onOpenGame: (gameId: string, live: boolean) => void;
   focusId: string | null;
+  now: number;
 }) {
   const { pos, width, height, rounds } = useMemo(() => layout(state), [state]);
   const names = useMemo(() => memberMap(state), [state]);
@@ -204,7 +206,7 @@ export function BracketView({
                   selected={m.id === selectedId}
                   champion={state.tournament.champion}
                   isFinal={m.bracket === "main" && m.round === rounds}
-                  serverNow={state.serverNow}
+                  serverNow={now}
                   onSelect={() => !drag.current?.moved && onSelect(m.id)}
                   onOpenGame={onOpenGame}
                 />

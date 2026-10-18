@@ -13,8 +13,9 @@ import { Navbar } from "@/components/shell/navbar";
 import { DuelReview } from "@/components/duel/duel-review";
 import { supabase } from "@/lib/realtime";
 import { cn } from "@/lib/utils";
-import { formatLabel, roundLabel } from "@/lib/tournament-format";
-import type { RealtimeChannel } from "@supabase/supabase-js";
+import type { TournamentPush } from "@/lib/tournament-broadcast";
+import { formatLabel, roundLabel, tournamentTopic } from "@/lib/tournament-format";
+import { applyPush, needsViewerRefresh, nextDeadline, publicSignature } from "@/lib/tournament-live";
 import { BracketView } from "./bracket";
 import { CoinFlipOverlay, type CoinFlipShow } from "./coin-flip";
 import { RoleToggle, TournamentLobby } from "./lobby";
@@ -23,14 +24,28 @@ import { TournamentRace } from "./race";
 import { chime, fmtClock, memberMap, notify, postJson, type MatchView, type TournamentStateView } from "./shared";
 
 const COIN_FRESH_MS = 30_000;
+// Fallback polling, used while the Realtime push channel is down.
 const POLL_MS = 3000;
 const POLL_IDLE_MS = 8000;
 const POLL_HIDDEN_MS = 10_000;
 const POLL_JITTER_MS = 1000;
+// Safety poll while pushes are flowing.
+const SAFETY_MS = 15_000;
+const SAFETY_HIDDEN_MS = 30_000;
+const SAFETY_JITTER_MS = 3000;
 const POLL_MAX_BACKOFF_MS = 30_000;
 const SYNC_DELAY_MS = 1100;
 const SYNC_SPREAD_MS = 750;
 const STATE_TIMEOUT_MS = 15_000;
+// A /state read can be up to one server cache TTL older than a push that arrived around it.
+const PUSH_SHADOW_MS = 2500;
+const STALE_POLLS_TO_DEGRADE = 2;
+const DEGRADED_MS = 60_000;
+// Players in the match and admins nudge the engine right after a deadline; everyone else only as backup.
+const NUDGE_FIRST_MS = 300;
+const NUDGE_FIRST_SPREAD_MS = 500;
+const NUDGE_BACKUP_MS = 3000;
+const NUDGE_BACKUP_SPREAD_MS = 3000;
 
 export function TournamentRoom({ code }: { code: string }) {
   const [state, setState] = useState<TournamentStateView | null>(null);
@@ -42,7 +57,20 @@ export function TournamentRoom({ code }: { code: string }) {
   const [solvedGame, setSolvedGame] = useState<string | null>(null);
   const clockOffset = useRef(0);
   const serverNow = useCallback(() => Date.now() + clockOffset.current, []);
-  const channel = useRef<RealtimeChannel | null>(null);
+
+  const current = useRef<TournamentStateView | null>(null);
+  const commit = useCallback((next: TournamentStateView) => {
+    current.current = next;
+    setState(next);
+  }, []);
+
+  const subscribed = useRef(false);
+  const degradedUntil = useRef(0);
+  const pushLive = useCallback(() => subscribed.current && Date.now() >= degradedUntil.current, []);
+  const lastVersion = useRef(0);
+  const lastPushAt = useRef(0);
+  const lastFetchAt = useRef(0);
+  const stalePolls = useRef(0);
 
   const inFlight = useRef(false);
   const rerun = useRef(false);
@@ -57,6 +85,7 @@ export function TournamentRoom({ code }: { code: string }) {
     try {
       do {
         rerun.current = false;
+        const startedAt = Date.now();
         try {
           const res = await fetch(`/api/tournament/state?code=${code}`, {
             cache: "no-store",
@@ -67,8 +96,22 @@ export function TournamentRoom({ code }: { code: string }) {
           const d: TournamentStateView = await res.json();
           clockOffset.current = d.serverNow - Date.now();
           failures.current = 0;
+          lastFetchAt.current = Date.now();
           running.current = d.tournament.status === "running";
-          setState(d);
+          const prev = current.current;
+          // A push that landed around this read is newer than its (cached) public part.
+          if (prev && lastPushAt.current > startedAt - PUSH_SHADOW_MS) {
+            commit({ ...prev, me: d.me, kicked: d.kicked, signedIn: d.signedIn, myMatchId: d.myMatchId, myGame: d.myGame });
+            continue;
+          }
+          if (prev && pushLive()) {
+            stalePolls.current = publicSignature(prev) === publicSignature(d) ? 0 : stalePolls.current + 1;
+            if (stalePolls.current >= STALE_POLLS_TO_DEGRADE) {
+              stalePolls.current = 0;
+              degradedUntil.current = Date.now() + DEGRADED_MS;
+            }
+          }
+          commit(d);
         } catch {
           failures.current++;
           return;
@@ -77,24 +120,33 @@ export function TournamentRoom({ code }: { code: string }) {
     } finally {
       inFlight.current = false;
     }
-  }, [code]);
+  }, [code, commit, pushLive]);
 
+  const pollTimer = useRef<ReturnType<typeof setTimeout>>();
+  const reschedule = useRef<() => void>(() => {});
   useEffect(() => {
     let stopped = false;
-    let timer: ReturnType<typeof setTimeout>;
-    const loop = async () => {
-      await refresh();
+    const schedule = () => {
+      clearTimeout(pollTimer.current);
       if (stopped) return;
-      const base = document.hidden ? POLL_HIDDEN_MS : running.current ? POLL_MS : POLL_IDLE_MS;
-      const backoff = Math.min(POLL_MAX_BACKOFF_MS, base * 2 ** failures.current);
-      timer = setTimeout(loop, backoff + Math.random() * POLL_JITTER_MS);
+      const live = pushLive();
+      const base = live
+        ? document.hidden ? SAFETY_HIDDEN_MS : SAFETY_MS
+        : document.hidden ? POLL_HIDDEN_MS : running.current ? POLL_MS : POLL_IDLE_MS;
+      const backoff = Math.min(Math.max(POLL_MAX_BACKOFF_MS, base), base * 2 ** failures.current);
+      pollTimer.current = setTimeout(async () => {
+        await refresh();
+        schedule();
+      }, backoff + Math.random() * (live ? SAFETY_JITTER_MS : POLL_JITTER_MS));
     };
-    void loop();
+    reschedule.current = schedule;
+    void refresh().then(schedule);
     return () => {
       stopped = true;
-      clearTimeout(timer);
+      clearTimeout(pollTimer.current);
+      reschedule.current = () => {};
     };
-  }, [refresh]);
+  }, [refresh, pushLive]);
 
   // Wait out the server's 1s per-instance state cache, then spread refetches so tabs don't all hit at once.
   const syncTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -121,24 +173,68 @@ export function TournamentRoom({ code }: { code: string }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tickN, awaitingProblem]);
 
+  const onPush = useCallback(
+    (push: TournamentPush | undefined) => {
+      if (!push || typeof push.v !== "number" || push.v <= lastVersion.current) return;
+      lastVersion.current = push.v;
+      lastPushAt.current = Date.now();
+      stalePolls.current = 0;
+      const prev = current.current;
+      if (!push.state || !prev) return refreshSoon();
+      running.current = push.state.tournament.status === "running";
+      const next = applyPush(prev, push.state, serverNow());
+      commit(next);
+      if (needsViewerRefresh(prev, next)) {
+        void refresh();
+        refreshSoon();
+      }
+    },
+    [commit, refresh, refreshSoon, serverNow]
+  );
+  const onPushRef = useRef(onPush);
+  onPushRef.current = onPush;
+
   const tid = state?.tournament.id;
   useEffect(() => {
     if (!tid) return;
-    const ch = supabase().channel(`tournament-${tid}`, { config: { broadcast: { self: false } } });
-    ch.on("broadcast", { event: "sync" }, refreshSoon);
-    ch.subscribe();
-    channel.current = ch;
+    const ch = supabase().channel(tournamentTopic(tid), { config: { private: true, broadcast: { self: false } } });
+    ch.on("broadcast", { event: "state" }, (msg) => onPushRef.current(msg.payload as TournamentPush | undefined));
+    ch.subscribe((status) => {
+      const was = subscribed.current;
+      subscribed.current = status === "SUBSCRIBED";
+      if (was === subscribed.current) return;
+      // Pushes may have been missed while disconnected.
+      if (subscribed.current && Date.now() - lastFetchAt.current > PUSH_SHADOW_MS) void refresh();
+      reschedule.current();
+    });
     return () => {
-      void ch.unsubscribe();
-      channel.current = null;
+      subscribed.current = false;
+      void supabase().removeChannel(ch);
     };
-  }, [tid, refreshSoon]);
+  }, [tid, refresh]);
 
-  /** Refresh now and nudge everyone else's page. */
+  // Timer-driven transitions have no mutation behind them: ask the engine to advance once a deadline passes.
+  const deadline = useMemo(() => {
+    if (state?.tournament.status !== "running") return null;
+    const d = nextDeadline(state.matches);
+    if (!d) return null;
+    const meId = state.me?.id;
+    const first = Boolean(state.me?.isAdmin || (meId && (d.match.a === meId || d.match.b === meId)));
+    return { at: d.at, first };
+  }, [state]);
+  useEffect(() => {
+    if (!deadline) return;
+    const delay = deadline.first
+      ? NUDGE_FIRST_MS + Math.random() * NUDGE_FIRST_SPREAD_MS
+      : NUDGE_BACKUP_MS + Math.random() * NUDGE_BACKUP_SPREAD_MS;
+    const t = setTimeout(() => void refresh(), Math.max(0, deadline.at - serverNow()) + delay);
+    return () => clearTimeout(t);
+  }, [deadline?.at, deadline?.first, refresh, serverNow]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  /** Refresh my own view; the server pushes the change to everyone else. */
   const changed = useCallback(() => {
     void refresh();
     refreshSoon();
-    void channel.current?.send({ type: "broadcast", event: "sync", payload: {} });
   }, [refresh, refreshSoon]);
 
   const names = useMemo(() => memberMap(state), [state]);
@@ -316,6 +412,7 @@ export function TournamentRoom({ code }: { code: string }) {
   const isMember = me !== null;
   const selectedMatch = state.matches.find((m) => m.id === selected) ?? null;
   const liveMatches = state.matches.filter((m) => m.status === "live");
+  const now = serverNow();
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -323,7 +420,7 @@ export function TournamentRoom({ code }: { code: string }) {
       {coin}
       {watching && (
         <div className="fixed inset-0 z-50 flex flex-col bg-background">
-          {needReady && myMatch && <ReadyStrip match={myMatch} state={state} nameOf={nameOf} onGo={() => setWatching(null)} />}
+          {needReady && myMatch && <ReadyStrip match={myMatch} now={now} nameOf={nameOf} meId={me?.id ?? null} onGo={() => setWatching(null)} />}
           <div className="min-h-0 flex-1">
             <DuelReview
               key={watching.gameId}
@@ -356,6 +453,7 @@ export function TournamentRoom({ code }: { code: string }) {
                   onSelect={(id) => setSelected((s) => (s === id ? null : id))}
                   onOpenGame={(gameId, live) => setWatching({ gameId, live })}
                   focusId={state.myMatchId}
+                  now={now}
                 />
               </div>
               <aside className="space-y-4">
@@ -370,7 +468,7 @@ export function TournamentRoom({ code }: { code: string }) {
                     onChanged={changed}
                   />
                 ) : (
-                  <LiveList matches={liveMatches} state={state} nameOf={nameOf} onWatch={(gameId) => setWatching({ gameId, live: true })} />
+                  <LiveList matches={liveMatches} state={state} now={now} nameOf={nameOf} onWatch={(gameId) => setWatching({ gameId, live: true })} />
                 )}
                 <RosterCard state={state} onChanged={changed} />
               </aside>
@@ -469,9 +567,9 @@ function JoinCard({ state, onJoined }: { state: TournamentStateView; onJoined: (
   );
 }
 
-function ReadyStrip({ match, state, nameOf, onGo }: { match: MatchView; state: TournamentStateView; nameOf: (id: string | null) => string; onGo: () => void }) {
-  const opp = match.a === state.me?.id ? match.b : match.a;
-  const left = (match.readyDeadlineMs ?? 0) - state.serverNow;
+function ReadyStrip({ match, now, meId, nameOf, onGo }: { match: MatchView; now: number; meId: string | null; nameOf: (id: string | null) => string; onGo: () => void }) {
+  const opp = match.a === meId ? match.b : match.a;
+  const left = (match.readyDeadlineMs ?? 0) - now;
   return (
     <div className="flex items-center gap-3 bg-amber-500 px-4 py-2 text-sm font-semibold text-amber-950">
       <Radio className="h-4 w-4 animate-pulse" />
@@ -554,7 +652,7 @@ function MyMatchCard({
   );
 }
 
-function LiveList({ matches, state, nameOf, onWatch }: { matches: MatchView[]; state: TournamentStateView; nameOf: (id: string | null) => string; onWatch: (gameId: string) => void }) {
+function LiveList({ matches, state, now, nameOf, onWatch }: { matches: MatchView[]; state: TournamentStateView; now: number; nameOf: (id: string | null) => string; onWatch: (gameId: string) => void }) {
   return (
     <Card className="border-border/60 bg-card/60">
       <CardHeader>
@@ -574,7 +672,7 @@ function LiveList({ matches, state, nameOf, onWatch }: { matches: MatchView[]; s
                 </p>
                 <p className="font-mono text-[10px] text-muted-foreground">
                   {roundLabel(m.round, state.rounds, m.bracket)}
-                  {g ? ` · ${fmtClock(g.endsAtMs - state.serverNow)} left` : ""}
+                  {g ? ` · ${fmtClock(g.endsAtMs - now)} left` : ""}
                 </p>
               </div>
               {g && (
