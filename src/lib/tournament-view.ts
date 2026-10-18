@@ -210,3 +210,11 @@ export async function buildStateView(
     myGame,
   };
 }
+
+export type PublicTournamentState = Pick<TournamentStateView, "serverNow" | "tournament" | "members" | "rounds" | "matches">;
+
+/** The part of the state every viewer sees, safe to broadcast to the whole tournament. */
+export async function buildPublicState(snap: TournamentSnapshot): Promise<PublicTournamentState> {
+  const v = await buildStateView(snap, null, { kicked: false, signedIn: false });
+  return { serverNow: v.serverNow, tournament: v.tournament, members: v.members, rounds: v.rounds, matches: v.matches };
+}

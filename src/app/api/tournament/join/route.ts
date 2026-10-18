@@ -5,6 +5,7 @@ import { rateLimit } from "@/lib/rate-limit";
 import { participants } from "@/lib/tournament";
 import { mintToken, setMemberCookie } from "@/lib/tournament-auth";
 import { invalidateTournament } from "@/lib/tournament-cache";
+import { publishTournamentState } from "@/lib/tournament-broadcast";
 import { MAX_PARTICIPANTS, cleanName } from "@/lib/tournament-format";
 import { bad, nameTaken, readJson, tournamentFromCode } from "@/lib/tournament-route";
 
@@ -40,5 +41,6 @@ export async function POST(req: NextRequest) {
   if (error || !data) return bad(error?.message ?? "join failed", 500);
   invalidateTournament(t.id);
   setMemberCookie(t.id, token);
+  await publishTournamentState(t.id);
   return NextResponse.json({ ok: true, memberId: data.id, role });
 }

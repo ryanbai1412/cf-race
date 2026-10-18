@@ -18,6 +18,9 @@ export const COIN_REVEAL_MS = 4_500;
 export const SERIES_GAMES = 3;
 export const TOURNAMENT_MAX_SUBMISSIONS = 10;
 
+/** Private Realtime topic the server pushes public tournament state on; clients may only listen. */
+export const tournamentTopic = (tournamentId: string) => `tournament-state-${tournamentId}`;
+
 export function bracketSize(n: number): number {
   let size = 2;
   while (size < n) size *= 2;
