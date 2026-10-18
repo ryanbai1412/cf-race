@@ -526,7 +526,6 @@ export async function tick(tournamentId: string): Promise<boolean> {
       if (!(await tickOnce(snap))) break;
       changed = true;
     }
-    return changed;
   } finally {
     await db().from("tournaments").update({ tick_lease: null }).eq("id", tournamentId);
   }
