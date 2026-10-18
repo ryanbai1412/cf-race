@@ -24,6 +24,7 @@ import { chime, fmtClock, memberMap, notify, postJson, type MatchView, type Tour
 
 const COIN_FRESH_MS = 30_000;
 const POLL_MS = 3000;
+const POLL_IDLE_MS = 8000;
 const POLL_HIDDEN_MS = 10_000;
 const POLL_JITTER_MS = 1000;
 const POLL_MAX_BACKOFF_MS = 30_000;
@@ -47,6 +48,7 @@ export function TournamentRoom({ code }: { code: string }) {
   const rerun = useRef(false);
   const failures = useRef(0);
   const wantFresh = useRef(false);
+  const running = useRef(false);
   const refresh = useCallback(async (opts?: { fresh?: boolean }) => {
     if (opts?.fresh === true) wantFresh.current = true;
     if (inFlight.current) {
@@ -69,6 +71,7 @@ export function TournamentRoom({ code }: { code: string }) {
           const d: TournamentStateView = await res.json();
           clockOffset.current = d.serverNow - Date.now();
           failures.current = 0;
+          running.current = d.tournament.status === "running";
           setState(d);
         } catch {
           failures.current++;
@@ -86,7 +89,7 @@ export function TournamentRoom({ code }: { code: string }) {
     const loop = async () => {
       await refresh();
       if (stopped) return;
-      const base = document.hidden ? POLL_HIDDEN_MS : POLL_MS;
+      const base = document.hidden ? POLL_HIDDEN_MS : running.current ? POLL_MS : POLL_IDLE_MS;
       const backoff = Math.min(POLL_MAX_BACKOFF_MS, base * 2 ** failures.current);
       timer = setTimeout(loop, backoff + Math.random() * POLL_JITTER_MS);
     };
