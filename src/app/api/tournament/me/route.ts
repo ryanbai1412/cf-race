@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { invalidateTournament } from "@/lib/tournament-cache";
 import { cleanName } from "@/lib/tournament-format";
 import { bad, nameTaken, participantsFull, readJson, tournamentFromCode } from "@/lib/tournament-route";
 
@@ -27,6 +28,7 @@ export async function POST(req: NextRequest) {
   }
   if (Object.keys(patch).length === 0) return bad("nothing to change");
   const { error } = await db().from("tournament_members").update(patch).eq("id", me.id);
+  invalidateTournament(t.id);
   if (error) return bad(error.message, 500);
   return NextResponse.json({ ok: true });
 }

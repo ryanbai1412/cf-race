@@ -60,17 +60,30 @@ export async function currentMember(
   return data ?? null;
 }
 
-/** Whether the caller was removed from this tournament (for a clear message). */
-export async function wasKicked(tournamentId: string): Promise<boolean> {
+/**
+ * The caller's membership resolved from an already-loaded member list, with
+ * the same precedence as currentMember: a matching token cookie wins (and a
+ * kicked token yields `kicked` with no user-id fallback), else the earliest
+ * live seat held by the signed-in user.
+ */
+export async function memberFromList(
+  tournamentId: string,
+  members: TournamentMemberRow[],
+  userId: () => Promise<string | null>
+): Promise<{ me: TournamentMemberRow | null; kicked: boolean }> {
   const token = cookies().get(COOKIE_PREFIX + tournamentId)?.value;
-  if (!token) return false;
-  const { data } = await db()
-    .from("tournament_members")
-    .select("kicked_at")
-    .eq("tournament_id", tournamentId)
-    .eq("token_hash", hashToken(token))
-    .maybeSingle<{ kicked_at: string | null }>();
-  return Boolean(data?.kicked_at);
+  if (token) {
+    const hash = hashToken(token);
+    const seat = members.find((m) => m.token_hash === hash);
+    if (seat) return seat.kicked_at ? { me: null, kicked: true } : { me: seat, kicked: false };
+  }
+  const uid = await userId();
+  const mine = uid
+    ? members
+        .filter((m) => m.user_id === uid && !m.kicked_at)
+        .sort((x, y) => Date.parse(x.joined_at) - Date.parse(y.joined_at))[0]
+    : undefined;
+  return { me: mine ?? null, kicked: false };
 }
 
 /**

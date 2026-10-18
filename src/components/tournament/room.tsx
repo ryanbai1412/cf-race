@@ -47,10 +47,8 @@ export function TournamentRoom({ code }: { code: string }) {
   const inFlight = useRef(false);
   const rerun = useRef(false);
   const failures = useRef(0);
-  const wantFresh = useRef(false);
   const running = useRef(false);
-  const refresh = useCallback(async (opts?: { fresh?: boolean }) => {
-    if (opts?.fresh === true) wantFresh.current = true;
+  const refresh = useCallback(async () => {
     if (inFlight.current) {
       rerun.current = true;
       return;
@@ -59,10 +57,8 @@ export function TournamentRoom({ code }: { code: string }) {
     try {
       do {
         rerun.current = false;
-        const fresh = wantFresh.current;
-        wantFresh.current = false;
         try {
-          const res = await fetch(`/api/tournament/state?code=${code}${fresh ? "&fresh=1" : ""}`, {
+          const res = await fetch(`/api/tournament/state?code=${code}`, {
             cache: "no-store",
             signal: AbortSignal.timeout(STATE_TIMEOUT_MS),
           });
@@ -100,7 +96,7 @@ export function TournamentRoom({ code }: { code: string }) {
     };
   }, [refresh]);
 
-  // Wait out the server's state cache (the sender just refreshed it), then spread refetches so tabs don't all hit at once.
+  // Wait out the server's 1s per-instance state cache, then spread refetches so tabs don't all hit at once.
   const syncTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const refreshSoon = useCallback(() => {
     if (syncTimer.current) return;
@@ -140,9 +136,10 @@ export function TournamentRoom({ code }: { code: string }) {
 
   /** Refresh now and nudge everyone else's page. */
   const changed = useCallback(() => {
-    void refresh({ fresh: true });
+    void refresh();
+    refreshSoon();
     void channel.current?.send({ type: "broadcast", event: "sync", payload: {} });
-  }, [refresh]);
+  }, [refresh, refreshSoon]);
 
   const names = useMemo(() => memberMap(state), [state]);
   const nameOf = useCallback((id: string | null) => (id ? names.get(id)?.name ?? "—" : "TBD"), [names]);

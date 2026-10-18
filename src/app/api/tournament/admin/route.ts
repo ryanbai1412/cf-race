@@ -2,11 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import {
   forceMatchWinner,
-  loadSnapshot,
   participants,
   startMatchNow,
   startTournament,
+  type TournamentMemberRow,
+  type TournamentRow,
+  type TournamentSnapshot,
 } from "@/lib/tournament";
+import { invalidateTournament } from "@/lib/tournament-cache";
 import { MAX_PARTICIPANTS, MIN_PARTICIPANTS, cleanName } from "@/lib/tournament-format";
 import { bad, nameTaken, participantsFull, readJson, tournamentFromCode } from "@/lib/tournament-route";
 
@@ -21,11 +24,21 @@ export async function POST(req: NextRequest) {
   const body = await readJson(req);
   const found = await tournamentFromCode(body.code);
   if (!found.ok) return found.response;
-  const { t, me } = found;
+  const { t, me, snap } = found;
   if (!me?.is_admin) return bad("Admins only", 403);
-  const snap = await loadSnapshot(t.id);
-  if (!snap) return bad("not found", 404);
+  try {
+    return await act(body, t, me, snap);
+  } finally {
+    invalidateTournament(t.id);
+  }
+}
 
+async function act(
+  body: Record<string, unknown>,
+  t: TournamentRow,
+  me: TournamentMemberRow,
+  snap: TournamentSnapshot
+): Promise<NextResponse> {
   const action = body.action;
   if (action === "start") {
     if (t.status !== "lobby") return bad("Already started");

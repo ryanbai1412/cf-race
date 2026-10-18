@@ -4,6 +4,7 @@ import { getEffectiveUser } from "@/lib/impersonation";
 import { rateLimit } from "@/lib/rate-limit";
 import { participants } from "@/lib/tournament";
 import { mintToken, setMemberCookie } from "@/lib/tournament-auth";
+import { invalidateTournament } from "@/lib/tournament-cache";
 import { MAX_PARTICIPANTS, cleanName } from "@/lib/tournament-format";
 import { bad, nameTaken, readJson, tournamentFromCode } from "@/lib/tournament-route";
 
@@ -16,7 +17,7 @@ export async function POST(req: NextRequest) {
   const body = await readJson(req);
   const found = await tournamentFromCode(body.code);
   if (!found.ok) return found.response;
-  const { t, me } = found;
+  const { t, me, snap } = found;
   if (me) return NextResponse.json({ ok: true, memberId: me.id });
 
   const name = cleanName(body.name);
@@ -25,14 +26,8 @@ export async function POST(req: NextRequest) {
 
   let role: "participant" | "spectator" = body.role === "spectator" ? "spectator" : "participant";
   if (t.status !== "lobby") role = "spectator";
-  if (role === "participant") {
-    const { data: members } = await db()
-      .from("tournament_members")
-      .select("*")
-      .eq("tournament_id", t.id);
-    if (participants(members ?? []).length >= MAX_PARTICIPANTS) {
-      return bad(`This tournament is full (${MAX_PARTICIPANTS} players) — join as a spectator`);
-    }
+  if (role === "participant" && participants(snap.members).length >= MAX_PARTICIPANTS) {
+    return bad(`This tournament is full (${MAX_PARTICIPANTS} players) — join as a spectator`);
   }
 
   const user = await getEffectiveUser();
@@ -43,6 +38,7 @@ export async function POST(req: NextRequest) {
     .select("id")
     .single();
   if (error || !data) return bad(error?.message ?? "join failed", 500);
+  invalidateTournament(t.id);
   setMemberCookie(t.id, token);
   return NextResponse.json({ ok: true, memberId: data.id, role });
 }
