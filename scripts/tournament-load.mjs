@@ -13,6 +13,11 @@
 //   BASE_URL=http://localhost:3100 node scripts/tournament-load.mjs \
 //     --clients 100 --duration 300 --start [--rest-count-dir /tmp/rest-counts]
 //
+// --realtime makes every client also hold the tournament's Realtime channel,
+// like a browser tab, and reports how many pushes arrived and how late.
+// --fast-forward (with --start) expires ready windows and games every 10s so
+// the whole bracket plays out (forfeits and coin flips) during the run.
+//
 // Needs NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY. Against a
 // deployed URL the join rate limit (per IP) kicks in; members past it are
 // inserted directly with their own tokens, which polls the same way.
@@ -20,6 +25,7 @@ import { createHash, randomBytes, randomInt } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { parseArgs } from "node:util";
+import { createClient } from "@supabase/supabase-js";
 
 const { values: args } = parseArgs({
   options: {
@@ -31,6 +37,8 @@ const { values: args } = parseArgs({
     "report-every": { type: "string", default: "30" },
     "allow-prod-site": { type: "boolean", default: false },
     "allow-remote-supabase": { type: "boolean", default: false },
+    realtime: { type: "boolean", default: false },
+    "fast-forward": { type: "boolean", default: false },
   },
 });
 
@@ -53,6 +61,8 @@ const CLIENTS = Number(args.clients);
 const DURATION_MS = Number(args.duration) * 1000;
 const INTERVAL_MS = Number(args.interval);
 const MAX_PARTICIPANTS = 64;
+// Real tabs connect over minutes; a same-millisecond join storm only measures Realtime's join throttling.
+const JOIN_SPACING_MS = 50;
 const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const CODE_LENGTH = 6;
 
@@ -177,6 +187,39 @@ async function main() {
   }
   console.log(`${clients.length} clients joined (${direct} inserted directly after a 429)`);
 
+  const pushLags = [];
+  const pushVersions = new Map();
+  let subscribed = 0;
+  const channels = [];
+  if (args.realtime) {
+    const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (!anon) throw new Error("--realtime needs NEXT_PUBLIC_SUPABASE_ANON_KEY");
+    await Promise.all(
+      clients.map(
+        (_, i) =>
+          new Promise((resolve) => setTimeout(resolve, i * JOIN_SPACING_MS)).then(() => new Promise((resolve) => {
+            const sb = createClient(SUPABASE_URL, anon, { auth: { persistSession: false } });
+            const ch = sb.channel(`tournament-state-${t.id}`, { config: { private: true, broadcast: { self: false } } });
+            ch.on("broadcast", { event: "state" }, (msg) => {
+              if (typeof msg.payload?.v !== "number") return;
+              pushLags.push(Date.now() - msg.payload.v);
+              pushVersions.set(msg.payload.v, (pushVersions.get(msg.payload.v) ?? 0) + 1);
+            });
+            const timer = setTimeout(resolve, 15_000);
+            ch.subscribe((status) => {
+              if (status === "SUBSCRIBED") {
+                subscribed++;
+                clearTimeout(timer);
+                resolve();
+              }
+            });
+            channels.push({ sb, ch });
+          }))
+      )
+    );
+    console.log(`${subscribed}/${clients.length} clients subscribed to Realtime`);
+  }
+
   if (args.start) {
     const res = await fetch(`${BASE_URL}/api/tournament/admin`, {
       method: "POST",
@@ -201,6 +244,15 @@ async function main() {
   }, Number(args["report-every"]) * 1000);
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  const forwarder =
+    args["fast-forward"] &&
+    setInterval(() => {
+      const now = new Date().toISOString();
+      Promise.all([
+        rest("PATCH", `tournament_matches?tournament_id=eq.${t.id}&status=eq.ready`, { ready_deadline: now }),
+        rest("PATCH", `tournament_games?tournament_id=eq.${t.id}&finished_at=is.null`, { ends_at: now }),
+      ]).catch((e) => console.error("fast-forward:", e.message));
+    }, 10_000);
   await Promise.all(
     clients.map(async (c) => {
       await sleep(randomInt(INTERVAL_MS));
@@ -223,9 +275,27 @@ async function main() {
     })
   );
   clearInterval(reporter);
+  if (forwarder) clearInterval(forwarder);
+  await Promise.all(channels.map(({ sb, ch }) => sb.removeChannel(ch)));
 
   const elapsed = Date.now() - startedAt;
   const result = { clients: clients.length, durationSec: Math.round(elapsed / 1000), ...summarize(samples, elapsed) };
+  if (args.realtime) {
+    const lags = [...pushLags].sort((a, b) => a - b);
+    result.realtime = {
+      subscribed,
+      pushesReceived: lags.length,
+      lagP50: Math.round(pct(lags, 50)),
+      lagP95: Math.round(pct(lags, 95)),
+      lagMax: Math.round(lags[lags.length - 1] ?? 0),
+      clientsPerPush: [...pushVersions].sort(([a], [b]) => a - b).map(([v, n]) => `${new Date(v).toISOString().slice(11, 19)}:${n}`),
+    };
+  }
+  if (args.start) {
+    const [final] = await rest("GET", `tournaments?id=eq.${t.id}&select=status`);
+    const matches = await rest("GET", `tournament_matches?tournament_id=eq.${t.id}&select=status`);
+    result.tournament = { status: final.status, matchesDone: matches.filter((m) => m.status === "done").length, matches: matches.length };
+  }
   const after = readRestCounts();
   if (before && after) {
     const rest = after.rest - before.rest;
