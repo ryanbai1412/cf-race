@@ -2,7 +2,8 @@ import Link from "next/link";
 import { getEffectiveUser } from "@/lib/impersonation";
 import { db } from "@/lib/db";
 import { sweepStaleSessions } from "@/lib/session-lifecycle";
-import { pickPracticeProblem } from "@/lib/problem-bank";
+import { pickPracticeProblem, visibleProblems } from "@/lib/problem-bank";
+import { ratingCounts } from "@/lib/problem-rating";
 import { Landing } from "@/components/shell/landing";
 import { LegacyClaim } from "@/components/shell/legacy-claim";
 import { QuickActions } from "@/components/shell/quick-actions";
@@ -34,7 +35,7 @@ export default async function HomePage({
   const user = await getEffectiveUser();
 
   if (!user) {
-    const practiceProblemId = await pickPracticeProblem(null);
+    const practiceProblemId = await pickPracticeProblem(null).catch(() => null);
     const next = safeRedirectPath(searchParams.next);
     return <Landing next={next} practiceProblemId={practiceProblemId} />;
   }
@@ -45,8 +46,9 @@ export default async function HomePage({
     { data: solvedRows },
     { data: myMatches },
     { data: shares },
+    practiceProblems,
   ] = await Promise.all([
-    pickPracticeProblem(user.id),
+    pickPracticeProblem(user.id).catch(() => null),
     db()
       .from("sessions")
       .select("id, kind, problem_id, started_at, outcome, solve_ms")
@@ -68,6 +70,7 @@ export default async function HomePage({
       .select("session_id, sessions!inner(user_id)")
       .eq("sessions.user_id", user.id)
       .is("revoked_at", null),
+    visibleProblems().catch(() => []),
     sweepStaleSessions({ userId: user.id }),
   ]);
 
@@ -103,7 +106,7 @@ export default async function HomePage({
             title="Ready to race?"
             description="Practice solo, duel a friend, or run a booth event."
           />
-          <QuickActions practiceProblemId={practiceProblemId} />
+          <QuickActions counts={ratingCounts(practiceProblems)} />
         </div>
 
         <div className="grid grid-cols-3 gap-3">

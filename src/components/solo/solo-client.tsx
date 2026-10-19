@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import confetti from "canvas-confetti";
 import { Badge } from "@/components/ui/badge";
@@ -11,7 +11,11 @@ import { RaceScreen } from "@/components/race/race-screen";
 import { Eyebrow } from "@/components/shell/page";
 import { Segmented } from "@/components/ui/segmented";
 import { formatMsPrecise } from "@/lib/templates";
-import { loadSoloHistory, upsertSoloHistory, bestSolve } from "@/lib/solo";
+import { loadSoloHistory, upsertSoloHistory } from "@/lib/solo";
+import { RatingPicker } from "@/components/problems/rating-picker";
+import { usePracticeSettings } from "@/hooks/use-practice-settings";
+import { DEFAULT_PROBLEM_RATING, isProblemRating, SOLO_TIMERS, type ProblemRating } from "@/lib/problem-rating";
+import { requestPracticeProblem } from "@/lib/practice-client";
 import { preferredLang, setPreferredLang } from "@/lib/lang-preference";
 import {
   acquireWebcam,
@@ -51,12 +55,10 @@ const ACTIVE_KEY = "cfr-solo-active";
 
 export function SoloClient({
   problem,
-  problemIds,
   signedIn = false,
   myStars = null,
 }: {
   problem: Problem;
-  problemIds: string[];
   signedIn?: boolean;
   myStars?: number | null;
 }) {
@@ -72,6 +74,23 @@ export function SoloClient({
     "none" | "uploading" | "done" | "failed"
   >("none");
   const [starting, setStarting] = useState(false);
+  const [picking, setPicking] = useState(false);
+  const [pickError, setPickError] = useState<string | null>(null);
+  const rating = isProblemRating(problem.rating) ? problem.rating : DEFAULT_PROBLEM_RATING;
+  const { timerSec, chooseTimer, chooseRating } = usePracticeSettings(rating, true);
+  const pickProblem = async (nextRating: ProblemRating) => {
+    setPicking(true);
+    setPickError(null);
+    try {
+      const solved = loadSoloHistory().filter((s) => s.outcome === "solved").map((s) => s.problemId);
+      const id = await requestPracticeProblem(nextRating, [...new Set([problem.id, ...solved])].slice(0, 500));
+      chooseRating(nextRating);
+      window.location.href = `/problems/${id}/solve`;
+    } catch (e) {
+      setPickError(e instanceof Error ? e.message : "Could not pick a problem");
+      setPicking(false);
+    }
+  };
   // Language chosen before the run starts, so the race opens on the right
   // buffer and template.
   const [lang, setLang] = useState<Lang>("cpp");
@@ -270,7 +289,7 @@ export function SoloClient({
       const res = await fetch("/api/solo/session", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ problemId: problem.id }),
+        body: JSON.stringify({ problemId: problem.id, timerSec }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Failed to start");
@@ -313,7 +332,7 @@ export function SoloClient({
     } finally {
       setStarting(false);
     }
-  }, [starting, problem.id, problem.name]);
+  }, [starting, problem.id, problem.name, timerSec]);
 
   // The server's solveMs is measured from the submission timestamp; the local
   // clock here would measure from the judge verdict instead.
@@ -328,15 +347,6 @@ export function SoloClient({
     },
     [finish]
   );
-
-  const nextProblemId = useMemo(() => {
-    const history = typeof window !== "undefined" ? loadSoloHistory() : [];
-    const others = problemIds.filter((id) => id !== problem.id);
-    const unsolved = others.filter((id) => !bestSolve(history, id));
-    const pool = unsolved.length > 0 ? unsolved : others;
-    return pool[Math.floor(Math.random() * pool.length)] ?? null;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [problemIds, problem.id, phase]);
 
   // ── Racing ────────────────────────────────────────────────────────────────
   if (phase === "racing" && session) {
@@ -444,17 +454,14 @@ export function SoloClient({
                 <RotateCcw className="mr-1.5 h-4 w-4" />
                 Run again
               </Button>
-              {nextProblemId && (
-                <Button asChild variant="secondary">
-                  <Link href={`/problems/${nextProblemId}/solve`}>
-                    Random unsolved problem →
-                  </Link>
+                <Button variant="secondary" disabled={picking} onClick={() => void pickProblem(rating)}>
+                    {picking ? "Picking…" : `Next ${rating}-rated problem →`}
                 </Button>
-              )}
               <Button asChild variant="ghost">
                 <Link href="/problems">Back to list</Link>
               </Button>
             </div>
+            {pickError && <p role="alert" className="text-sm text-destructive">{pickError}</p>}
           </CardContent>
         </Card>
       </main>
@@ -480,9 +487,19 @@ export function SoloClient({
         </CardHeader>
         <CardContent className="space-y-5">
           <p className="text-sm text-muted-foreground">
-            3:00 on the clock · 50 submissions · Your editor and webcam are
+            {timerSec / 60} minutes on the clock · 50 submissions · Your editor and webcam are
             recorded for replay.
           </p>
+          <RatingPicker value={rating} onChange={(r) => { if (r !== rating) void pickProblem(r); }} disabled={picking || starting} />
+          {pickError && <p role="alert" className="text-sm text-destructive">{pickError}</p>}
+          <div className="space-y-2">
+            <label htmlFor="solo-timer" className="text-xs font-medium text-muted-foreground">Time limit</label>
+            <select id="solo-timer" value={timerSec} onChange={(e) => chooseTimer(Number(e.target.value))} disabled={starting}
+              className="block w-full rounded-md border border-border/60 bg-background px-3 py-2 text-sm">
+              {SOLO_TIMERS.map((t) => <option key={t} value={t}>{t / 60} minutes{t === 180 ? " (default)" : ""}</option>)}
+            </select>
+            <p className="text-xs text-muted-foreground">Give yourself more time for harder problems.</p>
+          </div>
           <div className="flex items-center gap-2">
             <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
               Language
@@ -549,7 +566,7 @@ export function SoloClient({
             </button>
           </div>
           <div className="flex items-center gap-2">
-            <Button className="flex-1" onClick={start} disabled={starting}>
+            <Button className="flex-1" onClick={start} disabled={starting || picking}>
               <Play className="mr-2 h-4 w-4" />
               {starting ? "Starting…" : "Start run"}
             </Button>

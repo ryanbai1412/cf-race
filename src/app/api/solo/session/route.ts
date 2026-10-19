@@ -8,12 +8,13 @@ import {
 } from "@/lib/anon-sessions";
 import { abandonActiveSessions } from "@/lib/session-lifecycle";
 import { rateLimit } from "@/lib/rate-limit";
+import { DEFAULT_SOLO_TIMER, isSoloTimer } from "@/lib/problem-rating";
+import { invalidatedProblemIds } from "@/lib/duel";
 
 export const dynamic = "force-dynamic";
 
 // 3-2-1 plus a "GO!" beat; the race clock starts when the overlay clears.
 const COUNTDOWN_MS = 4000;
-const TIMER_SEC = 180;
 
 /** Start a solo practice run: creates a sessions row (kind solo) with GO after the countdown. */
 export async function POST(req: NextRequest) {
@@ -22,18 +23,22 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json().catch(() => null);
   const problemId = typeof body?.problemId === "string" ? body.problemId : "";
-  if (!problemId) {
+  const timerSec = body?.timerSec === undefined ? DEFAULT_SOLO_TIMER : body.timerSec;
+  if (!problemId || !isSoloTimer(timerSec)) {
     return NextResponse.json({ error: "invalid request" }, { status: 400 });
   }
 
   const { data: problem } = await db()
     .from("problems")
-    .select("id")
+    .select("id, tags")
     .eq("id", problemId)
     .maybeSingle();
-  if (!problem) return NextResponse.json({ error: "unknown problem" }, { status: 400 });
+  if (!problem || (problem.tags ?? []).includes("hidden")) return NextResponse.json({ error: "unknown problem" }, { status: 400 });
 
   const user = await getEffectiveUser();
+  if ((await invalidatedProblemIds([user?.id])).has(problemId)) {
+    return NextResponse.json({ error: "This problem is invalidated. Choose another." }, { status: 409 });
+  }
   // A new run of the same problem supersedes any still-active one.
   await abandonActiveSessions({
     problemId,
@@ -47,7 +52,7 @@ export async function POST(req: NextRequest) {
       kind: "solo",
       problem_id: problemId,
       started_at: new Date(startAtMs).toISOString(),
-      timer_sec: TIMER_SEC,
+      timer_sec: timerSec,
       user_id: user?.id ?? null,
       browser_id: user ? null : ensureBrowserId(),
     })
@@ -60,7 +65,7 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({
     sessionId: session.id,
     startAtMs,
-    timerSec: TIMER_SEC,
+    timerSec,
     serverNow: Date.now(),
   });
 }
